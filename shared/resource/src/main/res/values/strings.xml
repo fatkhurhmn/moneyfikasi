@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">moneyfikasi</string>
+    <string name="transaction_menu">Transaction</string>
+    <string name="statistics_menu">Statistics</string>
+    <string name="debt_menu">Debt</string>
+    <string name="settings_menu">Settings</string>
 </resources>

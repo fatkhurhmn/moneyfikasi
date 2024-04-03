@@ -14,11 +14,11 @@ import androidx.core.view.WindowCompat
 import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 
 private val DarkColorScheme = darkColorScheme(
-    primary = MainColor.Green.dark,
+    primary = MainColor.Green.primary,
     onPrimary = MainColor.White,
     primaryContainer = MainColor.Green.light,
     onPrimaryContainer = MainColor.White,
-    inversePrimary = MainColor.Green.primary,
+    inversePrimary = MainColor.Green.dark,
 
     secondary = MainColor.Yellow.kindaDark,
     onSecondary = MainColor.White,
@@ -51,11 +51,11 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = MainColor.Green.dark,
+    primary = MainColor.Green.primary,
     onPrimary = MainColor.White,
-    primaryContainer = MainColor.Green.light,
+    primaryContainer = MainColor.Green.primary,
     onPrimaryContainer = MainColor.White,
-    inversePrimary = MainColor.Green.primary,
+    inversePrimary = MainColor.Green.dark,
 
     secondary = MainColor.Yellow.kindaDark,
     onSecondary = MainColor.White,

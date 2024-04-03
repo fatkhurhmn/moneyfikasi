@@ -25,3 +25,4 @@ rootProject.name = "moneyfikasi"
 include(":app")
 include(":shared:resource")
 include(":shared:common-ui")
+include(":shared:navigation")
