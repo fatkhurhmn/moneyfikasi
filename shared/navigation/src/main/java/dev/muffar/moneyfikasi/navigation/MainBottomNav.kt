@@ -15,7 +15,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.ViewList
 import androidx.compose.material.icons.automirrored.rounded.ViewList
+import androidx.compose.material.icons.outlined.MonetizationOn
+import androidx.compose.material.icons.outlined.PieChart
+import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.ViewList
 import androidx.compose.material.icons.rounded.MonetizationOn
 import androidx.compose.material.icons.rounded.PieChart
 import androidx.compose.material.icons.rounded.Settings
@@ -68,7 +73,8 @@ fun MainBottomNav(
         ) {
             BottomBarItem(
                 navController = navController,
-                icon = Icons.AutoMirrored.Rounded.ViewList,
+                activeIcon = Icons.AutoMirrored.Rounded.ViewList,
+                inactiveIcon = Icons.AutoMirrored.Outlined.ViewList,
                 label = stringResource(R.string.transaction_menu),
                 route = Screen.Transaction.route,
                 modifier = Modifier
@@ -78,7 +84,8 @@ fun MainBottomNav(
 
             BottomBarItem(
                 navController = navController,
-                icon = Icons.Rounded.PieChart,
+                activeIcon = Icons.Rounded.PieChart,
+                inactiveIcon = Icons.Outlined.PieChart,
                 label = stringResource(R.string.statistics_menu),
                 route = Screen.Statistics.route,
                 modifier = Modifier
@@ -88,7 +95,8 @@ fun MainBottomNav(
 
             BottomBarItem(
                 navController = navController,
-                icon = Icons.Rounded.MonetizationOn,
+                activeIcon = Icons.Rounded.MonetizationOn,
+                inactiveIcon = Icons.Outlined.MonetizationOn,
                 label = stringResource(R.string.debt_menu),
                 route = Screen.Debt.route,
                 modifier = Modifier
@@ -98,7 +106,8 @@ fun MainBottomNav(
 
             BottomBarItem(
                 navController = navController,
-                icon = Icons.Rounded.Settings,
+                activeIcon = Icons.Rounded.Settings,
+                inactiveIcon = Icons.Outlined.Settings,
                 label = stringResource(R.string.settings_menu),
                 route = Screen.Settings.route,
                 modifier = Modifier
@@ -112,7 +121,8 @@ fun MainBottomNav(
 @Composable
 fun BottomBarItem(
     navController: NavHostController,
-    icon: ImageVector,
+    activeIcon: ImageVector,
+    inactiveIcon : ImageVector,
     label: String,
     route: String,
     modifier: Modifier = Modifier,
@@ -124,6 +134,7 @@ fun BottomBarItem(
     val iconColor = if (!isActive) MaterialTheme.colorScheme.outline.copy(0.9f) else MaterialTheme.colorScheme.onBackground
     val containerColor = if (!isActive) Color.Transparent else MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
     val labelColor = if (!isActive) MaterialTheme.colorScheme.outline.copy(0.9f) else MaterialTheme.colorScheme.onBackground
+    val menuIcon = if (!isActive) inactiveIcon else activeIcon
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -154,7 +165,7 @@ fun BottomBarItem(
                 .padding(4.dp)
         ) {
             Icon(
-                imageVector = icon,
+                imageVector = menuIcon,
                 contentDescription = label,
                 tint = iconColor
             )
