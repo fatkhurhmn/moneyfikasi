@@ -8,12 +8,15 @@ import dev.muffar.moneyfikasi.category.list.CategoriesScreen
 import dev.muffar.moneyfikasi.category.list.CategoriesViewModel
 import dev.muffar.moneyfikasi.navigation.Screen
 
-fun NavGraphBuilder.categoriesNavGraph() {
+fun NavGraphBuilder.categoriesNavGraph(
+    navigateBack : () -> Unit
+) {
     composable(route = Screen.Categories.route) {
         val viewModel = hiltViewModel<CategoriesViewModel>()
         val state = viewModel.state.value
         CategoriesScreen(
-            state = state
+            state = state,
+            onBackClick = navigateBack
         )
     }
 }

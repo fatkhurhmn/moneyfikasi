@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.data.utils
+package dev.muffar.moneyfikasi.domain.utils
 
 enum class WalletIcon(val iconName: String) {
     ACCOUNT_BALANCE("AccountBalance"),

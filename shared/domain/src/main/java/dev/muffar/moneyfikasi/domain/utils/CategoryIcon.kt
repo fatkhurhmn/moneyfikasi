@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.data.utils
+package dev.muffar.moneyfikasi.domain.utils
 
 interface CategoryIcon
 

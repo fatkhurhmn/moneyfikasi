@@ -2,18 +2,13 @@ package dev.muffar.moneyfikasi
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import dev.muffar.moneyfikasi.common_ui.component.CommonAddButton
 import dev.muffar.moneyfikasi.navigation.MainBottomNav
 import dev.muffar.moneyfikasi.navigation.Screen
 
@@ -38,7 +33,11 @@ fun MoneyfikasiApp(
                 MainBottomNav(navController = navController)
             }
         },
-        floatingActionButton = { AddActionButton() },
+        floatingActionButton = {
+            if (isBottomNavVisible) {
+                CommonAddButton {}
+            }
+        },
     ) {
         Box(
             modifier = Modifier.padding(it)
@@ -47,23 +46,5 @@ fun MoneyfikasiApp(
                 navController = navController
             )
         }
-    }
-}
-
-@Composable
-fun AddActionButton(
-    onClick: () -> Unit = {},
-) {
-    IconButton(
-        onClick = onClick,
-        colors = IconButtonDefaults.iconButtonColors(
-            containerColor = MaterialTheme.colorScheme.primary
-        )
-    ) {
-        Icon(
-            imageVector = Icons.Rounded.Add,
-            contentDescription = "Add",
-            tint = MaterialTheme.colorScheme.onPrimary
-        )
     }
 }

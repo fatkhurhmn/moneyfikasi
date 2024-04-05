@@ -34,6 +34,8 @@ fun RootNavigation(
             navigateToCategories = { navController.toCategoriesScreen() }
         )
 
-        categoriesNavGraph()
+        categoriesNavGraph(
+            navigateBack = { navController.navigateUp() }
+        )
     }
 }

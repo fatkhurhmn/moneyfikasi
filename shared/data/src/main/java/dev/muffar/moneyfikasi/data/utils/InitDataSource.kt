@@ -2,6 +2,9 @@ package dev.muffar.moneyfikasi.data.utils
 
 import dev.muffar.moneyfikasi.data.db.entity.CategoryEntity
 import dev.muffar.moneyfikasi.data.db.entity.WalletEntity
+import dev.muffar.moneyfikasi.domain.utils.ExpenseCategoryIcon
+import dev.muffar.moneyfikasi.domain.utils.IncomeCategoryIcon
+import dev.muffar.moneyfikasi.domain.utils.WalletIcon
 import java.util.UUID
 
 object InitDataSource {

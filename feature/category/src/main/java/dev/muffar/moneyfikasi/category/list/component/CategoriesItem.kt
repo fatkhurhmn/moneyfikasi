@@ -22,10 +22,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.IconByName
 import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
-import dev.muffar.moneyfikasi.data.utils.ExpenseCategoryIcon
-import dev.muffar.moneyfikasi.data.utils.IncomeCategoryIcon
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.CategoryType
+import dev.muffar.moneyfikasi.domain.utils.ExpenseCategoryIcon
+import dev.muffar.moneyfikasi.domain.utils.IncomeCategoryIcon
 
 @Composable
 fun CategoriesItem(

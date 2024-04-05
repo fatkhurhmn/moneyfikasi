@@ -28,6 +28,8 @@ android {
 
 dependencies {
 
+    implementation(projects.shared.resource)
+
     implementation(libs.androidx.core.ktx)
     
     implementation(libs.bundles.compose)
