@@ -14,21 +14,24 @@ import dev.muffar.moneyfikasi.settings.component.SettingsTopBar
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
-fun SettingsScreen() {
+fun SettingsScreen(
+    modifier : Modifier = Modifier,
+    onCategoriesClick : () -> Unit
+) {
     Scaffold(
         topBar = {
             SettingsTopBar(modifier = Modifier.padding(16.dp))
         }
     ) {
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .padding(it)
                 .padding(vertical = 8.dp)
         ) {
             SettingsItem(
                 title = stringResource(R.string.categories),
                 icon = Icons.TwoTone.Category,
-                onClick = {}
+                onClick = onCategoriesClick
             )
         }
     }

@@ -5,6 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import dev.muffar.moneyfikasi.category.navigation.categoriesNavGraph
+import dev.muffar.moneyfikasi.category.navigation.toCategoriesScreen
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.settings.navigation.settingsNavGraph
 
@@ -28,6 +30,10 @@ fun RootNavigation(
             Text("Debt")
         }
 
-        settingsNavGraph()
+        settingsNavGraph(
+            navigateToCategories = { navController.toCategoriesScreen() }
+        )
+
+        categoriesNavGraph()
     }
 }
