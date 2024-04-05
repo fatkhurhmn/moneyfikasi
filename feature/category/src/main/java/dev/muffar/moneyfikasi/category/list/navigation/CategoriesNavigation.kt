@@ -9,7 +9,7 @@ import dev.muffar.moneyfikasi.category.list.CategoriesViewModel
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.navigation.Screen
 
-fun NavGraphBuilder.categoriesNavGraph(
+fun NavGraphBuilder.categoriesNavigation(
     navigateToAddCategory: (CategoryType) -> Unit,
     navigateBack: () -> Unit,
 ) {

@@ -11,7 +11,7 @@ import dev.muffar.moneyfikasi.category.add.AddCategoryViewModel
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.navigation.Screen
 
-fun NavGraphBuilder.addCategoryNavGraph(
+fun NavGraphBuilder.addCategoryNavigation(
     navigateBack: () -> Unit,
 ) {
     composable(route = Screen.AddCategory.route) {
