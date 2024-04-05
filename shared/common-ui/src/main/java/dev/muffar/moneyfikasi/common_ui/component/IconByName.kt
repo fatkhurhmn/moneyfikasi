@@ -26,7 +26,12 @@ fun IconByName(
         }
     }
     if (icon != null) {
-        Icon(icon, "$name icon")
+        Icon(
+            imageVector = icon,
+            contentDescription = "$name icon",
+            modifier = modifier,
+            tint = tint
+        )
     } else {
         Icon(
             imageVector = Icons.Filled.Square,
