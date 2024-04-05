@@ -23,7 +23,7 @@ fun CommonAddButton(
         colors = IconButtonDefaults.iconButtonColors(
             containerColor = MaterialTheme.colorScheme.primary
         ),
-        modifier = modifier.scale(1.2f)
+        modifier = modifier.scale(1.4f)
     ) {
         Icon(
             imageVector = Icons.Rounded.Add,
