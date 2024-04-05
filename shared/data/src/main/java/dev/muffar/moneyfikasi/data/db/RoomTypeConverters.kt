@@ -1,9 +1,9 @@
 package dev.muffar.moneyfikasi.data.db
 
 import androidx.room.TypeConverter
-import dev.muffar.moneyfikasi.data.utils.CategoryType
-import dev.muffar.moneyfikasi.data.utils.LoanType
-import dev.muffar.moneyfikasi.data.utils.TransactionType
+import dev.muffar.moneyfikasi.domain.model.CategoryType
+import dev.muffar.moneyfikasi.domain.model.LoanType
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
 import java.util.UUID

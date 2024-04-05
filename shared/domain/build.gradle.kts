@@ -6,13 +6,12 @@ plugins {
 }
 
 android {
-    namespace = "dev.muffar.moneyfikasi.data"
+    namespace = "dev.muffar.moneyfikasi.domain"
     compileSdk = 34
 
     defaultConfig {
         minSdk = 24
     }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -23,13 +22,6 @@ android {
 }
 
 dependencies {
-
-    implementation(projects.shared.domain)
-
-    implementation(libs.bundles.room)
-    kapt(libs.room.compiler)
-    annotationProcessor(libs.room.compiler)
-
     implementation(libs.dagger.hilt.android)
     kapt(libs.dagger.hilt.compiler)
 

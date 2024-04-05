@@ -12,22 +12,23 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
-import dev.muffar.moneyfikasi.data.db.dao.CategoryDao
+import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @Inject
-    lateinit var categoryDao: CategoryDao
+    lateinit var categoryUseCases: CategoryUseCases
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         CoroutineScope(SupervisorJob()).launch {
-            categoryDao.getAll(true).let {
-                Log.d("RootActivity", "onCreate: $it")
+            categoryUseCases.getAllCategories(true).collectLatest {
+                Log.d("RootViewModel", it.toString())
             }
         }
         enableEdgeToEdge()

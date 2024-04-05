@@ -3,7 +3,7 @@ package dev.muffar.moneyfikasi.data.db.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import dev.muffar.moneyfikasi.data.utils.TransactionType
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import org.threeten.bp.LocalDateTime
 import java.util.UUID
 

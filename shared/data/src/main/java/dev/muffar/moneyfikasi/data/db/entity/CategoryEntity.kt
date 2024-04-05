@@ -3,7 +3,7 @@ package dev.muffar.moneyfikasi.data.db.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import dev.muffar.moneyfikasi.data.utils.CategoryType
+import dev.muffar.moneyfikasi.domain.model.CategoryType
 import java.util.UUID
 
 @Entity(tableName = "categories")

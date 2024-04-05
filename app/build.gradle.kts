@@ -56,6 +56,7 @@ dependencies {
     implementation(projects.shared.resource)
     implementation(projects.shared.commonUi)
     implementation(projects.shared.navigation)
+    implementation(projects.shared.domain)
     implementation(projects.shared.data)
 
     implementation(libs.androidx.core.ktx)
