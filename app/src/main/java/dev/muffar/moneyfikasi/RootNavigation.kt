@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.settings.navigation.settingsNavGraph
 
 @Composable
 fun RootNavigation(
@@ -27,8 +28,6 @@ fun RootNavigation(
             Text("Debt")
         }
 
-        composable(Screen.Settings.route) {
-            Text("Settings")
-        }
+        settingsNavGraph()
     }
 }

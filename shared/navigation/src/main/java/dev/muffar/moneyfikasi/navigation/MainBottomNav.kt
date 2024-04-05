@@ -20,7 +20,6 @@ import androidx.compose.material.icons.automirrored.rounded.ViewList
 import androidx.compose.material.icons.outlined.MonetizationOn
 import androidx.compose.material.icons.outlined.PieChart
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material.icons.outlined.ViewList
 import androidx.compose.material.icons.rounded.MonetizationOn
 import androidx.compose.material.icons.rounded.PieChart
 import androidx.compose.material.icons.rounded.Settings
@@ -48,7 +47,7 @@ import dev.muffar.moneyfikasi.resource.R
 @Composable
 fun MainBottomNav(
     modifier: Modifier = Modifier,
-    containerColor: Color = BottomAppBarDefaults.containerColor,
+    containerColor: Color = BottomAppBarDefaults.containerColor.copy(alpha = 0.1f),
     contentColor: Color = contentColorFor(containerColor),
     tonalElevation: Dp = 1.dp,
     contentPadding: PaddingValues = BottomAppBarDefaults.ContentPadding,
@@ -60,6 +59,7 @@ fun MainBottomNav(
         color = containerColor,
         contentColor = contentColor,
         tonalElevation = tonalElevation,
+        shadowElevation = 0.5.dp,
         modifier = modifier
     ) {
         Row(

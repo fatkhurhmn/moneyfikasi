@@ -59,6 +59,9 @@ dependencies {
     implementation(projects.shared.domain)
     implementation(projects.shared.data)
 
+    implementation(projects.feature.settings)
+    implementation(projects.feature.category)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
