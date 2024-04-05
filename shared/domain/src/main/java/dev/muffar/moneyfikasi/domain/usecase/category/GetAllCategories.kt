@@ -8,7 +8,7 @@ class GetAllCategories(
     private val categoryRepository: CategoryRepository,
 ) {
 
-    suspend operator fun invoke(isActive: Boolean): Flow<List<Category>> {
-        return categoryRepository.getAllCategories(isActive)
+    suspend operator fun invoke(): Flow<List<Category>> {
+        return categoryRepository.getAllCategories()
     }
 } 

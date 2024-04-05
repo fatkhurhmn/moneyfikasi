@@ -24,8 +24,8 @@ interface CategoryDao {
     @Query("DELETE FROM categories")
     suspend fun deleteAll()
 
-    @Query("SELECT * FROM categories WHERE is_active = :isActive")
-    fun getAll(isActive: Boolean): Flow<List<CategoryEntity>>
+    @Query("SELECT * FROM categories")
+    fun getAll(): Flow<List<CategoryEntity>>
 
     @Query("SELECT * FROM categories WHERE id = :id")
     suspend fun getById(id: UUID): CategoryEntity?

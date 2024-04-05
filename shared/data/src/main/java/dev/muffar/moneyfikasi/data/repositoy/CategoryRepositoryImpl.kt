@@ -36,8 +36,8 @@ class CategoryRepositoryImpl @Inject constructor(
         categoryDao.deleteAll()
     }
 
-    override suspend fun getAllCategories(isActive: Boolean): Flow<List<Category>> {
-        return categoryDao.getAll(isActive).map {
+    override suspend fun getAllCategories(): Flow<List<Category>> {
+        return categoryDao.getAll().map {
             it.mapToModel()
         }
     }
