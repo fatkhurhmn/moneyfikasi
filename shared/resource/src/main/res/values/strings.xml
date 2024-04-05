@@ -8,4 +8,6 @@
     <string name="add">Add</string>
     <string name="back">Back</string>
     <string name="no_categories">No categories</string>
+    <string name="income_category">Income Category</string>
+    <string name="expense_category">Expense Category</string>
 </resources>

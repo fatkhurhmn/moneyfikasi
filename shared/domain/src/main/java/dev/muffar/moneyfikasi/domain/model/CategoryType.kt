@@ -2,5 +2,11 @@ package dev.muffar.moneyfikasi.domain.model
 
 enum class CategoryType {
     EXPENSE,
-    INCOME
+    INCOME,;
+
+    companion object{
+        fun fromString(string: String): CategoryType {
+            return entries.first { it.name == string }
+        }
+    }
 }

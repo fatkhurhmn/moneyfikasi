@@ -29,6 +29,7 @@ android {
 dependencies {
     implementation(projects.shared.resource)
     implementation(projects.shared.commonUi)
+    implementation(projects.shared.domain)
 
     implementation(libs.bundles.compose)
     implementation(platform(libs.androidx.compose.bom))

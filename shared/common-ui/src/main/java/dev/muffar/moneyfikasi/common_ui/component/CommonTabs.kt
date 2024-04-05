@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
@@ -27,11 +27,10 @@ import androidx.compose.ui.unit.dp
 fun CommonTabs(
     modifier: Modifier = Modifier,
     tabs: List<String>,
+    pagerState: PagerState,
     horizontalPager: @Composable (Int) -> Unit,
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
-
-    val pagerState = rememberPagerState { tabs.size }
 
     LaunchedEffect(selectedTab) {
         pagerState.animateScrollToPage(selectedTab)

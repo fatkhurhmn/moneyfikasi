@@ -5,6 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import dev.muffar.moneyfikasi.category.add.navigation.addCategoryNavGraph
+import dev.muffar.moneyfikasi.category.add.navigation.toAddCategoryScreen
 import dev.muffar.moneyfikasi.category.list.navigation.categoriesNavGraph
 import dev.muffar.moneyfikasi.category.list.navigation.toCategoriesScreen
 import dev.muffar.moneyfikasi.navigation.Screen
@@ -35,6 +37,11 @@ fun RootNavigation(
         )
 
         categoriesNavGraph(
+            navigateToAddCategory = { navController.toAddCategoryScreen(it) },
+            navigateBack = { navController.navigateUp() }
+        )
+
+        addCategoryNavGraph(
             navigateBack = { navController.navigateUp() }
         )
     }

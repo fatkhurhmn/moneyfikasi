@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.category.list.component
+package dev.muffar.moneyfikasi.common_ui.component
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,8 +20,9 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
-fun CategoriesTopBar(
+fun CommonTopAppBar(
     modifier: Modifier = Modifier,
+    title : String,
     onBackClick: () -> Unit,
 ) {
     Row(
@@ -38,7 +39,7 @@ fun CategoriesTopBar(
         }
         Spacer(modifier = Modifier.width(4.dp))
         Text(
-            text = stringResource(R.string.categories),
+            text = title,
             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Medium),
         )
     }
