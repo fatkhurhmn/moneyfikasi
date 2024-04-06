@@ -23,9 +23,6 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.IconByName
 import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 import dev.muffar.moneyfikasi.domain.model.Category
-import dev.muffar.moneyfikasi.domain.model.CategoryType
-import dev.muffar.moneyfikasi.domain.utils.ExpenseCategoryIcon
-import dev.muffar.moneyfikasi.domain.utils.IncomeCategoryIcon
 
 @Composable
 fun CategoriesItem(
@@ -33,17 +30,6 @@ fun CategoriesItem(
     category: Category,
     onClick: () -> Unit,
 ) {
-    val icon = if (category.type == CategoryType.EXPENSE) {
-        ExpenseCategoryIcon.fromIconName(category.icon)
-    } else {
-        IncomeCategoryIcon.fromIconName(category.icon)
-    }
-
-    val backgroundColor = when (icon) {
-        is ExpenseCategoryIcon -> icon.iconColor
-        is IncomeCategoryIcon -> icon.iconColor
-        else -> 0xFF000000
-    }
 
     Row(
         modifier = modifier
@@ -59,7 +45,7 @@ fun CategoriesItem(
             Box(
                 modifier = Modifier
                     .clip(MaterialTheme.shapes.small)
-                    .background(Color(backgroundColor))
+                    .background(Color(category.color))
                     .padding(4.dp),
                 contentAlignment = Alignment.Center
             ) {

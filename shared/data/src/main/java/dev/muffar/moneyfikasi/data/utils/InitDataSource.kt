@@ -2,8 +2,8 @@ package dev.muffar.moneyfikasi.data.utils
 
 import dev.muffar.moneyfikasi.data.db.entity.CategoryEntity
 import dev.muffar.moneyfikasi.data.db.entity.WalletEntity
-import dev.muffar.moneyfikasi.domain.utils.ExpenseCategoryIcon
-import dev.muffar.moneyfikasi.domain.utils.IncomeCategoryIcon
+import dev.muffar.moneyfikasi.domain.model.CategoryType
+import dev.muffar.moneyfikasi.domain.utils.CategoryIcon
 import dev.muffar.moneyfikasi.domain.utils.WalletIcon
 import java.util.UUID
 
@@ -13,68 +13,79 @@ object InitDataSource {
             CategoryEntity(
                 id = UUID.randomUUID(),
                 name = "Electricity",
-                icon = ExpenseCategoryIcon.BOLT.iconName,
-                type = dev.muffar.moneyfikasi.domain.model.CategoryType.EXPENSE,
+                icon = CategoryIcon.BOLT.iconName,
+                color = 0xFFFFC107,
+                type = CategoryType.EXPENSE,
             ),
             CategoryEntity(
                 id = UUID.randomUUID(),
                 name = "Entertainment",
-                icon = ExpenseCategoryIcon.CONFIRMATION_NUMBER.iconName,
-                type = dev.muffar.moneyfikasi.domain.model.CategoryType.EXPENSE,
+                icon = CategoryIcon.CONFIRMATION_NUMBER.iconName,
+                color = 0xFF7B1FA2,
+                type = CategoryType.EXPENSE,
             ),
             CategoryEntity(
                 id = UUID.randomUUID(),
                 name = "Exercise",
-                icon = ExpenseCategoryIcon.FITNESS_CENTER.iconName,
-                type = dev.muffar.moneyfikasi.domain.model.CategoryType.EXPENSE,
+                icon = CategoryIcon.FITNESS_CENTER.iconName,
+                color = 0xFF6D4C41,
+                type = CategoryType.EXPENSE,
             ),
             CategoryEntity(
                 id = UUID.randomUUID(),
                 name = "Food & drink",
-                icon = ExpenseCategoryIcon.RAMEN_DINING.iconName,
-                type = dev.muffar.moneyfikasi.domain.model.CategoryType.EXPENSE,
+                icon = CategoryIcon.RAMEN_DINING.iconName,
+                color = 0xFFFFEB3B,
+                type = CategoryType.EXPENSE,
             ),
             CategoryEntity(
                 id = UUID.randomUUID(),
                 name = "Hobby",
-                icon = ExpenseCategoryIcon.GAMES.iconName,
-                type = dev.muffar.moneyfikasi.domain.model.CategoryType.EXPENSE,
+                icon = CategoryIcon.GAMES.iconName,
+                color = 0xFF00897B,
+                type = CategoryType.EXPENSE,
             ),
             CategoryEntity(
                 id = UUID.randomUUID(),
                 name = "Health",
-                icon = ExpenseCategoryIcon.MEDICAL_SERVICES.iconName,
-                type = dev.muffar.moneyfikasi.domain.model.CategoryType.EXPENSE,
+                icon = CategoryIcon.MEDICAL_SERVICES.iconName,
+                color = 0xFFC2185B,
+                type = CategoryType.EXPENSE,
             ),
             CategoryEntity(
                 id = UUID.randomUUID(),
                 name = "Other",
-                icon = ExpenseCategoryIcon.WIDGETS.iconName,
-                type = dev.muffar.moneyfikasi.domain.model.CategoryType.EXPENSE,
+                icon = CategoryIcon.WIDGETS.iconName,
+                color = 0xFF9E9E9E,
+                type = CategoryType.EXPENSE,
             ),
             CategoryEntity(
                 id = UUID.randomUUID(),
                 name = "Shopping",
-                icon = ExpenseCategoryIcon.SHOPPING_CART.iconName,
-                type = dev.muffar.moneyfikasi.domain.model.CategoryType.EXPENSE,
+                icon = CategoryIcon.SHOPPING_CART.iconName,
+                color = 0xFFFF9800,
+                type = CategoryType.EXPENSE,
             ),
             CategoryEntity(
                 id = UUID.randomUUID(),
                 name = "Transport",
-                icon = ExpenseCategoryIcon.DIRECTIONS_CAR.iconName,
-                type = dev.muffar.moneyfikasi.domain.model.CategoryType.EXPENSE,
+                icon = CategoryIcon.DIRECTIONS_CAR.iconName,
+                color = 0xFFF44336,
+                type = CategoryType.EXPENSE,
             ),
             CategoryEntity(
                 id = UUID.randomUUID(),
                 name = "Travel",
-                icon = ExpenseCategoryIcon.MAP.iconName,
-                type = dev.muffar.moneyfikasi.domain.model.CategoryType.EXPENSE,
+                icon = CategoryIcon.MAP.iconName,
+                color = 0xFF388E3C,
+                type = CategoryType.EXPENSE,
             ),
             CategoryEntity(
                 id = UUID.randomUUID(),
                 name = "Water",
-                icon = ExpenseCategoryIcon.WATER_DROP.iconName,
-                type = dev.muffar.moneyfikasi.domain.model.CategoryType.EXPENSE,
+                icon = CategoryIcon.WATER_DROP.iconName,
+                color = 0xFF1976D2,
+                type = CategoryType.EXPENSE,
             )
         )
 
@@ -82,26 +93,30 @@ object InitDataSource {
             CategoryEntity(
                 id = UUID.randomUUID(),
                 name = "Business",
-                icon = IncomeCategoryIcon.BUSINESS_CENTER.iconName,
-                type = dev.muffar.moneyfikasi.domain.model.CategoryType.INCOME,
+                icon = CategoryIcon.BUSINESS_CENTER.iconName,
+                color = 0xFF6D4C41,
+                type = CategoryType.INCOME,
             ),
             CategoryEntity(
                 id = UUID.randomUUID(),
                 name = "Gift",
-                icon = IncomeCategoryIcon.CARD_GIFT_CARD.iconName,
-                type = dev.muffar.moneyfikasi.domain.model.CategoryType.INCOME,
+                icon = CategoryIcon.CARD_GIFT_CARD.iconName,
+                color = 0xFFE91E63,
+                type = CategoryType.INCOME,
             ),
             CategoryEntity(
                 id = UUID.randomUUID(),
                 name = "Invest",
-                icon = IncomeCategoryIcon.TIMELINE.iconName,
-                type = dev.muffar.moneyfikasi.domain.model.CategoryType.INCOME,
+                icon = CategoryIcon.TIMELINE.iconName,
+                color = 0xFF8BC34A,
+                type = CategoryType.INCOME,
             ),
             CategoryEntity(
                 id = UUID.randomUUID(),
                 name = "Salary",
-                icon = IncomeCategoryIcon.PAID.iconName,
-                type = dev.muffar.moneyfikasi.domain.model.CategoryType.INCOME,
+                icon = CategoryIcon.PAID.iconName,
+                color = 0xFFED32F2F,
+                type = CategoryType.INCOME,
             ),
         )
 

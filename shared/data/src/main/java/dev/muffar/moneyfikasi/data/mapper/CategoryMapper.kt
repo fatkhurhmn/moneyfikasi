@@ -8,6 +8,7 @@ fun CategoryEntity.toModel(): Category {
         id = id,
         name = name,
         icon = icon,
+        color = color,
         type = type,
         isActive = isActive,
     )
@@ -18,6 +19,7 @@ fun Category.toEntity(): CategoryEntity {
         id = id,
         name = name,
         icon = icon,
+        color = color,
         type = type,
         isActive = isActive,
     )

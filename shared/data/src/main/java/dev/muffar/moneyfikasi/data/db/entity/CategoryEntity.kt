@@ -19,6 +19,9 @@ data class CategoryEntity(
     @ColumnInfo(name = "icon")
     val icon: String,
 
+    @ColumnInfo(name = "color")
+    val color: Long,
+
     @ColumnInfo(name = "type")
     val type: CategoryType,
 

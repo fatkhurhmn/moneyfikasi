@@ -1,68 +1,53 @@
 package dev.muffar.moneyfikasi.domain.utils
 
-interface CategoryIcon
+import dev.muffar.moneyfikasi.domain.model.CategoryType
 
-enum class ExpenseCategoryIcon(val iconName: String, val iconColor: Long) : CategoryIcon {
-    APARTMENT("Apartment", 0xFF219ebc),
-    BOLT("Bolt", 0xFFe9c46a),
-    CALL("Call", 0xFFd4a373),
-    CAKE("Cake", 0xFF00b4d8),
-    CHILD_CARE("ChildCare", 0xFFfdf0d5),
-    CHILD_FRIENDLY("ChildFriendly", 0xFFffd60a),
-    COFFEE("Coffee", 0xFFbc4749),
-    COLLECTIONS_BOOKMARK("CollectionsBookmark", 0xFF0077b6),
-    CONFIRMATION_NUMBER("ConfirmationNumber", 0xFFa7c957),
-    DIRECTIONS_CAR("DirectionsCar", 0xFFef233c),
-    FAVORITE("Favorite", 0xFFfcf6bd),
-    FITNESS_CENTER("FitnessCenter", 0xFF023047),
-    FLIGHT("Flight", 0xFF264653),
-    GAMES("Games", 0xFFe76f51),
-    HOME("Home", 0xFFffbe0b),
-    KITCHEN("Kitchen", 0xFF38a3a5),
-    LAPTOP("Laptop", 0xFF3a7ca5),
-    LOCAL_BAR("LocalBar", 0xFFd1495b),
-    LOCAL_MALL("LocalMall", 0xFF555b6e),
-    MEDICAL_SERVICES("MedicalServices", 0xFFee6c4d),
-    MAP("Map", 0xFF3d5a80),
-    MOVIE("Movie", 0xFF94e8b4),
-    PETS("Pets", 0xFF25ced1),
-    POOL("Pool", 0xFFea526f),
-    RAMEN_DINING("RamenDining", 0xFF324376),
-    RESTAURANT("Restaurant", 0xFFf68e5f),
-    SELF_IMPROVEMENT("SelfImprovement", 0xFF70e000),
-    SHOPPING_CART("ShoppingCart", 0xFFb298dc),
-    SMARTPHONE("Smartphone", 0xFFa77b4c),
-    SPORTS_ESPORTS("SportsEsports", 0xFF4f6d7a),
-    SPORTS_SOCCER("SportsSoccer", 0xFF003459),
-    STORE("Store", 0xFF2a9d8f),
-    SYNC_ALT("SyncAlt", 0xFFf85e00),
-    TRAIN("Train", 0xFF2364aa),
-    TWO_WHEELER("TwoWheeler", 0xFFfec601),
-    WATER_DROP("WaterDrop", 0xFFe0a4c3),
-    WIDGETS("Widgets", 0xFF07a0c3),
-    WORK("Work", 0xFF77aca2),;
+enum class CategoryIcon(val iconName: String, val categoryType: CategoryType) {
+    APARTMENT("Apartment", CategoryType.EXPENSE),
+    BOLT("Bolt", CategoryType.EXPENSE),
+    CALL("Call", CategoryType.EXPENSE),
+    CAKE("Cake", CategoryType.EXPENSE),
+    CHILD_CARE("ChildCare", CategoryType.EXPENSE),
+    CHILD_FRIENDLY("ChildFriendly", CategoryType.EXPENSE),
+    COFFEE("Coffee", CategoryType.EXPENSE),
+    COLLECTIONS_BOOKMARK("CollectionsBookmark", CategoryType.EXPENSE),
+    CONFIRMATION_NUMBER("ConfirmationNumber", CategoryType.EXPENSE),
+    DIRECTIONS_CAR("DirectionsCar", CategoryType.EXPENSE),
+    FAVORITE("Favorite", CategoryType.EXPENSE),
+    FITNESS_CENTER("FitnessCenter", CategoryType.EXPENSE),
+    FLIGHT("Flight", CategoryType.EXPENSE),
+    GAMES("Games", CategoryType.EXPENSE),
+    HOME("Home", CategoryType.EXPENSE),
+    KITCHEN("Kitchen", CategoryType.EXPENSE),
+    LAPTOP("Laptop", CategoryType.EXPENSE),
+    LOCAL_BAR("LocalBar", CategoryType.EXPENSE),
+    LOCAL_MALL("LocalMall", CategoryType.EXPENSE),
+    MEDICAL_SERVICES("MedicalServices", CategoryType.EXPENSE),
+    MAP("Map", CategoryType.EXPENSE),
+    MOVIE("Movie", CategoryType.EXPENSE),
+    PETS("Pets", CategoryType.EXPENSE),
+    POOL("Pool", CategoryType.EXPENSE),
+    RAMEN_DINING("RamenDining", CategoryType.EXPENSE),
+    RESTAURANT("Restaurant", CategoryType.EXPENSE),
+    SELF_IMPROVEMENT("SelfImprovement", CategoryType.EXPENSE),
+    SHOPPING_CART("ShoppingCart", CategoryType.EXPENSE),
+    SMARTPHONE("Smartphone", CategoryType.EXPENSE),
+    SPORTS_ESPORTS("SportsEsports", CategoryType.EXPENSE),
+    SPORTS_SOCCER("SportsSoccer", CategoryType.EXPENSE),
+    STORE1("Store", CategoryType.EXPENSE),
+    SYNC_ALT("SyncAlt", CategoryType.EXPENSE),
+    TRAIN("Train", CategoryType.EXPENSE),
+    TWO_WHEELER("TwoWheeler", CategoryType.EXPENSE),
+    WATER_DROP("WaterDrop", CategoryType.EXPENSE),
+    WIDGETS("Widgets", CategoryType.EXPENSE),
+    WORK("Work", CategoryType.EXPENSE),
 
-    companion object {
-        fun fromIconName(iconName: String): CategoryIcon? {
-            return entries.find { it.iconName == iconName }
-        }
-    }
-}
-
-
-enum class IncomeCategoryIcon(val iconName: String, val iconColor: Long) : CategoryIcon {
-    PAID("Paid", 0xFFf5b700),
-    BUSINESS_CENTER("BusinessCenter", 0xFF2364aa),
-    TIMELINE("Timeline", 0xFF43291f),
-    CARD_GIFT_CARD("CardGiftcard", 0xFF70e000),
-    EMOJI_EVENT("EmojiEvents", 0xFF219ebc),
-    SYNC_ALT("SyncAlt", 0xFF00a5cf),
-    STORE("Store", 0xFFf21b3f),
-    SMART_DISPLAY("SmartDisplay", 0xFFfbb02d),;
-
-    companion object {
-        fun fromIconName(iconName: String): CategoryIcon? {
-            return entries.find { it.iconName == iconName }
-        }
-    }
+    PAID("Paid", CategoryType.INCOME),
+    BUSINESS_CENTER("BusinessCenter", CategoryType.INCOME),
+    CARD_GIFT_CARD("CardGiftcard", CategoryType.INCOME),
+    EMOJI_EVENT("EmojiEvents", CategoryType.INCOME),
+    TIMELINE("Timeline", CategoryType.INCOME),
+    SYNC_ALT2("SyncAlt", CategoryType.INCOME),
+    STORE2("Store", CategoryType.INCOME),
+    SMART_DISPLAY("SmartDisplay", CategoryType.INCOME),
 }
