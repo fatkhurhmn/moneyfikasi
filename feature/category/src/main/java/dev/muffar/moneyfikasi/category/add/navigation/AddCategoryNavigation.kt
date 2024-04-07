@@ -29,6 +29,18 @@ fun NavGraphBuilder.addCategoryNavigation(
 
         AddCategoryScreen(
             state = state,
+            onNameChange = { name ->
+                event(AddCategoryEvent.OnNameChange(name))
+            },
+            onIconChange = { icon ->
+                event(AddCategoryEvent.OnIconChange(icon))
+            },
+            onColorChange = { color ->
+                event(AddCategoryEvent.OnColorChange(color))
+            },
+            onShowBottomSheet = { sheetType ->
+                event(AddCategoryEvent.OnBottomSheetChange(sheetType))
+            },
             onBackClick = navigateBack
         )
     }

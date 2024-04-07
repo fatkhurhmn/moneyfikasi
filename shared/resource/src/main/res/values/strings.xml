@@ -10,4 +10,10 @@
     <string name="no_categories">No categories</string>
     <string name="income_category">Income Category</string>
     <string name="expense_category">Expense Category</string>
+    <string name="icon">Icon</string>
+    <string name="color">Color</string>
+    <string name="name">Name</string>
+    <string name="enter_category_name">Enter category name</string>
+    <string name="select_icon">Select Icon</string>
+    <string name="select_color">Select Color</string>
 </resources>

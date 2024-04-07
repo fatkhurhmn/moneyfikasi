@@ -50,4 +50,9 @@ enum class CategoryIcon(val iconName: String, val categoryType: CategoryType) {
     SYNC_ALT2("SyncAlt", CategoryType.INCOME),
     STORE2("Store", CategoryType.INCOME),
     SMART_DISPLAY("SmartDisplay", CategoryType.INCOME),
+    ;
+
+    companion object {
+        fun getCategories(type: CategoryType) = entries.filter { it.categoryType == type }
+    }
 }

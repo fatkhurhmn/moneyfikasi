@@ -36,9 +36,11 @@ enum class Colors(val color: Long) {
     BROWN1(0xFF795548),
     BROWN2(0xFF6D4C41),
     GREY1(0xFF9E9E9E),
-    GREY2(0xFF757575),
-    BLUE_GREY1(0xFF607D8B),
-    BLUE_GREY2(0xFF546E7A),
-    BLACK(0xFF000000),
-    WHITE(0xFFFFFFFF)
+    GREY2(0xFF757575),;
+
+    companion object{
+        fun getColors(): List<Long> {
+            return entries.map { it.color }
+        }
+    }
 }
