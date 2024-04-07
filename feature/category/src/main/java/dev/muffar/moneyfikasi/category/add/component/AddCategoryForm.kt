@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,7 +27,8 @@ fun AddCategoryForm(
     color: Long,
     onNameChange: (String) -> Unit,
     onIconClick: () -> Unit,
-    onColorClick: () -> Unit
+    onColorClick: () -> Unit,
+    onSubmit: () -> Unit,
 ) {
     Column(
         modifier = modifier.padding(16.dp)
@@ -73,6 +75,18 @@ fun AddCategoryForm(
                     onClick = onColorClick
                 )
             }
+        }
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
+            shape = MaterialTheme.shapes.large,
+            onClick = onSubmit,
+        ) {
+            Text(text = stringResource(R.string.save))
         }
     }
 }

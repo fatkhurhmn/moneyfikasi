@@ -10,3 +10,5 @@ data class Category(
     val type: CategoryType,
     val isActive : Boolean = true
 )
+
+data class InvalidCategoryException(override val message: String) : Exception()

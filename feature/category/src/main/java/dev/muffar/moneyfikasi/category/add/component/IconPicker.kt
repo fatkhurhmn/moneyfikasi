@@ -45,7 +45,11 @@ fun IconPicker(
             Icon(
                 imageVector = Icons.Rounded.QuestionMark,
                 contentDescription = stringResource(R.string.icon),
-                tint = MaterialTheme.colorScheme.outline.copy(0.8f)
+                tint = if (color == 0L) {
+                    MaterialTheme.colorScheme.outline.copy(0.8f)
+                } else {
+                    MaterialTheme.colorScheme.background
+                }
             )
         } else {
             IconByName(

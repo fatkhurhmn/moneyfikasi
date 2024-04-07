@@ -16,4 +16,5 @@
     <string name="enter_category_name">Enter category name</string>
     <string name="select_icon">Select Icon</string>
     <string name="select_color">Select Color</string>
+    <string name="save">SAVE</string>
 </resources>

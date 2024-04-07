@@ -5,8 +5,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import dev.muffar.moneyfikasi.category.add.component.AddCategoryBottomSheet
@@ -15,16 +19,20 @@ import dev.muffar.moneyfikasi.category.add.component.AddCategorySheetContent
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.resource.R
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddCategoryScreen(
     modifier: Modifier = Modifier,
     state: AddCategoryState,
+    eventFlow: SharedFlow<AddCategoryViewModel.UiEvent>,
     onNameChange: (String) -> Unit,
     onIconChange: (String) -> Unit,
     onColorChange: (Long) -> Unit,
     onShowBottomSheet: (AddCategoryBottomSheet?) -> Unit,
+    onSubmit: () -> Unit,
     onBackClick: () -> Unit,
 ) {
     val title = if (state.type == CategoryType.INCOME) {
@@ -34,6 +42,16 @@ fun AddCategoryScreen(
     }
 
     val sheetState = rememberModalBottomSheetState()
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(eventFlow) {
+        eventFlow.collectLatest {
+            when (it) {
+                is AddCategoryViewModel.UiEvent.SaveCategory -> onBackClick()
+                is AddCategoryViewModel.UiEvent.ShowMessage -> snackbarHostState.showSnackbar(it.message)
+            }
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -42,6 +60,7 @@ fun AddCategoryScreen(
                 onBackClick = onBackClick
             )
         },
+        snackbarHost = { SnackbarHost(snackbarHostState) }
     ) {
         Box(modifier = modifier.padding(it)) {
             AddCategoryForm(
@@ -54,7 +73,8 @@ fun AddCategoryScreen(
                 },
                 onColorClick = {
                     onShowBottomSheet(AddCategoryBottomSheet.COLOR)
-                }
+                },
+                onSubmit = onSubmit
             )
 
             if (state.bottomSheetType != null) {

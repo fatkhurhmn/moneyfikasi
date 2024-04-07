@@ -29,6 +29,7 @@ fun NavGraphBuilder.addCategoryNavigation(
 
         AddCategoryScreen(
             state = state,
+            eventFlow = viewModel.eventFlow,
             onNameChange = { name ->
                 event(AddCategoryEvent.OnNameChange(name))
             },
@@ -41,6 +42,7 @@ fun NavGraphBuilder.addCategoryNavigation(
             onShowBottomSheet = { sheetType ->
                 event(AddCategoryEvent.OnBottomSheetChange(sheetType))
             },
+            onSubmit = { event(AddCategoryEvent.OnSubmitCategory) },
             onBackClick = navigateBack
         )
     }
