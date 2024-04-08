@@ -134,6 +134,7 @@ object InitDataSource {
                 id = UUID.randomUUID(),
                 name = "Main",
                 icon = WalletIcon.ACCOUNT_BALANCE_WALLET.iconName,
+                color = 0xFF00897B,
                 balance = 0.0,
                 isActive = true
             )

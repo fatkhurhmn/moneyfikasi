@@ -18,6 +18,9 @@ data class WalletEntity(
     @ColumnInfo(name = "icon")
     val icon: String,
 
+    @ColumnInfo(name = "color")
+    val color: Long,
+
     @ColumnInfo(name = "balance")
     val balance: Double,
 
