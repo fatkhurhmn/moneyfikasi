@@ -49,7 +49,8 @@ class AddEditCategoryViewModel @Inject constructor(
     }
 
     private fun initState() {
-        handle.get<String>(Screen.AddEditCategory.CATEGORY_ID)?.let { id ->
+        handle.get<String?>(Screen.AddEditCategory.CATEGORY_ID)?.let { id ->
+            if (id.isEmpty()) return
             viewModelScope.launch {
                 categoryUseCases.getCategoryById(UUID.fromString(id))?.also {
                     _state.value = _state.value.copy(
