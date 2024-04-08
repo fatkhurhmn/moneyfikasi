@@ -42,7 +42,9 @@ class AddEditCategoryViewModel @Inject constructor(
             is AddEditCategoryEvent.OnColorChange -> onColorChange(event.color)
             is AddEditCategoryEvent.OnIsActiveChange -> onIsActiveChange()
             is AddEditCategoryEvent.OnBottomSheetChange -> onBottomSheetChange(event.type)
-            is AddEditCategoryEvent.OnSubmitEditCategory -> onSubmitCategory()
+            is AddEditCategoryEvent.OnShowAlert -> onShowAlert(event.showAlert)
+            is AddEditCategoryEvent.OnSubmitCategory -> onSubmitCategory()
+            is AddEditCategoryEvent.OnDeleteCategory -> onDeleteCategory()
         }
     }
 
@@ -91,6 +93,10 @@ class AddEditCategoryViewModel @Inject constructor(
         _state.value = _state.value.copy(bottomSheetType = type)
     }
 
+    private fun onShowAlert(showAlert: Boolean) {
+        _state.value = _state.value.copy(showAlert = showAlert)
+    }
+
     private fun onSubmitCategory() {
         viewModelScope.launch {
             try {
@@ -109,8 +115,20 @@ class AddEditCategoryViewModel @Inject constructor(
         }
     }
 
+    private fun onDeleteCategory() {
+        viewModelScope.launch {
+            try {
+                categoryUseCases.deleteCategory(state.value.id!!)
+                _eventFlow.emit(UiEvent.DeleteCategory)
+            } catch (e: Exception) {
+                _eventFlow.emit(UiEvent.ShowMessage(e.message ?: "Error deleting category"))
+            }
+        }
+    }
+
     sealed class UiEvent {
         data class ShowMessage(val message: String) : UiEvent()
         data object SaveCategory : UiEvent()
+        data object DeleteCategory : UiEvent()
     }
 }

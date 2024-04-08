@@ -1,17 +1,12 @@
 package dev.muffar.moneyfikasi.category.add_edit
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -19,8 +14,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.category.add_edit.component.AddEditCategoryAction
 import dev.muffar.moneyfikasi.category.add_edit.component.AddEditCategoryBottomSheet
 import dev.muffar.moneyfikasi.category.add_edit.component.AddEditCategoryForm
+import dev.muffar.moneyfikasi.common_ui.component.CommonAlertDialog
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.resource.R
@@ -36,9 +33,11 @@ fun AddEditCategoryScreen(
     onNameChange: (String) -> Unit,
     onIconChange: (String) -> Unit,
     onColorChange: (Long) -> Unit,
-    onShowBottomSheet: (AddEditCategoryBottomSheet?) -> Unit,
     onIsActiveChange: () -> Unit,
+    onShowBottomSheet: (AddEditCategoryBottomSheet?) -> Unit,
+    onShowAlert: (Boolean) -> Unit,
     onSubmit: () -> Unit,
+    onDelete: () -> Unit,
     onBackClick: () -> Unit,
 ) {
     val title = if (state.type == CategoryType.INCOME) {
@@ -54,6 +53,7 @@ fun AddEditCategoryScreen(
         eventFlow.collectLatest {
             when (it) {
                 is AddEditCategoryViewModel.UiEvent.SaveCategory -> onBackClick()
+                is AddEditCategoryViewModel.UiEvent.DeleteCategory -> onBackClick()
                 is AddEditCategoryViewModel.UiEvent.ShowMessage -> snackbarHostState.showSnackbar(it.message)
             }
         }
@@ -67,16 +67,12 @@ fun AddEditCategoryScreen(
             )
         },
         bottomBar = {
-            Button(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
-                    .fillMaxWidth()
-                    .height(50.dp),
-                shape = MaterialTheme.shapes.large,
-                onClick = onSubmit,
-            ) {
-                Text(text = stringResource(R.string.save))
-            }
+            AddEditCategoryAction(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                isEdit = state.id != null,
+                onSave = onSubmit,
+                onDelete = { onShowAlert(true) }
+            )
         },
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) {
@@ -115,6 +111,17 @@ fun AddEditCategoryScreen(
                         onDismiss = { onShowBottomSheet(null) }
                     )
                 }
+            }
+
+            if (state.showAlert) {
+                CommonAlertDialog(
+                    title = stringResource(R.string.delete_category),
+                    message = stringResource(R.string.delete_category_confirmation),
+                    positiveText = stringResource(R.string.delete),
+                    negativeText = stringResource(R.string.cancel),
+                    onDismiss = { onShowAlert(false) },
+                    onConfirm = { onDelete() }
+                )
             }
         }
     }

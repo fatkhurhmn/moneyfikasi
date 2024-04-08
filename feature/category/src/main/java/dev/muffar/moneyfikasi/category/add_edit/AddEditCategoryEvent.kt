@@ -10,5 +10,7 @@ sealed class AddEditCategoryEvent {
     data class OnColorChange(val color: Long) : AddEditCategoryEvent()
     data object OnIsActiveChange : AddEditCategoryEvent()
     data class OnBottomSheetChange(val type: AddEditCategoryBottomSheet?) : AddEditCategoryEvent()
-    data object OnSubmitEditCategory : AddEditCategoryEvent()
+    data class OnShowAlert(val showAlert: Boolean) : AddEditCategoryEvent()
+    data object OnSubmitCategory : AddEditCategoryEvent()
+    data object OnDeleteCategory : AddEditCategoryEvent()
 }

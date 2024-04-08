@@ -16,6 +16,10 @@
     <string name="enter_category_name">Enter category name</string>
     <string name="select_icon">Select Icon</string>
     <string name="select_color">Select Color</string>
-    <string name="save">SAVE</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
     <string name="disable_category">Disabled categories will not be displayed when creating a transaction</string>
+    <string name="delete_category">Delete Category</string>
+    <string name="delete_category_confirmation">Are you sure you want to delete this category? If you delete this category, all records related to this category will also be deleted.</string>
 </resources>

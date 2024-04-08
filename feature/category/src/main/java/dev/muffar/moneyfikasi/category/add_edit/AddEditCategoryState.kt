@@ -12,4 +12,5 @@ data class AddEditCategoryState(
     val color: Long = 0,
     val isActive : Boolean = true,
     val bottomSheetType: AddEditCategoryBottomSheet? = null,
+    val showAlert : Boolean = false
 )

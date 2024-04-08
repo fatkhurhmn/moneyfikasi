@@ -40,11 +40,15 @@ fun NavGraphBuilder.addEditCategoryNavigation(
             onColorChange = { color ->
                 event(AddEditCategoryEvent.OnColorChange(color))
             },
+            onIsActiveChange = { event(AddEditCategoryEvent.OnIsActiveChange) },
             onShowBottomSheet = { sheetType ->
                 event(AddEditCategoryEvent.OnBottomSheetChange(sheetType))
             },
-            onIsActiveChange = { event(AddEditCategoryEvent.OnIsActiveChange) },
-            onSubmit = { event(AddEditCategoryEvent.OnSubmitEditCategory) },
+            onShowAlert = { showAlert ->
+                event(AddEditCategoryEvent.OnShowAlert(showAlert))
+            },
+            onSubmit = { event(AddEditCategoryEvent.OnSubmitCategory) },
+            onDelete = { event(AddEditCategoryEvent.OnDeleteCategory) },
             onBackClick = navigateBack
         )
     }
