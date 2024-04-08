@@ -11,10 +11,10 @@ sealed class Screen(val route: String) {
     data object Settings : Screen("settings")
 
     data object Categories : Screen("categories")
-    data object AddCategory : Screen("add_category/{type}?category_id={category_id}") {
+    data object AddEditCategory : Screen("add_edit_category/{type}?category_id={category_id}") {
         const val TYPE = "type"
         const val CATEGORY_ID = "category_id"
         fun routeWithArg(type: CategoryType, id: UUID? = null) =
-            "add_category/$type?$CATEGORY_ID=${id.toString()}"
+            "add_edit_category/$type?$CATEGORY_ID=${id.toString()}"
     }
 }

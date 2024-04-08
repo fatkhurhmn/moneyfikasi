@@ -1,31 +1,31 @@
-package dev.muffar.moneyfikasi.category.add.component
+package dev.muffar.moneyfikasi.category.add_edit.component
 
 import androidx.compose.runtime.Composable
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 
 @Composable
-fun AddCategorySheetContent(
-    type: AddCategoryBottomSheet,
+fun AddEditCategoryBottomSheet(
+    type: AddEditCategoryBottomSheet,
     categoryType: CategoryType?,
     onIconSelect: (String) -> Unit,
     onColorSelect: (Long) -> Unit,
     onDismiss: () -> Unit
 ) {
     when (type) {
-        AddCategoryBottomSheet.ICON -> IconPickerSheet(
+        AddEditCategoryBottomSheet.ICON -> IconPickerSheet(
             type = categoryType ?: CategoryType.INCOME,
             onClick = onIconSelect,
             onClose = onDismiss
         )
 
-        AddCategoryBottomSheet.COLOR -> ColorPickerSheet(
+        AddEditCategoryBottomSheet.COLOR -> ColorPickerSheet(
             onClick = onColorSelect,
             onClose = onDismiss
         )
     }
 }
 
-enum class AddCategoryBottomSheet {
+enum class AddEditCategoryBottomSheet {
     ICON,
     COLOR
 }

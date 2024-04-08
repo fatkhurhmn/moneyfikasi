@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.category.add.component
+package dev.muffar.moneyfikasi.category.add_edit.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,7 +22,7 @@ import dev.muffar.moneyfikasi.resource.R
 import java.util.UUID
 
 @Composable
-fun AddCategoryForm(
+fun AddEditCategoryForm(
     modifier: Modifier = Modifier,
     id: UUID?,
     name: String,

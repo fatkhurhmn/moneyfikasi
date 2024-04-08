@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.category.add.component
+package dev.muffar.moneyfikasi.category.add_edit.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

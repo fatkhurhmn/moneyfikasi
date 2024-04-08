@@ -12,7 +12,7 @@ import java.util.UUID
 
 fun NavGraphBuilder.categoriesNavigation(
     navigateToAddCategory: (CategoryType) -> Unit,
-    navigateToDetailCategory: (CategoryType, UUID) -> Unit,
+    navigateToEditCategory: (CategoryType, UUID) -> Unit,
     navigateBack: () -> Unit,
 ) {
     composable(route = Screen.Categories.route) {
@@ -22,7 +22,7 @@ fun NavGraphBuilder.categoriesNavigation(
         CategoriesScreen(
             state = state,
             onAddCategoryClick = navigateToAddCategory,
-            onCategoryItemClick = navigateToDetailCategory,
+            onCategoryItemClick = navigateToEditCategory,
             onBackClick = navigateBack
         )
     }

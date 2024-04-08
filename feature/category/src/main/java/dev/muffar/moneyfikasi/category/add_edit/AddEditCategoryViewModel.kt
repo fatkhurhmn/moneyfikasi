@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.category.add
+package dev.muffar.moneyfikasi.category.add_edit
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -6,7 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.muffar.moneyfikasi.category.add.component.AddCategoryBottomSheet
+import dev.muffar.moneyfikasi.category.add_edit.component.AddEditCategoryBottomSheet
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.InvalidCategoryException
@@ -19,13 +19,13 @@ import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
-class AddCategoryViewModel @Inject constructor(
+class AddEditCategoryViewModel @Inject constructor(
     private val categoryUseCases: CategoryUseCases,
     private val handle: SavedStateHandle,
 ) : ViewModel() {
 
-    private val _state = mutableStateOf(AddCategoryState())
-    val state: State<AddCategoryState> = _state
+    private val _state = mutableStateOf(AddEditCategoryState())
+    val state: State<AddEditCategoryState> = _state
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
@@ -34,20 +34,20 @@ class AddCategoryViewModel @Inject constructor(
         initState()
     }
 
-    fun onEvent(event: AddCategoryEvent) {
+    fun onEvent(event: AddEditCategoryEvent) {
         when (event) {
-            is AddCategoryEvent.OnInitType -> setType(event.type)
-            is AddCategoryEvent.OnNameChange -> onNameChange(event.name)
-            is AddCategoryEvent.OnIconChange -> onIconChange(event.icon)
-            is AddCategoryEvent.OnColorChange -> onColorChange(event.color)
-            is AddCategoryEvent.OnIsActiveChange -> onIsActiveChange()
-            is AddCategoryEvent.OnBottomSheetChange -> onBottomSheetChange(event.type)
-            is AddCategoryEvent.OnSubmitCategory -> onSubmitCategory()
+            is AddEditCategoryEvent.OnInitType -> setType(event.type)
+            is AddEditCategoryEvent.OnNameChange -> onNameChange(event.name)
+            is AddEditCategoryEvent.OnIconChange -> onIconChange(event.icon)
+            is AddEditCategoryEvent.OnColorChange -> onColorChange(event.color)
+            is AddEditCategoryEvent.OnIsActiveChange -> onIsActiveChange()
+            is AddEditCategoryEvent.OnBottomSheetChange -> onBottomSheetChange(event.type)
+            is AddEditCategoryEvent.OnSubmitEditCategory -> onSubmitCategory()
         }
     }
 
     private fun initState() {
-        handle.get<String>(Screen.AddCategory.CATEGORY_ID)?.let { id ->
+        handle.get<String>(Screen.AddEditCategory.CATEGORY_ID)?.let { id ->
             viewModelScope.launch {
                 categoryUseCases.getCategoryById(UUID.fromString(id))?.also {
                     _state.value = _state.value.copy(
@@ -87,7 +87,7 @@ class AddCategoryViewModel @Inject constructor(
         _state.value = _state.value.copy(isActive = isActive)
     }
 
-    private fun onBottomSheetChange(type: AddCategoryBottomSheet?) {
+    private fun onBottomSheetChange(type: AddEditCategoryBottomSheet?) {
         _state.value = _state.value.copy(bottomSheetType = type)
     }
 

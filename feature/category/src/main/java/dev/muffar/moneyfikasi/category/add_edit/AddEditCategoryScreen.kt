@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.category.add
+package dev.muffar.moneyfikasi.category.add_edit
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,9 +19,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.category.add.component.AddCategoryBottomSheet
-import dev.muffar.moneyfikasi.category.add.component.AddCategoryForm
-import dev.muffar.moneyfikasi.category.add.component.AddCategorySheetContent
+import dev.muffar.moneyfikasi.category.add_edit.component.AddEditCategoryBottomSheet
+import dev.muffar.moneyfikasi.category.add_edit.component.AddEditCategoryForm
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.resource.R
@@ -30,14 +29,14 @@ import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddCategoryScreen(
+fun AddEditCategoryScreen(
     modifier: Modifier = Modifier,
-    state: AddCategoryState,
-    eventFlow: SharedFlow<AddCategoryViewModel.UiEvent>,
+    state: AddEditCategoryState,
+    eventFlow: SharedFlow<AddEditCategoryViewModel.UiEvent>,
     onNameChange: (String) -> Unit,
     onIconChange: (String) -> Unit,
     onColorChange: (Long) -> Unit,
-    onShowBottomSheet: (AddCategoryBottomSheet?) -> Unit,
+    onShowBottomSheet: (AddEditCategoryBottomSheet?) -> Unit,
     onIsActiveChange: () -> Unit,
     onSubmit: () -> Unit,
     onBackClick: () -> Unit,
@@ -54,8 +53,8 @@ fun AddCategoryScreen(
     LaunchedEffect(eventFlow) {
         eventFlow.collectLatest {
             when (it) {
-                is AddCategoryViewModel.UiEvent.SaveCategory -> onBackClick()
-                is AddCategoryViewModel.UiEvent.ShowMessage -> snackbarHostState.showSnackbar(it.message)
+                is AddEditCategoryViewModel.UiEvent.SaveCategory -> onBackClick()
+                is AddEditCategoryViewModel.UiEvent.ShowMessage -> snackbarHostState.showSnackbar(it.message)
             }
         }
     }
@@ -82,7 +81,7 @@ fun AddCategoryScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) {
         Box(modifier = modifier.padding(it)) {
-            AddCategoryForm(
+            AddEditCategoryForm(
                 id = state.id,
                 name = state.name,
                 icon = state.icon,
@@ -90,10 +89,10 @@ fun AddCategoryScreen(
                 isActive = state.isActive,
                 onNameChange = onNameChange,
                 onIconClick = {
-                    onShowBottomSheet(AddCategoryBottomSheet.ICON)
+                    onShowBottomSheet(AddEditCategoryBottomSheet.ICON)
                 },
                 onColorClick = {
-                    onShowBottomSheet(AddCategoryBottomSheet.COLOR)
+                    onShowBottomSheet(AddEditCategoryBottomSheet.COLOR)
                 },
                 onIsActiveChange = onIsActiveChange,
             )
@@ -103,7 +102,7 @@ fun AddCategoryScreen(
                     onDismissRequest = { onShowBottomSheet(null) },
                     sheetState = sheetState
                 ) {
-                    AddCategorySheetContent(
+                    AddEditCategoryBottomSheet(
                         type = state.bottomSheetType,
                         categoryType = state.type,
                         onIconSelect = { icon ->
