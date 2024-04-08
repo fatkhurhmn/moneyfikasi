@@ -2,13 +2,11 @@ package dev.muffar.moneyfikasi.common_ui.component
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.stringResource
 import dev.muffar.moneyfikasi.resource.R
 
@@ -18,12 +16,9 @@ fun CommonAddButton(
     contentDescription: String = stringResource(R.string.add),
     onClick: () -> Unit,
 ) {
-    IconButton(
+    FloatingActionButton(
         onClick = onClick,
-        colors = IconButtonDefaults.iconButtonColors(
-            containerColor = MaterialTheme.colorScheme.primary
-        ),
-        modifier = modifier.scale(1.4f)
+        modifier = modifier
     ) {
         Icon(
             imageVector = Icons.Rounded.Add,
