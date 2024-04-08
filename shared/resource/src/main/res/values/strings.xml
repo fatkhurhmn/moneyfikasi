@@ -13,6 +13,7 @@
     <string name="icon">Icon</string>
     <string name="color">Color</string>
     <string name="name">Name</string>
+    <string name="activation">Activation</string>
     <string name="enter_category_name">Enter category name</string>
     <string name="select_icon">Select Icon</string>
     <string name="select_color">Select Color</string>

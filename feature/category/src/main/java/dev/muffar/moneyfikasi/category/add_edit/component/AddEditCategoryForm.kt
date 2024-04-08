@@ -61,7 +61,7 @@ fun AddEditCategoryForm(
         }
 
         if (id != null) {
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             CategoryActivationButton(
                 isActive = isActive,
                 onIsActiveChange = onIsActiveChange
