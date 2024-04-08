@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
 import dev.muffar.moneyfikasi.data.db.entity.WalletEntity
+import kotlinx.coroutines.flow.Flow
 import java.util.UUID
 
 @Dao
@@ -15,7 +16,10 @@ interface WalletDao {
     suspend fun saveAll(wallets: List<WalletEntity>)
 
     @Query("UPDATE wallets SET balance = :balance WHERE id = :id")
-    suspend fun update(id: UUID, balance: Double)
+    suspend fun updateBalance(id: UUID, balance: Double)
+
+    @Query("UPDATE wallets SET is_active = :isActive WHERE id = :id")
+    suspend fun updateIsActive(id: UUID, isActive: Boolean)
 
     @Query("DELETE FROM wallets WHERE id = :id")
     suspend fun delete(id: UUID)
@@ -23,9 +27,9 @@ interface WalletDao {
     @Query("DELETE FROM wallets")
     suspend fun deleteAll()
 
-    @Query("SELECT * FROM wallets WHERE is_active = :isActive")
-    suspend fun getAll(isActive : Boolean): List<WalletEntity>
+    @Query("SELECT * FROM wallets ORDER BY name")
+    fun getAll(): Flow<List<WalletEntity>>
 
     @Query("SELECT * FROM wallets WHERE id = :id")
-    suspend fun getById(id: UUID): WalletEntity
+    suspend fun getById(id: UUID): WalletEntity?
 }

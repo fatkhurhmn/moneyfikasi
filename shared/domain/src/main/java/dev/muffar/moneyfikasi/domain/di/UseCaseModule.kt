@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.muffar.moneyfikasi.domain.repository.CategoryRepository
+import dev.muffar.moneyfikasi.domain.repository.WalletRepository
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.category.DeleteAllCategories
 import dev.muffar.moneyfikasi.domain.usecase.category.DeleteCategory
@@ -12,7 +13,16 @@ import dev.muffar.moneyfikasi.domain.usecase.category.GetAllCategories
 import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryById
 import dev.muffar.moneyfikasi.domain.usecase.category.SaveAllCategories
 import dev.muffar.moneyfikasi.domain.usecase.category.SaveCategory
-import dev.muffar.moneyfikasi.domain.usecase.category.*
+import dev.muffar.moneyfikasi.domain.usecase.category.UpdateCategory
+import dev.muffar.moneyfikasi.domain.usecase.wallet.DeleteAllWallets
+import dev.muffar.moneyfikasi.domain.usecase.wallet.DeleteWallet
+import dev.muffar.moneyfikasi.domain.usecase.wallet.GetAllWallets
+import dev.muffar.moneyfikasi.domain.usecase.wallet.GetWalletById
+import dev.muffar.moneyfikasi.domain.usecase.wallet.SaveAllWallets
+import dev.muffar.moneyfikasi.domain.usecase.wallet.SaveWallet
+import dev.muffar.moneyfikasi.domain.usecase.wallet.UpdateWalletActivation
+import dev.muffar.moneyfikasi.domain.usecase.wallet.UpdateWalletBalance
+import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -32,7 +42,16 @@ object UseCaseModule {
     )
 
     @Provides
-    fun provideGetAllCategories(
-        categoryRepository: CategoryRepository,
-    ) = GetAllCategories(categoryRepository)
+    fun provideWalletUseCases(
+        walletRepository: WalletRepository,
+    ) = WalletUseCases(
+        getAllWallets = GetAllWallets(walletRepository),
+        getWalletById = GetWalletById(walletRepository),
+        saveWallet = SaveWallet(walletRepository),
+        saveAllWallets = SaveAllWallets(walletRepository),
+        updateWalletBalance = UpdateWalletBalance(walletRepository),
+        updateWalletActivation = UpdateWalletActivation(walletRepository),
+        deleteWallet = DeleteWallet(walletRepository),
+        deleteAllWallets = DeleteAllWallets(walletRepository),
+    )
 }
