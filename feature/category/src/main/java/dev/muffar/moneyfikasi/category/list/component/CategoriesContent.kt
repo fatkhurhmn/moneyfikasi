@@ -17,12 +17,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.Category
+import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.resource.R
+import java.util.UUID
 
 @Composable
 fun CategoriesContent(
     modifier: Modifier = Modifier,
     categories: List<Category>,
+    onClick: (CategoryType, UUID) -> Unit
 ) {
     if (categories.isNotEmpty()) {
         LazyColumn(
@@ -31,7 +34,9 @@ fun CategoriesContent(
             items(categories) { category ->
                 CategoriesItem(
                     category = category,
-                    onClick = {}
+                    onClick = {
+                        onClick(category.type, category.id)
+                    }
                 )
             }
         }

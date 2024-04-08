@@ -10,6 +10,7 @@ import dev.muffar.moneyfikasi.category.add.AddCategoryScreen
 import dev.muffar.moneyfikasi.category.add.AddCategoryViewModel
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.navigation.Screen
+import java.util.UUID
 
 fun NavGraphBuilder.addCategoryNavigation(
     navigateBack: () -> Unit,
@@ -42,12 +43,13 @@ fun NavGraphBuilder.addCategoryNavigation(
             onShowBottomSheet = { sheetType ->
                 event(AddCategoryEvent.OnBottomSheetChange(sheetType))
             },
+            onIsActiveChange = { event(AddCategoryEvent.OnIsActiveChange) },
             onSubmit = { event(AddCategoryEvent.OnSubmitCategory) },
             onBackClick = navigateBack
         )
     }
 }
 
-fun NavController.toAddCategoryScreen(type: CategoryType) {
-    navigate(Screen.AddCategory.routeWithArg(type))
+fun NavController.toAddCategoryScreen(type: CategoryType, id: UUID? = null) {
+    navigate(Screen.AddCategory.routeWithArg(type, id))
 }

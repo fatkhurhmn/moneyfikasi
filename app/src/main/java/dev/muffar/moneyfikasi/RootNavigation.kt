@@ -36,7 +36,12 @@ fun RootNavigation(
         )
 
         categoriesNavGraph(
-            navigateToAddCategory = { navController.toAddCategoryScreen(it) },
+            navigateToAddCategory = {
+                navController.toAddCategoryScreen(it)
+            },
+            navigateToDetailCategory = { type, id ->
+                navController.toAddCategoryScreen(type, id)
+            },
             navigateBack = { navController.navigateUp() }
         )
     }

@@ -8,9 +8,11 @@ import dev.muffar.moneyfikasi.category.list.CategoriesScreen
 import dev.muffar.moneyfikasi.category.list.CategoriesViewModel
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.navigation.Screen
+import java.util.UUID
 
 fun NavGraphBuilder.categoriesNavigation(
     navigateToAddCategory: (CategoryType) -> Unit,
+    navigateToDetailCategory: (CategoryType, UUID) -> Unit,
     navigateBack: () -> Unit,
 ) {
     composable(route = Screen.Categories.route) {
@@ -19,7 +21,8 @@ fun NavGraphBuilder.categoriesNavigation(
 
         CategoriesScreen(
             state = state,
-            onAddCategoryClick = { navigateToAddCategory(it) },
+            onAddCategoryClick = navigateToAddCategory,
+            onCategoryItemClick = navigateToDetailCategory,
             onBackClick = navigateBack
         )
     }

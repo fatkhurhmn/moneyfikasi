@@ -13,6 +13,7 @@ import dev.muffar.moneyfikasi.common_ui.component.CommonTabs
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.resource.R
+import java.util.UUID
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -20,6 +21,7 @@ fun CategoriesScreen(
     modifier: Modifier = Modifier,
     state: CategoriesState,
     onAddCategoryClick: (CategoryType) -> Unit,
+    onCategoryItemClick: (CategoryType, UUID) -> Unit,
     onBackClick: () -> Unit,
 ) {
     val expenseCategories = state.categories.filter { it.type == CategoryType.EXPENSE }
@@ -49,8 +51,15 @@ fun CategoriesScreen(
             pagerState = pagerState
         ) { index ->
             when (index) {
-                0 -> CategoriesContent(categories = expenseCategories)
-                1 -> CategoriesContent(categories = incomeCategories)
+                0 -> CategoriesContent(
+                    categories = expenseCategories,
+                    onClick = onCategoryItemClick
+                )
+
+                1 -> CategoriesContent(
+                    categories = incomeCategories,
+                    onClick = onCategoryItemClick
+                )
             }
         }
     }

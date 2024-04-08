@@ -8,6 +8,7 @@ sealed class AddCategoryEvent {
     data class OnNameChange(val name: String) : AddCategoryEvent()
     data class OnIconChange(val icon: String) : AddCategoryEvent()
     data class OnColorChange(val color: Long) : AddCategoryEvent()
+    data object OnIsActiveChange : AddCategoryEvent()
     data class OnBottomSheetChange(val type: AddCategoryBottomSheet?) : AddCategoryEvent()
     data object OnSubmitCategory : AddCategoryEvent()
 }

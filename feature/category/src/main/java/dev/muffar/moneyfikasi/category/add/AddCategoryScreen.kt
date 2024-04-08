@@ -32,6 +32,7 @@ fun AddCategoryScreen(
     onIconChange: (String) -> Unit,
     onColorChange: (Long) -> Unit,
     onShowBottomSheet: (AddCategoryBottomSheet?) -> Unit,
+    onIsActiveChange: () -> Unit,
     onSubmit: () -> Unit,
     onBackClick: () -> Unit,
 ) {
@@ -64,9 +65,11 @@ fun AddCategoryScreen(
     ) {
         Box(modifier = modifier.padding(it)) {
             AddCategoryForm(
+                id = state.id,
                 name = state.name,
                 icon = state.icon,
                 color = state.color,
+                isActive = state.isActive,
                 onNameChange = onNameChange,
                 onIconClick = {
                     onShowBottomSheet(AddCategoryBottomSheet.ICON)
@@ -74,6 +77,7 @@ fun AddCategoryScreen(
                 onColorClick = {
                     onShowBottomSheet(AddCategoryBottomSheet.COLOR)
                 },
+                onIsActiveChange = onIsActiveChange,
                 onSubmit = onSubmit
             )
 
