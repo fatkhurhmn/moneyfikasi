@@ -19,4 +19,6 @@ sealed class Screen(val route: String) {
             return "add_edit_category/$type?$CATEGORY_ID=$categoryId"
         }
     }
+
+    data object Wallets : Screen("wallets")
 }

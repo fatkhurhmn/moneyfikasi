@@ -32,7 +32,7 @@ fun CategoriesContent(
             modifier = modifier,
         ) {
             items(categories) { category ->
-                CategoriesItem(
+                CategoryItem(
                     category = category,
                     onClick = {
                         onClick(category.type, category.id)

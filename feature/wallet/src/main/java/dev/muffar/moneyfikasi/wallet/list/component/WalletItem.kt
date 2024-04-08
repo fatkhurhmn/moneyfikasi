@@ -1,9 +1,10 @@
-package dev.muffar.moneyfikasi.category.list.component
+package dev.muffar.moneyfikasi.wallet.list.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,15 +20,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.IconByName
 import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
-import dev.muffar.moneyfikasi.domain.model.Category
+import dev.muffar.moneyfikasi.domain.model.Wallet
 
 @Composable
-fun CategoriesItem(
+fun WalletItem(
     modifier: Modifier = Modifier,
-    category: Category,
+    wallet: Wallet,
     onClick: () -> Unit,
 ) {
 
@@ -45,15 +47,27 @@ fun CategoriesItem(
             Box(
                 modifier = Modifier
                     .clip(MaterialTheme.shapes.small)
-                    .background(Color(category.color))
-                    .padding(4.dp),
+                    .background(Color(wallet.color))
+                    .padding(8.dp),
                 contentAlignment = Alignment.Center
             ) {
-                IconByName(name = category.icon, tint = MainColor.White)
+                IconByName(name = wallet.icon, tint = MainColor.White)
             }
             Spacer(modifier = Modifier.width(16.dp))
-            Text(text = category.name, style = MaterialTheme.typography.bodyLarge)
+
+            Column {
+                Text(
+                    text = wallet.name,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                Text(
+                    text = wallet.balance.toString(),
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = FontWeight.Medium
+                    )
+                )
+            }
         }
-        Icon(imageVector = Icons.Rounded.ChevronRight, contentDescription = category.name)
+        Icon(imageVector = Icons.Rounded.ChevronRight, contentDescription = wallet.name)
     }
 }
