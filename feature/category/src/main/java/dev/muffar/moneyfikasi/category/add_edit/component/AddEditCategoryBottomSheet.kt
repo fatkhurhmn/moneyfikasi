@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.category.add_edit.component
 
 import androidx.compose.runtime.Composable
+import dev.muffar.moneyfikasi.common_ui.component.ColorPicker
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 
 @Composable
@@ -12,13 +13,13 @@ fun AddEditCategoryBottomSheet(
     onDismiss: () -> Unit
 ) {
     when (type) {
-        AddEditCategoryBottomSheet.ICON -> IconPickerSheet(
+        AddEditCategoryBottomSheet.ICON -> CategoryIconPicker(
             type = categoryType ?: CategoryType.INCOME,
             onClick = onIconSelect,
             onClose = onDismiss
         )
 
-        AddEditCategoryBottomSheet.COLOR -> ColorPickerSheet(
+        AddEditCategoryBottomSheet.COLOR -> ColorPicker(
             onClick = onColorSelect,
             onClose = onDismiss
         )

@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.category.add_edit.component
+package dev.muffar.moneyfikasi.common_ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
-fun ColorPicker(
+fun ColorPickerButton(
     modifier: Modifier = Modifier,
     color: Long,
     onClick: () -> Unit,

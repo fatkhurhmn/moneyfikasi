@@ -29,6 +29,7 @@ android {
 dependencies {
 
     implementation(projects.shared.resource)
+    implementation(projects.shared.domain)
 
     implementation(libs.androidx.core.ktx)
     

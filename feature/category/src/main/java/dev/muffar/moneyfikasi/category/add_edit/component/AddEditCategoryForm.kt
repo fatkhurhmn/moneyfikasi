@@ -17,7 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.ColorPickerButton
 import dev.muffar.moneyfikasi.common_ui.component.CommonTextInput
+import dev.muffar.moneyfikasi.common_ui.component.IconPickerButton
 import dev.muffar.moneyfikasi.resource.R
 import java.util.UUID
 
@@ -59,7 +61,7 @@ fun AddEditCategoryForm(
                     style = MaterialTheme.typography.labelLarge
                 )
                 Spacer(modifier = Modifier.height(4.dp))
-                IconPicker(
+                IconPickerButton(
                     icon = icon,
                     color = color,
                     onClick = onIconClick
@@ -74,7 +76,7 @@ fun AddEditCategoryForm(
                     style = MaterialTheme.typography.labelLarge
                 )
                 Spacer(modifier = Modifier.height(4.dp))
-                ColorPicker(
+                ColorPickerButton(
                     color = color,
                     onClick = onColorClick
                 )
