@@ -6,10 +6,12 @@ import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.settings.SettingsScreen
 
 fun NavGraphBuilder.settingsNavGraph(
+    navigateToWallets: () -> Unit,
     navigateToCategories: () -> Unit
 ) {
     composable(route = Screen.Settings.route) {
         SettingsScreen(
+            onWalletsClick = navigateToWallets,
             onCategoriesClick = navigateToCategories
         )
     }

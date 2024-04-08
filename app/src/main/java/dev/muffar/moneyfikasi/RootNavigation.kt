@@ -32,6 +32,7 @@ fun RootNavigation(
         }
 
         settingsNavGraph(
+            navigateToWallets = {  },
             navigateToCategories = { navController.toCategoriesScreen() }
         )
 

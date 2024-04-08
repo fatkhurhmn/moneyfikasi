@@ -61,6 +61,7 @@ dependencies {
 
     implementation(projects.feature.settings)
     implementation(projects.feature.category)
+    implementation(projects.feature.wallet)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
