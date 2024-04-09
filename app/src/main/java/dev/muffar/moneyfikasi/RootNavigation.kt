@@ -10,10 +10,9 @@ import dev.muffar.moneyfikasi.category.categoriesNavGraph
 import dev.muffar.moneyfikasi.category.list.navigation.toCategoriesScreen
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.settings.navigation.settingsNavGraph
-import dev.muffar.moneyfikasi.wallet.add_edit.navigation.addEditWalletNavigation
 import dev.muffar.moneyfikasi.wallet.add_edit.navigation.toAddEditWalletScreen
 import dev.muffar.moneyfikasi.wallet.list.navigation.toWalletsScreen
-import dev.muffar.moneyfikasi.wallet.list.navigation.walletsNavigation
+import dev.muffar.moneyfikasi.wallet.walletsNavGraph
 
 @Composable
 fun RootNavigation(
@@ -50,13 +49,10 @@ fun RootNavigation(
             navigateBack = { navController.navigateUp() }
         )
 
-        walletsNavigation (
+        walletsNavGraph(
             navigateToAddWallet = { navController.toAddEditWalletScreen() },
+            navigateToEditWallet = { navController.toAddEditWalletScreen(it) },
             navigateBack = { navController.navigateUp() }
         )
-
-        addEditWalletNavigation {
-            navController.navigateUp()
-        }
     }
 }

@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.model.InvalidWalletException
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
+import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.utils.clearThousandFormat
 import dev.muffar.moneyfikasi.wallet.add_edit.component.AddEditWalletBottomSheet
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -48,21 +49,21 @@ class AddEditWalletViewModel @Inject constructor(
     }
 
     private fun initState() {
-//        handle.get<String?>(Screen.AddEditCategory.CATEGORY_ID)?.let { id ->
-//            if (id.isEmpty()) return
-//            viewModelScope.launch {
-//                walletUseCases.getWalletById(UUID.fromString(id))?.also {
-//                    _state.value = _state.value.copy(
-//                        id = it.id,
-//                        name = it.name,
-//                        balance = it.balance.toString(),
-//                        icon = it.icon,
-//                        color = it.color,
-//                        isActive = it.isActive
-//                    )
-//                }
-//            }
-//        }
+        handle.get<String?>(Screen.AddEditWallet.WALLET_ID)?.let { id ->
+            if (id.isEmpty()) return
+            viewModelScope.launch {
+                walletUseCases.getWalletById(UUID.fromString(id))?.also {
+                    _state.value = _state.value.copy(
+                        id = it.id,
+                        name = it.name,
+                        balance = it.balance.toString(),
+                        icon = it.icon,
+                        color = it.color,
+                        isActive = it.isActive
+                    )
+                }
+            }
+        }
     }
 
     private fun onNameChange(name: String) {

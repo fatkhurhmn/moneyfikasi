@@ -22,12 +22,14 @@ import dev.muffar.moneyfikasi.common_ui.component.CommonAddButton
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.wallet.list.component.WalletItem
+import java.util.UUID
 
 @Composable
 fun WalletsScreen(
     modifier: Modifier = Modifier,
     state: WalletsState,
     onAddWalletClick: () -> Unit,
+    onWalletItemClick: (UUID) -> Unit,
     onBackClick: () -> Unit,
 ) {
     Scaffold(
@@ -47,10 +49,13 @@ fun WalletsScreen(
             LazyColumn(
                 modifier = modifier.padding(it),
             ) {
-                items(state.wallets) { wallet ->
+                items(
+                    items = state.wallets,
+                    key = { wallet -> wallet.id }
+                ) { wallet ->
                     WalletItem(
                         wallet = wallet,
-                        onClick = {}
+                        onClick = { onWalletItemClick(wallet.id) }
                     )
                 }
             }
