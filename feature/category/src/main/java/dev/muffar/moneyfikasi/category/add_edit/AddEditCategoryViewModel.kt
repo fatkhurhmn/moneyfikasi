@@ -1,7 +1,5 @@
 package dev.muffar.moneyfikasi.category.add_edit
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,7 +11,10 @@ import dev.muffar.moneyfikasi.domain.model.InvalidCategoryException
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
@@ -24,8 +25,8 @@ class AddEditCategoryViewModel @Inject constructor(
     private val handle: SavedStateHandle,
 ) : ViewModel() {
 
-    private val _state = mutableStateOf(AddEditCategoryState())
-    val state: State<AddEditCategoryState> = _state
+    private val _state = MutableStateFlow(AddEditCategoryState())
+    val state = _state.asStateFlow()
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
@@ -53,32 +54,34 @@ class AddEditCategoryViewModel @Inject constructor(
             if (id.isEmpty()) return
             viewModelScope.launch {
                 categoryUseCases.getCategoryById(UUID.fromString(id))?.also {
-                    _state.value = _state.value.copy(
-                        id = it.id,
-                        name = it.name,
-                        icon = it.icon,
-                        color = it.color,
-                        isActive = it.isActive
-                    )
+                    _state.update { state ->
+                        state.copy(
+                            id = it.id,
+                            name = it.name,
+                            icon = it.icon,
+                            color = it.color,
+                            isActive = it.isActive
+                        )
+                    }
                 }
             }
         }
     }
 
     private fun setType(type: CategoryType?) {
-        _state.value = _state.value.copy(type = type)
+        _state.update { it.copy(type = type) }
     }
 
     private fun onNameChange(name: String) {
-        _state.value = _state.value.copy(name = name)
+        _state.update { it.copy(name = name) }
     }
 
     private fun onIconChange(icon: String) {
-        _state.value = _state.value.copy(icon = icon)
+        _state.update { it.copy(icon = icon) }
     }
 
     private fun onColorChange(color: Long) {
-        _state.value = _state.value.copy(color = color)
+        _state.update { it.copy(color = color) }
     }
 
     private fun onIsActiveChange() {
@@ -87,15 +90,15 @@ class AddEditCategoryViewModel @Inject constructor(
         viewModelScope.launch {
             categoryUseCases.updateCategory(id!!, isActive)
         }
-        _state.value = _state.value.copy(isActive = isActive)
+        _state.update { it.copy(isActive = isActive) }
     }
 
     private fun onBottomSheetChange(type: AddEditCategoryBottomSheet?) {
-        _state.value = _state.value.copy(bottomSheetType = type)
+        _state.update { it.copy(bottomSheetType = type) }
     }
 
     private fun onShowAlert(showAlert: Boolean) {
-        _state.value = _state.value.copy(showAlert = showAlert)
+        _state.update { it.copy(showAlert = showAlert) }
     }
 
     private fun onSubmitCategory() {

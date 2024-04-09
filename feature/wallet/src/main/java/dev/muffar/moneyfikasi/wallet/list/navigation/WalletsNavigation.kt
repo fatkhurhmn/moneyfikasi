@@ -1,5 +1,7 @@
 package dev.muffar.moneyfikasi.wallet.list.navigation
 
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -16,7 +18,7 @@ fun NavGraphBuilder.walletsNavigation(
 ) {
     composable(route = Screen.Wallets.route) {
         val viewModel = hiltViewModel<WalletsViewModel>()
-        val state = viewModel.state.value
+        val state by viewModel.state.collectAsState()
 
         WalletsScreen(
             state = state,

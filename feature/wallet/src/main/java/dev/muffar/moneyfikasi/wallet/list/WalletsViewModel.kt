@@ -1,12 +1,13 @@
 package dev.muffar.moneyfikasi.wallet.list
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,8 +16,8 @@ class WalletsViewModel @Inject constructor(
     private val walletUseCases: WalletUseCases,
 ) : ViewModel() {
 
-    private val _state = mutableStateOf(WalletsState())
-    val state: State<WalletsState> = _state
+    private val _state = MutableStateFlow(WalletsState())
+    val state = _state.asStateFlow()
 
     init {
         loadAllWallets()
@@ -26,7 +27,9 @@ class WalletsViewModel @Inject constructor(
         viewModelScope.launch {
             walletUseCases.getAllWallets()
                 .collectLatest {
-                    _state.value = _state.value.copy(wallets = it)
+                    _state.update { state ->
+                        state.copy(wallets = it)
+                    }
                 }
         }
     }

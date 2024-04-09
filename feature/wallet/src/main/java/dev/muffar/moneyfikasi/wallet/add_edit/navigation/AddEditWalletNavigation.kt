@@ -1,5 +1,7 @@
 package dev.muffar.moneyfikasi.wallet.add_edit.navigation
 
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -15,7 +17,7 @@ fun NavGraphBuilder.addEditWalletNavigation(
 ){
     composable(Screen.AddEditWallet.route){
         val viewModel = hiltViewModel<AddEditWalletViewModel>()
-        val state = viewModel.state.value
+        val state by viewModel.state.collectAsState()
         val event = viewModel::onEvent
 
         AddEditWalletScreen(
