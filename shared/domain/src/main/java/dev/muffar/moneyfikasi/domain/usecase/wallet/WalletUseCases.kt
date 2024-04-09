@@ -5,8 +5,7 @@ data class WalletUseCases(
     val getWalletById: GetWalletById,
     val saveWallet: SaveWallet,
     val saveAllWallets: SaveAllWallets,
-    val updateWalletBalance: UpdateWalletBalance,
-    val updateWalletActivation: UpdateWalletActivation,
+    val updateWallet: UpdateWallet,
     val deleteWallet: DeleteWallet,
     val deleteAllWallets: DeleteAllWallets,
 )

@@ -90,7 +90,7 @@ class AddEditWalletViewModel @Inject constructor(
         val id = _state.value.id
         val isActive = !_state.value.isActive
         viewModelScope.launch {
-            walletUseCases.updateWalletActivation(id!!, isActive)
+            walletUseCases.updateWallet(id!!, isActive)
         }
         _state.update { it.copy(isActive = isActive) }
     }

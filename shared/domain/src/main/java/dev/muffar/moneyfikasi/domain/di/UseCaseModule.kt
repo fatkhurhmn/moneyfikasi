@@ -20,8 +20,7 @@ import dev.muffar.moneyfikasi.domain.usecase.wallet.GetAllWallets
 import dev.muffar.moneyfikasi.domain.usecase.wallet.GetWalletById
 import dev.muffar.moneyfikasi.domain.usecase.wallet.SaveAllWallets
 import dev.muffar.moneyfikasi.domain.usecase.wallet.SaveWallet
-import dev.muffar.moneyfikasi.domain.usecase.wallet.UpdateWalletActivation
-import dev.muffar.moneyfikasi.domain.usecase.wallet.UpdateWalletBalance
+import dev.muffar.moneyfikasi.domain.usecase.wallet.UpdateWallet
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 
 @Module
@@ -49,8 +48,7 @@ object UseCaseModule {
         getWalletById = GetWalletById(walletRepository),
         saveWallet = SaveWallet(walletRepository),
         saveAllWallets = SaveAllWallets(walletRepository),
-        updateWalletBalance = UpdateWalletBalance(walletRepository),
-        updateWalletActivation = UpdateWalletActivation(walletRepository),
+        updateWallet = UpdateWallet(walletRepository),
         deleteWallet = DeleteWallet(walletRepository),
         deleteAllWallets = DeleteAllWallets(walletRepository),
     )

@@ -23,12 +23,8 @@ class WalletRepositoryImpl @Inject constructor(
         walletDao.saveAll(wallets.mapToEntity())
     }
 
-    override suspend fun updateBalance(id: UUID, balance: Double) {
-        walletDao.updateBalance(id, balance)
-    }
-
-    override suspend fun updateIsActive(id: UUID, isActive: Boolean) {
-        walletDao.updateIsActive(id, isActive)
+    override suspend fun updateWallet(id: UUID, isActive: Boolean) {
+        walletDao.updateWallet(id, isActive)
     }
 
     override suspend fun deleteWallet(id: UUID) {

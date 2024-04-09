@@ -15,11 +15,8 @@ interface WalletDao {
     @Upsert
     suspend fun saveAll(wallets: List<WalletEntity>)
 
-    @Query("UPDATE wallets SET balance = :balance WHERE id = :id")
-    suspend fun updateBalance(id: UUID, balance: Double)
-
     @Query("UPDATE wallets SET is_active = :isActive WHERE id = :id")
-    suspend fun updateIsActive(id: UUID, isActive: Boolean)
+    suspend fun updateWallet(id: UUID, isActive: Boolean)
 
     @Query("DELETE FROM wallets WHERE id = :id")
     suspend fun delete(id: UUID)
