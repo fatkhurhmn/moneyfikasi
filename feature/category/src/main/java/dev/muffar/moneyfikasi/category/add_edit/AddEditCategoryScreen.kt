@@ -120,7 +120,10 @@ fun AddEditCategoryScreen(
                     positiveText = stringResource(R.string.delete),
                     negativeText = stringResource(R.string.cancel),
                     onDismiss = { onShowAlert(false) },
-                    onConfirm = { onDelete() }
+                    onConfirm = {
+                        onDelete()
+                        onShowAlert(false)
+                    }
                 )
             }
         }

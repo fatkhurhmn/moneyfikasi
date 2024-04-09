@@ -31,7 +31,7 @@ fun CategoriesContent(
         LazyColumn(
             modifier = modifier,
         ) {
-            items(categories) { category ->
+            items(categories, key = { it.id }) { category ->
                 CategoryItem(
                     category = category,
                     onClick = {
