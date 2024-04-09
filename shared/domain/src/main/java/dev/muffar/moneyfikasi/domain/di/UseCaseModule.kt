@@ -44,12 +44,12 @@ object UseCaseModule {
     fun provideWalletUseCases(
         walletRepository: WalletRepository,
     ) = WalletUseCases(
-        getAllWallets = GetAllWallets(walletRepository),
-        getWalletById = GetWalletById(walletRepository),
         saveWallet = SaveWallet(walletRepository),
         saveAllWallets = SaveAllWallets(walletRepository),
         updateWallet = UpdateWallet(walletRepository),
         deleteWallet = DeleteWallet(walletRepository),
         deleteAllWallets = DeleteAllWallets(walletRepository),
+        getAllWallets = GetAllWallets(walletRepository),
+        getWalletById = GetWalletById(walletRepository),
     )
 }

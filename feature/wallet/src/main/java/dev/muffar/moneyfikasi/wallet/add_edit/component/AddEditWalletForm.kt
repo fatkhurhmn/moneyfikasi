@@ -74,7 +74,9 @@ fun AddEditWalletForm(
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Done,
                 keyboardType = KeyboardType.Number
-            )
+            ),
+            enabled = id == null,
+            readOnly = id != null
         )
         Spacer(modifier = Modifier.height(16.dp))
         Row(
