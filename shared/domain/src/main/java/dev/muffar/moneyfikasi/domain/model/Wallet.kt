@@ -10,3 +10,5 @@ data class Wallet(
     val balance: Double,
     val isActive: Boolean
 )
+
+class InvalidWalletException(override val message: String) : Exception(message)

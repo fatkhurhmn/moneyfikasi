@@ -106,7 +106,8 @@ class AddEditCategoryViewModel @Inject constructor(
                     name = state.value.name,
                     icon = state.value.icon,
                     color = state.value.color,
-                    type = state.value.type ?: CategoryType.INCOME
+                    type = state.value.type ?: CategoryType.INCOME,
+                    isActive = state.value.isActive
                 )
                 categoryUseCases.saveCategory(category)
                 _eventFlow.emit(UiEvent.SaveCategory)

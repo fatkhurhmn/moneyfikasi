@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.category.add_edit.component
+package dev.muffar.moneyfikasi.common_ui.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,11 +9,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.component.ColorPickerButton
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
-fun CategoryColorButton(
+fun ColorFieldButton(
     modifier: Modifier = Modifier,
     color: Long,
     onColorClick: () -> Unit

@@ -9,6 +9,7 @@ import dev.muffar.moneyfikasi.wallet.list.WalletsScreen
 import dev.muffar.moneyfikasi.wallet.list.WalletsViewModel
 
 fun NavGraphBuilder.walletsNavigation(
+    navigateToAddWallet: () -> Unit,
     navigateBack: () -> Unit,
 ) {
     composable(route = Screen.Wallets.route) {
@@ -17,6 +18,7 @@ fun NavGraphBuilder.walletsNavigation(
 
         WalletsScreen(
             state = state,
+            onAddWalletClick = navigateToAddWallet,
             onBackClick = navigateBack
         )
     }

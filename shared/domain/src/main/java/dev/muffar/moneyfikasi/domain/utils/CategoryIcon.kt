@@ -53,6 +53,8 @@ enum class CategoryIcon(val iconName: String, val categoryType: CategoryType) {
     ;
 
     companion object {
-        fun getCategories(type: CategoryType) = entries.filter { it.categoryType == type }
+        fun getCategories(type: CategoryType) = entries
+            .filter { it.categoryType == type }
+            .map { it.iconName }
     }
 }

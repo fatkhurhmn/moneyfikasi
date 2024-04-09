@@ -27,6 +27,7 @@ import dev.muffar.moneyfikasi.wallet.list.component.WalletItem
 fun WalletsScreen(
     modifier: Modifier = Modifier,
     state: WalletsState,
+    onAddWalletClick: () -> Unit,
     onBackClick: () -> Unit,
 ) {
     Scaffold(
@@ -38,7 +39,7 @@ fun WalletsScreen(
         },
         floatingActionButton = {
             CommonAddButton(
-                onClick = { }
+                onClick = onAddWalletClick
             )
         }
     ) {

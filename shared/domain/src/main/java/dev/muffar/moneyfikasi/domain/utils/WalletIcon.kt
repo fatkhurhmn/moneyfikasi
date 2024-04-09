@@ -7,5 +7,9 @@ enum class WalletIcon(val iconName: String) {
     MONETIZATION_ON("MonetizationOn"),
     PAYMENTS("Payments"),
     SAVINGS("Savings"),
-    TIMELINE("Timeline"),
+    TIMELINE("Timeline"),;
+
+    companion object {
+        fun getIcons() = entries.map { it.iconName }
+    }
 }

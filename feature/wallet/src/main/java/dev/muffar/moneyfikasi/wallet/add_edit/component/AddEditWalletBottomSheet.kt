@@ -1,35 +1,33 @@
-package dev.muffar.moneyfikasi.category.add_edit.component
+package dev.muffar.moneyfikasi.wallet.add_edit.component
 
 import androidx.compose.runtime.Composable
 import dev.muffar.moneyfikasi.common_ui.component.ColorPicker
 import dev.muffar.moneyfikasi.common_ui.component.IconPicker
-import dev.muffar.moneyfikasi.domain.model.CategoryType
-import dev.muffar.moneyfikasi.domain.utils.CategoryIcon
+import dev.muffar.moneyfikasi.domain.utils.WalletIcon
 
 @Composable
-fun AddEditCategoryBottomSheet(
-    type: AddEditCategoryBottomSheet,
-    categoryType: CategoryType?,
+fun AddEditWalletBottomSheet(
+    type: AddEditWalletBottomSheet,
     onIconSelect: (String) -> Unit,
     onColorSelect: (Long) -> Unit,
     onDismiss: () -> Unit
 ) {
-    val icons = CategoryIcon.getCategories(categoryType?: CategoryType.INCOME)
+    val icons = WalletIcon.getIcons()
     when (type) {
-        AddEditCategoryBottomSheet.ICON -> IconPicker(
+        AddEditWalletBottomSheet.ICON -> IconPicker(
             icons = icons,
             onClick = onIconSelect,
             onClose = onDismiss
         )
 
-        AddEditCategoryBottomSheet.COLOR -> ColorPicker(
+        AddEditWalletBottomSheet.COLOR -> ColorPicker(
             onClick = onColorSelect,
             onClose = onDismiss
         )
     }
 }
 
-enum class AddEditCategoryBottomSheet {
+enum class AddEditWalletBottomSheet {
     ICON,
     COLOR
 }

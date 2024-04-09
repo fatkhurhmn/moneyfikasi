@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.category.add_edit.component
+package dev.muffar.moneyfikasi.common_ui.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,19 +20,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.component.IconByName
-import dev.muffar.moneyfikasi.domain.model.CategoryType
-import dev.muffar.moneyfikasi.domain.utils.CategoryIcon
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
-fun CategoryIconPicker(
+fun IconPicker(
     modifier: Modifier = Modifier,
-    type: CategoryType,
+    icons : List<String>,
     onClick: (String) -> Unit,
     onClose: () -> Unit,
 ) {
-    val icons = CategoryIcon.getCategories(type)
     Column(
         modifier = modifier.padding(bottom = 16.dp)
     ) {
@@ -60,9 +56,9 @@ fun CategoryIconPicker(
         LazyVerticalGrid(columns = GridCells.Fixed(4)) {
             items(icons.size) {
                 val icon = icons[it]
-                IconButton(onClick = { onClick(icon.iconName) }) {
+                IconButton(onClick = { onClick(icon) }) {
                     IconByName(
-                        name = icon.iconName,
+                        name = icon,
                         tint = MaterialTheme.colorScheme.onBackground.copy(0.8f)
                     )
                 }
