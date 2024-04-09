@@ -3,7 +3,7 @@ package dev.muffar.moneyfikasi.wallet.add_edit.component
 import androidx.compose.runtime.Composable
 import dev.muffar.moneyfikasi.common_ui.component.ColorPicker
 import dev.muffar.moneyfikasi.common_ui.component.IconPicker
-import dev.muffar.moneyfikasi.domain.utils.WalletIcon
+import dev.muffar.moneyfikasi.utils.WalletIcon
 
 @Composable
 fun AddEditWalletBottomSheet(

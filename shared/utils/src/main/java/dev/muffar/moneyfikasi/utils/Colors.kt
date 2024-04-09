@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.domain.utils
+package dev.muffar.moneyfikasi.utils
 
 enum class Colors(val color: Long) {
     RED1(0xFFF44336),

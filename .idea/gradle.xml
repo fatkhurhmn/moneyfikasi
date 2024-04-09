@@ -20,6 +20,7 @@
             <option value="$PROJECT_DIR$/shared/domain" />
             <option value="$PROJECT_DIR$/shared/navigation" />
             <option value="$PROJECT_DIR$/shared/resource" />
+            <option value="$PROJECT_DIR$/shared/utils" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

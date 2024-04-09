@@ -30,6 +30,7 @@ dependencies {
 
     implementation(projects.shared.resource)
     implementation(projects.shared.domain)
+    implementation(projects.shared.utils)
 
     implementation(libs.androidx.core.ktx)
     

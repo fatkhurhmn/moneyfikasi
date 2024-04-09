@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.model.InvalidWalletException
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
+import dev.muffar.moneyfikasi.utils.clearThousandFormat
 import dev.muffar.moneyfikasi.wallet.add_edit.component.AddEditWalletBottomSheet
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -103,7 +104,7 @@ class AddEditWalletViewModel @Inject constructor(
                 val wallet = Wallet(
                     id = state.value.id ?: UUID.randomUUID(),
                     name = state.value.name,
-                    balance = state.value.balance.toDouble(),
+                    balance = state.value.balance.clearThousandFormat().toDouble(),
                     icon = state.value.icon,
                     color = state.value.color,
                     isActive = state.value.isActive

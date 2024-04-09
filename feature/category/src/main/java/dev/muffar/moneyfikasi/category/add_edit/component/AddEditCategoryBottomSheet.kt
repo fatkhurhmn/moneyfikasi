@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import dev.muffar.moneyfikasi.common_ui.component.ColorPicker
 import dev.muffar.moneyfikasi.common_ui.component.IconPicker
 import dev.muffar.moneyfikasi.domain.model.CategoryType
-import dev.muffar.moneyfikasi.domain.utils.CategoryIcon
+import dev.muffar.moneyfikasi.utils.CategoryIcon
 
 @Composable
 fun AddEditCategoryBottomSheet(

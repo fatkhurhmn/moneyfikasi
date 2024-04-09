@@ -11,13 +11,17 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.ColorFieldButton
 import dev.muffar.moneyfikasi.common_ui.component.CommonTextInput
 import dev.muffar.moneyfikasi.common_ui.component.IconFieldButton
 import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.utils.clearThousandFormat
+import dev.muffar.moneyfikasi.utils.formatThousand
 import java.util.UUID
 
 @Composable
@@ -51,16 +55,19 @@ fun AddEditWalletForm(
         Spacer(modifier = Modifier.height(16.dp))
         CommonTextInput(
             modifier = Modifier.fillMaxWidth(),
-            value = balance,
-            onValueChange = { value ->
-                if (value.isEmpty()) {
-                    onBalanceChange("0")
-                    return@CommonTextInput
+            value = TextFieldValue(balance, TextRange(balance.length)),
+            onValueChange = { newInput ->
+                if (newInput.text.length > 20) return@CommonTextInput
+
+                val filtered = newInput.text.filter { it.isDigit() }
+                val parsedValue = if (filtered.isNotBlank()) {
+                    filtered.clearThousandFormat().toLong().formatThousand()
+                } else {
+                    "0"
                 }
 
-                val filtered = value.filter { it.isDigit() }
-                val formatted = if (balance == "0") filtered.removePrefix("0") else filtered
-                onBalanceChange(formatted)
+                val newText = newInput.copy(text = parsedValue)
+                onBalanceChange(newText.text)
             },
             label = stringResource(R.string.balance),
             placeholder = stringResource(R.string.enter_wallet_balance),

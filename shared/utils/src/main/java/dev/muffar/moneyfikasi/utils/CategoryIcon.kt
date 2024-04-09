@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.domain.utils
+package dev.muffar.moneyfikasi.utils
 
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 

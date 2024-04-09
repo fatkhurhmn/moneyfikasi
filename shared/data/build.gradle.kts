@@ -25,6 +25,7 @@ android {
 dependencies {
 
     implementation(projects.shared.domain)
+    implementation(projects.shared.utils)
 
     implementation(libs.bundles.room)
     kapt(libs.room.compiler)
