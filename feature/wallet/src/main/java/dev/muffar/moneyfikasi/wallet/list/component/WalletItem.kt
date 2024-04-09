@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.IconByName
 import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 import dev.muffar.moneyfikasi.domain.model.Wallet
+import dev.muffar.moneyfikasi.utils.formatThousand
 
 @Composable
 fun WalletItem(
@@ -61,7 +62,7 @@ fun WalletItem(
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Text(
-                    text = wallet.balance.toString(),
+                    text = wallet.balance.toLong().formatThousand(),
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Medium
                     )

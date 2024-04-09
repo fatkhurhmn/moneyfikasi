@@ -11,6 +11,7 @@ import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.utils.clearThousandFormat
+import dev.muffar.moneyfikasi.utils.formatThousand
 import dev.muffar.moneyfikasi.wallet.add_edit.component.AddEditWalletBottomSheet
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -56,7 +57,7 @@ class AddEditWalletViewModel @Inject constructor(
                     _state.value = _state.value.copy(
                         id = it.id,
                         name = it.name,
-                        balance = it.balance.toString(),
+                        balance = it.balance.toLong().formatThousand(),
                         icon = it.icon,
                         color = it.color,
                         isActive = it.isActive
