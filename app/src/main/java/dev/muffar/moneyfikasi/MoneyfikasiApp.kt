@@ -1,5 +1,10 @@
 package dev.muffar.moneyfikasi
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -26,6 +31,7 @@ fun MoneyfikasiApp(
     val navigationBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navigationBackStackEntry?.destination?.route
     val isBottomNavVisible = mainRoute.contains(currentRoute)
+    val isAddButtonVisible = currentRoute == Screen.Transaction.route
 
     Scaffold(
         bottomBar = {
@@ -34,7 +40,11 @@ fun MoneyfikasiApp(
             }
         },
         floatingActionButton = {
-            if (isBottomNavVisible) {
+            AnimatedVisibility(
+                visible = isAddButtonVisible,
+                enter = fadeIn() + scaleIn(),
+                exit = fadeOut() + scaleOut()
+            ) {
                 CommonAddButton {}
             }
         },
