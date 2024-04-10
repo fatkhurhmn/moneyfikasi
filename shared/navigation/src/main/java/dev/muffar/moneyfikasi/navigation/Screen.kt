@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.navigation
 
 import dev.muffar.moneyfikasi.domain.model.CategoryType
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import java.util.UUID
 
 sealed class Screen(val route: String) {
@@ -27,6 +28,15 @@ sealed class Screen(val route: String) {
         fun routeWithArg(id: UUID? = null): String {
             val walletId = id?.toString() ?: ""
             return "add_edit_wallet?$WALLET_ID=$walletId"
+        }
+    }
+
+    data object AddEditTransaction : Screen("add_edit_transaction/{type}?transaction_id={transaction_id}") {
+        const val TYPE = "type"
+        const val TRANSACTION_ID = "transaction_id"
+        fun routeWithArg(type: TransactionType, id: UUID? = null): String {
+            val transactionId = id?.toString() ?: ""
+            return "add_edit_transaction/$type?$TRANSACTION_ID=$transactionId"
         }
     }
 }

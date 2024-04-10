@@ -10,6 +10,7 @@ import dev.muffar.moneyfikasi.category.categoriesNavGraph
 import dev.muffar.moneyfikasi.category.list.navigation.toCategoriesScreen
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.settings.navigation.settingsNavGraph
+import dev.muffar.moneyfikasi.transaction.add_edit.navigation.addEditTransactionNavigation
 import dev.muffar.moneyfikasi.wallet.add_edit.navigation.toAddEditWalletScreen
 import dev.muffar.moneyfikasi.wallet.list.navigation.toWalletsScreen
 import dev.muffar.moneyfikasi.wallet.walletsNavGraph
@@ -54,5 +55,9 @@ fun RootNavigation(
             navigateToEditWallet = { navController.toAddEditWalletScreen(it) },
             navigateBack = { navController.navigateUp() }
         )
+
+        addEditTransactionNavigation {
+            navController.navigateUp()
+        }
     }
 }
