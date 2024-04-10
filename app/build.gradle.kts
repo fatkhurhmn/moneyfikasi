@@ -59,6 +59,7 @@ dependencies {
     implementation(projects.shared.commonUi)
     implementation(projects.shared.resource)
 
+    implementation(projects.feature.transaction)
     implementation(projects.feature.settings)
     implementation(projects.feature.category)
     implementation(projects.feature.wallet)
