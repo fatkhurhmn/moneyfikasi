@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
 import dev.muffar.moneyfikasi.data.db.entity.TransactionEntity
+import kotlinx.coroutines.flow.Flow
 import java.util.UUID
 
 @Dao
@@ -21,8 +22,8 @@ interface TransactionDao {
     suspend fun deleteAll()
 
     @Query("SELECT * FROM transactions")
-    suspend fun getAll(): List<TransactionEntity>
+    fun getAll(): Flow<List<TransactionEntity>>
 
     @Query("SELECT * FROM transactions WHERE id = :id")
-    suspend fun getById(id: UUID): TransactionEntity
+    suspend fun getById(id: UUID): TransactionEntity?
 }
