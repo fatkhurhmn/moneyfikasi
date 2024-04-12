@@ -5,8 +5,8 @@ import java.util.UUID
 
 data class Transaction(
     val id: UUID,
-    val walletId: UUID,
-    val categoryId: UUID,
+    val category: Category,
+    val wallet: Wallet,
     val type: TransactionType,
     val amount: Double,
     val date: LocalDateTime,

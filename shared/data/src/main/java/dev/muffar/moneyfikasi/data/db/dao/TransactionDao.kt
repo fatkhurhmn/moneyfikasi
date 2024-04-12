@@ -2,8 +2,10 @@ package dev.muffar.moneyfikasi.data.db.dao
 
 import androidx.room.Dao
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Upsert
 import dev.muffar.moneyfikasi.data.db.entity.TransactionEntity
+import dev.muffar.moneyfikasi.data.db.entity.TransactionWithWalletAndCategory
 import kotlinx.coroutines.flow.Flow
 import java.util.UUID
 
@@ -26,4 +28,12 @@ interface TransactionDao {
 
     @Query("SELECT * FROM transactions WHERE id = :id")
     suspend fun getById(id: UUID): TransactionEntity?
+
+    @Transaction
+    @Query("SELECT * FROM transactions")
+    fun getAllWithWalletAndCategory(): Flow<List<TransactionWithWalletAndCategory>>
+
+    @Transaction
+    @Query("SELECT * FROM transactions WHERE id = :id")
+    suspend fun getByIdWithWalletAndCategory(id: UUID): TransactionWithWalletAndCategory?
 }

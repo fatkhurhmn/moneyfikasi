@@ -8,7 +8,7 @@ data class Wallet(
     val icon: String,
     val color: Long,
     val balance: Double,
-    val isActive: Boolean
+    val isActive: Boolean = true
 )
 
 class InvalidWalletException(override val message: String) : Exception(message)

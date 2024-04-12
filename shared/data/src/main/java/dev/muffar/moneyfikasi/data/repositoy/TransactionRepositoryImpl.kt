@@ -31,10 +31,10 @@ class TransactionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAllTransactions(): Flow<List<Transaction>> {
-        return transactionDao.getAll().map { it.mapToModel() }
+        return transactionDao.getAllWithWalletAndCategory().map { it.mapToModel() }
     }
 
     override suspend fun getTransactionById(id: UUID): Transaction? {
-        return transactionDao.getById(id)?.toModel()
+        return transactionDao.getByIdWithWalletAndCategory(id)?.toModel()
     }
 }

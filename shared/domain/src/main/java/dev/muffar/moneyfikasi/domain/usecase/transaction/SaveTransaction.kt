@@ -15,11 +15,11 @@ class SaveTransaction(
             throw InvalidTransactionException("Amount cannot be zero")
         }
 
-        if (transaction.categoryId == generateEmptyUUID()) {
+        if (transaction.category.id == generateEmptyUUID()) {
             throw InvalidTransactionException("Select category please")
         }
 
-        if (transaction.walletId == generateEmptyUUID()) {
+        if (transaction.wallet.id == generateEmptyUUID()) {
             throw InvalidTransactionException("Select wallet please")
         }
 

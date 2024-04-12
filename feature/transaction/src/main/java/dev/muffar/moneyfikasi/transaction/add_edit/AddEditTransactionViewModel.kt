@@ -14,7 +14,6 @@ import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionSheetType
 import dev.muffar.moneyfikasi.utils.clearThousandFormat
-import dev.muffar.moneyfikasi.utils.toEmptyUUID
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -82,23 +81,13 @@ class AddEditTransactionViewModel @Inject constructor(
 
     private fun onCategorySelect(category: Category) {
         _state.update {
-            it.copy(
-                categoryId = category.id,
-                categoryName = category.name,
-                categoryIcon = category.icon,
-                categoryColor = category.color
-            )
+            it.copy(category = category)
         }
     }
 
     private fun onWalletSelect(wallet: Wallet) {
         _state.update {
-            it.copy(
-                walletId = wallet.id,
-                walletName = wallet.name,
-                walletIcon = wallet.icon,
-                walletColor = wallet.color
-            )
+            it.copy(wallet = wallet)
         }
     }
 
@@ -127,8 +116,8 @@ class AddEditTransactionViewModel @Inject constructor(
                     amount = state.value.amount.clearThousandFormat().toDouble(),
                     description = state.value.description,
                     type = state.value.type,
-                    categoryId = state.value.categoryId ?: UUID.fromString("".toEmptyUUID()),
-                    walletId = state.value.walletId ?: UUID.fromString("".toEmptyUUID()),
+                    category = state.value.category,
+                    wallet = state.value.wallet,
                     date = date,
                 )
                 transactionUseCases.saveTransaction(transaction)

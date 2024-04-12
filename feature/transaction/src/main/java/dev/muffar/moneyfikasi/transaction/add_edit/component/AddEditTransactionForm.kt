@@ -26,6 +26,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonTextInput
 import dev.muffar.moneyfikasi.common_ui.component.IconFieldButton
+import dev.muffar.moneyfikasi.domain.model.Category
+import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.clearThousandFormat
 import dev.muffar.moneyfikasi.utils.formatThousand
@@ -35,12 +37,8 @@ fun AddEditTransactionForm(
     modifier: Modifier = Modifier,
     amount: String,
     description: String,
-    categoryName: String,
-    categoryIcon: String,
-    categoryColor: Long,
-    walletName: String,
-    walletIcon: String,
-    walletColor: Long,
+    category: Category,
+    wallet: Wallet,
     date: String,
     time: String,
     onAmountChange: (String) -> Unit,
@@ -95,7 +93,7 @@ fun AddEditTransactionForm(
         ) {
             CommonTextInput(
                 modifier = Modifier.weight(1f),
-                value = categoryName,
+                value = category.name,
                 onValueChange = {},
                 label = stringResource(R.string.category),
                 placeholder = stringResource(R.string.select_category),
@@ -104,8 +102,8 @@ fun AddEditTransactionForm(
             )
             Spacer(modifier = Modifier.width(16.dp))
             IconFieldButton(
-                icon = categoryIcon,
-                color = categoryColor,
+                icon = category.icon,
+                color = category.color,
                 showLabel = false,
                 onIconClick = onCategoryClick
             )
@@ -116,7 +114,7 @@ fun AddEditTransactionForm(
         ) {
             CommonTextInput(
                 modifier = Modifier.weight(1f),
-                value = walletName,
+                value = wallet.name,
                 onValueChange = {},
                 label = stringResource(R.string.wallet),
                 placeholder = stringResource(R.string.select_wallet),
@@ -125,8 +123,8 @@ fun AddEditTransactionForm(
             )
             Spacer(modifier = Modifier.width(16.dp))
             IconFieldButton(
-                icon = walletIcon,
-                color = walletColor,
+                icon = wallet.icon,
+                color = wallet.color,
                 showLabel = false,
                 onIconClick = onWalletClick
             )
