@@ -12,3 +12,5 @@ data class Transaction(
     val date: LocalDateTime,
     val description: String? = null,
 )
+
+data class InvalidTransactionException(override val message: String) : Exception()

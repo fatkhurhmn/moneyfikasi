@@ -33,4 +33,16 @@
     <string name="delete_wallet_confirmation">Are you sure you want to delete this wallet? If you delete this wallet, all records related to this wallet will also be deleted.</string>
     <string name="wallet">Wallet</string>
     <string name="create_transaction">Create Transaction</string>
+    <string name="amount">Amount</string>
+    <string name="enter_amount">Enter amount</string>
+    <string name="description">Description</string>
+    <string name="enter_description">Enter description (optional)</string>
+    <string name="category">Category</string>
+    <string name="select_category">Select category</string>
+    <string name="select_wallet">Select wallet</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="select_date">Select date</string>
+    <string name="select_time">Select time</string>
+    <string name="select">Select</string>
 </resources>

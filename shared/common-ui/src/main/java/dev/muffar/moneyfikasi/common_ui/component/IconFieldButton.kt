@@ -16,13 +16,14 @@ fun IconFieldButton(
     modifier: Modifier = Modifier,
     icon: String,
     color: Long,
-    onIconClick: () -> Unit
+    showLabel: Boolean = true,
+    onIconClick: () -> Unit,
 ) {
     Column(
         modifier = modifier
     ) {
         Text(
-            text = stringResource(R.string.icon),
+            text = if (showLabel) stringResource(R.string.icon) else "",
             style = MaterialTheme.typography.labelLarge
         )
         Spacer(modifier = Modifier.height(4.dp))

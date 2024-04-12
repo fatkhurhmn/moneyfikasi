@@ -16,12 +16,13 @@ import dev.muffar.moneyfikasi.transaction.add_edit.AddEditTransactionViewModel
 import java.util.UUID
 
 fun NavGraphBuilder.addEditTransactionNavigation(
-    onNavigateBack : () -> Unit
+    onNavigateBack: () -> Unit,
 ) {
     composable(Screen.AddEditTransaction.route) {
         val viewModel = hiltViewModel<AddEditTransactionViewModel>()
         val state by viewModel.state.collectAsState()
         val event = viewModel::onEvent
+        val eventFlow = viewModel.eventFlow
 
         val type = it.arguments?.getString(Screen.AddEditTransaction.TYPE)?.let { value ->
             TransactionType.fromString(value)
@@ -34,7 +35,31 @@ fun NavGraphBuilder.addEditTransactionNavigation(
         AddEditTransactionScreen(
             modifier = Modifier,
             state = state,
-            onBackClick = onNavigateBack
+            eventFlow = eventFlow,
+            onAmountChange = { amount ->
+                event(AddEditTransactionEvent.OnAmountChange(amount))
+            },
+            onDescriptionChange = { description ->
+                event(AddEditTransactionEvent.OnDescriptionChange(description))
+            },
+            onCategorySelect = { category ->
+                event(AddEditTransactionEvent.OnCategorySelect(category))
+            },
+            onWalletSelect = { wallet ->
+                event(AddEditTransactionEvent.OnWalletSelect(wallet))
+            },
+            onDateSelect = { date ->
+                event(AddEditTransactionEvent.OnDateSelect(date))
+            },
+            onTimeSelect = { hour, minute ->
+                event(AddEditTransactionEvent.OnTimeSelect(hour, minute))
+            },
+            onBackClick = onNavigateBack,
+            onSaveClick = { event(AddEditTransactionEvent.OnSaveClick) },
+            onDeleteClick = { event(AddEditTransactionEvent.OnDeleteClick) },
+            onShowBottomSheet = { sheetType ->
+                event(AddEditTransactionEvent.OnBottomSheetChange(sheetType))
+            }
         )
     }
 }
