@@ -1,5 +1,7 @@
 package dev.muffar.moneyfikasi.utils
 
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -22,4 +24,9 @@ fun Long.toFormattedDateTime(pattern: String): String {
 
 fun String.toEmptyUUID(): String {
     return "00000000-0000-0000-0000-000000000000"
+}
+
+fun LocalDateTime.format(pattern: String): String {
+    val formatter = DateTimeFormatter.ofPattern(pattern)
+    return this.format(formatter)
 }

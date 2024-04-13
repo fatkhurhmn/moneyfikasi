@@ -30,7 +30,7 @@ interface TransactionDao {
     suspend fun getById(id: UUID): TransactionEntity?
 
     @Transaction
-    @Query("SELECT * FROM transactions")
+    @Query("SELECT * FROM transactions ORDER BY date DESC")
     fun getAllWithWalletAndCategory(): Flow<List<TransactionWithWalletAndCategory>>
 
     @Transaction
