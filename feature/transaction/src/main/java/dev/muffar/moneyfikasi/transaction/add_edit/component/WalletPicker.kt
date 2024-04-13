@@ -24,10 +24,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.IconByName
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.utils.formatThousand
 
 @Composable
 fun WalletPicker(
@@ -86,7 +88,15 @@ fun WalletPicker(
                         )
                     }
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = wallet.name)
+                    Column {
+                        Text(text = wallet.name)
+                        Text(
+                            text = wallet.balance.toLong().formatThousand(),
+                            style = MaterialTheme.typography.titleMedium.copy(
+                                fontWeight = FontWeight.Medium
+                            )
+                        )
+                    }
                 }
             }
         }

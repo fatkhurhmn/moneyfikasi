@@ -5,6 +5,7 @@ import dev.muffar.moneyfikasi.data.mapper.mapToModel
 import dev.muffar.moneyfikasi.data.mapper.toEntity
 import dev.muffar.moneyfikasi.data.mapper.toModel
 import dev.muffar.moneyfikasi.domain.model.Transaction
+import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.repository.TransactionRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -14,8 +15,12 @@ import javax.inject.Inject
 class TransactionRepositoryImpl @Inject constructor(
     private val transactionDao: TransactionDao,
 ) : TransactionRepository {
-    override suspend fun saveTransaction(transaction: Transaction) {
-        transactionDao.save(transaction.toEntity())
+
+    override suspend fun saveTransaction(transaction: Transaction, wallet: Wallet) {
+        transactionDao.saveTransactionAndWallet(
+            transaction.toEntity(),
+            wallet.toEntity()
+        )
     }
 
     override suspend fun saveAllTransactions(transactions: List<Transaction>) {

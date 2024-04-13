@@ -6,11 +6,22 @@ import androidx.room.Transaction
 import androidx.room.Upsert
 import dev.muffar.moneyfikasi.data.db.entity.TransactionEntity
 import dev.muffar.moneyfikasi.data.db.entity.TransactionWithWalletAndCategory
+import dev.muffar.moneyfikasi.data.db.entity.WalletEntity
 import kotlinx.coroutines.flow.Flow
 import java.util.UUID
 
 @Dao
 interface TransactionDao {
+
+    @Transaction
+    suspend fun saveTransactionAndWallet(
+        transaction: TransactionEntity,
+        wallet: WalletEntity
+    ) {
+        save(transaction)
+        updateWallet(wallet)
+    }
+
     @Upsert
     suspend fun save(transaction: TransactionEntity)
 
@@ -36,4 +47,7 @@ interface TransactionDao {
     @Transaction
     @Query("SELECT * FROM transactions WHERE id = :id")
     suspend fun getByIdWithWalletAndCategory(id: UUID): TransactionWithWalletAndCategory?
+
+    @Upsert
+    suspend fun updateWallet(wallet: WalletEntity)
 }

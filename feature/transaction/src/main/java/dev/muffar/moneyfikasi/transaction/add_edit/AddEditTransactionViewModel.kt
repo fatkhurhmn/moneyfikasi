@@ -113,6 +113,7 @@ class AddEditTransactionViewModel @Inject constructor(
                     .withHour(state.value.hour)
                     .withMinute(state.value.minute)
 
+
                 val transaction = Transaction(
                     id = state.value.id ?: UUID.randomUUID(),
                     amount = state.value.amount.clearThousandFormat().toDouble(),
@@ -122,7 +123,18 @@ class AddEditTransactionViewModel @Inject constructor(
                     wallet = state.value.wallet,
                     date = date,
                 )
-                transactionUseCases.saveTransaction(transaction)
+
+                val amount = if (state.value.type == TransactionType.INCOME) {
+                    state.value.amount.clearThousandFormat().toDouble()
+                } else {
+                    -state.value.amount.clearThousandFormat().toDouble()
+                }
+
+                val wallet = state.value.wallet.copy(
+                    balance = state.value.wallet.balance + amount
+                )
+
+                transactionUseCases.saveTransaction(transaction, wallet)
                 _eventFlow.emit(UiEvent.SaveTransaction)
             } catch (e: InvalidTransactionException) {
                 _eventFlow.emit(UiEvent.ShowMessage(e.message))
