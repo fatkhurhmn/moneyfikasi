@@ -2,6 +2,7 @@ package dev.muffar.moneyfikasi.transaction.list
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -29,6 +30,7 @@ fun TransactionsScreen(
         topBar = {
             TransactionsTopBar(modifier = Modifier.padding(16.dp))
         },
+        contentWindowInsets = WindowInsets(0.dp)
     ) {
         if (state.transactionsByDate.isNotEmpty()) {
             val dates = state.transactionsByDate.keys.toList()

@@ -18,7 +18,7 @@ fun TransactionsList(
 ) {
     LazyColumn(
         modifier = modifier,
-        contentPadding = PaddingValues(bottom = 32.dp)
+        contentPadding = PaddingValues(bottom = 54.dp)
     ) {
         dates.forEachIndexed { index, _ ->
             item {
