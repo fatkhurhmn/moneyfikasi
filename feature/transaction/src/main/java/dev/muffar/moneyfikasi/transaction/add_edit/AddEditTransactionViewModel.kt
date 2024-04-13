@@ -108,8 +108,8 @@ class AddEditTransactionViewModel @Inject constructor(
                         0,
                         ZoneOffset.UTC
                     )
-                    .plusHours(state.value.hour.toLong())
-                    .plusMinutes(state.value.minute.toLong())
+                    .withHour(state.value.hour)
+                    .withMinute(state.value.minute)
 
                 val transaction = Transaction(
                     id = state.value.id ?: UUID.randomUUID(),
