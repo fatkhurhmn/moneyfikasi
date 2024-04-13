@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">moneyfikasi</string>
-    <string name="transaction_menu">Transaction</string>
+    <string name="transaction_menu">Transactions</string>
     <string name="statistics_menu">Statistics</string>
     <string name="debt_menu">Debt</string>
     <string name="settings_menu">Settings</string>
@@ -46,5 +46,8 @@
     <string name="select_time">Select time</string>
     <string name="select">Select</string>
     <string name="transactions">Transactions</string>
+    <string name="transaction">Transaction</string>
     <string name="no_transactions">No Transactions</string>
+    <string name="transaction_summary">Transaction Summary</string>
+    <string name="type">Type</string>
 </resources>

@@ -20,11 +20,13 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsList
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsTopBar
+import java.util.UUID
 
 @Composable
 fun TransactionsScreen(
     modifier: Modifier = Modifier,
     state: TransactionsState,
+    onTransactionItemClick : (UUID) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -39,7 +41,8 @@ fun TransactionsScreen(
             TransactionsList(
                 modifier = modifier.padding(it),
                 dates = dates,
-                transactions = transactions
+                transactions = transactions,
+                onItemClick = onTransactionItemClick
             )
         } else {
             Column(

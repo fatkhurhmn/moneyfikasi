@@ -9,12 +9,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.Transaction
+import java.util.UUID
 
 @Composable
 fun TransactionsList(
     modifier: Modifier = Modifier,
     dates: List<String>,
     transactions: List<List<Transaction>>,
+    onItemClick: (UUID) -> Unit
 ) {
     LazyColumn(
         modifier = modifier,
@@ -40,7 +42,7 @@ fun TransactionsList(
             ) { transaction ->
                 TransactionItem(
                     transaction = transaction,
-                    onClick = {}
+                    onClick = onItemClick
                 )
             }
             item {

@@ -9,11 +9,12 @@ import androidx.navigation.compose.composable
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.transaction.list.TransactionsScreen
 import dev.muffar.moneyfikasi.transaction.list.TransactionsViewModel
+import java.util.UUID
 
 fun NavGraphBuilder.transactionsNavigation(
-    onNavigateBack: () -> Unit,
+    onNavigateToTransactionDetail: (UUID) -> Unit,
 ) {
-    composable(Screen.Transaction.route) {
+    composable(Screen.Transactions.route) {
         val viewModel = hiltViewModel<TransactionsViewModel>()
         val state by viewModel.state.collectAsState()
         val event = viewModel::onEvent
@@ -21,6 +22,7 @@ fun NavGraphBuilder.transactionsNavigation(
         TransactionsScreen(
             modifier = Modifier,
             state = state,
+            onTransactionItemClick = onNavigateToTransactionDetail
         )
     }
 }

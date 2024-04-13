@@ -25,7 +25,7 @@ fun MoneyfikasiApp(
     navController: NavHostController,
 ) {
     val mainRoute = listOf(
-        Screen.Transaction.route,
+        Screen.Transactions.route,
         Screen.Statistics.route,
         Screen.Debt.route,
         Screen.Settings.route,
@@ -34,7 +34,7 @@ fun MoneyfikasiApp(
     val navigationBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navigationBackStackEntry?.destination?.route
     val isBottomNavVisible = mainRoute.contains(currentRoute)
-    val isAddButtonVisible = currentRoute == Screen.Transaction.route
+    val isAddButtonVisible = currentRoute == Screen.Transactions.route
     var isExpanded by remember { mutableStateOf(false) }
 
     Scaffold(

@@ -76,7 +76,7 @@ fun MainBottomNav(
                 activeIcon = Icons.AutoMirrored.Rounded.ViewList,
                 inactiveIcon = Icons.AutoMirrored.Outlined.ViewList,
                 label = stringResource(R.string.transaction_menu),
-                route = Screen.Transaction.route,
+                route = Screen.Transactions.route,
                 modifier = Modifier
                     .padding(2.dp)
                     .weight(1f)
@@ -147,7 +147,7 @@ fun BottomBarItem(
             ) {
                 if (!isActive) {
                     navController.navigate(route) {
-                        popUpTo(Screen.Transaction.route) {
+                        popUpTo(Screen.Transactions.route) {
                             saveState = true
                         }
                         launchSingleTop = true
