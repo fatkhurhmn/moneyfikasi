@@ -30,3 +30,17 @@ fun LocalDateTime.format(pattern: String): String {
     val formatter = DateTimeFormatter.ofPattern(pattern)
     return this.format(formatter)
 }
+
+fun String.filterAmount(): String? {
+    return if (length < 20) {
+        val filtered = filter { it.isDigit() }
+        val parsedValue = if (filtered.isNotBlank()) {
+            filtered.clearThousandFormat().toLong().formatThousand()
+        } else {
+            "0"
+        }
+        parsedValue
+    } else {
+        null
+    }
+}

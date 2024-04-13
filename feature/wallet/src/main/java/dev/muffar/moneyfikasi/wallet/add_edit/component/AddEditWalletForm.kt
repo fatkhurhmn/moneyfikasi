@@ -20,8 +20,7 @@ import dev.muffar.moneyfikasi.common_ui.component.ColorFieldButton
 import dev.muffar.moneyfikasi.common_ui.component.CommonTextInput
 import dev.muffar.moneyfikasi.common_ui.component.IconFieldButton
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.clearThousandFormat
-import dev.muffar.moneyfikasi.utils.formatThousand
+import dev.muffar.moneyfikasi.utils.filterAmount
 import java.util.UUID
 
 @Composable
@@ -56,19 +55,7 @@ fun AddEditWalletForm(
         CommonTextInput(
             modifier = Modifier.fillMaxWidth(),
             value = TextFieldValue(balance, TextRange(balance.length)),
-            onValueChange = { newInput ->
-                if (newInput.text.length > 20) return@CommonTextInput
-
-                val filtered = newInput.text.filter { it.isDigit() }
-                val parsedValue = if (filtered.isNotBlank()) {
-                    filtered.clearThousandFormat().toLong().formatThousand()
-                } else {
-                    "0"
-                }
-
-                val newText = newInput.copy(text = parsedValue)
-                onBalanceChange(newText.text)
-            },
+            onValueChange = { it.text.filterAmount()?.let(onBalanceChange) },
             label = stringResource(R.string.balance),
             placeholder = stringResource(R.string.enter_wallet_balance),
             keyboardOptions = KeyboardOptions(

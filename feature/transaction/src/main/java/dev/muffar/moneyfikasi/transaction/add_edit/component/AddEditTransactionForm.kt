@@ -29,8 +29,7 @@ import dev.muffar.moneyfikasi.common_ui.component.IconFieldButton
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.clearThousandFormat
-import dev.muffar.moneyfikasi.utils.formatThousand
+import dev.muffar.moneyfikasi.utils.filterAmount
 
 @Composable
 fun AddEditTransactionForm(
@@ -56,19 +55,7 @@ fun AddEditTransactionForm(
         CommonTextInput(
             modifier = Modifier.fillMaxWidth(),
             value = TextFieldValue(amount, TextRange(amount.length)),
-            onValueChange = { newInput ->
-                if (newInput.text.length > 20) return@CommonTextInput
-
-                val filtered = newInput.text.filter { it.isDigit() }
-                val parsedValue = if (filtered.isNotBlank()) {
-                    filtered.clearThousandFormat().toLong().formatThousand()
-                } else {
-                    "0"
-                }
-
-                val newText = newInput.copy(text = parsedValue)
-                onAmountChange(newText.text)
-            },
+            onValueChange = { it.text.filterAmount()?.let(onAmountChange) },
             label = stringResource(R.string.amount),
             placeholder = stringResource(R.string.enter_amount),
             keyboardOptions = KeyboardOptions(
