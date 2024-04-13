@@ -49,25 +49,25 @@ fun ExpandableFloatingActionButton(
     val fabSize = 58.dp
     val expandedFabWidth by animateDpAsState(
         targetValue = if (isExpanded) 200.dp else fabSize,
-        animationSpec = spring(dampingRatio = 3f),
+        animationSpec = spring(dampingRatio = 1f),
         label = ""
     )
 
     val expandedBoxHeight by animateDpAsState(
         targetValue = if (isExpanded) 192.dp else 0.dp,
-        animationSpec = spring(dampingRatio = 4f),
+        animationSpec = spring(dampingRatio = 1.5f),
         label = ""
     )
 
     val expandedXOffsetIcon by animateDpAsState(
         targetValue = if (isExpanded) (-70).dp else 0.dp,
-        animationSpec = spring(dampingRatio = 3f),
+        animationSpec = spring(dampingRatio = 1f),
         label = ""
     )
 
     val expandedXOffsetText by animateDpAsState(
         targetValue = if (isExpanded) 10.dp else 50.dp,
-        animationSpec = spring(dampingRatio = 3f),
+        animationSpec = spring(dampingRatio = 1f),
         label = ""
     )
 
