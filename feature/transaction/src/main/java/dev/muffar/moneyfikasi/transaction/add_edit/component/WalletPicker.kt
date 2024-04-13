@@ -5,10 +5,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.IconByName
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
@@ -39,7 +40,7 @@ fun WalletPicker(
     onClose: () -> Unit,
 ) {
     Column(
-        modifier = modifier.padding(bottom = 16.dp)
+        modifier = modifier
     ) {
         Row(
             modifier = Modifier
@@ -50,7 +51,9 @@ fun WalletPicker(
         ) {
             Text(
                 text = stringResource(R.string.select_wallet),
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontSize = 20.sp
+                )
             )
             IconButton(onClick = onClose) {
                 Icon(
@@ -60,9 +63,9 @@ fun WalletPicker(
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        LazyColumn {
+        LazyColumn (
+            contentPadding = PaddingValues(vertical = 16.dp)
+        ){
             items(wallets.size) {
                 val wallet = wallets[it]
                 Row(
