@@ -106,7 +106,7 @@ class AddEditCategoryViewModel @Inject constructor(
             try {
                 val category = Category(
                     id = state.value.id ?: UUID.randomUUID(),
-                    name = state.value.name,
+                    name = state.value.name.trim(),
                     icon = state.value.icon,
                     color = state.value.color,
                     type = state.value.type ?: CategoryType.INCOME,

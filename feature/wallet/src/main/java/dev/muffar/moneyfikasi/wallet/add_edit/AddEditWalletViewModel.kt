@@ -108,7 +108,7 @@ class AddEditWalletViewModel @Inject constructor(
             try {
                 val wallet = Wallet(
                     id = state.value.id ?: UUID.randomUUID(),
-                    name = state.value.name,
+                    name = state.value.name.trim(),
                     balance = state.value.balance.clearThousandFormat().toDouble(),
                     icon = state.value.icon,
                     color = state.value.color,

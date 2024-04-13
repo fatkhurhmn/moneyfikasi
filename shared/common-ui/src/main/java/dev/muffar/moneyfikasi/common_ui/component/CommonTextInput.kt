@@ -56,7 +56,9 @@ fun CommonTextInput(
                     onClick()
                 },
             value = value,
-            onValueChange = onValueChange,
+            onValueChange = {
+                onValueChange(it.trimStart())
+            },
             shape = MaterialTheme.shapes.large,
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Color.Transparent,

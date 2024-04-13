@@ -114,7 +114,7 @@ class AddEditTransactionViewModel @Inject constructor(
                 val transaction = Transaction(
                     id = state.value.id ?: UUID.randomUUID(),
                     amount = state.value.amount.clearThousandFormat().toDouble(),
-                    description = state.value.description,
+                    description = state.value.description.trim(),
                     type = state.value.type,
                     category = state.value.category,
                     wallet = state.value.wallet,
