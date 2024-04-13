@@ -10,10 +10,8 @@ import dev.muffar.moneyfikasi.category.categoriesNavGraph
 import dev.muffar.moneyfikasi.category.list.navigation.toCategoriesScreen
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.settings.navigation.settingsNavGraph
-import dev.muffar.moneyfikasi.transaction.add_edit.navigation.addEditTransactionNavigation
 import dev.muffar.moneyfikasi.transaction.detail.navigation.toTransactionDetail
-import dev.muffar.moneyfikasi.transaction.detail.navigation.transactionDetailNavigation
-import dev.muffar.moneyfikasi.transaction.list.navigation.transactionsNavigation
+import dev.muffar.moneyfikasi.transaction.transactionsNavGraph
 import dev.muffar.moneyfikasi.wallet.add_edit.navigation.toAddEditWalletScreen
 import dev.muffar.moneyfikasi.wallet.list.navigation.toWalletsScreen
 import dev.muffar.moneyfikasi.wallet.walletsNavGraph
@@ -26,7 +24,9 @@ fun RootNavigation(
         navController = navController,
         startDestination = Screen.Transactions.route
     ) {
-        transactionsNavigation(
+
+        transactionsNavGraph(
+            onNavigateBack = { navController.navigateUp() },
             onNavigateToTransactionDetail = { navController.toTransactionDetail(it) }
         )
 
@@ -58,13 +58,5 @@ fun RootNavigation(
             navigateToEditWallet = { navController.toAddEditWalletScreen(it) },
             navigateBack = { navController.navigateUp() }
         )
-
-        addEditTransactionNavigation {
-            navController.navigateUp()
-        }
-
-        transactionDetailNavigation {
-            navController.navigateUp()
-        }
     }
 }
