@@ -31,7 +31,7 @@ data class AddEditTransactionState(
     val time: Long = System.currentTimeMillis(),
     val hour: Int = time.toFormattedDateTime("HH").toInt(),
     val minute: Int = time.toFormattedDateTime("mm").toInt(),
-    val description: String = "",
+    val note: String = "",
     val categories: List<Category> = emptyList(),
     val wallets: List<Wallet> = emptyList(),
     val bottomSheetType: AddEditTransactionSheetType? = null,

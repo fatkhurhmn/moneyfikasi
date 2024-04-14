@@ -29,6 +29,6 @@ data class TransactionEntity(
     @ColumnInfo(name = "date")
     val date: LocalDateTime,
 
-    @ColumnInfo(name = "description")
-    val description: String? = null,
+    @ColumnInfo(name = "note")
+    val note: String? = null,
 )

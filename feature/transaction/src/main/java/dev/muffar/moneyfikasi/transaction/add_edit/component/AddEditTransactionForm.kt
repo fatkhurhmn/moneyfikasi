@@ -35,13 +35,13 @@ import dev.muffar.moneyfikasi.utils.filterAmount
 fun AddEditTransactionForm(
     modifier: Modifier = Modifier,
     amount: String,
-    description: String,
+    note: String,
     category: Category,
     wallet: Wallet,
     date: String,
     time: String,
     onAmountChange: (String) -> Unit,
-    onDescriptionChange: (String) -> Unit,
+    onNoteChange: (String) -> Unit,
     onCategoryClick: () -> Unit,
     onWalletClick: () -> Unit,
     onDateClick: () -> Unit,
@@ -66,10 +66,10 @@ fun AddEditTransactionForm(
         Spacer(modifier = Modifier.height(16.dp))
         CommonTextInput(
             modifier = Modifier.fillMaxWidth(),
-            value = description,
-            onValueChange = onDescriptionChange,
-            label = stringResource(R.string.description),
-            placeholder = stringResource(R.string.enter_description),
+            value = note,
+            onValueChange = onNoteChange,
+            label = stringResource(R.string.note),
+            placeholder = stringResource(R.string.enter_note),
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Done,
             )

@@ -35,8 +35,8 @@
     <string name="create_transaction">Create Transaction</string>
     <string name="amount">Amount</string>
     <string name="enter_amount">Enter amount</string>
-    <string name="description">Description</string>
-    <string name="enter_description">Enter description (optional)</string>
+    <string name="note">Note</string>
+    <string name="enter_note">Enter note (optional)</string>
     <string name="category">Category</string>
     <string name="select_category">Select category</string>
     <string name="select_wallet">Select wallet</string>

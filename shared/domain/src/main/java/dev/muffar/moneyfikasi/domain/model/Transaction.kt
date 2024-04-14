@@ -10,7 +10,7 @@ data class Transaction(
     val type: TransactionType,
     val amount: Double,
     val date: LocalDateTime,
-    val description: String? = null,
+    val note: String? = null,
 )
 
 data class InvalidTransactionException(override val message: String) : Exception()

@@ -26,8 +26,8 @@ data class LoanEntity(
     @ColumnInfo(name = "amount")
     val amount: Double,
 
-    @ColumnInfo(name = "description")
-    val description: String? = null,
+    @ColumnInfo(name = "note")
+    val note: String? = null,
 
     @ColumnInfo(name = "loan_date")
     val loanDate: LocalDateTime,

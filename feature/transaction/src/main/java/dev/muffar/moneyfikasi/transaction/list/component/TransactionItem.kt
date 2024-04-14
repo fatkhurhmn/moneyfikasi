@@ -68,7 +68,7 @@ fun TransactionItem(
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = if (transaction.description.isNullOrEmpty()) "-" else transaction.description!!,
+                    text = if (transaction.note.isNullOrEmpty()) "-" else transaction.note!!,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.outline,
                     maxLines = 1,

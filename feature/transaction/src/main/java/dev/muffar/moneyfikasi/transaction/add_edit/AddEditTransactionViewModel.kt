@@ -48,7 +48,7 @@ class AddEditTransactionViewModel @Inject constructor(
             is AddEditTransactionEvent.OnWalletSelect -> onWalletSelect(event.wallet)
             is AddEditTransactionEvent.OnDateSelect -> onDateSelect(event.date)
             is AddEditTransactionEvent.OnTimeSelect -> onTimeSelect(event.hour, event.minute)
-            is AddEditTransactionEvent.OnDescriptionChange -> onDescriptionChange(event.description)
+            is AddEditTransactionEvent.OnNoteChange -> onNoteChange(event.note)
             is AddEditTransactionEvent.OnSaveClick -> onSaveClick()
             is AddEditTransactionEvent.OnDeleteClick -> onDeleteClick()
             is AddEditTransactionEvent.OnBottomSheetChange -> onBottomSheetChange(event.type)
@@ -77,8 +77,8 @@ class AddEditTransactionViewModel @Inject constructor(
         _state.update { it.copy(amount = amount) }
     }
 
-    private fun onDescriptionChange(description: String) {
-        _state.update { it.copy(description = description) }
+    private fun onNoteChange(note: String) {
+        _state.update { it.copy(note = note) }
     }
 
     private fun onCategorySelect(category: Category) {
@@ -117,7 +117,7 @@ class AddEditTransactionViewModel @Inject constructor(
                 val transaction = Transaction(
                     id = state.value.id ?: UUID.randomUUID(),
                     amount = state.value.amount.clearThousandFormat().toDouble(),
-                    description = state.value.description.trim(),
+                    note = state.value.note.trim(),
                     type = state.value.type,
                     category = state.value.category,
                     wallet = state.value.wallet,

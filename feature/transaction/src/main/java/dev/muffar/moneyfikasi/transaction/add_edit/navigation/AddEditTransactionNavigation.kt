@@ -39,8 +39,8 @@ fun NavGraphBuilder.addEditTransactionNavigation(
             onAmountChange = { amount ->
                 event(AddEditTransactionEvent.OnAmountChange(amount))
             },
-            onDescriptionChange = { description ->
-                event(AddEditTransactionEvent.OnDescriptionChange(description))
+            onNoteChange = { note ->
+                event(AddEditTransactionEvent.OnNoteChange(note))
             },
             onCategorySelect = { category ->
                 event(AddEditTransactionEvent.OnCategorySelect(category))

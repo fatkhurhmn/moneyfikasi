@@ -31,7 +31,7 @@ fun TransactionDetailScreen(
     val wallet = state.transaction?.wallet?.name ?: ""
     val category = state.transaction?.category?.name ?: ""
     val date = state.transaction?.date?.format("dd-MM-yyyy, kk:mm") ?: ""
-    val description = state.transaction?.description ?: "-"
+    val note = state.transaction?.note ?: "-"
 
     Scaffold(
         topBar = {
@@ -67,7 +67,7 @@ fun TransactionDetailScreen(
                 category = category,
                 type = type.value,
                 dateTime = date,
-                description = description
+                note = note
             )
         }
     }

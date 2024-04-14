@@ -14,7 +14,7 @@ fun TransactionDetailBody(
     category: String,
     type: String,
     dateTime: String,
-    description: String,
+    note: String,
 ) {
     Column(
         modifier = modifier.fillMaxWidth()
@@ -24,8 +24,8 @@ fun TransactionDetailBody(
         RowDetailBody(title = stringResource(R.string.type), value = type)
         RowDetailBody(title = stringResource(R.string.date), value = dateTime)
         RowDetailBody(
-            title = stringResource(R.string.description),
-            value = description.ifEmpty { "-" }
+            title = stringResource(R.string.note),
+            value = note.ifEmpty { "-" }
         )
     }
 }

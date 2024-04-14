@@ -12,7 +12,7 @@ fun TransactionWithWalletAndCategory.toModel(): Transaction {
         type = transaction.type,
         amount = transaction.amount,
         date = transaction.date,
-        description = transaction.description
+        note = transaction.note
     )
 }
 
@@ -24,7 +24,7 @@ fun Transaction.toEntity(): TransactionEntity {
         type = type,
         amount = amount,
         date = date,
-        description = description
+        note = note
     )
 }
 
