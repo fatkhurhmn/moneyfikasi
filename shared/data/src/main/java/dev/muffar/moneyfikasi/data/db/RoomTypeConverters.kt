@@ -4,8 +4,9 @@ import androidx.room.TypeConverter
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.LoanType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
+import org.threeten.bp.Instant
 import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZoneOffset
+import org.threeten.bp.ZoneId
 import java.util.UUID
 
 class RoomTypeConverters {
@@ -17,10 +18,12 @@ class RoomTypeConverters {
     fun parseUUID(uuid: String): UUID = UUID.fromString(uuid)
 
     @TypeConverter
-    fun saveDate(date: LocalDateTime): Long = date.toEpochSecond(ZoneOffset.UTC)
+    fun saveDate(date: LocalDateTime): Long =
+        date.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 
     @TypeConverter
-    fun parseDate(date: Long): LocalDateTime = LocalDateTime.ofEpochSecond(date, 0, ZoneOffset.UTC)
+    fun parseDate(date: Long): LocalDateTime =
+        LocalDateTime.ofInstant(Instant.ofEpochMilli(date), ZoneId.systemDefault())
 
     @TypeConverter
     fun saveCategoryType(type: CategoryType): String = type.name

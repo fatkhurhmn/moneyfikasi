@@ -21,8 +21,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.threeten.bp.Instant
 import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZoneOffset
+import org.threeten.bp.ZoneId
 import java.util.UUID
 import javax.inject.Inject
 
@@ -57,14 +58,22 @@ class AddEditTransactionViewModel @Inject constructor(
 
     private fun setType(type: TransactionType) {
         _state.update { it.copy(type = type) }
+        loadCategories()
+        loadWallets()
+    }
+
+    private fun loadCategories() {
         viewModelScope.launch {
             categoryUseCases.getAllCategories().collectLatest { categories ->
                 val filteredCategories =
-                    categories.filter { it.type.name == type.name }.filter { it.isActive }
+                    categories.filter { it.type.name == state.value.type.name }
+                        .filter { it.isActive }
                 _state.update { it.copy(categories = filteredCategories) }
             }
         }
+    }
 
+    private fun loadWallets() {
         viewModelScope.launch {
             walletUseCases.getAllWallets().collectLatest { wallets ->
                 val activeWallets = wallets.filter { it.isActive }
@@ -104,42 +113,13 @@ class AddEditTransactionViewModel @Inject constructor(
     private fun onSaveClick() {
         viewModelScope.launch {
             try {
-                val date = LocalDateTime
-                    .ofEpochSecond(
-                        state.value.date / 1000,
-                        0,
-                        ZoneOffset.UTC
-                    )
-                    .withHour(state.value.hour)
-                    .withMinute(state.value.minute)
-
-
-                val transaction = Transaction(
-                    id = state.value.id ?: UUID.randomUUID(),
-                    amount = state.value.amount.clearThousandFormat().toDouble(),
-                    note = state.value.note.trim(),
-                    type = state.value.type,
-                    category = state.value.category,
-                    wallet = state.value.wallet,
-                    date = date,
-                )
-
-                val amount = if (state.value.type == TransactionType.INCOME) {
-                    state.value.amount.clearThousandFormat().toDouble()
-                } else {
-                    -state.value.amount.clearThousandFormat().toDouble()
-                }
-
-                val wallet = state.value.wallet.copy(
-                    balance = state.value.wallet.balance + amount
-                )
-
-                transactionUseCases.saveTransaction(transaction, wallet)
+                val transaction = createTransactionData()
+                val updatedWallet = updatedWallet()
+                transactionUseCases.saveTransaction(transaction, updatedWallet)
                 _eventFlow.emit(UiEvent.SaveTransaction)
             } catch (e: InvalidTransactionException) {
                 _eventFlow.emit(UiEvent.ShowMessage(e.message))
             }
-
         }
     }
 
@@ -149,6 +129,39 @@ class AddEditTransactionViewModel @Inject constructor(
 
     private fun onBottomSheetChange(type: AddEditTransactionSheetType?) {
         _state.update { it.copy(bottomSheetType = type) }
+    }
+
+    private fun getFormattedDate(): LocalDateTime {
+        return LocalDateTime
+            .ofInstant(Instant.ofEpochMilli(state.value.date), ZoneId.systemDefault())
+            .withHour(state.value.hour)
+            .withMinute(state.value.minute)
+    }
+
+    private fun createTransactionData(): Transaction {
+        return Transaction(
+            id = state.value.id ?: UUID.randomUUID(),
+            amount = state.value.amount.clearThousandFormat().toDouble(),
+            note = state.value.note.trim(),
+            type = state.value.type,
+            category = state.value.category,
+            wallet = state.value.wallet,
+            date = getFormattedDate(),
+        )
+    }
+
+    private fun getFormattedAmount(): Double {
+        return if (state.value.type == TransactionType.INCOME) {
+            state.value.amount.clearThousandFormat().toDouble()
+        } else {
+            -state.value.amount.clearThousandFormat().toDouble()
+        }
+    }
+
+    private fun updatedWallet(): Wallet {
+        return state.value.wallet.copy(
+            balance = state.value.wallet.balance - getFormattedAmount()
+        )
     }
 
     sealed class UiEvent {
