@@ -51,7 +51,6 @@ class AddEditTransactionViewModel @Inject constructor(
             is AddEditTransactionEvent.OnTimeSelect -> onTimeSelect(event.hour, event.minute)
             is AddEditTransactionEvent.OnNoteChange -> onNoteChange(event.note)
             is AddEditTransactionEvent.OnSaveClick -> onSaveClick()
-            is AddEditTransactionEvent.OnDeleteClick -> onDeleteClick()
             is AddEditTransactionEvent.OnBottomSheetChange -> onBottomSheetChange(event.type)
         }
     }
@@ -123,10 +122,6 @@ class AddEditTransactionViewModel @Inject constructor(
         }
     }
 
-    private fun onDeleteClick() {
-
-    }
-
     private fun onBottomSheetChange(type: AddEditTransactionSheetType?) {
         _state.update { it.copy(bottomSheetType = type) }
     }
@@ -160,7 +155,7 @@ class AddEditTransactionViewModel @Inject constructor(
 
     private fun updatedWallet(): Wallet {
         return state.value.wallet.copy(
-            balance = state.value.wallet.balance - getFormattedAmount()
+            balance = state.value.wallet.balance + getFormattedAmount()
         )
     }
 

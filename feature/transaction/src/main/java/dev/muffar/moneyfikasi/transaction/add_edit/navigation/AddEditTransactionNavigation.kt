@@ -56,7 +56,6 @@ fun NavGraphBuilder.addEditTransactionNavigation(
             },
             onBackClick = onNavigateBack,
             onSaveClick = { event(AddEditTransactionEvent.OnSaveClick) },
-            onDeleteClick = { event(AddEditTransactionEvent.OnDeleteClick) },
             onShowBottomSheet = { sheetType ->
                 event(AddEditTransactionEvent.OnBottomSheetChange(sheetType))
             }

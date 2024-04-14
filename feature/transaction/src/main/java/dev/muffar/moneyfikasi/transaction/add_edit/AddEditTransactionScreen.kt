@@ -38,7 +38,6 @@ fun AddEditTransactionScreen(
     onNoteChange: (String) -> Unit,
     onBackClick: () -> Unit,
     onSaveClick: () -> Unit,
-    onDeleteClick: () -> Unit,
     onShowBottomSheet: (AddEditTransactionSheetType?) -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(
@@ -67,9 +66,7 @@ fun AddEditTransactionScreen(
         bottomBar = {
             AddEditTransactionAction(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                isEdit = state.id != null,
                 onSave = onSaveClick,
-                onDelete = onDeleteClick
             )
         }
     ) {
