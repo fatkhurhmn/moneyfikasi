@@ -22,6 +22,15 @@ interface TransactionDao {
         updateWallet(wallet)
     }
 
+    @Transaction
+    suspend fun deleteTransactionAndUpdateWallet(
+        transactionId: UUID,
+        wallet: WalletEntity
+    ) {
+        delete(transactionId)
+        updateWallet(wallet)
+    }
+
     @Upsert
     suspend fun save(transaction: TransactionEntity)
 

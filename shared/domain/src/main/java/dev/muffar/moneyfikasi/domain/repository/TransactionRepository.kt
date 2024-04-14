@@ -8,7 +8,7 @@ import java.util.UUID
 interface TransactionRepository {
     suspend fun saveTransaction(transaction: Transaction, wallet: Wallet)
     suspend fun saveAllTransactions(transactions: List<Transaction>)
-    suspend fun deleteTransaction(id: UUID)
+    suspend fun deleteTransaction(id: UUID, wallet: Wallet)
     suspend fun deleteAllTransactions()
     suspend fun getAllTransactions(): Flow<List<Transaction>>
     suspend fun getTransactionById(id: UUID): Transaction?

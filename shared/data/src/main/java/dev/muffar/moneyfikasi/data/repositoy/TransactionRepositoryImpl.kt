@@ -27,8 +27,8 @@ class TransactionRepositoryImpl @Inject constructor(
         transactionDao.saveAll(transactions.map { it.toEntity() })
     }
 
-    override suspend fun deleteTransaction(id: UUID) {
-        transactionDao.delete(id)
+    override suspend fun deleteTransaction(id: UUID, wallet: Wallet) {
+        transactionDao.deleteTransactionAndUpdateWallet(id, wallet.toEntity())
     }
 
     override suspend fun deleteAllTransactions() {
