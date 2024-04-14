@@ -34,7 +34,7 @@ fun TransactionDetailScreen(
     modifier: Modifier = Modifier,
     state: TransactionDetailState,
     eventFlow: SharedFlow<TransactionDetailViewModel.UiEvent>,
-    onEdit: (UUID) -> Unit,
+    onEdit: (TransactionType, UUID) -> Unit,
     onDelete: () -> Unit,
     onShowAlert: (Boolean) -> Unit,
     onBackClick: () -> Unit,
@@ -70,7 +70,9 @@ fun TransactionDetailScreen(
             TransactionDetailAction(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 onDeleteClick = { onShowAlert(true) },
-                onEditClick = { onEdit(state.transaction!!.id) },
+                onEditClick = {
+                    state.transaction?.let { onEdit(it.type, it.id) }
+                },
             )
         }
     ) {

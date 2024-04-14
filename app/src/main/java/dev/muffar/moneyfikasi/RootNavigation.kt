@@ -10,6 +10,7 @@ import dev.muffar.moneyfikasi.category.categoriesNavGraph
 import dev.muffar.moneyfikasi.category.list.navigation.toCategoriesScreen
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.settings.navigation.settingsNavGraph
+import dev.muffar.moneyfikasi.transaction.add_edit.navigation.toAddEditTransactionScreen
 import dev.muffar.moneyfikasi.transaction.detail.navigation.toTransactionDetail
 import dev.muffar.moneyfikasi.transaction.transactionsNavGraph
 import dev.muffar.moneyfikasi.wallet.add_edit.navigation.toAddEditWalletScreen
@@ -27,7 +28,10 @@ fun RootNavigation(
 
         transactionsNavGraph(
             onNavigateBack = { navController.navigateUp() },
-            onNavigateToTransactionDetail = { navController.toTransactionDetail(it) }
+            onNavigateToTransactionDetail = { navController.toTransactionDetail(it) },
+            onNavigateToEditTransaction = { type, id ->
+                navController.toAddEditTransactionScreen(type, id)
+            }
         )
 
         composable(Screen.Statistics.route) {

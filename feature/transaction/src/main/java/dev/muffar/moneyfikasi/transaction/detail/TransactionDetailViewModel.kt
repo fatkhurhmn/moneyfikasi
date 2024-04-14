@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
@@ -28,33 +29,11 @@ class TransactionDetailViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
-    init {
-        initState()
-    }
-
     fun onEvent(event: TransactionDetailEvent) {
         when (event) {
             is TransactionDetailEvent.OnShowAlert -> onShowAlert(event.showAlert)
             is TransactionDetailEvent.OnDeleteTransaction -> onDeleteTransaction()
-        }
-    }
-
-    private fun onShowAlert(showAlert: Boolean) {
-        _state.update { it.copy(showAlert = showAlert) }
-    }
-
-    private fun onDeleteTransaction() {
-        state.value.transaction?.let {
-            viewModelScope.launch {
-                try {
-                    val amount = if (it.type == TransactionType.INCOME) -it.amount else it.amount
-                    val updatedWallet = it.wallet.copy(balance = it.wallet.balance + amount)
-                    transactionUseCases.deleteTransaction(it.id, updatedWallet)
-                    _eventFlow.emit(UiEvent.DeleteTransaction)
-                } catch (e: Exception) {
-                    _eventFlow.emit(UiEvent.ShowMessage("Failed to delete transaction"))
-                }
-            }
+            is TransactionDetailEvent.OnInitData -> initState()
         }
     }
 
@@ -66,6 +45,33 @@ class TransactionDetailViewModel @Inject constructor(
                     _state.update { state -> state.copy(transaction = it) }
                 }
             }
+        }
+    }
+
+    private fun onShowAlert(showAlert: Boolean) {
+        _state.update { it.copy(showAlert = showAlert) }
+    }
+
+    private fun onDeleteTransaction() {
+        state.value.transaction?.let {
+            viewModelScope.launch {
+                try {
+                    val amount = getFormattedAmount(it)
+                    val updatedWallet = it.wallet.copy(balance = it.wallet.balance + amount)
+                    transactionUseCases.deleteTransaction(it.id, updatedWallet)
+                    _eventFlow.emit(UiEvent.DeleteTransaction)
+                } catch (e: Exception) {
+                    _eventFlow.emit(UiEvent.ShowMessage("Failed to delete transaction"))
+                }
+            }
+        }
+    }
+
+    private fun getFormattedAmount(transaction: Transaction): Double {
+        return if (transaction.type == TransactionType.INCOME) {
+            -transaction.amount
+        } else {
+            transaction.amount
         }
     }
 

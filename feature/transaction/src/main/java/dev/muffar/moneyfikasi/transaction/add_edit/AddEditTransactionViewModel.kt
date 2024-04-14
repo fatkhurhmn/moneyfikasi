@@ -12,8 +12,11 @@ import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
+import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionSheetType
 import dev.muffar.moneyfikasi.utils.clearThousandFormat
+import dev.muffar.moneyfikasi.utils.formatThousand
+import dev.muffar.moneyfikasi.utils.toFormattedDateTime
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -41,6 +44,12 @@ class AddEditTransactionViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
+    private var oldAmount = 0.0
+
+    init {
+        initState()
+    }
+
     fun onEvent(event: AddEditTransactionEvent) {
         when (event) {
             is AddEditTransactionEvent.OnInitType -> setType(event.type)
@@ -52,6 +61,38 @@ class AddEditTransactionViewModel @Inject constructor(
             is AddEditTransactionEvent.OnNoteChange -> onNoteChange(event.note)
             is AddEditTransactionEvent.OnSaveClick -> onSaveClick()
             is AddEditTransactionEvent.OnBottomSheetChange -> onBottomSheetChange(event.type)
+        }
+    }
+
+    private fun initState() {
+        handle.get<String>(Screen.AddEditTransaction.TRANSACTION_ID)?.let { id ->
+            if (id.isEmpty()) return
+            val transactionId = UUID.fromString(id)
+            viewModelScope.launch {
+                transactionUseCases.getTransactionById(transactionId)?.let { transaction ->
+                    oldAmount = transaction.amount
+                    _state.update { state ->
+                        val date = transaction.date
+                            .atZone(ZoneId.systemDefault())
+                            .toInstant()
+                            .toEpochMilli()
+
+                        with(transaction) {
+                            state.copy(
+                                id = transactionId,
+                                type = type,
+                                amount = amount.toLong().formatThousand(),
+                                category = category,
+                                wallet = wallet,
+                                note = note ?: "",
+                                date = date,
+                                hour = date.toFormattedDateTime("kk").toInt(),
+                                minute = date.toFormattedDateTime("mm").toInt()
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -153,11 +194,28 @@ class AddEditTransactionViewModel @Inject constructor(
         }
     }
 
-    private fun updatedWallet(): Wallet {
-        return state.value.wallet.copy(
-            balance = state.value.wallet.balance + getFormattedAmount()
-        )
+    private fun getFormattedOldAmount(): Double {
+        return if (state.value.type == TransactionType.INCOME) {
+            oldAmount
+        } else {
+            -oldAmount
+        }
     }
+
+    private fun updatedWallet(): Wallet {
+        return if (isEdit()) {
+            val differentAmount = getFormattedAmount() - getFormattedOldAmount()
+            state.value.wallet.copy(
+                balance = state.value.wallet.balance + differentAmount
+            )
+        } else {
+            state.value.wallet.copy(
+                balance = state.value.wallet.balance + getFormattedAmount()
+            )
+        }
+    }
+
+    private fun isEdit() = state.value.id != null
 
     sealed class UiEvent {
         data class ShowMessage(val message: String) : UiEvent()
