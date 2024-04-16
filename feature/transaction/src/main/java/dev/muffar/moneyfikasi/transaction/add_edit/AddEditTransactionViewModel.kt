@@ -17,6 +17,7 @@ import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionS
 import dev.muffar.moneyfikasi.utils.clearThousandFormat
 import dev.muffar.moneyfikasi.utils.formatThousand
 import dev.muffar.moneyfikasi.utils.toFormattedDateTime
+import dev.muffar.moneyfikasi.utils.toMilliseconds
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -45,6 +46,7 @@ class AddEditTransactionViewModel @Inject constructor(
     val eventFlow = _eventFlow.asSharedFlow()
 
     private var oldAmount = 0.0
+    private var oldWallet: Wallet? = null
 
     init {
         initState()
@@ -71,11 +73,10 @@ class AddEditTransactionViewModel @Inject constructor(
             viewModelScope.launch {
                 transactionUseCases.getTransactionById(transactionId)?.let { transaction ->
                     oldAmount = transaction.amount
+                    oldWallet = transaction.wallet
+
                     _state.update { state ->
-                        val date = transaction.date
-                            .atZone(ZoneId.systemDefault())
-                            .toInstant()
-                            .toEpochMilli()
+                        val date = transaction.date.toMilliseconds()
 
                         with(transaction) {
                             state.copy(
@@ -154,8 +155,26 @@ class AddEditTransactionViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val transaction = createTransactionData()
-                val updatedWallet = updatedWallet()
-                transactionUseCases.saveTransaction(transaction, updatedWallet)
+                if (isEdit()) {
+                    if (oldWallet?.id == state.value.wallet.id) {
+                        val differentAmount = getFormattedAmount() - getFormattedOldAmount()
+                        val updatedWallet = state.value.wallet.copy(
+                            balance = state.value.wallet.balance + differentAmount
+                        )
+                        transactionUseCases.saveTransaction(transaction, updatedWallet)
+                    } else {
+                        val oldWallet = updatedWithDifferentWallet()
+                        val newWallet = state.value.wallet.copy(
+                            balance = state.value.wallet.balance + getFormattedAmount()
+                        )
+                        transactionUseCases.saveTransaction(transaction, oldWallet!!, newWallet)
+                    }
+                } else {
+                    val updatedWallet = state.value.wallet.copy(
+                        balance = state.value.wallet.balance + getFormattedAmount()
+                    )
+                    transactionUseCases.saveTransaction(transaction, updatedWallet)
+                }
                 _eventFlow.emit(UiEvent.SaveTransaction)
             } catch (e: InvalidTransactionException) {
                 _eventFlow.emit(UiEvent.ShowMessage(e.message))
@@ -202,15 +221,10 @@ class AddEditTransactionViewModel @Inject constructor(
         }
     }
 
-    private fun updatedWallet(): Wallet {
-        return if (isEdit()) {
-            val differentAmount = getFormattedAmount() - getFormattedOldAmount()
-            state.value.wallet.copy(
-                balance = state.value.wallet.balance + differentAmount
-            )
-        } else {
-            state.value.wallet.copy(
-                balance = state.value.wallet.balance + getFormattedAmount()
+    private fun updatedWithDifferentWallet(): Wallet? {
+        return oldWallet?.let {
+            it.copy(
+                balance = it.balance - getFormattedOldAmount()
             )
         }
     }

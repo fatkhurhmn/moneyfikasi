@@ -16,10 +16,14 @@ interface TransactionDao {
     @Transaction
     suspend fun saveTransactionAndWallet(
         transaction: TransactionEntity,
-        wallet: WalletEntity
+        wallet: WalletEntity,
+        newWallet : WalletEntity?
     ) {
         save(transaction)
         updateWallet(wallet)
+        if (newWallet != null) {
+            updateWallet(newWallet)
+        }
     }
 
     @Transaction

@@ -11,7 +11,11 @@ class SaveTransaction(
 ) {
 
     @Throws(InvalidTransactionException::class)
-    suspend operator fun invoke(transaction: Transaction, wallet: Wallet) {
+    suspend operator fun invoke(
+        transaction: Transaction,
+        wallet: Wallet,
+        newWallet: Wallet? = null,
+    ) {
         if (transaction.amount == 0.0) {
             throw InvalidTransactionException("Amount cannot be zero")
         }
@@ -24,7 +28,7 @@ class SaveTransaction(
             throw InvalidTransactionException("Select wallet please")
         }
 
-        transactionRepository.saveTransaction(transaction, wallet)
+        transactionRepository.saveTransaction(transaction, wallet, newWallet)
     }
 
     private fun generateEmptyUUID(): UUID {

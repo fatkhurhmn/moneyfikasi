@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import java.util.UUID
 
 interface TransactionRepository {
-    suspend fun saveTransaction(transaction: Transaction, wallet: Wallet)
+    suspend fun saveTransaction(transaction: Transaction, wallet: Wallet, newWallet: Wallet?)
     suspend fun saveAllTransactions(transactions: List<Transaction>)
     suspend fun deleteTransaction(id: UUID, wallet: Wallet)
     suspend fun deleteAllTransactions()

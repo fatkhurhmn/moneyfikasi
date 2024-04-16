@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.utils
 
 import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -43,4 +44,8 @@ fun String.filterAmount(): String? {
     } else {
         null
     }
+}
+
+fun LocalDateTime.toMilliseconds(): Long {
+    return atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 }

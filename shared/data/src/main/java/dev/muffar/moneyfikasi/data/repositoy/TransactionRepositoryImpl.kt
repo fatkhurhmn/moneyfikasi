@@ -16,10 +16,15 @@ class TransactionRepositoryImpl @Inject constructor(
     private val transactionDao: TransactionDao,
 ) : TransactionRepository {
 
-    override suspend fun saveTransaction(transaction: Transaction, wallet: Wallet) {
+    override suspend fun saveTransaction(
+        transaction: Transaction,
+        wallet: Wallet,
+        newWallet: Wallet?,
+    ) {
         transactionDao.saveTransactionAndWallet(
             transaction.toEntity(),
-            wallet.toEntity()
+            wallet.toEntity(),
+            newWallet?.toEntity(),
         )
     }
 
