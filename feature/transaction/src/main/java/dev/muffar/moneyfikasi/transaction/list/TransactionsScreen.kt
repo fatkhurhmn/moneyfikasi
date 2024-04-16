@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.twotone.SyncAlt
+import androidx.compose.material.icons.automirrored.twotone.List
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsList
+import dev.muffar.moneyfikasi.transaction.list.component.TransactionsLoading
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsTopBar
 import java.util.UUID
 
@@ -26,7 +27,7 @@ import java.util.UUID
 fun TransactionsScreen(
     modifier: Modifier = Modifier,
     state: TransactionsState,
-    onTransactionItemClick : (UUID) -> Unit
+    onTransactionItemClick: (UUID) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -34,31 +35,38 @@ fun TransactionsScreen(
         },
         contentWindowInsets = WindowInsets(0.dp)
     ) {
-        if (state.transactionsByDate.isNotEmpty()) {
-            val dates = state.transactionsByDate.keys.toList()
-            val transactions = state.transactionsByDate.values.toList()
+        Column (
+            modifier = modifier.padding(it)
+        ){
+            if (state.transactionsByDate.isNotEmpty()) {
+                val dates = state.transactionsByDate.keys.toList()
+                val transactions = state.transactionsByDate.values.toList()
 
-            TransactionsList(
-                modifier = modifier.padding(it),
-                dates = dates,
-                transactions = transactions,
-                onItemClick = onTransactionItemClick
-            )
-        } else {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(it),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-            ) {
-                Icon(
-                    imageVector = Icons.TwoTone.SyncAlt,
-                    contentDescription = stringResource(R.string.no_transactions),
-                    tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
-                    modifier = Modifier.size(100.dp)
+                TransactionsList(
+                    dates = dates,
+                    transactions = transactions,
+                    onItemClick = onTransactionItemClick
                 )
-                Text(text = stringResource(R.string.no_transactions))
+            } else {
+                if (state.isLoading) {
+                    TransactionsLoading()
+                } else {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(it),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.TwoTone.List,
+                            contentDescription = stringResource(R.string.no_transactions),
+                            tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
+                            modifier = Modifier.size(100.dp)
+                        )
+                        Text(text = stringResource(R.string.no_transactions))
+                    }
+                }
             }
         }
     }

@@ -14,6 +14,7 @@ room = "2.6.1"
 dagger-hilt = "2.50"
 threetenabp = "1.4.4"
 hilt-navigation-compose = "1.2.0"
+compose-shimmer = "1.3.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -36,6 +37,7 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
 material-icon = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "material-icon" }
+compose-shimmer = { group = "com.valentinilk.shimmer", name = "compose-shimmer", version.ref = "compose-shimmer" }
 
 # Hilt Navigation
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
@@ -66,7 +68,8 @@ compose = [
     "androidx-ui-tooling-preview",
     "androidx-material3",
     "androidx-navigation-compose",
-    "material-icon"
+    "material-icon",
+    "compose-shimmer"
 ]
 
 room = [

@@ -8,4 +8,5 @@ data class TransactionsState(
     val transactionsByDate: Map<String, List<Transaction>> = transactions.groupBy {
         it.date.format("yyyy-MM-dd")
     },
+    val isLoading : Boolean = false
 )
