@@ -68,9 +68,16 @@ object InitDataSource {
             ),
             CategoryEntity(
                 id = UUID.randomUUID(),
+                name = "Transfer",
+                icon = CategoryIcon.TRANSFER.iconName,
+                color = 0xFFF44336,
+                type = CategoryType.EXPENSE,
+            ),
+            CategoryEntity(
+                id = UUID.randomUUID(),
                 name = "Transport",
                 icon = CategoryIcon.DIRECTIONS_CAR.iconName,
-                color = 0xFFF44336,
+                color = 0xFFED32F2F,
                 type = CategoryType.EXPENSE,
             ),
             CategoryEntity(
@@ -118,6 +125,13 @@ object InitDataSource {
                 color = 0xFFED32F2F,
                 type = CategoryType.INCOME,
             ),
+            CategoryEntity(
+                id = UUID.randomUUID(),
+                name = "Transfer",
+                icon = CategoryIcon.TRANSFER.iconName,
+                color = 0xFF4CAF50,
+                type = CategoryType.INCOME,
+            )
         )
 
         val categories = arrayListOf<CategoryEntity>().apply {

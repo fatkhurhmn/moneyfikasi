@@ -13,10 +13,9 @@ import dev.muffar.moneyfikasi.data.db.entity.CategoryEntity
 import dev.muffar.moneyfikasi.data.db.entity.LoanEntity
 import dev.muffar.moneyfikasi.data.db.entity.TransactionEntity
 import dev.muffar.moneyfikasi.data.db.entity.WalletEntity
-import dev.muffar.moneyfikasi.data.utils.PrepopulateDbCallback
 
 @Database(
-    version = 1,
+    version = 2,
     entities = [
         CategoryEntity::class,
         TransactionEntity::class,
@@ -34,7 +33,7 @@ abstract class MoneyfikasiDatabase : RoomDatabase() {
     abstract fun loanDao(): LoanDao
 
     companion object {
-        private const val DATABASE_NAME = "moneyfikasi.db"
+        private const val DATABASE_NAME = "moneyfikasi"
 
         fun create(applicationContext: Context): MoneyfikasiDatabase {
             return Room
@@ -43,8 +42,8 @@ abstract class MoneyfikasiDatabase : RoomDatabase() {
                     MoneyfikasiDatabase::class.java,
                     DATABASE_NAME
                 )
+                .createFromAsset("moneyfikasi.db")
                 .fallbackToDestructiveMigration()
-                .addCallback(PrepopulateDbCallback(applicationContext))
                 .build()
         }
     }

@@ -37,6 +37,7 @@ enum class CategoryIcon(val iconName: String, val categoryType: CategoryType) {
     STORE1("Store", CategoryType.EXPENSE),
     SYNC_ALT("SyncAlt", CategoryType.EXPENSE),
     TRAIN("Train", CategoryType.EXPENSE),
+    TRANSFER2("SyncAlt", CategoryType.EXPENSE),
     TWO_WHEELER("TwoWheeler", CategoryType.EXPENSE),
     WATER_DROP("WaterDrop", CategoryType.EXPENSE),
     WIDGETS("Widgets", CategoryType.EXPENSE),
@@ -50,6 +51,7 @@ enum class CategoryIcon(val iconName: String, val categoryType: CategoryType) {
     SYNC_ALT2("SyncAlt", CategoryType.INCOME),
     STORE2("Store", CategoryType.INCOME),
     SMART_DISPLAY("SmartDisplay", CategoryType.INCOME),
+    TRANSFER("SyncAlt", CategoryType.INCOME),
     ;
 
     companion object {
