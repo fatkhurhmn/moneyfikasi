@@ -17,17 +17,21 @@ fun AddEditTransactionBottomSheet(
     onDateSelect: (Long) -> Unit,
     onTimeSelect: (Int, Int) -> Unit,
     onDismiss: () -> Unit,
+    onAddWallet : () -> Unit,
+    onAddCategory : () -> Unit
 ) {
     when (type) {
         AddEditTransactionSheetType.CATEGORY -> CategoryPicker(
             categories = categories,
             onClick = onCategorySelect,
+            ondAdd = onAddCategory,
             onClose = onDismiss
         )
 
         AddEditTransactionSheetType.WALLET -> WalletPicker(
             wallets = wallets,
             onClick = onWalletSelect,
+            onAdd = onAddWallet,
             onClose = onDismiss
         )
 

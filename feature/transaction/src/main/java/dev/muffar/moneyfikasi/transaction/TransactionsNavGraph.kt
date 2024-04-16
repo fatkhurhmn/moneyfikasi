@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.transaction
 
 import androidx.navigation.NavGraphBuilder
+import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.transaction.add_edit.navigation.addEditTransactionNavigation
 import dev.muffar.moneyfikasi.transaction.detail.navigation.transactionDetailNavigation
@@ -10,6 +11,8 @@ import java.util.UUID
 fun NavGraphBuilder.transactionsNavGraph(
     onNavigateToTransactionDetail: (UUID) -> Unit,
     onNavigateToEditTransaction : (TransactionType, UUID) -> Unit,
+    onNavigateToAddWallet : () -> Unit,
+    onNavigateToAddCategory : (CategoryType) -> Unit,
     onNavigateBack: () -> Unit,
 ) {
 
@@ -18,7 +21,9 @@ fun NavGraphBuilder.transactionsNavGraph(
     )
 
     addEditTransactionNavigation(
-        onNavigateBack = onNavigateBack
+        onNavigateBack = onNavigateBack,
+        onNavigateToAddWallet = onNavigateToAddWallet,
+        onNavigateToAddCategory = onNavigateToAddCategory
     )
 
     transactionDetailNavigation(

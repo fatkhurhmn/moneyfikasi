@@ -31,7 +31,9 @@ fun RootNavigation(
             onNavigateToTransactionDetail = { navController.toTransactionDetail(it) },
             onNavigateToEditTransaction = { type, id ->
                 navController.toAddEditTransactionScreen(type, id)
-            }
+            },
+            onNavigateToAddWallet = { navController.toAddEditWalletScreen() },
+            onNavigateToAddCategory = { navController.toAddEditCategoryScreen(it) }
         )
 
         composable(Screen.Statistics.route) {

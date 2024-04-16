@@ -15,6 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.domain.model.Category
+import dev.muffar.moneyfikasi.domain.model.CategoryType
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionAction
 import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionBottomSheet
@@ -38,6 +40,8 @@ fun AddEditTransactionScreen(
     onNoteChange: (String) -> Unit,
     onBackClick: () -> Unit,
     onSaveClick: () -> Unit,
+    onAddWallet : () -> Unit,
+    onAddCategory : (CategoryType) -> Unit,
     onShowBottomSheet: (AddEditTransactionSheetType?) -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(
@@ -102,7 +106,17 @@ fun AddEditTransactionScreen(
                         onWalletSelect = onWalletSelect,
                         onDateSelect = onDateSelect,
                         onTimeSelect = onTimeSelect,
-                        onDismiss = { onShowBottomSheet(null) }
+                        onDismiss = { onShowBottomSheet(null) },
+                        onAddWallet = onAddWallet,
+                        onAddCategory = {
+                            val type = if (state.type==TransactionType.INCOME){
+                                CategoryType.INCOME
+                            }else{
+                                CategoryType.EXPENSE
+                            }
+
+                            onAddCategory(type)
+                        }
                     )
                 }
             }
