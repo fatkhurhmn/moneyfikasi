@@ -21,7 +21,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowDownward
 import androidx.compose.material.icons.rounded.ArrowUpward
-import androidx.compose.material.icons.rounded.SyncAlt
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -54,7 +53,7 @@ fun ExpandableFloatingActionButton(
     )
 
     val expandedBoxHeight by animateDpAsState(
-        targetValue = if (isExpanded) 192.dp else 0.dp,
+        targetValue = if (isExpanded) 140.dp else 0.dp,
         animationSpec = spring(dampingRatio = 1.5f),
         label = ""
     )
@@ -106,11 +105,6 @@ fun ExpandableFloatingActionButton(
                     text = TransactionType.EXPENSE.value,
                     icon = Icons.Rounded.ArrowUpward,
                     onClick = { onTransactionClick(TransactionType.EXPENSE) }
-                )
-                CreateTransactionButton(
-                    text = TransactionType.TRANSFER.value,
-                    icon = Icons.Rounded.SyncAlt,
-                    onClick = { onTransactionClick(TransactionType.TRANSFER) }
                 )
             }
         }
