@@ -2,12 +2,26 @@ package dev.muffar.moneyfikasi.data.db.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import org.threeten.bp.LocalDateTime
 import java.util.UUID
 
-@Entity(tableName = "transactions")
+@Entity(tableName = "transactions", foreignKeys = [
+    ForeignKey(
+        entity = WalletEntity::class,
+        parentColumns = ["id"],
+        childColumns = ["wallet_id"],
+        onDelete = ForeignKey.CASCADE
+    ),
+    ForeignKey(
+        entity = CategoryEntity::class,
+        parentColumns = ["id"],
+        childColumns = ["category_id"],
+        onDelete = ForeignKey.CASCADE
+    )
+])
 data class TransactionEntity(
 
     @PrimaryKey
