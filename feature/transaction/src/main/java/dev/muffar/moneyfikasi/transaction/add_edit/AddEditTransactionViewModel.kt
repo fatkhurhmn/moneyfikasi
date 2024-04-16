@@ -157,23 +157,14 @@ class AddEditTransactionViewModel @Inject constructor(
                 val transaction = createTransactionData()
                 if (isEdit()) {
                     if (oldWallet?.id == state.value.wallet.id) {
-                        val differentAmount = getFormattedAmount() - getFormattedOldAmount()
-                        val updatedWallet = state.value.wallet.copy(
-                            balance = state.value.wallet.balance + differentAmount
-                        )
-                        transactionUseCases.saveTransaction(transaction, updatedWallet)
+                        transactionUseCases.saveTransaction(transaction, updatedOldWalletBalance())
                     } else {
-                        val oldWallet = updatedWithDifferentWallet()
-                        val newWallet = state.value.wallet.copy(
-                            balance = state.value.wallet.balance + getFormattedAmount()
-                        )
+                        val oldWallet = restoredOldWalletBalance()
+                        val newWallet = updatedNewWalletBalance()
                         transactionUseCases.saveTransaction(transaction, oldWallet!!, newWallet)
                     }
                 } else {
-                    val updatedWallet = state.value.wallet.copy(
-                        balance = state.value.wallet.balance + getFormattedAmount()
-                    )
-                    transactionUseCases.saveTransaction(transaction, updatedWallet)
+                    transactionUseCases.saveTransaction(transaction, updatedWalletBalance())
                 }
                 _eventFlow.emit(UiEvent.SaveTransaction)
             } catch (e: InvalidTransactionException) {
@@ -221,12 +212,31 @@ class AddEditTransactionViewModel @Inject constructor(
         }
     }
 
-    private fun updatedWithDifferentWallet(): Wallet? {
+    private fun updatedWalletBalance(): Wallet {
+        return state.value.wallet.copy(
+            balance = state.value.wallet.balance + getFormattedAmount()
+        )
+    }
+
+    private fun updatedOldWalletBalance(): Wallet {
+        val differentAmount = getFormattedAmount() - getFormattedOldAmount()
+        return state.value.wallet.copy(
+            balance = state.value.wallet.balance + differentAmount
+        )
+    }
+
+    private fun restoredOldWalletBalance(): Wallet? {
         return oldWallet?.let {
             it.copy(
                 balance = it.balance - getFormattedOldAmount()
             )
         }
+    }
+
+    private fun updatedNewWalletBalance(): Wallet {
+        return state.value.wallet.copy(
+            balance = state.value.wallet.balance + getFormattedAmount()
+        )
     }
 
     private fun isEdit() = state.value.id != null
