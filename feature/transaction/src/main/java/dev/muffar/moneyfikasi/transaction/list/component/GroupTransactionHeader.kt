@@ -74,7 +74,9 @@ fun GroupTransactionHeader(
 
             Text(
                 text = balance.toLong().formatThousand(),
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.titleSmall.copy(
+                    fontWeight = FontWeight.Medium,
+                )
             )
         }
     }

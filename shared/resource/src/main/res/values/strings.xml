@@ -53,4 +53,12 @@
     <string name="no_transactions">No Transactions</string>
     <string name="transaction_summary">Transaction Summary</string>
     <string name="type">Type</string>
+    <string name="next_year">Next Year</string>
+    <string name="previous_year">Previous Year</string>
+    <string name="next_month">Next Month</string>
+    <string name="previous_month">Previous Month</string>
+    <string name="next_week">Next Week</string>
+    <string name="previous_week">Previous Week</string>
+    <string name="next_day">Next Day</string>
+    <string name="previous_day">Previous Day</string>
 </resources>

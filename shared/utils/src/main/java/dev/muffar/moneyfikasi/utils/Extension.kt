@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.utils
 
 import org.threeten.bp.LocalDateTime
+import org.threeten.bp.Month
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 import java.text.DecimalFormat
@@ -48,4 +49,12 @@ fun String.filterAmount(): String? {
 
 fun LocalDateTime.toMilliseconds(): Long {
     return atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+}
+
+fun String.capitalize(): String {
+    return lowercase().replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+}
+
+fun Month.shortName(): String {
+    return name.substring(0, 3).capitalize()
 }
