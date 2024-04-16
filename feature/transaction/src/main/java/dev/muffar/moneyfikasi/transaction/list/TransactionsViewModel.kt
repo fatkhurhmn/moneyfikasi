@@ -8,7 +8,6 @@ import dev.muffar.moneyfikasi.utils.format
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -30,7 +29,6 @@ class TransactionsViewModel @Inject constructor(
         viewModelScope.launch {
             transactionUseCases.getAllTransactions()
                 .onStart { _state.update { it.copy(isLoading = true) } }
-                .onCompletion { _state.update { it.copy(isLoading = false) } }
                 .collectLatest { transactions ->
                     val groupingTransactions = transactions.groupBy {
                         it.date.format("yyyy-MM-dd")
@@ -38,7 +36,8 @@ class TransactionsViewModel @Inject constructor(
                     _state.update {
                         it.copy(
                             transactions = transactions,
-                            transactionsByDate = groupingTransactions
+                            transactionsByDate = groupingTransactions,
+                            isLoading = false
                         )
                     }
                 }
