@@ -8,12 +8,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.twotone.Category
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -36,24 +40,34 @@ fun CategoryPicker(
     categories: List<Category>,
     onClick: (Category) -> Unit,
     onClose: () -> Unit,
-    ondAdd: () -> Unit
+    ondAdd: () -> Unit,
 ) {
     Column(
-        modifier = modifier
+        modifier = modifier.fillMaxSize()
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 8.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = stringResource(R.string.select_category),
-                style = MaterialTheme.typography.titleLarge.copy(
-                    fontSize = 20.sp
+            Row (
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                IconButton(onClick = onClose) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                        contentDescription = null
+                    )
+                }
+                Text(
+                    text = stringResource(R.string.select_category),
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontSize = 20.sp
+                    )
                 )
-            )
+            }
             IconButton(onClick = ondAdd) {
                 Icon(
                     imageVector = Icons.Rounded.Add,
@@ -62,36 +76,53 @@ fun CategoryPicker(
             }
         }
 
-        LazyColumn (
-            contentPadding = PaddingValues(vertical = 16.dp)
-        ){
-            items(categories.size) {
-                val category = categories[it]
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            onClick(category)
-                            onClose()
-                        }
-                        .padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Box(
+        if (categories.isNotEmpty()) {
+            LazyColumn(
+                contentPadding = PaddingValues(vertical = 16.dp)
+            ) {
+                items(categories.size) {
+                    val category = categories[it]
+                    Row(
                         modifier = Modifier
-                            .clip(MaterialTheme.shapes.medium)
-                            .background(Color(category.color))
-                            .padding(8.dp),
-                        contentAlignment = Alignment.Center
+                            .fillMaxWidth()
+                            .clickable {
+                                onClick(category)
+                                onClose()
+                            }
+                            .padding(16.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        IconByName(
-                            name = category.icon,
-                            tint = MaterialTheme.colorScheme.background
-                        )
+                        Box(
+                            modifier = Modifier
+                                .clip(MaterialTheme.shapes.medium)
+                                .background(Color(category.color))
+                                .padding(8.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            IconByName(
+                                name = category.icon,
+                                tint = MaterialTheme.colorScheme.background
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(text = category.name)
                     }
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = category.name)
                 }
+            }
+        } else {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
+                Icon(
+                    imageVector = Icons.TwoTone.Category,
+                    contentDescription = stringResource(R.string.no_categories),
+                    tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
+                    modifier = Modifier.size(100.dp)
+                )
+                Text(text = stringResource(R.string.no_categories))
             }
         }
     }
