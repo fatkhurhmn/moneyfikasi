@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/category" />
             <option value="$PROJECT_DIR$/feature/settings" />
+            <option value="$PROJECT_DIR$/feature/statistic" />
             <option value="$PROJECT_DIR$/feature/transaction" />
             <option value="$PROJECT_DIR$/feature/wallet" />
             <option value="$PROJECT_DIR$/shared" />
