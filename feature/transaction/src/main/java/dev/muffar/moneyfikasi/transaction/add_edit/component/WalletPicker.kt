@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -50,26 +49,22 @@ fun WalletPicker(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp),
+                .padding(8.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Row (
-                verticalAlignment = Alignment.CenterVertically
-            ){
-                IconButton(onClick = onClose) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                        contentDescription = null
-                    )
-                }
-                Text(
-                    text = stringResource(R.string.select_wallet),
-                    style = MaterialTheme.typography.titleLarge.copy(
-                        fontSize = 20.sp
-                    )
+            IconButton(onClick = onClose) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                    contentDescription = null
                 )
             }
+            Text(
+                text = stringResource(R.string.select_wallet),
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontSize = 18.sp
+                )
+            )
             IconButton(onClick = onAdd) {
                 Icon(
                     imageVector = Icons.Rounded.Add,
@@ -79,9 +74,7 @@ fun WalletPicker(
         }
 
         if (wallets.isNotEmpty()){
-            LazyColumn (
-                contentPadding = PaddingValues(vertical = 16.dp)
-            ){
+            LazyColumn {
                 items(wallets.size) {
                     val wallet = wallets[it]
                     Row(

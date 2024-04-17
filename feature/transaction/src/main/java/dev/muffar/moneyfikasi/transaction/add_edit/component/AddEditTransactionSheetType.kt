@@ -24,7 +24,7 @@ fun AddEditTransactionBottomSheet(
         AddEditTransactionSheetType.CATEGORY -> CategoryPicker(
             categories = categories,
             onClick = onCategorySelect,
-            ondAdd = onAddCategory,
+            onAdd = onAddCategory,
             onClose = onDismiss
         )
 
