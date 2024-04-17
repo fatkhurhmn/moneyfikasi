@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.resource.R
@@ -25,48 +26,49 @@ import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 
 @Composable
-fun CalendarDailyHeader(
+fun MonthlyCalendarFilter(
     modifier: Modifier = Modifier,
     onDateChange : (LocalDateTime) -> Unit
 ) {
     var currentDate by remember { mutableStateOf(LocalDateTime.now()) }
-    val formatter = remember { DateTimeFormatter.ofPattern("dd MMMM yyyy") }
+    val formatter = remember { DateTimeFormatter.ofPattern("MMMM yyyy") }
 
     LaunchedEffect(currentDate) {
         onDateChange(currentDate)
     }
 
-    Row (
+    Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
-    ){
+    ) {
         IconButton(
             onClick = {
-                currentDate = currentDate.minusDays(1)
+                currentDate = currentDate.minusMonths(1)
                 onDateChange(currentDate)
             }
         ) {
             Icon(
                 imageVector = Icons.Rounded.ChevronLeft,
-                contentDescription = stringResource(R.string.previous_day)
+                contentDescription = stringResource(R.string.previous_month)
             )
         }
 
         Text(
             text = currentDate.format(formatter),
+            color = Color.Black,
             modifier = Modifier.padding(8.dp)
         )
 
         IconButton(
             onClick = {
-                currentDate = currentDate.plusDays(1)
+                currentDate = currentDate.plusMonths(1)
                 onDateChange(currentDate)
             }
         ) {
             Icon(
                 imageVector = Icons.Rounded.ChevronRight,
-                contentDescription = stringResource(R.string.next_day)
+                contentDescription = stringResource(R.string.next_month)
             )
         }
     }

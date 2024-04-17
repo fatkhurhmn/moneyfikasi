@@ -21,8 +21,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.utils.TransactionFilter
 import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.transaction.list.component.TransactionsFilterSection
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsFilterSheet
-import dev.muffar.moneyfikasi.transaction.list.component.TransactionsHeader
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsList
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsLoading
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsTopBar
@@ -52,7 +52,7 @@ fun TransactionsScreen(
         Column(
             modifier = modifier.padding(it)
         ) {
-            TransactionsHeader(
+            TransactionsFilterSection(
                 filter = state.filter,
                 onDateChange = onDateRangeChange
             )

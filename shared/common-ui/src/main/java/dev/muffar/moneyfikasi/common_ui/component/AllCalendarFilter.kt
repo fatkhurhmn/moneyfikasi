@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
-fun CalendarAllHeader(
+fun AllCalendarFilter(
     modifier: Modifier = Modifier,
 ) {
     Row(

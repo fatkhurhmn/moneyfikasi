@@ -18,20 +18,29 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.utils.capitalize
+import dev.muffar.moneyfikasi.utils.shortName
+import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.temporal.TemporalAdjusters
 
 @Composable
-fun CalendarMonthlyHeader(
+fun WeeklyCalendarFilter(
     modifier: Modifier = Modifier,
     onDateChange : (LocalDateTime) -> Unit
 ) {
     var currentDate by remember { mutableStateOf(LocalDateTime.now()) }
-    val formatter = remember { DateTimeFormatter.ofPattern("MMMM yyyy") }
+
+    val startOfWeek = currentDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
+    val endOfWeek = currentDate.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY))
+
+    val weekRangeText = remember(startOfWeek, endOfWeek) {
+        formatWeekRange(startOfWeek, endOfWeek)
+    }
 
     LaunchedEffect(currentDate) {
         onDateChange(currentDate)
@@ -44,32 +53,46 @@ fun CalendarMonthlyHeader(
     ) {
         IconButton(
             onClick = {
-                currentDate = currentDate.minusMonths(1)
+                currentDate = currentDate.minusWeeks(1)
                 onDateChange(currentDate)
             }
         ) {
             Icon(
                 imageVector = Icons.Rounded.ChevronLeft,
-                contentDescription = stringResource(R.string.previous_month)
+                contentDescription = stringResource(R.string.previous_week)
             )
         }
 
         Text(
-            text = currentDate.format(formatter),
-            color = Color.Black,
+            text = weekRangeText,
             modifier = Modifier.padding(8.dp)
         )
 
         IconButton(
             onClick = {
-                currentDate = currentDate.plusMonths(1)
+                currentDate = currentDate.plusWeeks(1)
                 onDateChange(currentDate)
             }
         ) {
             Icon(
                 imageVector = Icons.Rounded.ChevronRight,
-                contentDescription = stringResource(R.string.next_month)
+                contentDescription = stringResource(R.string.next_week)
             )
         }
+    }
+}
+
+private fun formatWeekRange(startOfWeek: LocalDateTime, endOfWeek: LocalDateTime): String {
+    val startFormat = DateTimeFormatter.ofPattern("dd")
+    val endFormat = DateTimeFormatter.ofPattern("dd MMM yyyy")
+    val sameYear = startOfWeek.year == endOfWeek.year
+    val sameMonth = startOfWeek.month == endOfWeek.month
+
+    return when {
+        sameYear && sameMonth -> "${startOfWeek.format(startFormat)} - ${endOfWeek.format(endFormat)}"
+        sameYear && !sameMonth -> "${startOfWeek.format(startFormat)} ${startOfWeek.month.shortName()} - " +
+                "${endOfWeek.format(startFormat)} ${endOfWeek.month.shortName()} ${startOfWeek.year}"
+
+        else -> "${startOfWeek.format(endFormat).capitalize()} - ${endOfWeek.format(endFormat).capitalize()}"
     }
 }

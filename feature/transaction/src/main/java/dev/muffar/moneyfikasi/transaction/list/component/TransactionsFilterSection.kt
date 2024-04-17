@@ -2,11 +2,11 @@ package dev.muffar.moneyfikasi.transaction.list.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import dev.muffar.moneyfikasi.common_ui.component.CalendarAllHeader
-import dev.muffar.moneyfikasi.common_ui.component.CalendarDailyHeader
-import dev.muffar.moneyfikasi.common_ui.component.CalendarMonthlyHeader
-import dev.muffar.moneyfikasi.common_ui.component.CalendarWeeklyHeader
+import dev.muffar.moneyfikasi.common_ui.component.AllCalendarFilter
 import dev.muffar.moneyfikasi.common_ui.component.CalendarYearlyHeader
+import dev.muffar.moneyfikasi.common_ui.component.DailyCalendarFilter
+import dev.muffar.moneyfikasi.common_ui.component.MonthlyCalendarFilter
+import dev.muffar.moneyfikasi.common_ui.component.WeeklyCalendarFilter
 import dev.muffar.moneyfikasi.domain.utils.TransactionFilter
 import dev.muffar.moneyfikasi.utils.endOfDay
 import dev.muffar.moneyfikasi.utils.endOfMonth
@@ -18,13 +18,13 @@ import dev.muffar.moneyfikasi.utils.startOfWeek
 import dev.muffar.moneyfikasi.utils.startOfYear
 
 @Composable
-fun TransactionsHeader(
+fun TransactionsFilterSection(
     modifier: Modifier = Modifier,
     filter: TransactionFilter,
     onDateChange: (start: Long, end: Long) -> Unit,
 ) {
     when (filter) {
-        TransactionFilter.ALL -> CalendarAllHeader(modifier = modifier)
+        TransactionFilter.ALL -> AllCalendarFilter(modifier = modifier)
         TransactionFilter.YEARLY -> CalendarYearlyHeader(
             modifier = modifier,
             onDateChange = {
@@ -32,21 +32,21 @@ fun TransactionsHeader(
             }
         )
 
-        TransactionFilter.MONTHLY -> CalendarMonthlyHeader(
+        TransactionFilter.MONTHLY -> MonthlyCalendarFilter(
             modifier = modifier,
             onDateChange = {
                 onDateChange(it.startOfMonth(), it.endOfMonth())
             }
         )
 
-        TransactionFilter.WEEKLY -> CalendarWeeklyHeader(
+        TransactionFilter.WEEKLY -> WeeklyCalendarFilter(
             modifier = modifier,
             onDateChange = {
                 onDateChange(it.startOfWeek(), it.endOfWeek())
             }
         )
 
-        TransactionFilter.DAILY -> CalendarDailyHeader(
+        TransactionFilter.DAILY -> DailyCalendarFilter(
             modifier = modifier,
             onDateChange = {
                 onDateChange(it.startOfDay(), it.endOfDay())
