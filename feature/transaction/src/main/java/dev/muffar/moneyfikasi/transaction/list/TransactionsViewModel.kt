@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
+import dev.muffar.moneyfikasi.domain.utils.TransactionFilter
 import dev.muffar.moneyfikasi.utils.format
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,12 +23,15 @@ class TransactionsViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        initState()
+        loadTransactions(
+            _state.value.startDateRange,
+            _state.value.endDateRange
+        )
     }
 
-    private fun initState() {
+    private fun loadTransactions(startDateRange: Long? = null, endDateRange: Long? = null) {
         viewModelScope.launch {
-            transactionUseCases.getAllTransactions()
+            transactionUseCases.getAllTransactions(startDateRange, endDateRange)
                 .onStart { _state.update { it.copy(isLoading = true) } }
                 .collectLatest { transactions ->
                     val groupingTransactions = transactions.groupBy {
@@ -45,6 +49,28 @@ class TransactionsViewModel @Inject constructor(
     }
 
     fun onEvent(event: TransactionsEvent) {
+        when (event) {
+            is TransactionsEvent.OnFilterChanged -> onFilterChanged(event.filter)
+            is TransactionsEvent.OnShowTransactionFilter -> onShowTransactionFilter(event.show)
+            is TransactionsEvent.OnDateRangeChanged -> onDateRangeChanged(event.start, event.end)
+        }
+    }
 
+    private fun onFilterChanged(filter: TransactionFilter) {
+        _state.update { it.copy(filter = filter) }
+        if (filter == TransactionFilter.ALL) {
+            loadTransactions()
+        }
+    }
+
+    private fun onDateRangeChanged(start: Long, end: Long) {
+        _state.update { it.copy(startDateRange = start, endDateRange = end) }
+        if (_state.value.filter != TransactionFilter.ALL) {
+            loadTransactions(_state.value.startDateRange, _state.value.endDateRange)
+        }
+    }
+
+    private fun onShowTransactionFilter(show: Boolean) {
+        _state.update { it.copy(showTransactionFilter = show) }
     }
 }

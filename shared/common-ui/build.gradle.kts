@@ -37,5 +37,7 @@ dependencies {
     implementation(libs.bundles.compose)
     implementation(platform(libs.androidx.compose.bom))
 
+    implementation(libs.threetenabp)
+
     debugImplementation(libs.androidx.ui.tooling)
 }

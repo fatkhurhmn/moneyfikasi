@@ -61,4 +61,6 @@
     <string name="previous_week">Previous Week</string>
     <string name="next_day">Next Day</string>
     <string name="previous_day">Previous Day</string>
+    <string name="filter">Filter</string>
+    <string name="all">All</string>
 </resources>

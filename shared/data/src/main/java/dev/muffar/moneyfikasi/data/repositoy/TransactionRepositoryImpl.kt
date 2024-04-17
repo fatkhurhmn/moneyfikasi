@@ -40,8 +40,16 @@ class TransactionRepositoryImpl @Inject constructor(
         transactionDao.deleteAll()
     }
 
-    override suspend fun getAllTransactions(): Flow<List<Transaction>> {
-        return transactionDao.getAllWithWalletAndCategory().map { it.mapToModel() }
+    override suspend fun getAllTransactions(
+        startDateRange: Long?,
+        endDateRange: Long?,
+    ): Flow<List<Transaction>> {
+        if (startDateRange == null || endDateRange == null) {
+            return transactionDao.getAllWithWalletAndCategory().map { it.mapToModel() }
+        }
+        return transactionDao
+            .getAllWithWalletAndCategory(startDateRange, endDateRange)
+            .map { it.mapToModel() }
     }
 
     override suspend fun getTransactionById(id: UUID): Transaction? {

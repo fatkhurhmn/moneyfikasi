@@ -7,6 +7,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.transaction.list.TransactionsEvent
 import dev.muffar.moneyfikasi.transaction.list.TransactionsScreen
 import dev.muffar.moneyfikasi.transaction.list.TransactionsViewModel
 import java.util.UUID
@@ -22,7 +23,13 @@ fun NavGraphBuilder.transactionsNavigation(
         TransactionsScreen(
             modifier = Modifier,
             state = state,
-            onTransactionItemClick = onNavigateToTransactionDetail
+            onTransactionItemClick = onNavigateToTransactionDetail,
+            onFilterChanged = { event(TransactionsEvent.OnFilterChanged(it)) },
+            onDateRangeChange = { start, end ->
+                event(TransactionsEvent.OnDateRangeChanged(start, end))
+            },
+            onShowBottomSheet = { event(TransactionsEvent.OnShowTransactionFilter(true)) },
+            onCloseBottomSheet = { event(TransactionsEvent.OnShowTransactionFilter(false)) }
         )
     }
 }

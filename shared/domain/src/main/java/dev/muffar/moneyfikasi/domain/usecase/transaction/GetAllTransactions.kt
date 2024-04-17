@@ -8,7 +8,10 @@ class GetAllTransactions(
     private val transactionRepository: TransactionRepository,
 ) {
 
-    suspend operator fun invoke(): Flow<List<Transaction>> {
-        return transactionRepository.getAllTransactions()
+    suspend operator fun invoke(
+        startDateRange: Long?,
+        endDateRange: Long?,
+    ): Flow<List<Transaction>> {
+        return transactionRepository.getAllTransactions(startDateRange, endDateRange)
     }
 }

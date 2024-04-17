@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.transaction.list.component
+package dev.muffar.moneyfikasi.common_ui.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -11,8 +11,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -21,29 +24,37 @@ import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.capitalize
 import dev.muffar.moneyfikasi.utils.shortName
 import org.threeten.bp.DayOfWeek
-import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.temporal.TemporalAdjusters
 
 @Composable
-fun CalendarWeekHeader() {
-    val currentDate = remember { mutableStateOf(LocalDate.now()) }
+fun CalendarWeeklyHeader(
+    modifier: Modifier = Modifier,
+    onDateChange : (LocalDateTime) -> Unit
+) {
+    var currentDate by remember { mutableStateOf(LocalDateTime.now()) }
 
-    val startOfWeek = currentDate.value.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
-    val endOfWeek = currentDate.value.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY))
+    val startOfWeek = currentDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
+    val endOfWeek = currentDate.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY))
 
     val weekRangeText = remember(startOfWeek, endOfWeek) {
         formatWeekRange(startOfWeek, endOfWeek)
     }
 
+    LaunchedEffect(currentDate) {
+        onDateChange(currentDate)
+    }
+
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(
             onClick = {
-                currentDate.value = currentDate.value.minusWeeks(1)
+                currentDate = currentDate.minusWeeks(1)
+                onDateChange(currentDate)
             }
         ) {
             Icon(
@@ -59,7 +70,8 @@ fun CalendarWeekHeader() {
 
         IconButton(
             onClick = {
-                currentDate.value = currentDate.value.plusWeeks(1)
+                currentDate = currentDate.plusWeeks(1)
+                onDateChange(currentDate)
             }
         ) {
             Icon(
@@ -70,7 +82,7 @@ fun CalendarWeekHeader() {
     }
 }
 
-private fun formatWeekRange(startOfWeek: LocalDate, endOfWeek: LocalDate): String {
+private fun formatWeekRange(startOfWeek: LocalDateTime, endOfWeek: LocalDateTime): String {
     val startFormat = DateTimeFormatter.ofPattern("dd")
     val endFormat = DateTimeFormatter.ofPattern("dd MMM yyyy")
     val sameYear = startOfWeek.year == endOfWeek.year
