@@ -18,9 +18,9 @@ import dev.muffar.moneyfikasi.utils.toFormattedDateTime
 
 @Composable
 fun CustomCalendarFilter(
-    startDateMillis : Long,
-    endDateMillis : Long,
-    modifier: Modifier = Modifier
+    startDateMillis: Long,
+    endDateMillis: Long,
+    modifier: Modifier = Modifier,
 ) {
     val start = startDateMillis.toFormattedDateTime("dd/MMM/yyyy")
     val end = endDateMillis.toFormattedDateTime("dd/MMM/yyyy")
@@ -31,7 +31,8 @@ fun CustomCalendarFilter(
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(
-            onClick = { }
+            onClick = { },
+            enabled = false
         ) {
             Icon(
                 imageVector = Icons.Rounded.ChevronLeft,
@@ -45,7 +46,8 @@ fun CustomCalendarFilter(
         )
 
         IconButton(
-            onClick = { }
+            onClick = { },
+            enabled = false
         ) {
             Icon(
                 imageVector = Icons.Rounded.ChevronRight,

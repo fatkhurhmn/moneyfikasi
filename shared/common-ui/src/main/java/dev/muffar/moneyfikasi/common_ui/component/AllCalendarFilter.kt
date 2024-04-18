@@ -27,7 +27,8 @@ fun AllCalendarFilter(
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(
-            onClick = { }
+            onClick = { },
+            enabled = false
         ) {
             Icon(
                 imageVector = Icons.Rounded.ChevronLeft,
@@ -41,7 +42,8 @@ fun AllCalendarFilter(
         )
 
         IconButton(
-            onClick = { }
+            onClick = { },
+            enabled = false
         ) {
             Icon(
                 imageVector = Icons.Rounded.ChevronRight,

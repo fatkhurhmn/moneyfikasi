@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DateRangePicker
-import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -17,8 +17,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.toFormattedDateTime
 import dev.muffar.moneyfikasi.utils.toMilliseconds
 import org.threeten.bp.LocalDateTime
@@ -26,8 +28,8 @@ import org.threeten.bp.LocalDateTime
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DateRangeSheet(
-    startDateMillis : Long?,
-    endDateMillis : Long?,
+    startDateMillis: Long?,
+    endDateMillis: Long?,
     onDateChange: (start: Long, end: Long) -> Unit,
     onClose: () -> Unit,
 ) {
@@ -36,12 +38,13 @@ fun DateRangeSheet(
     val state = rememberDateRangePickerState(
         initialSelectedStartDateMillis = startDateMillis ?: LocalDateTime.now().toMilliseconds(),
         initialSelectedEndDateMillis = endDateMillis ?: LocalDateTime.now().plusDays(30).toMilliseconds(),
-        initialDisplayMode = DisplayMode.Input
     )
     val formattedStartDate =
-        state.selectedStartDateMillis?.toFormattedDateTime("MM/dd/yyyy") ?: "Start Date"
+        state.selectedStartDateMillis?.toFormattedDateTime("MM/dd/yyyy")
+            ?: stringResource(R.string.start_date)
     val formattedEndDate =
-        state.selectedEndDateMillis?.toFormattedDateTime("MM/dd/yyyy") ?: "End Date"
+        state.selectedEndDateMillis?.toFormattedDateTime("MM/dd/yyyy")
+            ?: stringResource(R.string.end_date)
 
     val selectedStartDate = state.selectedStartDateMillis
     val selectedEndDate = state.selectedEndDateMillis
@@ -59,7 +62,7 @@ fun DateRangeSheet(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "Select Date Range",
+                    text = stringResource(R.string.select_date),
                     style = MaterialTheme.typography.titleMedium
                 )
                 TextButton(
@@ -67,7 +70,7 @@ fun DateRangeSheet(
                         if (selectedStartDate == null || selectedEndDate == null) {
                             Toast.makeText(
                                 context,
-                                "Please select start date & end date",
+                                context.getString(R.string.please_select_date_range),
                                 Toast.LENGTH_SHORT
                             ).show()
                         } else {
@@ -76,7 +79,10 @@ fun DateRangeSheet(
                         }
                     }
                 ) {
-                    Text(text = "Select", style = MaterialTheme.typography.titleMedium)
+                    Text(
+                        text = stringResource(R.string.select),
+                        style = MaterialTheme.typography.titleMedium
+                    )
                 }
             }
         },
@@ -87,5 +93,9 @@ fun DateRangeSheet(
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
         },
+        colors = DatePickerDefaults.colors(
+            dayInSelectionRangeContainerColor = MaterialTheme.colorScheme.primary.copy(0.5f),
+            dayInSelectionRangeContentColor = MaterialTheme.colorScheme.onPrimary
+        )
     )
 }

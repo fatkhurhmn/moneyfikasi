@@ -10,10 +10,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.twotone.List
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,17 +34,22 @@ import dev.muffar.moneyfikasi.transaction.list.component.TransactionsSheetType
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsTopBar
 import java.util.UUID
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TransactionsScreen(
     modifier: Modifier = Modifier,
     state: TransactionsState,
     onTransactionItemClick: (UUID) -> Unit,
-    onExpandFabButton : (Boolean) -> Unit,
-    onNavigateToAddScreen : (TransactionType) -> Unit,
+    onExpandFabButton: (Boolean) -> Unit,
+    onNavigateToAddScreen: (TransactionType) -> Unit,
     onFilterChanged: (TransactionFilter) -> Unit,
     onDateRangeChange: (Long, Long) -> Unit,
     onShowBottomSheet: (TransactionsSheetType?) -> Unit,
 ) {
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = state.sheetType == TransactionsSheetType.DATE
+    )
+
     Scaffold(
         modifier = Modifier.pointerInput(Unit) {
             detectTapGestures(
@@ -113,14 +120,15 @@ fun TransactionsScreen(
 
             if (state.sheetType != null) {
                 TransactionsBottomSheet(
+                    state = sheetState,
                     type = state.sheetType,
                     filter = state.filter,
                     startDateMillis = state.startDateRange,
                     endDateMillis = state.endDateRange,
                     onFilterChanged = onFilterChanged,
                     onDateChange = { start, date ->
-                        onDateRangeChange(start, date)
                         onFilterChanged(TransactionFilter.CUSTOM)
+                        onDateRangeChange(start, date)
                     },
                     onShowBottomSheet = onShowBottomSheet
                 )
