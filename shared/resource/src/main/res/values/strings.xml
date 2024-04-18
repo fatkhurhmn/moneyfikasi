@@ -63,4 +63,8 @@
     <string name="previous_day">Previous Day</string>
     <string name="filter">Filter</string>
     <string name="all">All</string>
+    <string name="custom">Custom</string>
+    <string name="start_date">Start date</string>
+    <string name="end_date">End date</string>
+    <string name="ok">OK</string>
 </resources>

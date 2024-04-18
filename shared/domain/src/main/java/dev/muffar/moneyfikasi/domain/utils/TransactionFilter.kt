@@ -5,5 +5,6 @@ enum class TransactionFilter {
     WEEKLY,
     MONTHLY,
     YEARLY,
-    ALL
+    ALL,
+    CUSTOM
 }

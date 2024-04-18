@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.utils.TransactionFilter
+import dev.muffar.moneyfikasi.transaction.list.component.TransactionsSheetType
 import dev.muffar.moneyfikasi.utils.format
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -51,7 +52,7 @@ class TransactionsViewModel @Inject constructor(
     fun onEvent(event: TransactionsEvent) {
         when (event) {
             is TransactionsEvent.OnFilterChanged -> onFilterChanged(event.filter)
-            is TransactionsEvent.OnShowTransactionFilter -> onShowTransactionFilter(event.show)
+            is TransactionsEvent.OnShowBottomSheet -> onShowBottomSheet(event.type)
             is TransactionsEvent.OnDateRangeChanged -> onDateRangeChanged(event.start, event.end)
         }
     }
@@ -70,7 +71,7 @@ class TransactionsViewModel @Inject constructor(
         }
     }
 
-    private fun onShowTransactionFilter(show: Boolean) {
-        _state.update { it.copy(showTransactionFilter = show) }
+    private fun onShowBottomSheet(type: TransactionsSheetType?) {
+        _state.update { it.copy(sheetType = type) }
     }
 }

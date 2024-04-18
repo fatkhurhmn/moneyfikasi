@@ -45,7 +45,9 @@ fun TransactionsFilterSheet(
             filter = filter,
             onFilterSelect = {
                 onFilterChanged(it)
-                onClose()
+                if (it != TransactionFilter.CUSTOM) {
+                    onClose()
+                }
             }
         )
     }

@@ -28,8 +28,7 @@ fun NavGraphBuilder.transactionsNavigation(
             onDateRangeChange = { start, end ->
                 event(TransactionsEvent.OnDateRangeChanged(start, end))
             },
-            onShowBottomSheet = { event(TransactionsEvent.OnShowTransactionFilter(true)) },
-            onCloseBottomSheet = { event(TransactionsEvent.OnShowTransactionFilter(false)) }
+            onShowBottomSheet = { event(TransactionsEvent.OnShowBottomSheet(it)) },
         )
     }
 }
