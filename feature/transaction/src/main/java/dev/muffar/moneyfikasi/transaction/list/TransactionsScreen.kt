@@ -27,7 +27,7 @@ import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.utils.TransactionFilter
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsBottomSheet
-import dev.muffar.moneyfikasi.transaction.list.component.TransactionsFilterSection
+import dev.muffar.moneyfikasi.transaction.list.component.TransactionsDateFilterSection
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsList
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsLoading
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsSheetType
@@ -80,7 +80,7 @@ fun TransactionsScreen(
         Column(
             modifier = modifier.padding(it)
         ) {
-            TransactionsFilterSection(
+            TransactionsDateFilterSection(
                 filter = state.filter,
                 startDateMillis = state.startDateRange,
                 endDateMillis = state.endDateRange,

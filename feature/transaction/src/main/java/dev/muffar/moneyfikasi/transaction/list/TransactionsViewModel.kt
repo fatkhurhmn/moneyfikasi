@@ -24,15 +24,15 @@ class TransactionsViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        loadTransactions(
-            _state.value.startDateRange,
-            _state.value.endDateRange
-        )
+        loadTransactions()
     }
 
-    private fun loadTransactions(startDateRange: Long? = null, endDateRange: Long? = null) {
+    private fun loadTransactions() {
         viewModelScope.launch {
-            transactionUseCases.getAllTransactions(startDateRange, endDateRange)
+            transactionUseCases.getAllTransactions(
+                _state.value.startDateRange,
+                _state.value.endDateRange
+            )
                 .onStart { _state.update { it.copy(isLoading = true) } }
                 .collectLatest { transactions ->
                     val groupingTransactions = transactions.groupBy {
@@ -58,22 +58,17 @@ class TransactionsViewModel @Inject constructor(
         }
     }
 
-    private fun onExpandFabButton(isExpanded : Boolean) {
+    private fun onExpandFabButton(isExpanded: Boolean) {
         _state.update { it.copy(isExpandedFab = isExpanded) }
     }
 
     private fun onFilterChanged(filter: TransactionFilter) {
         _state.update { it.copy(filter = filter) }
-        if (filter == TransactionFilter.ALL) {
-            loadTransactions()
-        }
     }
 
     private fun onDateRangeChanged(start: Long, end: Long) {
         _state.update { it.copy(startDateRange = start, endDateRange = end) }
-        if (_state.value.filter != TransactionFilter.ALL) {
-            loadTransactions(_state.value.startDateRange, _state.value.endDateRange)
-        }
+        loadTransactions()
     }
 
     private fun onShowBottomSheet(type: TransactionsSheetType?) {

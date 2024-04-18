@@ -19,7 +19,7 @@ import dev.muffar.moneyfikasi.utils.startOfWeek
 import dev.muffar.moneyfikasi.utils.startOfYear
 
 @Composable
-fun TransactionsFilterSection(
+fun TransactionsDateFilterSection(
     modifier: Modifier = Modifier,
     filter: TransactionFilter,
     startDateMillis: Long,
@@ -55,7 +55,14 @@ fun TransactionsFilterSection(
             }
         )
 
-        TransactionFilter.ALL -> AllCalendarFilter(modifier = modifier)
+        TransactionFilter.ALL -> {
+            AllCalendarFilter(
+                modifier = modifier,
+                onDateChange = {
+                    onDateChange(Long.MIN_VALUE, Long.MAX_VALUE)
+                }
+            )
+        }
 
         TransactionFilter.CUSTOM -> CustomCalendarFilter(
             modifier = modifier,

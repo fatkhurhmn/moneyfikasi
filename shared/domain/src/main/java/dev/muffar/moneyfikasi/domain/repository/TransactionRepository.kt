@@ -11,8 +11,8 @@ interface TransactionRepository {
     suspend fun deleteTransaction(id: UUID, wallet: Wallet)
     suspend fun deleteAllTransactions()
     suspend fun getAllTransactions(
-        startDateRange: Long?,
-        endDateRange: Long?,
+        startDateRange: Long,
+        endDateRange: Long,
     ): Flow<List<Transaction>>
 
     suspend fun getTransactionById(id: UUID): Transaction?

@@ -41,12 +41,9 @@ class TransactionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAllTransactions(
-        startDateRange: Long?,
-        endDateRange: Long?,
+        startDateRange: Long,
+        endDateRange: Long,
     ): Flow<List<Transaction>> {
-        if (startDateRange == null || endDateRange == null) {
-            return transactionDao.getAllWithWalletAndCategory().map { it.mapToModel() }
-        }
         return transactionDao
             .getAllWithWalletAndCategory(startDateRange, endDateRange)
             .map { it.mapToModel() }
