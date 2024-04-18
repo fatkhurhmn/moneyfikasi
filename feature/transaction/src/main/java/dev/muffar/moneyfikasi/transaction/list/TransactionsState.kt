@@ -13,6 +13,7 @@ data class TransactionsState(
         it.date.format("yyyy-MM-dd")
     },
     val isLoading: Boolean = false,
+    val isExpandedFab : Boolean = false,
     val filter: TransactionFilter = TransactionFilter.MONTHLY,
     val sheetType: TransactionsSheetType? = null,
     val showCustomDateDialog: Boolean = false,

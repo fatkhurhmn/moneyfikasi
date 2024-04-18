@@ -32,6 +32,9 @@ fun RootNavigation(
             onNavigateToEditTransaction = { type, id ->
                 navController.toAddEditTransactionScreen(type, id)
             },
+            onNavigateToAddTransaction = { type ->
+                navController.toAddEditTransactionScreen(type)
+            },
             onNavigateToAddWallet = { navController.toAddEditWalletScreen() },
             onNavigateToAddCategory = { navController.toAddEditCategoryScreen(it) }
         )

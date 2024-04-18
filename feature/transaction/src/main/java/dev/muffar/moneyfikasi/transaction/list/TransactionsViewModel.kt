@@ -51,10 +51,15 @@ class TransactionsViewModel @Inject constructor(
 
     fun onEvent(event: TransactionsEvent) {
         when (event) {
+            is TransactionsEvent.OnExpandFabButton -> onExpandFabButton(event.isExpanded)
             is TransactionsEvent.OnFilterChanged -> onFilterChanged(event.filter)
             is TransactionsEvent.OnShowBottomSheet -> onShowBottomSheet(event.type)
             is TransactionsEvent.OnDateRangeChanged -> onDateRangeChanged(event.start, event.end)
         }
+    }
+
+    private fun onExpandFabButton(isExpanded : Boolean) {
+        _state.update { it.copy(isExpandedFab = isExpanded) }
     }
 
     private fun onFilterChanged(filter: TransactionFilter) {

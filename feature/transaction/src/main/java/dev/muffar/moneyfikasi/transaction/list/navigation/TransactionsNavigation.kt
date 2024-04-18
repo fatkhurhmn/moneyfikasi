@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.transaction.list.TransactionsEvent
 import dev.muffar.moneyfikasi.transaction.list.TransactionsScreen
@@ -14,6 +15,7 @@ import java.util.UUID
 
 fun NavGraphBuilder.transactionsNavigation(
     onNavigateToTransactionDetail: (UUID) -> Unit,
+    onNavigateToAddScreen: (TransactionType) -> Unit,
 ) {
     composable(Screen.Transactions.route) {
         val viewModel = hiltViewModel<TransactionsViewModel>()
@@ -24,6 +26,8 @@ fun NavGraphBuilder.transactionsNavigation(
             modifier = Modifier,
             state = state,
             onTransactionItemClick = onNavigateToTransactionDetail,
+            onExpandFabButton = { event(TransactionsEvent.OnExpandFabButton(it)) },
+            onNavigateToAddScreen = onNavigateToAddScreen,
             onFilterChanged = { event(TransactionsEvent.OnFilterChanged(it)) },
             onDateRangeChange = { start, end ->
                 event(TransactionsEvent.OnDateRangeChanged(start, end))
