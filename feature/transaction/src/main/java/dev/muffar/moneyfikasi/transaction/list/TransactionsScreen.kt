@@ -46,9 +46,7 @@ fun TransactionsScreen(
     onDateRangeChange: (Long, Long) -> Unit,
     onShowBottomSheet: (TransactionsSheetType?) -> Unit,
 ) {
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = state.sheetType == TransactionsSheetType.DATE
-    )
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     Scaffold(
         modifier = Modifier.pointerInput(Unit) {
@@ -123,6 +121,8 @@ fun TransactionsScreen(
                     state = sheetState,
                     type = state.sheetType,
                     filter = state.filter,
+                    categories = state.categories,
+                    wallets = state.wallets,
                     startDateMillis = state.startDateRange,
                     endDateMillis = state.endDateRange,
                     onFilterChanged = onFilterChanged,

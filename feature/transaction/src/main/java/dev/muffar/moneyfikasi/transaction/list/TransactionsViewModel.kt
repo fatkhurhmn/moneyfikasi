@@ -3,7 +3,9 @@ package dev.muffar.moneyfikasi.transaction.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
+import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.domain.utils.TransactionFilter
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsSheetType
 import dev.muffar.moneyfikasi.utils.format
@@ -18,6 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class TransactionsViewModel @Inject constructor(
     private val transactionUseCases: TransactionUseCases,
+    private val categoryUseCases: CategoryUseCases,
+    private val walletUseCases: WalletUseCases
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(TransactionsState())
@@ -25,6 +29,8 @@ class TransactionsViewModel @Inject constructor(
 
     init {
         loadTransactions()
+        loadCategories()
+        loadWallets()
     }
 
     private fun loadTransactions() {
@@ -45,6 +51,24 @@ class TransactionsViewModel @Inject constructor(
                             isLoading = false
                         )
                     }
+                }
+        }
+    }
+
+    private fun loadCategories() {
+        viewModelScope.launch {
+            categoryUseCases.getAllCategories()
+                .collectLatest { categories ->
+                    _state.update { it.copy(categories = categories) }
+                }
+        }
+    }
+
+    private fun loadWallets() {
+        viewModelScope.launch {
+            walletUseCases.getAllWallets()
+                .collectLatest { wallets ->
+                    _state.update { it.copy(wallets = wallets) }
                 }
         }
     }

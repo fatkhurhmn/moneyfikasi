@@ -1,6 +1,8 @@
 package dev.muffar.moneyfikasi.transaction.list
 
+import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.Transaction
+import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.utils.TransactionFilter
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsSheetType
 import dev.muffar.moneyfikasi.utils.format
@@ -15,8 +17,9 @@ data class TransactionsState(
     val isLoading: Boolean = false,
     val isExpandedFab : Boolean = false,
     val filter: TransactionFilter = TransactionFilter.MONTHLY,
+    val categories : List<Category> = emptyList(),
+    val wallets : List<Wallet> = emptyList(),
     val sheetType: TransactionsSheetType? = null,
-    val showCustomDateDialog: Boolean = false,
     val startDateRange: Long = LocalDateTime.now().startOfMonth(),
     val endDateRange: Long = LocalDateTime.now().startOfMonth(),
 )

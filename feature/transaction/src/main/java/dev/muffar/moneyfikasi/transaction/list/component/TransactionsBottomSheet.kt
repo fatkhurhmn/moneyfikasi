@@ -4,14 +4,18 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.runtime.Composable
+import dev.muffar.moneyfikasi.domain.model.Category
+import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.utils.TransactionFilter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TransactionsBottomSheet(
-    state : SheetState,
+    state: SheetState,
     type: TransactionsSheetType,
     filter: TransactionFilter,
+    categories: List<Category>,
+    wallets: List<Wallet>,
     startDateMillis: Long,
     endDateMillis: Long,
     onFilterChanged: (TransactionFilter) -> Unit,
@@ -23,17 +27,21 @@ fun TransactionsBottomSheet(
         onDismissRequest = { onShowBottomSheet(null) }
     ) {
         when (type) {
-            TransactionsSheetType.FILTER -> TransactionsFilterSheet(
-                filter = filter,
-                onFilterChanged = { filter ->
-                    if (filter != TransactionFilter.CUSTOM) {
-                        onFilterChanged(filter)
-                    } else {
-                        onShowBottomSheet(TransactionsSheetType.DATE)
-                    }
-                },
-                onClose = { onShowBottomSheet(null) },
-            )
+            TransactionsSheetType.FILTER -> {
+                TransactionsFilterSheet(
+                    filter = filter,
+                    categories = categories,
+                    wallets = wallets,
+                    onFilterChanged = { filter ->
+                        if (filter != TransactionFilter.CUSTOM) {
+                            onFilterChanged(filter)
+                        } else {
+                            onShowBottomSheet(TransactionsSheetType.DATE)
+                        }
+                    },
+                    onClose = { onShowBottomSheet(null) },
+                )
+            }
 
             TransactionsSheetType.DATE -> DateRangeSheet(
                 startDateMillis = if (filter == TransactionFilter.CUSTOM) startDateMillis else null,
