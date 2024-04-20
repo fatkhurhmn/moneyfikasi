@@ -23,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.resource.R
 import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalTime
 import org.threeten.bp.format.DateTimeFormatter
 
 @Composable
@@ -30,7 +31,7 @@ fun MonthlyCalendarFilter(
     modifier: Modifier = Modifier,
     onDateChange : (LocalDateTime) -> Unit
 ) {
-    var currentDate by remember { mutableStateOf(LocalDateTime.now()) }
+    var currentDate by remember { mutableStateOf(LocalDateTime.now().with(LocalTime.MIN)) }
     val formatter = remember { DateTimeFormatter.ofPattern("MMMM yyyy") }
 
     LaunchedEffect(currentDate) {

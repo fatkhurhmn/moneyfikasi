@@ -25,6 +25,7 @@ import dev.muffar.moneyfikasi.utils.capitalize
 import dev.muffar.moneyfikasi.utils.shortName
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalTime
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.temporal.TemporalAdjusters
 
@@ -33,7 +34,7 @@ fun WeeklyCalendarFilter(
     modifier: Modifier = Modifier,
     onDateChange : (LocalDateTime) -> Unit
 ) {
-    var currentDate by remember { mutableStateOf(LocalDateTime.now()) }
+    var currentDate by remember { mutableStateOf(LocalDateTime.now().with(LocalTime.MIN)) }
 
     val startOfWeek = currentDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
     val endOfWeek = currentDate.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY))

@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.transaction.list.navigation
 
+import android.util.Log
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -30,6 +31,7 @@ fun NavGraphBuilder.transactionsNavigation(
             onNavigateToAddScreen = onNavigateToAddScreen,
             onFilterChanged = { event(TransactionsEvent.OnFilterChanged(it)) },
             onDateRangeChange = { start, end ->
+                Log.d("TransactionsNavigation", "transactionsNavigation: $start $end")
                 event(TransactionsEvent.OnDateRangeChanged(start, end))
             },
             onShowFilterSheet = { event(TransactionsEvent.OnShowFilterSheet(it)) },
