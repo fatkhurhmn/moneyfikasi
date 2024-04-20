@@ -21,10 +21,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,10 +35,12 @@ import dev.muffar.moneyfikasi.resource.R
 fun WalletsFilterTab(
     modifier: Modifier = Modifier,
     wallets: List<Wallet>,
+    selectedWallets : Set<Wallet>,
+    onSelectAll : (Boolean) -> Unit,
+    onSelect : (Wallet) -> Unit
 ) {
 
-    var selectedWallets by remember { mutableStateOf(wallets.toSet()) }
-    val onSelectAll = { selectedWallets = if (wallets.size == selectedWallets.size) setOf() else wallets.toSet() }
+    val isSelectAll = wallets.size == selectedWallets.size
 
     Column(
         modifier = modifier.fillMaxSize()
@@ -50,7 +48,7 @@ fun WalletsFilterTab(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { onSelectAll() }
+                .clickable { onSelectAll(isSelectAll) }
                 .padding(horizontal = 16.dp, vertical = 2.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
@@ -61,7 +59,7 @@ fun WalletsFilterTab(
             )
             Checkbox(
                 checked = wallets.size == selectedWallets.size,
-                onCheckedChange = { onSelectAll() }
+                onCheckedChange = { onSelectAll(isSelectAll) }
             )
         }
         if (wallets.isNotEmpty()) {
@@ -73,13 +71,7 @@ fun WalletsFilterTab(
                     WalletFilterItem(
                         wallet = wallet,
                         isSelect = wallet in selectedWallets,
-                        onSelect = { item ->
-                            if (item in selectedWallets) {
-                                selectedWallets -= item
-                            } else {
-                                selectedWallets += item
-                            }
-                        }
+                        onSelect = onSelect
                     )
                 }
             }

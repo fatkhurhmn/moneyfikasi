@@ -32,7 +32,7 @@ fun NavGraphBuilder.transactionsNavigation(
             onDateRangeChange = { start, end ->
                 event(TransactionsEvent.OnDateRangeChanged(start, end))
             },
-            onShowBottomSheet = { event(TransactionsEvent.OnShowBottomSheet(it)) },
+            onShowFilterSheet = { event(TransactionsEvent.OnShowFilterSheet(it)) },
         )
     }
 }

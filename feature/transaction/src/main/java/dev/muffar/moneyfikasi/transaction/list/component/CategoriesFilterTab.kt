@@ -24,7 +24,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,12 +40,13 @@ import dev.muffar.moneyfikasi.utils.capitalize
 fun CategoriesFilterTab(
     modifier: Modifier = Modifier,
     categories: List<Category>,
+    selectedCategories: Set<Category>,
+    onSelectAll : (Boolean) -> Unit,
+    onSelectAllSameType : (Boolean, Set<Category>) -> Unit,
+    onSelect : (Category) -> Unit
 ) {
-    var selectedCategories by remember { mutableStateOf(categories.toSet()) }
     val groupingCategoriesByType by remember { mutableStateOf(categories.groupBy { it.type }) }
-
-    val isAllSelected =categories.size == selectedCategories.size
-    val onSelectAll = { selectedCategories = if (isAllSelected) setOf() else categories.toSet() }
+    val isAllSelected = categories.size == selectedCategories.size
 
     Column(
         modifier = modifier.fillMaxSize()
@@ -54,7 +54,9 @@ fun CategoriesFilterTab(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { onSelectAll() }
+                .clickable {
+                    onSelectAll(isAllSelected)
+                }
                 .padding(horizontal = 16.dp, vertical = 2.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
@@ -65,13 +67,15 @@ fun CategoriesFilterTab(
             )
             Checkbox(
                 checked = categories.size == selectedCategories.size,
-                onCheckedChange = { onSelectAll() }
+                onCheckedChange = {
+                    onSelectAll(isAllSelected)
+                }
             )
         }
         if (categories.isNotEmpty()) {
-            LazyColumn (
+            LazyColumn(
                 contentPadding = PaddingValues(bottom = 16.dp)
-            ){
+            ) {
                 groupingCategoriesByType.keys.forEach { type ->
                     item {
                         val isAllThisTypeSelected =
@@ -82,12 +86,7 @@ fun CategoriesFilterTab(
                             categoryType = type,
                             isAllSelected = isAllThisTypeSelected,
                             onSelectAll = {
-                                if (isAllThisTypeSelected) {
-                                    selectedCategories = selectedCategories
-                                        .filter { it !in categoriesByType }.toSet()
-                                } else {
-                                    selectedCategories += categoriesByType
-                                }
+                                onSelectAllSameType(isAllThisTypeSelected, categoriesByType)
                             }
                         )
                     }
@@ -97,13 +96,7 @@ fun CategoriesFilterTab(
                         CategoryFilterItem(
                             category = category,
                             isSelect = category in selectedCategories,
-                            onSelect = { item ->
-                                if (item in selectedCategories) {
-                                    selectedCategories -= item
-                                } else {
-                                    selectedCategories += item
-                                }
-                            }
+                            onSelect = onSelect
                         )
                     }
                 }

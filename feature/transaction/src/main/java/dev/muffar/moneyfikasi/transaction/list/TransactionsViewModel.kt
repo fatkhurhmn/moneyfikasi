@@ -7,7 +7,6 @@ import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.domain.utils.TransactionFilter
-import dev.muffar.moneyfikasi.transaction.list.component.TransactionsSheetType
 import dev.muffar.moneyfikasi.utils.format
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -31,6 +30,15 @@ class TransactionsViewModel @Inject constructor(
         loadTransactions()
         loadCategories()
         loadWallets()
+    }
+
+    fun onEvent(event: TransactionsEvent) {
+        when (event) {
+            is TransactionsEvent.OnExpandFabButton -> onExpandFabButton(event.isExpanded)
+            is TransactionsEvent.OnFilterChanged -> onFilterChanged(event.filter)
+            is TransactionsEvent.OnDateRangeChanged -> onDateRangeChanged(event.start, event.end)
+            is TransactionsEvent.OnShowFilterSheet -> onShowFilterSheet(event.show)
+        }
     }
 
     private fun loadTransactions() {
@@ -73,15 +81,6 @@ class TransactionsViewModel @Inject constructor(
         }
     }
 
-    fun onEvent(event: TransactionsEvent) {
-        when (event) {
-            is TransactionsEvent.OnExpandFabButton -> onExpandFabButton(event.isExpanded)
-            is TransactionsEvent.OnFilterChanged -> onFilterChanged(event.filter)
-            is TransactionsEvent.OnShowBottomSheet -> onShowBottomSheet(event.type)
-            is TransactionsEvent.OnDateRangeChanged -> onDateRangeChanged(event.start, event.end)
-        }
-    }
-
     private fun onExpandFabButton(isExpanded: Boolean) {
         _state.update { it.copy(isExpandedFab = isExpanded) }
     }
@@ -95,7 +94,7 @@ class TransactionsViewModel @Inject constructor(
         loadTransactions()
     }
 
-    private fun onShowBottomSheet(type: TransactionsSheetType?) {
-        _state.update { it.copy(sheetType = type) }
+    private fun onShowFilterSheet(show: Boolean) {
+        _state.update { it.copy(showFilterSheet = show) }
     }
 }

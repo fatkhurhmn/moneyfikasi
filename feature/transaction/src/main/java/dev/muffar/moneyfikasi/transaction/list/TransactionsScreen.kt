@@ -13,6 +13,7 @@ import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -26,11 +27,10 @@ import dev.muffar.moneyfikasi.common_ui.component.ExpandableFloatingActionButton
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.utils.TransactionFilter
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.transaction.list.component.TransactionsBottomSheet
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsDateFilterSection
+import dev.muffar.moneyfikasi.transaction.list.component.TransactionsFilterSheet
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsList
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsLoading
-import dev.muffar.moneyfikasi.transaction.list.component.TransactionsSheetType
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsTopBar
 import java.util.UUID
 
@@ -44,9 +44,9 @@ fun TransactionsScreen(
     onNavigateToAddScreen: (TransactionType) -> Unit,
     onFilterChanged: (TransactionFilter) -> Unit,
     onDateRangeChange: (Long, Long) -> Unit,
-    onShowBottomSheet: (TransactionsSheetType?) -> Unit,
+    onShowFilterSheet: (Boolean) -> Unit,
 ) {
-    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val filterSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     Scaffold(
         modifier = Modifier.pointerInput(Unit) {
@@ -59,7 +59,7 @@ fun TransactionsScreen(
         topBar = {
             TransactionsTopBar(
                 modifier = Modifier.padding(16.dp),
-                onFilterClick = { onShowBottomSheet(TransactionsSheetType.FILTER) }
+                onFilterClick = { onShowFilterSheet(true) }
             )
         },
         contentWindowInsets = WindowInsets(0.dp),
@@ -116,22 +116,28 @@ fun TransactionsScreen(
                 }
             }
 
-            if (state.sheetType != null) {
-                TransactionsBottomSheet(
-                    state = sheetState,
-                    type = state.sheetType,
-                    filter = state.filter,
-                    categories = state.categories,
-                    wallets = state.wallets,
-                    startDateMillis = state.startDateRange,
-                    endDateMillis = state.endDateRange,
-                    onFilterChanged = onFilterChanged,
-                    onDateChange = { start, date ->
-                        onFilterChanged(TransactionFilter.CUSTOM)
-                        onDateRangeChange(start, date)
-                    },
-                    onShowBottomSheet = onShowBottomSheet
-                )
+            if (state.showFilterSheet) {
+                ModalBottomSheet(
+                    onDismissRequest = { onShowFilterSheet(false) },
+                    sheetState = filterSheetState
+                ) {
+                    TransactionsFilterSheet(
+                        filter = state.filter,
+                        categories = state.categories,
+                        wallets = state.wallets,
+                        startDateMillis = state.startDateRange,
+                        endDateMillis = state.endDateRange,
+                        onSave = { filter, startDate, endDate, _, _ ->
+                            onFilterChanged(filter)
+                            if (filter == TransactionFilter.CUSTOM) {
+                                onDateRangeChange(startDate, endDate)
+                            }
+                        },
+                        onClose = {
+                            onShowFilterSheet(false)
+                        }
+                    )
+                }
             }
         }
     }
