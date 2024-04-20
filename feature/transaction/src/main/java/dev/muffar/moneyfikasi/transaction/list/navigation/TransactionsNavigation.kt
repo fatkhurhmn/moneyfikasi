@@ -33,6 +33,9 @@ fun NavGraphBuilder.transactionsNavigation(
                 event(TransactionsEvent.OnDateRangeChanged(start, end))
             },
             onShowFilterSheet = { event(TransactionsEvent.OnShowFilterSheet(it)) },
+            onFilterCategories = { event(TransactionsEvent.OnFilterCategories(it)) },
+            onFilterWallets = { event(TransactionsEvent.OnFilterWallets(it)) },
+            onSaveFilter = { event(TransactionsEvent.OnSaveFilter) }
         )
     }
 }

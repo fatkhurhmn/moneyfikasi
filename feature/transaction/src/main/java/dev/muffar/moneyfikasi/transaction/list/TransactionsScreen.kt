@@ -24,7 +24,9 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.ExpandableFloatingActionButton
+import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.TransactionType
+import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.utils.TransactionFilter
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsDateFilterSection
@@ -45,6 +47,9 @@ fun TransactionsScreen(
     onFilterChanged: (TransactionFilter) -> Unit,
     onDateRangeChange: (Long, Long) -> Unit,
     onShowFilterSheet: (Boolean) -> Unit,
+    onFilterCategories : (Set<Category>) -> Unit,
+    onFilterWallets : (Set<Wallet>) -> Unit,
+    onSaveFilter : () -> Unit
 ) {
     val filterSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
@@ -125,13 +130,18 @@ fun TransactionsScreen(
                         filter = state.filter,
                         categories = state.categories,
                         wallets = state.wallets,
+                        selectedCategories = state.selectedCategories,
+                        selectedWallets = state.selectedWallets,
                         startDateMillis = state.startDateRange,
                         endDateMillis = state.endDateRange,
-                        onSave = { filter, startDate, endDate, _, _ ->
+                        onSave = { filter, startDate, endDate, categories, wallets ->
                             onFilterChanged(filter)
                             if (filter == TransactionFilter.CUSTOM) {
                                 onDateRangeChange(startDate, endDate)
                             }
+                            onFilterCategories(categories)
+                            onFilterWallets(wallets)
+                            onSaveFilter()
                         },
                         onClose = {
                             onShowFilterSheet(false)

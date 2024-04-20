@@ -3,6 +3,8 @@ package dev.muffar.moneyfikasi.transaction.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.muffar.moneyfikasi.domain.model.Category
+import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
@@ -20,7 +22,7 @@ import javax.inject.Inject
 class TransactionsViewModel @Inject constructor(
     private val transactionUseCases: TransactionUseCases,
     private val categoryUseCases: CategoryUseCases,
-    private val walletUseCases: WalletUseCases
+    private val walletUseCases: WalletUseCases,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(TransactionsState())
@@ -38,6 +40,9 @@ class TransactionsViewModel @Inject constructor(
             is TransactionsEvent.OnFilterChanged -> onFilterChanged(event.filter)
             is TransactionsEvent.OnDateRangeChanged -> onDateRangeChanged(event.start, event.end)
             is TransactionsEvent.OnShowFilterSheet -> onShowFilterSheet(event.show)
+            is TransactionsEvent.OnFilterCategories -> onFilterCategories(event.categories)
+            is TransactionsEvent.OnFilterWallets -> onFilterWallets(event.wallets)
+            is TransactionsEvent.OnSaveFilter -> reloadTransactions()
         }
     }
 
@@ -45,7 +50,9 @@ class TransactionsViewModel @Inject constructor(
         viewModelScope.launch {
             transactionUseCases.getAllTransactions(
                 _state.value.startDateRange,
-                _state.value.endDateRange
+                _state.value.endDateRange,
+                _state.value.selectedCategories.toSet(),
+                _state.value.selectedWallets.toSet()
             )
                 .onStart { _state.update { it.copy(isLoading = true) } }
                 .collectLatest { transactions ->
@@ -67,7 +74,13 @@ class TransactionsViewModel @Inject constructor(
         viewModelScope.launch {
             categoryUseCases.getAllCategories()
                 .collectLatest { categories ->
-                    _state.update { it.copy(categories = categories) }
+                    _state.update {
+                        it.copy(
+                            categories = categories,
+                            selectedCategories = categories.toSet()
+                        )
+                    }
+                    loadTransactions()
                 }
         }
     }
@@ -76,7 +89,13 @@ class TransactionsViewModel @Inject constructor(
         viewModelScope.launch {
             walletUseCases.getAllWallets()
                 .collectLatest { wallets ->
-                    _state.update { it.copy(wallets = wallets) }
+                    _state.update {
+                        it.copy(
+                            wallets = wallets,
+                            selectedWallets = wallets.toSet()
+                        )
+                    }
+                    loadTransactions()
                 }
         }
     }
@@ -96,5 +115,17 @@ class TransactionsViewModel @Inject constructor(
 
     private fun onShowFilterSheet(show: Boolean) {
         _state.update { it.copy(showFilterSheet = show) }
+    }
+
+    private fun onFilterCategories(categories: Set<Category>) {
+        _state.update { it.copy(selectedCategories = categories) }
+    }
+
+    private fun onFilterWallets(wallets: Set<Wallet>) {
+        _state.update { it.copy(selectedWallets = wallets) }
+    }
+
+    private fun reloadTransactions() {
+        loadTransactions()
     }
 }

@@ -43,9 +43,11 @@ class TransactionRepositoryImpl @Inject constructor(
     override suspend fun getAllTransactions(
         startDateRange: Long,
         endDateRange: Long,
+        categories: Set<UUID>?,
+        wallets: Set<UUID>?,
     ): Flow<List<Transaction>> {
         return transactionDao
-            .getAllWithWalletAndCategory(startDateRange, endDateRange)
+            .getAllWithWalletAndCategory(startDateRange, endDateRange, categories, wallets)
             .map { it.mapToModel() }
     }
 

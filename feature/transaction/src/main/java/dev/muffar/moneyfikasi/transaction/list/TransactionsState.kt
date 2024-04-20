@@ -18,6 +18,8 @@ data class TransactionsState(
     val filter: TransactionFilter = TransactionFilter.MONTHLY,
     val categories : List<Category> = emptyList(),
     val wallets : List<Wallet> = emptyList(),
+    val selectedCategories : Set<Category> = emptySet(),
+    val selectedWallets : Set<Wallet> = emptySet(),
     val startDateRange: Long = LocalDateTime.now().startOfMonth(),
     val endDateRange: Long = LocalDateTime.now().startOfMonth(),
     val showFilterSheet : Boolean = false,

@@ -38,6 +38,8 @@ fun TransactionsFilterSheet(
     filter: TransactionFilter,
     categories: List<Category>,
     wallets: List<Wallet>,
+    selectedCategories : Set<Category>,
+    selectedWallets : Set<Wallet>,
     startDateMillis: Long,
     endDateMillis: Long,
     onSave: (
@@ -58,8 +60,8 @@ fun TransactionsFilterSheet(
     var mFilter by remember { mutableStateOf(filter) }
     var selectedStartDate by remember { mutableLongStateOf(0L) }
     var selectedEndDate by remember { mutableLongStateOf(0L) }
-    var selectedCategories by remember { mutableStateOf(categories.toSet()) }
-    var selectedWallets by remember { mutableStateOf(wallets.toSet()) }
+    var mSelectedCategories by remember { mutableStateOf(selectedCategories) }
+    var mSelectedWallets by remember { mutableStateOf(selectedWallets) }
 
     Column(
         modifier = modifier.fillMaxSize()
@@ -85,8 +87,8 @@ fun TransactionsFilterSheet(
                         mFilter,
                         selectedStartDate,
                         selectedEndDate,
-                        selectedCategories,
-                        selectedWallets
+                        mSelectedCategories,
+                        mSelectedWallets
                     )
                     onClose()
                 }
@@ -114,36 +116,36 @@ fun TransactionsFilterSheet(
 
                 1 -> CategoriesFilterTab(
                     categories = categories,
-                    selectedCategories = selectedCategories,
-                    onSelectAll = { selectedCategories = if (it) setOf() else categories.toSet() },
+                    selectedCategories = mSelectedCategories,
+                    onSelectAll = { mSelectedCategories = if (it) setOf() else categories.toSet() },
                     onSelectAllSameType = { isAllSameTypeSelected, categoriesByType ->
                         if (isAllSameTypeSelected) {
-                            selectedCategories =
-                                selectedCategories.filter { it !in categoriesByType }.toSet()
+                            mSelectedCategories =
+                                mSelectedCategories.filter { it !in categoriesByType }.toSet()
                         } else {
-                            selectedCategories += categoriesByType
+                            mSelectedCategories += categoriesByType
                         }
                     },
                     onSelect = { item ->
-                        if (item in selectedCategories) {
-                            selectedCategories -= item
+                        if (item in mSelectedCategories) {
+                            mSelectedCategories -= item
                         } else {
-                            selectedCategories += item
+                            mSelectedCategories += item
                         }
                     }
                 )
 
                 2 -> WalletsFilterTab(
                     wallets = wallets,
-                    selectedWallets = selectedWallets,
+                    selectedWallets = mSelectedWallets,
                     onSelectAll = { isSelectAll ->
-                        selectedWallets = if (isSelectAll) setOf() else wallets.toSet()
+                        mSelectedWallets = if (isSelectAll) setOf() else wallets.toSet()
                     },
                     onSelect = { item ->
-                        if (item in selectedWallets) {
-                            selectedWallets -= item
+                        if (item in mSelectedWallets) {
+                            mSelectedWallets -= item
                         } else {
-                            selectedWallets += item
+                            mSelectedWallets += item
                         }
                     }
                 )

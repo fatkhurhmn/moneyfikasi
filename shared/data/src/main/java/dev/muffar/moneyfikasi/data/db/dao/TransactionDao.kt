@@ -54,10 +54,16 @@ interface TransactionDao {
     suspend fun getById(id: UUID): TransactionEntity?
 
     @Transaction
-    @Query("SELECT * FROM transactions WHERE date BETWEEN :start AND :end ORDER BY date DESC")
+    @Query("SELECT * FROM transactions " +
+            "WHERE (date BETWEEN :start AND :end) " +
+            "AND (category_id IN (:categories)) " +
+            "AND (wallet_id IN (:wallets)) " +
+            "ORDER BY date DESC")
     fun getAllWithWalletAndCategory(
         start: Long,
-        end: Long
+        end: Long,
+        categories : Set<UUID>?,
+        wallets : Set<UUID>?
     ): Flow<List<TransactionWithWalletAndCategory>>
 
     @Transaction

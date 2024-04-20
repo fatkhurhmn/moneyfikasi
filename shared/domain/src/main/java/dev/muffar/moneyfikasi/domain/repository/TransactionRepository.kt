@@ -13,6 +13,8 @@ interface TransactionRepository {
     suspend fun getAllTransactions(
         startDateRange: Long,
         endDateRange: Long,
+        categories: Set<UUID>?,
+        wallets: Set<UUID>?,
     ): Flow<List<Transaction>>
 
     suspend fun getTransactionById(id: UUID): Transaction?
