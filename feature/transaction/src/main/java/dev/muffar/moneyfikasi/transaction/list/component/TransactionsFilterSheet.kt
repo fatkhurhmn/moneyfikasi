@@ -38,8 +38,8 @@ fun TransactionsFilterSheet(
     filter: TransactionFilter,
     categories: List<Category>,
     wallets: List<Wallet>,
-    selectedCategories : Set<Category>,
-    selectedWallets : Set<Wallet>,
+    selectedCategories: Set<Category>,
+    selectedWallets: Set<Wallet>,
     startDateMillis: Long,
     endDateMillis: Long,
     onSave: (
@@ -58,8 +58,8 @@ fun TransactionsFilterSheet(
     var showDateRangeSheet by remember { mutableStateOf(false) }
 
     var mFilter by remember { mutableStateOf(filter) }
-    var selectedStartDate by remember { mutableLongStateOf(0L) }
-    var selectedEndDate by remember { mutableLongStateOf(0L) }
+    var selectedStartDate by remember { mutableLongStateOf(if (filter == TransactionFilter.CUSTOM) startDateMillis else 0L) }
+    var selectedEndDate by remember { mutableLongStateOf(if (filter == TransactionFilter.CUSTOM) endDateMillis else 0L) }
     var mSelectedCategories by remember { mutableStateOf(selectedCategories) }
     var mSelectedWallets by remember { mutableStateOf(selectedWallets) }
 
@@ -105,13 +105,15 @@ fun TransactionsFilterSheet(
             when (index) {
                 0 -> DateRangeFilterTab(
                     filter = mFilter,
+                    startDateMillis = selectedStartDate,
+                    endDateMillis = selectedEndDate,
                     onFilterSelect = {
                         if (it == TransactionFilter.CUSTOM) {
                             showDateRangeSheet = true
                         } else {
                             mFilter = it
                         }
-                    }
+                    },
                 )
 
                 1 -> CategoriesFilterTab(

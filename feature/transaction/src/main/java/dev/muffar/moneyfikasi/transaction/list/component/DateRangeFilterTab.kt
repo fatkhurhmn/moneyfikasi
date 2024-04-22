@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.transaction.list.component
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,11 +16,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.utils.TransactionFilter
 import dev.muffar.moneyfikasi.utils.capitalize
+import dev.muffar.moneyfikasi.utils.toFormattedDateTime
 
 @Composable
 fun DateRangeFilterTab(
     modifier: Modifier = Modifier,
     filter: TransactionFilter,
+    startDateMillis: Long,
+    endDateMillis: Long,
     onFilterSelect: (TransactionFilter) -> Unit,
 ) {
     val options = TransactionFilter.entries
@@ -30,24 +34,43 @@ fun DateRangeFilterTab(
         modifier = modifier.fillMaxWidth(),
     ) {
         options.forEach { mFilter ->
-            Row(
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
                         onFilterSelect(mFilter)
                     }
-                    .padding(horizontal = 20.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                    .padding(horizontal = 20.dp)
             ) {
-                Text(
-                    text = mFilter.name.capitalize(),
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                RadioButton(
-                    selected = mFilter == filter,
-                    onClick = { onFilterSelect(mFilter) }
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = mFilter.name.capitalize(),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                    RadioButton(
+                        selected = mFilter == filter,
+                        onClick = { onFilterSelect(mFilter) }
+                    )
+                }
+
+                AnimatedVisibility(
+                    visible = mFilter == TransactionFilter.CUSTOM &&
+                            filter == TransactionFilter.CUSTOM &&
+                            startDateMillis != 0L &&
+                            endDateMillis != 0L
+                ) {
+                    val start = startDateMillis.toFormattedDateTime("dd/MMM/yyyy")
+                    val end = endDateMillis.toFormattedDateTime("dd/MMM/yyyy")
+                    Text(
+                        text = "$start - $end",
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+                }
             }
         }
     }
