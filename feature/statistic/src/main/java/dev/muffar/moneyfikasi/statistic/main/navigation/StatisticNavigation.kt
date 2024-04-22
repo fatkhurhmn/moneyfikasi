@@ -1,0 +1,30 @@
+package dev.muffar.moneyfikasi.statistic.main.navigation
+
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.statistic.main.StatisticEvent
+import dev.muffar.moneyfikasi.statistic.main.StatisticScreen
+import dev.muffar.moneyfikasi.statistic.main.StatisticViewModel
+
+fun NavGraphBuilder.statisticNavigation() {
+    composable(Screen.Statistics.route) {
+        val viewModel = hiltViewModel<StatisticViewModel>()
+        val state by viewModel.state.collectAsState()
+        val event = viewModel::onEvent
+
+        StatisticScreen(
+            modifier = Modifier,
+            state = state,
+            onFilterChanged = { event(StatisticEvent.OnFilterChanged(it)) },
+            onDateRangeChange = { start, end ->
+                event(StatisticEvent.OnDateRangeChanged(start, end))
+            },
+            onShowBottomSheet = { event(StatisticEvent.OnShowBottomSheet(it)) }
+        )
+    }
+}

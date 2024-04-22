@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.transaction.list.component
+package dev.muffar.moneyfikasi.common_ui.component
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement

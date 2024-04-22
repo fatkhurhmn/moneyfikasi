@@ -10,6 +10,7 @@ import dev.muffar.moneyfikasi.category.categoriesNavGraph
 import dev.muffar.moneyfikasi.category.list.navigation.toCategoriesScreen
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.settings.navigation.settingsNavGraph
+import dev.muffar.moneyfikasi.statistic.main.navigation.statisticNavigation
 import dev.muffar.moneyfikasi.transaction.add_edit.navigation.toAddEditTransactionScreen
 import dev.muffar.moneyfikasi.transaction.detail.navigation.toTransactionDetail
 import dev.muffar.moneyfikasi.transaction.transactionsNavGraph
@@ -39,9 +40,7 @@ fun RootNavigation(
             onNavigateToAddCategory = { navController.toAddEditCategoryScreen(it) }
         )
 
-        composable(Screen.Statistics.route) {
-            Text("Statistics")
-        }
+        statisticNavigation()
 
         composable(Screen.Debt.route) {
             Text("Debt")
