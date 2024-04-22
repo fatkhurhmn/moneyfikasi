@@ -3,11 +3,11 @@ package dev.muffar.moneyfikasi.transaction.list.component
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import dev.muffar.moneyfikasi.common_ui.component.AllCalendarFilter
-import dev.muffar.moneyfikasi.common_ui.component.CalendarYearlyHeader
 import dev.muffar.moneyfikasi.common_ui.component.CustomCalendarFilter
 import dev.muffar.moneyfikasi.common_ui.component.DailyCalendarFilter
 import dev.muffar.moneyfikasi.common_ui.component.MonthlyCalendarFilter
 import dev.muffar.moneyfikasi.common_ui.component.WeeklyCalendarFilter
+import dev.muffar.moneyfikasi.common_ui.component.YearlyCalendarFilter
 import dev.muffar.moneyfikasi.domain.utils.TransactionFilter
 import dev.muffar.moneyfikasi.utils.endOfDay
 import dev.muffar.moneyfikasi.utils.endOfMonth
@@ -48,7 +48,7 @@ fun TransactionsDateFilterSection(
             }
         )
 
-        TransactionFilter.YEARLY -> CalendarYearlyHeader(
+        TransactionFilter.YEARLY -> YearlyCalendarFilter(
             modifier = modifier,
             onDateChange = {
                 onDateChange(it.startOfYear(), it.endOfYear())
