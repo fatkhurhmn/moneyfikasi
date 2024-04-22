@@ -23,5 +23,9 @@ data class TransactionsState(
     val startDateRange: Long = LocalDateTime.now().startOfMonth(),
     val endDateRange: Long = LocalDateTime.now().startOfMonth(),
     val showFilterSheet : Boolean = false,
-    val showDateRangeSheet : Boolean = false
+    val showDateRangeSheet : Boolean = false,
+    val overviewIncome : Double = 0.0,
+    val overviewExpense : Double = 0.0,
+    val overviewTotal : Double = 0.0,
+    val totalBalance : Double = 0.0
 )

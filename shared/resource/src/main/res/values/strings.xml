@@ -70,4 +70,8 @@
     <string name="ok">OK</string>
     <string name="please_select_date_range">Please select start date &amp; end date</string>
     <string name="select_all">Select all</string>
+    <string name="income">Income</string>
+    <string name="expense">Expense</string>
+    <string name="total">Total</string>
+    <string name="total_balance">Total Balance</string>
 </resources>

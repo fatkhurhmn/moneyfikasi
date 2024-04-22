@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.model.Category
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
@@ -59,13 +60,18 @@ class TransactionsViewModel @Inject constructor(
                     val groupingTransactions = transactions.groupBy {
                         it.date.format("yyyy-MM-dd")
                     }
-                    _state.update {
-                        it.copy(
+                    _state.update { state ->
+                        state.copy(
                             transactions = transactions,
                             transactionsByDate = groupingTransactions,
-                            isLoading = false
+                            isLoading = false,
+                            overviewIncome = transactions.filter { it.type == TransactionType.INCOME }
+                                .sumOf { it.amount },
+                            overviewExpense = transactions.filter { it.type == TransactionType.EXPENSE }
+                                .sumOf { it.amount },
                         )
                     }
+                    _state.update { it.copy(overviewTotal = it.overviewIncome - it.overviewExpense) }
                 }
         }
     }
@@ -89,10 +95,11 @@ class TransactionsViewModel @Inject constructor(
         viewModelScope.launch {
             walletUseCases.getAllWallets()
                 .collectLatest { wallets ->
-                    _state.update {
-                        it.copy(
+                    _state.update { state ->
+                        state.copy(
                             wallets = wallets,
-                            selectedWallets = wallets.toSet()
+                            selectedWallets = wallets.toSet(),
+                            totalBalance = wallets.sumOf { it.balance }
                         )
                     }
                     loadTransactions()

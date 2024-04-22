@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.transaction.list.component
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
@@ -13,12 +14,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.utils.formatThousand
 
 @Composable
 fun TransactionsTopBar(
     modifier: Modifier = Modifier,
+    totalBalance: Double,
     onFilterClick: () -> Unit,
 ) {
     Row(
@@ -26,10 +29,17 @@ fun TransactionsTopBar(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(
-            text = stringResource(R.string.transaction_menu),
-            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Medium),
-        )
+        Column {
+            Text(
+                text = stringResource(R.string.total_balance),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.outline.copy(0.5f)
+            )
+            Text(
+                text = totalBalance.toLong().formatThousand(),
+                style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp)
+            )
+        }
         IconButton(onClick = onFilterClick) {
             Icon(imageVector = Icons.Rounded.FilterList, contentDescription = null)
         }

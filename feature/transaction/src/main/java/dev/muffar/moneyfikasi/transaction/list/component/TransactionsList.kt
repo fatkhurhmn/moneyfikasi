@@ -15,6 +15,9 @@ import java.util.UUID
 fun TransactionsList(
     modifier: Modifier = Modifier,
     dates: List<String>,
+    overviewIncome : Double,
+    overviewExpense : Double,
+    overviewTotal : Double,
     transactions: List<List<Transaction>>,
     onItemClick: (UUID) -> Unit
 ) {
@@ -22,6 +25,14 @@ fun TransactionsList(
         modifier = modifier,
         contentPadding = PaddingValues(bottom = 54.dp)
     ) {
+        item {
+            TransactionOverviewSection(
+                income = overviewIncome,
+                expense = overviewExpense,
+                total = overviewTotal
+            )
+        }
+
         dates.forEachIndexed { index, _ ->
             item {
                 GroupTransactionHeader(
@@ -47,7 +58,7 @@ fun TransactionsList(
             }
             item {
                 HorizontalDivider(
-                    thickness = 16.dp,
+                    thickness = 8.dp,
                     color = MaterialTheme.colorScheme.outline.copy(0.08f)
                 )
             }

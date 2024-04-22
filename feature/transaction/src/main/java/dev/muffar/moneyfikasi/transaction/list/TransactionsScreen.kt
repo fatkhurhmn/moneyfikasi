@@ -47,9 +47,9 @@ fun TransactionsScreen(
     onFilterChanged: (TransactionFilter) -> Unit,
     onDateRangeChange: (Long, Long) -> Unit,
     onShowFilterSheet: (Boolean) -> Unit,
-    onFilterCategories : (Set<Category>) -> Unit,
-    onFilterWallets : (Set<Wallet>) -> Unit,
-    onSaveFilter : () -> Unit
+    onFilterCategories: (Set<Category>) -> Unit,
+    onFilterWallets: (Set<Wallet>) -> Unit,
+    onSaveFilter: () -> Unit,
 ) {
     val filterSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
@@ -64,6 +64,7 @@ fun TransactionsScreen(
         topBar = {
             TransactionsTopBar(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                totalBalance = state.totalBalance,
                 onFilterClick = { onShowFilterSheet(true) }
             )
         },
@@ -97,6 +98,9 @@ fun TransactionsScreen(
                 TransactionsList(
                     dates = dates,
                     transactions = transactions,
+                    overviewIncome = state.overviewIncome,
+                    overviewExpense = state.overviewExpense,
+                    overviewTotal = state.overviewTotal,
                     onItemClick = onTransactionItemClick
                 )
             } else {
