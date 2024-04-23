@@ -49,12 +49,19 @@ class StatisticViewModel @Inject constructor(
                 _state.value.wallets
             )
                 .collectLatest { transactions ->
+
+                    val incomeTransaction = transactions.filter { it.type == TransactionType.INCOME }
+                    val expenseTransaction = transactions.filter { it.type == TransactionType.EXPENSE }
+
                     val overviewIncome = transactions.filter { it.type == TransactionType.INCOME }
                         .sumOf { it.amount }
                     val overviewExpense = transactions.filter { it.type == TransactionType.EXPENSE }
                         .sumOf { it.amount }
+
                     _state.update { state ->
                         state.copy(
+                            incomeTransactions = incomeTransaction,
+                            expenseTransactions = expenseTransaction,
                             overviewIncome = overviewIncome,
                             overviewExpense = overviewExpense,
                             overviewTotal = overviewIncome - overviewExpense

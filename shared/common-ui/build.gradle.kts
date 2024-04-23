@@ -40,4 +40,6 @@ dependencies {
     implementation(libs.threetenabp)
 
     debugImplementation(libs.androidx.ui.tooling)
+
+    implementation(libs.mp.android.chart)
 }
