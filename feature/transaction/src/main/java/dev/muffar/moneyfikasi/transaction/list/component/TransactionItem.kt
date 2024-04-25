@@ -35,6 +35,10 @@ fun TransactionItem(
     transaction: Transaction,
     onClick: (UUID) -> Unit,
 ) {
+    val note = transaction.note?.let {
+        if (it.isNotEmpty()) " • $it" else ""
+    }
+
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -68,7 +72,7 @@ fun TransactionItem(
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = if (transaction.note.isNullOrEmpty()) "-" else transaction.note!!,
+                    text = transaction.wallet.name + note,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.outline,
                     maxLines = 1,
