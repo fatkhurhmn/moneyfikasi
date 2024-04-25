@@ -11,9 +11,8 @@ import dev.muffar.moneyfikasi.category.list.navigation.toCategoriesScreen
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.settings.navigation.settingsNavGraph
-import dev.muffar.moneyfikasi.statistic.detail.navigation.statisticDetailNavigation
 import dev.muffar.moneyfikasi.statistic.detail.navigation.toStatisticDetailScreen
-import dev.muffar.moneyfikasi.statistic.main.navigation.statisticNavigation
+import dev.muffar.moneyfikasi.statistic.statisticNavGraph
 import dev.muffar.moneyfikasi.transaction.add_edit.navigation.toAddEditTransactionScreen
 import dev.muffar.moneyfikasi.transaction.detail.navigation.toTransactionDetail
 import dev.muffar.moneyfikasi.transaction.transactionsNavGraph
@@ -43,11 +42,11 @@ fun RootNavigation(
             onNavigateToAddCategory = { navController.toAddEditCategoryScreen(it) }
         )
 
-        statisticNavigation(
-            onNavigateToStatisticDetail = { navController.toStatisticDetailScreen(it) }
-        )
-        statisticDetailNavigation(
-            transactions = navController.previousBackStackEntry?.savedStateHandle?.get<List<Transaction>>(Screen.StatisticDetail.TRANSACTIONS) ?: emptyList(),
+        statisticNavGraph(
+            transactions = navController.previousBackStackEntry
+                ?.savedStateHandle?.get<List<Transaction>>(Screen.StatisticDetail.TRANSACTIONS)
+                ?: emptyList(),
+            onNavigateToStatisticDetail = { navController.toStatisticDetailScreen(it) },
             onNavigateBack = { navController.navigateUp() }
         )
 
