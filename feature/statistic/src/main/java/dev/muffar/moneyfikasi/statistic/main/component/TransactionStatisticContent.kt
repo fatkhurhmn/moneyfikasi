@@ -7,10 +7,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.twotone.List
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -46,33 +51,49 @@ fun TransactionStatisticContent(
 
     val ctx = LocalContext.current
 
-    LazyColumn(
-        modifier = modifier,
-        contentPadding = PaddingValues(vertical = 16.dp)
-    ) {
-        item {
-            TransactionPieChart(
-                modifier = Modifier
-                    .padding(24.dp)
-                    .fillMaxWidth(),
-                valueColor = ctx.getColor(R.color.white),
-                transactions = transactions
-            )
+    if (transactionByCategory.isNotEmpty()) {
+        LazyColumn(
+            modifier = modifier,
+            contentPadding = PaddingValues(vertical = 16.dp)
+        ) {
+            item {
+                TransactionPieChart(
+                    modifier = Modifier
+                        .padding(24.dp)
+                        .fillMaxWidth(),
+                    valueColor = ctx.getColor(R.color.white),
+                    transactions = transactions
+                )
+            }
+
+            items(transactionByCategory.size) { index ->
+                val item = transactionByCategory.keys.toList()[index]
+                val amount = transactionByCategory.values.toList()[index].sumOf { it.amount }
+                val percentage = amount / transactions.sumOf { it.amount }
+                val quantity = transactions.count { it.category == item }
+
+                StatisticTransactionItem(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                    category = item,
+                    amount = amount,
+                    percentage = percentage,
+                    quantity = quantity
+                )
+            }
         }
-
-        items(transactionByCategory.size) { index ->
-            val item = transactionByCategory.keys.toList()[index]
-            val amount = transactionByCategory.values.toList()[index].sumOf { it.amount }
-            val percentage = amount / transactions.sumOf { it.amount }
-            val quantity = transactions.count { it.category == item }
-
-            StatisticTransactionItem(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                category = item,
-                amount = amount,
-                percentage = percentage,
-                quantity = quantity
+    } else {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.TwoTone.List,
+                contentDescription = stringResource(R.string.no_transactions),
+                tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
+                modifier = Modifier.size(100.dp)
             )
+            Text(text = stringResource(R.string.no_transactions))
         }
     }
 }
