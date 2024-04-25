@@ -14,19 +14,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.domain.utils.TransactionFilter
+import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
 import dev.muffar.moneyfikasi.utils.capitalize
 import dev.muffar.moneyfikasi.utils.toFormattedDateTime
 
 @Composable
 fun DateRangeFilterTab(
     modifier: Modifier = Modifier,
-    filter: TransactionFilter,
+    filter: TransactionDateFilter,
     startDateMillis: Long,
     endDateMillis: Long,
-    onFilterSelect: (TransactionFilter) -> Unit,
+    onFilterSelect: (TransactionDateFilter) -> Unit,
 ) {
-    val options = TransactionFilter.entries
+    val options = TransactionDateFilter.entries
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -58,8 +58,8 @@ fun DateRangeFilterTab(
                 }
 
                 AnimatedVisibility(
-                    visible = mFilter == TransactionFilter.CUSTOM &&
-                            filter == TransactionFilter.CUSTOM &&
+                    visible = mFilter == TransactionDateFilter.CUSTOM &&
+                            filter == TransactionDateFilter.CUSTOM &&
                             startDateMillis != 0L &&
                             endDateMillis != 0L
                 ) {

@@ -1,6 +1,6 @@
 package dev.muffar.moneyfikasi.domain.utils
 
-enum class TransactionFilter {
+enum class TransactionDateFilter {
     DAILY,
     WEEKLY,
     MONTHLY,

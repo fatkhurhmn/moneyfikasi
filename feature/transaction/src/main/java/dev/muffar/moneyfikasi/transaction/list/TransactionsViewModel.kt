@@ -9,7 +9,7 @@ import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
-import dev.muffar.moneyfikasi.domain.utils.TransactionFilter
+import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
 import dev.muffar.moneyfikasi.utils.format
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -109,7 +109,7 @@ class TransactionsViewModel @Inject constructor(
         _state.update { it.copy(isExpandedFab = isExpanded) }
     }
 
-    private fun onFilterChanged(filter: TransactionFilter) {
+    private fun onFilterChanged(filter: TransactionDateFilter) {
         _state.update { it.copy(filter = filter) }
     }
 

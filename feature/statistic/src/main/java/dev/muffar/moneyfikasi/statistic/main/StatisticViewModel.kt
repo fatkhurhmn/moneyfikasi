@@ -7,7 +7,7 @@ import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
-import dev.muffar.moneyfikasi.domain.utils.TransactionFilter
+import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticSheetType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -111,7 +111,7 @@ class StatisticViewModel @Inject constructor(
         }
     }
 
-    private fun onFilterChanged(filter: TransactionFilter) {
+    private fun onFilterChanged(filter: TransactionDateFilter) {
         _state.update {
             it.copy(filter = filter)
         }

@@ -27,7 +27,7 @@ import dev.muffar.moneyfikasi.common_ui.component.ExpandableFloatingActionButton
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
-import dev.muffar.moneyfikasi.domain.utils.TransactionFilter
+import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsDateFilterSection
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsFilterSheet
@@ -44,7 +44,7 @@ fun TransactionsScreen(
     onTransactionItemClick: (UUID) -> Unit,
     onExpandFabButton: (Boolean) -> Unit,
     onNavigateToAddScreen: (TransactionType) -> Unit,
-    onFilterChanged: (TransactionFilter) -> Unit,
+    onFilterChanged: (TransactionDateFilter) -> Unit,
     onDateRangeChange: (Long, Long) -> Unit,
     onShowFilterSheet: (Boolean) -> Unit,
     onFilterCategories: (Set<Category>) -> Unit,
@@ -140,7 +140,7 @@ fun TransactionsScreen(
                         endDateMillis = state.endDateRange,
                         onSave = { filter, startDate, endDate, categories, wallets ->
                             onFilterChanged(filter)
-                            if (filter == TransactionFilter.CUSTOM) {
+                            if (filter == TransactionDateFilter.CUSTOM) {
                                 onDateRangeChange(startDate, endDate)
                             }
                             onFilterCategories(categories)

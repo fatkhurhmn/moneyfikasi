@@ -2,11 +2,11 @@ package dev.muffar.moneyfikasi.transaction.list
 
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.Wallet
-import dev.muffar.moneyfikasi.domain.utils.TransactionFilter
+import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
 
 sealed class TransactionsEvent {
     data class OnExpandFabButton(val isExpanded: Boolean) : TransactionsEvent()
-    data class OnFilterChanged(val filter: TransactionFilter) : TransactionsEvent()
+    data class OnFilterChanged(val filter: TransactionDateFilter) : TransactionsEvent()
     data class OnDateRangeChanged(val start: Long, val end: Long) : TransactionsEvent()
     data class OnShowFilterSheet(val show: Boolean) : TransactionsEvent()
     data class OnFilterCategories(val categories: Set<Category>) : TransactionsEvent()

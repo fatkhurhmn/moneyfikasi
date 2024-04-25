@@ -3,7 +3,7 @@ package dev.muffar.moneyfikasi.transaction.list
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.model.Wallet
-import dev.muffar.moneyfikasi.domain.utils.TransactionFilter
+import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
 import dev.muffar.moneyfikasi.utils.endOfMonth
 import dev.muffar.moneyfikasi.utils.format
 import dev.muffar.moneyfikasi.utils.startOfMonth
@@ -16,7 +16,7 @@ data class TransactionsState(
     },
     val isLoading: Boolean = false,
     val isExpandedFab : Boolean = false,
-    val filter: TransactionFilter = TransactionFilter.MONTHLY,
+    val filter: TransactionDateFilter = TransactionDateFilter.MONTHLY,
     val categories : List<Category> = emptyList(),
     val wallets : List<Wallet> = emptyList(),
     val selectedCategories : Set<Category> = emptySet(),

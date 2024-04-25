@@ -29,14 +29,14 @@ import dev.muffar.moneyfikasi.common_ui.component.CommonTabs
 import dev.muffar.moneyfikasi.common_ui.component.DateRangeSheet
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.Wallet
-import dev.muffar.moneyfikasi.domain.utils.TransactionFilter
+import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
 import dev.muffar.moneyfikasi.resource.R
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun TransactionsFilterSheet(
     modifier: Modifier = Modifier,
-    filter: TransactionFilter,
+    filter: TransactionDateFilter,
     categories: List<Category>,
     wallets: List<Wallet>,
     selectedCategories: Set<Category>,
@@ -44,7 +44,7 @@ fun TransactionsFilterSheet(
     startDateMillis: Long,
     endDateMillis: Long,
     onSave: (
-        filter: TransactionFilter,
+        filter: TransactionDateFilter,
         startDateMillis: Long,
         endDateMillis: Long,
         categories: Set<Category>,
@@ -59,8 +59,8 @@ fun TransactionsFilterSheet(
     var showDateRangeSheet by remember { mutableStateOf(false) }
 
     var mFilter by remember { mutableStateOf(filter) }
-    var selectedStartDate by remember { mutableLongStateOf(if (filter == TransactionFilter.CUSTOM) startDateMillis else 0L) }
-    var selectedEndDate by remember { mutableLongStateOf(if (filter == TransactionFilter.CUSTOM) endDateMillis else 0L) }
+    var selectedStartDate by remember { mutableLongStateOf(if (filter == TransactionDateFilter.CUSTOM) startDateMillis else 0L) }
+    var selectedEndDate by remember { mutableLongStateOf(if (filter == TransactionDateFilter.CUSTOM) endDateMillis else 0L) }
     var mSelectedCategories by remember { mutableStateOf(selectedCategories) }
     var mSelectedWallets by remember { mutableStateOf(selectedWallets) }
 
@@ -109,7 +109,7 @@ fun TransactionsFilterSheet(
                     startDateMillis = selectedStartDate,
                     endDateMillis = selectedEndDate,
                     onFilterSelect = {
-                        if (it == TransactionFilter.CUSTOM) {
+                        if (it == TransactionDateFilter.CUSTOM) {
                             showDateRangeSheet = true
                         } else {
                             mFilter = it
@@ -162,12 +162,12 @@ fun TransactionsFilterSheet(
             sheetState = dateRangeSheetState
         ) {
             DateRangeSheet(
-                startDateMillis = if (filter == TransactionFilter.CUSTOM) startDateMillis else null,
-                endDateMillis = if (filter == TransactionFilter.CUSTOM) endDateMillis else null,
+                startDateMillis = if (filter == TransactionDateFilter.CUSTOM) startDateMillis else null,
+                endDateMillis = if (filter == TransactionDateFilter.CUSTOM) endDateMillis else null,
                 onDateChange = { start, end ->
                     selectedStartDate = start
                     selectedEndDate = end
-                    mFilter = TransactionFilter.CUSTOM
+                    mFilter = TransactionDateFilter.CUSTOM
                 },
                 onClose = { showDateRangeSheet = false },
             )

@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonTabs
-import dev.muffar.moneyfikasi.domain.utils.TransactionFilter
+import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticBottomSheet
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticDateFilterSection
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticOverviewSection
@@ -23,7 +23,7 @@ import dev.muffar.moneyfikasi.statistic.main.component.TransactionStatisticConte
 fun StatisticScreen(
     modifier: Modifier = Modifier,
     state: StatisticState,
-    onFilterChanged: (TransactionFilter) -> Unit,
+    onFilterChanged: (TransactionDateFilter) -> Unit,
     onDateRangeChange: (Long, Long) -> Unit,
     onShowBottomSheet: (StatisticSheetType?) -> Unit,
 ) {
@@ -81,7 +81,7 @@ fun StatisticScreen(
                 onFilterChanged = onFilterChanged,
                 onDateChange = { start, date ->
                     onDateRangeChange(start, date)
-                    onFilterChanged(TransactionFilter.CUSTOM)
+                    onFilterChanged(TransactionDateFilter.CUSTOM)
                 },
                 onShowBottomSheet = onShowBottomSheet
             )
