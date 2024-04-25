@@ -28,7 +28,7 @@ fun CommonTopAppBar(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(4.dp),
+            .padding(vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         IconButton(onClick = onBackClick) {
@@ -41,6 +41,7 @@ fun CommonTopAppBar(
         Text(
             text = title,
             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Medium),
+            modifier = Modifier.padding(vertical = 16.dp)
         )
     }
 }

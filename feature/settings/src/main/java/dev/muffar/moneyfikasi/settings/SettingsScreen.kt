@@ -28,7 +28,7 @@ fun SettingsScreen(
         Column(
             modifier = modifier
                 .padding(it)
-                .padding(vertical = 8.dp)
+                .padding(vertical = 4.dp)
         ) {
             SettingsItem(
                 title = stringResource(R.string.wallets),
