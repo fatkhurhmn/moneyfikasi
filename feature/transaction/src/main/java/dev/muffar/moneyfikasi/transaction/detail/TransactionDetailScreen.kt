@@ -45,7 +45,7 @@ fun TransactionDetailScreen(
     val type = state.transaction?.type ?: TransactionType.INCOME
     val wallet = state.transaction?.wallet?.name ?: ""
     val category = state.transaction?.category?.name ?: ""
-    val date = state.transaction?.date?.format("dd-MM-yyyy, kk:mm") ?: ""
+    val date = state.transaction?.date?.format("dd-MM-yyyy, H:mm") ?: ""
     val note = state.transaction?.note ?: "-"
 
     LaunchedEffect(eventFlow) {

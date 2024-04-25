@@ -87,7 +87,7 @@ class AddEditTransactionViewModel @Inject constructor(
                                 wallet = wallet,
                                 note = note ?: "",
                                 date = date,
-                                hour = date.toFormattedDateTime("kk").toInt(),
+                                hour = date.toFormattedDateTime("H").toInt(),
                                 minute = date.toFormattedDateTime("mm").toInt()
                             )
                         }

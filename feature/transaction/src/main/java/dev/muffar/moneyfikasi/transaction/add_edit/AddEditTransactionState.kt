@@ -29,7 +29,7 @@ data class AddEditTransactionState(
     ),
     val date: Long = System.currentTimeMillis(),
     val time: Long = System.currentTimeMillis(),
-    val hour: Int = time.toFormattedDateTime("HH").toInt(),
+    val hour: Int = time.toFormattedDateTime("H").toInt(),
     val minute: Int = time.toFormattedDateTime("mm").toInt(),
     val note: String = "",
     val categories: List<Category> = emptyList(),

@@ -4,6 +4,7 @@ import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.utils.TransactionFilter
+import dev.muffar.moneyfikasi.utils.endOfMonth
 import dev.muffar.moneyfikasi.utils.format
 import dev.muffar.moneyfikasi.utils.startOfMonth
 import org.threeten.bp.LocalDateTime
@@ -21,7 +22,7 @@ data class TransactionsState(
     val selectedCategories : Set<Category> = emptySet(),
     val selectedWallets : Set<Wallet> = emptySet(),
     val startDateRange: Long = LocalDateTime.now().startOfMonth(),
-    val endDateRange: Long = LocalDateTime.now().startOfMonth(),
+    val endDateRange: Long = LocalDateTime.now().endOfMonth(),
     val showFilterSheet : Boolean = false,
     val showDateRangeSheet : Boolean = false,
     val overviewIncome : Double = 0.0,

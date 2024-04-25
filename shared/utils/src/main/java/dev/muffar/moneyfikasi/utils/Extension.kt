@@ -65,7 +65,13 @@ fun LocalDateTime.startOfYear(): Long {
 }
 
 fun LocalDateTime.endOfYear(): Long {
-    return this.withMonth(12).withDayOfMonth(31).toMilliseconds()
+    return this.withMonth(12)
+        .withDayOfMonth(31)
+        .withHour(23)
+        .withMinute(59)
+        .withSecond(59)
+        .withNano(999999999)
+        .toMilliseconds()
 }
 
 fun LocalDateTime.startOfMonth(): Long {
@@ -73,7 +79,14 @@ fun LocalDateTime.startOfMonth(): Long {
 }
 
 fun LocalDateTime.endOfMonth(): Long {
-    return this.withDayOfMonth(1).plusMonths(1).minusDays(1).toMilliseconds()
+    return this.withDayOfMonth(1)
+        .plusMonths(1)
+        .minusDays(1)
+        .withHour(23)
+        .withMinute(59)
+        .withSecond(59)
+        .withNano(999999999)
+        .toMilliseconds()
 }
 
 fun LocalDateTime.startOfWeek(): Long {
@@ -81,7 +94,12 @@ fun LocalDateTime.startOfWeek(): Long {
 }
 
 fun LocalDateTime.endOfWeek(): Long {
-    return this.with(DayOfWeek.SUNDAY).toMilliseconds()
+    return this.with(DayOfWeek.SUNDAY)
+        .withHour(23)
+        .withMinute(59)
+        .withSecond(59)
+        .withNano(999999999)
+        .toMilliseconds()
 }
 
 fun LocalDateTime.endOfDay(): Long {

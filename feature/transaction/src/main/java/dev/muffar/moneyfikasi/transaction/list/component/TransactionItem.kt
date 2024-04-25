@@ -87,7 +87,7 @@ fun TransactionItem(
             )
             Spacer(modifier = Modifier.height(2.dp))
             Text(
-                text = transaction.date.format(DateTimeFormatter.ofPattern("kk:mm")),
+                text = transaction.date.format(DateTimeFormatter.ofPattern("H:mm")),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.outline
             )
