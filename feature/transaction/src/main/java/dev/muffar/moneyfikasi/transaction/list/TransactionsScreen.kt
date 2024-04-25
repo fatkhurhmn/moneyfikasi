@@ -34,6 +34,7 @@ import dev.muffar.moneyfikasi.transaction.list.component.TransactionsFilterSheet
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsList
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsLoading
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsTopBar
+import org.threeten.bp.LocalDateTime
 import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,6 +46,7 @@ fun TransactionsScreen(
     onExpandFabButton: (Boolean) -> Unit,
     onNavigateToAddScreen: (TransactionType) -> Unit,
     onFilterChanged: (TransactionDateFilter) -> Unit,
+    onLocalDateTimeChange : (LocalDateTime) -> Unit,
     onDateRangeChange: (Long, Long) -> Unit,
     onShowFilterSheet: (Boolean) -> Unit,
     onFilterCategories: (Set<Category>) -> Unit,
@@ -86,8 +88,10 @@ fun TransactionsScreen(
         ) {
             TransactionsDateFilterSection(
                 filter = state.filter,
+                currentLocalDateTime = state.currentLocalDateTime,
                 startDateMillis = state.startDateRange,
                 endDateMillis = state.endDateRange,
+                onLocalDateTimeChange = onLocalDateTimeChange,
                 onDateChange = onDateRangeChange
             )
 

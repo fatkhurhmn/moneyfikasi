@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.threeten.bp.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -39,6 +40,7 @@ class TransactionsViewModel @Inject constructor(
         when (event) {
             is TransactionsEvent.OnExpandFabButton -> onExpandFabButton(event.isExpanded)
             is TransactionsEvent.OnFilterChanged -> onFilterChanged(event.filter)
+            is TransactionsEvent.OnLocalDateTimeChange -> onLocalDateTimeChange(event.localDateTime)
             is TransactionsEvent.OnDateRangeChanged -> onDateRangeChanged(event.start, event.end)
             is TransactionsEvent.OnShowFilterSheet -> onShowFilterSheet(event.show)
             is TransactionsEvent.OnFilterCategories -> onFilterCategories(event.categories)
@@ -111,6 +113,10 @@ class TransactionsViewModel @Inject constructor(
 
     private fun onFilterChanged(filter: TransactionDateFilter) {
         _state.update { it.copy(filter = filter) }
+    }
+
+    private fun onLocalDateTimeChange(localDateTime: LocalDateTime) {
+        _state.update { it.copy(currentLocalDateTime = localDateTime) }
     }
 
     private fun onDateRangeChanged(start: Long, end: Long) {

@@ -17,6 +17,7 @@ import dev.muffar.moneyfikasi.statistic.main.component.StatisticOverviewSection
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticSheetType
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticTopBar
 import dev.muffar.moneyfikasi.statistic.main.component.TransactionStatisticContent
+import org.threeten.bp.LocalDateTime
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -24,6 +25,7 @@ fun StatisticScreen(
     modifier: Modifier = Modifier,
     state: StatisticState,
     onFilterChanged: (TransactionDateFilter) -> Unit,
+    onLocalDateTimeChange : (LocalDateTime) -> Unit,
     onDateRangeChange: (Long, Long) -> Unit,
     onShowBottomSheet: (StatisticSheetType?) -> Unit,
 ) {
@@ -43,9 +45,11 @@ fun StatisticScreen(
         ) {
             StatisticDateFilterSection(
                 filter = state.filter,
+                currentLocalDateTime = state.currentLocalDateTime,
                 startDateMillis = state.startDateRange,
                 endDateMillis = state.endDateRange,
-                onDateChange = onDateRangeChange
+                onDateChange = onDateRangeChange,
+                onLocalDateTimeChange = onLocalDateTimeChange
             )
 
             StatisticOverviewSection(

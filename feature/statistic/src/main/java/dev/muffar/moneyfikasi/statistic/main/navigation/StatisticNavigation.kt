@@ -21,6 +21,7 @@ fun NavGraphBuilder.statisticNavigation() {
             modifier = Modifier,
             state = state,
             onFilterChanged = { event(StatisticEvent.OnFilterChanged(it)) },
+            onLocalDateTimeChange = { event(StatisticEvent.OnLocalDateTimeChange(it)) },
             onDateRangeChange = { start, end ->
                 event(StatisticEvent.OnDateRangeChanged(start, end))
             },

@@ -17,18 +17,23 @@ import dev.muffar.moneyfikasi.utils.startOfDay
 import dev.muffar.moneyfikasi.utils.startOfMonth
 import dev.muffar.moneyfikasi.utils.startOfWeek
 import dev.muffar.moneyfikasi.utils.startOfYear
+import org.threeten.bp.LocalDateTime
 
 @Composable
 fun StatisticDateFilterSection(
     modifier: Modifier = Modifier,
     filter: TransactionDateFilter,
+    currentLocalDateTime: LocalDateTime,
     startDateMillis: Long,
     endDateMillis: Long,
+    onLocalDateTimeChange : (LocalDateTime) -> Unit,
     onDateChange: (start: Long, end: Long) -> Unit,
 ) {
     when (filter) {
         TransactionDateFilter.DAILY -> DailyCalendarFilter(
             modifier = modifier,
+            currentDate = currentLocalDateTime,
+            onCurrentDateChange = onLocalDateTimeChange,
             onDateChange = {
                 onDateChange(it.startOfDay(), it.endOfDay())
             }
@@ -36,6 +41,8 @@ fun StatisticDateFilterSection(
 
         TransactionDateFilter.WEEKLY -> WeeklyCalendarFilter(
             modifier = modifier,
+            currentDate = currentLocalDateTime,
+            onCurrentDateChange = onLocalDateTimeChange,
             onDateChange = {
                 onDateChange(it.startOfWeek(), it.endOfWeek())
             }
@@ -43,6 +50,8 @@ fun StatisticDateFilterSection(
 
         TransactionDateFilter.MONTHLY -> MonthlyCalendarFilter(
             modifier = modifier,
+            currentDate = currentLocalDateTime,
+            onCurrentDateChange = onLocalDateTimeChange,
             onDateChange = {
                 onDateChange(it.startOfMonth(), it.endOfMonth())
             }
@@ -50,6 +59,8 @@ fun StatisticDateFilterSection(
 
         TransactionDateFilter.YEARLY -> YearlyCalendarFilter(
             modifier = modifier,
+            currentDate = currentLocalDateTime,
+            onCurrentDateChange = onLocalDateTimeChange,
             onDateChange = {
                 onDateChange(it.startOfYear(), it.endOfYear())
             }

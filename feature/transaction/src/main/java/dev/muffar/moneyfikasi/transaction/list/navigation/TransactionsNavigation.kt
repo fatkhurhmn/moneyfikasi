@@ -29,6 +29,7 @@ fun NavGraphBuilder.transactionsNavigation(
             onExpandFabButton = { event(TransactionsEvent.OnExpandFabButton(it)) },
             onNavigateToAddScreen = onNavigateToAddScreen,
             onFilterChanged = { event(TransactionsEvent.OnFilterChanged(it)) },
+            onLocalDateTimeChange = { event(TransactionsEvent.OnLocalDateTimeChange(it)) },
             onDateRangeChange = { start, end ->
                 event(TransactionsEvent.OnDateRangeChanged(start, end))
             },

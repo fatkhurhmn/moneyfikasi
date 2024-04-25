@@ -15,10 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,16 +26,16 @@ import dev.muffar.moneyfikasi.utils.capitalize
 import dev.muffar.moneyfikasi.utils.shortName
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDateTime
-import org.threeten.bp.LocalTime
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.temporal.TemporalAdjusters
 
 @Composable
 fun WeeklyCalendarFilter(
     modifier: Modifier = Modifier,
+    currentDate : LocalDateTime,
+    onCurrentDateChange : (LocalDateTime) -> Unit,
     onDateChange: (LocalDateTime) -> Unit,
 ) {
-    var currentDate by remember { mutableStateOf(LocalDateTime.now().with(LocalTime.MIN)) }
 
     val startOfWeek = currentDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
     val endOfWeek = currentDate.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY))
@@ -62,8 +59,9 @@ fun WeeklyCalendarFilter(
     ) {
         IconButton(
             onClick = {
-                currentDate = currentDate.minusWeeks(1)
-                onDateChange(currentDate)
+                val newDate = currentDate.minusWeeks(1)
+                onCurrentDateChange(newDate)
+                onDateChange(newDate)
             }
         ) {
             Icon(
@@ -79,8 +77,9 @@ fun WeeklyCalendarFilter(
 
         IconButton(
             onClick = {
-                currentDate = currentDate.plusWeeks(1)
-                onDateChange(currentDate)
+                val newDate = currentDate.plusWeeks(1)
+                onCurrentDateChange(newDate)
+                onDateChange(newDate)
             }
         ) {
             Icon(

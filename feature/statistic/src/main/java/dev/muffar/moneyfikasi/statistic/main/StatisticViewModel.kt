@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.threeten.bp.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,6 +35,7 @@ class StatisticViewModel @Inject constructor(
 
     fun onEvent(event: StatisticEvent) {
         when (event) {
+            is StatisticEvent.OnLocalDateTimeChange -> onLocalDateTimeChange(event.localDateTime)
             is StatisticEvent.OnDateRangeChanged -> onDateRangeChange(event.start, event.end)
             is StatisticEvent.OnShowBottomSheet -> onShowBottomSheet(event.type)
             is StatisticEvent.OnFilterChanged -> onFilterChanged(event.filter)
@@ -93,6 +95,10 @@ class StatisticViewModel @Inject constructor(
                     loadOverviews()
                 }
         }
+    }
+
+    private fun onLocalDateTimeChange(localDateTime: LocalDateTime) {
+        _state.update { it.copy(currentLocalDateTime = localDateTime) }
     }
 
     private fun onDateRangeChange(start: Long, end: Long) {
