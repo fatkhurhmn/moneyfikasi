@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.GroupTransactionHeader
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import java.util.UUID
 

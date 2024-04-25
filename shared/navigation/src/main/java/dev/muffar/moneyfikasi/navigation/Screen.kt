@@ -6,8 +6,7 @@ import java.util.UUID
 
 sealed class Screen(val route: String) {
     data object Main : Screen("main")
-    data object Transactions : Screen("transactions")
-    data object Statistics : Screen("statistics")
+
     data object Debt : Screen("debt")
     data object Settings : Screen("settings")
 
@@ -31,6 +30,7 @@ sealed class Screen(val route: String) {
         }
     }
 
+    data object Transactions : Screen("transactions")
     data object AddEditTransaction :
         Screen("add_edit_transaction/{type}?transaction_id={transaction_id}") {
         const val TYPE = "type"
@@ -46,5 +46,10 @@ sealed class Screen(val route: String) {
         fun routeWithArg(id: UUID): String {
             return "transaction_detail/$id"
         }
+    }
+
+    data object Statistic : Screen("statistic")
+    data object StatisticDetail : Screen("statistic_detail") {
+        const val TRANSACTIONS = "transactions"
     }
 }

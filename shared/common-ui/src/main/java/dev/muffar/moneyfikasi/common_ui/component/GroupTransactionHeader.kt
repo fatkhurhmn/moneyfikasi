@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.transaction.list.component
+package dev.muffar.moneyfikasi.common_ui.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

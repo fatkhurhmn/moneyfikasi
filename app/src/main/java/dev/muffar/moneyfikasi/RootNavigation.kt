@@ -8,8 +8,11 @@ import androidx.navigation.compose.composable
 import dev.muffar.moneyfikasi.category.add_edit.navigation.toAddEditCategoryScreen
 import dev.muffar.moneyfikasi.category.categoriesNavGraph
 import dev.muffar.moneyfikasi.category.list.navigation.toCategoriesScreen
+import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.settings.navigation.settingsNavGraph
+import dev.muffar.moneyfikasi.statistic.detail.navigation.statisticDetailNavigation
+import dev.muffar.moneyfikasi.statistic.detail.navigation.toStatisticDetailScreen
 import dev.muffar.moneyfikasi.statistic.main.navigation.statisticNavigation
 import dev.muffar.moneyfikasi.transaction.add_edit.navigation.toAddEditTransactionScreen
 import dev.muffar.moneyfikasi.transaction.detail.navigation.toTransactionDetail
@@ -40,7 +43,13 @@ fun RootNavigation(
             onNavigateToAddCategory = { navController.toAddEditCategoryScreen(it) }
         )
 
-        statisticNavigation()
+        statisticNavigation(
+            onNavigateToStatisticDetail = { navController.toStatisticDetailScreen(it) }
+        )
+        statisticDetailNavigation(
+            transactions = navController.previousBackStackEntry?.savedStateHandle?.get<List<Transaction>>(Screen.StatisticDetail.TRANSACTIONS) ?: emptyList(),
+            onNavigateBack = { navController.navigateUp() }
+        )
 
         composable(Screen.Debt.route) {
             Text("Debt")

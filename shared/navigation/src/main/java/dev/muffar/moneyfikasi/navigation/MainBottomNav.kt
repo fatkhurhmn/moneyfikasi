@@ -86,8 +86,8 @@ fun MainBottomNav(
                 navController = navController,
                 activeIcon = Icons.Rounded.PieChart,
                 inactiveIcon = Icons.Outlined.PieChart,
-                label = stringResource(R.string.statistics_menu),
-                route = Screen.Statistics.route,
+                label = stringResource(R.string.statistic_menu),
+                route = Screen.Statistic.route,
                 modifier = Modifier
                     .padding(2.dp)
                     .weight(1f)

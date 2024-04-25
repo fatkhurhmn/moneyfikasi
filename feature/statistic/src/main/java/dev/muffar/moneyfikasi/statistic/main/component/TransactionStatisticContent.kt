@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.statistic.main.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,6 +41,7 @@ import dev.muffar.moneyfikasi.utils.formatThousand
 fun TransactionStatisticContent(
     modifier: Modifier = Modifier,
     transactions: List<Transaction>,
+    onClick: (List<Transaction>) -> Unit,
 ) {
     val transactionByCategory = transactions
         .groupBy { it.category }
@@ -73,11 +75,13 @@ fun TransactionStatisticContent(
                 val quantity = transactions.count { it.category == item }
 
                 StatisticTransactionItem(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                    modifier = Modifier
+                        .clickable { onClick(transactionByCategory.values.toList()[index]) }
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
                     category = item,
                     amount = amount,
                     percentage = percentage,
-                    quantity = quantity
+                    quantity = quantity,
                 )
             }
         }

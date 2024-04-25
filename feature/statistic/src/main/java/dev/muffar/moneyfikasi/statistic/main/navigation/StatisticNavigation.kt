@@ -6,13 +6,16 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.statistic.main.StatisticEvent
 import dev.muffar.moneyfikasi.statistic.main.StatisticScreen
 import dev.muffar.moneyfikasi.statistic.main.StatisticViewModel
 
-fun NavGraphBuilder.statisticNavigation() {
-    composable(Screen.Statistics.route) {
+fun NavGraphBuilder.statisticNavigation(
+    onNavigateToStatisticDetail : (List<Transaction>) -> Unit
+) {
+    composable(Screen.Statistic.route) {
         val viewModel = hiltViewModel<StatisticViewModel>()
         val state by viewModel.state.collectAsState()
         val event = viewModel::onEvent
@@ -25,7 +28,8 @@ fun NavGraphBuilder.statisticNavigation() {
             onDateRangeChange = { start, end ->
                 event(StatisticEvent.OnDateRangeChanged(start, end))
             },
-            onShowBottomSheet = { event(StatisticEvent.OnShowBottomSheet(it)) }
+            onShowBottomSheet = { event(StatisticEvent.OnShowBottomSheet(it)) },
+            onItemClick = onNavigateToStatisticDetail
         )
     }
 }

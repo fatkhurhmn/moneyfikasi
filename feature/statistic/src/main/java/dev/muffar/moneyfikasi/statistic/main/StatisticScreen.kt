@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonTabs
+import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticBottomSheet
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticDateFilterSection
@@ -25,9 +26,10 @@ fun StatisticScreen(
     modifier: Modifier = Modifier,
     state: StatisticState,
     onFilterChanged: (TransactionDateFilter) -> Unit,
-    onLocalDateTimeChange : (LocalDateTime) -> Unit,
+    onLocalDateTimeChange: (LocalDateTime) -> Unit,
     onDateRangeChange: (Long, Long) -> Unit,
     onShowBottomSheet: (StatisticSheetType?) -> Unit,
+    onItemClick: (List<Transaction>) -> Unit,
 ) {
     val pagerState = rememberPagerState { state.tabs.size }
 
@@ -65,12 +67,14 @@ fun StatisticScreen(
                 when (index) {
                     0 -> TransactionStatisticContent(
                         modifier = Modifier,
-                        state.incomeTransactions,
+                        transactions = state.incomeTransactions,
+                        onClick = onItemClick
                     )
 
                     1 -> TransactionStatisticContent(
                         modifier = Modifier,
-                        state.expenseTransactions,
+                        transactions = state.expenseTransactions,
+                        onClick = onItemClick
                     )
                 }
             }

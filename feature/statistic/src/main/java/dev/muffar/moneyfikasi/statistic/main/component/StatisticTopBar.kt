@@ -27,7 +27,7 @@ fun StatisticTopBar(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = stringResource(R.string.statistics_menu),
+            text = stringResource(R.string.statistic_menu),
             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Medium),
         )
         IconButton(onClick = onFilterClick) {

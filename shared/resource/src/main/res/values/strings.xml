@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">moneyfikasi</string>
     <string name="transaction_menu">Transactions</string>
-    <string name="statistics_menu">Statistics</string>
+    <string name="statistic_menu">Statistic</string>
     <string name="debt_menu">Debt</string>
     <string name="settings_menu">Settings</string>
     <string name="wallets">Wallets</string>
@@ -75,4 +75,5 @@
     <string name="total">Total</string>
     <string name="total_balance">Total Balance</string>
     <string name="qty_transactions">%d transactions</string>
+    <string name="statistic_detail">Statistic Detail</string>
 </resources>
