@@ -35,6 +35,8 @@ fun TransactionPieChart(
                     legend.isEnabled = false
                     isDrawHoleEnabled = false
                     setUsePercentValues(true)
+                    animateX(500)
+                    animateY(500)
                 }
             },
             update = { pieChart ->
