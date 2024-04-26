@@ -2,7 +2,9 @@ package dev.muffar.moneyfikasi.wallet.list
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,9 +20,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.CommonAddButton
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.utils.formatThousand
 import dev.muffar.moneyfikasi.wallet.list.component.WalletItem
 import java.util.UUID
 
@@ -49,6 +53,26 @@ fun WalletsScreen(
             LazyColumn(
                 modifier = modifier.padding(it),
             ) {
+                item {
+                    val total = state.wallets.sumOf { i -> i.balance }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = stringResource(R.string.total),
+                            style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp),
+                        )
+                        Text(
+                            text = total.toLong().formatThousand(),
+                            style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp),
+                        )
+                    }
+                }
+
                 items(
                     items = state.wallets,
                     key = { wallet -> wallet.id }
