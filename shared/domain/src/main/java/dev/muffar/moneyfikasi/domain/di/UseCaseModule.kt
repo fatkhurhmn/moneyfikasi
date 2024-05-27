@@ -19,6 +19,7 @@ import dev.muffar.moneyfikasi.domain.usecase.transaction.DeleteAllTransactions
 import dev.muffar.moneyfikasi.domain.usecase.transaction.DeleteTransaction
 import dev.muffar.moneyfikasi.domain.usecase.transaction.GetAllTransactions
 import dev.muffar.moneyfikasi.domain.usecase.transaction.GetTransactionById
+import dev.muffar.moneyfikasi.domain.usecase.transaction.GetTransactions
 import dev.muffar.moneyfikasi.domain.usecase.transaction.SaveAllTransactions
 import dev.muffar.moneyfikasi.domain.usecase.transaction.SaveTransaction
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
@@ -71,5 +72,6 @@ object UseCaseModule {
         deleteAllTransactions = DeleteAllTransactions(transactionRepository),
         getTransactionById = GetTransactionById(transactionRepository),
         getAllTransactions = GetAllTransactions(transactionRepository),
+        getTransactions = GetTransactions(transactionRepository),
     )
 }

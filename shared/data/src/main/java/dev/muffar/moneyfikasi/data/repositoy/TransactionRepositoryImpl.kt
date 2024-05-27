@@ -51,6 +51,12 @@ class TransactionRepositoryImpl @Inject constructor(
             .map { it.mapToModel() }
     }
 
+    override suspend fun getTransactions(query: String): Flow<List<Transaction>> {
+        return transactionDao
+            .getTransactionsWithWalletAndCategory(query)
+            .map { it.mapToModel() }
+    }
+
     override suspend fun getTransactionById(id: UUID): Transaction? {
         return transactionDao.getByIdWithWalletAndCategory(id)?.toModel()
     }

@@ -17,5 +17,6 @@ interface TransactionRepository {
         wallets: Set<UUID>?,
     ): Flow<List<Transaction>>
 
+    suspend fun getTransactions(query: String): Flow<List<Transaction>>
     suspend fun getTransactionById(id: UUID): Transaction?
 }

@@ -64,6 +64,7 @@ dependencies {
     implementation(projects.feature.category)
     implementation(projects.feature.wallet)
     implementation(projects.feature.statistic)
+    implementation(projects.feature.search)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

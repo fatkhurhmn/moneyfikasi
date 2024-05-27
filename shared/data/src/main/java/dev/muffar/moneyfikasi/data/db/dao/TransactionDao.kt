@@ -67,6 +67,10 @@ interface TransactionDao {
     ): Flow<List<TransactionWithWalletAndCategory>>
 
     @Transaction
+    @Query("SELECT * FROM transactions WHERE note LIKE '%' || :query || '%'")
+    fun getTransactionsWithWalletAndCategory(query: String): Flow<List<TransactionWithWalletAndCategory>>
+
+    @Transaction
     @Query("SELECT * FROM transactions WHERE id = :id")
     suspend fun getByIdWithWalletAndCategory(id: UUID): TransactionWithWalletAndCategory?
 

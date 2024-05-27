@@ -35,6 +35,7 @@ dependencies {
     implementation(projects.shared.navigation)
     implementation(projects.shared.commonUi)
     implementation(projects.shared.resource)
+    implementation(projects.shared.utils)
 
     implementation(libs.androidx.core.ktx)
 
@@ -44,6 +45,9 @@ dependencies {
 
     implementation(libs.dagger.hilt.android)
     kapt(libs.dagger.hilt.compiler)
+
+    implementation(libs.threetenabp)
+
 }
 
 kapt {

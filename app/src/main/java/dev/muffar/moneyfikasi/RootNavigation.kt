@@ -10,6 +10,7 @@ import dev.muffar.moneyfikasi.category.categoriesNavGraph
 import dev.muffar.moneyfikasi.category.list.navigation.toCategoriesScreen
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.search.navigation.searchNavigation
 import dev.muffar.moneyfikasi.settings.navigation.settingsNavGraph
 import dev.muffar.moneyfikasi.statistic.detail.navigation.toStatisticDetailScreen
 import dev.muffar.moneyfikasi.statistic.statisticNavGraph
@@ -48,6 +49,10 @@ fun RootNavigation(
                 ?: emptyList(),
             onNavigateToStatisticDetail = { navController.toStatisticDetailScreen(it) },
             onNavigateBack = { navController.navigateUp() }
+        )
+
+        searchNavigation(
+            onNavigateToTransactionDetail = { navController.toTransactionDetail(it) },
         )
 
         composable(Screen.Debt.route) {

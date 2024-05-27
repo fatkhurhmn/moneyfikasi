@@ -3,6 +3,7 @@
     <string name="transaction_menu">Transactions</string>
     <string name="statistic_menu">Statistic</string>
     <string name="debt_menu">Debt</string>
+    <string name="search_menu">Search</string>
     <string name="settings_menu">Settings</string>
     <string name="wallets">Wallets</string>
     <string name="categories">Categories</string>
@@ -76,4 +77,8 @@
     <string name="total_balance">Total Balance</string>
     <string name="qty_transactions">%d transactions</string>
     <string name="statistic_detail">Statistic Detail</string>
+    <string name="search">Search by note</string>
+    <string name="clear_search">Clear search</string>
+    <string name="no_search_results">No search results</string>
+    <string name="type_to_search">Type something to search by note</string>
 </resources>

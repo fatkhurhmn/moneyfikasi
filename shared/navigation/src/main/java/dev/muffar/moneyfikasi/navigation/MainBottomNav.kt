@@ -17,11 +17,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ViewList
 import androidx.compose.material.icons.automirrored.rounded.ViewList
-import androidx.compose.material.icons.outlined.MonetizationOn
 import androidx.compose.material.icons.outlined.PieChart
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material.icons.rounded.MonetizationOn
 import androidx.compose.material.icons.rounded.PieChart
+import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Icon
@@ -84,10 +84,10 @@ fun MainBottomNav(
 
             BottomBarItem(
                 navController = navController,
-                activeIcon = Icons.Rounded.PieChart,
-                inactiveIcon = Icons.Outlined.PieChart,
-                label = stringResource(R.string.statistic_menu),
-                route = Screen.Statistic.route,
+                activeIcon = Icons.Rounded.Search,
+                inactiveIcon = Icons.Outlined.Search,
+                label = stringResource(R.string.search_menu),
+                route = Screen.Search.route,
                 modifier = Modifier
                     .padding(2.dp)
                     .weight(1f)
@@ -95,10 +95,10 @@ fun MainBottomNav(
 
             BottomBarItem(
                 navController = navController,
-                activeIcon = Icons.Rounded.MonetizationOn,
-                inactiveIcon = Icons.Outlined.MonetizationOn,
-                label = stringResource(R.string.debt_menu),
-                route = Screen.Debt.route,
+                activeIcon = Icons.Rounded.PieChart,
+                inactiveIcon = Icons.Outlined.PieChart,
+                label = stringResource(R.string.statistic_menu),
+                route = Screen.Statistic.route,
                 modifier = Modifier
                     .padding(2.dp)
                     .weight(1f)

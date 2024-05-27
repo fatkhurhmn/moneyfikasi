@@ -6,5 +6,6 @@ data class TransactionUseCases(
     val deleteTransaction: DeleteTransaction,
     val deleteAllTransactions: DeleteAllTransactions,
     val getAllTransactions: GetAllTransactions,
-    val getTransactionById: GetTransactionById
+    val getTransactionById: GetTransactionById,
+    val getTransactions: GetTransactions
 )
