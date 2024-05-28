@@ -45,7 +45,7 @@ To get started with Moneyfikasi, follow these steps:
 
 ## How to Contribute
 
-Contributions to RemindTask are welcome! To contribute to the project, follow these steps:
+Contributions to Moneyfikasi are welcome! To contribute to the project, follow these steps:
 
 1. Fork this repository.
 2. Create a new branch for your feature or bug fix: `git checkout -b feature-name`.
