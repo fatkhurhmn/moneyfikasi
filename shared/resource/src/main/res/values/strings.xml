@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">moneyfikasi</string>
+    <string name="app_name">Moneyfikasi</string>
     <string name="transaction_menu">Transactions</string>
     <string name="statistic_menu">Statistic</string>
     <string name="debt_menu">Debt</string>
