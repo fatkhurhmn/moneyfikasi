@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.AccountBalanceWallet
 import androidx.compose.material.icons.twotone.Category
+import androidx.compose.material.icons.twotone.Save
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,7 +19,8 @@ import dev.muffar.moneyfikasi.settings.component.SettingsTopBar
 fun SettingsScreen(
     modifier : Modifier = Modifier,
     onWalletsClick : () -> Unit,
-    onCategoriesClick : () -> Unit
+    onCategoriesClick : () -> Unit,
+    onBackupRestoreClick : () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -39,6 +41,11 @@ fun SettingsScreen(
                 title = stringResource(R.string.categories),
                 icon = Icons.TwoTone.Category,
                 onClick = onCategoriesClick
+            )
+            SettingsItem(
+                title = stringResource(R.string.backup_restore),
+                icon = Icons.TwoTone.Save,
+                onClick = onBackupRestoreClick
             )
         }
     }

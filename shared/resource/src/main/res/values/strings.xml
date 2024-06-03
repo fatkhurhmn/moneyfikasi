@@ -81,4 +81,5 @@
     <string name="clear_search">Clear search</string>
     <string name="no_search_results">No search results</string>
     <string name="type_to_search">Type something to search by note</string>
+    <string name="backup_restore">Backup &amp; Restore</string>
 </resources>

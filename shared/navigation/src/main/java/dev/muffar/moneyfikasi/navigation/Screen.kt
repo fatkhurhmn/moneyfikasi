@@ -54,4 +54,6 @@ sealed class Screen(val route: String) {
     data object StatisticDetail : Screen("statistic_detail") {
         const val TRANSACTIONS = "transactions"
     }
+
+    data object BackupRestore : Screen("backup_restore")
 }

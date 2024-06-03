@@ -5,6 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import dev.muffar.moneyfikasi.backup_restore.navigation.backupRestoreNavGraph
+import dev.muffar.moneyfikasi.backup_restore.navigation.toBackupRestoreScreen
 import dev.muffar.moneyfikasi.category.add_edit.navigation.toAddEditCategoryScreen
 import dev.muffar.moneyfikasi.category.categoriesNavGraph
 import dev.muffar.moneyfikasi.category.list.navigation.toCategoriesScreen
@@ -61,7 +63,8 @@ fun RootNavigation(
 
         settingsNavGraph(
             navigateToWallets = { navController.toWalletsScreen() },
-            navigateToCategories = { navController.toCategoriesScreen() }
+            navigateToCategories = { navController.toCategoriesScreen() },
+            navigateToBackupRestore = { navController.toBackupRestoreScreen() }
         )
 
         categoriesNavGraph(
@@ -79,5 +82,7 @@ fun RootNavigation(
             navigateToEditWallet = { navController.toAddEditWalletScreen(it) },
             navigateBack = { navController.navigateUp() }
         )
+
+        backupRestoreNavGraph()
     }
 }

@@ -7,12 +7,14 @@ import dev.muffar.moneyfikasi.settings.SettingsScreen
 
 fun NavGraphBuilder.settingsNavGraph(
     navigateToWallets: () -> Unit,
-    navigateToCategories: () -> Unit
+    navigateToCategories: () -> Unit,
+    navigateToBackupRestore: () -> Unit,
 ) {
     composable(route = Screen.Settings.route) {
         SettingsScreen(
             onWalletsClick = navigateToWallets,
-            onCategoriesClick = navigateToCategories
+            onCategoriesClick = navigateToCategories,
+            onBackupRestoreClick = navigateToBackupRestore
         )
     }
 }
