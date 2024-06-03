@@ -83,6 +83,8 @@ fun RootNavigation(
             navigateBack = { navController.navigateUp() }
         )
 
-        backupRestoreNavGraph()
+        backupRestoreNavGraph(
+            navigateBack = { navController.navigateUp() }
+        )
     }
 }

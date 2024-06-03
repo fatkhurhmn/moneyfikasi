@@ -5,6 +5,7 @@
     <string name="debt_menu">Debt</string>
     <string name="search_menu">Search</string>
     <string name="settings_menu">Settings</string>
+    <string name="backup_restore_menu">Backup &amp; Restore</string>
     <string name="wallets">Wallets</string>
     <string name="categories">Categories</string>
     <string name="add">Add</string>
