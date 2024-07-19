@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.CommonAlertDialog
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.flow.SharedFlow
@@ -23,10 +24,13 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun BackupRestoreScreen(
     modifier: Modifier = Modifier,
+    state: BackupRestoreState,
     eventFlow: SharedFlow<BackupRestoreViewModel.UiEvent>,
     onBackupClick: () -> Unit,
     onRestoreClick: () -> Unit,
     onBackClick: () -> Unit,
+    onShowBackupAlert: (Boolean) -> Unit,
+    onShowRestoreAlert: (Boolean) -> Unit,
 ) {
 
     val context = LocalContext.current
@@ -60,20 +64,42 @@ fun BackupRestoreScreen(
                 .padding(horizontal = 16.dp)
 
             Button(
-                onClick = onBackupClick,
+                onClick = { onShowBackupAlert(true) },
                 modifier = buttonModifier
             ) {
-                Text(text = "Backup")
+                Text(text = stringResource(R.string.backup))
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                onClick = onRestoreClick,
+                onClick = { onShowRestoreAlert(true) },
                 modifier = buttonModifier
             ) {
-                Text(text = "Restore")
+                Text(text = stringResource(R.string.restore))
             }
         }
+    }
+
+    if (state.showBackupAlert) {
+        CommonAlertDialog(
+            title = stringResource(R.string.backup_data),
+            message = stringResource(R.string.backup_message),
+            positiveText = stringResource(R.string.backup),
+            negativeText = stringResource(R.string.cancel),
+            onDismiss = { onShowBackupAlert(false) },
+            onConfirm = onBackupClick
+        )
+    }
+
+    if (state.showRestoreAlert) {
+        CommonAlertDialog(
+            title = stringResource(R.string.restore_data),
+            message = stringResource(R.string.restore_message),
+            positiveText = stringResource(R.string.restore),
+            negativeText = stringResource(R.string.cancel),
+            onDismiss = { onShowRestoreAlert(false) },
+            onConfirm = onRestoreClick
+        )
     }
 }

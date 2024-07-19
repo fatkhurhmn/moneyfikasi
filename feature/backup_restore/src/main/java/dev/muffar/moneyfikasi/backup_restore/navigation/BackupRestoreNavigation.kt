@@ -14,13 +14,17 @@ fun NavGraphBuilder.backupRestoreNavGraph(
 ) {
     composable(route = Screen.BackupRestore.route) {
         val viewModel = hiltViewModel<BackupRestoreViewModel>()
+        val state = viewModel.state
         val event = viewModel::onEvent
 
         BackupRestoreScreen(
+            state = state.value,
             eventFlow = viewModel.eventFlow,
-            onBackupClick = {event(BackupRestoreEvent.OnBackupData)},
-            onRestoreClick = {event(BackupRestoreEvent.OnRestoreData)},
-            onBackClick = navigateBack
+            onBackupClick = { event(BackupRestoreEvent.OnBackupData) },
+            onRestoreClick = { event(BackupRestoreEvent.OnRestoreData) },
+            onBackClick = navigateBack,
+            onShowBackupAlert = { event(BackupRestoreEvent.OnShowBackupAlert(it)) },
+            onShowRestoreAlert = { event(BackupRestoreEvent.OnShowRestoreAlert(it)) }
         )
     }
 }

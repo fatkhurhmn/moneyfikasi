@@ -83,4 +83,10 @@
     <string name="no_search_results">No search results</string>
     <string name="type_to_search">Type something to search by note</string>
     <string name="backup_restore">Backup &amp; Restore</string>
+    <string name="backup">Backup</string>
+    <string name="restore">Restore</string>
+    <string name="backup_data">Backup data</string>
+    <string name="restore_data">Restore data</string>
+    <string name="backup_message"> Are you sure you want to backup your data? This will overwrite any previous backup.</string>
+    <string name="restore_message"> Are you sure you want to restore your data? This will overwrite any previous data.</string>
 </resources>
