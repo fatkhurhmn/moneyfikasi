@@ -4,9 +4,13 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.muffar.moneyfikasi.domain.repository.BackupRestoreRepository
 import dev.muffar.moneyfikasi.domain.repository.CategoryRepository
 import dev.muffar.moneyfikasi.domain.repository.TransactionRepository
 import dev.muffar.moneyfikasi.domain.repository.WalletRepository
+import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupData
+import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupRestoreUseCases
+import dev.muffar.moneyfikasi.domain.usecase.backup_restore.RestoreData
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.category.DeleteAllCategories
 import dev.muffar.moneyfikasi.domain.usecase.category.DeleteCategory
@@ -73,5 +77,13 @@ object UseCaseModule {
         getTransactionById = GetTransactionById(transactionRepository),
         getAllTransactions = GetAllTransactions(transactionRepository),
         getTransactions = GetTransactions(transactionRepository),
+    )
+
+    @Provides
+    fun provideBackupRestoreUseCases(
+        backupRestoreRepository: BackupRestoreRepository,
+    ) = BackupRestoreUseCases(
+        backupData = BackupData(backupRestoreRepository),
+        restoreData = RestoreData(backupRestoreRepository),
     )
 }

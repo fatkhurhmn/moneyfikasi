@@ -78,5 +78,5 @@ compose = [
 
 room = [
     "room-runtime",
-    "room-ktx"
+    "room-ktx",
 ]
