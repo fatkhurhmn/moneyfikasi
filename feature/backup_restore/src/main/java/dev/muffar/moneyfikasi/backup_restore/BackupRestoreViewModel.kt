@@ -1,7 +1,6 @@
 package dev.muffar.moneyfikasi.backup_restore
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,35 +15,24 @@ class BackupRestoreViewModel @Inject constructor(
     private val backupRestoreUseCases: BackupRestoreUseCases,
 ) : ViewModel() {
 
-    private val _state = mutableStateOf(BackupRestoreState())
-    val state : State<BackupRestoreState> = _state
-
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
     fun onEvent(event: BackupRestoreEvent) {
         when (event) {
             is BackupRestoreEvent.OnBackupData -> {
-                backupData()
+                backupData(event.uri)
             }
 
             is BackupRestoreEvent.OnRestoreData -> {
-                backupRestoreUseCases.restoreData()
-            }
-
-            is BackupRestoreEvent.OnShowBackupAlert -> {
-                _state.value = _state.value.copy(showBackupAlert = event.showAlertDialog)
-            }
-
-            is BackupRestoreEvent.OnShowRestoreAlert -> {
-                _state.value = _state.value.copy(showRestoreAlert = event.showAlertDialog)
+                backupRestoreUseCases.restoreData(event.uri)
             }
         }
     }
 
-    private fun backupData() {
+    private fun backupData(uri: Uri) {
         viewModelScope.launch {
-            val result = backupRestoreUseCases.backupData()
+            val result = backupRestoreUseCases.backupData(uri)
             if (result == 0) {
                 _eventFlow.emit(UiEvent.ShowMessage("Backup Success"))
             } else {

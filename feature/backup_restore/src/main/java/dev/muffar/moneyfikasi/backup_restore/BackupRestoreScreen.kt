@@ -1,6 +1,9 @@
 package dev.muffar.moneyfikasi.backup_restore
 
+import android.net.Uri
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.component.CommonAlertDialog
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.flow.SharedFlow
@@ -24,13 +26,10 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun BackupRestoreScreen(
     modifier: Modifier = Modifier,
-    state: BackupRestoreState,
     eventFlow: SharedFlow<BackupRestoreViewModel.UiEvent>,
-    onBackupClick: () -> Unit,
-    onRestoreClick: () -> Unit,
+    onBackupClick: (Uri) -> Unit,
+    onRestoreClick: (Uri) -> Unit,
     onBackClick: () -> Unit,
-    onShowBackupAlert: (Boolean) -> Unit,
-    onShowRestoreAlert: (Boolean) -> Unit,
 ) {
 
     val context = LocalContext.current
@@ -43,6 +42,20 @@ fun BackupRestoreScreen(
             }
         }
     }
+
+    val dirBackupLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.OpenDocumentTree()) {
+            if (it != null) {
+                onBackupClick(it)
+            }
+        }
+
+    val dirRestoreLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.OpenDocumentTree()) {
+            if (it != null) {
+                onRestoreClick(it)
+            }
+        }
 
     Scaffold(
         topBar = {
@@ -64,7 +77,7 @@ fun BackupRestoreScreen(
                 .padding(horizontal = 16.dp)
 
             Button(
-                onClick = { onShowBackupAlert(true) },
+                onClick = { dirBackupLauncher.launch(null) },
                 modifier = buttonModifier
             ) {
                 Text(text = stringResource(R.string.backup))
@@ -73,33 +86,11 @@ fun BackupRestoreScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                onClick = { onShowRestoreAlert(true) },
+                onClick = { dirRestoreLauncher.launch(null) },
                 modifier = buttonModifier
             ) {
                 Text(text = stringResource(R.string.restore))
             }
         }
-    }
-
-    if (state.showBackupAlert) {
-        CommonAlertDialog(
-            title = stringResource(R.string.backup_data),
-            message = stringResource(R.string.backup_message),
-            positiveText = stringResource(R.string.backup),
-            negativeText = stringResource(R.string.cancel),
-            onDismiss = { onShowBackupAlert(false) },
-            onConfirm = onBackupClick
-        )
-    }
-
-    if (state.showRestoreAlert) {
-        CommonAlertDialog(
-            title = stringResource(R.string.restore_data),
-            message = stringResource(R.string.restore_message),
-            positiveText = stringResource(R.string.restore),
-            negativeText = stringResource(R.string.cancel),
-            onDismiss = { onShowRestoreAlert(false) },
-            onConfirm = onRestoreClick
-        )
     }
 }

@@ -28,6 +28,7 @@ dependencies {
     implementation(projects.shared.utils)
 
     implementation(libs.bundles.room)
+    implementation(libs.androidx.documentfile)
     kapt(libs.room.compiler)
     annotationProcessor(libs.room.compiler)
 
