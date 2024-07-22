@@ -89,4 +89,11 @@
     <string name="restore_data">Restore data</string>
     <string name="backup_message"> Are you sure you want to backup your data? This will overwrite any previous backup.</string>
     <string name="restore_message"> Are you sure you want to restore your data? This will overwrite any previous data.</string>
+    <string name="notes">Notes:</string>
+    <string name="note_1">1. Backup data will be created into three files</string>
+    <string name="backup_files_1">    - moneyfikasi_backup</string>
+    <string name="backup_files_2">    - moneyfikasi_backup-wal</string>
+    <string name="backup_files_3">    - moneyfikasi_backup-shm</string>
+    <string name="note_2">2. Make sure save these three files</string>
+    <string name="note_3">3. Make sure don\'t change the names of the three files</string>
 </resources>
