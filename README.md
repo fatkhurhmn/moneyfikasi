@@ -20,6 +20,7 @@
 - **Analysis Graph.** View graphs that show your financial trends, helping you understand spending and income patterns.
 - **Multiple Wallet.** Manage finances from multiple wallets.
 - **Customize Category.** Organize your transactions in various customizable categories, such as food, transportation, entertainment, etc.
+- **Backup Restore.** You can backup and restore at anytime to save your record.
 
 ## Tech Stack
 
