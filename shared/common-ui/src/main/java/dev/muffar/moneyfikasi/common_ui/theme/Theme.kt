@@ -50,20 +50,20 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = MainColor.Green.primary,
+    primary = MainColor.Blue.dark,
     onPrimary = MainColor.White,
-    primaryContainer = MainColor.Green.primary,
+    primaryContainer = MainColor.Blue.dark,
     onPrimaryContainer = MainColor.White,
-    inversePrimary = MainColor.Green.dark,
+    inversePrimary = MainColor.Blue.light,
 
     secondary = MainColor.Yellow.kindaDark,
     onSecondary = MainColor.White,
     secondaryContainer = MainColor.Yellow.light,
     onSecondaryContainer = MainColor.White,
 
-    tertiary = MainColor.Blue.primary,
+    tertiary = MainColor.Orange.primary,
     onTertiary = MainColor.White,
-    tertiaryContainer = MainColor.Blue.light,
+    tertiaryContainer = MainColor.Orange.light,
     onTertiaryContainer = MainColor.White,
 
     error = MainColor.Red.primary,
