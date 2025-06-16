@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.navigation
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -13,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.BottomAppBarDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -27,6 +27,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -62,7 +64,8 @@ fun MainBottomNav(
         ) {
             BottomBarItem(
                 navController = navController,
-                icon = painterResource(R.drawable.ic_transaction),
+                selectedIcon = painterResource(R.drawable.ic_transaction_on),
+                unselectedIcon = painterResource(R.drawable.ic_transaction_off),
                 label = stringResource(R.string.transaction_menu),
                 route = Screen.Transactions.route,
                 modifier = Modifier
@@ -72,7 +75,8 @@ fun MainBottomNav(
 
             BottomBarItem(
                 navController = navController,
-                icon = painterResource(R.drawable.ic_search),
+                selectedIcon = painterResource(R.drawable.ic_search_on),
+                unselectedIcon = painterResource(R.drawable.ic_search_off),
                 label = stringResource(R.string.search_menu),
                 route = Screen.Search.route,
                 modifier = Modifier
@@ -82,7 +86,8 @@ fun MainBottomNav(
 
             BottomBarItem(
                 navController = navController,
-                icon = painterResource(R.drawable.ic_statistic),
+                selectedIcon = painterResource(R.drawable.ic_statistic_on),
+                unselectedIcon = painterResource(R.drawable.ic_statistic_off),
                 label = stringResource(R.string.statistic_menu),
                 route = Screen.Statistic.route,
                 modifier = Modifier
@@ -92,7 +97,8 @@ fun MainBottomNav(
 
             BottomBarItem(
                 navController = navController,
-                icon = painterResource(R.drawable.ic_settings),
+                selectedIcon = painterResource(R.drawable.ic_settings_on),
+                unselectedIcon = painterResource(R.drawable.ic_settings_off),
                 label = stringResource(R.string.settings_menu),
                 route = Screen.Settings.route,
                 modifier = Modifier
@@ -106,17 +112,18 @@ fun MainBottomNav(
 @Composable
 fun BottomBarItem(
     navController: NavHostController,
-    icon: Painter,
+    selectedIcon: Painter,
+    unselectedIcon: Painter,
     label: String,
     route: String,
     modifier: Modifier = Modifier,
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    val isActive = currentRoute == route
+    val isSelected = currentRoute == route
 
     val iconColor =
-        if (!isActive) MaterialTheme.colorScheme.outline else MaterialTheme.colorScheme.primary
+        if (!isSelected) MaterialTheme.colorScheme.outline else MaterialTheme.colorScheme.primary
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -127,7 +134,7 @@ fun BottomBarItem(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null
             ) {
-                if (!isActive) {
+                if (!isSelected) {
                     navController.navigate(route) {
                         popUpTo(Screen.Transactions.route) {
                             saveState = true
@@ -138,18 +145,21 @@ fun BottomBarItem(
                 }
             }
     ) {
-        Icon(
-            painter = icon,
+        Image(
+            painter = if (isSelected) selectedIcon else unselectedIcon,
             contentDescription = label,
-            tint = iconColor,
             modifier = Modifier.size(30.dp)
         )
 
         Text(
             text = label,
             color = iconColor,
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(top = 4.dp)
+            style = MaterialTheme.typography.bodyMedium.copy(
+                fontWeight = if (isSelected) FontWeight.Medium else FontWeight.Normal
+            ),
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.padding(top = 4.dp),
+            maxLines = 1
         )
     }
 }

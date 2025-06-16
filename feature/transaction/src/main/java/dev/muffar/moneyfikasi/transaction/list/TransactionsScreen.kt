@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.twotone.List
-import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -75,7 +74,6 @@ fun TransactionsScreen(
             ExpandableFloatingActionButton(
                 isExpanded = state.isExpandedFab,
                 onClick = { onExpandFabButton(!state.isExpandedFab) },
-                fabIcon = Icons.Rounded.Add,
                 onTransactionClick = {
                     onNavigateToAddScreen(it)
                     onExpandFabButton(false)
