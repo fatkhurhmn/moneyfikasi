@@ -113,7 +113,7 @@ fun CreateTransactionButton(
             .fillMaxWidth()
             .height(56.dp)
             .clickable { onClick() }
-            .padding(vertical = 8.dp, horizontal = 16.dp),
+            .padding(vertical = 8.dp, horizontal = 24.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
