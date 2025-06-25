@@ -10,12 +10,15 @@ import dev.muffar.moneyfikasi.data.db.MoneyfikasiDatabase
 import dev.muffar.moneyfikasi.data.db.dao.CategoryDao
 import dev.muffar.moneyfikasi.data.db.dao.TransactionDao
 import dev.muffar.moneyfikasi.data.db.dao.WalletDao
+import dev.muffar.moneyfikasi.data.preferences.PreferencesManager
 import dev.muffar.moneyfikasi.data.repositoy.BackupRestoreRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.CategoryRepositoryImpl
+import dev.muffar.moneyfikasi.data.repositoy.PreferencesRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.TransactionRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.WalletRepositoryImpl
 import dev.muffar.moneyfikasi.domain.repository.BackupRestoreRepository
 import dev.muffar.moneyfikasi.domain.repository.CategoryRepository
+import dev.muffar.moneyfikasi.domain.repository.PreferencesRepository
 import dev.muffar.moneyfikasi.domain.repository.TransactionRepository
 import dev.muffar.moneyfikasi.domain.repository.WalletRepository
 import javax.inject.Singleton
@@ -49,5 +52,13 @@ object RepositoryModule {
         db: MoneyfikasiDatabase,
     ): BackupRestoreRepository {
         return BackupRestoreRepositoryImpl(context, db)
+    }
+
+    @Provides
+    @Singleton
+    fun providePreferencesRepository(
+        preferencesManager: PreferencesManager,
+    ): PreferencesRepository {
+        return PreferencesRepositoryImpl(preferencesManager)
     }
 }

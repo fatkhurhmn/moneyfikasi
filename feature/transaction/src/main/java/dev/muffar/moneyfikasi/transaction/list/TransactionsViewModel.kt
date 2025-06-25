@@ -7,6 +7,7 @@ import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
+import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
@@ -25,6 +26,7 @@ class TransactionsViewModel @Inject constructor(
     private val transactionUseCases: TransactionUseCases,
     private val categoryUseCases: CategoryUseCases,
     private val walletUseCases: WalletUseCases,
+    private val preferenceUseCases: PreferencesUseCases
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(TransactionsState())
@@ -34,6 +36,7 @@ class TransactionsViewModel @Inject constructor(
         loadTransactions()
         loadCategories()
         loadWallets()
+        loadPreferences()
     }
 
     fun onEvent(event: TransactionsEvent) {
@@ -45,6 +48,7 @@ class TransactionsViewModel @Inject constructor(
             is TransactionsEvent.OnShowFilterSheet -> onShowFilterSheet(event.show)
             is TransactionsEvent.OnFilterCategories -> onFilterCategories(event.categories)
             is TransactionsEvent.OnFilterWallets -> onFilterWallets(event.wallets)
+            is TransactionsEvent.OnVisibilityClicked -> onVisibilityClicked()
             is TransactionsEvent.OnSaveFilter -> reloadTransactions()
         }
     }
@@ -60,8 +64,10 @@ class TransactionsViewModel @Inject constructor(
                 .onStart { _state.update { it.copy(isLoading = true) } }
                 .collectLatest { transactions ->
                     val groupingTransactions = transactions.groupBy { it.date.format("yyyy-MM-dd") }
-                    val overviewIncome = transactions.filter { it.type == TransactionType.INCOME }.sumOf { it.amount }
-                    val overviewExpense = transactions.filter { it.type == TransactionType.EXPENSE }.sumOf { it.amount }
+                    val overviewIncome = transactions.filter { it.type == TransactionType.INCOME }
+                        .sumOf { it.amount }
+                    val overviewExpense = transactions.filter { it.type == TransactionType.EXPENSE }
+                        .sumOf { it.amount }
                     _state.update { state ->
                         state.copy(
                             transactions = transactions,
@@ -107,6 +113,19 @@ class TransactionsViewModel @Inject constructor(
         }
     }
 
+    private fun loadPreferences() {
+        viewModelScope.launch {
+            preferenceUseCases.isBalanceVisible()
+                .collectLatest { isVisible ->
+                    _state.update { state ->
+                        state.copy(
+                            isBalanceVisible = isVisible
+                        )
+                    }
+                }
+        }
+    }
+
     private fun onExpandFabButton(isExpanded: Boolean) {
         _state.update { it.copy(isExpandedFab = isExpanded) }
     }
@@ -134,6 +153,12 @@ class TransactionsViewModel @Inject constructor(
 
     private fun onFilterWallets(wallets: Set<Wallet>) {
         _state.update { it.copy(selectedWallets = wallets) }
+    }
+
+    private fun onVisibilityClicked() {
+        viewModelScope.launch {
+            preferenceUseCases.setBalanceVisibility(!_state.value.isBalanceVisible)
+        }
     }
 
     private fun reloadTransactions() {

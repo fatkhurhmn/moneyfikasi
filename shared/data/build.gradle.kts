@@ -36,6 +36,8 @@ dependencies {
     kapt(libs.dagger.hilt.compiler)
 
     implementation(libs.threetenabp)
+
+    implementation(libs.androidx.datastore)
 }
 
 kapt {

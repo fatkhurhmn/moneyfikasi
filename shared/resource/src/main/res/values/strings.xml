@@ -96,4 +96,5 @@
     <string name="backup_files_3">    - moneyfikasi_backup-shm</string>
     <string name="note_2">2. Make sure save these three files</string>
     <string name="note_3">3. Make sure don\'t change the names of the three files</string>
+    <string name="invisible_balance">• • • • • • •</string>
 </resources>

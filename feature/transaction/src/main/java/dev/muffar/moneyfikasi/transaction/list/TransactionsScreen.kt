@@ -37,6 +37,7 @@ fun TransactionsScreen(
     onFilterChanged: (TransactionDateFilter) -> Unit,
     onLocalDateTimeChange: (LocalDateTime) -> Unit,
     onDateRangeChange: (Long, Long) -> Unit,
+    onVisibilityClick: () -> Unit,
     onShowFilterSheet: (Boolean) -> Unit,
     onFilterCategories: (Set<Category>) -> Unit,
     onFilterWallets: (Set<Wallet>) -> Unit,
@@ -56,6 +57,8 @@ fun TransactionsScreen(
             TransactionsTopBar(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 totalBalance = state.totalBalance,
+                isBalanceVisible = state.isBalanceVisible,
+                onVisibilityClick = onVisibilityClick,
                 onFilterClick = { onShowFilterSheet(true) }
             )
         },

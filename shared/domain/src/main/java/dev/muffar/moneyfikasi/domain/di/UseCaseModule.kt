@@ -6,6 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.muffar.moneyfikasi.domain.repository.BackupRestoreRepository
 import dev.muffar.moneyfikasi.domain.repository.CategoryRepository
+import dev.muffar.moneyfikasi.domain.repository.PreferencesRepository
 import dev.muffar.moneyfikasi.domain.repository.TransactionRepository
 import dev.muffar.moneyfikasi.domain.repository.WalletRepository
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupData
@@ -19,6 +20,9 @@ import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryById
 import dev.muffar.moneyfikasi.domain.usecase.category.SaveAllCategories
 import dev.muffar.moneyfikasi.domain.usecase.category.SaveCategory
 import dev.muffar.moneyfikasi.domain.usecase.category.UpdateCategory
+import dev.muffar.moneyfikasi.domain.usecase.preferences.IsBalanceVisible
+import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
+import dev.muffar.moneyfikasi.domain.usecase.preferences.SetBalanceVisibility
 import dev.muffar.moneyfikasi.domain.usecase.transaction.DeleteAllTransactions
 import dev.muffar.moneyfikasi.domain.usecase.transaction.DeleteTransaction
 import dev.muffar.moneyfikasi.domain.usecase.transaction.GetAllTransactions
@@ -85,5 +89,13 @@ object UseCaseModule {
     ) = BackupRestoreUseCases(
         backupData = BackupData(backupRestoreRepository),
         restoreData = RestoreData(backupRestoreRepository),
+    )
+
+    @Provides
+    fun providePreferencesUseCases(
+        preferencesRepository: PreferencesRepository,
+    ) = PreferencesUseCases(
+        setBalanceVisibility = SetBalanceVisibility(preferencesRepository),
+        isBalanceVisible = IsBalanceVisible(preferencesRepository),
     )
 }
