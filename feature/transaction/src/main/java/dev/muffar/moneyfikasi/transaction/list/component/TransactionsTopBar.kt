@@ -3,13 +3,15 @@ package dev.muffar.moneyfikasi.transaction.list.component
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.FilterList
+import androidx.compose.material.icons.rounded.Circle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -31,6 +33,7 @@ fun TransactionsTopBar(
     modifier: Modifier = Modifier,
     totalBalance: Double,
     isBalanceVisible: Boolean,
+    isFilterApplied: Boolean,
     onVisibilityClick: () -> Unit,
     onFilterClick: () -> Unit,
 ) {
@@ -86,8 +89,30 @@ fun TransactionsTopBar(
                 )
             }
         }
-        IconButton(onClick = onFilterClick) {
-            Icon(imageVector = Icons.Rounded.FilterList, contentDescription = null)
+
+        Box {
+            IconButton(onClick = onFilterClick) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_filter),
+                    contentDescription = null,
+                    modifier = Modifier.size(30.dp)
+                )
+            }
+
+            if (isFilterApplied) {
+                Icon(
+                    imageVector = Icons.Rounded.Circle,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.error,
+                    modifier = Modifier
+                        .size(10.dp)
+                        .align(Alignment.TopStart)
+                        .offset(
+                            x = 10.dp,
+                            y = 5.dp
+                        )
+                )
+            }
         }
     }
 }

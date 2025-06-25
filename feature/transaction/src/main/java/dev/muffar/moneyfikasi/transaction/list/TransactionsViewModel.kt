@@ -164,4 +164,10 @@ class TransactionsViewModel @Inject constructor(
     private fun reloadTransactions() {
         loadTransactions()
     }
+
+    private fun showFilterBadge() {
+        val isCategoriesFiltered = _state.value.categories.size != _state.value.selectedCategories.size
+        val isWalletsFiltered = _state.value.wallets.size != _state.value.selectedWallets.size
+        _state.update { it.copy(isFilterBadgeVisible = isCategoriesFiltered || isWalletsFiltered) }
+    }
 }

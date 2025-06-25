@@ -26,7 +26,7 @@ fun EmptyTransactions() {
             modifier = Modifier
                 .fillMaxWidth()
                 .aspectRatio(1f)
-                .padding(32.dp)
+                .padding(40.dp)
         )
     }
 }

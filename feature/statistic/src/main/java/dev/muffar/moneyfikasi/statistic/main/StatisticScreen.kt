@@ -61,7 +61,7 @@ fun StatisticScreen(
             )
 
             CommonTabs(
-                tabs = state.tabs,
+                tabs = state.tabs.map { tab -> tab to false },
                 pagerState = pagerState
             ) { index ->
                 when (index) {

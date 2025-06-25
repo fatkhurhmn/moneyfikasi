@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.transaction.list.component
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -38,7 +39,9 @@ fun TransactionsFilterSheet(
     modifier: Modifier = Modifier,
     filter: TransactionDateFilter,
     categories: List<Category>,
+    isCategoriesFiltered: Boolean,
     wallets: List<Wallet>,
+    isWalletsFiltered: Boolean,
     selectedCategories: Set<Category>,
     selectedWallets: Set<Wallet>,
     startDateMillis: Long,
@@ -52,7 +55,11 @@ fun TransactionsFilterSheet(
     ) -> Unit,
     onClose: () -> Unit,
 ) {
-    val filtersTab = listOf("Date Range", "Category", "Wallet")
+    val filtersTab = listOf(
+        "Date Range" to false,
+        "Category" to isCategoriesFiltered,
+        "Wallet" to isWalletsFiltered
+    )
     val pagerState = rememberPagerState { filtersTab.size }
 
     val dateRangeSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -156,7 +163,7 @@ fun TransactionsFilterSheet(
         }
     }
 
-    if (showDateRangeSheet) {
+    AnimatedVisibility(showDateRangeSheet) {
         ModalBottomSheet(
             onDismissRequest = { showDateRangeSheet = false },
             sheetState = dateRangeSheetState

@@ -31,5 +31,6 @@ data class TransactionsState(
     val overviewExpense: Double = 0.0,
     val overviewTotal: Double = 0.0,
     val totalBalance: Double = 0.0,
-    val isBalanceVisible: Boolean = true
+    val isBalanceVisible: Boolean = true,
+    val isFilterBadgeVisible: Boolean = false
 )

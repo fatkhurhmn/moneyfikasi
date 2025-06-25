@@ -47,7 +47,7 @@ fun CategoriesScreen(
     ) {
         CommonTabs(
             modifier = modifier.padding(it),
-            tabs = state.tabs,
+            tabs = state.tabs.map { tab -> tab to false },
             pagerState = pagerState
         ) { index ->
             when (index) {

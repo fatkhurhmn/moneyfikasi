@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.transaction.list
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -9,6 +10,7 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
@@ -23,6 +25,7 @@ import dev.muffar.moneyfikasi.transaction.list.component.TransactionsFilterSheet
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsList
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsLoading
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsTopBar
+import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDateTime
 import java.util.UUID
 
@@ -44,6 +47,13 @@ fun TransactionsScreen(
     onSaveFilter: () -> Unit,
 ) {
     val filterSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val isCategoriesFiltered = state.categories.size != state.selectedCategories.size
+    val isWalletsFiltered = state.wallets.size != state.selectedWallets.size
+    val scope = rememberCoroutineScope()
+    val hideFilterSheet = {
+        scope.launch { filterSheetState.hide() }
+        onShowFilterSheet(false)
+    }
 
     Scaffold(
         modifier = Modifier.pointerInput(Unit) {
@@ -54,11 +64,13 @@ fun TransactionsScreen(
             )
         },
         topBar = {
+
             TransactionsTopBar(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 totalBalance = state.totalBalance,
                 isBalanceVisible = state.isBalanceVisible,
                 onVisibilityClick = onVisibilityClick,
+                isFilterApplied = isCategoriesFiltered || isWalletsFiltered,
                 onFilterClick = { onShowFilterSheet(true) }
             )
         },
@@ -106,14 +118,19 @@ fun TransactionsScreen(
                 }
             }
 
-            if (state.showFilterSheet) {
+            AnimatedVisibility(state.showFilterSheet) {
                 ModalBottomSheet(
-                    onDismissRequest = { onShowFilterSheet(false) },
+                    onDismissRequest = {
+                        hideFilterSheet()
+                        onShowFilterSheet(false)
+                    },
                     sheetState = filterSheetState
                 ) {
                     TransactionsFilterSheet(
                         filter = state.filter,
                         categories = state.categories,
+                        isCategoriesFiltered = isCategoriesFiltered,
+                        isWalletsFiltered = isWalletsFiltered,
                         wallets = state.wallets,
                         selectedCategories = state.selectedCategories,
                         selectedWallets = state.selectedWallets,
@@ -127,10 +144,9 @@ fun TransactionsScreen(
                             onFilterCategories(categories)
                             onFilterWallets(wallets)
                             onSaveFilter()
+                            hideFilterSheet()
                         },
-                        onClose = {
-                            onShowFilterSheet(false)
-                        }
+                        onClose = { hideFilterSheet() }
                     )
                 }
             }
