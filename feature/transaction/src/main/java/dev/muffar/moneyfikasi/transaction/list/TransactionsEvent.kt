@@ -14,5 +14,5 @@ sealed class TransactionsEvent {
     data class OnFilterWallets(val wallets: Set<Wallet>) : TransactionsEvent()
     data class OnLocalDateTimeChange(val localDateTime: LocalDateTime) : TransactionsEvent()
     data object OnVisibilityClicked : TransactionsEvent()
-    data object OnSaveFilter : TransactionsEvent()
+    data object OnApplyFilter : TransactionsEvent()
 }

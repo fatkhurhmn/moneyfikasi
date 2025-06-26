@@ -63,8 +63,8 @@ fun DateRangeFilterTab(
                             startDateMillis != 0L &&
                             endDateMillis != 0L
                 ) {
-                    val start = startDateMillis.toFormattedDateTime("dd/MMM/yyyy")
-                    val end = endDateMillis.toFormattedDateTime("dd/MMM/yyyy")
+                    val start = startDateMillis.toFormattedDateTime("MMM, dd yyyy")
+                    val end = endDateMillis.toFormattedDateTime("MMM, dd yyyy")
                     Text(
                         text = "$start - $end",
                         style = MaterialTheme.typography.bodyMedium,

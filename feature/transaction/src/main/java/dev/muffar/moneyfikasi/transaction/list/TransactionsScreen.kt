@@ -44,15 +44,15 @@ fun TransactionsScreen(
     onShowFilterSheet: (Boolean) -> Unit,
     onFilterCategories: (Set<Category>) -> Unit,
     onFilterWallets: (Set<Wallet>) -> Unit,
-    onSaveFilter: () -> Unit,
+    onApplyFilter: () -> Unit,
 ) {
     val filterSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val isCategoriesFiltered = state.categories.size != state.selectedCategories.size
     val isWalletsFiltered = state.wallets.size != state.selectedWallets.size
     val scope = rememberCoroutineScope()
     val hideFilterSheet = {
-        scope.launch { filterSheetState.hide() }
         onShowFilterSheet(false)
+        scope.launch { filterSheetState.hide() }
     }
 
     Scaffold(
@@ -64,7 +64,6 @@ fun TransactionsScreen(
             )
         },
         topBar = {
-
             TransactionsTopBar(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 totalBalance = state.totalBalance,
@@ -120,10 +119,7 @@ fun TransactionsScreen(
 
             AnimatedVisibility(state.showFilterSheet) {
                 ModalBottomSheet(
-                    onDismissRequest = {
-                        hideFilterSheet()
-                        onShowFilterSheet(false)
-                    },
+                    onDismissRequest = { hideFilterSheet() },
                     sheetState = filterSheetState
                 ) {
                     TransactionsFilterSheet(
@@ -136,14 +132,14 @@ fun TransactionsScreen(
                         selectedWallets = state.selectedWallets,
                         startDateMillis = state.startDateRange,
                         endDateMillis = state.endDateRange,
-                        onSave = { filter, startDate, endDate, categories, wallets ->
+                        onApply = { filter, startDate, endDate, categories, wallets ->
                             onFilterChanged(filter)
                             if (filter == TransactionDateFilter.CUSTOM) {
                                 onDateRangeChange(startDate, endDate)
                             }
                             onFilterCategories(categories)
                             onFilterWallets(wallets)
-                            onSaveFilter()
+                            onApplyFilter()
                             hideFilterSheet()
                         },
                         onClose = { hideFilterSheet() }

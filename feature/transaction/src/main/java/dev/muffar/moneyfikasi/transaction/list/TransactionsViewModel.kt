@@ -49,7 +49,7 @@ class TransactionsViewModel @Inject constructor(
             is TransactionsEvent.OnFilterCategories -> onFilterCategories(event.categories)
             is TransactionsEvent.OnFilterWallets -> onFilterWallets(event.wallets)
             is TransactionsEvent.OnVisibilityClicked -> onVisibilityClicked()
-            is TransactionsEvent.OnSaveFilter -> reloadTransactions()
+            is TransactionsEvent.OnApplyFilter -> reloadTransactions()
         }
     }
 
@@ -163,11 +163,5 @@ class TransactionsViewModel @Inject constructor(
 
     private fun reloadTransactions() {
         loadTransactions()
-    }
-
-    private fun showFilterBadge() {
-        val isCategoriesFiltered = _state.value.categories.size != _state.value.selectedCategories.size
-        val isWalletsFiltered = _state.value.wallets.size != _state.value.selectedWallets.size
-        _state.update { it.copy(isFilterBadgeVisible = isCategoriesFiltered || isWalletsFiltered) }
     }
 }

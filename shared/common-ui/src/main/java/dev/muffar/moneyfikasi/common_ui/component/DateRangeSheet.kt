@@ -1,19 +1,24 @@
 package dev.muffar.moneyfikasi.common_ui.component
 
-import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DateRangePicker
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDateRangePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -37,18 +42,19 @@ fun DateRangeSheet(
 
     val state = rememberDateRangePickerState(
         initialSelectedStartDateMillis = startDateMillis ?: LocalDateTime.now().toMilliseconds(),
-        initialSelectedEndDateMillis = endDateMillis ?: LocalDateTime.now().plusDays(30).toMilliseconds(),
+        initialSelectedEndDateMillis = endDateMillis ?: LocalDateTime.now().plusDays(30)
+            .toMilliseconds(),
     )
     val formattedStartDate =
-        state.selectedStartDateMillis?.toFormattedDateTime("MM/dd/yyyy")
+        state.selectedStartDateMillis?.toFormattedDateTime("MMM, dd yyyy")
             ?: stringResource(R.string.start_date)
     val formattedEndDate =
-        state.selectedEndDateMillis?.toFormattedDateTime("MM/dd/yyyy")
+        state.selectedEndDateMillis?.toFormattedDateTime("MMM, dd yyyy")
             ?: stringResource(R.string.end_date)
 
     val selectedStartDate = state.selectedStartDateMillis
     val selectedEndDate = state.selectedEndDateMillis
-
+    var showSelectDateError by remember { mutableStateOf(false) }
 
     DateRangePicker(
         modifier = Modifier.fillMaxSize(),
@@ -65,14 +71,10 @@ fun DateRangeSheet(
                     text = stringResource(R.string.select_date),
                     style = MaterialTheme.typography.titleMedium
                 )
-                TextButton(
+                Button(
                     onClick = {
                         if (selectedStartDate == null || selectedEndDate == null) {
-                            Toast.makeText(
-                                context,
-                                context.getString(R.string.please_select_date_range),
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            showSelectDateError = true
                         } else {
                             onDateChange(selectedStartDate, selectedEndDate)
                             onClose()
@@ -87,14 +89,24 @@ fun DateRangeSheet(
             }
         },
         headline = {
-            Text(
-                text = "$formattedStartDate - $formattedEndDate",
-                style = MaterialTheme.typography.bodyLarge.copy(fontSize = 18.sp),
+            Column(
                 modifier = Modifier.padding(horizontal = 16.dp)
-            )
+            ) {
+                Text(
+                    text = "$formattedStartDate - $formattedEndDate",
+                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = 18.sp),
+                )
+                AnimatedVisibility(showSelectDateError) {
+                    Text(
+                        text = stringResource(R.string.please_select_date_range),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                }
+            }
         },
         colors = DatePickerDefaults.colors(
-            dayInSelectionRangeContainerColor = MaterialTheme.colorScheme.primary.copy(0.5f),
+            dayInSelectionRangeContainerColor = MaterialTheme.colorScheme.primary.copy(0.4f),
             dayInSelectionRangeContentColor = MaterialTheme.colorScheme.onPrimary
         )
     )

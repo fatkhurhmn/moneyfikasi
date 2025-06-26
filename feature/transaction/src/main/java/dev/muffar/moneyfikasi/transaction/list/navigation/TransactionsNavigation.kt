@@ -37,7 +37,7 @@ fun NavGraphBuilder.transactionsNavigation(
             onFilterCategories = { event(TransactionsEvent.OnFilterCategories(it)) },
             onFilterWallets = { event(TransactionsEvent.OnFilterWallets(it)) },
             onVisibilityClick = { event(TransactionsEvent.OnVisibilityClicked) },
-            onSaveFilter = { event(TransactionsEvent.OnSaveFilter) }
+            onApplyFilter = { event(TransactionsEvent.OnApplyFilter) }
         )
     }
 }

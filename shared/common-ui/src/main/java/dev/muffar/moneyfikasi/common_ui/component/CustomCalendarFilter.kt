@@ -26,8 +26,8 @@ fun CustomCalendarFilter(
     endDateMillis: Long,
     modifier: Modifier = Modifier,
 ) {
-    val start = startDateMillis.toFormattedDateTime("dd/MMM/yyyy")
-    val end = endDateMillis.toFormattedDateTime("dd/MMM/yyyy")
+    val start = startDateMillis.toFormattedDateTime("MMM, dd yyyy")
+    val end = endDateMillis.toFormattedDateTime("MMM, dd yyyy")
 
     Row(
         modifier = modifier

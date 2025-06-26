@@ -5,15 +5,15 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,7 +25,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.CommonTabs
 import dev.muffar.moneyfikasi.common_ui.component.DateRangeSheet
 import dev.muffar.moneyfikasi.domain.model.Category
@@ -46,7 +45,7 @@ fun TransactionsFilterSheet(
     selectedWallets: Set<Wallet>,
     startDateMillis: Long,
     endDateMillis: Long,
-    onSave: (
+    onApply: (
         filter: TransactionDateFilter,
         startDateMillis: Long,
         endDateMillis: Long,
@@ -71,42 +70,14 @@ fun TransactionsFilterSheet(
     var mSelectedCategories by remember { mutableStateOf(selectedCategories) }
     var mSelectedWallets by remember { mutableStateOf(selectedWallets) }
 
-    Column(
-        modifier = modifier.fillMaxSize()
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = stringResource(R.string.filter),
-                style = MaterialTheme.typography.titleMedium.copy(
-                    fontSize = 20.sp
-                ),
-                modifier = Modifier
-            )
-
-            TextButton(
-                onClick = {
-                    onSave(
-                        mFilter,
-                        selectedStartDate,
-                        selectedEndDate,
-                        mSelectedCategories,
-                        mSelectedWallets
-                    )
-                    onClose()
-                }
-            ) {
-                Text(text = stringResource(R.string.save), fontSize = 18.sp)
-            }
-        }
-
+    Column {
+        Text(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            text = stringResource(R.string.filter),
+            style = MaterialTheme.typography.headlineMedium
+        )
         CommonTabs(
-            modifier = modifier,
+            modifier = modifier.weight(1f),
             tabs = filtersTab,
             pagerState = pagerState
         ) { index ->
@@ -158,6 +129,38 @@ fun TransactionsFilterSheet(
                             mSelectedWallets += item
                         }
                     }
+                )
+            }
+        }
+        Row(
+            modifier = Modifier
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            OutlinedButton(onClick = onClose) {
+                Text(
+                    text = stringResource(R.string.cancel),
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
+
+            Button(
+                onClick = {
+                    onApply(
+                        mFilter,
+                        selectedStartDate,
+                        selectedEndDate,
+                        mSelectedCategories,
+                        mSelectedWallets
+                    )
+                    onClose()
+                }
+            ) {
+                Text(
+                    text = stringResource(R.string.apply),
+                    style = MaterialTheme.typography.titleMedium
                 )
             }
         }
