@@ -22,7 +22,6 @@ fun TransactionOverviewSection(
     modifier: Modifier = Modifier,
     income: Double,
     expense: Double,
-    total : Double,
 ) {
     Column(
         modifier = modifier.fillMaxWidth()
@@ -40,28 +39,13 @@ fun TransactionOverviewSection(
             ) {
                 Text(
                     text = stringResource(R.string.income),
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.outline
                 )
                 Text(
                     text = "+${income.toLong().formatThousand()}",
-                    style = MaterialTheme.typography.titleSmall,
+                    style = MaterialTheme.typography.titleMedium,
                     color = MainColor.Green.primary
-                )
-            }
-
-            Column(
-                modifier = Modifier.weight(1f),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = stringResource(R.string.total),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.outline
-                )
-                Text(
-                    text = total.toLong().formatThousand(),
-                    style = MaterialTheme.typography.titleSmall,
                 )
             }
 
@@ -71,12 +55,12 @@ fun TransactionOverviewSection(
             ) {
                 Text(
                     text = stringResource(R.string.expense),
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.outline
                 )
                 Text(
                     text = "-${expense.toLong().formatThousand()}",
-                    style = MaterialTheme.typography.titleSmall,
+                    style = MaterialTheme.typography.titleMedium,
                     color = MainColor.Red.primary
                 )
             }

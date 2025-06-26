@@ -10,9 +10,10 @@ import dev.muffar.moneyfikasi.resource.R
 
 val LexendFontFamily = FontFamily(
     Font(R.font.lexend_light, FontWeight.Normal),
-    Font(R.font.lexend_medium, FontWeight.Medium),
-    Font(R.font.lexend_semibold, FontWeight.SemiBold),
-    Font(R.font.lexend_bold, FontWeight.Bold),
+    Font(R.font.lexend_regular, FontWeight.Medium),
+    Font(R.font.lexend_medium, FontWeight.SemiBold),
+    Font(R.font.lexend_semibold, FontWeight.Bold),
+    Font(R.font.lexend_bold, FontWeight.ExtraBold),
 )
 
 val Typography = Typography(
@@ -60,14 +61,14 @@ val Typography = Typography(
     ),
     titleLarge = TextStyle(
         fontFamily = LexendFontFamily,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.SemiBold,
         lineHeight = 28.sp,
         fontSize = 22.sp,
         letterSpacing = 0.sp
     ),
     titleMedium = TextStyle(
         fontFamily = LexendFontFamily,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.SemiBold,
         lineHeight = 24.sp,
         fontSize = 16.sp,
         letterSpacing = 0.15.sp
@@ -75,7 +76,7 @@ val Typography = Typography(
     ),
     titleSmall = TextStyle(
         fontFamily = LexendFontFamily,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.SemiBold,
         lineHeight = 20.sp,
         fontSize = 14.sp,
         letterSpacing = 0.1.sp

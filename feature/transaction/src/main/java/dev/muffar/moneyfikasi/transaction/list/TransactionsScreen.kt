@@ -106,7 +106,6 @@ fun TransactionsScreen(
                     transactions = transactions,
                     overviewIncome = state.overviewIncome,
                     overviewExpense = state.overviewExpense,
-                    overviewTotal = state.overviewTotal,
                     onItemClick = onTransactionItemClick
                 )
             } else {
