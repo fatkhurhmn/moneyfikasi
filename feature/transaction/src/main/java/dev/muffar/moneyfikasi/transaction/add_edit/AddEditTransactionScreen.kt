@@ -40,8 +40,8 @@ fun AddEditTransactionScreen(
     onNoteChange: (String) -> Unit,
     onBackClick: () -> Unit,
     onSaveClick: () -> Unit,
-    onAddWallet : () -> Unit,
-    onAddCategory : (CategoryType) -> Unit,
+    onAddWallet: () -> Unit,
+    onAddCategory: (CategoryType) -> Unit,
     onShowBottomSheet: (AddEditTransactionSheetType?) -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(
@@ -54,7 +54,9 @@ fun AddEditTransactionScreen(
             when (it) {
                 is AddEditTransactionViewModel.UiEvent.SaveTransaction -> onBackClick()
                 is AddEditTransactionViewModel.UiEvent.DeleteTransaction -> onBackClick()
-                is AddEditTransactionViewModel.UiEvent.ShowMessage -> snackbarHostState.showSnackbar(it.message)
+                is AddEditTransactionViewModel.UiEvent.ShowMessage -> snackbarHostState.showSnackbar(
+                    it.message
+                )
             }
         }
     }
@@ -109,9 +111,9 @@ fun AddEditTransactionScreen(
                         onDismiss = { onShowBottomSheet(null) },
                         onAddWallet = onAddWallet,
                         onAddCategory = {
-                            val type = if (state.type==TransactionType.INCOME){
+                            val type = if (state.type == TransactionType.INCOME) {
                                 CategoryType.INCOME
-                            }else{
+                            } else {
                                 CategoryType.EXPENSE
                             }
 
