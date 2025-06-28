@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.common_ui.component
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,26 +23,33 @@ import dev.muffar.moneyfikasi.resource.R
 @Composable
 fun CommonTopAppBar(
     modifier: Modifier = Modifier,
-    title : String,
+    title: String,
     onBackClick: () -> Unit,
+    action: @Composable RowScope.() -> Unit = {}
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp),
+            .padding(vertical = 4.dp, horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        IconButton(onClick = onBackClick) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                contentDescription = stringResource(R.string.back)
+        Row (
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            IconButton(onClick = onBackClick) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                    contentDescription = stringResource(R.string.back)
+                )
+            }
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Medium),
+                modifier = Modifier.padding(vertical = 16.dp)
             )
         }
-        Spacer(modifier = Modifier.width(4.dp))
-        Text(
-            text = title,
-            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Medium),
-            modifier = Modifier.padding(vertical = 16.dp)
-        )
+        Spacer(modifier = Modifier.weight(1f))
+        action()
     }
 }

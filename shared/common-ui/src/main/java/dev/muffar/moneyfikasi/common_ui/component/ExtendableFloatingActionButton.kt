@@ -2,6 +2,7 @@ package dev.muffar.moneyfikasi.common_ui.component
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -121,11 +122,10 @@ fun CreateTransactionButton(
             text = text,
             modifier = Modifier.weight(1f)
         )
-        Icon(
+        Image(
             painter = icon,
             contentDescription = text,
             modifier = Modifier.size(24.dp),
-            tint = iconColor
         )
     }
 }

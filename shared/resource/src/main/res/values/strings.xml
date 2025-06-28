@@ -74,6 +74,8 @@
     <string name="select_all">Select all</string>
     <string name="income">Income</string>
     <string name="expense">Expense</string>
+    <string name="income_summary">Income Summary</string>
+    <string name="expense_summary">Expense Summary</string>
     <string name="total">Total</string>
     <string name="total_balance">Total Balance</string>
     <string name="qty_transactions">%d transactions</string>
