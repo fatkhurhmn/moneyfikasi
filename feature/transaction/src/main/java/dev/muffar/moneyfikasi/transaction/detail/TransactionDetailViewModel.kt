@@ -1,7 +1,9 @@
 package dev.muffar.moneyfikasi.transaction.detail
 
+import android.app.Application
+import android.graphics.Bitmap
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.model.Transaction
@@ -21,7 +23,8 @@ import javax.inject.Inject
 class TransactionDetailViewModel @Inject constructor(
     private val transactionUseCases: TransactionUseCases,
     private val handle: SavedStateHandle,
-) : ViewModel() {
+    private val application: Application
+) : AndroidViewModel(application) {
 
     private val _state = MutableStateFlow(TransactionDetailState())
     val state = _state.asStateFlow()
@@ -34,6 +37,7 @@ class TransactionDetailViewModel @Inject constructor(
             is TransactionDetailEvent.OnShowAlert -> onShowAlert(event.showAlert)
             is TransactionDetailEvent.OnDeleteTransaction -> onDeleteTransaction()
             is TransactionDetailEvent.OnInitData -> initState()
+            is TransactionDetailEvent.OnSaveToGallery -> onSaveToGallery(event.bitmap)
         }
     }
 
@@ -73,6 +77,10 @@ class TransactionDetailViewModel @Inject constructor(
         } else {
             transaction.amount
         }
+    }
+
+    private fun onSaveToGallery(bitmap: Bitmap) {
+        transactionUseCases.saveTransactionImage(application, bitmap)
     }
 
     sealed class UiEvent {

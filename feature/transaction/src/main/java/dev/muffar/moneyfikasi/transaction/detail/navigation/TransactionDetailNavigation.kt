@@ -33,10 +33,11 @@ fun NavGraphBuilder.transactionDetailNavigation(
         TransactionDetailScreen(
             state = state,
             eventFlow = eventFlow,
-            onDelete = { event.invoke(TransactionDetailEvent.OnDeleteTransaction) },
-            onShowAlert = { event.invoke(TransactionDetailEvent.OnShowAlert(it)) },
+            onDelete = { event(TransactionDetailEvent.OnDeleteTransaction) },
+            onShowAlert = { event(TransactionDetailEvent.OnShowAlert(it)) },
             onEdit = onNavigateToEditTransaction,
-            onBackClick = onNavigateBack
+            onBackClick = onNavigateBack,
+            onSaveClick = { event(TransactionDetailEvent.OnSaveToGallery(it)) },
         )
     }
 }

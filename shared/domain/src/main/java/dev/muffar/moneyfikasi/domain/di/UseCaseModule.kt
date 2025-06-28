@@ -30,6 +30,7 @@ import dev.muffar.moneyfikasi.domain.usecase.transaction.GetTransactionById
 import dev.muffar.moneyfikasi.domain.usecase.transaction.GetTransactions
 import dev.muffar.moneyfikasi.domain.usecase.transaction.SaveAllTransactions
 import dev.muffar.moneyfikasi.domain.usecase.transaction.SaveTransaction
+import dev.muffar.moneyfikasi.domain.usecase.transaction.SaveTransactionImage
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.DeleteAllWallets
 import dev.muffar.moneyfikasi.domain.usecase.wallet.DeleteWallet
@@ -81,6 +82,7 @@ object UseCaseModule {
         getTransactionById = GetTransactionById(transactionRepository),
         getAllTransactions = GetAllTransactions(transactionRepository),
         getTransactions = GetTransactions(transactionRepository),
+        saveTransactionImage = SaveTransactionImage()
     )
 
     @Provides
