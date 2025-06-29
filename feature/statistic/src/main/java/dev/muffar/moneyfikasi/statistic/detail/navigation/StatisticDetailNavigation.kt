@@ -12,9 +12,11 @@ import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.statistic.detail.StatisticDetailEvent
 import dev.muffar.moneyfikasi.statistic.detail.StatisticDetailScreen
 import dev.muffar.moneyfikasi.statistic.detail.StatisticDetailViewModel
+import java.util.UUID
 
 fun NavGraphBuilder.statisticDetailNavigation(
     transactions: List<Transaction>,
+    onNavigateToDetail: (UUID) -> Unit,
     onNavigateBack: () -> Unit,
 ) {
     composable(Screen.StatisticDetail.route) {
@@ -28,6 +30,7 @@ fun NavGraphBuilder.statisticDetailNavigation(
 
         StatisticDetailScreen(
             state = state,
+            onClick = onNavigateToDetail,
             onBackClick = onNavigateBack
         )
     }

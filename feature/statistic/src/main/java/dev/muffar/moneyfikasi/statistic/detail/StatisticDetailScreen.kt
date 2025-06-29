@@ -18,17 +18,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.common_ui.component.GroupTransactionHeader
+import dev.muffar.moneyfikasi.common_ui.component.TransactionItem
 import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.statistic.detail.component.StatisticDetailItem
 import dev.muffar.moneyfikasi.utils.format
 import dev.muffar.moneyfikasi.utils.formatThousand
+import java.util.UUID
 
 @Composable
 fun StatisticDetailScreen(
     modifier: Modifier = Modifier,
     state: StatisticDetailState,
+    onClick: (UUID) -> Unit,
     onBackClick: () -> Unit,
 ) {
     val transactionsByDate = state.transactions.groupBy { it.date.format("yyyy-MM-dd") }
@@ -89,7 +91,7 @@ fun StatisticDetailScreen(
                     items = transactions[index],
                     key = { transaction -> transaction.id }
                 ) { transaction ->
-                    StatisticDetailItem(transaction = transaction)
+                    TransactionItem(transaction = transaction, onClick = onClick)
                 }
 
                 item {

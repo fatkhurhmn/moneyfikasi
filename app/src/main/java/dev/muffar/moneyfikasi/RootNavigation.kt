@@ -50,6 +50,7 @@ fun RootNavigation(
                 ?.savedStateHandle?.get<List<Transaction>>(Screen.StatisticDetail.TRANSACTIONS)
                 ?: emptyList(),
             onNavigateToStatisticDetail = { navController.toStatisticDetailScreen(it) },
+            onNavigateToTransactionDetail = { navController.toTransactionDetail(it) },
             onNavigateBack = { navController.navigateUp() }
         )
 
