@@ -27,7 +27,8 @@ fun AddEditTransactionButton(
     ) {
         Text(
             text = stringResource(R.string.create),
-            modifier = Modifier.padding(vertical = 4.dp)
+            modifier = Modifier.padding(vertical = 4.dp),
+            style = MaterialTheme.typography.titleMedium
         )
         Spacer(modifier = Modifier.width(8.dp))
         Icon(

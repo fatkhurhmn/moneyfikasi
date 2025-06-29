@@ -79,6 +79,7 @@
     <string name="expense_summary">Expense Summary</string>
     <string name="total">Total</string>
     <string name="total_balance">Total Balance</string>
+    <string name="total_n_balance">Total\nBalance</string>
     <string name="qty_transactions">%d transactions</string>
     <string name="statistic_detail">Statistic Detail</string>
     <string name="search">Search by note</string>
