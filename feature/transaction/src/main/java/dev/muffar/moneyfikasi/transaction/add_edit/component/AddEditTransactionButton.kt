@@ -32,7 +32,7 @@ fun AddEditTransactionButton(
         )
         Spacer(modifier = Modifier.width(8.dp))
         Icon(
-            painter = painterResource(id = R.drawable.ic_create_transaction),
+            painter = painterResource(id = R.drawable.ic_save),
             contentDescription = stringResource(R.string.create),
             modifier = Modifier.size(24.dp),
         )

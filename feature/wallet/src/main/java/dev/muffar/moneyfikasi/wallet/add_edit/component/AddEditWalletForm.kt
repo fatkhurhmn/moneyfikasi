@@ -39,7 +39,7 @@ fun AddEditWalletForm(
     onIsActiveChange: () -> Unit,
 ) {
     Column(
-        modifier = modifier.padding(16.dp)
+        modifier = modifier.padding(vertical = 16.dp)
     ) {
         CommonTextInput(
             modifier = Modifier.fillMaxWidth(),

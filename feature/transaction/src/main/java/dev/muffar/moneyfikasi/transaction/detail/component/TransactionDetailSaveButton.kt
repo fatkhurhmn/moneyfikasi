@@ -23,6 +23,7 @@ fun TransactionDetailSaveButton(
         onClick,
         shape = MaterialTheme.shapes.small,
         modifier = Modifier
+            .padding(bottom = 8.dp)
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
     ) {
@@ -33,7 +34,7 @@ fun TransactionDetailSaveButton(
         )
         Spacer(modifier = Modifier.size(8.dp))
         Icon(
-            painter = painterResource(id = R.drawable.ic_save),
+            painter = painterResource(id = R.drawable.ic_download),
             contentDescription = stringResource(R.string.save),
             modifier = Modifier.size(24.dp),
         )

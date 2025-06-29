@@ -23,8 +23,8 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonAlertDialog
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.wallet.add_edit.component.AddEditWalletAction
 import dev.muffar.moneyfikasi.wallet.add_edit.component.AddEditWalletBottomSheet
+import dev.muffar.moneyfikasi.wallet.add_edit.component.AddEditWalletButton
 import dev.muffar.moneyfikasi.wallet.add_edit.component.AddEditWalletForm
 import dev.muffar.moneyfikasi.wallet.add_edit.component.WalletCard
 import kotlinx.coroutines.flow.SharedFlow
@@ -69,14 +69,6 @@ fun AddEditWalletScreen(
                 onBackClick = onBackClick
             )
         },
-        bottomBar = {
-            AddEditWalletAction(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                isEdit = state.id != null,
-                onSave = onSubmit,
-                onDelete = { onShowAlert(true) }
-            )
-        },
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) {
         Column(
@@ -110,6 +102,12 @@ fun AddEditWalletScreen(
                     onShowBottomSheet(AddEditWalletBottomSheet.COLOR)
                 },
                 onIsActiveChange = onIsActiveChange,
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+            AddEditWalletButton(
+                isEdit = state.id != null,
+                onSave = onSubmit,
+                onDelete = { onShowAlert(true) }
             )
         }
         if (state.bottomSheetType != null) {
