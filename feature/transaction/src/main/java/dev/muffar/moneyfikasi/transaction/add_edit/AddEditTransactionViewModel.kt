@@ -61,7 +61,7 @@ class AddEditTransactionViewModel @Inject constructor(
             is AddEditTransactionEvent.OnDateSelect -> onDateSelect(event.date)
             is AddEditTransactionEvent.OnTimeSelect -> onTimeSelect(event.hour, event.minute)
             is AddEditTransactionEvent.OnNoteChange -> onNoteChange(event.note)
-            is AddEditTransactionEvent.OnSaveClick -> onSaveClick()
+            is AddEditTransactionEvent.OnCreateClicked -> onCreateClicked()
             is AddEditTransactionEvent.OnBottomSheetChange -> onBottomSheetChange(event.type)
         }
     }
@@ -151,7 +151,7 @@ class AddEditTransactionViewModel @Inject constructor(
         _state.update { it.copy(hour = hour, minute = minute) }
     }
 
-    private fun onSaveClick() {
+    private fun onCreateClicked() {
         viewModelScope.launch {
             try {
                 val transaction = createTransactionData()

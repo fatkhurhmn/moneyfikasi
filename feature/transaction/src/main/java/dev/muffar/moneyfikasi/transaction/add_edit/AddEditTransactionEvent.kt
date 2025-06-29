@@ -13,6 +13,6 @@ sealed class AddEditTransactionEvent {
     data class OnDateSelect(val date: Long) : AddEditTransactionEvent()
     data class OnTimeSelect(val hour: Int, val minute: Int) : AddEditTransactionEvent()
     data class OnNoteChange(val note: String) : AddEditTransactionEvent()
-    data object OnSaveClick : AddEditTransactionEvent()
+    data object OnCreateClicked : AddEditTransactionEvent()
     data class OnBottomSheetChange(val type: AddEditTransactionSheetType?) : AddEditTransactionEvent()
 }

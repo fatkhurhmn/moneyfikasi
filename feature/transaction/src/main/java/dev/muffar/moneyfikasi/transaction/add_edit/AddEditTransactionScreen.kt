@@ -1,7 +1,13 @@
 package dev.muffar.moneyfikasi.transaction.add_edit
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
@@ -18,8 +24,8 @@ import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
-import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionAction
 import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionBottomSheet
+import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionButton
 import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionForm
 import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionSheetType
 import dev.muffar.moneyfikasi.utils.toFormattedDateTime
@@ -39,7 +45,7 @@ fun AddEditTransactionScreen(
     onTimeSelect: (Int, Int) -> Unit,
     onNoteChange: (String) -> Unit,
     onBackClick: () -> Unit,
-    onSaveClick: () -> Unit,
+    onCreateClick: () -> Unit,
     onAddWallet: () -> Unit,
     onAddCategory: (CategoryType) -> Unit,
     onShowBottomSheet: (AddEditTransactionSheetType?) -> Unit,
@@ -48,6 +54,7 @@ fun AddEditTransactionScreen(
         skipPartiallyExpanded = true
     )
     val snackbarHostState = remember { SnackbarHostState() }
+    val scrollState = rememberScrollState()
 
     LaunchedEffect(eventFlow) {
         eventFlow.collectLatest {
@@ -69,14 +76,15 @@ fun AddEditTransactionScreen(
                 onBackClick = onBackClick
             )
         },
-        bottomBar = {
-            AddEditTransactionAction(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                onSave = onSaveClick,
-            )
-        }
     ) {
-        Box(modifier = modifier.padding(it)) {
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(top = it.calculateTopPadding())
+                .verticalScroll(scrollState)
+                .imePadding()
+                .padding(16.dp)
+        ) {
             AddEditTransactionForm(
                 amount = state.amount,
                 note = state.note,
@@ -91,6 +99,10 @@ fun AddEditTransactionScreen(
                 onDateClick = { onShowBottomSheet(AddEditTransactionSheetType.DATE) },
                 onTimeClick = { onShowBottomSheet(AddEditTransactionSheetType.TIME) }
             )
+
+            Spacer(Modifier.height(32.dp))
+
+            AddEditTransactionButton(onCreateClick)
 
             if (state.bottomSheetType != null) {
                 ModalBottomSheet(

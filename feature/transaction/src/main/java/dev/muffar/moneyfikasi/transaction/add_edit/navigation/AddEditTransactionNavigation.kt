@@ -58,7 +58,7 @@ fun NavGraphBuilder.addEditTransactionNavigation(
                 event(AddEditTransactionEvent.OnTimeSelect(hour, minute))
             },
             onBackClick = onNavigateBack,
-            onSaveClick = { event(AddEditTransactionEvent.OnSaveClick) },
+            onCreateClick = { event(AddEditTransactionEvent.OnCreateClicked) },
             onShowBottomSheet = { sheetType ->
                 event(AddEditTransactionEvent.OnBottomSheetChange(sheetType))
             },
