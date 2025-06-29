@@ -15,14 +15,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun SettingsItem(
     modifier: Modifier = Modifier,
     title: String,
-    icon: ImageVector,
+    icon: Painter,
     onClick: () -> Unit,
 ) {
     Row(
@@ -37,9 +37,9 @@ fun SettingsItem(
             verticalAlignment = Alignment.CenterVertically
         ){
             Icon(
-                imageVector = icon,
+                painter = icon,
                 contentDescription = title,
-                tint = MaterialTheme.colorScheme.outline
+                tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f),
             )
             Spacer(modifier = Modifier.width(16.dp))
             Text(text = title, style = MaterialTheme.typography.bodyLarge)

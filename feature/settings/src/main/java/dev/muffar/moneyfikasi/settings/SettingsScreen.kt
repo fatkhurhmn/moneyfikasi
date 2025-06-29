@@ -2,13 +2,10 @@ package dev.muffar.moneyfikasi.settings
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.twotone.AccountBalanceWallet
-import androidx.compose.material.icons.twotone.Category
-import androidx.compose.material.icons.twotone.Save
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.resource.R
@@ -34,17 +31,17 @@ fun SettingsScreen(
         ) {
             SettingsItem(
                 title = stringResource(R.string.wallets),
-                icon = Icons.TwoTone.AccountBalanceWallet,
+                icon = painterResource(id = R.drawable.ic_wallet),
                 onClick = onWalletsClick
             )
             SettingsItem(
                 title = stringResource(R.string.categories),
-                icon = Icons.TwoTone.Category,
+                icon = painterResource(id = R.drawable.ic_category),
                 onClick = onCategoriesClick
             )
             SettingsItem(
                 title = stringResource(R.string.backup_restore),
-                icon = Icons.TwoTone.Save,
+                icon = painterResource(id = R.drawable.ic_restore_backup),
                 onClick = onBackupRestoreClick
             )
         }
