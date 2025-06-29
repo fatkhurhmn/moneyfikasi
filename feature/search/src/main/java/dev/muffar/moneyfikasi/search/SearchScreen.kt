@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.SearchBar
 import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.search.component.EmptySearch
 import dev.muffar.moneyfikasi.search.component.SearchTopBar
 import dev.muffar.moneyfikasi.search.component.TransactionsList
 import java.util.UUID
@@ -60,10 +61,7 @@ fun SearchScreen(
                         modifier = Modifier.fillMaxSize()
                     )
                 } else {
-                    Text(
-                        text = stringResource(R.string.no_search_results),
-                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
-                    )
+                    EmptySearch()
                 }
             }
         }
