@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
@@ -25,7 +24,6 @@ import java.util.UUID
 
 @Composable
 fun AddEditWalletForm(
-    modifier: Modifier = Modifier,
     id: UUID?,
     name: String,
     balance: String,
@@ -38,9 +36,7 @@ fun AddEditWalletForm(
     onColorClick: () -> Unit,
     onIsActiveChange: () -> Unit,
 ) {
-    Column(
-        modifier = modifier.padding(vertical = 16.dp)
-    ) {
+    Column {
         CommonTextInput(
             modifier = Modifier.fillMaxWidth(),
             value = name,
