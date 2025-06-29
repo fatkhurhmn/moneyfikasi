@@ -37,13 +37,16 @@ fun TransactionOverviewSection(
                 modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.Start
             ) {
+                val formattedIncome = income.toLong().formatThousand().let {
+                    if (income > 0) "+$it" else it
+                }
                 Text(
                     text = stringResource(R.string.income),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.outline
                 )
                 Text(
-                    text = "+${income.toLong().formatThousand()}",
+                    text = formattedIncome,
                     style = MaterialTheme.typography.titleMedium,
                     color = MainColor.Green.primary
                 )
@@ -53,13 +56,16 @@ fun TransactionOverviewSection(
                 modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.End
             ) {
+                val formattedExpense = expense.toLong().formatThousand().let {
+                    if (expense > 0) "+$it" else it
+                }
                 Text(
                     text = stringResource(R.string.expense),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.outline
                 )
                 Text(
-                    text = "-${expense.toLong().formatThousand()}",
+                    text = formattedExpense,
                     style = MaterialTheme.typography.titleMedium,
                     color = MainColor.Red.primary
                 )

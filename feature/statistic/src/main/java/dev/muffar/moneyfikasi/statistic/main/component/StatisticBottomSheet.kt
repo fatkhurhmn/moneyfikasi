@@ -2,6 +2,7 @@ package dev.muffar.moneyfikasi.statistic.main.component
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import dev.muffar.moneyfikasi.common_ui.component.DateRangeSheet
 import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
@@ -17,7 +18,9 @@ fun StatisticBottomSheet(
     onDateChange: (start: Long, end: Long) -> Unit,
     onShowBottomSheet: (StatisticSheetType?) -> Unit,
 ) {
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     ModalBottomSheet(
+        sheetState = sheetState,
         onDismissRequest = { onShowBottomSheet(null) }
     ) {
         when (type) {

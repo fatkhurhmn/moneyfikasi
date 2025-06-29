@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -59,7 +61,10 @@ fun StatisticScreen(
                 expense = state.overviewExpense,
                 total = state.overviewTotal
             )
-
+            HorizontalDivider(
+                thickness = 8.dp,
+                color = MaterialTheme.colorScheme.outline.copy(0.08f)
+            )
             CommonTabs(
                 tabs = state.tabs.map { tab -> tab to false },
                 pagerState = pagerState

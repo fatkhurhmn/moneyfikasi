@@ -69,9 +69,11 @@ fun TransactionItem(
         Column(
             horizontalAlignment = Alignment.End,
         ) {
-            val prefix = if (transaction.type == TransactionType.EXPENSE) "-" else "+"
+            val formattedAmount = transaction.amount.toLong().formatThousand().let {
+                if (transaction.type == TransactionType.EXPENSE) "-$it" else "+$it"
+            }
             Text(
-                text = prefix + transaction.amount.toLong().formatThousand(),
+                text = formattedAmount,
                 style = MaterialTheme.typography.bodyLarge,
                 color = if (transaction.type == TransactionType.EXPENSE) MainColor.Red.primary else MainColor.Green.primary,
                 maxLines = 1,
