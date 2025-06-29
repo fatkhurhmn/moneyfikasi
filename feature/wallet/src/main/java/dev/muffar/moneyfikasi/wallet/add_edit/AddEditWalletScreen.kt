@@ -1,7 +1,13 @@
 package dev.muffar.moneyfikasi.wallet.add_edit
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
@@ -20,6 +26,7 @@ import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.wallet.add_edit.component.AddEditWalletAction
 import dev.muffar.moneyfikasi.wallet.add_edit.component.AddEditWalletBottomSheet
 import dev.muffar.moneyfikasi.wallet.add_edit.component.AddEditWalletForm
+import dev.muffar.moneyfikasi.wallet.add_edit.component.WalletCard
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
 
@@ -43,6 +50,7 @@ fun AddEditWalletScreen(
 
     val sheetState = rememberModalBottomSheetState()
     val snackbarHostState = remember { SnackbarHostState() }
+    val scrollState = rememberScrollState()
 
     LaunchedEffect(eventFlow) {
         eventFlow.collectLatest {
@@ -71,7 +79,21 @@ fun AddEditWalletScreen(
         },
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) {
-        Box(modifier = modifier.padding(it)) {
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(top = it.calculateTopPadding())
+                .verticalScroll(scrollState)
+                .imePadding()
+                .padding(16.dp)
+        ) {
+            WalletCard(
+                name = state.name,
+                color = state.color,
+                icon = state.icon,
+                balance = state.balance,
+            )
+            Spacer(modifier = Modifier.height(16.dp))
             AddEditWalletForm(
                 id = state.id,
                 name = state.name,
@@ -89,39 +111,38 @@ fun AddEditWalletScreen(
                 },
                 onIsActiveChange = onIsActiveChange,
             )
-
-            if (state.bottomSheetType != null) {
-                ModalBottomSheet(
-                    onDismissRequest = { onShowBottomSheet(null) },
-                    sheetState = sheetState
-                ) {
-                    AddEditWalletBottomSheet(
-                        type = state.bottomSheetType,
-                        onIconSelect = { icon ->
-                            onIconChange(icon)
-                            onShowBottomSheet(null)
-                        },
-                        onColorSelect = { color ->
-                            onColorChange(color)
-                        },
-                        onDismiss = { onShowBottomSheet(null) }
-                    )
-                }
-            }
-
-            if (state.showAlert) {
-                CommonAlertDialog(
-                    title = stringResource(R.string.delete_wallet),
-                    message = stringResource(R.string.delete_wallet_confirmation),
-                    positiveText = stringResource(R.string.delete),
-                    negativeText = stringResource(R.string.cancel),
-                    onDismiss = { onShowAlert(false) },
-                    onConfirm = {
-                        onDelete()
-                        onShowAlert(false)
-                    }
+        }
+        if (state.bottomSheetType != null) {
+            ModalBottomSheet(
+                onDismissRequest = { onShowBottomSheet(null) },
+                sheetState = sheetState
+            ) {
+                AddEditWalletBottomSheet(
+                    type = state.bottomSheetType,
+                    onIconSelect = { icon ->
+                        onIconChange(icon)
+                        onShowBottomSheet(null)
+                    },
+                    onColorSelect = { color ->
+                        onColorChange(color)
+                    },
+                    onDismiss = { onShowBottomSheet(null) }
                 )
             }
+        }
+
+        if (state.showAlert) {
+            CommonAlertDialog(
+                title = stringResource(R.string.delete_wallet),
+                message = stringResource(R.string.delete_wallet_confirmation),
+                positiveText = stringResource(R.string.delete),
+                negativeText = stringResource(R.string.cancel),
+                onDismiss = { onShowAlert(false) },
+                onConfirm = {
+                    onDelete()
+                    onShowAlert(false)
+                }
+            )
         }
     }
 }
