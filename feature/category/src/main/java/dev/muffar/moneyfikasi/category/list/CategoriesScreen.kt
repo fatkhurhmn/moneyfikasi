@@ -40,7 +40,7 @@ fun CategoriesScreen(
             CommonAddButton(
                 onClick = {
                     val currentTab = pagerState.currentPage
-                    onAddCategoryClick(CategoryType.entries[currentTab])
+                    onAddCategoryClick(CategoryType.fromString(state.tabs[currentTab]))
                 }
             )
         }
