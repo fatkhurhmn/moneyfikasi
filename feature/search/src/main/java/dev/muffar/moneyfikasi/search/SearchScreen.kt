@@ -10,11 +10,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
 import dev.muffar.moneyfikasi.common_ui.component.SearchBar
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.search.component.EmptySearch
 import dev.muffar.moneyfikasi.search.component.SearchTopBar
 import dev.muffar.moneyfikasi.search.component.TransactionsList
 import java.util.UUID
@@ -61,7 +62,10 @@ fun SearchScreen(
                         modifier = Modifier.fillMaxSize()
                     )
                 } else {
-                    EmptySearch()
+                    EmptyDataList(
+                        painter = painterResource(id = R.drawable.ic_search_not_found),
+                        description = stringResource(id = R.string.no_search_results)
+                    )
                 }
             }
         }

@@ -13,13 +13,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
 import dev.muffar.moneyfikasi.common_ui.component.ExpandableFloatingActionButton
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
-import dev.muffar.moneyfikasi.transaction.list.component.EmptyTransactions
+import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsDateFilterSection
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsFilterSheet
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsList
@@ -112,7 +115,10 @@ fun TransactionsScreen(
                 if (state.isLoading) {
                     TransactionsLoading()
                 } else {
-                    EmptyTransactions()
+                    EmptyDataList(
+                        painter = painterResource(id = R.drawable.ic_empty_transactions),
+                        description = stringResource(id = R.string.no_transactions)
+                    )
                 }
             }
 

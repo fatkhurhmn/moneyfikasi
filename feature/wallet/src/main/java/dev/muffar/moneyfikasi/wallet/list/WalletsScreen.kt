@@ -1,17 +1,14 @@
 package dev.muffar.moneyfikasi.wallet.list
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -24,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.CommonAddButton
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
+import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.formatThousand
 import dev.muffar.moneyfikasi.wallet.list.component.WalletItem
@@ -86,21 +84,10 @@ fun WalletsScreen(
                 }
             }
         } else {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(it),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_wallet),
-                    contentDescription = stringResource(R.string.no_wallets),
-                    tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f),
-                    modifier = Modifier.size(100.dp)
-                )
-                Text(text = stringResource(R.string.no_wallets))
-            }
+            EmptyDataList(
+                painter = painterResource(id = R.drawable.ic_empty_wallet),
+                description = stringResource(id = R.string.no_wallets)
+            )
         }
     }
 }

@@ -10,7 +10,7 @@
     <string name="categories">Categories</string>
     <string name="add">Add</string>
     <string name="back">Back</string>
-    <string name="no_categories">No categories</string>
+    <string name="no_categories">No category created yet</string>
     <string name="income_category">Income Category</string>
     <string name="expense_category">Expense Category</string>
     <string name="icon">Icon</string>
@@ -33,7 +33,7 @@
     <string name="delete_category_confirmation">Are you sure you want to delete this category? If you delete this category, all records related to this category will also be deleted.</string>
     <string name="delete_transaction">Delete Transaction</string>
     <string name="delete_transaction_confirmation">Are you sure you want to delete this transaction?</string>
-    <string name="no_wallets">No wallets</string>
+    <string name="no_wallets">No wallet created yet</string>
     <string name="disable_wallet">Disabled wallets will not be displayed when creating a transaction</string>
     <string name="delete_wallet">Delete Wallet</string>
     <string name="delete_wallet_confirmation">Are you sure you want to delete this wallet? If you delete this wallet, all records related to this wallet will also be deleted.</string>
@@ -54,7 +54,7 @@
     <string name="select">Select</string>
     <string name="transactions">Transactions</string>
     <string name="transaction">Transaction</string>
-    <string name="no_transactions">No Transactions</string>
+    <string name="no_transactions">No transactions recorded yet</string>
     <string name="transaction_summary">Transaction Summary</string>
     <string name="type">Type</string>
     <string name="next_year">Next Year</string>
@@ -84,7 +84,7 @@
     <string name="statistic_detail">Statistic Detail</string>
     <string name="search">Search by note</string>
     <string name="clear_search">Clear search</string>
-    <string name="no_search_results">No search results</string>
+    <string name="no_search_results">No matching results found</string>
     <string name="type_to_search">Type something to search by note</string>
     <string name="backup_restore">Backup &amp; Restore</string>
     <string name="backup">Backup</string>
