@@ -28,21 +28,25 @@ fun BackupRestoreNotes() {
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.outline
         )
-        Text(
-            text = stringResource(R.string.backup_files_1),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.outline
-        )
-        Text(
-            text = stringResource(R.string.backup_files_2),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.outline
-        )
-        Text(
-            text = stringResource(R.string.backup_files_3),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.outline
-        )
+        Column (
+            modifier = Modifier.padding(start = 16.dp)
+        ){
+            Text(
+                text = stringResource(R.string.backup_files_1),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.outline
+            )
+            Text(
+                text = stringResource(R.string.backup_files_2),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.outline
+            )
+            Text(
+                text = stringResource(R.string.backup_files_3),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.outline
+            )
+        }
         Text(
             text = stringResource(R.string.note_2),
             style = MaterialTheme.typography.bodySmall,
