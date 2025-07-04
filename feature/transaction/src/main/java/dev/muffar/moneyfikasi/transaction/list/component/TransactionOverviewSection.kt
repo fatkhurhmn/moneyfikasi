@@ -57,7 +57,7 @@ fun TransactionOverviewSection(
                 horizontalAlignment = Alignment.End
             ) {
                 val formattedExpense = expense.toLong().formatThousand().let {
-                    if (expense > 0) "+$it" else it
+                    if (expense > 0) "-$it" else it
                 }
                 Text(
                     text = stringResource(R.string.expense),

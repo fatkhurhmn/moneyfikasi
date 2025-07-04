@@ -28,7 +28,7 @@ fun TransactionDetailSaveButton(
             .padding(horizontal = 16.dp)
     ) {
         Text(
-            text = stringResource(R.string.save),
+            text = stringResource(R.string.save_to_gallery),
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier.padding(vertical = 4.dp)
         )

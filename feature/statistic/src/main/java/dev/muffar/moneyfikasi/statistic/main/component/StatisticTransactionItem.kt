@@ -36,7 +36,7 @@ fun StatisticTransactionItem(
     quantity: Int,
 ) {
     val formattedAmount = amount.toLong().formatThousand().let {
-        if (category.type == CategoryType.INCOME) "+$it" else it
+        if (category.type == CategoryType.INCOME) "+$it" else "-$it"
     }
 
     val color =
