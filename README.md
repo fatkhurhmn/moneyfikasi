@@ -1,7 +1,7 @@
 <h1 align="center" style="font-size:28px; line-height:1"><b>Moneyfikasi</b></h1>
 
 <div align="center">
-  <img alt="Routine Tracker logo" src="https://github.com/fatkhurhmn/moneyfikasi/assets/78679607/dbb19574-dd6a-4cc7-913a-88e6d391e42a" height="80px">
+  <img alt="Routine Tracker logo" src="images/logo.png" height="80px">
 </div>
 
 <p>
