@@ -26,15 +26,13 @@
 
 - **Programming Language**: Kotlin
 - **User Interface**: Jetpack Compose, Material Design 3
-- **Architecture Pattern**: MVVM (Model-View-ViewModel)
+- **Architecture Pattern**: MVI (Model-View-Intent)
 - **Dependency Injection**: Dagger Hilt
 - **Asynchronous Programming**: Kotlin Coroutines
 - **Local Data Storage**: Room Database, Data Store
 - **IDE**: Android Studio Jellyfish
 - **Dependency Management**: Version Catalog
 - **CI/CD**: CircleCi
-- **Chart Graph**: [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) library from [@PhilJay](https://github.com/PhilJay)
-- **Shimmering**: [Compose Shimmer](https://github.com/valentinilk/compose-shimmer) library from [@valentinilk](https://github.com/valentinilk)
 
 ## Getting Started
 
