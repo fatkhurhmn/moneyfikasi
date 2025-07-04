@@ -52,7 +52,8 @@ sealed class Screen(val route: String) {
 
     data object Statistic : Screen("statistic")
     data object StatisticDetail : Screen("statistic_detail") {
-        const val TRANSACTIONS = "transactions"
+        const val DATE_RANGE = "start_date_range"
+        const val CATEGORY = "category"
     }
 
     data object BackupRestore : Screen("backup_restore")

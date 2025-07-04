@@ -1,14 +1,14 @@
 package dev.muffar.moneyfikasi.statistic
 
 import androidx.navigation.NavGraphBuilder
-import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.statistic.detail.navigation.statisticDetailNavigation
 import dev.muffar.moneyfikasi.statistic.main.navigation.statisticNavigation
 import java.util.UUID
 
 fun NavGraphBuilder.statisticNavGraph(
-    transactions: List<Transaction>,
-    onNavigateToStatisticDetail: (List<Transaction>) -> Unit,
+    dateRange: Pair<Long, Long>?,
+    category: UUID?,
+    onNavigateToStatisticDetail: (Pair<Long, Long>, UUID) -> Unit,
     onNavigateToTransactionDetail: (UUID) -> Unit,
     onNavigateBack: () -> Unit,
 ) {
@@ -17,7 +17,8 @@ fun NavGraphBuilder.statisticNavGraph(
     )
 
     statisticDetailNavigation(
-        transactions = transactions,
+        dateRange = dateRange,
+        categoryId = category,
         onNavigateToDetail = onNavigateToTransactionDetail,
         onNavigateBack = onNavigateBack
     )

@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonTabs
-import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticBottomSheet
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticDateFilterSection
@@ -21,6 +20,7 @@ import dev.muffar.moneyfikasi.statistic.main.component.StatisticSheetType
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticTopBar
 import dev.muffar.moneyfikasi.statistic.main.component.TransactionStatisticContent
 import org.threeten.bp.LocalDateTime
+import java.util.UUID
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -31,7 +31,7 @@ fun StatisticScreen(
     onLocalDateTimeChange: (LocalDateTime) -> Unit,
     onDateRangeChange: (Long, Long) -> Unit,
     onShowBottomSheet: (StatisticSheetType?) -> Unit,
-    onItemClick: (List<Transaction>) -> Unit,
+    onItemClick: (dateRange: Pair<Long, Long>, category: UUID) -> Unit,
 ) {
     val pagerState = rememberPagerState { state.tabs.size }
 
@@ -73,13 +73,23 @@ fun StatisticScreen(
                     0 -> TransactionStatisticContent(
                         modifier = Modifier,
                         transactions = state.incomeTransactions,
-                        onClick = onItemClick
+                        onClick = { category ->
+                            onItemClick(
+                                state.startDateRange to state.endDateRange,
+                                category.id
+                            )
+                        }
                     )
 
                     1 -> TransactionStatisticContent(
                         modifier = Modifier,
                         transactions = state.expenseTransactions,
-                        onClick = onItemClick
+                        onClick = { category ->
+                            onItemClick(
+                                state.startDateRange to state.endDateRange,
+                                category.id
+                            )
+                        }
                     )
                 }
             }

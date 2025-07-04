@@ -13,6 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
 import dev.muffar.moneyfikasi.common_ui.component.TransactionPieChart
+import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.resource.R
 
@@ -20,7 +21,7 @@ import dev.muffar.moneyfikasi.resource.R
 fun TransactionStatisticContent(
     modifier: Modifier = Modifier,
     transactions: List<Transaction>,
-    onClick: (List<Transaction>) -> Unit,
+    onClick: (Category) -> Unit,
 ) {
     val transactionByCategory = transactions
         .groupBy { it.category }
@@ -55,7 +56,7 @@ fun TransactionStatisticContent(
 
                 StatisticTransactionItem(
                     modifier = Modifier
-                        .clickable { onClick(transactionByCategory.values.toList()[index]) }
+                        .clickable { onClick(item) }
                         .padding(horizontal = 16.dp, vertical = 8.dp),
                     category = item,
                     amount = amount,

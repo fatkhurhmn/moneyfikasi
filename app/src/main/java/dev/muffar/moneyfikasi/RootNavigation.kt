@@ -10,7 +10,6 @@ import dev.muffar.moneyfikasi.backup_restore.navigation.toBackupRestoreScreen
 import dev.muffar.moneyfikasi.category.add_edit.navigation.toAddEditCategoryScreen
 import dev.muffar.moneyfikasi.category.categoriesNavGraph
 import dev.muffar.moneyfikasi.category.list.navigation.toCategoriesScreen
-import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.search.navigation.searchNavigation
 import dev.muffar.moneyfikasi.settings.navigation.settingsNavGraph
@@ -22,6 +21,7 @@ import dev.muffar.moneyfikasi.transaction.transactionsNavGraph
 import dev.muffar.moneyfikasi.wallet.add_edit.navigation.toAddEditWalletScreen
 import dev.muffar.moneyfikasi.wallet.list.navigation.toWalletsScreen
 import dev.muffar.moneyfikasi.wallet.walletsNavGraph
+import java.util.UUID
 
 @Composable
 fun RootNavigation(
@@ -45,11 +45,20 @@ fun RootNavigation(
             onNavigateToAddCategory = { navController.toAddEditCategoryScreen(it) }
         )
 
+        val dateRange = navController.previousBackStackEntry
+            ?.savedStateHandle?.get<Pair<Long, Long>>(Screen.StatisticDetail.DATE_RANGE)
+        val category = navController.previousBackStackEntry
+            ?.savedStateHandle?.get<String>(Screen.StatisticDetail.CATEGORY)
+
         statisticNavGraph(
-            transactions = navController.previousBackStackEntry
-                ?.savedStateHandle?.get<List<Transaction>>(Screen.StatisticDetail.TRANSACTIONS)
-                ?: emptyList(),
-            onNavigateToStatisticDetail = { navController.toStatisticDetailScreen(it) },
+            dateRange = dateRange,
+            category = category?.let { UUID.fromString(it) },
+            onNavigateToStatisticDetail = { dateRange, categoryId ->
+                navController.toStatisticDetailScreen(
+                    dateRange,
+                    categoryId.toString()
+                )
+            },
             onNavigateToTransactionDetail = { navController.toTransactionDetail(it) },
             onNavigateBack = { navController.navigateUp() }
         )

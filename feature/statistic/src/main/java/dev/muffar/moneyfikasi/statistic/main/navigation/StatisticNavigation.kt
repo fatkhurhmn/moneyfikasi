@@ -6,14 +6,14 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.statistic.main.StatisticEvent
 import dev.muffar.moneyfikasi.statistic.main.StatisticScreen
 import dev.muffar.moneyfikasi.statistic.main.StatisticViewModel
+import java.util.UUID
 
 fun NavGraphBuilder.statisticNavigation(
-    onNavigateToStatisticDetail : (List<Transaction>) -> Unit
+    onNavigateToStatisticDetail : (Pair<Long, Long>, UUID) -> Unit
 ) {
     composable(Screen.Statistic.route) {
         val viewModel = hiltViewModel<StatisticViewModel>()

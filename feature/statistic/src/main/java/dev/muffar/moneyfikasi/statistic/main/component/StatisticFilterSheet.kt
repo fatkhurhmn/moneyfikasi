@@ -98,7 +98,7 @@ fun DateRangeFilterRadioButton(
                 )
                 RadioButton(
                     selected = mFilter == filter,
-                    onClick = {}
+                    onClick = { onFilterSelect(mFilter) }
                 )
             }
         }
