@@ -84,7 +84,7 @@ class TransactionsViewModel @Inject constructor(
 
     private fun loadCategories() {
         viewModelScope.launch {
-            categoryUseCases.getAllCategories()
+            categoryUseCases.getAllCategories(true)
                 .collectLatest { categories ->
                     _state.update {
                         it.copy(

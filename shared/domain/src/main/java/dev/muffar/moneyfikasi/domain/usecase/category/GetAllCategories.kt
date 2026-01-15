@@ -8,7 +8,7 @@ class GetAllCategories(
     private val repository: CategoryRepository,
 ) {
 
-    operator fun invoke(): Flow<List<Category>> {
-        return repository.getAllCategories()
+    operator fun invoke(includeTransfer: Boolean = false): Flow<List<Category>> {
+        return repository.getAllCategories(includeTransfer)
     }
 } 

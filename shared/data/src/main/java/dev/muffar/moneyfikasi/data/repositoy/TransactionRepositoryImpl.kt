@@ -51,9 +51,6 @@ class TransactionRepositoryImpl @Inject constructor(
         walletId: UUID,
         categoryId: UUID?
     ) {
-        if (type == TransactionType.TRANSFER_IN || type == TransactionType.TRANSFER_OUT) {
-            throw IllegalArgumentException("Use transferFunds() for transfers")
-        }
 
         val entity = TransactionEntity(
             id = UUID.randomUUID(),

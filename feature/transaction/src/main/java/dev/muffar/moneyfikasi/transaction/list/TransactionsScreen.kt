@@ -86,7 +86,10 @@ fun TransactionsScreen(
                     onNavigateToAddScreen(it)
                     onExpandFabButton(false)
                 },
-                onTransferClick = onNavigateToTransfer
+                onTransferClick = {
+                    onNavigateToTransfer()
+                    onExpandFabButton(false)
+                }
             )
         }
     ) {

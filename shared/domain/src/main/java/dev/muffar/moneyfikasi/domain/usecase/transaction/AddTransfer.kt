@@ -31,6 +31,10 @@ class AddTransfer(
             throw InvalidTransactionException("Select target wallet please")
         }
 
+        if (sourceWalletId == targetWalletId) {
+            throw InvalidTransactionException("Cannot transfer to the same wallet")
+        }
+
         repository.transferFunds(
             sourceWalletId = sourceWalletId,
             targetWalletId = targetWalletId,

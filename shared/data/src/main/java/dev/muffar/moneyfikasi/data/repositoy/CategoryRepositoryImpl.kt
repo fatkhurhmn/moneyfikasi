@@ -15,10 +15,11 @@ class CategoryRepositoryImpl @Inject constructor(
     private val categoryDao: CategoryDao,
 ) : CategoryRepository {
 
-    override fun getAllCategories(): Flow<List<Category>> {
-        return categoryDao.getAllCategories().map { entities ->
-            entities.map { it.toDomain() }
-        }
+    override fun getAllCategories(excludeTransfer: Boolean): Flow<List<Category>> {
+        return categoryDao.getAllCategories()
+            .map { entities ->
+                entities.filter { excludeTransfer || !it.isTransferCategory }.map { it.toDomain() }
+            }
     }
 
     override suspend fun getCategoryById(id: UUID): Category? {

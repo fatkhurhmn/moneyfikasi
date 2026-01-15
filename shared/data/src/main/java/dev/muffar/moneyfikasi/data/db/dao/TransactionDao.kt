@@ -9,6 +9,7 @@ import androidx.room.Transaction
 import androidx.room.Update
 import dev.muffar.moneyfikasi.data.db.entity.TransactionEntity
 import dev.muffar.moneyfikasi.data.db.entity.TransactionWithDetails
+import dev.muffar.moneyfikasi.data.utils.InitDataSource
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import kotlinx.coroutines.flow.Flow
 import org.threeten.bp.LocalDateTime
@@ -63,11 +64,6 @@ abstract class TransactionDao {
     open suspend fun updateIncomeOrExpense(newEntity: TransactionEntity) {
         val oldEntity = getTransactionById(newEntity.id) ?: return
 
-        if (oldEntity.type == TransactionType.TRANSFER_IN ||
-            oldEntity.type == TransactionType.TRANSFER_OUT) {
-            throw UnsupportedOperationException("Editing Transfers not supported via this method.")
-        }
-
         val revertAmount = if (oldEntity.type == TransactionType.INCOME) {
             -oldEntity.amount
         } else {
@@ -99,8 +95,8 @@ abstract class TransactionDao {
 
         val sourceTx = TransactionEntity(
             walletId = sourceWalletId,
-            categoryId = null,
-            type = TransactionType.TRANSFER_OUT,
+            categoryId = InitDataSource.EXPENSE_TRANSFER_CATEGORY.id,
+            type = TransactionType.EXPENSE,
             amount = amount,
             date = date,
             note = note,
@@ -111,8 +107,8 @@ abstract class TransactionDao {
 
         val targetTx = TransactionEntity(
             walletId = targetWalletId,
-            categoryId = null,
-            type = TransactionType.TRANSFER_IN,
+            categoryId = InitDataSource.INCOME_TRANSFER_CATEGORY.id,
+            type = TransactionType.INCOME,
             amount = amount,
             date = date,
             note = note,
@@ -124,7 +120,7 @@ abstract class TransactionDao {
         if (fee > 0.0) {
             val feeTx = TransactionEntity(
                 walletId = sourceWalletId,
-                categoryId = categoryFeeId,
+                categoryId = InitDataSource.ADMIN_TRANSFER_CATEGORY.id,
                 type = TransactionType.EXPENSE,
                 amount = fee,
                 date = date,
@@ -160,11 +156,9 @@ abstract class TransactionDao {
 
         for (tx in transactionsToDelete) {
             val balanceCorrection = when (tx.type) {
-                TransactionType.INCOME,
-                TransactionType.TRANSFER_IN -> -tx.amount
+                TransactionType.INCOME -> -tx.amount
 
-                TransactionType.EXPENSE,
-                TransactionType.TRANSFER_OUT -> tx.amount
+                TransactionType.EXPENSE -> tx.amount
             }
 
             updateWalletBalance(tx.walletId, balanceCorrection)

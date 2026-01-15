@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import java.util.UUID
 
 interface CategoryRepository {
-    fun getAllCategories(): Flow<List<Category>>
+    fun getAllCategories(excludeTransfer: Boolean): Flow<List<Category>>
 
     suspend fun getCategoryById(id: UUID): Category?
 

@@ -26,5 +26,8 @@ data class CategoryEntity(
     val type: CategoryType,
 
     @ColumnInfo(name = "is_active")
-    val isActive : Boolean = true
+    val isActive: Boolean = true,
+
+    @ColumnInfo(name = "is_transfer_category")
+    val isTransferCategory: Boolean = false
 )

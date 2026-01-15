@@ -10,6 +10,7 @@ import java.util.UUID
 object InitDataSource {
     fun getCategories(): List<CategoryEntity> {
         val expenseCategories = arrayListOf(
+            ADMIN_TRANSFER_CATEGORY,
             CategoryEntity(
                 name = "Electricity",
                 icon = CategoryIcon.BOLT.iconName,
@@ -52,6 +53,7 @@ object InitDataSource {
                 color = 0xFF9E9E9E,
                 type = CategoryType.EXPENSE,
             ),
+            EXPENSE_TRANSFER_CATEGORY,
             CategoryEntity(
                 name = "Shopping",
                 icon = CategoryIcon.SHOPPING_CART.iconName,
@@ -103,6 +105,7 @@ object InitDataSource {
                 color = 0xFFED32F2F,
                 type = CategoryType.INCOME,
             ),
+            INCOME_TRANSFER_CATEGORY
         )
 
         val categories = arrayListOf<CategoryEntity>().apply {
@@ -112,6 +115,33 @@ object InitDataSource {
 
         return categories
     }
+
+    val EXPENSE_TRANSFER_CATEGORY = CategoryEntity(
+        id = UUID.fromString("150bbc61-7a8c-4a9a-ab06-da7e4f6d4aa5"),
+        name = "Transfer",
+        icon = CategoryIcon.TRANSFER.iconName,
+        color = 0xFFFC3D56,
+        type = CategoryType.EXPENSE,
+        isTransferCategory = true
+    )
+
+    val INCOME_TRANSFER_CATEGORY = CategoryEntity(
+        id = UUID.fromString("25e23912-70c0-4b52-a67c-05b1c786d032"),
+        name = "Transfer",
+        icon = CategoryIcon.TRANSFER.iconName,
+        color = 0xFF3AAD7A,
+        type = CategoryType.INCOME,
+        isTransferCategory = true
+    )
+
+    val ADMIN_TRANSFER_CATEGORY = CategoryEntity(
+        id = UUID.fromString("abf1e9b7-c898-4717-9d82-f06dd6c476e1"),
+        name = "Admin Fee",
+        icon = CategoryIcon.PAID.iconName,
+        color = 0xFF557689,
+        type = CategoryType.EXPENSE,
+        isTransferCategory = true
+    )
 
     fun getWallets(): List<WalletEntity> {
         return arrayListOf(
