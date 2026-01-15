@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.transaction.add_edit.component
+package dev.muffar.moneyfikasi.common_ui.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

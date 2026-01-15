@@ -1,6 +1,5 @@
 package dev.muffar.moneyfikasi.transaction.add_edit.navigation
 
-import android.util.Log
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -60,7 +59,6 @@ fun NavGraphBuilder.addEditTransactionNavigation(
             },
             onBackClick = onNavigateBack,
             onCreateClick = {
-                Log.d("TAG", "addEditTransactionNavigation: ")
                 event(AddEditTransactionEvent.OnCreateClicked)
             },
             onShowBottomSheet = { sheetType ->

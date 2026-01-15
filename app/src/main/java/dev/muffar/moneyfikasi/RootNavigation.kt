@@ -18,6 +18,7 @@ import dev.muffar.moneyfikasi.statistic.statisticNavGraph
 import dev.muffar.moneyfikasi.transaction.add_edit.navigation.toAddEditTransactionScreen
 import dev.muffar.moneyfikasi.transaction.detail.navigation.toTransactionDetail
 import dev.muffar.moneyfikasi.transaction.transactionsNavGraph
+import dev.muffar.moneyfikasi.transaction.transfer.navigation.toTransferTransactionScreen
 import dev.muffar.moneyfikasi.wallet.add_edit.navigation.toAddEditWalletScreen
 import dev.muffar.moneyfikasi.wallet.list.navigation.toWalletsScreen
 import dev.muffar.moneyfikasi.wallet.walletsNavGraph
@@ -40,6 +41,9 @@ fun RootNavigation(
             },
             onNavigateToAddTransaction = { type ->
                 navController.toAddEditTransactionScreen(type)
+            },
+            onNavigateToTransferTransaction = {
+                navController.toTransferTransactionScreen()
             },
             onNavigateToAddWallet = { navController.toAddEditWalletScreen() },
             onNavigateToAddCategory = { navController.toAddEditCategoryScreen(it) }

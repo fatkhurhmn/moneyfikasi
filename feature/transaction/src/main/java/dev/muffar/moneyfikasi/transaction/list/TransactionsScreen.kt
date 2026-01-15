@@ -40,6 +40,7 @@ fun TransactionsScreen(
     onTransactionItemClick: (UUID) -> Unit,
     onExpandFabButton: (Boolean) -> Unit,
     onNavigateToAddScreen: (TransactionType) -> Unit,
+    onNavigateToTransfer: () -> Unit,
     onFilterChanged: (TransactionDateFilter) -> Unit,
     onLocalDateTimeChange: (LocalDateTime) -> Unit,
     onDateRangeChange: (Long, Long) -> Unit,
@@ -84,7 +85,8 @@ fun TransactionsScreen(
                 onTransactionClick = {
                     onNavigateToAddScreen(it)
                     onExpandFabButton(false)
-                }
+                },
+                onTransferClick = onNavigateToTransfer
             )
         }
     ) {

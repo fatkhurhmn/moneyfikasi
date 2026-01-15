@@ -149,7 +149,7 @@ class AddEditTransactionViewModel @Inject constructor(
         val state = this.state.value
         viewModelScope.launch {
             try {
-                if (state.isEdiMode) {
+                if (state.isEditMode) {
                     transactionUseCases.updateTransaction(
                         id = state.id!!,
                         amount = state.amount.clearThousandFormat().toDouble(),

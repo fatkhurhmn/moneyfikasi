@@ -43,6 +43,15 @@ sealed class Screen(val route: String) {
         }
     }
 
+    data object TransferTransaction :
+        Screen("transfer_transaction") {
+        const val TRANSACTION_ID = "transaction_id"
+        fun routeWithArg(id: UUID? = null): String {
+            val transactionId = id?.toString() ?: ""
+            return "transfer_transaction"
+        }
+    }
+
     data object TransactionDetail : Screen("transaction_detail/{transaction_id}") {
         const val TRANSACTION_ID = "transaction_id"
         fun routeWithArg(id: UUID): String {

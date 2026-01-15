@@ -27,8 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.resource.R
 
@@ -37,6 +37,7 @@ fun ExpandableFloatingActionButton(
     isExpanded: Boolean,
     onClick: () -> Unit,
     onTransactionClick: (TransactionType) -> Unit,
+    onTransferClick: () -> Unit
 ) {
 
     val fabSize = 58.dp
@@ -47,7 +48,7 @@ fun ExpandableFloatingActionButton(
     )
 
     val expandedBoxHeight by animateDpAsState(
-        targetValue = if (isExpanded) 140.dp else 0.dp,
+        targetValue = if (isExpanded) 193.dp else 0.dp,
         animationSpec = spring(dampingRatio = 1.5f),
         label = ""
     )
@@ -79,6 +80,11 @@ fun ExpandableFloatingActionButton(
                     icon = painterResource(R.drawable.ic_expense),
                     onClick = { onTransactionClick(TransactionType.EXPENSE) }
                 )
+                CreateTransactionButton(
+                    text = stringResource(R.string.transfer),
+                    icon = painterResource(R.drawable.ic_transfer),
+                    onClick = { onTransferClick() }
+                )
             }
         }
 
@@ -104,11 +110,6 @@ fun CreateTransactionButton(
     icon: Painter,
     onClick: () -> Unit,
 ) {
-    val iconColor = if (text == TransactionType.INCOME.value) {
-        MainColor.Green.primary
-    } else {
-        MainColor.Red.primary
-    }
     Row(
         modifier = modifier
             .fillMaxWidth()

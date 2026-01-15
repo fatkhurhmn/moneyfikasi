@@ -16,6 +16,7 @@ import java.util.UUID
 fun NavGraphBuilder.transactionsNavigation(
     onNavigateToTransactionDetail: (UUID) -> Unit,
     onNavigateToAddScreen: (TransactionType) -> Unit,
+    onNavigateToTransferScreen: () -> Unit
 ) {
     composable(Screen.Transactions.route) {
         val viewModel = hiltViewModel<TransactionsViewModel>()
@@ -28,6 +29,7 @@ fun NavGraphBuilder.transactionsNavigation(
             onTransactionItemClick = onNavigateToTransactionDetail,
             onExpandFabButton = { event(TransactionsEvent.OnExpandFabButton(it)) },
             onNavigateToAddScreen = onNavigateToAddScreen,
+            onNavigateToTransfer = onNavigateToTransferScreen,
             onFilterChanged = { event(TransactionsEvent.OnFilterChanged(it)) },
             onLocalDateTimeChange = { event(TransactionsEvent.OnLocalDateTimeChange(it)) },
             onDateRangeChange = { start, end ->

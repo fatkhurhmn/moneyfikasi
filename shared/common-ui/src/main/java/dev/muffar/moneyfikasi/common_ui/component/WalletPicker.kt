@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.transaction.add_edit.component
+package dev.muffar.moneyfikasi.common_ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,7 +30,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.muffar.moneyfikasi.common_ui.component.IconByName
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.formatThousand

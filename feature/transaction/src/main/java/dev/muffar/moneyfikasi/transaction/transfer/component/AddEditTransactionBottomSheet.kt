@@ -1,45 +1,41 @@
-package dev.muffar.moneyfikasi.transaction.add_edit.component
+package dev.muffar.moneyfikasi.transaction.transfer.component
 
 import androidx.compose.runtime.Composable
-import dev.muffar.moneyfikasi.common_ui.component.CategoryPicker
 import dev.muffar.moneyfikasi.common_ui.component.DatePickerSheet
 import dev.muffar.moneyfikasi.common_ui.component.TimePickerSheet
 import dev.muffar.moneyfikasi.common_ui.component.WalletPicker
-import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.Wallet
 
 @Composable
 fun AddEditTransactionBottomSheet(
-    type: AddEditTransactionSheetType,
-    categories: List<Category>,
-    wallets: List<Wallet>,
+    type: TransferTransactionSheetType,
     date: Long,
     hour: Int,
     minute: Int,
-    onCategorySelect: (Category) -> Unit,
-    onWalletSelect: (Wallet) -> Unit,
+    wallets: List<Wallet>,
+    onSourceWalletSelect: (Wallet) -> Unit,
+    onTargetWalletSelect: (Wallet) -> Unit,
     onDateSelect: (Long) -> Unit,
     onTimeSelect: (Int, Int) -> Unit,
     onDismiss: () -> Unit,
-    onAddWallet : () -> Unit,
-    onAddCategory : () -> Unit
+    onAddWallet: () -> Unit,
 ) {
     when (type) {
-        AddEditTransactionSheetType.CATEGORY -> CategoryPicker(
-            categories = categories,
-            onClick = onCategorySelect,
-            onAdd = onAddCategory,
-            onClose = onDismiss
-        )
-
-        AddEditTransactionSheetType.WALLET -> WalletPicker(
+        TransferTransactionSheetType.SOURCE_WALLET -> WalletPicker(
             wallets = wallets,
-            onClick = onWalletSelect,
+            onClick = onSourceWalletSelect,
             onAdd = onAddWallet,
             onClose = onDismiss
         )
 
-        AddEditTransactionSheetType.DATE -> DatePickerSheet(
+        TransferTransactionSheetType.TARGET_WALLET -> WalletPicker(
+            wallets = wallets,
+            onClick = onTargetWalletSelect,
+            onAdd = onAddWallet,
+            onClose = onDismiss
+        )
+
+        TransferTransactionSheetType.DATE -> DatePickerSheet(
             currentDate = date,
             onDateSelect = {
                 onDateSelect(it)
@@ -47,7 +43,7 @@ fun AddEditTransactionBottomSheet(
             }
         )
 
-        AddEditTransactionSheetType.TIME -> TimePickerSheet(
+        TransferTransactionSheetType.TIME -> TimePickerSheet(
             minute = minute,
             hour = hour,
             onTimeSelect = { mHour, mMinute ->
@@ -58,9 +54,9 @@ fun AddEditTransactionBottomSheet(
     }
 }
 
-enum class AddEditTransactionSheetType {
+enum class TransferTransactionSheetType {
     DATE,
     TIME,
-    CATEGORY,
-    WALLET
+    SOURCE_WALLET,
+    TARGET_WALLET
 }

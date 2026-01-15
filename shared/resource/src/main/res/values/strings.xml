@@ -104,4 +104,9 @@
     <string name="invisible_balance">• • • • • • •</string>
     <string name="apply">Apply</string>
     <string name="wallet_name">Wallet Name</string>
+    <string name="admin_fee">Admin fee</string>
+    <string name="enter_admin_fee">Enter admin fee</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="transfer">Transfer</string>
 </resources>
