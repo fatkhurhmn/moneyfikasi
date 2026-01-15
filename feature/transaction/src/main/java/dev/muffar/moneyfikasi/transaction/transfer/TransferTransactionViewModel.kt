@@ -8,8 +8,8 @@ import dev.muffar.moneyfikasi.domain.model.InvalidTransactionException
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
-import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.transaction.transfer.component.TransferTransactionSheetType
+import dev.muffar.moneyfikasi.utils.clearThousandFormat
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -17,6 +17,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.threeten.bp.Instant
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneId
 import javax.inject.Inject
 
 @HiltViewModel
@@ -103,6 +106,15 @@ class TransferTransactionViewModel @Inject constructor(
         val state = this.state.value
         viewModelScope.launch {
             try {
+                transactionUseCases.addTransfer(
+                    sourceWalletId = state.sourceWallet.id,
+                    targetWalletId = state.targetWallet.id,
+                    amount = state.amount.clearThousandFormat().toDouble(),
+                    fee = state.fee.clearThousandFormat().toDouble(),
+                    date = getFormattedDate(),
+                    note = "",
+                    feeCategoryId = null
+                )
                 _eventFlow.emit(UiEvent.SaveTransaction)
             } catch (e: InvalidTransactionException) {
                 _eventFlow.emit(UiEvent.ShowMessage(e.message))
@@ -112,6 +124,13 @@ class TransferTransactionViewModel @Inject constructor(
 
     private fun onBottomSheetChange(type: TransferTransactionSheetType?) {
         _state.update { it.copy(bottomSheetType = type) }
+    }
+
+    private fun getFormattedDate(): LocalDateTime {
+        return LocalDateTime
+            .ofInstant(Instant.ofEpochMilli(state.value.date), ZoneId.systemDefault())
+            .withHour(state.value.hour)
+            .withMinute(state.value.minute)
     }
 
     sealed class UiEvent {
