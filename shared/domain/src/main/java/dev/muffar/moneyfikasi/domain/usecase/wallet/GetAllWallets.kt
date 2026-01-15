@@ -5,10 +5,10 @@ import dev.muffar.moneyfikasi.domain.repository.WalletRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetAllWallets(
-    private val walletRepository: WalletRepository
+    private val repository: WalletRepository
 ) {
 
-    suspend operator fun invoke(): Flow<List<Wallet>> {
-        return walletRepository.getAllWallets()
+    operator fun invoke(): Flow<List<Wallet>> {
+        return repository.getAllWallets()
     }
 }

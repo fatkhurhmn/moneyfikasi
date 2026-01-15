@@ -4,7 +4,7 @@ import org.threeten.bp.LocalDateTime
 import java.util.UUID
 
 data class Transaction(
-    val id: UUID,
+    val id: UUID = UUID.randomUUID(),
     val category: Category,
     val wallet: Wallet,
     val type: TransactionType,

@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.InvalidTransactionException
-import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
@@ -45,9 +44,6 @@ class AddEditTransactionViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
-    private var oldAmount = 0.0
-    private var oldWallet: Wallet? = null
-
     init {
         initState()
     }
@@ -61,7 +57,7 @@ class AddEditTransactionViewModel @Inject constructor(
             is AddEditTransactionEvent.OnDateSelect -> onDateSelect(event.date)
             is AddEditTransactionEvent.OnTimeSelect -> onTimeSelect(event.hour, event.minute)
             is AddEditTransactionEvent.OnNoteChange -> onNoteChange(event.note)
-            is AddEditTransactionEvent.OnCreateClicked -> onCreateClicked()
+            is AddEditTransactionEvent.OnCreateClicked -> onSaveTransaction()
             is AddEditTransactionEvent.OnBottomSheetChange -> onBottomSheetChange(event.type)
         }
     }
@@ -72,12 +68,8 @@ class AddEditTransactionViewModel @Inject constructor(
             val transactionId = UUID.fromString(id)
             viewModelScope.launch {
                 transactionUseCases.getTransactionById(transactionId)?.let { transaction ->
-                    oldAmount = transaction.amount
-                    oldWallet = transaction.wallet
-
                     _state.update { state ->
                         val date = transaction.date.toMilliseconds()
-
                         with(transaction) {
                             state.copy(
                                 id = transactionId,
@@ -153,20 +145,29 @@ class AddEditTransactionViewModel @Inject constructor(
         _state.update { it.copy(hour = hour, minute = minute) }
     }
 
-    private fun onCreateClicked() {
+    private fun onSaveTransaction() {
+        val state = this.state.value
         viewModelScope.launch {
             try {
-                val transaction = createTransactionData()
-                if (isEdit()) {
-                    if (oldWallet?.id == state.value.wallet.id) {
-                        transactionUseCases.saveTransaction(transaction, updatedOldWalletBalance())
-                    } else {
-                        val oldWallet = restoredOldWalletBalance()
-                        val newWallet = updatedNewWalletBalance()
-                        transactionUseCases.saveTransaction(transaction, oldWallet!!, newWallet)
-                    }
+                if (state.isEdiMode) {
+                    transactionUseCases.updateTransaction(
+                        id = state.id!!,
+                        amount = state.amount.clearThousandFormat().toDouble(),
+                        note = state.note.trim(),
+                        type = state.type,
+                        categoryId = state.category.id,
+                        walletId = state.wallet.id,
+                        date = getFormattedDate(),
+                    )
                 } else {
-                    transactionUseCases.saveTransaction(transaction, updatedWalletBalance())
+                    transactionUseCases.addTransaction(
+                        amount = state.amount.clearThousandFormat().toDouble(),
+                        note = state.note.trim(),
+                        type = state.type,
+                        categoryId = state.category.id,
+                        walletId = state.wallet.id,
+                        date = getFormattedDate(),
+                    )
                 }
                 _eventFlow.emit(UiEvent.SaveTransaction)
             } catch (e: InvalidTransactionException) {
@@ -185,63 +186,6 @@ class AddEditTransactionViewModel @Inject constructor(
             .withHour(state.value.hour)
             .withMinute(state.value.minute)
     }
-
-    private fun createTransactionData(): Transaction {
-        return Transaction(
-            id = state.value.id ?: UUID.randomUUID(),
-            amount = state.value.amount.clearThousandFormat().toDouble(),
-            note = state.value.note.trim(),
-            type = state.value.type,
-            category = state.value.category,
-            wallet = state.value.wallet,
-            date = getFormattedDate(),
-        )
-    }
-
-    private fun getFormattedAmount(): Double {
-        return if (state.value.type == TransactionType.INCOME) {
-            state.value.amount.clearThousandFormat().toDouble()
-        } else {
-            -state.value.amount.clearThousandFormat().toDouble()
-        }
-    }
-
-    private fun getFormattedOldAmount(): Double {
-        return if (state.value.type == TransactionType.INCOME) {
-            oldAmount
-        } else {
-            -oldAmount
-        }
-    }
-
-    private fun updatedWalletBalance(): Wallet {
-        return state.value.wallet.copy(
-            balance = state.value.wallet.balance + getFormattedAmount()
-        )
-    }
-
-    private fun updatedOldWalletBalance(): Wallet {
-        val differentAmount = getFormattedAmount() - getFormattedOldAmount()
-        return state.value.wallet.copy(
-            balance = state.value.wallet.balance + differentAmount
-        )
-    }
-
-    private fun restoredOldWalletBalance(): Wallet? {
-        return oldWallet?.let {
-            it.copy(
-                balance = it.balance - getFormattedOldAmount()
-            )
-        }
-    }
-
-    private fun updatedNewWalletBalance(): Wallet {
-        return state.value.wallet.copy(
-            balance = state.value.wallet.balance + getFormattedAmount()
-        )
-    }
-
-    private fun isEdit() = state.value.id != null
 
     sealed class UiEvent {
         data class ShowMessage(val message: String) : UiEvent()

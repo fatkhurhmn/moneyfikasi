@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.transaction.add_edit.navigation
 
+import android.util.Log
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -18,8 +19,8 @@ import java.util.UUID
 
 fun NavGraphBuilder.addEditTransactionNavigation(
     onNavigateBack: () -> Unit,
-    onNavigateToAddWallet : () -> Unit,
-    onNavigateToAddCategory : (CategoryType) -> Unit
+    onNavigateToAddWallet: () -> Unit,
+    onNavigateToAddCategory: (CategoryType) -> Unit
 ) {
     composable(Screen.AddEditTransaction.route) {
         val viewModel = hiltViewModel<AddEditTransactionViewModel>()
@@ -58,7 +59,10 @@ fun NavGraphBuilder.addEditTransactionNavigation(
                 event(AddEditTransactionEvent.OnTimeSelect(hour, minute))
             },
             onBackClick = onNavigateBack,
-            onCreateClick = { event(AddEditTransactionEvent.OnCreateClicked) },
+            onCreateClick = {
+                Log.d("TAG", "addEditTransactionNavigation: ")
+                event(AddEditTransactionEvent.OnCreateClicked)
+            },
             onShowBottomSheet = { sheetType ->
                 event(AddEditTransactionEvent.OnBottomSheetChange(sheetType))
             },

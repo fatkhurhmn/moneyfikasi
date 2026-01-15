@@ -3,7 +3,7 @@ package dev.muffar.moneyfikasi.domain.model
 import java.util.UUID
 
 data class Wallet(
-    val id: UUID,
+    val id: UUID = UUID.randomUUID(),
     val name: String,
     val icon: String,
     val color: Long,

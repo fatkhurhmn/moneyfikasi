@@ -5,10 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.model.InvalidWalletException
-import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
-import dev.muffar.moneyfikasi.utils.clearThousandFormat
 import dev.muffar.moneyfikasi.utils.formatThousand
 import dev.muffar.moneyfikasi.wallet.add_edit.component.AddEditWalletBottomSheet
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -45,7 +43,7 @@ class AddEditWalletViewModel @Inject constructor(
             is AddEditWalletEvent.OnIsActiveChange -> onIsActiveChange()
             is AddEditWalletEvent.OnBottomSheetChange -> onBottomSheetChange(event.type)
             is AddEditWalletEvent.OnShowAlert -> onShowAlert(event.showAlert)
-            is AddEditWalletEvent.OnSubmitWallet -> onSubmitWallet()
+            is AddEditWalletEvent.OnSubmitWallet -> onSaveWallet()
             is AddEditWalletEvent.OnDeleteWallet -> onDeleteWallet()
         }
     }
@@ -87,12 +85,11 @@ class AddEditWalletViewModel @Inject constructor(
     }
 
     private fun onIsActiveChange() {
-        val id = _state.value.id
         val isActive = !_state.value.isActive
-        viewModelScope.launch {
-            walletUseCases.updateWallet(id!!, isActive)
-        }
         _state.update { it.copy(isActive = isActive) }
+        viewModelScope.launch {
+            walletUseCases.upsertWallet(state.value.wallet)
+        }
     }
 
     private fun onBottomSheetChange(type: AddEditWalletBottomSheet?) {
@@ -103,18 +100,10 @@ class AddEditWalletViewModel @Inject constructor(
         _state.update { it.copy(showAlert = showAlert) }
     }
 
-    private fun onSubmitWallet() {
+    private fun onSaveWallet() {
         viewModelScope.launch {
             try {
-                val wallet = Wallet(
-                    id = state.value.id ?: UUID.randomUUID(),
-                    name = state.value.name.trim(),
-                    balance = state.value.balance.clearThousandFormat().toDouble(),
-                    icon = state.value.icon,
-                    color = state.value.color,
-                    isActive = state.value.isActive
-                )
-                walletUseCases.saveWallet(wallet)
+                walletUseCases.upsertWallet(state.value.wallet)
                 _eventFlow.emit(UiEvent.SaveWallet)
             } catch (e: InvalidWalletException) {
                 _eventFlow.emit(UiEvent.ShowMessage(e.message))
@@ -125,7 +114,7 @@ class AddEditWalletViewModel @Inject constructor(
     private fun onDeleteWallet() {
         viewModelScope.launch {
             try {
-                walletUseCases.deleteWallet(state.value.id!!)
+                walletUseCases.deleteWallet(state.value.wallet)
                 _eventFlow.emit(UiEvent.DeleteWallet)
             } catch (e: Exception) {
                 _eventFlow.emit(UiEvent.ShowMessage(e.message ?: "Error deleting wallet"))

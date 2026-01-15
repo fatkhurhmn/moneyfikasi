@@ -32,8 +32,4 @@ object RoomDatabaseModule {
     @Provides
     @Singleton
     fun provideWalletDao(db: MoneyfikasiDatabase) = db.walletDao()
-
-    @Provides
-    @Singleton
-    fun provideLoanDao(db: MoneyfikasiDatabase) = db.loanDao()
 }

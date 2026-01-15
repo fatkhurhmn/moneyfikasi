@@ -4,8 +4,8 @@ import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.InvalidCategoryException
 import dev.muffar.moneyfikasi.domain.repository.CategoryRepository
 
-class SaveCategory(
-    private val categoryRepository: CategoryRepository,
+class UpsertCategory(
+    private val repository: CategoryRepository,
 ) {
 
     @Throws(InvalidCategoryException::class)
@@ -22,6 +22,6 @@ class SaveCategory(
             throw InvalidCategoryException("Select a color")
         }
 
-        categoryRepository.saveCategory(category)
+        repository.upsertCategory(category)
     }
 }

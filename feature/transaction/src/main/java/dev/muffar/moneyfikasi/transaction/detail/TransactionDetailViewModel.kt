@@ -6,8 +6,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.muffar.moneyfikasi.domain.model.Transaction
-import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -60,22 +58,12 @@ class TransactionDetailViewModel @Inject constructor(
         state.value.transaction?.let {
             viewModelScope.launch {
                 try {
-                    val amount = getFormattedAmount(it)
-                    val updatedWallet = it.wallet.copy(balance = it.wallet.balance + amount)
-                    transactionUseCases.deleteTransaction(it.id, updatedWallet)
+                    transactionUseCases.deleteTransaction(it.id)
                     _eventFlow.emit(UiEvent.DeleteTransaction)
                 } catch (e: Exception) {
                     _eventFlow.emit(UiEvent.ShowMessage("Failed to delete transaction"))
                 }
             }
-        }
-    }
-
-    private fun getFormattedAmount(transaction: Transaction): Double {
-        return if (transaction.type == TransactionType.INCOME) {
-            -transaction.amount
-        } else {
-            transaction.amount
         }
     }
 

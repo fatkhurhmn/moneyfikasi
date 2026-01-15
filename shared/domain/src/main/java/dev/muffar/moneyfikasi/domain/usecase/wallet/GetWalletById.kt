@@ -5,10 +5,10 @@ import dev.muffar.moneyfikasi.domain.repository.WalletRepository
 import java.util.UUID
 
 class GetWalletById(
-    private val walletRepository: WalletRepository
+    private val repository: WalletRepository
 ){
 
     suspend operator fun invoke(id: UUID): Wallet? {
-        return walletRepository.getWalletById(id)
+        return repository.getWalletById(id)
     }
 }

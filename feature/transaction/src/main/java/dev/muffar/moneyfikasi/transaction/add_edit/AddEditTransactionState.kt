@@ -13,7 +13,7 @@ data class AddEditTransactionState(
     val id: UUID? = null,
     val type: TransactionType = TransactionType.EXPENSE,
     val amount: String = "0",
-    val category :Category = Category(
+    val category: Category = Category(
         id = UUID.fromString("".toEmptyUUID()),
         name = "",
         icon = "",
@@ -35,4 +35,7 @@ data class AddEditTransactionState(
     val categories: List<Category> = emptyList(),
     val wallets: List<Wallet> = emptyList(),
     val bottomSheetType: AddEditTransactionSheetType? = null,
-)
+) {
+    val isEdiMode: Boolean
+        get() = id != null
+}

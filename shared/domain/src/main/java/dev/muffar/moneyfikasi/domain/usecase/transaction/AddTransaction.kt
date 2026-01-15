@@ -1,34 +1,44 @@
 package dev.muffar.moneyfikasi.domain.usecase.transaction
 
 import dev.muffar.moneyfikasi.domain.model.InvalidTransactionException
-import dev.muffar.moneyfikasi.domain.model.Transaction
-import dev.muffar.moneyfikasi.domain.model.Wallet
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.repository.TransactionRepository
+import org.threeten.bp.LocalDateTime
 import java.util.UUID
 
-class SaveTransaction(
-    private val transactionRepository: TransactionRepository,
+class AddTransaction(
+    private val repository: TransactionRepository,
 ) {
 
     @Throws(InvalidTransactionException::class)
     suspend operator fun invoke(
-        transaction: Transaction,
-        wallet: Wallet,
-        newWallet: Wallet? = null,
+        amount: Double,
+        type: TransactionType,
+        date: LocalDateTime,
+        note: String?,
+        walletId: UUID,
+        categoryId: UUID?
     ) {
-        if (transaction.amount == 0.0) {
+        if (amount == 0.0) {
             throw InvalidTransactionException("Amount cannot be zero")
         }
 
-        if (transaction.category.id == generateEmptyUUID()) {
+        if (categoryId == generateEmptyUUID()) {
             throw InvalidTransactionException("Select category please")
         }
 
-        if (transaction.wallet.id == generateEmptyUUID()) {
+        if (walletId == generateEmptyUUID()) {
             throw InvalidTransactionException("Select wallet please")
         }
 
-        transactionRepository.saveTransaction(transaction, wallet, newWallet)
+        repository.addIncomeOrExpense(
+            amount = amount,
+            type = type,
+            date = date,
+            note = note,
+            walletId = walletId,
+            categoryId = categoryId
+        )
     }
 
     private fun generateEmptyUUID(): UUID {

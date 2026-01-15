@@ -1,15 +1,18 @@
 package dev.muffar.moneyfikasi.domain.repository
 
 import dev.muffar.moneyfikasi.domain.model.Category
+import dev.muffar.moneyfikasi.domain.model.CategoryType
 import kotlinx.coroutines.flow.Flow
 import java.util.UUID
 
 interface CategoryRepository {
-    suspend fun saveCategory(category: Category)
-    suspend fun saveAllCategories(categories: List<Category>)
-    suspend fun updateCategory(id: UUID, isActive: Boolean)
-    suspend fun deleteCategory(id: UUID)
-    suspend fun deleteAllCategories()
-    suspend fun getAllCategories(): Flow<List<Category>>
+    fun getAllCategories(): Flow<List<Category>>
+
     suspend fun getCategoryById(id: UUID): Category?
+
+    fun getCategoriesByType(type: CategoryType): Flow<List<Category>>
+
+    suspend fun upsertCategory(category: Category)
+
+    suspend fun deleteCategory(category: Category)
 }

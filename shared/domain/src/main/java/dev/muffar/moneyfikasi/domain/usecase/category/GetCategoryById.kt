@@ -5,10 +5,10 @@ import dev.muffar.moneyfikasi.domain.repository.CategoryRepository
 import java.util.UUID
 
 class GetCategoryById(
-    private val categoryRepository: CategoryRepository,
+    private val repository: CategoryRepository,
 ) {
 
     suspend operator fun invoke(id: UUID): Category? {
-        return categoryRepository.getCategoryById(id)
+        return repository.getCategoryById(id)
     }
 }

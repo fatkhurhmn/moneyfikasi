@@ -1,10 +1,8 @@
 package dev.muffar.moneyfikasi.data.repositoy
 
 import dev.muffar.moneyfikasi.data.db.dao.WalletDao
-import dev.muffar.moneyfikasi.data.mapper.mapToEntity
-import dev.muffar.moneyfikasi.data.mapper.mapToModel
+import dev.muffar.moneyfikasi.data.mapper.toDomain
 import dev.muffar.moneyfikasi.data.mapper.toEntity
-import dev.muffar.moneyfikasi.data.mapper.toModel
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.repository.WalletRepository
 import kotlinx.coroutines.flow.Flow
@@ -13,35 +11,24 @@ import java.util.UUID
 import javax.inject.Inject
 
 class WalletRepositoryImpl @Inject constructor(
-    private val walletDao: WalletDao,
+    private val walletDao: WalletDao
 ) : WalletRepository {
-    override suspend fun saveWallet(wallet: Wallet) {
-        walletDao.save(wallet.toEntity())
-    }
 
-    override suspend fun saveAllWallets(wallets: List<Wallet>) {
-        walletDao.saveAll(wallets.mapToEntity())
-    }
-
-    override suspend fun updateWallet(id: UUID, isActive: Boolean) {
-        walletDao.updateWallet(id, isActive)
-    }
-
-    override suspend fun deleteWallet(id: UUID) {
-        walletDao.delete(id)
-    }
-
-    override suspend fun deleteAllWallets() {
-        walletDao.deleteAll()
-    }
-
-    override suspend fun getAllWallets(): Flow<List<Wallet>> {
-        return walletDao.getAll().map {
-            it.mapToModel()
+    override fun getAllWallets(): Flow<List<Wallet>> {
+        return walletDao.getAllWallets().map { entities ->
+            entities.map { it.toDomain() }
         }
     }
 
     override suspend fun getWalletById(id: UUID): Wallet? {
-        return walletDao.getById(id)?.toModel()
+        return walletDao.getWalletById(id)?.toDomain()
+    }
+
+    override suspend fun upsertWallet(wallet: Wallet) {
+        walletDao.insertWallet(wallet.toEntity())
+    }
+
+    override suspend fun deleteWallet(wallet: Wallet) {
+        walletDao.deleteWallet(wallet.toEntity())
     }
 }

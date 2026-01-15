@@ -5,10 +5,10 @@ import dev.muffar.moneyfikasi.domain.repository.CategoryRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetAllCategories(
-    private val categoryRepository: CategoryRepository,
+    private val repository: CategoryRepository,
 ) {
 
-    suspend operator fun invoke(): Flow<List<Category>> {
-        return categoryRepository.getAllCategories()
+    operator fun invoke(): Flow<List<Category>> {
+        return repository.getAllCategories()
     }
 } 

@@ -13,32 +13,25 @@ import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupData
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupRestoreUseCases
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.RestoreData
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
-import dev.muffar.moneyfikasi.domain.usecase.category.DeleteAllCategories
 import dev.muffar.moneyfikasi.domain.usecase.category.DeleteCategory
 import dev.muffar.moneyfikasi.domain.usecase.category.GetAllCategories
 import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryById
-import dev.muffar.moneyfikasi.domain.usecase.category.SaveAllCategories
-import dev.muffar.moneyfikasi.domain.usecase.category.SaveCategory
-import dev.muffar.moneyfikasi.domain.usecase.category.UpdateCategory
+import dev.muffar.moneyfikasi.domain.usecase.category.UpsertCategory
 import dev.muffar.moneyfikasi.domain.usecase.preferences.IsBalanceVisible
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.SetBalanceVisibility
-import dev.muffar.moneyfikasi.domain.usecase.transaction.DeleteAllTransactions
 import dev.muffar.moneyfikasi.domain.usecase.transaction.DeleteTransaction
 import dev.muffar.moneyfikasi.domain.usecase.transaction.GetAllTransactions
 import dev.muffar.moneyfikasi.domain.usecase.transaction.GetTransactionById
 import dev.muffar.moneyfikasi.domain.usecase.transaction.GetTransactions
-import dev.muffar.moneyfikasi.domain.usecase.transaction.SaveAllTransactions
-import dev.muffar.moneyfikasi.domain.usecase.transaction.SaveTransaction
+import dev.muffar.moneyfikasi.domain.usecase.transaction.AddTransaction
 import dev.muffar.moneyfikasi.domain.usecase.transaction.SaveTransactionImage
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
-import dev.muffar.moneyfikasi.domain.usecase.wallet.DeleteAllWallets
+import dev.muffar.moneyfikasi.domain.usecase.transaction.UpdateTransaction
 import dev.muffar.moneyfikasi.domain.usecase.wallet.DeleteWallet
 import dev.muffar.moneyfikasi.domain.usecase.wallet.GetAllWallets
 import dev.muffar.moneyfikasi.domain.usecase.wallet.GetWalletById
-import dev.muffar.moneyfikasi.domain.usecase.wallet.SaveAllWallets
-import dev.muffar.moneyfikasi.domain.usecase.wallet.SaveWallet
-import dev.muffar.moneyfikasi.domain.usecase.wallet.UpdateWallet
+import dev.muffar.moneyfikasi.domain.usecase.wallet.UpsertWallet
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 
 @Module
@@ -49,11 +42,8 @@ object UseCaseModule {
     fun provideCategoryUseCases(
         categoryRepository: CategoryRepository,
     ) = CategoryUseCases(
-        saveCategory = SaveCategory(categoryRepository),
-        saveAllCategories = SaveAllCategories(categoryRepository),
-        updateCategory = UpdateCategory(categoryRepository),
+        upsertCategory = UpsertCategory(categoryRepository),
         deleteCategory = DeleteCategory(categoryRepository),
-        deleteAllCategories = DeleteAllCategories(categoryRepository),
         getAllCategories = GetAllCategories(categoryRepository),
         getCategoryById = GetCategoryById(categoryRepository),
     )
@@ -62,11 +52,8 @@ object UseCaseModule {
     fun provideWalletUseCases(
         walletRepository: WalletRepository,
     ) = WalletUseCases(
-        saveWallet = SaveWallet(walletRepository),
-        saveAllWallets = SaveAllWallets(walletRepository),
-        updateWallet = UpdateWallet(walletRepository),
+        upsertWallet = UpsertWallet(walletRepository),
         deleteWallet = DeleteWallet(walletRepository),
-        deleteAllWallets = DeleteAllWallets(walletRepository),
         getAllWallets = GetAllWallets(walletRepository),
         getWalletById = GetWalletById(walletRepository),
     )
@@ -75,10 +62,9 @@ object UseCaseModule {
     fun provideTransactionUseCases(
         transactionRepository: TransactionRepository,
     ) = TransactionUseCases(
-        saveTransaction = SaveTransaction(transactionRepository),
-        saveAllTransactions = SaveAllTransactions(transactionRepository),
+        addTransaction = AddTransaction(transactionRepository),
+        updateTransaction = UpdateTransaction(transactionRepository),
         deleteTransaction = DeleteTransaction(transactionRepository),
-        deleteAllTransactions = DeleteAllTransactions(transactionRepository),
         getTransactionById = GetTransactionById(transactionRepository),
         getAllTransactions = GetAllTransactions(transactionRepository),
         getTransactions = GetTransactions(transactionRepository),

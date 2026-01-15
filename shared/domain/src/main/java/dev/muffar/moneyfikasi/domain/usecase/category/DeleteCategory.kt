@@ -1,13 +1,13 @@
 package dev.muffar.moneyfikasi.domain.usecase.category
 
+import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.repository.CategoryRepository
-import java.util.UUID
 
 class DeleteCategory(
-    private val categoryRepository: CategoryRepository,
+    private val repository: CategoryRepository,
 ) {
 
-    suspend operator fun invoke(id: UUID) {
-        categoryRepository.deleteCategory(id)
+    suspend operator fun invoke(category: Category) {
+        repository.deleteCategory(category)
     }
 }

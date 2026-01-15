@@ -5,10 +5,9 @@ import dev.muffar.moneyfikasi.domain.repository.TransactionRepository
 import java.util.UUID
 
 class GetTransactionById(
-    private val transactionRepository: TransactionRepository,
+    private val repository: TransactionRepository,
 ) {
-
     suspend operator fun invoke(id: UUID): Transaction? {
-        return transactionRepository.getTransactionById(id)
+        return repository.getTransactionById(id)
     }
 }

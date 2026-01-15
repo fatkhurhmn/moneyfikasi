@@ -44,7 +44,7 @@ class AddEditCategoryViewModel @Inject constructor(
             is AddEditCategoryEvent.OnIsActiveChange -> onIsActiveChange()
             is AddEditCategoryEvent.OnBottomSheetChange -> onBottomSheetChange(event.type)
             is AddEditCategoryEvent.OnShowAlert -> onShowAlert(event.showAlert)
-            is AddEditCategoryEvent.OnSubmitCategory -> onSubmitCategory()
+            is AddEditCategoryEvent.OnSubmitCategory -> onSaveCategory()
             is AddEditCategoryEvent.OnDeleteCategory -> onDeleteCategory()
         }
     }
@@ -68,7 +68,7 @@ class AddEditCategoryViewModel @Inject constructor(
         }
     }
 
-    private fun setType(type: CategoryType?) {
+    private fun setType(type: CategoryType) {
         _state.update { it.copy(type = type) }
     }
 
@@ -85,12 +85,11 @@ class AddEditCategoryViewModel @Inject constructor(
     }
 
     private fun onIsActiveChange() {
-        val id = _state.value.id
         val isActive = !_state.value.isActive
-        viewModelScope.launch {
-            categoryUseCases.updateCategory(id!!, isActive)
-        }
         _state.update { it.copy(isActive = isActive) }
+        viewModelScope.launch {
+            categoryUseCases.upsertCategory(state.value.category)
+        }
     }
 
     private fun onBottomSheetChange(type: AddEditCategoryBottomSheet?) {
@@ -101,18 +100,10 @@ class AddEditCategoryViewModel @Inject constructor(
         _state.update { it.copy(showAlert = showAlert) }
     }
 
-    private fun onSubmitCategory() {
+    private fun onSaveCategory() {
         viewModelScope.launch {
             try {
-                val category = Category(
-                    id = state.value.id ?: UUID.randomUUID(),
-                    name = state.value.name.trim(),
-                    icon = state.value.icon,
-                    color = state.value.color,
-                    type = state.value.type ?: CategoryType.INCOME,
-                    isActive = state.value.isActive
-                )
-                categoryUseCases.saveCategory(category)
+                categoryUseCases.upsertCategory(state.value.category)
                 _eventFlow.emit(UiEvent.SaveCategory)
             } catch (e: InvalidCategoryException) {
                 _eventFlow.emit(UiEvent.ShowMessage(e.message))
@@ -123,7 +114,7 @@ class AddEditCategoryViewModel @Inject constructor(
     private fun onDeleteCategory() {
         viewModelScope.launch {
             try {
-                categoryUseCases.deleteCategory(state.value.id!!)
+                categoryUseCases.deleteCategory(state.value.category)
                 _eventFlow.emit(UiEvent.DeleteCategory)
             } catch (e: Exception) {
                 _eventFlow.emit(UiEvent.ShowMessage(e.message ?: "Error deleting category"))

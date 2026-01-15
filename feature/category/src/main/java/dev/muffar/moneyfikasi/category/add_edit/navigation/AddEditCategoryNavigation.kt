@@ -27,7 +27,7 @@ fun NavGraphBuilder.addEditCategoryNavigation(
         }
 
         LaunchedEffect(Unit) {
-            event(AddEditCategoryEvent.OnInitType(type))
+            event(AddEditCategoryEvent.OnInitType(type ?: CategoryType.INCOME))
         }
 
         AddEditCategoryScreen(

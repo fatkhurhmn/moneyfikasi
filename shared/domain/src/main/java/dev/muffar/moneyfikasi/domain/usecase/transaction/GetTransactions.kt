@@ -5,12 +5,12 @@ import dev.muffar.moneyfikasi.domain.repository.TransactionRepository
 import kotlinx.coroutines.flow.Flow
 
 class GetTransactions(
-    private val transactionRepository: TransactionRepository,
+    private val repository: TransactionRepository,
 ) {
 
-    suspend operator fun invoke(
+    operator fun invoke(
         query: String,
     ): Flow<List<Transaction>> {
-        return transactionRepository.getTransactions(query)
+        return repository.getAllTransactions(query)
     }
 }

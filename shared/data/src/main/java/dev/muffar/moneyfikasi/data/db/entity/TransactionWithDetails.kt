@@ -3,9 +3,8 @@ package dev.muffar.moneyfikasi.data.db.entity
 import androidx.room.Embedded
 import androidx.room.Relation
 
-data class TransactionWithWalletAndCategory (
-    @Embedded
-    val transaction: TransactionEntity,
+data class TransactionWithDetails(
+    @Embedded val transaction: TransactionEntity,
 
     @Relation(
         parentColumn = "wallet_id",
@@ -17,5 +16,5 @@ data class TransactionWithWalletAndCategory (
         parentColumn = "category_id",
         entityColumn = "id"
     )
-    val category: CategoryEntity
+    val category: CategoryEntity?
 )

@@ -1,22 +1,53 @@
 package dev.muffar.moneyfikasi.domain.repository
 
 import dev.muffar.moneyfikasi.domain.model.Transaction
-import dev.muffar.moneyfikasi.domain.model.Wallet
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import kotlinx.coroutines.flow.Flow
+import org.threeten.bp.LocalDateTime
 import java.util.UUID
 
 interface TransactionRepository {
-    suspend fun saveTransaction(transaction: Transaction, wallet: Wallet, newWallet: Wallet?)
-    suspend fun saveAllTransactions(transactions: List<Transaction>)
-    suspend fun deleteTransaction(id: UUID, wallet: Wallet)
-    suspend fun deleteAllTransactions()
-    suspend fun getAllTransactions(
+    fun getAllTransactions(
         startDateRange: Long,
         endDateRange: Long,
         categories: Set<UUID>?,
         wallets: Set<UUID>?,
     ): Flow<List<Transaction>>
 
-    suspend fun getTransactions(query: String): Flow<List<Transaction>>
+    fun getAllTransactions(query: String): Flow<List<Transaction>>
+
+    fun getTransactionsByWallet(walletId: UUID): Flow<List<Transaction>>
+
     suspend fun getTransactionById(id: UUID): Transaction?
+
+    suspend fun addIncomeOrExpense(
+        amount: Double,
+        type: TransactionType, // INCOME or EXPENSE
+        date: LocalDateTime,
+        note: String?,
+        walletId: UUID,
+        categoryId: UUID?
+    )
+
+    suspend fun updateIncomeOrExpense(
+        id: UUID,
+        amount: Double,
+        type: TransactionType,
+        date: LocalDateTime,
+        note: String?,
+        walletId: UUID,
+        categoryId: UUID?
+    )
+
+    suspend fun transferFunds(
+        sourceWalletId: UUID,
+        targetWalletId: UUID,
+        amount: Double,
+        fee: Double,
+        date: LocalDateTime,
+        note: String?,
+        feeCategoryId: UUID?
+    )
+
+    suspend fun deleteTransaction(transactionId: UUID)
 }

@@ -6,31 +6,28 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import dev.muffar.moneyfikasi.data.db.dao.CategoryDao
-import dev.muffar.moneyfikasi.data.db.dao.LoanDao
 import dev.muffar.moneyfikasi.data.db.dao.TransactionDao
 import dev.muffar.moneyfikasi.data.db.dao.WalletDao
 import dev.muffar.moneyfikasi.data.db.entity.CategoryEntity
-import dev.muffar.moneyfikasi.data.db.entity.LoanEntity
 import dev.muffar.moneyfikasi.data.db.entity.TransactionEntity
 import dev.muffar.moneyfikasi.data.db.entity.WalletEntity
+import dev.muffar.moneyfikasi.data.utils.PrepopulateDbCallback
 
 @Database(
-    version = 2,
+    version = 1,
     entities = [
         CategoryEntity::class,
         TransactionEntity::class,
         WalletEntity::class,
-        LoanEntity::class
     ],
     exportSchema = true
 )
-@TypeConverters(RoomTypeConverters::class)
+@TypeConverters(Converters::class)
 abstract class MoneyfikasiDatabase : RoomDatabase() {
 
     abstract fun categoryDao(): CategoryDao
     abstract fun transactionDao(): TransactionDao
     abstract fun walletDao(): WalletDao
-    abstract fun loanDao(): LoanDao
 
     companion object {
         const val DATABASE_NAME = "moneyfikasi"
@@ -38,16 +35,23 @@ abstract class MoneyfikasiDatabase : RoomDatabase() {
         const val SQLITE_WAL_FILE_SUFFIX = "-wal"
         const val SQLITE_SHM_FILE_SUFFIX = "-shm"
 
-        fun create(applicationContext: Context): MoneyfikasiDatabase {
-            return Room
-                .databaseBuilder(
-                    applicationContext,
+        @Volatile
+        private var INSTANCE: MoneyfikasiDatabase? = null
+
+        fun create(context: Context): MoneyfikasiDatabase {
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
                     MoneyfikasiDatabase::class.java,
                     DATABASE_NAME
                 )
-                .createFromAsset("moneyfikasi.db")
-                .fallbackToDestructiveMigration()
-                .build()
+                    .addCallback(PrepopulateDbCallback(context))
+                    .fallbackToDestructiveMigration()
+                    .build()
+
+                INSTANCE = instance
+                instance
+            }
         }
     }
 }

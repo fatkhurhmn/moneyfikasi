@@ -8,31 +8,33 @@ import dev.muffar.moneyfikasi.domain.model.TransactionType
 import org.threeten.bp.LocalDateTime
 import java.util.UUID
 
-@Entity(tableName = "transactions", foreignKeys = [
-    ForeignKey(
-        entity = WalletEntity::class,
-        parentColumns = ["id"],
-        childColumns = ["wallet_id"],
-        onDelete = ForeignKey.CASCADE
-    ),
-    ForeignKey(
-        entity = CategoryEntity::class,
-        parentColumns = ["id"],
-        childColumns = ["category_id"],
-        onDelete = ForeignKey.CASCADE
-    )
-])
+@Entity(
+    tableName = "transactions",
+    foreignKeys = [
+        ForeignKey(
+            entity = WalletEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["wallet_id"],
+            onDelete = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = CategoryEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["category_id"],
+            onDelete = ForeignKey.SET_NULL
+        )
+    ]
+)
 data class TransactionEntity(
-
     @PrimaryKey
     @ColumnInfo(name = "id")
-    val id: UUID,
+    val id: UUID = UUID.randomUUID(),
 
     @ColumnInfo(name = "wallet_id")
     val walletId: UUID,
 
     @ColumnInfo(name = "category_id")
-    val categoryId: UUID,
+    val categoryId: UUID?,
 
     @ColumnInfo(name = "type")
     val type: TransactionType,
@@ -45,4 +47,7 @@ data class TransactionEntity(
 
     @ColumnInfo(name = "note")
     val note: String? = null,
+
+    @ColumnInfo(name = "transaction_reference")
+    val transactionReference: UUID? = null
 )

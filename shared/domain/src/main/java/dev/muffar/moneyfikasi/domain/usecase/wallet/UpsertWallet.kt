@@ -4,8 +4,8 @@ import dev.muffar.moneyfikasi.domain.model.InvalidWalletException
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.repository.WalletRepository
 
-class SaveWallet(
-    private val walletRepository: WalletRepository
+class UpsertWallet(
+    private val repository: WalletRepository
 ){
 
     @Throws(InvalidWalletException::class)
@@ -23,6 +23,6 @@ class SaveWallet(
             throw InvalidWalletException("Select a color")
         }
 
-        walletRepository.saveWallet(wallet)
+        repository.upsertWallet(wallet)
     }
 }
