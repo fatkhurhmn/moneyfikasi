@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonAlertDialog
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailAdmin
 import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailAmount
 import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailBody
 import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailDivider
@@ -41,6 +42,7 @@ import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailHead
 import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailNote
 import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailSaveButton
 import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailTopBar
+import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailTransfer
 import dev.shreyaspatil.capturable.capturable
 import dev.shreyaspatil.capturable.controller.rememberCaptureController
 import kotlinx.coroutines.flow.SharedFlow
@@ -118,84 +120,57 @@ fun TransactionDetailScreen(
                     .padding(16.dp)
                     .fillMaxWidth()
             ) {
-                TransactionDetailHeader(state.transaction?.type)
-                Spacer(modifier = Modifier.height(32.dp))
-                TransactionDetailAmount(
-                    amount = state.transaction?.amount,
-                    type = state.transaction?.type
-                )
-                TransactionDetailDivider()
-                TransactionDetailBody(
-                    date = state.transaction?.date,
-                    wallet = state.transaction?.wallet,
-                    category = state.transaction?.category,
-                )
-
-                val note = state.transaction?.note
-                if (!note.isNullOrBlank()) {
-                    TransactionDetailDivider()
-                    TransactionDetailNote(note)
-                }
-
-                if (state.showAlert) {
-                    CommonAlertDialog(
-                        title = stringResource(R.string.delete_transaction),
-                        message = stringResource(R.string.delete_transaction_confirmation),
-                        positiveText = stringResource(R.string.delete),
-                        negativeText = stringResource(R.string.cancel),
-                        onDismiss = { onShowAlert(false) },
-                        onConfirm = {
-                            onDelete()
-                            onShowAlert(false)
-                        }
+                if (state.transaction == null) {
+                    TransactionDetailHeader()
+                    Spacer(modifier = Modifier.height(32.dp))
+                    TransactionDetailTransfer(
+                        amount = state.transferDetail?.amount,
+                        sourceWallet = state.transferDetail?.sourceWallet,
+                        targetWallet = state.transferDetail?.targetWallet
                     )
+                    TransactionDetailDivider()
+                    TransactionDetailBody(
+                        date = state.transferDetail?.date,
+                        wallet = null,
+                        category = null,
+                    )
+                    if (state.transferDetail?.fee != null && state.transferDetail.fee > 0) {
+                        TransactionDetailDivider()
+                        TransactionDetailAdmin(state.transferDetail.fee)
+                    }
+                } else {
+                    TransactionDetailHeader(state.transaction.type)
+                    Spacer(modifier = Modifier.height(32.dp))
+                    TransactionDetailAmount(
+                        amount = state.transaction.amount,
+                        type = state.transaction.type
+                    )
+                    TransactionDetailDivider()
+                    TransactionDetailBody(
+                        date = state.transaction.date,
+                        wallet = state.transaction.wallet,
+                        category = state.transaction.category,
+                    )
+                    val note = state.transaction.note
+                    if (!note.isNullOrBlank()) {
+                        TransactionDetailDivider()
+                        TransactionDetailNote(note)
+                    }
                 }
             }
         }
     }
-}
-
-fun saveBitmapToGallery(
-    context: Context,
-    bitmap: Bitmap,
-    displayName: String = "image_${System.currentTimeMillis()}"
-) {
-    val filename = "$displayName.jpg"
-
-    val fos: OutputStream?
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-        // Android 10+ (Scoped Storage)
-        val resolver = context.contentResolver
-        val contentValues = ContentValues().apply {
-            put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
-            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
-            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
-            put(MediaStore.Images.Media.IS_PENDING, 1)
-        }
-
-        val imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-        fos = imageUri?.let { resolver.openOutputStream(it) }
-
-        fos?.use {
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
-        }
-
-        contentValues.clear()
-        contentValues.put(MediaStore.Images.Media.IS_PENDING, 0)
-        imageUri?.let { resolver.update(it, contentValues, null, null) }
-    } else {
-        // Android 9 ke bawah
-        val imagesDir =
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString()
-        val file = File(imagesDir, filename)
-        fos = FileOutputStream(file)
-        fos.use {
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
-        }
-
-        // Update galeri
-        MediaScannerConnection.scanFile(context, arrayOf(file.toString()), null, null)
+    if (state.showAlert) {
+        CommonAlertDialog(
+            title = stringResource(R.string.delete_transaction),
+            message = stringResource(R.string.delete_transaction_confirmation),
+            positiveText = stringResource(R.string.delete),
+            negativeText = stringResource(R.string.cancel),
+            onDismiss = { onShowAlert(false) },
+            onConfirm = {
+                onDelete()
+                onShowAlert(false)
+            }
+        )
     }
-
-    Toast.makeText(context, "Image saved to gallery", Toast.LENGTH_SHORT).show()
 }

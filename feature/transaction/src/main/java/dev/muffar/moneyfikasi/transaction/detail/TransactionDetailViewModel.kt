@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -40,11 +41,22 @@ class TransactionDetailViewModel @Inject constructor(
     }
 
     private fun initState() {
-        handle.get<String>(Screen.TransactionDetail.TRANSACTION_ID)?.let {
-            val transactionId = UUID.fromString(it)
+        handle.get<String>(Screen.TransactionDetail.TRANSACTION_ID)?.let { uuid ->
+            val transactionId = UUID.fromString(uuid)
+            _state.update { state -> state.copy(transactionId = transactionId) }
             viewModelScope.launch {
-                transactionUseCases.getTransactionById(transactionId)?.let {
-                    _state.update { state -> state.copy(transaction = it) }
+                transactionUseCases.getTransactionById(transactionId)?.let { transaction ->
+                    when (transaction.type) {
+                        TransactionType.INCOME, TransactionType.EXPENSE -> {
+                            _state.update { state -> state.copy(transaction = transaction) }
+                        }
+
+                        TransactionType.TRANSFER_IN, TransactionType.TRANSFER_OUT -> {
+                            transactionUseCases.getTransferDetail(transactionId)?.let { detail ->
+                                _state.update { state -> state.copy(transferDetail = detail) }
+                            }
+                        }
+                    }
                 }
             }
         }

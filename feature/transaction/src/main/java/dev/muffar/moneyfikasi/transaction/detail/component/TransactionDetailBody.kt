@@ -24,9 +24,13 @@ fun TransactionDetailBody(
         TransactionDetailDate(date)
         Spacer(Modifier.height(24.dp))
         TransactionDetailTime(date)
-        Spacer(Modifier.height(24.dp))
-        TransactionDetailCategory(category)
-        Spacer(Modifier.height(24.dp))
-        TransactionDetailWallet(wallet)
+        if (category != null) {
+            Spacer(Modifier.height(24.dp))
+            TransactionDetailCategory(category)
+        }
+        if (wallet != null) {
+            Spacer(Modifier.height(24.dp))
+            TransactionDetailWallet(wallet)
+        }
     }
 }

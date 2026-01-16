@@ -17,12 +17,13 @@ import dev.muffar.moneyfikasi.resource.R
 
 @Composable
 fun TransactionDetailHeader(
-    type: TransactionType?,
+    type: TransactionType? = null,
 ) {
-    val title = if (type == TransactionType.INCOME) {
-        stringResource(R.string.income_summary)
-    } else {
-        stringResource(R.string.expense_summary)
+
+    val title = when (type) {
+        TransactionType.INCOME -> stringResource(R.string.income_summary)
+        TransactionType.EXPENSE -> stringResource(R.string.expense_summary)
+        else -> stringResource(R.string.transfer_summary)
     }
 
     Column(

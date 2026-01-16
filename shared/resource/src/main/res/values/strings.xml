@@ -109,4 +109,5 @@
     <string name="from">From</string>
     <string name="to">To</string>
     <string name="transfer">Transfer</string>
+    <string name="transfer_summary">Transfer Summary</string>
 </resources>
