@@ -5,4 +5,5 @@ plugins {
     alias(libs.plugins.androidLibrary) apply false
     alias(libs.plugins.kotlinKapt) apply false
     alias(libs.plugins.daggerHilt) apply false
+    alias(libs.plugins.composeCompiler) apply false
 }
