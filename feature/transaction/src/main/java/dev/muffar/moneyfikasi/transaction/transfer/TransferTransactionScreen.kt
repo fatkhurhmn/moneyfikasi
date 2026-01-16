@@ -24,8 +24,10 @@ import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.transfer.component.AddEditTransactionBottomSheet
 import dev.muffar.moneyfikasi.transaction.transfer.component.TransferTransactionForm
 import dev.muffar.moneyfikasi.transaction.transfer.component.TransferTransactionSheetType
+import dev.muffar.moneyfikasi.utils.toFormattedDateTime
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -84,12 +86,16 @@ fun TransferTransactionScreen(
             TransferTransactionForm(
                 amount = state.amount,
                 adminFee = state.fee,
+                date = state.date.toFormattedDateTime("MMM, dd yyyy"),
+                time = String.format(Locale.getDefault(), "%02d:%02d", state.hour, state.minute),
                 sourceWallet = state.sourceWallet,
                 targetWallet = state.targetWallet,
                 onAmountChange = onAmountChange,
                 onOriginWalletClick = { onShowBottomSheet(TransferTransactionSheetType.SOURCE_WALLET) },
                 onDestinationWalletClick = { onShowBottomSheet(TransferTransactionSheetType.TARGET_WALLET) },
                 onAdminFeeChange = onFeeChange,
+                onDateClick = { onShowBottomSheet(TransferTransactionSheetType.DATE) },
+                onTimeClick = { onShowBottomSheet(TransferTransactionSheetType.TIME) },
                 onTransferClick = onCreateClick
             )
 

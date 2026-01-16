@@ -23,7 +23,6 @@ import dev.muffar.moneyfikasi.transaction.transfer.navigation.toTransferTransact
 import dev.muffar.moneyfikasi.wallet.add_edit.navigation.toAddEditWalletScreen
 import dev.muffar.moneyfikasi.wallet.list.navigation.toWalletsScreen
 import dev.muffar.moneyfikasi.wallet.walletsNavGraph
-import java.util.UUID
 
 @Composable
 fun RootNavigation(
@@ -54,14 +53,7 @@ fun RootNavigation(
             onNavigateToAddCategory = { navController.toAddEditCategoryScreen(it) }
         )
 
-        val dateRange = navController.previousBackStackEntry
-            ?.savedStateHandle?.get<Pair<Long, Long>>(Screen.StatisticDetail.DATE_RANGE)
-        val category = navController.previousBackStackEntry
-            ?.savedStateHandle?.get<String>(Screen.StatisticDetail.CATEGORY)
-
         statisticNavGraph(
-            dateRange = dateRange,
-            category = category?.let { UUID.fromString(it) },
             onNavigateToStatisticDetail = { dateRange, categoryId ->
                 navController.toStatisticDetailScreen(
                     dateRange,
