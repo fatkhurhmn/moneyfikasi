@@ -10,17 +10,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
-import dev.muffar.moneyfikasi.domain.model.Transaction
-import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.resource.R
-import java.util.UUID
 
 @Composable
 fun TransactionDetailTopBar(
-    transaction: Transaction?,
     onBackClick: () -> Unit,
     onDeleteClick: (Boolean) -> Unit,
-    onEditClick: (type: TransactionType, id: UUID) -> Unit
+    onEditClick: () -> Unit
 ) {
     CommonTopAppBar(
         title = stringResource(R.string.transaction),
@@ -35,11 +31,7 @@ fun TransactionDetailTopBar(
                 )
             }
             IconButton(
-                onClick = {
-                    transaction?.let {
-                        onEditClick(it.type, it.id)
-                    }
-                }
+                onClick = onEditClick
             ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_edit),

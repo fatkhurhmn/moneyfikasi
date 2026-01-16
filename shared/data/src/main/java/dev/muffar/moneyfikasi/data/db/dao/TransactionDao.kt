@@ -91,6 +91,7 @@ abstract class TransactionDao {
         fee: Double,
         date: LocalDateTime,
         note: String?,
+
     ) {
         val referenceId = UUID.randomUUID()
 
@@ -145,17 +146,67 @@ abstract class TransactionDao {
     ) {
         val oldRows = getTransactionsByReference(oldReferenceId)
 
-        for (tx in oldRows) {
-            val correction = when (tx.type) {
-                TransactionType.TRANSFER_IN -> -tx.amount
-                TransactionType.TRANSFER_OUT, TransactionType.EXPENSE -> tx.amount
-                else -> 0.0
-            }
-            updateWalletBalance(tx.walletId, correction)
-            deleteTransactionRaw(tx)
+        val oldSourceTx = oldRows.find { it.type == TransactionType.TRANSFER_OUT }
+            ?: throw IllegalStateException("Corrupt Transfer: Missing Source")
+        val oldTargetTx = oldRows.find { it.type == TransactionType.TRANSFER_IN }
+            ?: throw IllegalStateException("Corrupt Transfer: Missing Target")
+        val oldFeeTx = oldRows.find { it.type == TransactionType.EXPENSE }
+
+        updateWalletBalance(oldSourceTx.walletId, oldSourceTx.amount)
+        updateWalletBalance(oldTargetTx.walletId, -oldTargetTx.amount)
+        if (oldFeeTx != null) {
+            updateWalletBalance(oldFeeTx.walletId, oldFeeTx.amount)
         }
 
-        performTransfer(sourceWalletId, targetWalletId, amount, fee, date, note)
+        val updatedSource = oldSourceTx.copy(
+            walletId = sourceWalletId,
+            amount = amount,
+            date = date,
+            note = note
+        )
+        updateTransactionRaw(updatedSource)
+
+        val updatedTarget = oldTargetTx.copy(
+            walletId = targetWalletId,
+            amount = amount,
+            date = date,
+            note = note
+        )
+        updateTransactionRaw(updatedTarget)
+
+        if (fee > 0) {
+            if (oldFeeTx != null) {
+                val updatedFee = oldFeeTx.copy(
+                    walletId = sourceWalletId,
+                    amount = fee,
+                    date = date,
+                    note = "Fee for transfer"
+                )
+                updateTransactionRaw(updatedFee)
+            } else {
+                val newFeeTx = TransactionEntity(
+                    id = UUID.randomUUID(),
+                    walletId = sourceWalletId,
+                    categoryId = InitDataSource.ADMIN_TRANSFER_CATEGORY.id,
+                    type = TransactionType.EXPENSE,
+                    amount = fee,
+                    date = date,
+                    note = "Fee for transfer",
+                    transactionReference = oldReferenceId
+                )
+                insertTransactionRaw(newFeeTx)
+            }
+        } else {
+            if (oldFeeTx != null) {
+                deleteTransactionRaw(oldFeeTx)
+            }
+        }
+
+        updateWalletBalance(sourceWalletId, -amount)
+        updateWalletBalance(targetWalletId, amount)
+        if (fee > 0) {
+            updateWalletBalance(sourceWalletId, -fee)
+        }
     }
 
     @Query("SELECT * FROM transactions WHERE id = :id")

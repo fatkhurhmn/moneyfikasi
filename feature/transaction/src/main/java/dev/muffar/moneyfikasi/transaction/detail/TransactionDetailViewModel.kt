@@ -67,10 +67,10 @@ class TransactionDetailViewModel @Inject constructor(
     }
 
     private fun onDeleteTransaction() {
-        state.value.transaction?.let {
+        state.value.transactionId?.let {
             viewModelScope.launch {
                 try {
-                    transactionUseCases.deleteTransaction(it.id)
+                    transactionUseCases.deleteTransaction(it)
                     _eventFlow.emit(UiEvent.DeleteTransaction)
                 } catch (e: Exception) {
                     _eventFlow.emit(UiEvent.ShowMessage("Failed to delete transaction"))

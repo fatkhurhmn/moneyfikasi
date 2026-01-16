@@ -1,12 +1,6 @@
 package dev.muffar.moneyfikasi.transaction.detail
 
-import android.content.ContentValues
-import android.content.Context
 import android.graphics.Bitmap
-import android.media.MediaScannerConnection
-import android.os.Build
-import android.os.Environment
-import android.provider.MediaStore
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
@@ -48,9 +42,6 @@ import dev.shreyaspatil.capturable.controller.rememberCaptureController
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
 import java.util.UUID
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalComposeApi::class)
@@ -84,8 +75,11 @@ fun TransactionDetailScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TransactionDetailTopBar(
-                transaction = state.transaction,
-                onEditClick = onEdit,
+                onEditClick = {
+                    if (state.transactionId != null) {
+                        onEdit(state.transaction?.type ?: TransactionType.TRANSFER_OUT, state.transactionId)
+                    }
+                },
                 onDeleteClick = { onShowAlert(true) },
                 onBackClick = onBackClick
             )
