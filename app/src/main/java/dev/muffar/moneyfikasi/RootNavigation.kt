@@ -10,7 +10,6 @@ import dev.muffar.moneyfikasi.backup_restore.navigation.toBackupRestoreScreen
 import dev.muffar.moneyfikasi.category.add_edit.navigation.toAddEditCategoryScreen
 import dev.muffar.moneyfikasi.category.categoriesNavGraph
 import dev.muffar.moneyfikasi.category.list.navigation.toCategoriesScreen
-import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.search.navigation.searchNavigation
 import dev.muffar.moneyfikasi.settings.navigation.settingsNavGraph
@@ -37,7 +36,7 @@ fun RootNavigation(
             onNavigateBack = { navController.navigateUp() },
             onNavigateToTransactionDetail = { navController.toTransactionDetail(it) },
             onNavigateToEditTransaction = { type, id ->
-                if (type == TransactionType.INCOME || type == TransactionType.EXPENSE) {
+                if (type != null) {
                     navController.toAddEditTransactionScreen(type, id)
                 } else {
                     navController.toTransferTransactionScreen(id)

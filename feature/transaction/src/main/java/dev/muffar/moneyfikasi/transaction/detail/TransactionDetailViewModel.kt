@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.utils.constants.UUIDConst
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -45,17 +46,13 @@ class TransactionDetailViewModel @Inject constructor(
             val transactionId = UUID.fromString(uuid)
             _state.update { state -> state.copy(transactionId = transactionId) }
             viewModelScope.launch {
-                transactionUseCases.getTransactionById(transactionId)?.let { transaction ->
-                    when (transaction.type) {
-                        TransactionType.INCOME, TransactionType.EXPENSE -> {
-                            _state.update { state -> state.copy(transaction = transaction) }
+                transactionUseCases.getTransactionById(transactionId)?.let { tx ->
+                    if (tx.isTransfer || tx.category.isFeeTransfer) {
+                        transactionUseCases.getTransferDetail(transactionId)?.let { detail ->
+                            _state.update { state -> state.copy(transferDetail = detail) }
                         }
-
-                        TransactionType.TRANSFER_IN, TransactionType.TRANSFER_OUT -> {
-                            transactionUseCases.getTransferDetail(transactionId)?.let { detail ->
-                                _state.update { state -> state.copy(transferDetail = detail) }
-                            }
-                        }
+                    } else {
+                        _state.update { state -> state.copy(transaction = tx) }
                     }
                 }
             }

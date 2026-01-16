@@ -5,12 +5,12 @@ import dev.muffar.moneyfikasi.data.db.entity.WalletEntity
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.utils.CategoryIcon
 import dev.muffar.moneyfikasi.domain.utils.WalletIcon
-import java.util.UUID
+import dev.muffar.moneyfikasi.utils.constants.UUIDConst
 
 object InitDataSource {
     fun getCategories(): List<CategoryEntity> {
         val expenseCategories = arrayListOf(
-            ADMIN_TRANSFER_CATEGORY,
+            TRANSFER_FEE_CATEGORY,
             CategoryEntity(
                 name = "Electricity",
                 icon = CategoryIcon.BOLT.iconName,
@@ -53,7 +53,7 @@ object InitDataSource {
                 color = 0xFF9E9E9E,
                 type = CategoryType.EXPENSE,
             ),
-            EXPENSE_TRANSFER_CATEGORY,
+            TRANSFER_OUT_CATEGORY,
             CategoryEntity(
                 name = "Shopping",
                 icon = CategoryIcon.SHOPPING_CART.iconName,
@@ -105,7 +105,7 @@ object InitDataSource {
                 color = 0xFFED32F2F,
                 type = CategoryType.INCOME,
             ),
-            INCOME_TRANSFER_CATEGORY
+            TRANSFER_IN_CATEGORY
         )
 
         val categories = arrayListOf<CategoryEntity>().apply {
@@ -116,8 +116,8 @@ object InitDataSource {
         return categories
     }
 
-    val EXPENSE_TRANSFER_CATEGORY = CategoryEntity(
-        id = UUID.fromString("150bbc61-7a8c-4a9a-ab06-da7e4f6d4aa5"),
+    val TRANSFER_OUT_CATEGORY = CategoryEntity(
+        id = UUIDConst.TransferOutCategoryId,
         name = "Transfer",
         icon = CategoryIcon.TRANSFER.iconName,
         color = 0xFFFC3D56,
@@ -125,8 +125,8 @@ object InitDataSource {
         isTransferCategory = true
     )
 
-    val INCOME_TRANSFER_CATEGORY = CategoryEntity(
-        id = UUID.fromString("25e23912-70c0-4b52-a67c-05b1c786d032"),
+    val TRANSFER_IN_CATEGORY = CategoryEntity(
+        id = UUIDConst.TransferInCategoryId,
         name = "Transfer",
         icon = CategoryIcon.TRANSFER.iconName,
         color = 0xFF3AAD7A,
@@ -134,8 +134,8 @@ object InitDataSource {
         isTransferCategory = true
     )
 
-    val ADMIN_TRANSFER_CATEGORY = CategoryEntity(
-        id = UUID.fromString("abf1e9b7-c898-4717-9d82-f06dd6c476e1"),
+    val TRANSFER_FEE_CATEGORY = CategoryEntity(
+        id = UUIDConst.TransferFeeCategoryId,
         name = "Admin Fee",
         icon = CategoryIcon.PAID.iconName,
         color = 0xFF557689,

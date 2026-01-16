@@ -15,7 +15,7 @@ import dev.muffar.moneyfikasi.transaction.detail.TransactionDetailViewModel
 import java.util.UUID
 
 fun NavGraphBuilder.transactionDetailNavigation(
-    onNavigateToEditTransaction: (TransactionType, UUID) -> Unit,
+    onNavigateToEditTransaction: (TransactionType?, UUID) -> Unit,
     onNavigateBack: () -> Unit,
 ) {
     composable(

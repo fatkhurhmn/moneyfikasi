@@ -24,8 +24,8 @@ fun CategoriesScreen(
     onCategoryItemClick: (CategoryType, UUID) -> Unit,
     onBackClick: () -> Unit,
 ) {
-    val expenseCategories = state.categories.filter { it.type == CategoryType.EXPENSE }
-    val incomeCategories = state.categories.filter { it.type == CategoryType.INCOME }
+    val expenseCategories = state.categories.filter { it.isExpense }
+    val incomeCategories = state.categories.filter { it.isIncome }
 
     val pagerState = rememberPagerState { state.tabs.size }
 

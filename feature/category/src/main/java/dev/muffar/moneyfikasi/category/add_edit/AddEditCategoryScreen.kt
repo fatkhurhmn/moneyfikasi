@@ -25,7 +25,6 @@ import dev.muffar.moneyfikasi.category.add_edit.component.AddEditCategoryButton
 import dev.muffar.moneyfikasi.category.add_edit.component.AddEditCategoryForm
 import dev.muffar.moneyfikasi.common_ui.component.CommonAlertDialog
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
-import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -46,7 +45,7 @@ fun AddEditCategoryScreen(
     onDelete: () -> Unit,
     onBackClick: () -> Unit,
 ) {
-    val title = if (state.type == CategoryType.INCOME) {
+    val title = if (state.category.isIncome) {
         stringResource(R.string.income_category)
     } else {
         stringResource(R.string.expense_category)

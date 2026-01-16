@@ -52,14 +52,14 @@ class StatisticViewModel @Inject constructor(
             )
                 .collectLatest { transactions ->
 
-                    val incomeTransaction =
-                        transactions.filter { it.type == TransactionType.INCOME }
-                    val expenseTransaction =
-                        transactions.filter { it.type == TransactionType.EXPENSE }
+                    val incomeTransaction = transactions.filter { it.isIncome }
+                    val expenseTransaction = transactions.filter { it.isExpense }
 
-                    val overviewIncome = transactions.filter { it.type == TransactionType.INCOME }
+                    val overviewIncome = transactions
+                        .filter { it.isIncome }
                         .sumOf { it.amount }
-                    val overviewExpense = transactions.filter { it.type == TransactionType.EXPENSE }
+                    val overviewExpense = transactions
+                        .filter { it.isExpense }
                         .sumOf { it.amount }
 
                     _state.update { state ->

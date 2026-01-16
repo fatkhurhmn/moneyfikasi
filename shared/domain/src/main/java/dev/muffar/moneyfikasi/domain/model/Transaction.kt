@@ -11,6 +11,15 @@ data class Transaction(
     val amount: Double,
     val date: LocalDateTime,
     val note: String? = null,
-)
+) {
+    val isIncome: Boolean
+        get() = type == TransactionType.INCOME
+
+    val isExpense: Boolean
+        get() = type == TransactionType.EXPENSE
+
+    val isTransfer: Boolean
+        get() = type == TransactionType.TRANSFER_IN || type == TransactionType.TRANSFER_OUT
+}
 
 data class InvalidTransactionException(override val message: String) : Exception()

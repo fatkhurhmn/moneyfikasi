@@ -27,6 +27,9 @@ kotlin {
 }
 
 dependencies {
+
+    implementation(projects.shared.utils)
+
     implementation(libs.dagger.hilt.android)
     kapt(libs.dagger.hilt.compiler)
 

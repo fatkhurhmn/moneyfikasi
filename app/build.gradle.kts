@@ -61,6 +61,7 @@ dependencies {
     implementation(projects.shared.navigation)
     implementation(projects.shared.commonUi)
     implementation(projects.shared.resource)
+    implementation(projects.shared.utils)
 
     implementation(projects.feature.transaction)
     implementation(projects.feature.settings)

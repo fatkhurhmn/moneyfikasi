@@ -11,7 +11,7 @@ import java.util.UUID
 
 fun NavGraphBuilder.transactionsNavGraph(
     onNavigateToTransactionDetail: (UUID) -> Unit,
-    onNavigateToEditTransaction: (TransactionType, UUID) -> Unit,
+    onNavigateToEditTransaction: (TransactionType?, UUID) -> Unit,
     onNavigateToAddTransaction: (TransactionType) -> Unit,
     onNavigateToTransferTransaction: () -> Unit,
     onNavigateToAddWallet: () -> Unit,

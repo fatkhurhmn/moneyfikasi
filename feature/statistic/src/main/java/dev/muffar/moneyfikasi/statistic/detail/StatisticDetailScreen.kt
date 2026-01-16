@@ -49,8 +49,11 @@ fun StatisticDetailScreen(
             modifier = modifier.padding(it)
         ) {
             item {
-                val total = state.transactions.sumOf { i -> i.amount }
-                val prefix = if (state.type == TransactionType.INCOME) "+" else "-"
+                val total = state.transactions
+                    .sumOf { i -> i.amount }
+                    .toLong().formatThousand()
+                    .let { i -> if (state.type == TransactionType.INCOME) "+$i" else "-$i" }
+
                 val color =
                     if (state.type == TransactionType.INCOME) MainColor.Green.primary else MainColor.Red.primary
 
@@ -66,7 +69,7 @@ fun StatisticDetailScreen(
                         style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp),
                     )
                     Text(
-                        text = "$prefix${total.toLong().formatThousand()}",
+                        text = total,
                         style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp),
                         color = color
                     )

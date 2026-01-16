@@ -36,11 +36,8 @@ fun StatisticTransactionItem(
     quantity: Int,
 ) {
     val formattedAmount = amount.toLong().formatThousand().let {
-        if (category.type == CategoryType.INCOME) "+$it" else "-$it"
+        if (category.isIncome) "+$it" else "-$it"
     }
-
-    val color =
-        if (category.type == CategoryType.INCOME) MainColor.Green.primary else MainColor.Red.primary
 
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -83,7 +80,7 @@ fun StatisticTransactionItem(
         ) {
             Text(
                 text = formattedAmount,
-                color = color,
+                color = if (category.isIncome) MainColor.Green.primary else MainColor.Red.primary,
                 style = MaterialTheme.typography.bodyLarge
             )
             Text(

@@ -97,7 +97,7 @@ abstract class TransactionDao {
 
         val sourceTx = TransactionEntity(
             walletId = sourceWalletId,
-            categoryId = InitDataSource.EXPENSE_TRANSFER_CATEGORY.id,
+            categoryId = InitDataSource.TRANSFER_OUT_CATEGORY.id,
             type = TransactionType.TRANSFER_OUT,
             amount = amount,
             date = date,
@@ -109,7 +109,7 @@ abstract class TransactionDao {
 
         val targetTx = TransactionEntity(
             walletId = targetWalletId,
-            categoryId = InitDataSource.INCOME_TRANSFER_CATEGORY.id,
+            categoryId = InitDataSource.TRANSFER_IN_CATEGORY.id,
             type = TransactionType.TRANSFER_IN,
             amount = amount,
             date = date,
@@ -122,7 +122,7 @@ abstract class TransactionDao {
         if (fee > 0.0) {
             val feeTx = TransactionEntity(
                 walletId = sourceWalletId,
-                categoryId = InitDataSource.ADMIN_TRANSFER_CATEGORY.id,
+                categoryId = InitDataSource.TRANSFER_FEE_CATEGORY.id,
                 type = TransactionType.EXPENSE,
                 amount = fee,
                 date = date,
@@ -187,7 +187,7 @@ abstract class TransactionDao {
                 val newFeeTx = TransactionEntity(
                     id = UUID.randomUUID(),
                     walletId = sourceWalletId,
-                    categoryId = InitDataSource.ADMIN_TRANSFER_CATEGORY.id,
+                    categoryId = InitDataSource.TRANSFER_FEE_CATEGORY.id,
                     type = TransactionType.EXPENSE,
                     amount = fee,
                     date = date,

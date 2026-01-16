@@ -63,11 +63,15 @@ class TransactionsViewModel @Inject constructor(
             )
                 .onStart { _state.update { it.copy(isLoading = true) } }
                 .collectLatest { transactions ->
-                    val groupingTransactions = transactions.groupBy { it.date.format("yyyy-MM-dd") }
-                    val overviewIncome = transactions.filter { it.type == TransactionType.INCOME }
+                    val groupingTransactions = transactions
+                        .groupBy { it.date.format("yyyy-MM-dd") }
+                    val overviewIncome = transactions
+                        .filter { it.isIncome }
                         .sumOf { it.amount }
-                    val overviewExpense = transactions.filter { it.type == TransactionType.EXPENSE }
+                    val overviewExpense = transactions
+                        .filter { it.isExpense }
                         .sumOf { it.amount }
+
                     _state.update { state ->
                         state.copy(
                             transactions = transactions,
