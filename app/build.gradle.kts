@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace = "dev.muffar.moneyfikasi"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "dev.muffar.moneyfikasi"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 

@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "dev.muffar.moneyfikasi.wallet"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24

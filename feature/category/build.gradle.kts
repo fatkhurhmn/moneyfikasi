@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "dev.muffar.moneyfikasi.category"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
