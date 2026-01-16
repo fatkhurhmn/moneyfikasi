@@ -2,7 +2,7 @@ package dev.muffar.moneyfikasi.transaction.transfer
 
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.transaction.transfer.component.TransferTransactionSheetType
-import dev.muffar.moneyfikasi.utils.toFormattedDateTime
+import dev.muffar.moneyfikasi.utils.extensions.toFormattedDateTime
 import java.util.UUID
 
 data class TransferTransactionState(

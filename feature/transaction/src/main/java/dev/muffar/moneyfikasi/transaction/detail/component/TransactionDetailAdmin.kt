@@ -15,9 +15,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.formatThousand
+import dev.muffar.moneyfikasi.utils.extensions.formatThousand
 
 @Composable
 fun TransactionDetailAdmin(

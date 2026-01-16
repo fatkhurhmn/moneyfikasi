@@ -27,7 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.Colors
+import dev.muffar.moneyfikasi.domain.utils.Colors
 
 @Composable
 fun ColorPicker(

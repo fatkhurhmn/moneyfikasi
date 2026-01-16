@@ -22,8 +22,8 @@ import dev.muffar.moneyfikasi.common_ui.component.TransactionItem
 import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.format
-import dev.muffar.moneyfikasi.utils.formatThousand
+import dev.muffar.moneyfikasi.utils.extensions.format
+import dev.muffar.moneyfikasi.utils.extensions.formatThousand
 import java.util.UUID
 
 @Composable

@@ -16,8 +16,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.model.TransactionType
-import dev.muffar.moneyfikasi.utils.format
-import dev.muffar.moneyfikasi.utils.formatThousand
+import dev.muffar.moneyfikasi.utils.extensions.format
+import dev.muffar.moneyfikasi.utils.extensions.formatThousand
 import org.threeten.bp.LocalDateTime
 
 @Composable

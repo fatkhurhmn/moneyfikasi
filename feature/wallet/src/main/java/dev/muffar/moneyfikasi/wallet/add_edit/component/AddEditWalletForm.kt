@@ -19,7 +19,7 @@ import dev.muffar.moneyfikasi.common_ui.component.ColorFieldButton
 import dev.muffar.moneyfikasi.common_ui.component.CommonTextInput
 import dev.muffar.moneyfikasi.common_ui.component.IconFieldButton
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.filterAmount
+import dev.muffar.moneyfikasi.utils.extensions.filterAmount
 import java.util.UUID
 
 @Composable

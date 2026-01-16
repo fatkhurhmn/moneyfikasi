@@ -24,7 +24,7 @@ import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.transfer.component.AddEditTransactionBottomSheet
 import dev.muffar.moneyfikasi.transaction.transfer.component.TransferTransactionForm
 import dev.muffar.moneyfikasi.transaction.transfer.component.TransferTransactionSheetType
-import dev.muffar.moneyfikasi.utils.toFormattedDateTime
+import dev.muffar.moneyfikasi.utils.extensions.toFormattedDateTime
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import java.util.Locale

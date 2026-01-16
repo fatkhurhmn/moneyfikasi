@@ -24,8 +24,8 @@ import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.format
-import dev.muffar.moneyfikasi.utils.formatThousand
+import dev.muffar.moneyfikasi.utils.extensions.format
+import dev.muffar.moneyfikasi.utils.extensions.formatThousand
 
 @Composable
 fun StatisticTransactionItem(

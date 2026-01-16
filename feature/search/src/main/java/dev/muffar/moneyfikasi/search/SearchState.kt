@@ -1,7 +1,7 @@
 package dev.muffar.moneyfikasi.search
 
 import dev.muffar.moneyfikasi.domain.model.Transaction
-import dev.muffar.moneyfikasi.utils.format
+import dev.muffar.moneyfikasi.utils.extensions.format
 
 data class SearchState(
     val searchQuery: String? = null,

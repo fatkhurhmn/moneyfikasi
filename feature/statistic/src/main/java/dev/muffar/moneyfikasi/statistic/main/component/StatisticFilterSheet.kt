@@ -23,7 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.capitalize
+import dev.muffar.moneyfikasi.utils.extensions.capitalize
 
 @Composable
 fun StatisticFilterSheet(

@@ -22,8 +22,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.capitalize
-import dev.muffar.moneyfikasi.utils.shortName
+import dev.muffar.moneyfikasi.utils.extensions.capitalize
+import dev.muffar.moneyfikasi.utils.extensions.shortName
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter

@@ -6,7 +6,7 @@ import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticSheetType
-import dev.muffar.moneyfikasi.utils.startOfMonth
+import dev.muffar.moneyfikasi.utils.extensions.startOfMonth
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
 

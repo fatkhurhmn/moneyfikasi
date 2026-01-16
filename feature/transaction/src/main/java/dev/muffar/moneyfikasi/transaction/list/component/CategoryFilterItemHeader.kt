@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.CategoryType
-import dev.muffar.moneyfikasi.utils.capitalize
+import dev.muffar.moneyfikasi.utils.extensions.capitalize
 
 @Composable
 fun CategoryFilterItemHeader(

@@ -18,7 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.utils.toFormattedDateTime
+import dev.muffar.moneyfikasi.utils.extensions.toFormattedDateTime
 
 @Composable
 fun CustomCalendarFilter(

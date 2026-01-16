@@ -15,8 +15,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
-import dev.muffar.moneyfikasi.utils.capitalize
-import dev.muffar.moneyfikasi.utils.toFormattedDateTime
+import dev.muffar.moneyfikasi.utils.extensions.capitalize
+import dev.muffar.moneyfikasi.utils.extensions.toFormattedDateTime
 
 @Composable
 fun DateRangeFilterTab(

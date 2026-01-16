@@ -26,7 +26,5 @@ kotlin {
 }
 
 dependencies {
-    implementation(projects.shared.domain)
-
     implementation(libs.threetenabp)
 }

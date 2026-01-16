@@ -8,7 +8,7 @@ import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.model.Wallet
-import dev.muffar.moneyfikasi.utils.CategoryIcon
+import dev.muffar.moneyfikasi.domain.utils.CategoryIcon
 
 // --- Wallet Mappers ---
 

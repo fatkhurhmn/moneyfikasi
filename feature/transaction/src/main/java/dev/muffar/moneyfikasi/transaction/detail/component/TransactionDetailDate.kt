@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.format
+import dev.muffar.moneyfikasi.utils.extensions.format
 import org.threeten.bp.LocalDateTime
 
 @Composable
