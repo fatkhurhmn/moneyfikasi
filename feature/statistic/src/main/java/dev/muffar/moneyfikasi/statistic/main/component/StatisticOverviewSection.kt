@@ -53,7 +53,7 @@ fun StatisticOverviewSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             val formattedExpense = expense.toLong().formatThousand().let { amount ->
-                if (expense > 0) "+$amount" else amount
+                if (expense > 0) "-$amount" else amount
             }
             Text(
                 text = stringResource(R.string.expense),
