@@ -2,6 +2,7 @@ package dev.muffar.moneyfikasi.domain.repository
 
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.model.TransactionType
+import dev.muffar.moneyfikasi.domain.model.TransferDetail
 import kotlinx.coroutines.flow.Flow
 import org.threeten.bp.LocalDateTime
 import java.util.UUID
@@ -46,8 +47,19 @@ interface TransactionRepository {
         fee: Double,
         date: LocalDateTime,
         note: String?,
-        feeCategoryId: UUID?
     )
+
+    suspend fun updateTransfer(
+        referenceId: UUID,
+        sourceWalletId: UUID,
+        targetWalletId: UUID,
+        amount: Double,
+        fee: Double,
+        date: LocalDateTime,
+        note: String?,
+    )
+
+    suspend fun getTransferDetail(transactionId: UUID): TransferDetail?
 
     suspend fun deleteTransaction(transactionId: UUID)
 }

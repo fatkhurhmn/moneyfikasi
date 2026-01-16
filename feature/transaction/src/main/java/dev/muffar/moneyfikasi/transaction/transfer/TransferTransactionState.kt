@@ -18,4 +18,7 @@ data class TransferTransactionState(
     val minute: Int = time.toFormattedDateTime("mm").toInt(),
     val wallets: List<Wallet> = emptyList(),
     val bottomSheetType: TransferTransactionSheetType? = null,
-)
+) {
+    val isEditMode: Boolean
+        get() = id != null
+}

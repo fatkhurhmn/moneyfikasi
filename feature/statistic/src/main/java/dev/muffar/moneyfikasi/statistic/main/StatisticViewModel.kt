@@ -52,8 +52,10 @@ class StatisticViewModel @Inject constructor(
             )
                 .collectLatest { transactions ->
 
-                    val incomeTransaction = transactions.filter { it.type == TransactionType.INCOME }
-                    val expenseTransaction = transactions.filter { it.type == TransactionType.EXPENSE }
+                    val incomeTransaction =
+                        transactions.filter { it.type == TransactionType.INCOME }
+                    val expenseTransaction =
+                        transactions.filter { it.type == TransactionType.EXPENSE }
 
                     val overviewIncome = transactions.filter { it.type == TransactionType.INCOME }
                         .sumOf { it.amount }
@@ -75,7 +77,7 @@ class StatisticViewModel @Inject constructor(
 
     private fun loadCategories() {
         viewModelScope.launch {
-            categoryUseCases.getAllCategories()
+            categoryUseCases.getAllCategories(true)
                 .collectLatest { categories ->
                     _state.update {
                         it.copy(categories = categories.toSet())

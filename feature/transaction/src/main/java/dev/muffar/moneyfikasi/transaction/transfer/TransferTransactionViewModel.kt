@@ -8,8 +8,12 @@ import dev.muffar.moneyfikasi.domain.model.InvalidTransactionException
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
+import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.transaction.transfer.component.TransferTransactionSheetType
 import dev.muffar.moneyfikasi.utils.clearThousandFormat
+import dev.muffar.moneyfikasi.utils.formatThousand
+import dev.muffar.moneyfikasi.utils.toFormattedDateTime
+import dev.muffar.moneyfikasi.utils.toMilliseconds
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -20,6 +24,7 @@ import kotlinx.coroutines.launch
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -55,7 +60,30 @@ class TransferTransactionViewModel @Inject constructor(
     }
 
     private fun initState() {
-
+        handle.get<String>(Screen.TransferTransaction.TRANSACTION_ID)?.let { id ->
+            if (id.isEmpty()) return
+            val transactionId = UUID.fromString(id)
+            viewModelScope.launch {
+                transactionUseCases.getTransferDetail(transactionId)?.let { detail ->
+                    _state.update { state ->
+                        val date = detail.date.toMilliseconds()
+                        with(detail) {
+                            state.copy(
+                                id = referenceId,
+                                amount = amount.toLong().formatThousand(),
+                                sourceWallet = sourceWallet,
+                                targetWallet = targetWallet,
+                                fee = fee.toLong().formatThousand(),
+                                note = note ?: "",
+                                date = date,
+                                hour = date.toFormattedDateTime("H").toInt(),
+                                minute = date.toFormattedDateTime("mm").toInt()
+                            )
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun loadWallets() {
@@ -106,15 +134,27 @@ class TransferTransactionViewModel @Inject constructor(
         val state = this.state.value
         viewModelScope.launch {
             try {
-                transactionUseCases.addTransfer(
-                    sourceWalletId = state.sourceWallet.id,
-                    targetWalletId = state.targetWallet.id,
-                    amount = state.amount.clearThousandFormat().toDouble(),
-                    fee = state.fee.clearThousandFormat().toDouble(),
-                    date = getFormattedDate(),
-                    note = "",
-                    feeCategoryId = null
-                )
+                if (state.isEditMode) {
+                    transactionUseCases.updateTransfer(
+                        referenceId = state.id!!,
+                        sourceWalletId = state.sourceWallet.id,
+                        targetWalletId = state.targetWallet.id,
+                        amount = state.amount.clearThousandFormat().toDouble(),
+                        fee = state.fee.clearThousandFormat().toDouble(),
+                        date = getFormattedDate(),
+                        note = "",
+                    )
+
+                } else {
+                    transactionUseCases.addTransfer(
+                        sourceWalletId = state.sourceWallet.id,
+                        targetWalletId = state.targetWallet.id,
+                        amount = state.amount.clearThousandFormat().toDouble(),
+                        fee = state.fee.clearThousandFormat().toDouble(),
+                        date = getFormattedDate(),
+                        note = "",
+                    )
+                }
                 _eventFlow.emit(UiEvent.SaveTransaction)
             } catch (e: InvalidTransactionException) {
                 _eventFlow.emit(UiEvent.ShowMessage(e.message))

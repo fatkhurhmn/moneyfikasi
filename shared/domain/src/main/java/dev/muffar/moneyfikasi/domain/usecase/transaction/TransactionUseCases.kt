@@ -8,5 +8,7 @@ data class TransactionUseCases(
     val getTransactionById: GetTransactionById,
     val getTransactions: GetTransactions,
     val addTransfer: AddTransfer,
+    val updateTransfer: UpdateTransfer,
+    val getTransferDetail: GetTransferDetail,
     val saveTransactionImage: SaveTransactionImage
 )

@@ -30,8 +30,10 @@ fun GroupTransactionHeader(
     val monthYear = date.format("MMM yyyy")
 
     val balance = transactions.sumOf {
-        if (it.type == TransactionType.INCOME) it.amount
-        else -it.amount
+        when(it.type){
+            TransactionType.INCOME, TransactionType.TRANSFER_IN -> it.amount
+            TransactionType.EXPENSE, TransactionType.TRANSFER_OUT-> -it.amount
+        }
     }
 
     Row(

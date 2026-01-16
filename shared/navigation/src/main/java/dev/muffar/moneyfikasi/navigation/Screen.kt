@@ -44,11 +44,11 @@ sealed class Screen(val route: String) {
     }
 
     data object TransferTransaction :
-        Screen("transfer_transaction") {
+        Screen("transfer_transaction?transaction_id={transaction_id}") {
         const val TRANSACTION_ID = "transaction_id"
         fun routeWithArg(id: UUID? = null): String {
             val transactionId = id?.toString() ?: ""
-            return "transfer_transaction"
+            return "transfer_transaction?$TRANSACTION_ID=$transactionId"
         }
     }
 

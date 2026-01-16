@@ -69,12 +69,20 @@ fun TransactionItem(
             horizontalAlignment = Alignment.End,
         ) {
             val formattedAmount = transaction.amount.toLong().formatThousand().let {
-                if (transaction.type == TransactionType.EXPENSE) "-$it" else "+$it"
+                when (transaction.type) {
+                    TransactionType.INCOME, TransactionType.TRANSFER_IN -> "+$it"
+                    TransactionType.EXPENSE, TransactionType.TRANSFER_OUT -> "-$it"
+                }
+            }
+
+            val amountColor = when (transaction.type) {
+                TransactionType.INCOME, TransactionType.TRANSFER_IN -> MainColor.Green.primary
+                TransactionType.EXPENSE, TransactionType.TRANSFER_OUT -> MainColor.Red.primary
             }
             Text(
                 text = formattedAmount,
                 style = MaterialTheme.typography.bodyLarge,
-                color = if (transaction.type == TransactionType.EXPENSE) MainColor.Red.primary else MainColor.Green.primary,
+                color = amountColor,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )

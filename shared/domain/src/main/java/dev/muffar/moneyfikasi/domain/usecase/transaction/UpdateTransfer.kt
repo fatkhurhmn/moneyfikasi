@@ -5,18 +5,19 @@ import dev.muffar.moneyfikasi.domain.repository.TransactionRepository
 import org.threeten.bp.LocalDateTime
 import java.util.UUID
 
-class AddTransfer(
+class UpdateTransfer(
     private val repository: TransactionRepository,
 ) {
 
     @Throws(InvalidTransactionException::class)
     suspend operator fun invoke(
+        referenceId: UUID,
         sourceWalletId: UUID,
         targetWalletId: UUID,
         amount: Double,
         fee: Double,
         date: LocalDateTime,
-        note: String?,
+        note: String?
     ) {
         if (amount == 0.0) {
             throw InvalidTransactionException("Amount cannot be zero")
@@ -34,13 +35,14 @@ class AddTransfer(
             throw InvalidTransactionException("Cannot transfer to the same wallet")
         }
 
-        repository.transferFunds(
+        repository.updateTransfer(
+            referenceId = referenceId,
             sourceWalletId = sourceWalletId,
             targetWalletId = targetWalletId,
             amount = amount,
             fee = fee,
             date = date,
-            note = note,
+            note = note
         )
     }
 

@@ -19,16 +19,18 @@ import java.util.UUID
 abstract class TransactionDao {
 
     @Transaction
-    @Query("SELECT * FROM transactions " +
-            "WHERE (date BETWEEN :start AND :end) " +
-            "AND (category_id IN (:categories)) " +
-            "AND (wallet_id IN (:wallets)) " +
-            "ORDER BY date DESC")
+    @Query(
+        "SELECT * FROM transactions " +
+                "WHERE (date BETWEEN :start AND :end) " +
+                "AND (category_id IN (:categories)) " +
+                "AND (wallet_id IN (:wallets)) " +
+                "ORDER BY date DESC"
+    )
     abstract fun getAllTransactions(
         start: Long,
         end: Long,
-        categories : Set<UUID>?,
-        wallets : Set<UUID>?
+        categories: Set<UUID>?,
+        wallets: Set<UUID>?
     ): Flow<List<TransactionWithDetails>>
 
     @Transaction
@@ -89,14 +91,13 @@ abstract class TransactionDao {
         fee: Double,
         date: LocalDateTime,
         note: String?,
-        categoryFeeId: UUID?
     ) {
         val referenceId = UUID.randomUUID()
 
         val sourceTx = TransactionEntity(
             walletId = sourceWalletId,
             categoryId = InitDataSource.EXPENSE_TRANSFER_CATEGORY.id,
-            type = TransactionType.EXPENSE,
+            type = TransactionType.TRANSFER_OUT,
             amount = amount,
             date = date,
             note = note,
@@ -108,7 +109,7 @@ abstract class TransactionDao {
         val targetTx = TransactionEntity(
             walletId = targetWalletId,
             categoryId = InitDataSource.INCOME_TRANSFER_CATEGORY.id,
-            type = TransactionType.INCOME,
+            type = TransactionType.TRANSFER_IN,
             amount = amount,
             date = date,
             note = note,
@@ -130,6 +131,31 @@ abstract class TransactionDao {
             insertTransactionRaw(feeTx)
             updateWalletBalance(sourceWalletId, -fee)
         }
+    }
+
+    @Transaction
+    open suspend fun updateTransfer(
+        oldReferenceId: UUID,
+        sourceWalletId: UUID,
+        targetWalletId: UUID,
+        amount: Double,
+        fee: Double,
+        date: LocalDateTime,
+        note: String?,
+    ) {
+        val oldRows = getTransactionsByReference(oldReferenceId)
+
+        for (tx in oldRows) {
+            val correction = when (tx.type) {
+                TransactionType.TRANSFER_IN -> -tx.amount
+                TransactionType.TRANSFER_OUT, TransactionType.EXPENSE -> tx.amount
+                else -> 0.0
+            }
+            updateWalletBalance(tx.walletId, correction)
+            deleteTransactionRaw(tx)
+        }
+
+        performTransfer(sourceWalletId, targetWalletId, amount, fee, date, note)
     }
 
     @Query("SELECT * FROM transactions WHERE id = :id")
@@ -156,9 +182,8 @@ abstract class TransactionDao {
 
         for (tx in transactionsToDelete) {
             val balanceCorrection = when (tx.type) {
-                TransactionType.INCOME -> -tx.amount
-
-                TransactionType.EXPENSE -> tx.amount
+                TransactionType.INCOME, TransactionType.TRANSFER_IN -> -tx.amount
+                TransactionType.EXPENSE, TransactionType.TRANSFER_OUT -> tx.amount
             }
 
             updateWalletBalance(tx.walletId, balanceCorrection)

@@ -1,10 +1,12 @@
 package dev.muffar.moneyfikasi.data.repositoy
 
 import dev.muffar.moneyfikasi.data.db.dao.TransactionDao
+import dev.muffar.moneyfikasi.data.db.dao.WalletDao
 import dev.muffar.moneyfikasi.data.db.entity.TransactionEntity
 import dev.muffar.moneyfikasi.data.mapper.toDomain
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.model.TransactionType
+import dev.muffar.moneyfikasi.domain.model.TransferDetail
 import dev.muffar.moneyfikasi.domain.repository.TransactionRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -13,7 +15,8 @@ import java.util.UUID
 import javax.inject.Inject
 
 class TransactionRepositoryImpl @Inject constructor(
-    private val transactionDao: TransactionDao
+    private val transactionDao: TransactionDao,
+    private val walletDao: WalletDao
 ) : TransactionRepository {
     override fun getAllTransactions(
         startDateRange: Long,
@@ -95,7 +98,6 @@ class TransactionRepositoryImpl @Inject constructor(
         fee: Double,
         date: LocalDateTime,
         note: String?,
-        feeCategoryId: UUID?
     ) {
         if (sourceWalletId == targetWalletId) {
             throw IllegalArgumentException("Cannot transfer to the same wallet")
@@ -108,7 +110,52 @@ class TransactionRepositoryImpl @Inject constructor(
             fee = fee,
             date = date,
             note = note,
-            categoryFeeId = feeCategoryId
+        )
+    }
+
+    override suspend fun updateTransfer(
+        referenceId: UUID,
+        sourceWalletId: UUID,
+        targetWalletId: UUID,
+        amount: Double,
+        fee: Double,
+        date: LocalDateTime,
+        note: String?
+    ) {
+        transactionDao.updateTransfer(
+            oldReferenceId = referenceId,
+            sourceWalletId = sourceWalletId,
+            targetWalletId = targetWalletId,
+            amount = amount,
+            fee = fee,
+            date = date,
+            note = note
+        )
+    }
+
+    override suspend fun getTransferDetail(transactionId: UUID): TransferDetail? {
+        val initialTx = transactionDao.getTransactionById(transactionId) ?: return null
+        val refId = initialTx.transactionReference ?: return null
+
+        val relatedTxs = transactionDao.getTransactionsByReference(refId)
+
+        val sourceTx = relatedTxs.find { it.type == TransactionType.TRANSFER_OUT }
+        val targetTx = relatedTxs.find { it.type == TransactionType.TRANSFER_IN }
+        val feeTx = relatedTxs.find { it.type == TransactionType.EXPENSE }
+
+        if (sourceTx == null || targetTx == null) return null
+
+        val sourceWallet = walletDao.getWalletById(sourceTx.walletId)?.toDomain()!!
+        val targetWallet = walletDao.getWalletById(targetTx.walletId)?.toDomain()!!
+
+        return TransferDetail(
+            referenceId = refId,
+            sourceWallet = sourceWallet,
+            targetWallet = targetWallet,
+            amount = targetTx.amount,
+            fee = feeTx?.amount ?: 0.0,
+            date = sourceTx.date,
+            note = sourceTx.note
         )
     }
 
