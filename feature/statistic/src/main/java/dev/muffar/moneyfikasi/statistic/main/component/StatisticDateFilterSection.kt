@@ -31,7 +31,6 @@ fun StatisticDateFilterSection(
 ) {
     when (filter) {
         TransactionDateFilter.DAILY -> DailyCalendarFilter(
-            modifier = modifier,
             currentDate = currentLocalDateTime,
             onCurrentDateChange = onLocalDateTimeChange,
             onDateChange = {
@@ -40,7 +39,6 @@ fun StatisticDateFilterSection(
         )
 
         TransactionDateFilter.WEEKLY -> WeeklyCalendarFilter(
-            modifier = modifier,
             currentDate = currentLocalDateTime,
             onCurrentDateChange = onLocalDateTimeChange,
             onDateChange = {
@@ -49,7 +47,6 @@ fun StatisticDateFilterSection(
         )
 
         TransactionDateFilter.MONTHLY -> MonthlyCalendarFilter(
-            modifier = modifier,
             currentDate = currentLocalDateTime,
             onCurrentDateChange = onLocalDateTimeChange,
             onDateChange = {
@@ -58,7 +55,6 @@ fun StatisticDateFilterSection(
         )
 
         TransactionDateFilter.YEARLY -> YearlyCalendarFilter(
-            modifier = modifier,
             currentDate = currentLocalDateTime,
             onCurrentDateChange = onLocalDateTimeChange,
             onDateChange = {
@@ -68,7 +64,6 @@ fun StatisticDateFilterSection(
 
         TransactionDateFilter.ALL -> {
             AllCalendarFilter(
-                modifier = modifier,
                 onDateChange = {
                     onDateChange(Long.MIN_VALUE, Long.MAX_VALUE)
                 }
@@ -76,7 +71,6 @@ fun StatisticDateFilterSection(
         }
 
         TransactionDateFilter.CUSTOM -> CustomCalendarFilter(
-            modifier = modifier,
             startDateMillis = startDateMillis,
             endDateMillis = endDateMillis
         )

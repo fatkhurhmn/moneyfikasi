@@ -21,7 +21,6 @@ import org.threeten.bp.LocalDateTime
 
 @Composable
 fun TransactionsDateFilterSection(
-    modifier: Modifier = Modifier,
     filter: TransactionDateFilter,
     currentLocalDateTime:LocalDateTime,
     startDateMillis: Long,
@@ -31,7 +30,6 @@ fun TransactionsDateFilterSection(
 ) {
     when (filter) {
         TransactionDateFilter.DAILY -> DailyCalendarFilter(
-            modifier = modifier,
             currentDate = currentLocalDateTime,
             onCurrentDateChange = onLocalDateTimeChange,
             onDateChange = {
@@ -40,7 +38,6 @@ fun TransactionsDateFilterSection(
         )
 
         TransactionDateFilter.WEEKLY -> WeeklyCalendarFilter(
-            modifier = modifier,
             currentDate = currentLocalDateTime,
             onCurrentDateChange = onLocalDateTimeChange,
             onDateChange = {
@@ -49,7 +46,6 @@ fun TransactionsDateFilterSection(
         )
 
         TransactionDateFilter.MONTHLY -> MonthlyCalendarFilter(
-            modifier = modifier,
             currentDate = currentLocalDateTime,
             onCurrentDateChange = onLocalDateTimeChange,
             onDateChange = {
@@ -58,7 +54,6 @@ fun TransactionsDateFilterSection(
         )
 
         TransactionDateFilter.YEARLY -> YearlyCalendarFilter(
-            modifier = modifier,
             currentDate = currentLocalDateTime,
             onCurrentDateChange = onLocalDateTimeChange,
             onDateChange = {
@@ -68,7 +63,6 @@ fun TransactionsDateFilterSection(
 
         TransactionDateFilter.ALL -> {
             AllCalendarFilter(
-                modifier = modifier,
                 onDateChange = {
                     onDateChange(Long.MIN_VALUE, Long.MAX_VALUE)
                 }
@@ -76,7 +70,6 @@ fun TransactionsDateFilterSection(
         }
 
         TransactionDateFilter.CUSTOM -> CustomCalendarFilter(
-            modifier = modifier,
             startDateMillis = startDateMillis,
             endDateMillis = endDateMillis
         )

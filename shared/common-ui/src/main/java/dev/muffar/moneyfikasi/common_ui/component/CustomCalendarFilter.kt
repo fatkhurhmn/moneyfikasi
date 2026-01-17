@@ -24,13 +24,12 @@ import dev.muffar.moneyfikasi.utils.extensions.toFormattedDateTime
 fun CustomCalendarFilter(
     startDateMillis: Long,
     endDateMillis: Long,
-    modifier: Modifier = Modifier,
 ) {
     val start = startDateMillis.toFormattedDateTime("MMM, dd yyyy")
     val end = endDateMillis.toFormattedDateTime("MMM, dd yyyy")
 
     Row(
-        modifier = modifier
+        modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 4.dp)
             .fillMaxWidth()
             .clip(CircleShape)

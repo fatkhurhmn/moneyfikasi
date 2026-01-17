@@ -24,7 +24,6 @@ import dev.muffar.moneyfikasi.resource.R
 
 @Composable
 fun AllCalendarFilter(
-    modifier: Modifier = Modifier,
     onDateChange: () -> Unit,
 ) {
 
@@ -33,7 +32,7 @@ fun AllCalendarFilter(
     }
 
     Row(
-        modifier = modifier
+        modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 4.dp)
             .fillMaxWidth()
             .clip(CircleShape)

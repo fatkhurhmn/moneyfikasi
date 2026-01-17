@@ -15,8 +15,6 @@ import java.util.UUID
 @Composable
 fun TransactionsList(
     transactionsByDate: Map<String, List<Transaction>>,
-    overviewIncome: Double,
-    overviewExpense: Double,
     onItemClick: (UUID) -> Unit
 ) {
     val dates = transactionsByDate.keys.toList()
@@ -24,13 +22,6 @@ fun TransactionsList(
     LazyColumn(
         contentPadding = PaddingValues(bottom = 54.dp)
     ) {
-        item {
-            TransactionOverviewSection(
-                income = overviewIncome,
-                expense = overviewExpense,
-            )
-        }
-
         dates.forEachIndexed { index, _ ->
             item {
                 GroupTransactionHeader(

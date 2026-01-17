@@ -27,7 +27,6 @@ import org.threeten.bp.format.DateTimeFormatter
 
 @Composable
 fun YearlyCalendarFilter(
-    modifier: Modifier = Modifier,
     currentDate : LocalDateTime,
     onCurrentDateChange: (LocalDateTime) -> Unit,
     onDateChange: (LocalDateTime) -> Unit,
@@ -39,7 +38,7 @@ fun YearlyCalendarFilter(
     }
 
     Row(
-        modifier = modifier
+        modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 4.dp)
             .fillMaxWidth()
             .clip(CircleShape)

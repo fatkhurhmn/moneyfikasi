@@ -96,8 +96,6 @@ fun TransactionsScreen(
             when {
                 state.transactionsByDate.isNotEmpty() -> TransactionsList(
                     transactionsByDate = state.transactionsByDate,
-                    overviewIncome = state.overviewIncome,
-                    overviewExpense = state.overviewExpense,
                     onItemClick = onTransactionItemClick
                 )
 

@@ -31,7 +31,6 @@ import org.threeten.bp.temporal.TemporalAdjusters
 
 @Composable
 fun WeeklyCalendarFilter(
-    modifier: Modifier = Modifier,
     currentDate : LocalDateTime,
     onCurrentDateChange : (LocalDateTime) -> Unit,
     onDateChange: (LocalDateTime) -> Unit,
@@ -49,7 +48,7 @@ fun WeeklyCalendarFilter(
     }
 
     Row(
-        modifier = modifier
+        modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 4.dp)
             .fillMaxWidth()
             .clip(CircleShape)
