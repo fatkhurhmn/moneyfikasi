@@ -8,7 +8,7 @@ import dev.muffar.moneyfikasi.common_ui.component.DailyCalendarFilter
 import dev.muffar.moneyfikasi.common_ui.component.MonthlyCalendarFilter
 import dev.muffar.moneyfikasi.common_ui.component.WeeklyCalendarFilter
 import dev.muffar.moneyfikasi.common_ui.component.YearlyCalendarFilter
-import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
+import dev.muffar.moneyfikasi.domain.utils.TimePeriod
 import dev.muffar.moneyfikasi.utils.extensions.endOfDay
 import dev.muffar.moneyfikasi.utils.extensions.endOfMonth
 import dev.muffar.moneyfikasi.utils.extensions.endOfWeek
@@ -22,7 +22,7 @@ import org.threeten.bp.LocalDateTime
 @Composable
 fun StatisticDateFilterSection(
     modifier: Modifier = Modifier,
-    filter: TransactionDateFilter,
+    filter: TimePeriod,
     currentLocalDateTime: LocalDateTime,
     startDateMillis: Long,
     endDateMillis: Long,
@@ -30,7 +30,7 @@ fun StatisticDateFilterSection(
     onDateChange: (start: Long, end: Long) -> Unit,
 ) {
     when (filter) {
-        TransactionDateFilter.DAILY -> DailyCalendarFilter(
+        TimePeriod.DAILY -> DailyCalendarFilter(
             currentDate = currentLocalDateTime,
             onCurrentDateChange = onLocalDateTimeChange,
             onDateChange = {
@@ -38,7 +38,7 @@ fun StatisticDateFilterSection(
             }
         )
 
-        TransactionDateFilter.WEEKLY -> WeeklyCalendarFilter(
+        TimePeriod.WEEKLY -> WeeklyCalendarFilter(
             currentDate = currentLocalDateTime,
             onCurrentDateChange = onLocalDateTimeChange,
             onDateChange = {
@@ -46,7 +46,7 @@ fun StatisticDateFilterSection(
             }
         )
 
-        TransactionDateFilter.MONTHLY -> MonthlyCalendarFilter(
+        TimePeriod.MONTHLY -> MonthlyCalendarFilter(
             currentDate = currentLocalDateTime,
             onCurrentDateChange = onLocalDateTimeChange,
             onDateChange = {
@@ -54,7 +54,7 @@ fun StatisticDateFilterSection(
             }
         )
 
-        TransactionDateFilter.YEARLY -> YearlyCalendarFilter(
+        TimePeriod.YEARLY -> YearlyCalendarFilter(
             currentDate = currentLocalDateTime,
             onCurrentDateChange = onLocalDateTimeChange,
             onDateChange = {
@@ -62,7 +62,7 @@ fun StatisticDateFilterSection(
             }
         )
 
-        TransactionDateFilter.ALL -> {
+        TimePeriod.ALL -> {
             AllCalendarFilter(
                 onDateChange = {
                     onDateChange(Long.MIN_VALUE, Long.MAX_VALUE)
@@ -70,7 +70,7 @@ fun StatisticDateFilterSection(
             )
         }
 
-        TransactionDateFilter.CUSTOM -> CustomCalendarFilter(
+        TimePeriod.CUSTOM -> CustomCalendarFilter(
             startDateMillis = startDateMillis,
             endDateMillis = endDateMillis
         )

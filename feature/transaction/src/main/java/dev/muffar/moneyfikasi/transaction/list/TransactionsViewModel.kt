@@ -3,12 +3,12 @@ package dev.muffar.moneyfikasi.transaction.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.muffar.moneyfikasi.domain.model.Category
-import dev.muffar.moneyfikasi.domain.model.Wallet
+import dev.muffar.moneyfikasi.domain.model.DateRange
+import dev.muffar.moneyfikasi.domain.model.TransactionFilter
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
-import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
+import dev.muffar.moneyfikasi.domain.utils.TimePeriod
 import dev.muffar.moneyfikasi.utils.extensions.format
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,13 +41,11 @@ class TransactionsViewModel @Inject constructor(
 
     fun onEvent(event: TransactionsEvent) {
         when (event) {
-            is TransactionsEvent.FloatingActionButtonClicked -> onExpandFabButton(event.isExpanded)
-            is TransactionsEvent.FilterChanged -> onFilterChanged(event.filter)
+            is TransactionsEvent.FloatingActionButtonClicked -> onFloatActionButtonClick(event.isExpanded)
             is TransactionsEvent.LocalDateTimeChanged -> onLocalDateTimeChange(event.localDateTime)
-            is TransactionsEvent.DateRangeChanged -> onDateRangeChanged(event.start, event.end)
+            is TransactionsEvent.DateRangeChanged -> onDateRangeChange(event.start, event.end)
             is TransactionsEvent.ShowFilterSheet -> onShowFilterSheet(event.show)
-            is TransactionsEvent.CategoryFiltered -> onFilterCategories(event.categories)
-            is TransactionsEvent.WalletFiltered -> onFilterWallets(event.wallets)
+            is TransactionsEvent.FilterChanged -> onFilterChange(event.filter)
         }
     }
 
@@ -55,20 +53,14 @@ class TransactionsViewModel @Inject constructor(
     private fun observeTransactions() {
         viewModelScope.launch {
             state
-                .map {
-                    Triple(
-                        it.startDateRange to it.endDateRange,
-                        it.selectedCategories,
-                        it.selectedWallets
-                    )
-                }
+                .map { it.filter }
                 .distinctUntilChanged()
-                .flatMapLatest { (dateRange, categories, wallets) ->
+                .flatMapLatest { filter ->
                     transactionUseCases.getAllTransactions(
-                        dateRange.first,
-                        dateRange.second,
-                        categories,
-                        wallets
+                        filter.dateRange.start,
+                        filter.dateRange.end,
+                        filter.categories,
+                        filter.wallets
                     )
                 }
                 .onStart { _state.update { it.copy(isLoading = true) } }
@@ -93,7 +85,7 @@ class TransactionsViewModel @Inject constructor(
                     _state.update { state ->
                         state.copy(
                             categories = categories,
-                            selectedCategories = state.selectedCategories.ifEmpty { categories.toSet() }
+                            filter = state.filter.copy(categories = categories.toSet()),
                         )
                     }
                 }
@@ -108,44 +100,35 @@ class TransactionsViewModel @Inject constructor(
                     _state.update { state ->
                         state.copy(
                             wallets = wallets,
-                            selectedWallets = state.selectedWallets.ifEmpty {
-                                wallets.toSet()
-                            },
+                            filter = state.filter.copy(wallets = wallets.toSet()),
                         )
                     }
                 }
         }
     }
 
-    private fun onExpandFabButton(isExpanded: Boolean) {
+    private fun onFloatActionButtonClick(isExpanded: Boolean) {
         _state.update { it.copy(isExpandedFab = isExpanded) }
-    }
-
-    private fun onFilterChanged(filter: TransactionDateFilter) {
-        _state.update { it.copy(filter = filter) }
     }
 
     private fun onLocalDateTimeChange(localDateTime: LocalDateTime) {
         _state.update { it.copy(currentLocalDateTime = localDateTime) }
     }
 
-    private fun onDateRangeChanged(start: Long, end: Long) {
-        _state.update { it.copy(startDateRange = start, endDateRange = end) }
+    private fun onDateRangeChange(start: Long, end: Long) {
+        _state.update { it.copy(filter = it.filter.copy(dateRange = DateRange(start, end))) }
     }
 
     private fun onShowFilterSheet(show: Boolean) {
         _state.update { it.copy(showFilterSheet = show) }
     }
 
-    private fun onFilterCategories(categories: Set<Category>) {
-        _state.update { it.copy(selectedCategories = categories) }
-    }
+    private fun onFilterChange(filter: TransactionFilter) {
+        val dateRange =
+            (if (filter.timePeriod == TimePeriod.CUSTOM) filter else state.value.filter).dateRange
 
-    private fun onFilterWallets(wallets: Set<Wallet>) {
-        _state.update { it.copy(selectedWallets = wallets) }
-    }
-
-    private fun reloadTransactions() {
-
+        _state.update {
+            it.copy(filter = filter.copy(dateRange = dateRange))
+        }
     }
 }

@@ -4,7 +4,7 @@ import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.model.Wallet
-import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
+import dev.muffar.moneyfikasi.domain.utils.TimePeriod
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticSheetType
 import dev.muffar.moneyfikasi.utils.extensions.startOfMonth
 import org.threeten.bp.LocalDateTime
@@ -15,7 +15,7 @@ data class StatisticState(
     val expenseTransactions : List<Transaction> = emptyList(),
     val categories : Set<Category> = emptySet(),
     val wallets : Set<Wallet> = emptySet(),
-    val filter : TransactionDateFilter = TransactionDateFilter.MONTHLY,
+    val filter : TimePeriod = TimePeriod.MONTHLY,
     val currentLocalDateTime : LocalDateTime = LocalDateTime.now().with(LocalTime.MIN),
     val startDateRange  : Long = LocalDateTime.now().startOfMonth(),
     val endDateRange  : Long = LocalDateTime.now().startOfMonth(),

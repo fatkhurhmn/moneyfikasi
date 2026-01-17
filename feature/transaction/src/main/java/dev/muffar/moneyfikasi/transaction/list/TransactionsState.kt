@@ -2,8 +2,9 @@ package dev.muffar.moneyfikasi.transaction.list
 
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.Transaction
+import dev.muffar.moneyfikasi.domain.model.TransactionFilter
 import dev.muffar.moneyfikasi.domain.model.Wallet
-import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
+import dev.muffar.moneyfikasi.domain.utils.TimePeriod
 import dev.muffar.moneyfikasi.utils.extensions.endOfMonth
 import dev.muffar.moneyfikasi.utils.extensions.format
 import dev.muffar.moneyfikasi.utils.extensions.startOfMonth
@@ -17,20 +18,16 @@ data class TransactionsState(
     },
     val isLoading: Boolean = false,
     val isExpandedFab: Boolean = false,
-    val filter: TransactionDateFilter = TransactionDateFilter.MONTHLY,
     val categories: List<Category> = emptyList(),
     val wallets: List<Wallet> = emptyList(),
-    val selectedCategories: Set<Category> = emptySet(),
-    val selectedWallets: Set<Wallet> = emptySet(),
     val currentLocalDateTime: LocalDateTime = LocalDateTime.now().with(LocalTime.MIN),
-    val startDateRange: Long = LocalDateTime.now().startOfMonth(),
-    val endDateRange: Long = LocalDateTime.now().endOfMonth(),
+    val filter: TransactionFilter = TransactionFilter(),
     val showFilterSheet: Boolean = false,
     val showDateRangeSheet: Boolean = false,
 ) {
     val isCategoryFiltered: Boolean
-        get() = categories.size != selectedCategories.size
+        get() = categories.size != filter.categories.size
 
     val isWalletFiltered: Boolean
-        get() = wallets.size != selectedWallets.size
+        get() = wallets.size != filter.wallets.size
 }

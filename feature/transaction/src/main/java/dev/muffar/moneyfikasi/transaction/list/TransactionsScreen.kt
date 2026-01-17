@@ -19,10 +19,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
-import dev.muffar.moneyfikasi.domain.model.Category
+import dev.muffar.moneyfikasi.domain.model.TransactionFilter
 import dev.muffar.moneyfikasi.domain.model.TransactionType
-import dev.muffar.moneyfikasi.domain.model.Wallet
-import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionFloatingActionButton
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsDateFilterSection
@@ -41,12 +39,10 @@ fun TransactionsScreen(
     onTransactionItemClick: (UUID) -> Unit,
     onFloatingActionButtonClick: (Boolean) -> Unit,
     onAddTransactionClick: (TransactionType?) -> Unit,
-    onFilterChange: (TransactionDateFilter) -> Unit,
     onLocalDateTimeChange: (LocalDateTime) -> Unit,
     onDateRangeChange: (Long, Long) -> Unit,
     onShowFilterSheet: (Boolean) -> Unit,
-    onFilterCategories: (Set<Category>) -> Unit,
-    onFilterWallets: (Set<Wallet>) -> Unit,
+    onFilterChanged: (TransactionFilter) -> Unit,
 ) {
     val filterSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
@@ -82,10 +78,9 @@ fun TransactionsScreen(
             modifier = Modifier.padding(it)
         ) {
             TransactionsDateFilterSection(
-                filter = state.filter,
+                timePeriod = state.filter.timePeriod,
                 currentLocalDateTime = state.currentLocalDateTime,
-                startDateMillis = state.startDateRange,
-                endDateMillis = state.endDateRange,
+                dateRange = state.filter.dateRange,
                 onLocalDateTimeChange = onLocalDateTimeChange,
                 onDateChange = onDateRangeChange
             )
@@ -117,17 +112,8 @@ fun TransactionsScreen(
                     isCategoryFiltered = state.isCategoryFiltered,
                     wallets = state.wallets,
                     isWalletFiltered = state.isWalletFiltered,
-                    selectedCategories = state.selectedCategories,
-                    selectedWallets = state.selectedWallets,
-                    startDateMillis = state.startDateRange,
-                    endDateMillis = state.endDateRange,
-                    onApply = { filter, startDate, endDate, categories, wallets ->
-                        onFilterChange(filter)
-                        if (filter == TransactionDateFilter.CUSTOM) {
-                            onDateRangeChange(startDate, endDate)
-                        }
-                        onFilterCategories(categories)
-                        onFilterWallets(wallets)
+                    onApply = { filter ->
+                        onFilterChanged(filter)
                         hideFilterSheet()
                     },
                     onClose = { hideFilterSheet() }

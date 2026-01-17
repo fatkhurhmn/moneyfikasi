@@ -1,6 +1,5 @@
 package dev.muffar.moneyfikasi.transaction.list.component
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,30 +27,21 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonTabs
 import dev.muffar.moneyfikasi.common_ui.component.DateRangeSheet
 import dev.muffar.moneyfikasi.domain.model.Category
+import dev.muffar.moneyfikasi.domain.model.DateRange
+import dev.muffar.moneyfikasi.domain.model.TransactionFilter
 import dev.muffar.moneyfikasi.domain.model.Wallet
-import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
+import dev.muffar.moneyfikasi.domain.utils.TimePeriod
 import dev.muffar.moneyfikasi.resource.R
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun TransactionsFilterSheet(
-    modifier: Modifier = Modifier,
-    filter: TransactionDateFilter,
+    filter: TransactionFilter,
     categories: List<Category>,
     isCategoryFiltered: Boolean,
     wallets: List<Wallet>,
     isWalletFiltered: Boolean,
-    selectedCategories: Set<Category>,
-    selectedWallets: Set<Wallet>,
-    startDateMillis: Long,
-    endDateMillis: Long,
-    onApply: (
-        filter: TransactionDateFilter,
-        startDateMillis: Long,
-        endDateMillis: Long,
-        categories: Set<Category>,
-        wallets: Set<Wallet>,
-    ) -> Unit,
+    onApply: (TransactionFilter) -> Unit,
     onClose: () -> Unit,
 ) {
     val filtersTab = listOf(
@@ -64,11 +54,11 @@ fun TransactionsFilterSheet(
     val dateRangeSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var showDateRangeSheet by remember { mutableStateOf(false) }
 
-    var mFilter by remember { mutableStateOf(filter) }
-    var selectedStartDate by remember { mutableLongStateOf(if (filter == TransactionDateFilter.CUSTOM) startDateMillis else 0L) }
-    var selectedEndDate by remember { mutableLongStateOf(if (filter == TransactionDateFilter.CUSTOM) endDateMillis else 0L) }
-    var mSelectedCategories by remember { mutableStateOf(selectedCategories) }
-    var mSelectedWallets by remember { mutableStateOf(selectedWallets) }
+    var timePeriod by remember { mutableStateOf(filter.timePeriod) }
+    var startDate by remember { mutableLongStateOf(if (filter.timePeriod == TimePeriod.CUSTOM) filter.dateRange.start else 0L) }
+    var endDate by remember { mutableLongStateOf(if (filter.timePeriod == TimePeriod.CUSTOM) filter.dateRange.end else 0L) }
+    var selectedCategories by remember { mutableStateOf(filter.categories) }
+    var selectedWallets by remember { mutableStateOf(filter.wallets) }
 
     Column {
         Text(
@@ -77,56 +67,56 @@ fun TransactionsFilterSheet(
             style = MaterialTheme.typography.titleLarge
         )
         CommonTabs(
-            modifier = modifier.weight(1f),
+            modifier = Modifier.weight(1f),
             tabs = filtersTab,
             pagerState = pagerState
         ) { index ->
             when (index) {
                 0 -> DateRangeFilterTab(
-                    filter = mFilter,
-                    startDateMillis = selectedStartDate,
-                    endDateMillis = selectedEndDate,
+                    filter = timePeriod,
+                    startDateMillis = startDate,
+                    endDateMillis = endDate,
                     onFilterSelect = {
-                        if (it == TransactionDateFilter.CUSTOM) {
+                        if (it == TimePeriod.CUSTOM) {
                             showDateRangeSheet = true
                         } else {
-                            mFilter = it
+                            timePeriod = it
                         }
                     },
                 )
 
                 1 -> CategoriesFilterTab(
                     categories = categories,
-                    selectedCategories = mSelectedCategories,
-                    onSelectAll = { mSelectedCategories = if (it) setOf() else categories.toSet() },
+                    selectedCategories = selectedCategories,
+                    onSelectAll = { selectedCategories = if (it) setOf() else categories.toSet() },
                     onSelectAllSameType = { isAllSameTypeSelected, categoriesByType ->
                         if (isAllSameTypeSelected) {
-                            mSelectedCategories =
-                                mSelectedCategories.filter { it !in categoriesByType }.toSet()
+                            selectedCategories =
+                                selectedCategories.filter { it !in categoriesByType }.toSet()
                         } else {
-                            mSelectedCategories += categoriesByType
+                            selectedCategories += categoriesByType
                         }
                     },
                     onSelect = { item ->
-                        if (item in mSelectedCategories) {
-                            mSelectedCategories -= item
+                        if (item in selectedCategories) {
+                            selectedCategories -= item
                         } else {
-                            mSelectedCategories += item
+                            selectedCategories += item
                         }
                     }
                 )
 
                 2 -> WalletsFilterTab(
                     wallets = wallets,
-                    selectedWallets = mSelectedWallets,
+                    selectedWallets = selectedWallets,
                     onSelectAll = { isSelectAll ->
-                        mSelectedWallets = if (isSelectAll) setOf() else wallets.toSet()
+                        selectedWallets = if (isSelectAll) setOf() else wallets.toSet()
                     },
                     onSelect = { item ->
-                        if (item in mSelectedWallets) {
-                            mSelectedWallets -= item
+                        if (item in selectedWallets) {
+                            selectedWallets -= item
                         } else {
-                            mSelectedWallets += item
+                            selectedWallets += item
                         }
                     }
                 )
@@ -148,13 +138,13 @@ fun TransactionsFilterSheet(
 
             Button(
                 onClick = {
-                    onApply(
-                        mFilter,
-                        selectedStartDate,
-                        selectedEndDate,
-                        mSelectedCategories,
-                        mSelectedWallets
+                    val filter = TransactionFilter(
+                        timePeriod = timePeriod,
+                        dateRange = DateRange(startDate, endDate),
+                        categories = selectedCategories,
+                        wallets = selectedWallets
                     )
+                    onApply(filter)
                     onClose()
                 }
             ) {
@@ -166,18 +156,18 @@ fun TransactionsFilterSheet(
         }
     }
 
-    AnimatedVisibility(showDateRangeSheet) {
+    if (showDateRangeSheet) {
         ModalBottomSheet(
             onDismissRequest = { showDateRangeSheet = false },
             sheetState = dateRangeSheetState
         ) {
             DateRangeSheet(
-                startDateMillis = if (filter == TransactionDateFilter.CUSTOM) startDateMillis else null,
-                endDateMillis = if (filter == TransactionDateFilter.CUSTOM) endDateMillis else null,
+                startDateMillis = if (filter.timePeriod == TimePeriod.CUSTOM) filter.dateRange.start else null,
+                endDateMillis = if (filter.timePeriod == TimePeriod.CUSTOM) filter.dateRange.end else null,
                 onDateChange = { start, end ->
-                    selectedStartDate = start
-                    selectedEndDate = end
-                    mFilter = TransactionDateFilter.CUSTOM
+                    startDate = start
+                    endDate = end
+                    timePeriod = TimePeriod.CUSTOM
                 },
                 onClose = { showDateRangeSheet = false },
             )

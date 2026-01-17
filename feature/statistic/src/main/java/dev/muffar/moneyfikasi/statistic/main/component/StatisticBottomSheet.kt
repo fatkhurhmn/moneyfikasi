@@ -5,16 +5,16 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import dev.muffar.moneyfikasi.common_ui.component.DateRangeSheet
-import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
+import dev.muffar.moneyfikasi.domain.utils.TimePeriod
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StatisticBottomSheet(
     type: StatisticSheetType,
-    filter: TransactionDateFilter,
+    filter: TimePeriod,
     startDateMillis: Long,
     endDateMillis: Long,
-    onFilterChanged: (TransactionDateFilter) -> Unit,
+    onFilterChanged: (TimePeriod) -> Unit,
     onDateChange: (start: Long, end: Long) -> Unit,
     onShowBottomSheet: (StatisticSheetType?) -> Unit,
 ) {
@@ -27,7 +27,7 @@ fun StatisticBottomSheet(
             StatisticSheetType.FILTER -> StatisticFilterSheet(
                 filter = filter,
                 onFilterChanged = { filter ->
-                    if (filter != TransactionDateFilter.CUSTOM) {
+                    if (filter != TimePeriod.CUSTOM) {
                         onFilterChanged(filter)
                     } else {
                         onShowBottomSheet(StatisticSheetType.DATE)
@@ -37,8 +37,8 @@ fun StatisticBottomSheet(
             )
 
             StatisticSheetType.DATE -> DateRangeSheet(
-                startDateMillis = if (filter == TransactionDateFilter.CUSTOM) startDateMillis else null,
-                endDateMillis = if (filter == TransactionDateFilter.CUSTOM) endDateMillis else null,
+                startDateMillis = if (filter == TimePeriod.CUSTOM) startDateMillis else null,
+                endDateMillis = if (filter == TimePeriod.CUSTOM) endDateMillis else null,
                 onDateChange = onDateChange,
                 onClose = { onShowBottomSheet(null) },
             )

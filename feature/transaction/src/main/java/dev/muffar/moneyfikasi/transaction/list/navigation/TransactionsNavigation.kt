@@ -33,14 +33,12 @@ fun NavGraphBuilder.transactionsNavigation(
                     onNavigateToTransferScreen()
                 }
             },
-            onFilterChange = { event(TransactionsEvent.FilterChanged(it)) },
             onLocalDateTimeChange = { event(TransactionsEvent.LocalDateTimeChanged(it)) },
             onDateRangeChange = { start, end ->
                 event(TransactionsEvent.DateRangeChanged(start, end))
             },
             onShowFilterSheet = { event(TransactionsEvent.ShowFilterSheet(it)) },
-            onFilterCategories = { event(TransactionsEvent.CategoryFiltered(it)) },
-            onFilterWallets = { event(TransactionsEvent.WalletFiltered(it)) },
+            onFilterChanged = { event(TransactionsEvent.FilterChanged(it)) },
         )
     }
 }

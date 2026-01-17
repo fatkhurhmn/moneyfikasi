@@ -21,16 +21,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
+import dev.muffar.moneyfikasi.domain.utils.TimePeriod
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.capitalize
 
 @Composable
 fun StatisticFilterSheet(
     modifier: Modifier = Modifier,
-    filter: TransactionDateFilter,
+    filter: TimePeriod,
     onClose: () -> Unit,
-    onFilterChanged: (TransactionDateFilter) -> Unit,
+    onFilterChanged: (TimePeriod) -> Unit,
 ) {
     Column(
         modifier = modifier.fillMaxSize()
@@ -61,7 +61,7 @@ fun StatisticFilterSheet(
             filter = filter,
             onFilterSelect = {
                 onFilterChanged(it)
-                if (it != TransactionDateFilter.CUSTOM) {
+                if (it != TimePeriod.CUSTOM) {
                     onClose()
                 }
             }
@@ -71,10 +71,10 @@ fun StatisticFilterSheet(
 
 @Composable
 fun DateRangeFilterRadioButton(
-    filter: TransactionDateFilter,
-    onFilterSelect: (TransactionDateFilter) -> Unit,
+    filter: TimePeriod,
+    onFilterSelect: (TimePeriod) -> Unit,
 ) {
-    val options = TransactionDateFilter.entries
+    val options = TimePeriod.entries
 
     Column(
         verticalArrangement = Arrangement.Center,
