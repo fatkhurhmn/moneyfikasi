@@ -12,9 +12,13 @@ import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
 import dev.muffar.moneyfikasi.utils.extensions.format
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -33,7 +37,7 @@ class TransactionsViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        loadTransactions()
+        observeTransactions()
         loadCategories()
         loadWallets()
         loadPreferences()
@@ -53,33 +57,41 @@ class TransactionsViewModel @Inject constructor(
         }
     }
 
-    private fun loadTransactions() {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun observeTransactions() {
         viewModelScope.launch {
-            transactionUseCases.getAllTransactions(
-                _state.value.startDateRange,
-                _state.value.endDateRange,
-                _state.value.selectedCategories.toSet(),
-                _state.value.selectedWallets.toSet()
-            )
+            state
+                .map {
+                    Triple(
+                        it.startDateRange to it.endDateRange,
+                        it.selectedCategories,
+                        it.selectedWallets
+                    )
+                }
+                .distinctUntilChanged()
+                .flatMapLatest { (dateRange, categories, wallets) ->
+                    transactionUseCases.getAllTransactions(
+                        dateRange.first,
+                        dateRange.second,
+                        categories,
+                        wallets
+                    )
+                }
                 .onStart { _state.update { it.copy(isLoading = true) } }
                 .collectLatest { transactions ->
-                    val groupingTransactions = transactions
-                        .groupBy { it.date.format("yyyy-MM-dd") }
-                    val overviewIncome = transactions
-                        .filter { it.isIncome }
-                        .sumOf { it.amount }
-                    val overviewExpense = transactions
-                        .filter { it.isExpense }
-                        .sumOf { it.amount }
+                    val income = transactions.filter { it.isIncome }.sumOf { it.amount }
+                    val expense = transactions.filter { it.isExpense }.sumOf { it.amount }
 
-                    _state.update { state ->
-                        state.copy(
+                    _state.update {
+                        it.copy(
                             transactions = transactions,
-                            transactionsByDate = groupingTransactions,
-                            isLoading = false,
-                            overviewIncome = overviewIncome,
-                            overviewExpense = overviewExpense,
-                            overviewTotal = overviewIncome - overviewExpense
+                            transactionsByDate = transactions.groupBy { tx ->
+                                tx.date.format("yyyy-MM-dd")
+                            },
+                            overviewIncome = income,
+                            overviewExpense = expense,
+                            overviewTotal = income - expense,
+                            isLoading = false
                         )
                     }
                 }
@@ -90,16 +102,16 @@ class TransactionsViewModel @Inject constructor(
         viewModelScope.launch {
             categoryUseCases.getAllCategories(true)
                 .collectLatest { categories ->
-                    _state.update {
-                        it.copy(
+                    _state.update { state ->
+                        state.copy(
                             categories = categories,
-                            selectedCategories = categories.toSet()
+                            selectedCategories = state.selectedCategories.ifEmpty { categories.toSet() }
                         )
                     }
-                    loadTransactions()
                 }
         }
     }
+
 
     private fun loadWallets() {
         viewModelScope.launch {
@@ -108,14 +120,16 @@ class TransactionsViewModel @Inject constructor(
                     _state.update { state ->
                         state.copy(
                             wallets = wallets,
-                            selectedWallets = wallets.toSet(),
+                            selectedWallets = state.selectedWallets.ifEmpty {
+                                wallets.toSet()
+                            },
                             totalBalance = wallets.sumOf { it.balance }
                         )
                     }
-                    loadTransactions()
                 }
         }
     }
+
 
     private fun loadPreferences() {
         viewModelScope.launch {
@@ -144,7 +158,6 @@ class TransactionsViewModel @Inject constructor(
 
     private fun onDateRangeChanged(start: Long, end: Long) {
         _state.update { it.copy(startDateRange = start, endDateRange = end) }
-        loadTransactions()
     }
 
     private fun onShowFilterSheet(show: Boolean) {
@@ -166,6 +179,6 @@ class TransactionsViewModel @Inject constructor(
     }
 
     private fun reloadTransactions() {
-        loadTransactions()
+        
     }
 }
