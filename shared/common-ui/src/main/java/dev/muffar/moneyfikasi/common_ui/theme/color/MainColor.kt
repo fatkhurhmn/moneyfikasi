@@ -6,7 +6,7 @@ import androidx.compose.ui.graphics.Color
 @Immutable
 object MainColor {
     val White = Color(0xFFFFFFFF)
-    val ExtraLightGray = Color(0xFFEBEBF0)
+    val ExtraLightGray = Color(0xFFF3F3F3)
     val LightGray = Color(0xFFCBCBD6)
     val Gray = Color(0xFF74747A)
     val DarkGray = Color(0xFF303033)

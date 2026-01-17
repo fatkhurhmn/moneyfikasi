@@ -18,6 +18,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.ChooseDateSheet
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
 import dev.muffar.moneyfikasi.domain.model.TransactionFilter
 import dev.muffar.moneyfikasi.domain.model.TransactionType
@@ -42,6 +43,7 @@ fun TransactionsScreen(
     onLocalDateTimeChange: (LocalDateTime) -> Unit,
     onDateRangeChange: (Long, Long) -> Unit,
     onShowFilterSheet: (Boolean) -> Unit,
+    onShowChooseDateSheet: (Boolean) -> Unit,
     onFilterChanged: (TransactionFilter) -> Unit,
 ) {
     val filterSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -58,6 +60,7 @@ fun TransactionsScreen(
         },
         topBar = {
             TransactionsTopBar(
+                onChooseDateClick = { onShowChooseDateSheet(true) },
                 showFilterBadge = state.isCategoryFiltered || state.isWalletFiltered,
                 onFilterClick = { onShowFilterSheet(true) }
             )
@@ -99,6 +102,24 @@ fun TransactionsScreen(
                 )
             }
         }
+
+        AnimatedVisibility(state.showChooseDateSheet) {
+            ChooseDateSheet(
+                timePeriod = state.filter.timePeriod,
+                dateRange = state.filter.dateRange,
+                onDismissRequest = { onShowChooseDateSheet(false) },
+                onChoose = { timePeriod, dateRange ->
+                    onFilterChanged(
+                        state.filter.copy(
+                            timePeriod = timePeriod,
+                            dateRange = dateRange
+                        )
+                    )
+                    onShowChooseDateSheet(false)
+                }
+            )
+        }
+
         AnimatedVisibility(state.showFilterSheet) {
             ModalBottomSheet(
                 modifier = Modifier.statusBarsPadding(),

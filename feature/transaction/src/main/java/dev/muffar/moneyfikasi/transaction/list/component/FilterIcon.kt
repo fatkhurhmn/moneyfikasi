@@ -18,10 +18,10 @@ import dev.muffar.moneyfikasi.resource.R
 @Composable
 fun FilterIcon(
     isFilterApplied: Boolean,
-    onFilterClick: () -> Unit,
+    onClick: () -> Unit,
 ) {
     Box {
-        IconButton(onClick = onFilterClick) {
+        IconButton(onClick = onClick) {
             Icon(
                 painter = painterResource(R.drawable.ic_filter),
                 contentDescription = null,

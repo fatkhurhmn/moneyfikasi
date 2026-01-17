@@ -5,12 +5,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.CommonTabs
 import dev.muffar.moneyfikasi.domain.utils.TimePeriod
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticBottomSheet
@@ -60,10 +59,7 @@ fun StatisticScreen(
                 expense = state.overviewExpense,
                 total = state.overviewTotal
             )
-            HorizontalDivider(
-                thickness = 8.dp,
-                color = MaterialTheme.colorScheme.outline.copy(0.08f)
-            )
+            CommonHorizontalDivider(8.dp)
             CommonTabs(
                 tabs = state.tabs.map { tab -> tab to false },
                 pagerState = pagerState

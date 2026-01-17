@@ -110,4 +110,6 @@
     <string name="to">To</string>
     <string name="transfer">Transfer</string>
     <string name="transfer_summary">Transfer Summary</string>
+    <string name="choose_date">Choose Date</string>
+    <string name="reset">Reset</string>
 </resources>

@@ -23,6 +23,7 @@ data class TransactionsState(
     val currentLocalDateTime: LocalDateTime = LocalDateTime.now().with(LocalTime.MIN),
     val filter: TransactionFilter = TransactionFilter(),
     val showFilterSheet: Boolean = false,
+    val showChooseDateSheet: Boolean = false,
     val showDateRangeSheet: Boolean = false,
 ) {
     val isCategoryFiltered: Boolean

@@ -3,11 +3,10 @@ package dev.muffar.moneyfikasi.search.component
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.GroupTransactionHeader
 import dev.muffar.moneyfikasi.common_ui.component.TransactionItem
 import dev.muffar.moneyfikasi.domain.model.Transaction
@@ -33,9 +32,7 @@ fun TransactionsList(
             }
 
             item {
-                HorizontalDivider(
-                    color = MaterialTheme.colorScheme.outline.copy(0.08f)
-                )
+                CommonHorizontalDivider()
             }
 
             items(
@@ -48,10 +45,7 @@ fun TransactionsList(
                 )
             }
             item {
-                HorizontalDivider(
-                    thickness = 8.dp,
-                    color = MaterialTheme.colorScheme.outline.copy(0.08f)
-                )
+                CommonHorizontalDivider(8.dp)
             }
         }
     }

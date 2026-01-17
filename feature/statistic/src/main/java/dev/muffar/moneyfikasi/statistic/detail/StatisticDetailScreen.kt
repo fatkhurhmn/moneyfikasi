@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -16,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.common_ui.component.GroupTransactionHeader
 import dev.muffar.moneyfikasi.common_ui.component.TransactionItem
@@ -85,9 +85,7 @@ fun StatisticDetailScreen(
                 }
 
                 item {
-                    HorizontalDivider(
-                        color = MaterialTheme.colorScheme.outline.copy(0.08f)
-                    )
+                    CommonHorizontalDivider()
                 }
 
                 items(
@@ -98,10 +96,7 @@ fun StatisticDetailScreen(
                 }
 
                 item {
-                    HorizontalDivider(
-                        thickness = 8.dp,
-                        color = MaterialTheme.colorScheme.outline.copy(0.08f)
-                    )
+                    CommonHorizontalDivider(8.dp)
                 }
             }
         }

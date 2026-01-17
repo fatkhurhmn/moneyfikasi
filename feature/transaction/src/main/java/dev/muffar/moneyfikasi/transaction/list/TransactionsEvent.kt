@@ -10,6 +10,7 @@ sealed class TransactionsEvent {
     data class FloatingActionButtonClicked(val isExpanded: Boolean) : TransactionsEvent()
     data class DateRangeChanged(val start: Long, val end: Long) : TransactionsEvent()
     data class ShowFilterSheet(val show: Boolean) : TransactionsEvent()
+    data class ShowChooseDateSheet(val show: Boolean) : TransactionsEvent()
     data class LocalDateTimeChanged(val localDateTime: LocalDateTime) : TransactionsEvent()
     data class FilterChanged(val filter: TransactionFilter) : TransactionsEvent()
 }

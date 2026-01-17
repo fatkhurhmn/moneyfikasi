@@ -8,15 +8,17 @@ import dev.muffar.moneyfikasi.resource.R
 @Composable
 fun TransactionsTopBar(
     showFilterBadge: Boolean,
+    onChooseDateClick: () -> Unit,
     onFilterClick: () -> Unit,
 ) {
     CommonTopAppBar(
         title = stringResource(R.string.transactions),
         showBackButton = false,
         action = {
+            ChooseDateIcon(onChooseDateClick)
             FilterIcon(
                 isFilterApplied = showFilterBadge,
-                onFilterClick = onFilterClick,
+                onClick = onFilterClick,
             )
         }
     )

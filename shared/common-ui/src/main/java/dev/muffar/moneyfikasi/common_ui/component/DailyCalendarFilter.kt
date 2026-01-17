@@ -39,7 +39,7 @@ fun DailyCalendarFilter(
 
     Row(
         modifier = Modifier
-            .padding(8.dp)
+            .padding(horizontal = 8.dp, vertical = 4.dp)
             .fillMaxWidth()
             .clip(CircleShape)
             .border(1.dp, MaterialTheme.colorScheme.outline.copy(0.5f), CircleShape),
