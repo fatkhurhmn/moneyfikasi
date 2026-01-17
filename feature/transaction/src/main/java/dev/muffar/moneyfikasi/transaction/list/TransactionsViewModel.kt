@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.model.Category
-import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
@@ -45,15 +44,15 @@ class TransactionsViewModel @Inject constructor(
 
     fun onEvent(event: TransactionsEvent) {
         when (event) {
-            is TransactionsEvent.OnExpandFabButton -> onExpandFabButton(event.isExpanded)
-            is TransactionsEvent.OnFilterChanged -> onFilterChanged(event.filter)
-            is TransactionsEvent.OnLocalDateTimeChange -> onLocalDateTimeChange(event.localDateTime)
-            is TransactionsEvent.OnDateRangeChanged -> onDateRangeChanged(event.start, event.end)
-            is TransactionsEvent.OnShowFilterSheet -> onShowFilterSheet(event.show)
-            is TransactionsEvent.OnFilterCategories -> onFilterCategories(event.categories)
-            is TransactionsEvent.OnFilterWallets -> onFilterWallets(event.wallets)
-            is TransactionsEvent.OnVisibilityClicked -> onVisibilityClicked()
-            is TransactionsEvent.OnApplyFilter -> reloadTransactions()
+            is TransactionsEvent.FloatingActionButtonClicked -> onExpandFabButton(event.isExpanded)
+            is TransactionsEvent.FilterChanged -> onFilterChanged(event.filter)
+            is TransactionsEvent.LocalDateTimeChanged -> onLocalDateTimeChange(event.localDateTime)
+            is TransactionsEvent.DateRangeChanged -> onDateRangeChanged(event.start, event.end)
+            is TransactionsEvent.ShowFilterSheet -> onShowFilterSheet(event.show)
+            is TransactionsEvent.CategoryFiltered -> onFilterCategories(event.categories)
+            is TransactionsEvent.WalletFiltered -> onFilterWallets(event.wallets)
+            is TransactionsEvent.VisibilityClicked -> onVisibilityClicked()
+            is TransactionsEvent.ApplyFilter -> reloadTransactions()
         }
     }
 
@@ -179,6 +178,6 @@ class TransactionsViewModel @Inject constructor(
     }
 
     private fun reloadTransactions() {
-        
+
     }
 }

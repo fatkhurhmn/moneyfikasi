@@ -32,5 +32,10 @@ data class TransactionsState(
     val overviewTotal: Double = 0.0,
     val totalBalance: Double = 0.0,
     val isBalanceVisible: Boolean = true,
-    val isFilterBadgeVisible: Boolean = false
-)
+) {
+    val isCategoryFiltered: Boolean
+        get() = categories.size != selectedCategories.size
+
+    val isWalletFiltered: Boolean
+        get() = wallets.size != selectedWallets.size
+}

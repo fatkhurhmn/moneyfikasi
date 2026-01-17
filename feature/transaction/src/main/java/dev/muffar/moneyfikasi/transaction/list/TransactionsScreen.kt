@@ -17,12 +17,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
-import dev.muffar.moneyfikasi.common_ui.component.ExpandableFloatingActionButton
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
 import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.transaction.list.component.TransactionFloatingActionButton
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsDateFilterSection
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsFilterSheet
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsList
@@ -35,13 +35,11 @@ import java.util.UUID
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TransactionsScreen(
-    modifier: Modifier = Modifier,
     state: TransactionsState,
     onTransactionItemClick: (UUID) -> Unit,
-    onExpandFabButton: (Boolean) -> Unit,
-    onNavigateToAddScreen: (TransactionType) -> Unit,
-    onNavigateToTransfer: () -> Unit,
-    onFilterChanged: (TransactionDateFilter) -> Unit,
+    onFloatingActionButtonClick: (Boolean) -> Unit,
+    onAddTransactionClick: (TransactionType?) -> Unit,
+    onFilterChange: (TransactionDateFilter) -> Unit,
     onLocalDateTimeChange: (LocalDateTime) -> Unit,
     onDateRangeChange: (Long, Long) -> Unit,
     onVisibilityClick: () -> Unit,
@@ -51,8 +49,7 @@ fun TransactionsScreen(
     onApplyFilter: () -> Unit,
 ) {
     val filterSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val isCategoriesFiltered = state.categories.size != state.selectedCategories.size
-    val isWalletsFiltered = state.wallets.size != state.selectedWallets.size
+
     val scope = rememberCoroutineScope()
     val hideFilterSheet = {
         onShowFilterSheet(false)
@@ -61,40 +58,31 @@ fun TransactionsScreen(
 
     Scaffold(
         modifier = Modifier.pointerInput(Unit) {
-            detectTapGestures(
-                onTap = {
-                    onExpandFabButton(false)
-                }
-            )
+            detectTapGestures(onTap = { onFloatingActionButtonClick(false) })
         },
         topBar = {
             TransactionsTopBar(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 totalBalance = state.totalBalance,
                 isBalanceVisible = state.isBalanceVisible,
                 onVisibilityClick = onVisibilityClick,
-                isFilterApplied = isCategoriesFiltered || isWalletsFiltered,
+                showFilterBadge = state.isCategoryFiltered || state.isWalletFiltered,
                 onFilterClick = { onShowFilterSheet(true) }
             )
         },
         contentWindowInsets = WindowInsets(0.dp),
         floatingActionButton = {
-            ExpandableFloatingActionButton(
+            TransactionFloatingActionButton(
                 isExpanded = state.isExpandedFab,
-                onClick = { onExpandFabButton(!state.isExpandedFab) },
+                onClick = { onFloatingActionButtonClick(!state.isExpandedFab) },
                 onTransactionClick = {
-                    onNavigateToAddScreen(it)
-                    onExpandFabButton(false)
+                    onAddTransactionClick(it)
+                    onFloatingActionButtonClick(false)
                 },
-                onTransferClick = {
-                    onNavigateToTransfer()
-                    onExpandFabButton(false)
-                }
             )
         }
     ) {
         Column(
-            modifier = modifier.padding(it)
+            modifier = Modifier.padding(it)
         ) {
             TransactionsDateFilterSection(
                 filter = state.filter,
@@ -105,56 +93,50 @@ fun TransactionsScreen(
                 onDateChange = onDateRangeChange
             )
 
-            if (state.transactionsByDate.isNotEmpty()) {
-                val dates = state.transactionsByDate.keys.toList()
-                val transactions = state.transactionsByDate.values.toList()
-
-                TransactionsList(
-                    dates = dates,
-                    transactions = transactions,
+            when {
+                state.transactionsByDate.isNotEmpty() -> TransactionsList(
+                    transactionsByDate = state.transactionsByDate,
                     overviewIncome = state.overviewIncome,
                     overviewExpense = state.overviewExpense,
                     onItemClick = onTransactionItemClick
                 )
-            } else {
-                if (state.isLoading) {
-                    TransactionsLoading()
-                } else {
-                    EmptyDataList(
-                        painter = painterResource(id = R.drawable.ic_empty_transactions),
-                        description = stringResource(id = R.string.no_transactions)
-                    )
-                }
-            }
 
-            AnimatedVisibility(state.showFilterSheet) {
-                ModalBottomSheet(
-                    onDismissRequest = { hideFilterSheet() },
-                    sheetState = filterSheetState
-                ) {
-                    TransactionsFilterSheet(
-                        filter = state.filter,
-                        categories = state.categories,
-                        isCategoriesFiltered = isCategoriesFiltered,
-                        isWalletsFiltered = isWalletsFiltered,
-                        wallets = state.wallets,
-                        selectedCategories = state.selectedCategories,
-                        selectedWallets = state.selectedWallets,
-                        startDateMillis = state.startDateRange,
-                        endDateMillis = state.endDateRange,
-                        onApply = { filter, startDate, endDate, categories, wallets ->
-                            onFilterChanged(filter)
-                            if (filter == TransactionDateFilter.CUSTOM) {
-                                onDateRangeChange(startDate, endDate)
-                            }
-                            onFilterCategories(categories)
-                            onFilterWallets(wallets)
-                            onApplyFilter()
-                            hideFilterSheet()
-                        },
-                        onClose = { hideFilterSheet() }
-                    )
-                }
+                state.isLoading -> TransactionsLoading()
+
+                else -> EmptyDataList(
+                    painter = painterResource(id = R.drawable.ic_empty_transactions),
+                    description = stringResource(id = R.string.no_transactions)
+                )
+            }
+        }
+
+        AnimatedVisibility(state.showFilterSheet) {
+            ModalBottomSheet(
+                onDismissRequest = { hideFilterSheet() },
+                sheetState = filterSheetState
+            ) {
+                TransactionsFilterSheet(
+                    filter = state.filter,
+                    categories = state.categories,
+                    isCategoryFiltered = state.isCategoryFiltered,
+                    wallets = state.wallets,
+                    isWalletFiltered = state.isWalletFiltered,
+                    selectedCategories = state.selectedCategories,
+                    selectedWallets = state.selectedWallets,
+                    startDateMillis = state.startDateRange,
+                    endDateMillis = state.endDateRange,
+                    onApply = { filter, startDate, endDate, categories, wallets ->
+                        onFilterChange(filter)
+                        if (filter == TransactionDateFilter.CUSTOM) {
+                            onDateRangeChange(startDate, endDate)
+                        }
+                        onFilterCategories(categories)
+                        onFilterWallets(wallets)
+                        onApplyFilter()
+                        hideFilterSheet()
+                    },
+                    onClose = { hideFilterSheet() }
+                )
             }
         }
     }

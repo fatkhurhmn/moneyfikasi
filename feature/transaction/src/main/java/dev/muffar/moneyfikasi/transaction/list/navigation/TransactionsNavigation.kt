@@ -1,9 +1,8 @@
 package dev.muffar.moneyfikasi.transaction.list.navigation
 
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import dev.muffar.moneyfikasi.domain.model.TransactionType
@@ -20,26 +19,30 @@ fun NavGraphBuilder.transactionsNavigation(
 ) {
     composable(Screen.Transactions.route) {
         val viewModel = hiltViewModel<TransactionsViewModel>()
-        val state by viewModel.state.collectAsState()
+        val state by viewModel.state.collectAsStateWithLifecycle()
         val event = viewModel::onEvent
 
         TransactionsScreen(
-            modifier = Modifier,
             state = state,
             onTransactionItemClick = onNavigateToTransactionDetail,
-            onExpandFabButton = { event(TransactionsEvent.OnExpandFabButton(it)) },
-            onNavigateToAddScreen = onNavigateToAddScreen,
-            onNavigateToTransfer = onNavigateToTransferScreen,
-            onFilterChanged = { event(TransactionsEvent.OnFilterChanged(it)) },
-            onLocalDateTimeChange = { event(TransactionsEvent.OnLocalDateTimeChange(it)) },
-            onDateRangeChange = { start, end ->
-                event(TransactionsEvent.OnDateRangeChanged(start, end))
+            onFloatingActionButtonClick = { event(TransactionsEvent.FloatingActionButtonClicked(it)) },
+            onAddTransactionClick = {
+                if (it != null) {
+                    onNavigateToAddScreen(it)
+                } else {
+                    onNavigateToTransferScreen()
+                }
             },
-            onShowFilterSheet = { event(TransactionsEvent.OnShowFilterSheet(it)) },
-            onFilterCategories = { event(TransactionsEvent.OnFilterCategories(it)) },
-            onFilterWallets = { event(TransactionsEvent.OnFilterWallets(it)) },
-            onVisibilityClick = { event(TransactionsEvent.OnVisibilityClicked) },
-            onApplyFilter = { event(TransactionsEvent.OnApplyFilter) }
+            onFilterChange = { event(TransactionsEvent.FilterChanged(it)) },
+            onLocalDateTimeChange = { event(TransactionsEvent.LocalDateTimeChanged(it)) },
+            onDateRangeChange = { start, end ->
+                event(TransactionsEvent.DateRangeChanged(start, end))
+            },
+            onShowFilterSheet = { event(TransactionsEvent.ShowFilterSheet(it)) },
+            onFilterCategories = { event(TransactionsEvent.CategoryFiltered(it)) },
+            onFilterWallets = { event(TransactionsEvent.WalletFiltered(it)) },
+            onVisibilityClick = { event(TransactionsEvent.VisibilityClicked) },
+            onApplyFilter = { event(TransactionsEvent.ApplyFilter) }
         )
     }
 }

@@ -6,13 +6,13 @@ import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
 import org.threeten.bp.LocalDateTime
 
 sealed class TransactionsEvent {
-    data class OnExpandFabButton(val isExpanded: Boolean) : TransactionsEvent()
-    data class OnFilterChanged(val filter: TransactionDateFilter) : TransactionsEvent()
-    data class OnDateRangeChanged(val start: Long, val end: Long) : TransactionsEvent()
-    data class OnShowFilterSheet(val show: Boolean) : TransactionsEvent()
-    data class OnFilterCategories(val categories: Set<Category>) : TransactionsEvent()
-    data class OnFilterWallets(val wallets: Set<Wallet>) : TransactionsEvent()
-    data class OnLocalDateTimeChange(val localDateTime: LocalDateTime) : TransactionsEvent()
-    data object OnVisibilityClicked : TransactionsEvent()
-    data object OnApplyFilter : TransactionsEvent()
+    data class FloatingActionButtonClicked(val isExpanded: Boolean) : TransactionsEvent()
+    data class FilterChanged(val filter: TransactionDateFilter) : TransactionsEvent()
+    data class DateRangeChanged(val start: Long, val end: Long) : TransactionsEvent()
+    data class ShowFilterSheet(val show: Boolean) : TransactionsEvent()
+    data class CategoryFiltered(val categories: Set<Category>) : TransactionsEvent()
+    data class WalletFiltered(val wallets: Set<Wallet>) : TransactionsEvent()
+    data class LocalDateTimeChanged(val localDateTime: LocalDateTime) : TransactionsEvent()
+    data object VisibilityClicked : TransactionsEvent()
+    data object ApplyFilter : TransactionsEvent()
 }

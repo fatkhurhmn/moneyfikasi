@@ -38,9 +38,9 @@ fun TransactionsFilterSheet(
     modifier: Modifier = Modifier,
     filter: TransactionDateFilter,
     categories: List<Category>,
-    isCategoriesFiltered: Boolean,
+    isCategoryFiltered: Boolean,
     wallets: List<Wallet>,
-    isWalletsFiltered: Boolean,
+    isWalletFiltered: Boolean,
     selectedCategories: Set<Category>,
     selectedWallets: Set<Wallet>,
     startDateMillis: Long,
@@ -56,8 +56,8 @@ fun TransactionsFilterSheet(
 ) {
     val filtersTab = listOf(
         "Date Range" to false,
-        "Category" to isCategoriesFiltered,
-        "Wallet" to isWalletsFiltered
+        "Category" to isCategoryFiltered,
+        "Wallet" to isWalletFiltered
     )
     val pagerState = rememberPagerState { filtersTab.size }
 

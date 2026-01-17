@@ -8,11 +8,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun TransactionsLoading(
-    modifier: Modifier = Modifier,
-) {
+fun TransactionsLoading() {
     Box(
-        modifier = modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator()
