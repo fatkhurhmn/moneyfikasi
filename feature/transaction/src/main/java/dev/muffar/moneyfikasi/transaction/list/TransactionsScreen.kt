@@ -19,9 +19,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.ChooseDateSheet
+import dev.muffar.moneyfikasi.common_ui.component.CustomDateSheet
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
+import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TransactionFilter
 import dev.muffar.moneyfikasi.domain.model.TransactionType
+import dev.muffar.moneyfikasi.domain.utils.TimePeriod
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionFloatingActionButton
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsDateFilterSection
@@ -44,6 +47,7 @@ fun TransactionsScreen(
     onDateRangeChange: (Long, Long) -> Unit,
     onShowFilterSheet: (Boolean) -> Unit,
     onShowChooseDateSheet: (Boolean) -> Unit,
+    onShowCustomDateSheet: (Boolean) -> Unit,
     onFilterChanged: (TransactionFilter) -> Unit,
 ) {
     val filterSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -108,6 +112,7 @@ fun TransactionsScreen(
                 timePeriod = state.filter.timePeriod,
                 dateRange = state.filter.dateRange,
                 onDismissRequest = { onShowChooseDateSheet(false) },
+                onCustomDateClick = { onShowCustomDateSheet(true) },
                 onChoose = { timePeriod, dateRange ->
                     onFilterChanged(
                         state.filter.copy(
@@ -117,6 +122,23 @@ fun TransactionsScreen(
                     )
                     onShowChooseDateSheet(false)
                 }
+            )
+        }
+
+        AnimatedVisibility(state.showCustomDateSheet) {
+            CustomDateSheet(
+                startDateMillis = state.filter.dateRange.start,
+                endDateMillis = state.filter.dateRange.end,
+                onDateChange = { start, end ->
+                    onFilterChanged(
+                        state.filter.copy(
+                            timePeriod = TimePeriod.CUSTOM,
+                            dateRange = DateRange(start, end)
+                        )
+                    )
+                    onShowCustomDateSheet(false)
+                },
+                onDismissRequest = { onShowCustomDateSheet(false) }
             )
         }
 

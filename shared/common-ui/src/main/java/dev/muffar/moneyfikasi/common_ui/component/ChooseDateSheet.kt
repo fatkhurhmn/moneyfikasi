@@ -1,6 +1,5 @@
 package dev.muffar.moneyfikasi.common_ui.component
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.utils.TimePeriod
@@ -36,12 +34,25 @@ fun ChooseDateSheet(
     dateRange: DateRange,
     onDismissRequest: () -> Unit,
     onChoose: (TimePeriod, DateRange) -> Unit,
+    onCustomDateClick: () -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
-    fun hideSheet(callback: () -> Unit) {
+
+    val hideSheet: (callback: () -> Unit) -> Unit = {
         scope.launch { sheetState.hide() }
-        callback()
+        it()
+    }
+
+    val onClick: (option: TimePeriod) -> Unit = {
+        if (it == TimePeriod.CUSTOM) {
+            hideSheet {
+                onDismissRequest()
+                onCustomDateClick()
+            }
+        } else {
+            hideSheet { onChoose(it, dateRange) }
+        }
     }
 
     ModalBottomSheet(
@@ -51,26 +62,18 @@ fun ChooseDateSheet(
         containerColor = MaterialTheme.colorScheme.surface
     ) {
         val options = TimePeriod.entries
-
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(
-                text = stringResource(R.string.choose_date),
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Start,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, bottom = 16.dp)
-            )
+            BottomSheetTitle(stringResource(R.string.choose_date))
             CommonHorizontalDivider()
-            options.forEach { v ->
+            options.forEach { option ->
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { hideSheet { onChoose(v, dateRange) } }
+                        .clickable { onClick(option) }
                         .padding(horizontal = 16.dp)
                 ) {
                     Row(
@@ -81,28 +84,24 @@ fun ChooseDateSheet(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = v.name.capitalize(),
+                            text = option.name.capitalize(),
                             style = MaterialTheme.typography.bodyLarge,
                             fontWeight = FontWeight.W400
                         )
                         RadioButton(
-                            selected = v == timePeriod,
-                            onClick = { hideSheet { onChoose(v, dateRange) } }
+                            selected = option == timePeriod,
+                            onClick = { onClick(option) }
                         )
                     }
 
-                    AnimatedVisibility(
-                        visible = v == TimePeriod.CUSTOM &&
-                                timePeriod == TimePeriod.CUSTOM &&
-                                dateRange.start != 0L &&
-                                dateRange.end != 0L
-                    ) {
+                    if (timePeriod == TimePeriod.CUSTOM && option == TimePeriod.CUSTOM) {
                         val start = dateRange.start.toFormattedDateTime("MMM, dd yyyy")
                         val end = dateRange.end.toFormattedDateTime("MMM, dd yyyy")
                         Text(
                             text = "$start - $end",
                             style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.padding(bottom = 8.dp)
+                            color = MaterialTheme.colorScheme.outline,
+                            modifier = Modifier.padding(bottom = 16.dp, start = 16.dp)
                         )
                     }
                 }

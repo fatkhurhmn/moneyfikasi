@@ -46,6 +46,7 @@ class TransactionsViewModel @Inject constructor(
             is TransactionsEvent.DateRangeChanged -> onDateRangeChange(event.start, event.end)
             is TransactionsEvent.ShowFilterSheet -> onShowFilterSheet(event.show)
             is TransactionsEvent.ShowChooseDateSheet -> onShowChooseDateSheet(event.show)
+            is TransactionsEvent.ShowCustomDateSheet -> onShowCustomDateSheet(event.show)
             is TransactionsEvent.FilterChanged -> onFilterChange(event.filter)
         }
     }
@@ -126,6 +127,10 @@ class TransactionsViewModel @Inject constructor(
 
     private fun onShowChooseDateSheet(show: Boolean) {
         _state.update { it.copy(showChooseDateSheet = show) }
+    }
+
+    private fun onShowCustomDateSheet(show: Boolean) {
+        _state.update { it.copy(showCustomDateSheet = show) }
     }
 
     private fun onFilterChange(filter: TransactionFilter) {

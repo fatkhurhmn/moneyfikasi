@@ -39,6 +39,7 @@ fun NavGraphBuilder.transactionsNavigation(
             },
             onShowFilterSheet = { event(TransactionsEvent.ShowFilterSheet(it)) },
             onShowChooseDateSheet = { event(TransactionsEvent.ShowChooseDateSheet(it)) },
+            onShowCustomDateSheet = { event(TransactionsEvent.ShowCustomDateSheet(it)) },
             onFilterChanged = { event(TransactionsEvent.FilterChanged(it)) },
         )
     }
