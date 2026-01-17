@@ -13,6 +13,4 @@ sealed class TransactionsEvent {
     data class CategoryFiltered(val categories: Set<Category>) : TransactionsEvent()
     data class WalletFiltered(val wallets: Set<Wallet>) : TransactionsEvent()
     data class LocalDateTimeChanged(val localDateTime: LocalDateTime) : TransactionsEvent()
-    data object VisibilityClicked : TransactionsEvent()
-    data object ApplyFilter : TransactionsEvent()
 }

@@ -38,7 +38,6 @@ fun StatisticScreen(
     Scaffold(
         topBar = {
             StatisticTopBar(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 onFilterClick = { onShowBottomSheet(StatisticSheetType.FILTER) }
             )
         },

@@ -14,14 +14,14 @@ import dev.muffar.moneyfikasi.settings.component.SettingsTopBar
 
 @Composable
 fun SettingsScreen(
-    modifier : Modifier = Modifier,
-    onWalletsClick : () -> Unit,
-    onCategoriesClick : () -> Unit,
-    onBackupRestoreClick : () -> Unit
+    modifier: Modifier = Modifier,
+    onWalletsClick: () -> Unit,
+    onCategoriesClick: () -> Unit,
+    onBackupRestoreClick: () -> Unit
 ) {
     Scaffold(
         topBar = {
-            SettingsTopBar(modifier = Modifier.padding(16.dp))
+            SettingsTopBar()
         }
     ) {
         Column(

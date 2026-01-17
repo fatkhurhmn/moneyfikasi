@@ -6,7 +6,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
-import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.domain.utils.TransactionDateFilter
@@ -29,7 +28,6 @@ class TransactionsViewModel @Inject constructor(
     private val transactionUseCases: TransactionUseCases,
     private val categoryUseCases: CategoryUseCases,
     private val walletUseCases: WalletUseCases,
-    private val preferenceUseCases: PreferencesUseCases
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(TransactionsState())
@@ -39,7 +37,6 @@ class TransactionsViewModel @Inject constructor(
         observeTransactions()
         loadCategories()
         loadWallets()
-        loadPreferences()
     }
 
     fun onEvent(event: TransactionsEvent) {
@@ -51,8 +48,6 @@ class TransactionsViewModel @Inject constructor(
             is TransactionsEvent.ShowFilterSheet -> onShowFilterSheet(event.show)
             is TransactionsEvent.CategoryFiltered -> onFilterCategories(event.categories)
             is TransactionsEvent.WalletFiltered -> onFilterWallets(event.wallets)
-            is TransactionsEvent.VisibilityClicked -> onVisibilityClicked()
-            is TransactionsEvent.ApplyFilter -> reloadTransactions()
         }
     }
 
@@ -116,21 +111,6 @@ class TransactionsViewModel @Inject constructor(
                             selectedWallets = state.selectedWallets.ifEmpty {
                                 wallets.toSet()
                             },
-                            totalBalance = wallets.sumOf { it.balance }
-                        )
-                    }
-                }
-        }
-    }
-
-
-    private fun loadPreferences() {
-        viewModelScope.launch {
-            preferenceUseCases.isBalanceVisible()
-                .collectLatest { isVisible ->
-                    _state.update { state ->
-                        state.copy(
-                            isBalanceVisible = isVisible
                         )
                     }
                 }
@@ -163,12 +143,6 @@ class TransactionsViewModel @Inject constructor(
 
     private fun onFilterWallets(wallets: Set<Wallet>) {
         _state.update { it.copy(selectedWallets = wallets) }
-    }
-
-    private fun onVisibilityClicked() {
-        viewModelScope.launch {
-            preferenceUseCases.setBalanceVisibility(!_state.value.isBalanceVisible)
-        }
     }
 
     private fun reloadTransactions() {

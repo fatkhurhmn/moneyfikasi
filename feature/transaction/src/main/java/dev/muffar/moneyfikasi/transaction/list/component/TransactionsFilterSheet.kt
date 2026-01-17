@@ -74,7 +74,7 @@ fun TransactionsFilterSheet(
         Text(
             modifier = Modifier.padding(horizontal = 16.dp),
             text = stringResource(R.string.filter),
-            style = MaterialTheme.typography.headlineMedium
+            style = MaterialTheme.typography.titleLarge
         )
         CommonTabs(
             modifier = modifier.weight(1f),

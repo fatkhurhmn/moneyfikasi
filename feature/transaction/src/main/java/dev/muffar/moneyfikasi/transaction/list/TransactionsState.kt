@@ -27,8 +27,6 @@ data class TransactionsState(
     val endDateRange: Long = LocalDateTime.now().endOfMonth(),
     val showFilterSheet: Boolean = false,
     val showDateRangeSheet: Boolean = false,
-    val totalBalance: Double = 0.0,
-    val isBalanceVisible: Boolean = true,
 ) {
     val isCategoryFiltered: Boolean
         get() = categories.size != selectedCategories.size

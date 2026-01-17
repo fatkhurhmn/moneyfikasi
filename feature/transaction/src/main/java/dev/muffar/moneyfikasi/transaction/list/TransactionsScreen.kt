@@ -5,7 +5,9 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -42,11 +44,9 @@ fun TransactionsScreen(
     onFilterChange: (TransactionDateFilter) -> Unit,
     onLocalDateTimeChange: (LocalDateTime) -> Unit,
     onDateRangeChange: (Long, Long) -> Unit,
-    onVisibilityClick: () -> Unit,
     onShowFilterSheet: (Boolean) -> Unit,
     onFilterCategories: (Set<Category>) -> Unit,
     onFilterWallets: (Set<Wallet>) -> Unit,
-    onApplyFilter: () -> Unit,
 ) {
     val filterSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
@@ -62,9 +62,6 @@ fun TransactionsScreen(
         },
         topBar = {
             TransactionsTopBar(
-                totalBalance = state.totalBalance,
-                isBalanceVisible = state.isBalanceVisible,
-                onVisibilityClick = onVisibilityClick,
                 showFilterBadge = state.isCategoryFiltered || state.isWalletFiltered,
                 onFilterClick = { onShowFilterSheet(true) }
             )
@@ -107,11 +104,12 @@ fun TransactionsScreen(
                 )
             }
         }
-
         AnimatedVisibility(state.showFilterSheet) {
             ModalBottomSheet(
+                modifier = Modifier.statusBarsPadding(),
                 onDismissRequest = { hideFilterSheet() },
-                sheetState = filterSheetState
+                sheetState = filterSheetState,
+                containerColor = MaterialTheme.colorScheme.surface
             ) {
                 TransactionsFilterSheet(
                     filter = state.filter,
@@ -130,12 +128,12 @@ fun TransactionsScreen(
                         }
                         onFilterCategories(categories)
                         onFilterWallets(wallets)
-                        onApplyFilter()
                         hideFilterSheet()
                     },
                     onClose = { hideFilterSheet() }
                 )
             }
         }
+
     }
 }
