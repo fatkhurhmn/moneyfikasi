@@ -32,6 +32,7 @@ fun CategoryFilterItem(
         modifier = modifier
             .fillMaxWidth()
             .clickable { onSelect(category) }
+            .padding(start = 16.dp)
             .padding(horizontal = 16.dp, vertical = 2.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -42,9 +43,9 @@ fun CategoryFilterItem(
         ) {
             Box(
                 modifier = Modifier
-                    .clip(MaterialTheme.shapes.medium)
+                    .clip(MaterialTheme.shapes.small)
                     .background(Color(category.color))
-                    .padding(2.dp),
+                    .padding(4.dp),
                 contentAlignment = Alignment.Center
             ) {
                 IconByName(

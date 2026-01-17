@@ -32,6 +32,7 @@ fun WalletFilterItem(
         modifier = modifier
             .fillMaxWidth()
             .clickable { onSelect(wallet) }
+            .padding(start = 16.dp)
             .padding(horizontal = 16.dp, vertical = 2.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -42,9 +43,9 @@ fun WalletFilterItem(
         ) {
             Box(
                 modifier = Modifier
-                    .clip(MaterialTheme.shapes.medium)
+                    .clip(MaterialTheme.shapes.small)
                     .background(Color(wallet.color))
-                    .padding(2.dp),
+                    .padding(4.dp),
                 contentAlignment = Alignment.Center
             ) {
                 IconByName(
