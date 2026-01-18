@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.IconByName
 import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 import dev.muffar.moneyfikasi.domain.model.Category
-import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.format
 import dev.muffar.moneyfikasi.utils.extensions.formatThousand
@@ -69,7 +68,7 @@ fun StatisticTransactionItem(
                 )
                 Text(
                     text = "${(percentage * 100).format(2)}%",
-                    color = MaterialTheme.colorScheme.outline,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
@@ -85,7 +84,7 @@ fun StatisticTransactionItem(
             )
             Text(
                 text = stringResource(R.string.qty_transactions, quantity),
-                color = MaterialTheme.colorScheme.outline,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 style = MaterialTheme.typography.bodyMedium
             )
         }

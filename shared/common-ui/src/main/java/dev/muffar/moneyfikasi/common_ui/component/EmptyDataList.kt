@@ -40,7 +40,7 @@ fun EmptyDataList(
             text = description,
             style = MaterialTheme.typography.bodyLarge.copy(
                 fontSize = 18.sp,
-                color = MaterialTheme.colorScheme.outline
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             ),
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 16.dp)

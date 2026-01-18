@@ -90,7 +90,7 @@ fun TransactionItem(
             Text(
                 text = transaction.date.format(DateTimeFormatter.ofPattern("H:mm")),
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.outline
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }

@@ -43,7 +43,7 @@ fun TransactionOverviewSection(
                 Text(
                     text = stringResource(R.string.income),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.outline
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
                     text = formattedIncome,
@@ -62,7 +62,7 @@ fun TransactionOverviewSection(
                 Text(
                     text = stringResource(R.string.expense),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.outline
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
                     text = formattedExpense,

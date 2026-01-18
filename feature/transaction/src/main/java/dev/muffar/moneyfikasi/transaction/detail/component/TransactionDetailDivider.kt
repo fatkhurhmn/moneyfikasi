@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun TransactionDetailDivider() {
-    val color = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)
+    val color = MaterialTheme.colorScheme.outline
     Canvas(
         modifier = Modifier
             .fillMaxWidth()

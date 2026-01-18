@@ -107,7 +107,7 @@ fun TransactionDetailScreen(
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.background
             ),
-            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(0.5f)),
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
         ) {
             Column(
                 modifier = modifier

@@ -34,7 +34,7 @@ fun TotalBalance(
         Text(
             text = stringResource(R.string.total_balance),
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.outline.copy(0.5f)
+            color = MaterialTheme.colorScheme.outline
         )
 
         Row(

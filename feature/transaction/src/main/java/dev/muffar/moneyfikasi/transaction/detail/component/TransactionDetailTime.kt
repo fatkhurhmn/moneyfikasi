@@ -27,7 +27,7 @@ fun TransactionDetailTime(
         Text(
             text = stringResource(R.string.time),
             style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.outline
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Text(
             text = formattedTime ?: "",

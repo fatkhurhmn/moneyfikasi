@@ -31,7 +31,7 @@ fun TransactionDetailDate(
             Text(
                 text = stringResource(R.string.date),
                 style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.outline
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
                 text = formattedDate,

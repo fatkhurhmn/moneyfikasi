@@ -18,7 +18,7 @@ fun TransactionDetailNote(note: String) {
         Text(
             text = stringResource(R.string.note),
             style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.outline
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(

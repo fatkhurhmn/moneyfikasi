@@ -100,7 +100,7 @@ fun ChooseDateSheet(
                         Text(
                             text = "$start - $end",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.outline,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.padding(bottom = 16.dp, start = 16.dp)
                         )
                     }

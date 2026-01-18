@@ -59,7 +59,7 @@ fun GroupTransactionHeader(
                 )
                 Text(
                     text = monthYear,
-                    color = MaterialTheme.colorScheme.outline,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.bodyMedium
                 )
             }

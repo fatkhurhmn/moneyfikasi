@@ -42,7 +42,7 @@ fun TransactionDetailHeader(
             style = MaterialTheme.typography.bodyMedium.copy(
                 lineHeight = 20.sp
             ),
-            color = MaterialTheme.colorScheme.outline,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
 
     }

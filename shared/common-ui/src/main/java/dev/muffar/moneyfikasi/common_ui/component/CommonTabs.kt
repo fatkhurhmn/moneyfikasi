@@ -59,7 +59,7 @@ fun CommonTabs(
                 val titleColor = if (selected) {
                     MaterialTheme.colorScheme.primary
                 } else {
-                    MaterialTheme.colorScheme.outline
+                    MaterialTheme.colorScheme.onSurfaceVariant
                 }
 
                 val titleWeight = if (selected) {

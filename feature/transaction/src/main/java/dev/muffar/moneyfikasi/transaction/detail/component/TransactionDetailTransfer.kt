@@ -67,7 +67,7 @@ fun TransactionDetailTransfer(
         Text(
             text = stringResource(R.string.amount),
             style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.outline
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Text(
             text = amount?.toLong()?.formatThousand() ?: "",

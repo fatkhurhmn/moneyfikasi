@@ -36,7 +36,7 @@ fun TransactionDetailWallet(wallet: Wallet?) {
         Text(
             text = stringResource(R.string.wallet),
             style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.outline
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Spacer(modifier = Modifier.width(8.dp))
         Card(

@@ -34,7 +34,7 @@ fun CategoryActivationButton(
             Text(
                 text = stringResource(R.string.disable_category),
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.outline,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.weight(1f)
             )
             Spacer(modifier = Modifier.width(8.dp))

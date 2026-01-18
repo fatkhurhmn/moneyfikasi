@@ -38,12 +38,12 @@ private val LightColorScheme = lightColorScheme(
     surface = MainColor.White,
     onSurface = MainColor.Black,
     surfaceVariant = MainColor.ExtraLightGray,
-    onSurfaceVariant = MainColor.Black,
+    onSurfaceVariant = MainColor.Gray,
     surfaceTint = MainColor.Black,
     inverseSurface = MainColor.DarkGray,
     inverseOnSurface = MainColor.White,
 
-    outline = MainColor.Gray,
+    outline = MainColor.LightGray,
     outlineVariant = MainColor.DarkGray,
     scrim = MainColor.ExtraDarkGray.copy(alpha = 0.8f)
 )

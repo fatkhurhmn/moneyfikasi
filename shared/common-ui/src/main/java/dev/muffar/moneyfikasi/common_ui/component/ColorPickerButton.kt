@@ -45,7 +45,7 @@ fun ColorPickerButton(
             Icon(
                 imageVector = Icons.Rounded.QuestionMark,
                 contentDescription = stringResource(R.string.color),
-                tint = MaterialTheme.colorScheme.outline.copy(0.8f)
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }

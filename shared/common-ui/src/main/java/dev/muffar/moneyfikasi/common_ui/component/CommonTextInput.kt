@@ -35,7 +35,7 @@ fun CommonTextInput(
     onClick: () -> Unit = {},
     leadingIcon: @Composable (() -> Unit)? = null,
 ) {
-    val disableTextColor = if (isClickable) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.outline.copy(0.8f)
+    val disableTextColor = if (isClickable) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.onSurfaceVariant
     Column(
         modifier = modifier
     ) {
@@ -65,11 +65,11 @@ fun CommonTextInput(
                 unfocusedBorderColor = Color.Transparent,
                 focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(0.8f),
                 unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(0.8f),
-                focusedPlaceholderColor = MaterialTheme.colorScheme.outline.copy(0.8f),
-                unfocusedPlaceholderColor = MaterialTheme.colorScheme.outline.copy(0.8f),
+                focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 disabledContainerColor = if (isClickable) MaterialTheme.colorScheme.surfaceVariant.copy(0.8f) else Color.Transparent,
-                disabledTextColor = if (isClickable) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.outline.copy(0.8f),
-                disabledBorderColor = if (isClickable) MaterialTheme.colorScheme.surfaceVariant.copy(0.8f) else MaterialTheme.colorScheme.outline.copy(0.8f),
+                disabledTextColor = if (isClickable) MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.onSurfaceVariant,
+                disabledBorderColor = if (isClickable) MaterialTheme.colorScheme.surfaceVariant.copy(0.8f) else MaterialTheme.colorScheme.onSurfaceVariant,
                 disabledLeadingIconColor = disableTextColor,
                 disabledTrailingIconColor = disableTextColor
             ),
@@ -117,8 +117,13 @@ fun CommonTextInput(
                 unfocusedBorderColor = Color.Transparent,
                 focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(0.8f),
                 unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(0.8f),
-                focusedPlaceholderColor = MaterialTheme.colorScheme.outline.copy(0.8f),
-                unfocusedPlaceholderColor = MaterialTheme.colorScheme.outline.copy(0.8f)
+                focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                disabledTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                disabledBorderColor = MaterialTheme.colorScheme.outline,
+                disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                disabledLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
             ),
             placeholder = {
                 Text(text = placeholder)

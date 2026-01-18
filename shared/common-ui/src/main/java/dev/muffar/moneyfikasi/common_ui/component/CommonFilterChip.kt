@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.common_ui.component
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -48,5 +49,6 @@ fun CommonFilterItem(
             selectedLabelColor = MaterialTheme.colorScheme.primary,
         ),
         shape = CircleShape,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
     )
 }
