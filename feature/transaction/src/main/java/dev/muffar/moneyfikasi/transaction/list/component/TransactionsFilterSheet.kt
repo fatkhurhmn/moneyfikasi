@@ -73,43 +73,37 @@ fun TransactionsFilterSheet(
                 pagerState = pagerState
             ) { index ->
                 when (index) {
-                    0 -> CategoriesFilterTab(
-                        categories = categories,
-                        selectedCategories = selectedCategories,
-                        onSelectAll = {
-                            selectedCategories = if (it) setOf() else categories.toSet()
-                        },
-                        onSelectAllSameType = { isAllSameTypeSelected, categoriesByType ->
-                            if (isAllSameTypeSelected) {
-                                selectedCategories =
-                                    selectedCategories.filter { it !in categoriesByType }.toSet()
-                            } else {
-                                selectedCategories += categoriesByType
+                    0 -> {
+                        FilterCategoryTab(
+                            categories = categories,
+                            selectedCategories = selectedCategories,
+                            onSelectAll = { selectedCategories = it },
+                            onSelectAllIncome = { selectedCategories = it },
+                            onSelectAllExpense = { selectedCategories = it },
+                            onSelect = {
+                                if (it in selectedCategories) {
+                                    selectedCategories -= it
+                                } else {
+                                    selectedCategories += it
+                                }
                             }
-                        },
-                        onSelect = { item ->
-                            if (item in selectedCategories) {
-                                selectedCategories -= item
-                            } else {
-                                selectedCategories += item
-                            }
-                        }
-                    )
+                        )
+                    }
 
-                    1 -> WalletsFilterTab(
-                        wallets = wallets,
-                        selectedWallets = selectedWallets,
-                        onSelectAll = { isSelectAll ->
-                            selectedWallets = if (isSelectAll) setOf() else wallets.toSet()
-                        },
-                        onSelect = { item ->
-                            if (item in selectedWallets) {
-                                selectedWallets -= item
-                            } else {
-                                selectedWallets += item
+                    1 ->{
+                        FilterWalletTab(
+                            wallets = wallets,
+                            selectedWallets = selectedWallets,
+                            onSelectAll = {selectedWallets=it},
+                            onSelect = {
+                                if (it in selectedWallets) {
+                                    selectedWallets -= it
+                                } else {
+                                    selectedWallets += it
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
                 }
             }
 
