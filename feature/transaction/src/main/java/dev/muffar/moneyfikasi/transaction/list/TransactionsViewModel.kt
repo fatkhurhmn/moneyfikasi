@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.transaction.list
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -8,7 +9,6 @@ import dev.muffar.moneyfikasi.domain.model.TransactionFilter
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
-import dev.muffar.moneyfikasi.domain.utils.TimePeriod
 import dev.muffar.moneyfikasi.utils.extensions.format
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -43,10 +43,11 @@ class TransactionsViewModel @Inject constructor(
         when (event) {
             is TransactionsEvent.FloatingActionButtonClicked -> onFloatActionButtonClick(event.isExpanded)
             is TransactionsEvent.LocalDateTimeChanged -> onLocalDateTimeChange(event.localDateTime)
-            is TransactionsEvent.DateRangeChanged -> onDateRangeChange(event.start, event.end)
+            is TransactionsEvent.DateRangeChanged -> onDateRangeChange(event.dateRange)
             is TransactionsEvent.ShowFilterSheet -> onShowFilterSheet(event.show)
             is TransactionsEvent.ShowChooseDateSheet -> onShowChooseDateSheet(event.show)
             is TransactionsEvent.ShowCustomDateSheet -> onShowCustomDateSheet(event.show)
+            is TransactionsEvent.ResetFilter -> onResetFilter()
             is TransactionsEvent.FilterChanged -> onFilterChange(event.filter)
         }
     }
@@ -55,12 +56,12 @@ class TransactionsViewModel @Inject constructor(
     private fun observeTransactions() {
         viewModelScope.launch {
             state
-                .map { it.filter }
+                .map { Pair(it.filter, it.dateRange) }
                 .distinctUntilChanged()
-                .flatMapLatest { filter ->
+                .flatMapLatest { (filter, dateRange) ->
                     transactionUseCases.getAllTransactions(
-                        filter.dateRange.start,
-                        filter.dateRange.end,
+                        dateRange.start,
+                        dateRange.end,
                         filter.categories,
                         filter.wallets
                     )
@@ -117,8 +118,9 @@ class TransactionsViewModel @Inject constructor(
         _state.update { it.copy(currentLocalDateTime = localDateTime) }
     }
 
-    private fun onDateRangeChange(start: Long, end: Long) {
-        _state.update { it.copy(filter = it.filter.copy(dateRange = DateRange(start, end))) }
+    private fun onDateRangeChange(dateRange: DateRange) {
+        Log.d("onDateRangeChange", dateRange.toString())
+        _state.update { it.copy(dateRange = dateRange) }
     }
 
     private fun onShowFilterSheet(show: Boolean) {
@@ -133,12 +135,26 @@ class TransactionsViewModel @Inject constructor(
         _state.update { it.copy(showCustomDateSheet = show) }
     }
 
-    private fun onFilterChange(filter: TransactionFilter) {
-        val dateRange =
-            (if (filter.timePeriod == TimePeriod.CUSTOM) filter else state.value.filter).dateRange
-
+    private fun onResetFilter() {
         _state.update {
-            it.copy(filter = filter.copy(dateRange = dateRange))
+            it.copy(
+                filter = TransactionFilter(
+                    categories = it.categories.toSet(),
+                    wallets = it.wallets.toSet(),
+                ),
+                isFilterApplied = false
+            )
+        }
+    }
+
+    private fun onFilterChange(filter: TransactionFilter) {
+        _state.update {
+            val isFilterApplied =
+                it.categories.size != filter.categories.size || it.wallets.size != filter.wallets.size
+            it.copy(
+                filter = filter,
+                isFilterApplied = isFilterApplied
+            )
         }
     }
 }

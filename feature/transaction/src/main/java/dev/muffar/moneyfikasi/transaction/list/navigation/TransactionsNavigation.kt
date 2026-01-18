@@ -34,12 +34,11 @@ fun NavGraphBuilder.transactionsNavigation(
                 }
             },
             onLocalDateTimeChange = { event(TransactionsEvent.LocalDateTimeChanged(it)) },
-            onDateRangeChange = { start, end ->
-                event(TransactionsEvent.DateRangeChanged(start, end))
-            },
+            onDateRangeChange = { event(TransactionsEvent.DateRangeChanged(it)) },
             onShowFilterSheet = { event(TransactionsEvent.ShowFilterSheet(it)) },
             onShowChooseDateSheet = { event(TransactionsEvent.ShowChooseDateSheet(it)) },
             onShowCustomDateSheet = { event(TransactionsEvent.ShowCustomDateSheet(it)) },
+            onResetFilter = { event(TransactionsEvent.ResetFilter) },
             onFilterChanged = { event(TransactionsEvent.FilterChanged(it)) },
         )
     }

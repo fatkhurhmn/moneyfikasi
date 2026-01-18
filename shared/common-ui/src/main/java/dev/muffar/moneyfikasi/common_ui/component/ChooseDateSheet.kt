@@ -30,10 +30,9 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChooseDateSheet(
-    timePeriod: TimePeriod,
     dateRange: DateRange,
     onDismissRequest: () -> Unit,
-    onChoose: (TimePeriod, DateRange) -> Unit,
+    onChoose: (DateRange) -> Unit,
     onCustomDateClick: () -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -51,7 +50,7 @@ fun ChooseDateSheet(
                 onCustomDateClick()
             }
         } else {
-            hideSheet { onChoose(it, dateRange) }
+            hideSheet { onChoose(dateRange.copy(timePeriod = it)) }
         }
     }
 
@@ -89,12 +88,12 @@ fun ChooseDateSheet(
                             fontWeight = FontWeight.W400
                         )
                         RadioButton(
-                            selected = option == timePeriod,
+                            selected = option == dateRange.timePeriod,
                             onClick = { onClick(option) }
                         )
                     }
 
-                    if (timePeriod == TimePeriod.CUSTOM && option == TimePeriod.CUSTOM) {
+                    if (dateRange.timePeriod == TimePeriod.CUSTOM && option == TimePeriod.CUSTOM) {
                         val start = dateRange.start.toFormattedDateTime("MMM, dd yyyy")
                         val end = dateRange.end.toFormattedDateTime("MMM, dd yyyy")
                         Text(
@@ -106,15 +105,16 @@ fun ChooseDateSheet(
                     }
                 }
             }
+
             CommonHorizontalDivider()
             DoubleOutlinedButton(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
                 leftText = stringResource(R.string.cancel),
                 rightText = stringResource(R.string.reset),
                 onLeftClick = { hideSheet { onDismissRequest() } },
-                onRightClick = { hideSheet { onChoose(TimePeriod.MONTHLY, DateRange(0L, 0L)) } }
+                onRightClick = { hideSheet { onChoose(DateRange()) } }
             )
         }
     }

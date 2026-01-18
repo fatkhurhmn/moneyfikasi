@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.transaction.list
 
 import dev.muffar.moneyfikasi.domain.model.Category
+import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.model.TransactionFilter
 import dev.muffar.moneyfikasi.domain.model.Wallet
@@ -19,13 +20,9 @@ data class TransactionsState(
     val wallets: List<Wallet> = emptyList(),
     val currentLocalDateTime: LocalDateTime = LocalDateTime.now().with(LocalTime.MIN),
     val filter: TransactionFilter = TransactionFilter(),
+    val dateRange: DateRange = DateRange(),
+    val isFilterApplied: Boolean = false,
     val showFilterSheet: Boolean = false,
     val showChooseDateSheet: Boolean = false,
     val showCustomDateSheet: Boolean = false,
-) {
-    val isCategoryFiltered: Boolean
-        get() = categories.size != filter.categories.size
-
-    val isWalletFiltered: Boolean
-        get() = wallets.size != filter.wallets.size
-}
+)

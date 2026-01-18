@@ -12,11 +12,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 
 @Composable
-fun CommonFilterItem(
+fun CommonFilterChip(
     selected: Boolean,
     label: String,
     leadingIcon: @Composable () -> Unit = {},
@@ -32,23 +33,16 @@ fun CommonFilterItem(
             )
         },
         leadingIcon = leadingIcon,
-        trailingIcon = {
-            if (selected) {
-                Icon(
-                    imageVector = Icons.TwoTone.Check,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(16.dp)
-                )
-            }
-        },
         colors = FilterChipDefaults.filterChipColors(
-            selectedContainerColor = MainColor.Blue.extraLight,
+            selectedContainerColor = MainColor.Blue.extraLight.copy(alpha = 0.5f),
             containerColor = MaterialTheme.colorScheme.surface,
             labelColor = MaterialTheme.colorScheme.onSurface,
             selectedLabelColor = MaterialTheme.colorScheme.primary,
         ),
         shape = CircleShape,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
+        border = BorderStroke(
+            width = 1.dp,
+            color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
+        )
     )
 }

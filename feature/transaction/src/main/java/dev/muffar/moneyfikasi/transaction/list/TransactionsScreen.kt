@@ -38,10 +38,11 @@ fun TransactionsScreen(
     onFloatingActionButtonClick: (Boolean) -> Unit,
     onAddTransactionClick: (TransactionType?) -> Unit,
     onLocalDateTimeChange: (LocalDateTime) -> Unit,
-    onDateRangeChange: (Long, Long) -> Unit,
+    onDateRangeChange: (DateRange) -> Unit,
     onShowFilterSheet: (Boolean) -> Unit,
     onShowChooseDateSheet: (Boolean) -> Unit,
     onShowCustomDateSheet: (Boolean) -> Unit,
+    onResetFilter: () -> Unit,
     onFilterChanged: (TransactionFilter) -> Unit,
 ) {
     Scaffold(
@@ -51,7 +52,7 @@ fun TransactionsScreen(
         topBar = {
             TransactionsTopBar(
                 onChooseDateClick = { onShowChooseDateSheet(true) },
-                showFilterBadge = state.isCategoryFiltered || state.isWalletFiltered,
+                showFilterBadge = state.isFilterApplied,
                 onFilterClick = { onShowFilterSheet(true) }
             )
         },
@@ -71,11 +72,17 @@ fun TransactionsScreen(
             modifier = Modifier.padding(it)
         ) {
             TransactionsDateFilterSection(
-                timePeriod = state.filter.timePeriod,
                 currentLocalDateTime = state.currentLocalDateTime,
-                dateRange = state.filter.dateRange,
+                dateRange = state.dateRange,
                 onLocalDateTimeChange = onLocalDateTimeChange,
-                onDateChange = onDateRangeChange
+                onDateChange = { start, end ->
+                    onDateRangeChange(
+                        state.dateRange.copy(
+                            start = start,
+                            end = end
+                        )
+                    )
+                }
             )
 
             when {
@@ -95,17 +102,11 @@ fun TransactionsScreen(
 
         AnimatedVisibility(state.showChooseDateSheet) {
             ChooseDateSheet(
-                timePeriod = state.filter.timePeriod,
-                dateRange = state.filter.dateRange,
+                dateRange = state.dateRange,
                 onDismissRequest = { onShowChooseDateSheet(false) },
                 onCustomDateClick = { onShowCustomDateSheet(true) },
-                onChoose = { timePeriod, dateRange ->
-                    onFilterChanged(
-                        state.filter.copy(
-                            timePeriod = timePeriod,
-                            dateRange = dateRange
-                        )
-                    )
+                onChoose = { dateRange ->
+                    onDateRangeChange(dateRange)
                     onShowChooseDateSheet(false)
                 }
             )
@@ -113,15 +114,10 @@ fun TransactionsScreen(
 
         AnimatedVisibility(state.showCustomDateSheet) {
             CustomDateSheet(
-                startDateMillis = state.filter.dateRange.start,
-                endDateMillis = state.filter.dateRange.end,
+                startDateMillis = state.dateRange.start,
+                endDateMillis = state.dateRange.end,
                 onDateChange = { start, end ->
-                    onFilterChanged(
-                        state.filter.copy(
-                            timePeriod = TimePeriod.CUSTOM,
-                            dateRange = DateRange(start, end)
-                        )
-                    )
+                    onDateRangeChange(DateRange(TimePeriod.CUSTOM, start, end))
                     onShowCustomDateSheet(false)
                 },
                 onDismissRequest = { onShowCustomDateSheet(false) }
@@ -131,11 +127,11 @@ fun TransactionsScreen(
         AnimatedVisibility(state.showFilterSheet) {
             TransactionsFilterSheet(
                 filter = state.filter,
+                isFilterApplied = state.isFilterApplied,
                 categories = state.categories,
-                isCategoryFiltered = state.isCategoryFiltered,
                 wallets = state.wallets,
-                isWalletFiltered = state.isWalletFiltered,
                 onApply = onFilterChanged,
+                onResetFilter = onResetFilter,
                 onDismissRequest = { onShowFilterSheet(false) }
             )
         }

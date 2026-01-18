@@ -2,13 +2,14 @@ package dev.muffar.moneyfikasi.transaction.list.component
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,10 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.BottomSheetTitle
-import dev.muffar.moneyfikasi.common_ui.component.CommonButton
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
-import dev.muffar.moneyfikasi.common_ui.component.CommonTabs
-import dev.muffar.moneyfikasi.common_ui.component.DoubleOutlinedButton
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.TransactionFilter
 import dev.muffar.moneyfikasi.domain.model.Wallet
@@ -35,116 +33,87 @@ import kotlinx.coroutines.launch
 fun TransactionsFilterSheet(
     filter: TransactionFilter,
     categories: List<Category>,
-    isCategoryFiltered: Boolean,
     wallets: List<Wallet>,
-    isWalletFiltered: Boolean,
+    isFilterApplied: Boolean,
     onDismissRequest: () -> Unit,
+    onResetFilter: () -> Unit,
     onApply: (TransactionFilter) -> Unit,
 ) {
-    val filtersTab = listOf(
-        "Category" to isCategoryFiltered,
-        "Wallet" to isWalletFiltered
-    )
-
-    val pagerState = rememberPagerState { filtersTab.size }
-    var selectedCategories by remember { mutableStateOf(filter.categories) }
-    var selectedWallets by remember { mutableStateOf(filter.wallets) }
+    var selectedCategories by remember { mutableStateOf(if (!isFilterApplied) categories.toSet() else filter.categories) }
+    var selectedWallets by remember { mutableStateOf(if (!isFilterApplied) wallets.toSet() else filter.wallets) }
 
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
-    fun hideSheet(callback: () -> Unit) {
+    fun hideSheet(callback: () -> Unit = {}) {
         scope.launch { sheetState.hide() }
         callback()
+        onDismissRequest()
     }
 
     ModalBottomSheet(
         modifier = Modifier.statusBarsPadding(),
-        onDismissRequest = { hideSheet(onDismissRequest) },
+        onDismissRequest = { hideSheet() },
         sheetState = sheetState,
         containerColor = MaterialTheme.colorScheme.surface,
         sheetGesturesEnabled = false
     ) {
-        Column {
-            BottomSheetTitle(stringResource(R.string.filter))
-            CommonHorizontalDivider()
-            CommonTabs(
-                modifier = Modifier.weight(1f),
-                tabs = filtersTab,
-                pagerState = pagerState
-            ) { index ->
-                when (index) {
-                    0 -> {
-                        FilterCategoryTab(
-                            categories = categories,
-                            selectedCategories = selectedCategories,
-                            onSelectAll = { selectedCategories = it },
-                            onSelectAllIncome = { selectedCategories = it },
-                            onSelectAllExpense = { selectedCategories = it },
-                            onSelect = {
-                                if (it in selectedCategories) {
-                                    selectedCategories -= it
-                                } else {
-                                    selectedCategories += it
-                                }
-                            }
-                        )
-                    }
-
-                    1 ->{
-                        FilterWalletTab(
-                            wallets = wallets,
-                            selectedWallets = selectedWallets,
-                            onSelectAll = {selectedWallets=it},
-                            onSelect = {
-                                if (it in selectedWallets) {
-                                    selectedWallets -= it
-                                } else {
-                                    selectedWallets += it
-                                }
-                            }
-                        )
-                    }
+        Scaffold(
+            topBar = {
+                Column {
+                    BottomSheetTitle(stringResource(R.string.filter))
+                    CommonHorizontalDivider()
                 }
-            }
-
-            CommonHorizontalDivider()
-            DoubleOutlinedButton(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp)
-                    .padding(horizontal = 16.dp),
-                leftText = stringResource(R.string.cancel),
-                rightText = stringResource(R.string.reset),
-                onLeftClick = { hideSheet { onDismissRequest() } },
-                onRightClick = {
-                    hideSheet {
-                        onApply(
-                            filter.copy(
-                                categories = categories.toSet(),
-                                wallets = wallets.toSet()
+            },
+            bottomBar = {
+                FilterSheetButton(
+                    onCancelClick = { hideSheet() },
+                    onResetClick = { hideSheet { onResetFilter() } },
+                    onApplyClick = {
+                        hideSheet {
+                            val mFilter = filter.copy(
+                                categories = selectedCategories,
+                                wallets = selectedWallets
                             )
-                        )
-                        onDismissRequest()
+                            onApply(mFilter)
+                        }
                     }
-                }
-            )
-            CommonButton(
+                )
+            }
+        ) { innerPadding ->
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp)
-                    .padding(horizontal = 16.dp),
-                text = stringResource(R.string.apply),
-                onClick = {
-                    hideSheet {
-                        val mFilter = filter.copy(
-                            categories = selectedCategories,
-                            wallets = selectedWallets
-                        )
-                        onApply(mFilter)
-                        onDismissRequest()
+                    .padding(innerPadding)
+                    .verticalScroll(rememberScrollState())
+                    .padding(16.dp)
+            ) {
+                FilterWalletSection(
+                    wallets = wallets,
+                    selectedWallets = selectedWallets,
+                    onSelectAll = { selectedWallets = it },
+                    onSelect = {
+                        if (it in selectedWallets) {
+                            selectedWallets -= it
+                        } else {
+                            selectedWallets += it
+                        }
                     }
-                }
-            )
+                )
+
+                FilterCategorySection(
+                    categories = categories,
+                    selectedCategories = selectedCategories,
+                    onSelectAll = { selectedCategories = it },
+                    onSelectAllIncome = { selectedCategories = it },
+                    onSelectAllExpense = { selectedCategories = it },
+                    onSelect = {
+                        if (it in selectedCategories) {
+                            selectedCategories -= it
+                        } else {
+                            selectedCategories += it
+                        }
+                    }
+                )
+            }
         }
     }
 }

@@ -21,13 +21,12 @@ import org.threeten.bp.LocalDateTime
 
 @Composable
 fun TransactionsDateFilterSection(
-    timePeriod: TimePeriod,
-    currentLocalDateTime:LocalDateTime,
     dateRange: DateRange,
+    currentLocalDateTime:LocalDateTime,
     onLocalDateTimeChange : (LocalDateTime) -> Unit,
     onDateChange: (start: Long, end: Long) -> Unit,
 ) {
-    when (timePeriod) {
+    when (dateRange.timePeriod) {
         TimePeriod.DAILY -> DailyCalendarFilter(
             currentDate = currentLocalDateTime,
             onCurrentDateChange = onLocalDateTimeChange,

@@ -3,7 +3,7 @@ package dev.muffar.moneyfikasi.transaction.list.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -11,13 +11,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.component.CommonFilterItem
+import dev.muffar.moneyfikasi.common_ui.component.CommonFilterChip
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
-fun FilterCategoryTab(
+fun FilterCategorySection(
     modifier: Modifier = Modifier,
     categories: List<Category>,
     selectedCategories: Set<Category>,
@@ -34,14 +34,20 @@ fun FilterCategoryTab(
     val allExpenseSelected = expenseCategories.all { it in selectedCategories }
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp)
+        modifier = modifier.fillMaxWidth()
     ) {
+        Text(
+            text = stringResource(R.string.category),
+            style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier
+                .padding(vertical = 8.dp)
+                .padding(top = 8.dp)
+        )
+
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            CommonFilterItem(
+            CommonFilterChip(
                 label = stringResource(R.string.all),
                 selected = allCategoriesSelected,
                 onSelect = {
@@ -50,7 +56,7 @@ fun FilterCategoryTab(
                 }
             )
 
-            CommonFilterItem(
+            CommonFilterChip(
                 label = stringResource(R.string.income),
                 selected = allIncomeSelected,
                 onSelect = {
@@ -63,7 +69,7 @@ fun FilterCategoryTab(
                 }
             )
 
-            CommonFilterItem(
+            CommonFilterChip(
                 label = stringResource(R.string.expense),
                 selected = allExpenseSelected,
                 onSelect = {
@@ -89,7 +95,7 @@ fun FilterCategoryTab(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             incomeCategories.forEach {
-                CategoryFilterItem(
+                CategoryFilterChip(
                     category = it,
                     isSelect = it in selectedCategories,
                     onSelect = onSelect
@@ -108,7 +114,7 @@ fun FilterCategoryTab(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             expenseCategories.forEach {
-                CategoryFilterItem(
+                CategoryFilterChip(
                     category = it,
                     isSelect = it in selectedCategories,
                     onSelect = onSelect
