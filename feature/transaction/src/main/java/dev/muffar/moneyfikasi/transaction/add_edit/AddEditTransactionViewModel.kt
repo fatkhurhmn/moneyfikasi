@@ -74,7 +74,7 @@ class AddEditTransactionViewModel @Inject constructor(
                             state.copy(
                                 id = transactionId,
                                 type = type,
-                                amount = amount.toLong().formatThousand(),
+                                amount = amount.formatThousand(),
                                 category = category,
                                 wallet = wallet,
                                 note = note ?: "",

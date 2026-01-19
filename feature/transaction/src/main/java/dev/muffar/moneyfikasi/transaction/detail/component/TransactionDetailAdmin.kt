@@ -22,7 +22,7 @@ import dev.muffar.moneyfikasi.utils.extensions.formatThousand
 fun TransactionDetailAdmin(
     amount: Double?,
 ) {
-    val formattedAmount = amount?.toLong()?.formatThousand() ?: ""
+    val formattedAmount = amount?.formatThousand() ?: ""
 
     Row(
         modifier = Modifier.fillMaxWidth(),

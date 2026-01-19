@@ -23,7 +23,6 @@ import dev.muffar.moneyfikasi.common_ui.component.IconByName
 import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.format
 import dev.muffar.moneyfikasi.utils.extensions.formatThousand
 
 @Composable
@@ -34,7 +33,7 @@ fun StatisticTransactionItem(
     percentage: Double,
     quantity: Int,
 ) {
-    val formattedAmount = amount.toLong().formatThousand().let {
+    val formattedAmount = amount.formatThousand().let {
         if (category.isIncome) "+$it" else "-$it"
     }
 
@@ -67,7 +66,7 @@ fun StatisticTransactionItem(
                     style = MaterialTheme.typography.labelMedium.copy(fontSize = 14.sp)
                 )
                 Text(
-                    text = "${(percentage * 100).format(2)}%",
+                    text = "%.2f".format(percentage * 100) + "%",
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.bodyMedium
                 )

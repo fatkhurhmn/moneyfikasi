@@ -41,7 +41,7 @@ fun TotalBalance(
             verticalAlignment = Alignment.CenterVertically
         ) {
             val balanceValue =
-                if (isBalanceVisible) totalBalance.toLong().formatThousand()
+                if (isBalanceVisible) totalBalance.formatThousand()
                 else stringResource(R.string.invisible_balance)
 
             Text(

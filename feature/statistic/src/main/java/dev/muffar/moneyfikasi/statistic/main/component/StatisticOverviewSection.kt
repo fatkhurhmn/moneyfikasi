@@ -32,7 +32,7 @@ fun StatisticOverviewSection(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val formattedIncome = income.toLong().formatThousand().let { amount ->
+            val formattedIncome = income.formatThousand().let { amount ->
                 if (income > 0) "+$amount" else amount
             }
 
@@ -52,7 +52,7 @@ fun StatisticOverviewSection(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val formattedExpense = expense.toLong().formatThousand().let { amount ->
+            val formattedExpense = expense.formatThousand().let { amount ->
                 if (expense > 0) "-$amount" else amount
             }
             Text(
@@ -78,7 +78,7 @@ fun StatisticOverviewSection(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
-                text = total.toLong().formatThousand(),
+                text = total.formatThousand(),
                 style = MaterialTheme.typography.labelLarge,
             )
         }

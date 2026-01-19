@@ -70,7 +70,7 @@ fun TransactionDetailTransfer(
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Text(
-            text = amount?.toLong()?.formatThousand() ?: "",
+            text = amount?.formatThousand() ?: "",
             style = MaterialTheme.typography.headlineMedium,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,

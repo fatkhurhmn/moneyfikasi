@@ -103,7 +103,7 @@ fun WalletPicker(
                         Column {
                             Text(text = wallet.name)
                             Text(
-                                text = wallet.balance.toLong().formatThousand(),
+                                text = wallet.balance.formatThousand(),
                                 style = MaterialTheme.typography.titleMedium.copy(
                                     fontWeight = FontWeight.Medium
                                 )

@@ -61,7 +61,7 @@ fun WalletItem(
             Spacer(modifier = Modifier.height(32.dp))
 
             Text(
-                text = wallet.balance.toLong().formatThousand(),
+                text = wallet.balance.formatThousand(),
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontSize = 18.sp
                 ),

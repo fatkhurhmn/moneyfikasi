@@ -70,10 +70,10 @@ class TransferTransactionViewModel @Inject constructor(
                         with(detail) {
                             state.copy(
                                 id = referenceId,
-                                amount = amount.toLong().formatThousand(),
+                                amount = amount.formatThousand(),
                                 sourceWallet = sourceWallet,
                                 targetWallet = targetWallet,
-                                fee = fee.toLong().formatThousand(),
+                                fee = fee.formatThousand(),
                                 note = note ?: "",
                                 date = date,
                                 hour = date.toFormattedDateTime("H").toInt(),

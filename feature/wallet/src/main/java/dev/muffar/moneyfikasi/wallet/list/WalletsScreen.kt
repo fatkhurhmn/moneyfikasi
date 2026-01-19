@@ -19,9 +19,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.muffar.moneyfikasi.common_ui.component.button.CommonAddButton
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
+import dev.muffar.moneyfikasi.common_ui.component.button.CommonAddButton
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.formatThousand
 import dev.muffar.moneyfikasi.wallet.list.component.WalletItem
@@ -66,7 +66,7 @@ fun WalletsScreen(
                             style = MaterialTheme.typography.bodyMedium,
                         )
                         Text(
-                            text = total.toLong().formatThousand(),
+                            text = total.formatThousand(),
                             style = MaterialTheme.typography.headlineSmall.copy(fontSize = 20.sp),
                         )
                     }

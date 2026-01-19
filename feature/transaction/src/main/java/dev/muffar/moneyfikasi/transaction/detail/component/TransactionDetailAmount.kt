@@ -24,7 +24,7 @@ fun TransactionDetailAmount(
     amount: Double?,
     type: TransactionType?
 ) {
-    val formattedAmount = amount?.toLong()?.formatThousand() ?: ""
+    val formattedAmount = amount?.formatThousand() ?: ""
     val icon = if (type == TransactionType.EXPENSE) {
         painterResource(R.drawable.ic_expense)
     } else {

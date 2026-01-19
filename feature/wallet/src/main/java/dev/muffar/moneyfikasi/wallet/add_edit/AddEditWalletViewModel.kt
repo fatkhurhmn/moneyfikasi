@@ -57,7 +57,7 @@ class AddEditWalletViewModel @Inject constructor(
                         state.copy(
                             id = it.id,
                             name = it.name,
-                            balance = it.balance.toLong().formatThousand(),
+                            balance = it.balance.formatThousand(),
                             icon = it.icon,
                             color = it.color,
                             isActive = it.isActive

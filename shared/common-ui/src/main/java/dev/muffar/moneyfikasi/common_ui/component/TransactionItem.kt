@@ -68,7 +68,7 @@ fun TransactionItem(
         Column(
             horizontalAlignment = Alignment.End,
         ) {
-            val formattedAmount = transaction.amount.toLong().formatThousand().let {
+            val formattedAmount = transaction.amount.formatThousand().let {
                 when (transaction.type) {
                     TransactionType.INCOME, TransactionType.TRANSFER_IN -> "+$it"
                     TransactionType.EXPENSE, TransactionType.TRANSFER_OUT -> "-$it"

@@ -1,3 +1,8 @@
 package dev.muffar.moneyfikasi.utils.extensions
 
-fun Double.format(digits: Int) = "%.${digits}f".format(this)
+import java.text.DecimalFormat
+
+fun Double.formatThousand(): String {
+    val decimalFormatter = DecimalFormat("#,###")
+    return decimalFormatter.format(this)
+}

@@ -37,7 +37,7 @@ fun TransactionOverviewSection(
                 modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.Start
             ) {
-                val formattedIncome = income.toLong().formatThousand().let {
+                val formattedIncome = income.formatThousand().let {
                     if (income > 0) "+$it" else it
                 }
                 Text(
@@ -56,7 +56,7 @@ fun TransactionOverviewSection(
                 modifier = Modifier.weight(1f),
                 horizontalAlignment = Alignment.End
             ) {
-                val formattedExpense = expense.toLong().formatThousand().let {
+                val formattedExpense = expense.formatThousand().let {
                     if (expense > 0) "-$it" else it
                 }
                 Text(

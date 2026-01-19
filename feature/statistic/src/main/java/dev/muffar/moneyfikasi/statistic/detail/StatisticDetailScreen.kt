@@ -51,8 +51,7 @@ fun StatisticDetailScreen(
             item {
                 val total = state.transactions
                     .sumOf { i -> i.amount }
-                    .toLong().formatThousand()
-                    .let { i -> if (state.type == TransactionType.INCOME) "+$i" else "-$i" }
+                    .formatThousand()
 
                 val color =
                     if (state.type == TransactionType.INCOME) MainColor.Green.primary else MainColor.Red.primary
@@ -69,7 +68,7 @@ fun StatisticDetailScreen(
                         style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp),
                     )
                     Text(
-                        text = total,
+                        text = if (state.type == TransactionType.INCOME) "+$total" else "-$total",
                         style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp),
                         color = color
                     )
