@@ -1,14 +1,9 @@
 package dev.muffar.moneyfikasi.common_ui.component.calendar_header
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import dev.muffar.moneyfikasi.domain.model.DateRange
-import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.utils.extensions.capitalize
-import dev.muffar.moneyfikasi.utils.extensions.endOfWeek
 import dev.muffar.moneyfikasi.utils.extensions.shortName
-import dev.muffar.moneyfikasi.utils.extensions.startOfWeek
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
@@ -26,10 +21,6 @@ fun WeekCalendarHeader(
 
     val weekRangeText = remember(startOfWeek, endOfWeek) {
         formatWeekRange(startOfWeek, endOfWeek)
-    }
-
-    LaunchedEffect(currentDate) {
-        onDateChange(currentDate)
     }
 
     CalendarHeader(

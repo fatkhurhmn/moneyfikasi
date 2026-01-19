@@ -9,62 +9,41 @@ import dev.muffar.moneyfikasi.common_ui.component.calendar_header.WeekCalendarHe
 import dev.muffar.moneyfikasi.common_ui.component.calendar_header.YearCalendarHeader
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
-import dev.muffar.moneyfikasi.utils.extensions.endOfDay
-import dev.muffar.moneyfikasi.utils.extensions.endOfMonth
-import dev.muffar.moneyfikasi.utils.extensions.endOfWeek
-import dev.muffar.moneyfikasi.utils.extensions.endOfYear
-import dev.muffar.moneyfikasi.utils.extensions.startOfDay
-import dev.muffar.moneyfikasi.utils.extensions.startOfMonth
-import dev.muffar.moneyfikasi.utils.extensions.startOfWeek
-import dev.muffar.moneyfikasi.utils.extensions.startOfYear
 import org.threeten.bp.LocalDateTime
 
 @Composable
 fun TransactionsDateFilterSection(
     dateRange: DateRange,
-    currentLocalDateTime:LocalDateTime,
-    onLocalDateTimeChange : (LocalDateTime) -> Unit,
-    onDateChange: (start: Long, end: Long) -> Unit,
+    currentLocalDateTime: LocalDateTime,
+    onLocalDateTimeChange: (LocalDateTime) -> Unit,
 ) {
     when (dateRange.timePeriod) {
         TimePeriod.DAILY -> DayCalendarHeader(
             currentDate = currentLocalDateTime,
             onCurrentDateChange = onLocalDateTimeChange,
-            onDateChange = {
-                onDateChange(it.startOfDay(), it.endOfDay())
-            }
+            onDateChange = {}
         )
 
         TimePeriod.WEEKLY -> WeekCalendarHeader(
             currentDate = currentLocalDateTime,
             onCurrentDateChange = onLocalDateTimeChange,
-            onDateChange = {
-                onDateChange(it.startOfWeek(), it.endOfWeek())
-            }
+            onDateChange = {}
         )
 
         TimePeriod.MONTHLY -> MonthCalendarHeader(
             currentDate = currentLocalDateTime,
             onCurrentDateChange = onLocalDateTimeChange,
-            onDateChange = {
-                onDateChange(it.startOfMonth(), it.endOfMonth())
-            }
+            onDateChange = {}
         )
 
         TimePeriod.YEARLY -> YearCalendarHeader(
             currentDate = currentLocalDateTime,
             onCurrentDateChange = onLocalDateTimeChange,
-            onDateChange = {
-                onDateChange(it.startOfYear(), it.endOfYear())
-            }
+            onDateChange = {}
         )
 
         TimePeriod.ALL -> {
-            AllCalendarHeader(
-                onDateChange = {
-                    onDateChange(Long.MIN_VALUE, Long.MAX_VALUE)
-                }
-            )
+            AllCalendarHeader(onDateChange = {})
         }
 
         TimePeriod.CUSTOM -> CustomCalendarHeader(

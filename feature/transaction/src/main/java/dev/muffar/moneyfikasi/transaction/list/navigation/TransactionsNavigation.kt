@@ -33,7 +33,7 @@ fun NavGraphBuilder.transactionsNavigation(
                     onNavigateToTransferScreen()
                 }
             },
-            onLocalDateTimeChange = { event(TransactionsEvent.LocalDateTimeChanged(it)) },
+            onLocalDateTimeChange = { event(TransactionsEvent.DateTimeChanged(it)) },
             onDateRangeChange = { event(TransactionsEvent.DateRangeChanged(it)) },
             onShowFilterSheet = { event(TransactionsEvent.ShowFilterSheet(it)) },
             onShowChooseDateSheet = { event(TransactionsEvent.ShowChooseDateSheet(it)) },

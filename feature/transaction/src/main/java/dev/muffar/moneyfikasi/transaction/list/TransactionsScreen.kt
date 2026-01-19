@@ -19,7 +19,6 @@ import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TransactionFilter
 import dev.muffar.moneyfikasi.domain.model.TransactionType
-import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionFloatingActionButton
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsDateFilterSection
@@ -72,17 +71,9 @@ fun TransactionsScreen(
             modifier = Modifier.padding(it)
         ) {
             TransactionsDateFilterSection(
-                currentLocalDateTime = state.currentLocalDateTime,
+                currentLocalDateTime = state.dateTime,
                 dateRange = state.dateRange,
                 onLocalDateTimeChange = onLocalDateTimeChange,
-                onDateChange = { start, end ->
-                    onDateRangeChange(
-                        state.dateRange.copy(
-                            start = start,
-                            end = end
-                        )
-                    )
-                }
             )
 
             when {
@@ -114,10 +105,9 @@ fun TransactionsScreen(
 
         AnimatedVisibility(state.showCustomDateSheet) {
             CustomDateSheet(
-                startDateMillis = state.dateRange.start,
-                endDateMillis = state.dateRange.end,
-                onDateChange = { start, end ->
-                    onDateRangeChange(DateRange(TimePeriod.CUSTOM, start, end))
+                dateRange = state.dateRange,
+                onDateChange = { dateRange ->
+                    onDateRangeChange(dateRange)
                     onShowCustomDateSheet(false)
                 },
                 onDismissRequest = { onShowCustomDateSheet(false) }

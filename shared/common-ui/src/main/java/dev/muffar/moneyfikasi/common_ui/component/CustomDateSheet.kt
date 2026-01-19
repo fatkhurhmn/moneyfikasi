@@ -24,6 +24,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
+import dev.muffar.moneyfikasi.domain.model.DateRange
+import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.toFormattedDateTime
 import dev.muffar.moneyfikasi.utils.extensions.toMilliseconds
@@ -33,16 +35,26 @@ import org.threeten.bp.LocalDateTime
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomDateSheet(
-    startDateMillis: Long?,
-    endDateMillis: Long?,
-    onDateChange: (start: Long, end: Long) -> Unit,
+    dateRange: DateRange,
+    onDateChange: (DateRange) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
+    val startDateMillis = if (dateRange.timePeriod != TimePeriod.CUSTOM) {
+        LocalDateTime.now().toMilliseconds()
+    } else {
+        dateRange.start
+    }
+    val endDateMillis = if (dateRange.timePeriod != TimePeriod.CUSTOM) {
+        LocalDateTime.now().plusDays(30).toMilliseconds()
+    } else {
+        dateRange.end
+    }
+
     val pickerState = rememberDateRangePickerState(
-        initialSelectedStartDateMillis = startDateMillis ?: LocalDateTime.now().toMilliseconds(),
-        initialSelectedEndDateMillis = endDateMillis ?: LocalDateTime.now().plusDays(30)
-            .toMilliseconds(),
+        initialSelectedStartDateMillis = startDateMillis,
+        initialSelectedEndDateMillis = endDateMillis,
     )
+
     val formattedStartDate =
         pickerState.selectedStartDateMillis?.toFormattedDateTime("MMM, dd yyyy")
             ?: stringResource(R.string.start_date)
@@ -84,7 +96,13 @@ fun CustomDateSheet(
                             showSelectDateError = true
                         } else {
                             hideSheet {
-                                onDateChange(selectedStartDate, selectedEndDate)
+                                onDateChange(
+                                    DateRange(
+                                        timePeriod = TimePeriod.CUSTOM,
+                                        start = selectedStartDate,
+                                        end = selectedEndDate
+                                    )
+                                )
                                 onDismissRequest()
                             }
                         }

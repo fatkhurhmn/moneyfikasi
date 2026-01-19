@@ -1,6 +1,5 @@
 package dev.muffar.moneyfikasi.transaction.transfer
 
-import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.transaction.transfer.component.TransferTransactionSheetType
 

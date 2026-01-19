@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
+import dev.muffar.moneyfikasi.domain.utils.extension.toDateRange
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.capitalize
 import dev.muffar.moneyfikasi.utils.extensions.toFormattedDateTime
@@ -50,7 +51,7 @@ fun ChooseDateSheet(
                 onCustomDateClick()
             }
         } else {
-            hideSheet { onChoose(dateRange.copy(timePeriod = it)) }
+            hideSheet { onChoose(it.toDateRange()) }
         }
     }
 

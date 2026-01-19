@@ -12,30 +12,31 @@ import dev.muffar.moneyfikasi.utils.extensions.startOfWeek
 import dev.muffar.moneyfikasi.utils.extensions.startOfYear
 import org.threeten.bp.LocalDateTime
 
-fun TimePeriod.toDateRange(localDateTime: LocalDateTime): DateRange {
+fun TimePeriod.toDateRange(localDateTime: LocalDateTime? = null): DateRange {
+    val dateTime = localDateTime ?: LocalDateTime.now()
     return when (this) {
         TimePeriod.DAILY -> DateRange(
             timePeriod = TimePeriod.DAILY,
-            start = localDateTime.startOfDay(),
-            end = localDateTime.endOfDay()
+            start = dateTime.startOfDay(),
+            end = dateTime.endOfDay()
         )
 
         TimePeriod.WEEKLY -> DateRange(
             timePeriod = TimePeriod.WEEKLY,
-            start = localDateTime.startOfWeek(),
-            end = localDateTime.endOfWeek()
+            start = dateTime.startOfWeek(),
+            end = dateTime.endOfWeek()
         )
 
         TimePeriod.MONTHLY -> DateRange(
             timePeriod = TimePeriod.MONTHLY,
-            start = localDateTime.startOfMonth(),
-            end = localDateTime.endOfMonth()
+            start = dateTime.startOfMonth(),
+            end = dateTime.endOfMonth()
         )
 
         TimePeriod.YEARLY -> DateRange(
             timePeriod = TimePeriod.YEARLY,
-            start = localDateTime.startOfYear(),
-            end = localDateTime.endOfYear()
+            start = dateTime.startOfYear(),
+            end = dateTime.endOfYear()
         )
 
         TimePeriod.ALL -> DateRange(

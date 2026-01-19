@@ -1,6 +1,5 @@
 package dev.muffar.moneyfikasi.transaction.list
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,6 +21,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -43,7 +43,7 @@ class TransactionsViewModel @Inject constructor(
     fun onEvent(event: TransactionsEvent) {
         when (event) {
             is TransactionsEvent.FloatingActionButtonClicked -> onFloatActionButtonClick(event.isExpanded)
-            is TransactionsEvent.LocalDateTimeChanged -> onLocalDateTimeChange(event.localDateTime)
+            is TransactionsEvent.DateTimeChanged -> onDateTimeChange(event.dateTime)
             is TransactionsEvent.DateRangeChanged -> onDateRangeChange(event.dateRange)
             is TransactionsEvent.ShowFilterSheet -> onShowFilterSheet(event.show)
             is TransactionsEvent.ShowChooseDateSheet -> onShowChooseDateSheet(event.show)
@@ -69,7 +69,6 @@ class TransactionsViewModel @Inject constructor(
                 }
                 .onStart { _state.update { it.copy(isLoading = true) } }
                 .collectLatest { transactions ->
-                    Log.d("viewModel", "trans $transactions")
                     _state.update {
                         it.copy(
                             transactions = transactions,
@@ -116,15 +115,23 @@ class TransactionsViewModel @Inject constructor(
         _state.update { it.copy(isExpandedFab = isExpanded) }
     }
 
-    private fun onLocalDateTimeChange(localDateTime: LocalDateTime) {
-        val newDateRange = state.value.dateRange.timePeriod.toDateRange(localDateTime)
-        Log.d("viewModel", "new $newDateRange")
-        _state.update { it.copy(currentLocalDateTime = localDateTime) }
+    private fun onDateTimeChange(dateTime: LocalDateTime) {
+        val newDateRange = state.value.dateRange.timePeriod.toDateRange(dateTime)
+        _state.update {
+            it.copy(
+                dateTime = dateTime,
+                dateRange = newDateRange
+            )
+        }
     }
 
     private fun onDateRangeChange(dateRange: DateRange) {
-        Log.d("viewModel", "data $dateRange")
-        _state.update { it.copy(dateRange = dateRange) }
+        _state.update {
+            it.copy(
+                dateRange = dateRange,
+                dateTime = LocalDateTime.now().with(LocalTime.MIN)
+            )
+        }
     }
 
     private fun onShowFilterSheet(show: Boolean) {

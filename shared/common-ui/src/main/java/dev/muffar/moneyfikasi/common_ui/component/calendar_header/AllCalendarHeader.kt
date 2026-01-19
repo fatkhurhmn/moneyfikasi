@@ -10,9 +10,6 @@ fun AllCalendarHeader(
     onDateChange: () -> Unit,
 ) {
 
-    LaunchedEffect(Unit) {
-        onDateChange()
-    }
 
     CalendarHeader(
         title = stringResource(R.string.all),

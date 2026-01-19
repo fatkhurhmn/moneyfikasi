@@ -14,21 +14,15 @@ fun YearCalendarHeader(
 ) {
     val formatter = remember { DateTimeFormatter.ofPattern("yyyy") }
 
-    LaunchedEffect(currentDate) {
-        onDateChange(currentDate)
-    }
-
     CalendarHeader(
         title = currentDate.format(formatter),
         onPreviousClick = {
             val newDate = currentDate.minusYears(1)
             onCurrentDateChange(newDate)
-            onDateChange(newDate)
         },
         onNextClick = {
             val newDate = currentDate.plusYears(1)
             onCurrentDateChange(newDate)
-            onDateChange(newDate)
         }
     )
 }
