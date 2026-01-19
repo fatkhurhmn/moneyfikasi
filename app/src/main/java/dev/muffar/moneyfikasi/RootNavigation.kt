@@ -34,7 +34,9 @@ fun RootNavigation(
 
         transactionsNavGraph(
             onNavigateBack = { navController.navigateUp() },
-            onNavigateToTransactionDetail = { navController.toTransactionDetail(it) },
+            onNavigateToTransactionDetail = { id, isTransfer ->
+                navController.toTransactionDetail(id, isTransfer)
+            },
             onNavigateToEditTransaction = { type, id ->
                 if (type != null) {
                     navController.toAddEditTransactionScreen(type, id)
@@ -59,12 +61,16 @@ fun RootNavigation(
                     categoryId.toString()
                 )
             },
-            onNavigateToTransactionDetail = { navController.toTransactionDetail(it) },
+            onNavigateToTransactionDetail = { id, isTransfer ->
+                navController.toTransactionDetail(id, isTransfer)
+            },
             onNavigateBack = { navController.navigateUp() }
         )
 
         searchNavigation(
-            onNavigateToTransactionDetail = { navController.toTransactionDetail(it) },
+            onNavigateToTransactionDetail = { id, isTransfer ->
+                navController.toTransactionDetail(id, isTransfer)
+            },
         )
 
         composable(Screen.Debt.route) {

@@ -31,7 +31,7 @@ import java.util.UUID
 @Composable
 fun TransactionsScreen(
     state: TransactionsState,
-    onTransactionItemClick: (UUID) -> Unit,
+    onTransactionItemClick: (UUID, Boolean) -> Unit,
     onAddTransactionClick: (TransactionType?) -> Unit,
     onTimeReferenceChange: (LocalDateTime) -> Unit,
     onDateRangeChange: (DateRange) -> Unit,

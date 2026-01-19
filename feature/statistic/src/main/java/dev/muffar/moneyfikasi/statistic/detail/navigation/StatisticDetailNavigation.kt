@@ -12,7 +12,7 @@ import dev.muffar.moneyfikasi.statistic.detail.StatisticDetailViewModel
 import java.util.UUID
 
 fun NavGraphBuilder.statisticDetailNavigation(
-    onNavigateToDetail: (UUID) -> Unit,
+    onNavigateToDetail: (UUID, Boolean) -> Unit,
     onNavigateBack: () -> Unit,
 ) {
     composable(Screen.StatisticDetail.route) {

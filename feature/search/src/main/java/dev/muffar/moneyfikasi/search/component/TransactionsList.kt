@@ -17,7 +17,7 @@ fun TransactionsList(
     modifier: Modifier = Modifier,
     dates: List<String>,
     transactions: List<List<Transaction>>,
-    onItemClick: (UUID) -> Unit
+    onItemClick: (UUID, Boolean) -> Unit
 ) {
     LazyColumn(
         modifier = modifier,
@@ -41,7 +41,12 @@ fun TransactionsList(
             ) { transaction ->
                 TransactionItem(
                     transaction = transaction,
-                    onClick = onItemClick
+                    onClick = { id ->
+                        onItemClick(
+                            id,
+                            transaction.isTransfer || transaction.category.isFeeTransfer
+                        )
+                    }
                 )
             }
             item {

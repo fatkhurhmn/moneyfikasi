@@ -6,7 +6,9 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.transaction.detail.TransactionDetailEvent
@@ -19,7 +21,14 @@ fun NavGraphBuilder.transactionDetailNavigation(
     onNavigateBack: () -> Unit,
 ) {
     composable(
-        route = Screen.TransactionDetail.route
+        route = Screen.TransactionDetail.route,
+        arguments = listOf(
+            navArgument(
+                name = Screen.TransactionDetail.IS_TRANSFER
+            ) {
+                type = NavType.BoolType
+            }
+        )
     ) {
         val viewModel = hiltViewModel<TransactionDetailViewModel>()
         val state by viewModel.state.collectAsState()
@@ -35,13 +44,13 @@ fun NavGraphBuilder.transactionDetailNavigation(
             eventFlow = eventFlow,
             onDelete = { event(TransactionDetailEvent.OnDeleteTransaction) },
             onShowAlert = { event(TransactionDetailEvent.OnShowAlert(it)) },
-            onEdit = onNavigateToEditTransaction,
+            onEditClick = onNavigateToEditTransaction,
             onBackClick = onNavigateBack,
             onSaveClick = { event(TransactionDetailEvent.OnSaveToGallery(it)) },
         )
     }
 }
 
-fun NavController.toTransactionDetail(id: UUID) {
-    navigate(Screen.TransactionDetail.routeWithArg(id))
+fun NavController.toTransactionDetail(id: UUID, isTransfer: Boolean) {
+    navigate(Screen.TransactionDetail.routeWithArg(id, isTransfer))
 }

@@ -8,5 +8,5 @@ data class TransactionDetailState(
     val transactionId: UUID? = null,
     val transaction: Transaction? = null,
     val transferDetail: TransferDetail? = null,
-    val showAlert: Boolean = false
+    val showAlert: Boolean = false,
 )

@@ -30,7 +30,7 @@ import java.util.UUID
 fun StatisticDetailScreen(
     modifier: Modifier = Modifier,
     state: StatisticDetailState,
-    onClick: (UUID) -> Unit,
+    onClick: (UUID, Boolean) -> Unit,
     onBackClick: () -> Unit,
 ) {
     val transactionsByDate = state.transactions.groupBy { it.date.format("yyyy-MM-dd") }
@@ -91,7 +91,15 @@ fun StatisticDetailScreen(
                     items = transactions[index],
                     key = { transaction -> transaction.id }
                 ) { transaction ->
-                    TransactionItem(transaction = transaction, onClick = onClick)
+                    TransactionItem(
+                        transaction = transaction,
+                        onClick = { id ->
+                            onClick(
+                                id,
+                                transaction.isTransfer || transaction.category.isFeeTransfer
+                            )
+                        }
+                    )
                 }
 
                 item {

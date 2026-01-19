@@ -7,7 +7,7 @@ import java.util.UUID
 
 fun NavGraphBuilder.statisticNavGraph(
     onNavigateToStatisticDetail: (Pair<Long, Long>, UUID) -> Unit,
-    onNavigateToTransactionDetail: (UUID) -> Unit,
+    onNavigateToTransactionDetail: (UUID, Boolean) -> Unit,
     onNavigateBack: () -> Unit,
 ) {
     statisticNavigation(

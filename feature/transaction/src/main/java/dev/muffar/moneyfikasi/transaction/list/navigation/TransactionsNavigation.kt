@@ -13,7 +13,7 @@ import dev.muffar.moneyfikasi.transaction.list.TransactionsViewModel
 import java.util.UUID
 
 fun NavGraphBuilder.transactionsNavigation(
-    onNavigateToTransactionDetail: (UUID) -> Unit,
+    onNavigateToTransactionDetail: (UUID, Boolean) -> Unit,
     onNavigateToAddScreen: (TransactionType) -> Unit,
     onNavigateToTransferScreen: () -> Unit
 ) {

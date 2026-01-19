@@ -52,21 +52,22 @@ sealed class Screen(val route: String) {
         }
     }
 
-    data object TransactionDetail : Screen("transaction_detail/{transaction_id}") {
+    data object TransactionDetail : Screen("transaction_detail/{transaction_id}/{is_transfer}") {
         const val TRANSACTION_ID = "transaction_id"
-        fun routeWithArg(id: UUID): String {
-            return "transaction_detail/$id"
+        const val IS_TRANSFER = "is_transfer"
+        fun routeWithArg(id: UUID, isTransfer: Boolean): String {
+            return "transaction_detail/$id/$isTransfer"
         }
     }
 
     data object Statistic : Screen("statistic")
     data object StatisticDetail :
-        Screen("statistic_detail?start_date={start_date}?end_date={end_date}?category_id={category_id}") {
+        Screen("statistic_detail?start_date={start_date}&end_date={end_date}&category_id={category_id}") {
         const val START_DATE = "start_date"
         const val END_DATE = "end_date"
         const val CATEGORY_ID = "category_id"
         fun routeWithArg(startDate: Long, endDate: Long, categoryId: String): String {
-            return "statistic_detail?$START_DATE=$startDate?$END_DATE=$endDate?$CATEGORY_ID=$categoryId"
+            return "statistic_detail?$START_DATE=$startDate&$END_DATE=$endDate&$CATEGORY_ID=$categoryId"
         }
     }
 

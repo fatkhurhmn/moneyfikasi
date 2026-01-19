@@ -25,7 +25,7 @@ fun SearchScreen(
     modifier: Modifier = Modifier,
     state: SearchState,
     onQueryChange: (String) -> Unit,
-    onNavigateToTransactionDetail: (UUID) -> Unit,
+    onNavigateToTransactionDetail: (UUID, Boolean) -> Unit,
 ) {
 
     Scaffold(
@@ -40,10 +40,10 @@ fun SearchScreen(
                 )
             }
         }
-    ) {
+    ) { innerPadding ->
         Box(
             modifier = modifier
-                .padding(it)
+                .padding(innerPadding)
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
@@ -58,7 +58,12 @@ fun SearchScreen(
                     TransactionsList(
                         dates = state.transactionsByDate.keys.toList(),
                         transactions = state.transactionsByDate.values.toList(),
-                        onItemClick = { id -> onNavigateToTransactionDetail(id) },
+                        onItemClick = { id, isTransfer ->
+                            onNavigateToTransactionDetail(
+                                id,
+                                isTransfer
+                            )
+                        },
                         modifier = Modifier.fillMaxSize()
                     )
                 } else {

@@ -50,7 +50,7 @@ fun TransactionDetailScreen(
     modifier: Modifier = Modifier,
     state: TransactionDetailState,
     eventFlow: SharedFlow<TransactionDetailViewModel.UiEvent>,
-    onEdit: (TransactionType?, UUID) -> Unit,
+    onEditClick: (TransactionType?, UUID) -> Unit,
     onDelete: () -> Unit,
     onShowAlert: (Boolean) -> Unit,
     onBackClick: () -> Unit,
@@ -61,23 +61,13 @@ fun TransactionDetailScreen(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    LaunchedEffect(eventFlow) {
-        eventFlow.collectLatest {
-            when (it) {
-                is TransactionDetailViewModel.UiEvent.DeleteTransaction -> onBackClick()
-                is TransactionDetailViewModel.UiEvent.ShowMessage ->
-                    snackbarHostState.showSnackbar(it.message)
-            }
-        }
-    }
-
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TransactionDetailTopBar(
                 onEditClick = {
                     if (state.transactionId != null) {
-                        onEdit(state.transaction?.type, state.transactionId)
+                        onEditClick(state.transaction?.type, state.transactionId)
                     }
                 },
                 onDeleteClick = { onShowAlert(true) },
@@ -154,6 +144,7 @@ fun TransactionDetailScreen(
             }
         }
     }
+
     if (state.showAlert) {
         CommonAlertDialog(
             title = stringResource(R.string.delete_transaction),
@@ -166,5 +157,15 @@ fun TransactionDetailScreen(
                 onShowAlert(false)
             }
         )
+    }
+
+    LaunchedEffect(eventFlow) {
+        eventFlow.collectLatest {
+            when (it) {
+                is TransactionDetailViewModel.UiEvent.DeleteTransaction -> onBackClick()
+                is TransactionDetailViewModel.UiEvent.ShowMessage ->
+                    snackbarHostState.showSnackbar(it.message)
+            }
+        }
     }
 }

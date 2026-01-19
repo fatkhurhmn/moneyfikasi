@@ -10,7 +10,7 @@ import dev.muffar.moneyfikasi.transaction.transfer.navigation.transferTransactio
 import java.util.UUID
 
 fun NavGraphBuilder.transactionsNavGraph(
-    onNavigateToTransactionDetail: (UUID) -> Unit,
+    onNavigateToTransactionDetail: (UUID, Boolean) -> Unit,
     onNavigateToEditTransaction: (TransactionType?, UUID) -> Unit,
     onNavigateToAddTransaction: (TransactionType) -> Unit,
     onNavigateToTransferTransaction: () -> Unit,

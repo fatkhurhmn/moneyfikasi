@@ -6,10 +6,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
-import dev.muffar.moneyfikasi.utils.constants.UUIDConst
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -42,17 +40,27 @@ class TransactionDetailViewModel @Inject constructor(
     }
 
     private fun initState() {
-        handle.get<String>(Screen.TransactionDetail.TRANSACTION_ID)?.let { uuid ->
-            val transactionId = UUID.fromString(uuid)
-            _state.update { state -> state.copy(transactionId = transactionId) }
-            viewModelScope.launch {
-                transactionUseCases.getTransactionById(transactionId)?.let { tx ->
-                    if (tx.isTransfer || tx.category.isFeeTransfer) {
-                        transactionUseCases.getTransferDetail(transactionId)?.let { detail ->
-                            _state.update { state -> state.copy(transferDetail = detail) }
-                        }
-                    } else {
-                        _state.update { state -> state.copy(transaction = tx) }
+        val isTransfer = handle.get<Boolean>(Screen.TransactionDetail.IS_TRANSFER) ?: false
+        val transactionId = handle.get<String>(Screen.TransactionDetail.TRANSACTION_ID)
+            ?.let { UUID.fromString(it) } ?: return
+
+        viewModelScope.launch {
+            if (isTransfer) {
+                transactionUseCases.getTransferDetail(transactionId)?.let {
+                    _state.update { state ->
+                        state.copy(
+                            transactionId = transactionId,
+                            transferDetail = it,
+                        )
+                    }
+                }
+            } else {
+                transactionUseCases.getTransactionById(transactionId)?.let {
+                    _state.update { state ->
+                        state.copy(
+                            transactionId = transactionId,
+                            transaction = it,
+                        )
                     }
                 }
             }

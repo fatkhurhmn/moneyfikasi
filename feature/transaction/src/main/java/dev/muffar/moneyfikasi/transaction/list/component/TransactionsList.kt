@@ -14,7 +14,7 @@ import java.util.UUID
 @Composable
 fun TransactionsList(
     transactionsByDate: Map<String, List<Transaction>>,
-    onItemClick: (UUID) -> Unit
+    onItemClick: (UUID, Boolean) -> Unit
 ) {
     val dates = transactionsByDate.keys.toList()
     val transactions = transactionsByDate.values.toList()
@@ -39,7 +39,12 @@ fun TransactionsList(
             ) { transaction ->
                 TransactionItem(
                     transaction = transaction,
-                    onClick = onItemClick
+                    onClick = { id ->
+                        onItemClick(
+                            id,
+                            transaction.isTransfer || transaction.category.isFeeTransfer
+                        )
+                    }
                 )
             }
             item {
