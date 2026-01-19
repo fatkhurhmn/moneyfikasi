@@ -4,7 +4,7 @@ import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TransactionFilter
 import dev.muffar.moneyfikasi.domain.model.Wallet
-import dev.muffar.moneyfikasi.domain.utils.TimePeriod
+import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import org.threeten.bp.LocalDateTime
 
 sealed class TransactionsEvent {

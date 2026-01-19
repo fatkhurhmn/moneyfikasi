@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.common_ui.component
+package dev.muffar.moneyfikasi.common_ui.component.calendar_header
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -14,23 +14,18 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.resource.R
 
 @Composable
-fun AllCalendarFilter(
-    onDateChange: () -> Unit,
+fun CalendarHeader(
+    title: String,
+    enableButton: Boolean = true,
+    onPreviousClick: () -> Unit = {},
+    onNextClick: () -> Unit = {},
 ) {
-
-    LaunchedEffect(Unit) {
-        onDateChange()
-    }
-
     Row(
         modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 4.dp)
@@ -41,8 +36,8 @@ fun AllCalendarFilter(
         verticalAlignment = Alignment.CenterVertically
     ) {
         IconButton(
-            onClick = { },
-            enabled = false
+            onClick = onPreviousClick,
+            enabled = enableButton
         ) {
             Icon(
                 imageVector = Icons.Rounded.ChevronLeft,
@@ -51,13 +46,13 @@ fun AllCalendarFilter(
         }
 
         Text(
-            text = stringResource(R.string.all),
+            text = title,
             modifier = Modifier.padding(4.dp)
         )
 
         IconButton(
-            onClick = { },
-            enabled = false
+            onClick = onNextClick,
+            enabled = enableButton
         ) {
             Icon(
                 imageVector = Icons.Rounded.ChevronRight,

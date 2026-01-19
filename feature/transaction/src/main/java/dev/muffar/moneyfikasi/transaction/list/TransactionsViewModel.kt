@@ -9,6 +9,7 @@ import dev.muffar.moneyfikasi.domain.model.TransactionFilter
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
+import dev.muffar.moneyfikasi.domain.utils.extension.toDateRange
 import dev.muffar.moneyfikasi.utils.extensions.format
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -68,6 +69,7 @@ class TransactionsViewModel @Inject constructor(
                 }
                 .onStart { _state.update { it.copy(isLoading = true) } }
                 .collectLatest { transactions ->
+                    Log.d("viewModel", "trans $transactions")
                     _state.update {
                         it.copy(
                             transactions = transactions,
@@ -115,11 +117,13 @@ class TransactionsViewModel @Inject constructor(
     }
 
     private fun onLocalDateTimeChange(localDateTime: LocalDateTime) {
+        val newDateRange = state.value.dateRange.timePeriod.toDateRange(localDateTime)
+        Log.d("viewModel", "new $newDateRange")
         _state.update { it.copy(currentLocalDateTime = localDateTime) }
     }
 
     private fun onDateRangeChange(dateRange: DateRange) {
-        Log.d("onDateRangeChange", dateRange.toString())
+        Log.d("viewModel", "data $dateRange")
         _state.update { it.copy(dateRange = dateRange) }
     }
 

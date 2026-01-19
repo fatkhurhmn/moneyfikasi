@@ -5,7 +5,7 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import dev.muffar.moneyfikasi.common_ui.component.DateRangeSheet
-import dev.muffar.moneyfikasi.domain.utils.TimePeriod
+import dev.muffar.moneyfikasi.domain.model.TimePeriod
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

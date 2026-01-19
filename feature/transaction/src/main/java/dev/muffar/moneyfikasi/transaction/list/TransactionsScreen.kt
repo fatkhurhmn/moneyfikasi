@@ -19,7 +19,7 @@ import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TransactionFilter
 import dev.muffar.moneyfikasi.domain.model.TransactionType
-import dev.muffar.moneyfikasi.domain.utils.TimePeriod
+import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionFloatingActionButton
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsDateFilterSection

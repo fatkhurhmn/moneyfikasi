@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.domain.utils
+package dev.muffar.moneyfikasi.domain.model
 
 enum class TimePeriod {
     DAILY,
@@ -6,5 +6,5 @@ enum class TimePeriod {
     MONTHLY,
     YEARLY,
     ALL,
-    CUSTOM
+    CUSTOM;
 }

@@ -1,6 +1,6 @@
 package dev.muffar.moneyfikasi.statistic.main
 
-import dev.muffar.moneyfikasi.domain.utils.TimePeriod
+import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticSheetType
 import org.threeten.bp.LocalDateTime
 

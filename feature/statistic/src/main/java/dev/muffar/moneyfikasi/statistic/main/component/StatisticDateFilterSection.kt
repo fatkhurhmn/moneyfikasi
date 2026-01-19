@@ -2,13 +2,13 @@ package dev.muffar.moneyfikasi.statistic.main.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import dev.muffar.moneyfikasi.common_ui.component.AllCalendarFilter
-import dev.muffar.moneyfikasi.common_ui.component.CustomCalendarFilter
-import dev.muffar.moneyfikasi.common_ui.component.DailyCalendarFilter
-import dev.muffar.moneyfikasi.common_ui.component.MonthlyCalendarFilter
-import dev.muffar.moneyfikasi.common_ui.component.WeeklyCalendarFilter
-import dev.muffar.moneyfikasi.common_ui.component.YearlyCalendarFilter
-import dev.muffar.moneyfikasi.domain.utils.TimePeriod
+import dev.muffar.moneyfikasi.common_ui.component.calendar_header.AllCalendarHeader
+import dev.muffar.moneyfikasi.common_ui.component.calendar_header.CustomCalendarHeader
+import dev.muffar.moneyfikasi.common_ui.component.calendar_header.DayCalendarHeader
+import dev.muffar.moneyfikasi.common_ui.component.calendar_header.MonthCalendarHeader
+import dev.muffar.moneyfikasi.common_ui.component.calendar_header.WeekCalendarHeader
+import dev.muffar.moneyfikasi.common_ui.component.calendar_header.YearCalendarHeader
+import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.utils.extensions.endOfDay
 import dev.muffar.moneyfikasi.utils.extensions.endOfMonth
 import dev.muffar.moneyfikasi.utils.extensions.endOfWeek
@@ -30,7 +30,7 @@ fun StatisticDateFilterSection(
     onDateChange: (start: Long, end: Long) -> Unit,
 ) {
     when (filter) {
-        TimePeriod.DAILY -> DailyCalendarFilter(
+        TimePeriod.DAILY -> DayCalendarHeader(
             currentDate = currentLocalDateTime,
             onCurrentDateChange = onLocalDateTimeChange,
             onDateChange = {
@@ -38,7 +38,7 @@ fun StatisticDateFilterSection(
             }
         )
 
-        TimePeriod.WEEKLY -> WeeklyCalendarFilter(
+        TimePeriod.WEEKLY -> WeekCalendarHeader(
             currentDate = currentLocalDateTime,
             onCurrentDateChange = onLocalDateTimeChange,
             onDateChange = {
@@ -46,7 +46,7 @@ fun StatisticDateFilterSection(
             }
         )
 
-        TimePeriod.MONTHLY -> MonthlyCalendarFilter(
+        TimePeriod.MONTHLY -> MonthCalendarHeader(
             currentDate = currentLocalDateTime,
             onCurrentDateChange = onLocalDateTimeChange,
             onDateChange = {
@@ -54,7 +54,7 @@ fun StatisticDateFilterSection(
             }
         )
 
-        TimePeriod.YEARLY -> YearlyCalendarFilter(
+        TimePeriod.YEARLY -> YearCalendarHeader(
             currentDate = currentLocalDateTime,
             onCurrentDateChange = onLocalDateTimeChange,
             onDateChange = {
@@ -63,14 +63,14 @@ fun StatisticDateFilterSection(
         )
 
         TimePeriod.ALL -> {
-            AllCalendarFilter(
+            AllCalendarHeader(
                 onDateChange = {
                     onDateChange(Long.MIN_VALUE, Long.MAX_VALUE)
                 }
             )
         }
 
-        TimePeriod.CUSTOM -> CustomCalendarFilter(
+        TimePeriod.CUSTOM -> CustomCalendarHeader(
             startDateMillis = startDateMillis,
             endDateMillis = endDateMillis
         )

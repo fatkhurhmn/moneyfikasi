@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.CommonTabs
-import dev.muffar.moneyfikasi.domain.utils.TimePeriod
+import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticBottomSheet
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticDateFilterSection
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticOverviewSection
