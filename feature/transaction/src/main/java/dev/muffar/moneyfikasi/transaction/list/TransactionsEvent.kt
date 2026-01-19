@@ -5,7 +5,6 @@ import dev.muffar.moneyfikasi.domain.model.TransactionFilter
 import org.threeten.bp.LocalDateTime
 
 sealed class TransactionsEvent {
-    data class FloatingActionButtonClicked(val isExpanded: Boolean) : TransactionsEvent()
     data class DateRangeChanged(val dateRange: DateRange) : TransactionsEvent()
     data class ShowFilterSheet(val show: Boolean) : TransactionsEvent()
     data class ShowChooseDateSheet(val show: Boolean) : TransactionsEvent()

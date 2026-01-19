@@ -15,7 +15,6 @@ data class TransactionsState(
         it.date.format("yyyy-MM-dd")
     },
     val isLoading: Boolean = false,
-    val isExpandedFab: Boolean = false,
     val categories: List<Category> = emptyList(),
     val wallets: List<Wallet> = emptyList(),
     val timeReference: LocalDateTime = LocalDateTime.now().with(LocalTime.MIN),

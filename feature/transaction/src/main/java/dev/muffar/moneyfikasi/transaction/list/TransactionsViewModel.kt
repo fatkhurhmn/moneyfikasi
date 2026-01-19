@@ -42,7 +42,6 @@ class TransactionsViewModel @Inject constructor(
 
     fun onEvent(event: TransactionsEvent) {
         when (event) {
-            is TransactionsEvent.FloatingActionButtonClicked -> onFloatActionButtonClick(event.isExpanded)
             is TransactionsEvent.TimeReferenceChanged -> onTimeReferenceChange(event.timeReference)
             is TransactionsEvent.DateRangeChanged -> onDateRangeChange(event.dateRange)
             is TransactionsEvent.ShowFilterSheet -> onShowFilterSheet(event.show)
@@ -109,10 +108,6 @@ class TransactionsViewModel @Inject constructor(
                     }
                 }
         }
-    }
-
-    private fun onFloatActionButtonClick(isExpanded: Boolean) {
-        _state.update { it.copy(isExpandedFab = isExpanded) }
     }
 
     private fun onTimeReferenceChange(dateTime: LocalDateTime) {

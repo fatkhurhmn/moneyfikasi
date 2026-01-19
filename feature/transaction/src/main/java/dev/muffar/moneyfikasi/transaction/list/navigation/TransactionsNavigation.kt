@@ -25,7 +25,6 @@ fun NavGraphBuilder.transactionsNavigation(
         TransactionsScreen(
             state = state,
             onTransactionItemClick = onNavigateToTransactionDetail,
-            onFloatingActionButtonClick = { event(TransactionsEvent.FloatingActionButtonClicked(it)) },
             onAddTransactionClick = {
                 if (it != null) {
                     onNavigateToAddScreen(it)
