@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DateRangePicker
+import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -27,8 +28,9 @@ import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.utils.extensions.endOfMonth
+import dev.muffar.moneyfikasi.utils.extensions.startOfMonth
 import dev.muffar.moneyfikasi.utils.extensions.toFormattedDateTime
-import dev.muffar.moneyfikasi.utils.extensions.toMilliseconds
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDateTime
 
@@ -40,12 +42,12 @@ fun CustomDateSheet(
     onDismissRequest: () -> Unit,
 ) {
     val startDateMillis = if (dateRange.timePeriod != TimePeriod.CUSTOM) {
-        LocalDateTime.now().toMilliseconds()
+        LocalDateTime.now().startOfMonth()
     } else {
         dateRange.start
     }
     val endDateMillis = if (dateRange.timePeriod != TimePeriod.CUSTOM) {
-        LocalDateTime.now().plusDays(30).toMilliseconds()
+        LocalDateTime.now().endOfMonth()
     } else {
         dateRange.end
     }
@@ -79,35 +81,10 @@ fun CustomDateSheet(
         containerColor = MaterialTheme.colorScheme.surface
     ) {
         DateRangePicker(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = if (pickerState.displayMode == DisplayMode.Picker) Modifier.weight(1f) else Modifier,
             state = pickerState,
             title = {
-                RowNegativePositiveButton(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    negativeText = stringResource(R.string.cancel),
-                    positiveText = stringResource(R.string.apply),
-                    onNegativeClick = { hideSheet { onDismissRequest() } },
-                    onPositiveClick = {
-                        val selectedStartDate = pickerState.selectedStartDateMillis
-                        val selectedEndDate = pickerState.selectedEndDateMillis
-                        if (selectedStartDate == null || selectedEndDate == null) {
-                            showSelectDateError = true
-                        } else {
-                            hideSheet {
-                                onDateChange(
-                                    DateRange(
-                                        timePeriod = TimePeriod.CUSTOM,
-                                        start = selectedStartDate,
-                                        end = selectedEndDate
-                                    )
-                                )
-                                onDismissRequest()
-                            }
-                        }
-                    }
-                )
+                BottomSheetTitle("Custom Date")
             },
             headline = {
                 Column(
@@ -131,8 +108,36 @@ fun CustomDateSheet(
                 dayInSelectionRangeContainerColor = MaterialTheme.colorScheme.primary.copy(0.4f),
                 dayInSelectionRangeContentColor = MaterialTheme.colorScheme.onPrimary,
                 containerColor = MaterialTheme.colorScheme.surface,
+                headlineContentColor = MaterialTheme.colorScheme.onSurface,
+                titleContentColor = MaterialTheme.colorScheme.onSurface,
             )
         )
-
+        CommonHorizontalDivider()
+        RowNegativePositiveButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            negativeText = stringResource(R.string.cancel),
+            positiveText = stringResource(R.string.apply),
+            onNegativeClick = { hideSheet { onDismissRequest() } },
+            onPositiveClick = {
+                val selectedStartDate = pickerState.selectedStartDateMillis
+                val selectedEndDate = pickerState.selectedEndDateMillis
+                if (selectedStartDate == null || selectedEndDate == null) {
+                    showSelectDateError = true
+                } else {
+                    hideSheet {
+                        onDateChange(
+                            DateRange(
+                                timePeriod = TimePeriod.CUSTOM,
+                                start = selectedStartDate,
+                                end = selectedEndDate
+                            )
+                        )
+                        onDismissRequest()
+                    }
+                }
+            }
+        )
     }
 }
