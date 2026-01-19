@@ -10,7 +10,7 @@ sealed class TransactionsEvent {
     data class ShowFilterSheet(val show: Boolean) : TransactionsEvent()
     data class ShowChooseDateSheet(val show: Boolean) : TransactionsEvent()
     data class ShowCustomDateSheet(val show: Boolean) : TransactionsEvent()
-    data class DateTimeChanged(val dateTime: LocalDateTime) : TransactionsEvent()
+    data class TimeReferenceChanged(val timeReference: LocalDateTime) : TransactionsEvent()
     data object ResetFilter : TransactionsEvent()
     data class FilterChanged(val filter: TransactionFilter) : TransactionsEvent()
 }

@@ -16,12 +16,12 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.ChooseDateSheet
 import dev.muffar.moneyfikasi.common_ui.component.CustomDateSheet
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
+import dev.muffar.moneyfikasi.common_ui.component.calendar_header.DateRangeSwitcher
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TransactionFilter
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionFloatingActionButton
-import dev.muffar.moneyfikasi.transaction.list.component.TransactionsDateFilterSection
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsFilterSheet
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsList
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsLoading
@@ -36,7 +36,7 @@ fun TransactionsScreen(
     onTransactionItemClick: (UUID) -> Unit,
     onFloatingActionButtonClick: (Boolean) -> Unit,
     onAddTransactionClick: (TransactionType?) -> Unit,
-    onLocalDateTimeChange: (LocalDateTime) -> Unit,
+    onTimeReferenceChange: (LocalDateTime) -> Unit,
     onDateRangeChange: (DateRange) -> Unit,
     onShowFilterSheet: (Boolean) -> Unit,
     onShowChooseDateSheet: (Boolean) -> Unit,
@@ -70,10 +70,10 @@ fun TransactionsScreen(
         Column(
             modifier = Modifier.padding(it)
         ) {
-            TransactionsDateFilterSection(
-                currentLocalDateTime = state.dateTime,
+            DateRangeSwitcher(
+                timeReference = state.timeReference,
                 dateRange = state.dateRange,
-                onLocalDateTimeChange = onLocalDateTimeChange,
+                onTimeReferenceChange = onTimeReferenceChange,
             )
 
             when {

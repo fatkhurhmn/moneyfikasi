@@ -18,7 +18,7 @@ data class TransactionsState(
     val isExpandedFab: Boolean = false,
     val categories: List<Category> = emptyList(),
     val wallets: List<Wallet> = emptyList(),
-    val dateTime: LocalDateTime = LocalDateTime.now().with(LocalTime.MIN),
+    val timeReference: LocalDateTime = LocalDateTime.now().with(LocalTime.MIN),
     val filter: TransactionFilter = TransactionFilter(),
     val dateRange: DateRange = DateRange(),
     val isFilterApplied: Boolean = false,

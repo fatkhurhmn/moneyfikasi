@@ -43,7 +43,7 @@ class TransactionsViewModel @Inject constructor(
     fun onEvent(event: TransactionsEvent) {
         when (event) {
             is TransactionsEvent.FloatingActionButtonClicked -> onFloatActionButtonClick(event.isExpanded)
-            is TransactionsEvent.DateTimeChanged -> onDateTimeChange(event.dateTime)
+            is TransactionsEvent.TimeReferenceChanged -> onTimeReferenceChange(event.timeReference)
             is TransactionsEvent.DateRangeChanged -> onDateRangeChange(event.dateRange)
             is TransactionsEvent.ShowFilterSheet -> onShowFilterSheet(event.show)
             is TransactionsEvent.ShowChooseDateSheet -> onShowChooseDateSheet(event.show)
@@ -115,12 +115,12 @@ class TransactionsViewModel @Inject constructor(
         _state.update { it.copy(isExpandedFab = isExpanded) }
     }
 
-    private fun onDateTimeChange(dateTime: LocalDateTime) {
-        val newDateRange = state.value.dateRange.timePeriod.toDateRange(dateTime)
+    private fun onTimeReferenceChange(dateTime: LocalDateTime) {
+        val currentTimePeriod = state.value.dateRange.timePeriod
         _state.update {
             it.copy(
-                dateTime = dateTime,
-                dateRange = newDateRange
+                timeReference = dateTime,
+                dateRange = currentTimePeriod.toDateRange(dateTime)
             )
         }
     }
@@ -129,7 +129,7 @@ class TransactionsViewModel @Inject constructor(
         _state.update {
             it.copy(
                 dateRange = dateRange,
-                dateTime = LocalDateTime.now().with(LocalTime.MIN)
+                timeReference = LocalDateTime.now().with(LocalTime.MIN)
             )
         }
     }
