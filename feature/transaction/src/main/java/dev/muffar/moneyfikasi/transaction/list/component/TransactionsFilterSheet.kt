@@ -21,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.BottomSheetTitle
-import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.TransactionFilter
 import dev.muffar.moneyfikasi.domain.model.Wallet
@@ -59,10 +58,7 @@ fun TransactionsFilterSheet(
     ) {
         Scaffold(
             topBar = {
-                Column {
-                    BottomSheetTitle(stringResource(R.string.filter))
-                    CommonHorizontalDivider()
-                }
+                BottomSheetTitle(stringResource(R.string.filter))
             },
             bottomBar = {
                 FilterSheetButton(

@@ -86,7 +86,7 @@ fun CustomDateSheet(
             modifier = if (pickerState.displayMode == DisplayMode.Picker) Modifier.weight(1f) else Modifier,
             state = pickerState,
             title = {
-                BottomSheetTitle("Custom Date")
+                BottomSheetTitle(title = stringResource(R.string.custom_date), showDivider = false)
             },
             headline = {
                 Column(

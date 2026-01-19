@@ -70,7 +70,6 @@ fun ChooseDateSheet(
             modifier = Modifier.fillMaxWidth()
         ) {
             BottomSheetTitle(stringResource(R.string.choose_date))
-            CommonHorizontalDivider()
             options.forEach { option ->
                 Column(
                     modifier = Modifier
