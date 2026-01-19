@@ -77,7 +77,8 @@ fun TransactionsScreen(
 
                 else -> EmptyDataList(
                     painter = painterResource(id = R.drawable.ic_empty_transactions),
-                    description = stringResource(id = R.string.no_transactions)
+                    title = stringResource(id = R.string.no_transactions),
+                    description = stringResource(id = R.string.no_transactions_message)
                 )
             }
         }

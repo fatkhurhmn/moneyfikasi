@@ -86,7 +86,8 @@ fun WalletsScreen(
         } else {
             EmptyDataList(
                 painter = painterResource(id = R.drawable.ic_empty_wallet),
-                description = stringResource(id = R.string.no_wallets)
+                title = stringResource(id = R.string.no_wallets),
+                description = stringResource(id = R.string.no_wallets_message)
             )
         }
     }

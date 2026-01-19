@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun EmptyDataList(
     painter: Painter,
+    title: String,
     description: String
 ) {
     Column(
@@ -31,15 +32,23 @@ fun EmptyDataList(
     ) {
         Image(
             painter = painter,
-            contentDescription = description,
+            contentDescription = title,
             modifier = Modifier
                 .size(150.dp)
         )
         Spacer(modifier = Modifier.size(16.dp))
         Text(
+            text = title,
+            style = MaterialTheme.typography.titleLarge.copy(
+                fontSize = 18.sp
+            ),
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+        Spacer(modifier = Modifier.size(4.dp))
+        Text(
             text = description,
             style = MaterialTheme.typography.bodyLarge.copy(
-                fontSize = 18.sp,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             ),
             textAlign = TextAlign.Center,

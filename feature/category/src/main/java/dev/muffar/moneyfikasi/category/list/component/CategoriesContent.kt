@@ -34,7 +34,8 @@ fun CategoriesContent(
     } else {
         EmptyDataList(
             painter = painterResource(id = R.drawable.ic_no_category),
-            description = stringResource(id = R.string.no_categories)
+            title = stringResource(id = R.string.no_categories),
+            description = stringResource(id = R.string.no_categories_message)
         )
     }
 }

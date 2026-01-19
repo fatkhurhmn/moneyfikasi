@@ -64,7 +64,8 @@ fun SearchScreen(
                 } else {
                     EmptyDataList(
                         painter = painterResource(id = R.drawable.ic_search_not_found),
-                        description = stringResource(id = R.string.no_search_results)
+                        title = stringResource(id = R.string.no_search_results),
+                        description = stringResource(id = R.string.no_search_results_message)
                     )
                 }
             }
