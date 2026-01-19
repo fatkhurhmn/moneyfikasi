@@ -12,9 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.component.ColorFieldButton
-import dev.muffar.moneyfikasi.common_ui.component.CommonTextInput
-import dev.muffar.moneyfikasi.common_ui.component.IconFieldButton
+import dev.muffar.moneyfikasi.common_ui.component.button.ColorFieldButton
+import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
+import dev.muffar.moneyfikasi.common_ui.component.button.IconFieldButton
 import dev.muffar.moneyfikasi.resource.R
 import java.util.UUID
 

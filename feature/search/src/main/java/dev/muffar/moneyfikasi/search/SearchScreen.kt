@@ -14,7 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
-import dev.muffar.moneyfikasi.common_ui.component.SearchBar
+import dev.muffar.moneyfikasi.common_ui.component.text_input.SearchBar
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.search.component.SearchTopBar
 import dev.muffar.moneyfikasi.search.component.TransactionsList

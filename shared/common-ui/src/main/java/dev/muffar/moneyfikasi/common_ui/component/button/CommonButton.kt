@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.common_ui.component
+package dev.muffar.moneyfikasi.common_ui.component.button
 
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme

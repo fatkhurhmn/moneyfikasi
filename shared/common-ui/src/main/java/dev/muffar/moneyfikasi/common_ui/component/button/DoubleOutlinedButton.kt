@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.common_ui.component
+package dev.muffar.moneyfikasi.common_ui.component.button
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -8,24 +8,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun RowNegativePositiveButton(
-    negativeText: String,
-    positiveText: String,
+fun DoubleOutlinedButton(
+    leftText: String,
+    rightText: String,
     modifier: Modifier = Modifier,
-    onNegativeClick: () -> Unit,
-    onPositiveClick: () -> Unit
+    onLeftClick: () -> Unit,
+    onRightClick: () -> Unit
 ) {
     Row(modifier) {
         CommonOutlinedButton(
-            text = negativeText,
+            text = leftText,
             modifier = Modifier.weight(1f),
-            onClick = onNegativeClick
+            onClick = onLeftClick
         )
         Spacer(modifier = Modifier.width(8.dp))
-        CommonButton(
-            text = positiveText,
+        CommonOutlinedButton(
+            text = rightText,
             modifier = Modifier.weight(1f),
-            onClick = onPositiveClick
+            onClick = onRightClick
         )
     }
 }

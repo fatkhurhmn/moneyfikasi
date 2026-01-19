@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import dev.muffar.moneyfikasi.category.list.component.CategoriesContent
-import dev.muffar.moneyfikasi.common_ui.component.CommonAddButton
+import dev.muffar.moneyfikasi.common_ui.component.button.CommonAddButton
 import dev.muffar.moneyfikasi.common_ui.component.CommonTabs
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.domain.model.CategoryType

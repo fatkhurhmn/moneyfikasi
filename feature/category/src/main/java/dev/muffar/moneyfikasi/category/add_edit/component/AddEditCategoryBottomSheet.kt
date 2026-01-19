@@ -1,8 +1,8 @@
 package dev.muffar.moneyfikasi.category.add_edit.component
 
 import androidx.compose.runtime.Composable
-import dev.muffar.moneyfikasi.common_ui.component.ColorPicker
-import dev.muffar.moneyfikasi.common_ui.component.IconPicker
+import dev.muffar.moneyfikasi.common_ui.component.text_input.ColorPicker
+import dev.muffar.moneyfikasi.common_ui.component.text_input.IconPicker
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.utils.CategoryIcon
 

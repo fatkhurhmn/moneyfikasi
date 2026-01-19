@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.common_ui.component
+package dev.muffar.moneyfikasi.common_ui.component.text_input
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,7 +16,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.twotone.Category
+import androidx.compose.material.icons.twotone.AccountBalanceWallet
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -27,18 +27,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.muffar.moneyfikasi.domain.model.Category
+import dev.muffar.moneyfikasi.common_ui.component.IconByName
+import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.utils.extensions.formatThousand
 
 @Composable
-fun CategoryPicker(
+fun WalletPicker(
     modifier: Modifier = Modifier,
-    categories: List<Category>,
-    onClick: (Category) -> Unit,
+    wallets: List<Wallet>,
+    onClick: (Wallet) -> Unit,
+    onAdd : () -> Unit,
     onClose: () -> Unit,
-    onAdd: () -> Unit,
 ) {
     Column(
         modifier = modifier.fillMaxSize()
@@ -57,7 +60,7 @@ fun CategoryPicker(
                 )
             }
             Text(
-                text = stringResource(R.string.select_category),
+                text = stringResource(R.string.select_wallet),
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontSize = 18.sp
                 )
@@ -70,15 +73,15 @@ fun CategoryPicker(
             }
         }
 
-        if (categories.isNotEmpty()) {
+        if (wallets.isNotEmpty()){
             LazyColumn {
-                items(categories.size) {
-                    val category = categories[it]
+                items(wallets.size) {
+                    val wallet = wallets[it]
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-                                onClick(category)
+                                onClick(wallet)
                                 onClose()
                             }
                             .padding(16.dp),
@@ -87,21 +90,29 @@ fun CategoryPicker(
                         Box(
                             modifier = Modifier
                                 .clip(MaterialTheme.shapes.medium)
-                                .background(Color(category.color))
+                                .background(Color(wallet.color))
                                 .padding(8.dp),
                             contentAlignment = Alignment.Center
                         ) {
                             IconByName(
-                                name = category.icon,
+                                name = wallet.icon,
                                 tint = MaterialTheme.colorScheme.background
                             )
                         }
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text(text = category.name)
+                        Column {
+                            Text(text = wallet.name)
+                            Text(
+                                text = wallet.balance.toLong().formatThousand(),
+                                style = MaterialTheme.typography.titleMedium.copy(
+                                    fontWeight = FontWeight.Medium
+                                )
+                            )
+                        }
                     }
                 }
             }
-        } else {
+        }else {
             Column(
                 modifier = Modifier
                     .fillMaxSize(),
@@ -109,12 +120,12 @@ fun CategoryPicker(
                 verticalArrangement = Arrangement.Center,
             ) {
                 Icon(
-                    imageVector = Icons.TwoTone.Category,
-                    contentDescription = stringResource(R.string.no_categories),
+                    imageVector = Icons.TwoTone.AccountBalanceWallet,
+                    contentDescription = stringResource(R.string.no_wallets),
                     tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
                     modifier = Modifier.size(100.dp)
                 )
-                Text(text = stringResource(R.string.no_categories))
+                Text(text = stringResource(R.string.no_wallets))
             }
         }
     }

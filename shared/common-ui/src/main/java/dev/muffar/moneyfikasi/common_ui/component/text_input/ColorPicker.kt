@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.common_ui.component
+package dev.muffar.moneyfikasi.common_ui.component.text_input
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

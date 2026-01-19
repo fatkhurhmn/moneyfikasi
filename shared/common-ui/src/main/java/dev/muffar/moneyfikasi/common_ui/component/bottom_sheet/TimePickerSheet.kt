@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.common_ui.component
+package dev.muffar.moneyfikasi.common_ui.component.bottom_sheet
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

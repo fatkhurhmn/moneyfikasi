@@ -1,9 +1,9 @@
 package dev.muffar.moneyfikasi.transaction.transfer.component
 
 import androidx.compose.runtime.Composable
-import dev.muffar.moneyfikasi.common_ui.component.DatePickerSheet
-import dev.muffar.moneyfikasi.common_ui.component.TimePickerSheet
-import dev.muffar.moneyfikasi.common_ui.component.WalletPicker
+import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.DatePickerSheet
+import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.TimePickerSheet
+import dev.muffar.moneyfikasi.common_ui.component.text_input.WalletPicker
 import dev.muffar.moneyfikasi.domain.model.Wallet
 
 @Composable

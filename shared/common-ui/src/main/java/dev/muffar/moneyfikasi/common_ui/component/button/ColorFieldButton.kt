@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.common_ui.component
+package dev.muffar.moneyfikasi.common_ui.component.button
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,25 +12,22 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
-fun IconFieldButton(
+fun ColorFieldButton(
     modifier: Modifier = Modifier,
-    icon: String,
     color: Long,
-    showLabel: Boolean = true,
-    onIconClick: () -> Unit,
+    onColorClick: () -> Unit
 ) {
     Column(
         modifier = modifier
     ) {
         Text(
-            text = if (showLabel) stringResource(R.string.icon) else "",
+            text = stringResource(R.string.color),
             style = MaterialTheme.typography.labelLarge
         )
         Spacer(modifier = Modifier.height(4.dp))
-        IconPickerButton(
-            icon = icon,
+        ColorPickerButton(
             color = color,
-            onClick = onIconClick
+            onClick = onColorClick
         )
     }
 }

@@ -1,10 +1,10 @@
 package dev.muffar.moneyfikasi.transaction.add_edit.component
 
 import androidx.compose.runtime.Composable
-import dev.muffar.moneyfikasi.common_ui.component.CategoryPicker
-import dev.muffar.moneyfikasi.common_ui.component.DatePickerSheet
-import dev.muffar.moneyfikasi.common_ui.component.TimePickerSheet
-import dev.muffar.moneyfikasi.common_ui.component.WalletPicker
+import dev.muffar.moneyfikasi.common_ui.component.text_input.CategoryPicker
+import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.DatePickerSheet
+import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.TimePickerSheet
+import dev.muffar.moneyfikasi.common_ui.component.text_input.WalletPicker
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.Wallet
 
