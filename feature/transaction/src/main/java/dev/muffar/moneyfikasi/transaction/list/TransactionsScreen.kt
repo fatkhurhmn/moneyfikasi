@@ -88,20 +88,14 @@ fun TransactionsScreen(
                 dateRange = state.dateRange,
                 onDismissRequest = { onShowChooseDateSheet(false) },
                 onCustomDateClick = { onShowCustomDateSheet(true) },
-                onChoose = { dateRange ->
-                    onDateRangeChange(dateRange)
-                    onShowChooseDateSheet(false)
-                }
+                onChoose = onDateRangeChange
             )
         }
 
         AnimatedVisibility(state.showCustomDateSheet) {
             CustomDateSheet(
                 dateRange = state.dateRange,
-                onDateChange = { dateRange ->
-                    onDateRangeChange(dateRange)
-                    onShowCustomDateSheet(false)
-                },
+                onDateChange = onDateRangeChange,
                 onDismissRequest = { onShowCustomDateSheet(false) }
             )
         }

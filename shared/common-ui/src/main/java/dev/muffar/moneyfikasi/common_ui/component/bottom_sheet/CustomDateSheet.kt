@@ -54,39 +54,46 @@ fun CustomDateSheet(
         dateRange.end
     }
 
-    val pickerState = rememberDateRangePickerState(
-        initialSelectedStartDateMillis = startDateMillis,
-        initialSelectedEndDateMillis = endDateMillis,
-    )
-
-    val formattedStartDate =
-        pickerState.selectedStartDateMillis?.toFormattedDateTime("MMM, dd yyyy")
-            ?: stringResource(R.string.start_date)
-    val formattedEndDate =
-        pickerState.selectedEndDateMillis?.toFormattedDateTime("MMM, dd yyyy")
-            ?: stringResource(R.string.end_date)
-
-
     var showSelectDateError by remember { mutableStateOf(false) }
 
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
-    fun hideSheet(callback: () -> Unit) {
-        scope.launch { sheetState.hide() }
-        callback()
+
+    val hideSheet = {
+        scope.launch { sheetState.hide() }.invokeOnCompletion {
+            if (!sheetState.isVisible) {
+                onDismissRequest()
+            }
+        }
     }
 
     ModalBottomSheet(
         modifier = Modifier.statusBarsPadding(),
-        onDismissRequest = { hideSheet { onDismissRequest() } },
+        onDismissRequest = onDismissRequest,
         sheetState = sheetState,
         containerColor = MaterialTheme.colorScheme.surface
     ) {
+
+        val pickerState = rememberDateRangePickerState(
+            initialSelectedStartDateMillis = startDateMillis,
+            initialSelectedEndDateMillis = endDateMillis,
+        )
+
+        val formattedStartDate =
+            pickerState.selectedStartDateMillis?.toFormattedDateTime("MMM, dd yyyy")
+                ?: stringResource(R.string.start_date)
+        val formattedEndDate =
+            pickerState.selectedEndDateMillis?.toFormattedDateTime("MMM, dd yyyy")
+                ?: stringResource(R.string.end_date)
+
         DateRangePicker(
             modifier = if (pickerState.displayMode == DisplayMode.Picker) Modifier.weight(1f) else Modifier,
             state = pickerState,
             title = {
-                BottomSheetTitle(title = stringResource(R.string.custom_date), showDivider = false)
+                BottomSheetTitle(
+                    title = stringResource(R.string.custom_date),
+                    showDivider = false
+                )
             },
             headline = {
                 Column(
@@ -94,7 +101,7 @@ fun CustomDateSheet(
                 ) {
                     Text(
                         text = "$formattedStartDate - $formattedEndDate",
-                        style = MaterialTheme.typography.bodyLarge.copy(fontSize = 18.sp),
+                        style = MaterialTheme.typography.titleLarge.copy(fontSize = 18.sp),
                     )
                     AnimatedVisibility(showSelectDateError) {
                         Text(
@@ -121,23 +128,21 @@ fun CustomDateSheet(
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             negativeText = stringResource(R.string.cancel),
             positiveText = stringResource(R.string.apply),
-            onNegativeClick = { hideSheet { onDismissRequest() } },
+            onNegativeClick = { hideSheet() },
             onPositiveClick = {
                 val selectedStartDate = pickerState.selectedStartDateMillis
                 val selectedEndDate = pickerState.selectedEndDateMillis
                 if (selectedStartDate == null || selectedEndDate == null) {
                     showSelectDateError = true
                 } else {
-                    hideSheet {
-                        onDateChange(
-                            DateRange(
-                                timePeriod = TimePeriod.CUSTOM,
-                                start = selectedStartDate,
-                                end = selectedEndDate
-                            )
+                    hideSheet()
+                    onDateChange(
+                        DateRange(
+                            timePeriod = TimePeriod.CUSTOM,
+                            start = selectedStartDate,
+                            end = selectedEndDate
                         )
-                        onDismissRequest()
-                    }
+                    )
                 }
             }
         )

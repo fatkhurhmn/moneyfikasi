@@ -10,32 +10,32 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.button.IconFieldButton
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
-import dev.muffar.moneyfikasi.domain.model.Category
+import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
-fun CategoryPicker(
-    category: Category,
-    onCategoryClick: () -> Unit
+fun WalletInput(
+    wallet: Wallet,
+    onWalletClick: () -> Unit
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
         CommonTextInput(
             modifier = Modifier.weight(1f),
-            value = category.name,
+            value = wallet.name,
             onValueChange = {},
-            label = stringResource(R.string.category),
-            placeholder = stringResource(R.string.select_category),
+            label = stringResource(R.string.wallet),
+            placeholder = stringResource(R.string.select_wallet),
             isClickable = true,
-            onClick = onCategoryClick
+            onClick = onWalletClick
         )
         Spacer(modifier = Modifier.width(16.dp))
         IconFieldButton(
-            icon = category.icon,
-            color = category.color,
+            icon = wallet.icon,
+            color = wallet.color,
             showLabel = false,
-            onIconClick = onCategoryClick
+            onIconClick = onWalletClick
         )
     }
 }

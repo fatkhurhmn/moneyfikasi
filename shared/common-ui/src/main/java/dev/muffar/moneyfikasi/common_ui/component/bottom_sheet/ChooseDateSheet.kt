@@ -41,25 +41,26 @@ fun ChooseDateSheet(
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
 
-    val hideSheet: (callback: () -> Unit) -> Unit = {
-        scope.launch { sheetState.hide() }
-        it()
+    val hideSheet = {
+        scope.launch { sheetState.hide() }.invokeOnCompletion {
+            if (!sheetState.isVisible) {
+                onDismissRequest()
+            }
+        }
     }
 
     val onClick: (option: TimePeriod) -> Unit = {
+        hideSheet()
         if (it == TimePeriod.CUSTOM) {
-            hideSheet {
-                onDismissRequest()
-                onCustomDateClick()
-            }
+            onCustomDateClick()
         } else {
-            hideSheet { onChoose(it.toDateRange()) }
+            onChoose(it.toDateRange())
         }
     }
 
     ModalBottomSheet(
         modifier = Modifier.statusBarsPadding(),
-        onDismissRequest = { hideSheet { onDismissRequest() } },
+        onDismissRequest = onDismissRequest,
         sheetState = sheetState,
         containerColor = MaterialTheme.colorScheme.surface
     ) {
@@ -115,8 +116,11 @@ fun ChooseDateSheet(
                     .padding(horizontal = 16.dp, vertical = 8.dp),
                 leftText = stringResource(R.string.cancel),
                 rightText = stringResource(R.string.reset),
-                onLeftClick = { hideSheet { onDismissRequest() } },
-                onRightClick = { hideSheet { onChoose(DateRange()) } }
+                onLeftClick = { hideSheet() },
+                onRightClick = {
+                    hideSheet()
+                    onChoose(DateRange())
+                }
             )
         }
     }

@@ -11,13 +11,13 @@ import dev.muffar.moneyfikasi.resource.R
 
 @Composable
 fun NoteInput(
-    value: String,
-    onValueChange: (String) -> Unit
+    note: String,
+    onNoteChange: (String) -> Unit
 ) {
     CommonTextInput(
         modifier = Modifier.fillMaxWidth(),
-        value = value,
-        onValueChange = onValueChange,
+        value = note,
+        onValueChange = onNoteChange,
         label = stringResource(R.string.note),
         placeholder = stringResource(R.string.enter_note),
         keyboardOptions = KeyboardOptions(

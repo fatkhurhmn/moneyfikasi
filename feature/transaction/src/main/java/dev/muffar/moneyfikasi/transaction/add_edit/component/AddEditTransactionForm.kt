@@ -18,13 +18,13 @@ fun AddEditTransactionForm(
     note: String,
     category: Category,
     wallet: Wallet,
-    date: String,
+    date: Long,
     time: String,
     onAmountChange: (String) -> Unit,
     onNoteChange: (String) -> Unit,
     onCategoryClick: () -> Unit,
     onWalletClick: () -> Unit,
-    onDateClick: () -> Unit,
+    onDateSelect: (Long) -> Unit,
     onTimeClick: () -> Unit,
 ) {
     Column(
@@ -32,33 +32,33 @@ fun AddEditTransactionForm(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         AmountInput(
-            value = amount,
-            onValueChange = onAmountChange
+            amount = amount,
+            onAmountChange = onAmountChange
         )
 
         NoteInput(
-            value = note,
-            onValueChange = onNoteChange
+            note = note,
+            onNoteChange = onNoteChange
         )
 
-        CategoryPicker(
+        CategoryInput(
             category = category,
             onCategoryClick = onCategoryClick
         )
 
-        WalletPicker(
+        WalletInput(
             wallet = wallet,
             onWalletClick = onWalletClick
         )
 
         Row {
-            DatePicker(
+            DateInput(
                 modifier = Modifier.weight(0.6f),
                 date = date,
-                onDateClick = onDateClick
+                onDateSelect = onDateSelect
             )
             Spacer(modifier = Modifier.width(16.dp))
-            TimePicker(
+            TimeInput(
                 modifier = Modifier.weight(0.4f),
                 time = time,
                 onTimeClick = onTimeClick

@@ -28,7 +28,6 @@ import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionB
 import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionButton
 import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionForm
 import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionSheetType
-import dev.muffar.moneyfikasi.utils.extensions.toFormattedDateTime
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import java.util.Locale
@@ -81,13 +80,13 @@ fun AddEditTransactionScreen(
                 note = state.note,
                 category = state.category,
                 wallet = state.wallet,
-                date = state.date.toFormattedDateTime("MMM, dd yyyy"),
+                date = state.date,
                 time = String.format(Locale.getDefault(), "%02d:%02d", state.hour, state.minute),
                 onAmountChange = onAmountChange,
                 onNoteChange = onNoteChange,
                 onCategoryClick = { onShowBottomSheet(AddEditTransactionSheetType.CATEGORY) },
                 onWalletClick = { onShowBottomSheet(AddEditTransactionSheetType.WALLET) },
-                onDateClick = { onShowBottomSheet(AddEditTransactionSheetType.DATE) },
+                onDateSelect = onDateSelect,
                 onTimeClick = { onShowBottomSheet(AddEditTransactionSheetType.TIME) }
             )
 

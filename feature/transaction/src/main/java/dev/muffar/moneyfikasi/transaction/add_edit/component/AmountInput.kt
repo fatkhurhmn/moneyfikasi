@@ -15,13 +15,13 @@ import dev.muffar.moneyfikasi.utils.extensions.filterAmount
 
 @Composable
 fun AmountInput(
-    value: String,
-    onValueChange: (String) -> Unit
+    amount: String,
+    onAmountChange: (String) -> Unit
 ) {
     CommonTextInput(
         modifier = Modifier.fillMaxWidth(),
-        value = TextFieldValue(value, TextRange(value.length)),
-        onValueChange = { it.text.filterAmount()?.let(onValueChange) },
+        value = TextFieldValue(amount, TextRange(amount.length)),
+        onValueChange = { it.text.filterAmount()?.let(onAmountChange) },
         label = stringResource(R.string.amount),
         placeholder = stringResource(R.string.enter_amount),
         keyboardOptions = KeyboardOptions(

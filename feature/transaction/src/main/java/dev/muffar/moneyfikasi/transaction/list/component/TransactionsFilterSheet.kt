@@ -42,16 +42,20 @@ fun TransactionsFilterSheet(
     var selectedWallets by remember { mutableStateOf(if (!isFilterApplied) wallets.toSet() else filter.wallets) }
 
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val scope = rememberCoroutineScope()
-    fun hideSheet(callback: () -> Unit = {}) {
-        scope.launch { sheetState.hide() }
-        callback()
-        onDismissRequest()
+    val scope = rememberCoroutineScope(
+
+    )
+    val hideSheet = {
+        scope.launch { sheetState.hide() }.invokeOnCompletion {
+            if (!sheetState.isVisible) {
+                onDismissRequest()
+            }
+        }
     }
 
     ModalBottomSheet(
         modifier = Modifier.statusBarsPadding(),
-        onDismissRequest = { hideSheet() },
+        onDismissRequest = onDismissRequest,
         sheetState = sheetState,
         containerColor = MaterialTheme.colorScheme.surface,
         sheetGesturesEnabled = false
@@ -63,15 +67,17 @@ fun TransactionsFilterSheet(
             bottomBar = {
                 FilterSheetButton(
                     onCancelClick = { hideSheet() },
-                    onResetClick = { hideSheet { onResetFilter() } },
+                    onResetClick = {
+                        hideSheet()
+                        onResetFilter()
+                    },
                     onApplyClick = {
-                        hideSheet {
-                            val mFilter = filter.copy(
-                                categories = selectedCategories,
-                                wallets = selectedWallets
-                            )
-                            onApply(mFilter)
-                        }
+                        hideSheet()
+                        val mFilter = filter.copy(
+                            categories = selectedCategories,
+                            wallets = selectedWallets
+                        )
+                        onApply(mFilter)
                     }
                 )
             }
