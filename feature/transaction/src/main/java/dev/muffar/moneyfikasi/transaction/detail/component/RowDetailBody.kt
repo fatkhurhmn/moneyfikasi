@@ -8,29 +8,25 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
-import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.format
-import org.threeten.bp.LocalDateTime
 
 @Composable
-fun TransactionDetailTime(
-    date: LocalDateTime?,
+fun RowDetailBody(
+    label: String,
+    value: String
 ) {
-    val formattedTime = date?.format("H:mm")
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = stringResource(R.string.time),
+            text = label,
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Text(
-            text = formattedTime ?: "",
+            text = value,
             style = MaterialTheme.typography.labelLarge.copy(
                 fontSize = 18.sp
             )

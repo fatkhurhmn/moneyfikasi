@@ -9,17 +9,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.IconByName
-import dev.muffar.moneyfikasi.domain.model.Category
+import dev.muffar.moneyfikasi.domain.model.Wallet
 
 @Composable
-fun TransactionItemCategory(category: Category) {
+fun ItemWalletIcon(wallet: Wallet) {
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = Color(category.color),
+            containerColor = Color(wallet.color),
         ),
     ) {
         IconByName(
-            name = category.icon,
+            name = wallet.icon,
             tint = Color.White,
             modifier = Modifier
                 .padding(8.dp)

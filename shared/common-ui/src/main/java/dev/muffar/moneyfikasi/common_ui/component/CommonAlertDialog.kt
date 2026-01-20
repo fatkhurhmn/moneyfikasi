@@ -3,9 +3,10 @@ package dev.muffar.moneyfikasi.common_ui.component
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import dev.muffar.moneyfikasi.common_ui.component.button.CommonButton
+import dev.muffar.moneyfikasi.common_ui.component.button.CommonOutlinedButton
 
 @Composable
 fun CommonAlertDialog(
@@ -21,16 +22,19 @@ fun CommonAlertDialog(
         modifier = modifier,
         onDismissRequest = onDismiss,
         confirmButton = {
-            TextButton(onClick = onConfirm) {
-                Text(text = positiveText, color = MaterialTheme.colorScheme.primary)
-            }
+            CommonButton(
+                onClick = onConfirm,
+                text = positiveText
+            )
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(text = negativeText)
-            }
+            CommonOutlinedButton(
+                onClick = onDismiss,
+                text = negativeText
+            )
         },
         title = { Text(text = title, style = MaterialTheme.typography.titleMedium) },
         text = { Text(text = message) },
+        containerColor = MaterialTheme.colorScheme.surface
     )
 }

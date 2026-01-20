@@ -10,12 +10,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.Wallet
 
 @Composable
-fun TransactionItemWallet(wallet: Wallet) {
+fun ItemWalletCard(
+    wallet: Wallet,
+    textStyle: TextStyle = MaterialTheme.typography.bodyMedium
+) {
     Card(
         colors = CardDefaults.cardColors(
             containerColor = Color(wallet.color).copy(alpha = 0.1f),
@@ -25,7 +29,7 @@ fun TransactionItemWallet(wallet: Wallet) {
     ) {
         Text(
             text = wallet.name,
-            style = MaterialTheme.typography.bodyMedium,
+            style = textStyle,
             color = Color(wallet.color),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,

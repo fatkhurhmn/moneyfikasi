@@ -45,7 +45,7 @@ fun TransactionItem(
                 .weight(1f)
                 .padding(end = 16.dp)
         ) {
-            TransactionItemCategory(transaction.category)
+            ItemCategoryIcon(transaction.category)
             Spacer(modifier = Modifier.width(8.dp))
             Column {
                 Text(
@@ -55,7 +55,7 @@ fun TransactionItem(
                     overflow = TextOverflow.Ellipsis
                 )
                 Spacer(modifier = Modifier.height(2.dp))
-                TransactionItemWallet(transaction.wallet)
+                ItemWalletCard(transaction.wallet)
             }
         }
         Column(

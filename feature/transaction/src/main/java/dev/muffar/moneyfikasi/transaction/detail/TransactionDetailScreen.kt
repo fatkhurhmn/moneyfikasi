@@ -4,9 +4,7 @@ import android.graphics.Bitmap
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -28,15 +26,10 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonAlertDialog
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailAdmin
-import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailAmount
-import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailBody
-import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailDivider
-import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailHeader
-import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailNote
+import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailCard
 import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailSaveButton
 import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailTopBar
-import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailTransfer
+import dev.muffar.moneyfikasi.transaction.detail.component.TransferDetailCard
 import dev.shreyaspatil.capturable.capturable
 import dev.shreyaspatil.capturable.controller.rememberCaptureController
 import kotlinx.coroutines.flow.SharedFlow
@@ -104,42 +97,12 @@ fun TransactionDetailScreen(
                     .padding(16.dp)
                     .fillMaxWidth()
             ) {
-                if (state.transaction == null) {
-                    TransactionDetailHeader()
-                    Spacer(modifier = Modifier.height(32.dp))
-                    TransactionDetailTransfer(
-                        amount = state.transferDetail?.amount,
-                        sourceWallet = state.transferDetail?.sourceWallet,
-                        targetWallet = state.transferDetail?.targetWallet
-                    )
-                    TransactionDetailDivider()
-                    TransactionDetailBody(
-                        date = state.transferDetail?.date,
-                        wallet = null,
-                        category = null,
-                    )
-                    if (state.transferDetail?.fee != null && state.transferDetail.fee > 0) {
-                        TransactionDetailDivider()
-                        TransactionDetailAdmin(state.transferDetail.fee)
-                    }
+                if (state.isTransfer) {
+                    if (state.transferDetail == null) return@Card
+                    TransferDetailCard(state.transferDetail)
                 } else {
-                    TransactionDetailHeader(state.transaction.type)
-                    Spacer(modifier = Modifier.height(32.dp))
-                    TransactionDetailAmount(
-                        amount = state.transaction.amount,
-                        type = state.transaction.type
-                    )
-                    TransactionDetailDivider()
-                    TransactionDetailBody(
-                        date = state.transaction.date,
-                        wallet = state.transaction.wallet,
-                        category = state.transaction.category,
-                    )
-                    val note = state.transaction.note
-                    if (!note.isNullOrBlank()) {
-                        TransactionDetailDivider()
-                        TransactionDetailNote(note)
-                    }
+                    if (state.transaction == null) return@Card
+                    TransactionDetailCard(state.transaction)
                 }
             }
         }

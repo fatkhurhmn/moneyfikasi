@@ -9,4 +9,7 @@ data class TransactionDetailState(
     val transaction: Transaction? = null,
     val transferDetail: TransferDetail? = null,
     val showAlert: Boolean = false,
-)
+) {
+    val isTransfer: Boolean
+        get() = transaction == null
+}
