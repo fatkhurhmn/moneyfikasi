@@ -28,7 +28,7 @@ fun IconPickerButton(
 ) {
     Box(
         modifier = modifier
-            .clip(MaterialTheme.shapes.large)
+            .clip(MaterialTheme.shapes.medium)
             .background(
                 if (color == 0L) {
                     MaterialTheme.colorScheme.surfaceVariant

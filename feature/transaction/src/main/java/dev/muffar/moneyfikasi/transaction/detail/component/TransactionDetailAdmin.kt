@@ -40,7 +40,7 @@ fun TransactionDetailAdmin(
             )
             Text(
                 text = formattedAmount,
-                style = MaterialTheme.typography.headlineMedium,
+                style = MaterialTheme.typography.titleLarge,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
             )

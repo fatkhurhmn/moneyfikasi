@@ -57,18 +57,6 @@ fun AddEditTransactionScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollState = rememberScrollState()
 
-    LaunchedEffect(eventFlow) {
-        eventFlow.collectLatest {
-            when (it) {
-                is AddEditTransactionViewModel.UiEvent.SaveTransaction -> onBackClick()
-                is AddEditTransactionViewModel.UiEvent.DeleteTransaction -> onBackClick()
-                is AddEditTransactionViewModel.UiEvent.ShowMessage -> snackbarHostState.showSnackbar(
-                    it.message,
-                )
-            }
-        }
-    }
-
     Scaffold(
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
@@ -136,6 +124,18 @@ fun AddEditTransactionScreen(
                         }
                     )
                 }
+            }
+        }
+    }
+
+    LaunchedEffect(eventFlow) {
+        eventFlow.collectLatest {
+            when (it) {
+                is AddEditTransactionViewModel.UiEvent.SaveTransaction -> onBackClick()
+                is AddEditTransactionViewModel.UiEvent.DeleteTransaction -> onBackClick()
+                is AddEditTransactionViewModel.UiEvent.ShowMessage -> snackbarHostState.showSnackbar(
+                    it.message,
+                )
             }
         }
     }
