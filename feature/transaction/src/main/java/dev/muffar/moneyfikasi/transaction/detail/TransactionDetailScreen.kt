@@ -9,7 +9,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ExperimentalComposeApi
@@ -19,11 +18,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asAndroidBitmap
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonAlertDialog
-import dev.muffar.moneyfikasi.common_ui.component.MessagePopup
+import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
+import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailCard
@@ -40,7 +39,6 @@ import java.util.UUID
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalComposeApi::class)
 @Composable
 fun TransactionDetailScreen(
-    modifier: Modifier = Modifier,
     state: TransactionDetailState,
     eventFlow: SharedFlow<TransactionDetailViewModel.UiEvent>,
     onEditClick: (TransactionType?, UUID) -> Unit,
@@ -52,10 +50,9 @@ fun TransactionDetailScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val captureController = rememberCaptureController()
     val scope = rememberCoroutineScope()
-    val context = LocalContext.current
 
     Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = { SnackbarMessage(snackbarHostState) },
         topBar = {
             TransactionDetailTopBar(
                 onEditClick = {
@@ -78,7 +75,7 @@ fun TransactionDetailScreen(
         }
     ) {
         Card(
-            modifier = modifier
+            modifier = Modifier
                 .padding(16.dp)
                 .padding(it)
                 .capturable(captureController),
@@ -88,7 +85,7 @@ fun TransactionDetailScreen(
             border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
         ) {
             Column(
-                modifier = modifier
+                modifier = Modifier
                     .padding(16.dp)
                     .fillMaxWidth()
             ) {
@@ -101,13 +98,6 @@ fun TransactionDetailScreen(
                 }
             }
         }
-        MessagePopup(
-            message = state.message,
-            visible = state.messageVisibility,
-            modifier = Modifier
-                .padding(it)
-                .fillMaxWidth()
-        )
     }
 
     if (state.showAlert) {
@@ -128,6 +118,10 @@ fun TransactionDetailScreen(
         eventFlow.collectLatest {
             when (it) {
                 is TransactionDetailViewModel.UiEvent.DeleteTransaction -> onBackClick()
+                is TransactionDetailViewModel.UiEvent.ShowMessage -> snackbarHostState.showMessage(
+                    it.message,
+                    it.type
+                )
             }
         }
     }
