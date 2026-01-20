@@ -1,7 +1,6 @@
 package dev.muffar.moneyfikasi.transaction.detail
 
 import android.graphics.Bitmap
-import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,6 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonAlertDialog
+import dev.muffar.moneyfikasi.common_ui.component.MessagePopup
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailCard
@@ -71,13 +71,8 @@ fun TransactionDetailScreen(
             TransactionDetailSaveButton {
                 scope.launch {
                     val bitmapAsync = captureController.captureAsync()
-                    try {
-                        val bitmap = bitmapAsync.await()
-                        onSaveClick(bitmap.asAndroidBitmap())
-                    } catch (error: Throwable) {
-                        error.printStackTrace()
-                        Toast.makeText(context, "Failed to save summary", Toast.LENGTH_SHORT).show()
-                    }
+                    val bitmap = bitmapAsync.await()
+                    onSaveClick(bitmap.asAndroidBitmap())
                 }
             }
         }
@@ -106,6 +101,13 @@ fun TransactionDetailScreen(
                 }
             }
         }
+        MessagePopup(
+            message = state.message,
+            visible = state.messageVisibility,
+            modifier = Modifier
+                .padding(it)
+                .fillMaxWidth()
+        )
     }
 
     if (state.showAlert) {
@@ -126,8 +128,6 @@ fun TransactionDetailScreen(
         eventFlow.collectLatest {
             when (it) {
                 is TransactionDetailViewModel.UiEvent.DeleteTransaction -> onBackClick()
-                is TransactionDetailViewModel.UiEvent.ShowMessage ->
-                    snackbarHostState.showSnackbar(it.message)
             }
         }
     }

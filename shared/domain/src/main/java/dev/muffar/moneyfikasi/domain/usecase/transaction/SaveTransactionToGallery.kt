@@ -7,7 +7,6 @@ import android.media.MediaScannerConnection
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import android.widget.Toast
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -48,7 +47,5 @@ class SaveTransactionImage() {
             }
             MediaScannerConnection.scanFile(context, arrayOf(file.toString()), null, null)
         }
-
-        Toast.makeText(context, "Image saved to gallery", Toast.LENGTH_SHORT).show()
     }
 }

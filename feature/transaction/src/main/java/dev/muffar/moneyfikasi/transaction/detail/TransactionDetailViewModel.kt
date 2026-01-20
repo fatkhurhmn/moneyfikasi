@@ -6,8 +6,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.muffar.moneyfikasi.common_ui.component.Message
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -78,18 +80,37 @@ class TransactionDetailViewModel @Inject constructor(
                     transactionUseCases.deleteTransaction(it)
                     _eventFlow.emit(UiEvent.DeleteTransaction)
                 } catch (e: Exception) {
-                    _eventFlow.emit(UiEvent.ShowMessage("Failed to delete transaction"))
+                    e.printStackTrace()
+                    onShowPopUpMessage("Failed to delete transaction", true)
                 }
             }
         }
     }
 
+    private fun onShowPopUpMessage(message: String, error: Boolean) {
+        viewModelScope.launch {
+            _state.update {
+                it.copy(
+                    message = Message(message, error),
+                    messageVisibility = true
+                )
+            }
+            delay(2000)
+            _state.update { it.copy(messageVisibility = false) }
+        }
+    }
+
     private fun onSaveToGallery(bitmap: Bitmap) {
-        transactionUseCases.saveTransactionImage(application, bitmap)
+        try {
+            transactionUseCases.saveTransactionImage(application, bitmap)
+            onShowPopUpMessage("Image saved", false)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            onShowPopUpMessage("Failed to save image", true)
+        }
     }
 
     sealed class UiEvent {
-        data class ShowMessage(val message: String) : UiEvent()
         data object DeleteTransaction : UiEvent()
     }
 }
