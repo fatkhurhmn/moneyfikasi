@@ -54,8 +54,8 @@ fun NavGraphBuilder.addEditTransactionNavigation(
             onDateSelect = { date ->
                 event(AddEditTransactionEvent.OnDateSelect(date))
             },
-            onTimeSelect = { hour, minute ->
-                event(AddEditTransactionEvent.OnTimeSelect(hour, minute))
+            onTimeSelect = { time ->
+                event(AddEditTransactionEvent.OnTimeSelect(time))
             },
             onBackClick = onNavigateBack,
             onCreateClick = {

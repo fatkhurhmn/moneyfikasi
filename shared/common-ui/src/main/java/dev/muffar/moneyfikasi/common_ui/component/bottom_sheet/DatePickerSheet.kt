@@ -52,6 +52,8 @@ fun DatePickerSheet(
         val formattedStartDate =
             pickerState.selectedDateMillis?.toFormattedDateTime("MMM, dd yyyy")
                 ?: stringResource(R.string.start_date)
+
+        BottomSheetTitle(stringResource(R.string.select_date), false)
         DatePicker(
             state = pickerState,
             colors = DatePickerDefaults.colors(
@@ -60,6 +62,7 @@ fun DatePickerSheet(
                 headlineContentColor = MaterialTheme.colorScheme.onSurface,
                 dividerColor = MaterialTheme.colorScheme.outline
             ),
+            title = null,
             headline = {
                 Text(
                     text = formattedStartDate,

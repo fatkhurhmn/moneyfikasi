@@ -11,8 +11,9 @@ sealed class AddEditTransactionEvent {
     data class OnCategorySelect(val category: Category) : AddEditTransactionEvent()
     data class OnWalletSelect(val wallet: Wallet) : AddEditTransactionEvent()
     data class OnDateSelect(val date: Long) : AddEditTransactionEvent()
-    data class OnTimeSelect(val hour: Int, val minute: Int) : AddEditTransactionEvent()
+    data class OnTimeSelect(val time: Pair<Int, Int>) : AddEditTransactionEvent()
     data class OnNoteChange(val note: String) : AddEditTransactionEvent()
     data object OnCreateClicked : AddEditTransactionEvent()
-    data class OnBottomSheetChange(val type: AddEditTransactionSheetType?) : AddEditTransactionEvent()
+    data class OnBottomSheetChange(val type: AddEditTransactionSheetType?) :
+        AddEditTransactionEvent()
 }

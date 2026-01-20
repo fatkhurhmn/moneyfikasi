@@ -19,13 +19,13 @@ fun AddEditTransactionForm(
     category: Category,
     wallet: Wallet,
     date: Long,
-    time: String,
+    time: Pair<Int, Int>,
     onAmountChange: (String) -> Unit,
     onNoteChange: (String) -> Unit,
     onCategoryClick: () -> Unit,
     onWalletClick: () -> Unit,
     onDateSelect: (Long) -> Unit,
-    onTimeClick: () -> Unit,
+    onTimeSelect: (Pair<Int, Int>) -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -61,7 +61,7 @@ fun AddEditTransactionForm(
             TimeInput(
                 modifier = Modifier.weight(0.4f),
                 time = time,
-                onTimeClick = onTimeClick
+                onTimeSelect = onTimeSelect
             )
         }
     }

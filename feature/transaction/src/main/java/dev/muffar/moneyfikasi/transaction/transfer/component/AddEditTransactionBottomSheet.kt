@@ -2,7 +2,7 @@ package dev.muffar.moneyfikasi.transaction.transfer.component
 
 import androidx.compose.runtime.Composable
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.DatePickerSheetV1
-import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.TimePickerSheet
+import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.TimePickerSheetV1
 import dev.muffar.moneyfikasi.common_ui.component.text_input.WalletPicker
 import dev.muffar.moneyfikasi.domain.model.Wallet
 
@@ -43,7 +43,7 @@ fun AddEditTransactionBottomSheet(
             }
         )
 
-        TransferTransactionSheetType.TIME -> TimePickerSheet(
+        TransferTransactionSheetType.TIME -> TimePickerSheetV1(
             minute = minute,
             hour = hour,
             onTimeSelect = { mHour, mMinute ->

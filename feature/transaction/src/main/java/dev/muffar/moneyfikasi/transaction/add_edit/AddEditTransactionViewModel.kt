@@ -55,7 +55,7 @@ class AddEditTransactionViewModel @Inject constructor(
             is AddEditTransactionEvent.OnCategorySelect -> onCategorySelect(event.category)
             is AddEditTransactionEvent.OnWalletSelect -> onWalletSelect(event.wallet)
             is AddEditTransactionEvent.OnDateSelect -> onDateSelect(event.date)
-            is AddEditTransactionEvent.OnTimeSelect -> onTimeSelect(event.hour, event.minute)
+            is AddEditTransactionEvent.OnTimeSelect -> onTimeSelect(event.time)
             is AddEditTransactionEvent.OnNoteChange -> onNoteChange(event.note)
             is AddEditTransactionEvent.OnCreateClicked -> onSaveTransaction()
             is AddEditTransactionEvent.OnBottomSheetChange -> onBottomSheetChange(event.type)
@@ -141,8 +141,8 @@ class AddEditTransactionViewModel @Inject constructor(
         _state.update { it.copy(date = date) }
     }
 
-    private fun onTimeSelect(hour: Int, minute: Int) {
-        _state.update { it.copy(hour = hour, minute = minute) }
+    private fun onTimeSelect(time: Pair<Int, Int>) {
+        _state.update { it.copy(hour = time.first, minute = time.second) }
     }
 
     private fun onSaveTransaction() {

@@ -30,7 +30,6 @@ import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionF
 import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionSheetType
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
-import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,7 +41,7 @@ fun AddEditTransactionScreen(
     onCategorySelect: (Category) -> Unit,
     onWalletSelect: (Wallet) -> Unit,
     onDateSelect: (Long) -> Unit,
-    onTimeSelect: (Int, Int) -> Unit,
+    onTimeSelect: (Pair<Int, Int>) -> Unit,
     onNoteChange: (String) -> Unit,
     onBackClick: () -> Unit,
     onCreateClick: () -> Unit,
@@ -81,13 +80,13 @@ fun AddEditTransactionScreen(
                 category = state.category,
                 wallet = state.wallet,
                 date = state.date,
-                time = String.format(Locale.getDefault(), "%02d:%02d", state.hour, state.minute),
+                time = state.hour to state.minute,
                 onAmountChange = onAmountChange,
                 onNoteChange = onNoteChange,
                 onCategoryClick = { onShowBottomSheet(AddEditTransactionSheetType.CATEGORY) },
                 onWalletClick = { onShowBottomSheet(AddEditTransactionSheetType.WALLET) },
                 onDateSelect = onDateSelect,
-                onTimeClick = { onShowBottomSheet(AddEditTransactionSheetType.TIME) }
+                onTimeSelect = onTimeSelect
             )
 
             Spacer(Modifier.height(32.dp))
@@ -109,7 +108,7 @@ fun AddEditTransactionScreen(
                         onCategorySelect = onCategorySelect,
                         onWalletSelect = onWalletSelect,
                         onDateSelect = onDateSelect,
-                        onTimeSelect = onTimeSelect,
+                        onTimeSelect = { a, b -> },
                         onDismiss = { onShowBottomSheet(null) },
                         onAddWallet = onAddWallet,
                         onAddCategory = {
