@@ -78,23 +78,11 @@ fun ChooseDateSheet(
                         .clickable { onClick(option) }
                         .padding(horizontal = 16.dp)
                 ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(
-                            text = option.name.capitalize(),
-                            style = MaterialTheme.typography.bodyLarge,
-                            fontWeight = FontWeight.W400
-                        )
-                        RadioButton(
-                            selected = option == dateRange.timePeriod,
-                            onClick = { onClick(option) }
-                        )
-                    }
+                    DateOptionItem(
+                        option = option.name,
+                        selected = option == dateRange.timePeriod,
+                        onClick = { onClick(option) }
+                    )
 
                     if (dateRange.timePeriod == TimePeriod.CUSTOM && option == TimePeriod.CUSTOM) {
                         val start = dateRange.start.toFormattedDateTime("MMM, dd yyyy")
@@ -123,5 +111,30 @@ fun ChooseDateSheet(
                 }
             )
         }
+    }
+}
+
+@Composable
+private fun DateOptionItem(
+    option: String,
+    selected: Boolean,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = option.capitalize(),
+            style = MaterialTheme.typography.bodyLarge,
+            fontWeight = FontWeight.W400
+        )
+        RadioButton(
+            selected = selected,
+            onClick = onClick
+        )
     }
 }

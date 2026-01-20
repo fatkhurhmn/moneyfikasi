@@ -21,10 +21,11 @@ import androidx.compose.ui.unit.sp
 fun EmptyDataList(
     painter: Painter,
     title: String,
-    description: String
+    description: String,
+    modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,

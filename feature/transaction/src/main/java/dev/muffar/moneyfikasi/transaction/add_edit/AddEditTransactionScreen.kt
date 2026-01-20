@@ -45,7 +45,7 @@ fun AddEditTransactionScreen(
     onNoteChange: (String) -> Unit,
     onBackClick: () -> Unit,
     onCreateClick: () -> Unit,
-    onAddWallet: () -> Unit,
+    onAddNewWalletClick: () -> Unit,
     onAddCategory: (CategoryType) -> Unit,
     onShowBottomSheet: (AddEditTransactionSheetType?) -> Unit,
 ) {
@@ -81,10 +81,12 @@ fun AddEditTransactionScreen(
                 wallet = state.wallet,
                 date = state.date,
                 time = state.hour to state.minute,
+                walletOption = state.walletOption,
                 onAmountChange = onAmountChange,
                 onNoteChange = onNoteChange,
                 onCategoryClick = { onShowBottomSheet(AddEditTransactionSheetType.CATEGORY) },
-                onWalletClick = { onShowBottomSheet(AddEditTransactionSheetType.WALLET) },
+                onWalletSelect = onWalletSelect,
+                onAddNewWalletClick = onAddNewWalletClick,
                 onDateSelect = onDateSelect,
                 onTimeSelect = onTimeSelect
             )
@@ -101,7 +103,7 @@ fun AddEditTransactionScreen(
                     AddEditTransactionBottomSheet(
                         type = state.bottomSheetType,
                         categories = state.categories,
-                        wallets = state.wallets,
+                        wallets = state.walletOption,
                         date = state.date,
                         hour = state.hour,
                         minute = state.minute,
@@ -110,7 +112,7 @@ fun AddEditTransactionScreen(
                         onDateSelect = onDateSelect,
                         onTimeSelect = { a, b -> },
                         onDismiss = { onShowBottomSheet(null) },
-                        onAddWallet = onAddWallet,
+                        onAddWallet = onAddNewWalletClick,
                         onAddCategory = {
                             val type = if (state.type == TransactionType.INCOME) {
                                 CategoryType.INCOME

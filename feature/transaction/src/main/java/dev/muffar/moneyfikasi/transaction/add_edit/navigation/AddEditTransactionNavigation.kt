@@ -64,7 +64,7 @@ fun NavGraphBuilder.addEditTransactionNavigation(
             onShowBottomSheet = { sheetType ->
                 event(AddEditTransactionEvent.OnBottomSheetChange(sheetType))
             },
-            onAddWallet = onNavigateToAddWallet,
+            onAddNewWalletClick = onNavigateToAddWallet,
             onAddCategory = onNavigateToAddCategory
         )
     }

@@ -40,7 +40,7 @@ fun WalletPicker(
     modifier: Modifier = Modifier,
     wallets: List<Wallet>,
     onClick: (Wallet) -> Unit,
-    onAdd : () -> Unit,
+    onAdd: () -> Unit,
     onClose: () -> Unit,
 ) {
     Column(
@@ -73,7 +73,7 @@ fun WalletPicker(
             }
         }
 
-        if (wallets.isNotEmpty()){
+        if (wallets.isNotEmpty()) {
             LazyColumn {
                 items(wallets.size) {
                     val wallet = wallets[it]
@@ -112,7 +112,7 @@ fun WalletPicker(
                     }
                 }
             }
-        }else {
+        } else {
             Column(
                 modifier = Modifier
                     .fillMaxSize(),

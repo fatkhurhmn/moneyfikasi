@@ -117,4 +117,5 @@
     <string name="choose_date">Choose Date</string>
     <string name="reset">Reset</string>
     <string name="custom_date">Custom Date</string>
+    <string name="new_wallet">New Wallet</string>
 </resources>
