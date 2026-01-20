@@ -20,10 +20,12 @@ fun AddEditTransactionForm(
     wallet: Wallet,
     date: Long,
     time: Pair<Int, Int>,
-    walletOption: List<Wallet>,
+    categoryOptions: List<Category>,
+    walletOptions: List<Wallet>,
     onAmountChange: (String) -> Unit,
     onNoteChange: (String) -> Unit,
-    onCategoryClick: () -> Unit,
+    onCategorySelect: (Category) -> Unit,
+    onAddNewCategoryClick: () -> Unit,
     onWalletSelect: (Wallet) -> Unit,
     onAddNewWalletClick: () -> Unit,
     onDateSelect: (Long) -> Unit,
@@ -45,12 +47,14 @@ fun AddEditTransactionForm(
 
         CategoryInput(
             category = category,
-            onCategoryClick = onCategoryClick
+            categoryOptions = categoryOptions,
+            onCategorySelect = onCategorySelect,
+            onAddNewCategoryClick = onAddNewCategoryClick
         )
 
         WalletInput(
             wallet = wallet,
-            walletOption = walletOption,
+            walletOptions = walletOptions,
             onWalletSelect = onWalletSelect,
             onAddNewWalletClick = onAddNewWalletClick
         )

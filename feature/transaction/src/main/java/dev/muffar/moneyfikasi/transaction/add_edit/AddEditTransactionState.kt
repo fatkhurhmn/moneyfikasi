@@ -22,7 +22,7 @@ data class AddEditTransactionState(
     val minute: Int = time.toFormattedDateTime("mm").toInt(),
     val note: String = "",
     val categories: List<Category> = emptyList(),
-    val walletOption: List<Wallet> = emptyList(),
+    val walletOptions: List<Wallet> = emptyList(),
     val bottomSheetType: AddEditTransactionSheetType? = null,
 ) {
     val isEditMode: Boolean

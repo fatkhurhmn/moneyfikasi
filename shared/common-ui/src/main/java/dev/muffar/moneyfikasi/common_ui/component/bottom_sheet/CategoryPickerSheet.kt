@@ -1,7 +1,6 @@
 package dev.muffar.moneyfikasi.common_ui.component.bottom_sheet
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,23 +20,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
 import dev.muffar.moneyfikasi.common_ui.component.button.DoubleOutlinedButton
-import dev.muffar.moneyfikasi.common_ui.component.transaction_item.ItemWalletIcon
-import dev.muffar.moneyfikasi.domain.model.Wallet
+import dev.muffar.moneyfikasi.common_ui.component.transaction_item.ItemCategoryIcon
+import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.formatThousand
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WalletPickerSheet(
-    walletOptions: List<Wallet>,
-    onWalletSelect: (Wallet) -> Unit,
-    onAddNewWalletClick: () -> Unit,
+fun CategoryPickerSheet(
+    categoryOptions: List<Category>,
+    onCategorySelect: (Category) -> Unit,
+    onAddNewCategoryClick: () -> Unit,
     onDismissRequest: () -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -58,26 +55,26 @@ fun WalletPickerSheet(
         containerColor = MaterialTheme.colorScheme.surface,
         sheetGesturesEnabled = false
     ) {
-        BottomSheetTitle(stringResource(R.string.select_wallet))
-        if (walletOptions.isNotEmpty()) {
+        BottomSheetTitle(stringResource(R.string.select_category))
+        if (categoryOptions.isNotEmpty()) {
             LazyColumn(
                 modifier = Modifier.weight(1f)
             ) {
-                items(walletOptions) { wallet ->
-                    WalletOptionItem(
-                        wallet = wallet,
+                items(categoryOptions) { category ->
+                    CategoryOptionItem(
+                        category = category,
                         onClick = {
                             hideSheet()
-                            onWalletSelect(wallet)
+                            onCategorySelect(category)
                         }
                     )
                 }
             }
         } else {
             EmptyDataList(
-                painter = painterResource(id = R.drawable.ic_empty_wallet),
-                title = stringResource(id = R.string.no_wallets),
-                description = stringResource(id = R.string.no_wallets_message),
+                painter = painterResource(id = R.drawable.ic_no_category),
+                title = stringResource(id = R.string.no_categories),
+                description = stringResource(id = R.string.no_categories_message),
                 modifier = Modifier.weight(1f)
             )
         }
@@ -88,19 +85,19 @@ fun WalletPickerSheet(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             leftText = stringResource(R.string.cancel),
-            rightText = stringResource(R.string.new_wallet),
+            rightText = stringResource(R.string.new_category),
             onLeftClick = { hideSheet() },
             onRightClick = {
                 hideSheet()
-                onAddNewWalletClick()
+                onAddNewCategoryClick()
             }
         )
     }
 }
 
 @Composable
-private fun WalletOptionItem(
-    wallet: Wallet,
+private fun CategoryOptionItem(
+    category: Category,
     onClick: () -> Unit,
 ) {
     Row(
@@ -111,16 +108,8 @@ private fun WalletOptionItem(
             .padding(horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        ItemWalletIcon(wallet)
+        ItemCategoryIcon(category)
         Spacer(modifier = Modifier.width(8.dp))
-        Column {
-            Text(text = wallet.name)
-            Text(
-                text = wallet.balance.formatThousand(),
-                style = MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight.Medium
-                )
-            )
-        }
+        Text(text = category.name)
     }
 }

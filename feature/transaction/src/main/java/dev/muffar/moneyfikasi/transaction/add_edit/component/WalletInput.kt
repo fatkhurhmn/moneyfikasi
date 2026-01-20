@@ -22,7 +22,7 @@ import dev.muffar.moneyfikasi.resource.R
 @Composable
 fun WalletInput(
     wallet: Wallet,
-    walletOption: List<Wallet>,
+    walletOptions: List<Wallet>,
     onWalletSelect: (Wallet) -> Unit,
     onAddNewWalletClick: () -> Unit
 ) {
@@ -52,8 +52,8 @@ fun WalletInput(
 
     AnimatedVisibility(showWalletPicker) {
         WalletPickerSheet(
-            wallets = walletOption,
-            onWalletSellect = onWalletSelect,
+            walletOptions = walletOptions,
+            onWalletSelect = onWalletSelect,
             onAddNewWalletClick = onAddNewWalletClick,
             onDismissRequest = { showWalletPicker = false }
         )

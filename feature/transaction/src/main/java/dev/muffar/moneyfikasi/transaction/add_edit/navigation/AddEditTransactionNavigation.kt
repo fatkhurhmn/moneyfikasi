@@ -65,7 +65,11 @@ fun NavGraphBuilder.addEditTransactionNavigation(
                 event(AddEditTransactionEvent.OnBottomSheetChange(sheetType))
             },
             onAddNewWalletClick = onNavigateToAddWallet,
-            onAddCategory = onNavigateToAddCategory
+            onAddNewCategoryClick = {
+                val type =
+                    if (type == TransactionType.EXPENSE) CategoryType.EXPENSE else CategoryType.INCOME
+                onNavigateToAddCategory(type)
+            }
         )
     }
 }

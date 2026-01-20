@@ -21,8 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.domain.model.Category
-import dev.muffar.moneyfikasi.domain.model.CategoryType
-import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionBottomSheet
 import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionButton
@@ -46,7 +44,7 @@ fun AddEditTransactionScreen(
     onBackClick: () -> Unit,
     onCreateClick: () -> Unit,
     onAddNewWalletClick: () -> Unit,
-    onAddCategory: (CategoryType) -> Unit,
+    onAddNewCategoryClick: () -> Unit,
     onShowBottomSheet: (AddEditTransactionSheetType?) -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(
@@ -81,10 +79,12 @@ fun AddEditTransactionScreen(
                 wallet = state.wallet,
                 date = state.date,
                 time = state.hour to state.minute,
-                walletOption = state.walletOption,
+                categoryOptions = state.categories,
+                walletOptions = state.walletOptions,
                 onAmountChange = onAmountChange,
                 onNoteChange = onNoteChange,
-                onCategoryClick = { onShowBottomSheet(AddEditTransactionSheetType.CATEGORY) },
+                onCategorySelect = onCategorySelect,
+                onAddNewCategoryClick = onAddNewCategoryClick,
                 onWalletSelect = onWalletSelect,
                 onAddNewWalletClick = onAddNewWalletClick,
                 onDateSelect = onDateSelect,
@@ -103,7 +103,7 @@ fun AddEditTransactionScreen(
                     AddEditTransactionBottomSheet(
                         type = state.bottomSheetType,
                         categories = state.categories,
-                        wallets = state.walletOption,
+                        wallets = state.walletOptions,
                         date = state.date,
                         hour = state.hour,
                         minute = state.minute,
@@ -113,15 +113,7 @@ fun AddEditTransactionScreen(
                         onTimeSelect = { a, b -> },
                         onDismiss = { onShowBottomSheet(null) },
                         onAddWallet = onAddNewWalletClick,
-                        onAddCategory = {
-                            val type = if (state.type == TransactionType.INCOME) {
-                                CategoryType.INCOME
-                            } else {
-                                CategoryType.EXPENSE
-                            }
-
-                            onAddCategory(type)
-                        }
+                        onAddCategory = { }
                     )
                 }
             }

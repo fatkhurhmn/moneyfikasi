@@ -110,7 +110,7 @@ class AddEditTransactionViewModel @Inject constructor(
         viewModelScope.launch {
             walletUseCases.getAllWallets().collectLatest { wallets ->
                 val activeWallets = wallets.filter { it.isActive }
-                _state.update { it.copy(walletOption = activeWallets) }
+                _state.update { it.copy(walletOptions = activeWallets) }
             }
         }
     }
