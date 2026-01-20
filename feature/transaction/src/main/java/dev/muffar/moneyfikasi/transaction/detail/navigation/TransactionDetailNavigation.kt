@@ -36,17 +36,17 @@ fun NavGraphBuilder.transactionDetailNavigation(
         val eventFlow = viewModel.eventFlow
 
         LaunchedEffect(Unit) {
-            event(TransactionDetailEvent.OnInitData)
+            event(TransactionDetailEvent.InitData)
         }
 
         TransactionDetailScreen(
             state = state,
             eventFlow = eventFlow,
-            onDelete = { event(TransactionDetailEvent.OnDeleteTransaction) },
-            onShowAlert = { event(TransactionDetailEvent.OnShowAlert(it)) },
+            onDelete = { event(TransactionDetailEvent.DeleteTransaction) },
+            onShowAlert = { event(TransactionDetailEvent.ShowDeleteAlert(it)) },
             onEditClick = onNavigateToEditTransaction,
             onBackClick = onNavigateBack,
-            onSaveClick = { event(TransactionDetailEvent.OnSaveToGallery(it)) },
+            onSaveClick = { event(TransactionDetailEvent.SaveToGallery(it)) },
         )
     }
 }

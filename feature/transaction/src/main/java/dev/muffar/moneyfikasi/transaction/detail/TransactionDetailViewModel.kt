@@ -34,14 +34,14 @@ class TransactionDetailViewModel @Inject constructor(
 
     fun onEvent(event: TransactionDetailEvent) {
         when (event) {
-            is TransactionDetailEvent.OnShowAlert -> onShowAlert(event.showAlert)
-            is TransactionDetailEvent.OnDeleteTransaction -> onDeleteTransaction()
-            is TransactionDetailEvent.OnInitData -> initState()
-            is TransactionDetailEvent.OnSaveToGallery -> onSaveToGallery(event.bitmap)
+            is TransactionDetailEvent.ShowDeleteAlert -> onShowDeleteAlert(event.showAlert)
+            is TransactionDetailEvent.DeleteTransaction -> onDeleteTransaction()
+            is TransactionDetailEvent.InitData -> onInitData()
+            is TransactionDetailEvent.SaveToGallery -> onSaveToGallery(event.bitmap)
         }
     }
 
-    private fun initState() {
+    private fun onInitData() {
         val isTransfer = handle.get<Boolean>(Screen.TransactionDetail.IS_TRANSFER) ?: false
         val transactionId = handle.get<String>(Screen.TransactionDetail.TRANSACTION_ID)
             ?.let { UUID.fromString(it) } ?: return
@@ -69,7 +69,7 @@ class TransactionDetailViewModel @Inject constructor(
         }
     }
 
-    private fun onShowAlert(showAlert: Boolean) {
+    private fun onShowDeleteAlert(showAlert: Boolean) {
         _state.update { it.copy(showAlert = showAlert) }
     }
 
