@@ -12,7 +12,6 @@ import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
-import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionSheetType
 import dev.muffar.moneyfikasi.utils.extensions.clearThousandFormat
 import dev.muffar.moneyfikasi.utils.extensions.formatThousand
 import dev.muffar.moneyfikasi.utils.extensions.toFormattedDateTime
@@ -58,7 +57,6 @@ class AddEditTransactionViewModel @Inject constructor(
             is AddEditTransactionEvent.OnTimeSelect -> onTimeSelect(event.time)
             is AddEditTransactionEvent.OnNoteChange -> onNoteChange(event.note)
             is AddEditTransactionEvent.OnCreateClicked -> onSaveTransaction()
-            is AddEditTransactionEvent.OnBottomSheetChange -> onBottomSheetChange(event.type)
         }
     }
 
@@ -98,9 +96,9 @@ class AddEditTransactionViewModel @Inject constructor(
     private fun loadCategories() {
         viewModelScope.launch {
             categoryUseCases.getAllCategories().collectLatest { categories ->
-                val filteredCategories =
-                    categories.filter { it.type.name == state.value.type.name }
-                        .filter { it.isActive }
+                val filteredCategories = categories
+                    .filter { it.type.name == state.value.type.name }
+                    .filter { it.isActive }
                 _state.update { it.copy(categories = filteredCategories) }
             }
         }
@@ -174,10 +172,6 @@ class AddEditTransactionViewModel @Inject constructor(
                 _eventFlow.emit(UiEvent.ShowMessage(e.message))
             }
         }
-    }
-
-    private fun onBottomSheetChange(type: AddEditTransactionSheetType?) {
-        _state.update { it.copy(bottomSheetType = type) }
     }
 
     private fun getFormattedDate(): LocalDateTime {

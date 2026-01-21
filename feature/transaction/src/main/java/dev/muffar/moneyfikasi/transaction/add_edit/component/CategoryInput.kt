@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.transaction.add_edit.component
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
@@ -28,33 +29,36 @@ fun CategoryInput(
 ) {
 
     var showCategoryPicker by remember { mutableStateOf(false) }
-    Row(
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        CommonTextInput(
-            modifier = Modifier.weight(1f),
-            value = category.name,
-            onValueChange = {},
-            label = stringResource(R.string.category),
-            placeholder = stringResource(R.string.select_category),
-            isClickable = true,
-            onClick = { showCategoryPicker = true }
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        IconFieldButton(
-            icon = category.icon,
-            color = category.color,
-            showLabel = false,
-            onIconClick = { showCategoryPicker = true }
-        )
-    }
 
-    AnimatedVisibility(showCategoryPicker) {
-        CategoryPickerSheet(
-            categoryOptions = categoryOptions,
-            onAddNewCategoryClick = onAddNewCategoryClick,
-            onCategorySelect = onCategorySelect,
-            onDismissRequest = { showCategoryPicker = false }
-        )
+    Box {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            CommonTextInput(
+                modifier = Modifier.weight(1f),
+                value = category.name,
+                onValueChange = {},
+                label = stringResource(R.string.category),
+                placeholder = stringResource(R.string.select_category),
+                isClickable = true,
+                onClick = { showCategoryPicker = true }
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            IconFieldButton(
+                icon = category.icon,
+                color = category.color,
+                showLabel = false,
+                onIconClick = { showCategoryPicker = true }
+            )
+        }
+
+        AnimatedVisibility(showCategoryPicker) {
+            CategoryPickerSheet(
+                categoryOptions = categoryOptions,
+                onAddNewCategoryClick = onAddNewCategoryClick,
+                onCategorySelect = onCategorySelect,
+                onDismissRequest = { showCategoryPicker = false }
+            )
+        }
     }
 }

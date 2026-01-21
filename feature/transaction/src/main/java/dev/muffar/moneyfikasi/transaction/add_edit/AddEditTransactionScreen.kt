@@ -9,11 +9,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -22,10 +20,8 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.Wallet
-import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionBottomSheet
 import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionButton
 import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionForm
-import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionSheetType
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
 
@@ -45,11 +41,7 @@ fun AddEditTransactionScreen(
     onCreateClick: () -> Unit,
     onAddNewWalletClick: () -> Unit,
     onAddNewCategoryClick: () -> Unit,
-    onShowBottomSheet: (AddEditTransactionSheetType?) -> Unit,
 ) {
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
-    )
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollState = rememberScrollState()
 
@@ -94,29 +86,6 @@ fun AddEditTransactionScreen(
             Spacer(Modifier.height(32.dp))
 
             AddEditTransactionButton(onCreateClick)
-
-            if (state.bottomSheetType != null) {
-                ModalBottomSheet(
-                    onDismissRequest = { onShowBottomSheet(null) },
-                    sheetState = sheetState
-                ) {
-                    AddEditTransactionBottomSheet(
-                        type = state.bottomSheetType,
-                        categories = state.categories,
-                        wallets = state.walletOptions,
-                        date = state.date,
-                        hour = state.hour,
-                        minute = state.minute,
-                        onCategorySelect = onCategorySelect,
-                        onWalletSelect = onWalletSelect,
-                        onDateSelect = onDateSelect,
-                        onTimeSelect = { a, b -> },
-                        onDismiss = { onShowBottomSheet(null) },
-                        onAddWallet = onAddNewWalletClick,
-                        onAddCategory = { }
-                    )
-                }
-            }
         }
     }
 

@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.transaction.add_edit.component
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
@@ -29,33 +30,35 @@ fun WalletInput(
 
     var showWalletPicker by remember { mutableStateOf(false) }
 
-    Row(
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        CommonTextInput(
-            modifier = Modifier.weight(1f),
-            value = wallet.name,
-            onValueChange = {},
-            label = stringResource(R.string.wallet),
-            placeholder = stringResource(R.string.select_wallet),
-            isClickable = true,
-            onClick = { showWalletPicker = true }
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        IconFieldButton(
-            icon = wallet.icon,
-            color = wallet.color,
-            showLabel = false,
-            onIconClick = { showWalletPicker = true }
-        )
-    }
+    Box {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            CommonTextInput(
+                modifier = Modifier.weight(1f),
+                value = wallet.name,
+                onValueChange = {},
+                label = stringResource(R.string.wallet),
+                placeholder = stringResource(R.string.select_wallet),
+                isClickable = true,
+                onClick = { showWalletPicker = true }
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            IconFieldButton(
+                icon = wallet.icon,
+                color = wallet.color,
+                showLabel = false,
+                onIconClick = { showWalletPicker = true }
+            )
+        }
 
-    AnimatedVisibility(showWalletPicker) {
-        WalletPickerSheet(
-            walletOptions = walletOptions,
-            onWalletSelect = onWalletSelect,
-            onAddNewWalletClick = onAddNewWalletClick,
-            onDismissRequest = { showWalletPicker = false }
-        )
+        AnimatedVisibility(showWalletPicker) {
+            WalletPickerSheet(
+                walletOptions = walletOptions,
+                onWalletSelect = onWalletSelect,
+                onAddNewWalletClick = onAddNewWalletClick,
+                onDismissRequest = { showWalletPicker = false }
+            )
+        }
     }
 }

@@ -57,19 +57,10 @@ fun NavGraphBuilder.addEditTransactionNavigation(
             onTimeSelect = { time ->
                 event(AddEditTransactionEvent.OnTimeSelect(time))
             },
-            onBackClick = onNavigateBack,
-            onCreateClick = {
-                event(AddEditTransactionEvent.OnCreateClicked)
-            },
-            onShowBottomSheet = { sheetType ->
-                event(AddEditTransactionEvent.OnBottomSheetChange(sheetType))
-            },
             onAddNewWalletClick = onNavigateToAddWallet,
-            onAddNewCategoryClick = {
-                val type =
-                    if (type == TransactionType.EXPENSE) CategoryType.EXPENSE else CategoryType.INCOME
-                onNavigateToAddCategory(type)
-            }
+            onAddNewCategoryClick = { onNavigateToAddCategory(state.categoryType) },
+            onCreateClick = { event(AddEditTransactionEvent.OnCreateClicked) },
+            onBackClick = onNavigateBack
         )
     }
 }

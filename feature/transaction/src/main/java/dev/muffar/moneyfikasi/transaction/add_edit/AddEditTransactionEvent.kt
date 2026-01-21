@@ -3,7 +3,6 @@ package dev.muffar.moneyfikasi.transaction.add_edit
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
-import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionSheetType
 
 sealed class AddEditTransactionEvent {
     data class OnInitType(val type: TransactionType) : AddEditTransactionEvent()
@@ -14,6 +13,4 @@ sealed class AddEditTransactionEvent {
     data class OnTimeSelect(val time: Pair<Int, Int>) : AddEditTransactionEvent()
     data class OnNoteChange(val note: String) : AddEditTransactionEvent()
     data object OnCreateClicked : AddEditTransactionEvent()
-    data class OnBottomSheetChange(val type: AddEditTransactionSheetType?) :
-        AddEditTransactionEvent()
 }

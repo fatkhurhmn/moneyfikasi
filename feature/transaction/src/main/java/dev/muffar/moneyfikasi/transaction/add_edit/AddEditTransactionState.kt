@@ -1,9 +1,9 @@
 package dev.muffar.moneyfikasi.transaction.add_edit
 
 import dev.muffar.moneyfikasi.domain.model.Category
+import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
-import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionSheetType
 import dev.muffar.moneyfikasi.utils.extensions.toFormattedDateTime
 import java.util.UUID
 
@@ -23,8 +23,13 @@ data class AddEditTransactionState(
     val note: String = "",
     val categories: List<Category> = emptyList(),
     val walletOptions: List<Wallet> = emptyList(),
-    val bottomSheetType: AddEditTransactionSheetType? = null,
 ) {
     val isEditMode: Boolean
         get() = id != null
+
+    val categoryType: CategoryType
+        get() = when (type) {
+            TransactionType.INCOME, TransactionType.TRANSFER_IN -> CategoryType.INCOME
+            else -> CategoryType.EXPENSE
+        }
 }
