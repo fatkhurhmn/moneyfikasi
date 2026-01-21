@@ -95,12 +95,11 @@ class AddEditTransactionViewModel @Inject constructor(
 
     private fun loadCategories() {
         viewModelScope.launch {
-            categoryUseCases.getAllCategories().collectLatest { categories ->
-                val filteredCategories = categories
-                    .filter { it.type.name == state.value.type.name }
-                    .filter { it.isActive }
-                _state.update { it.copy(categories = filteredCategories) }
-            }
+            categoryUseCases.getCategoryByType(state.value.categoryType)
+                .collectLatest { categories ->
+                    val filteredCategories = categories.filter { it.isActive }
+                    _state.update { it.copy(categories = filteredCategories) }
+                }
         }
     }
 

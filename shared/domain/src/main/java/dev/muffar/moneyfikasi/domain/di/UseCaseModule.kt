@@ -16,16 +16,17 @@ import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.category.DeleteCategory
 import dev.muffar.moneyfikasi.domain.usecase.category.GetAllCategories
 import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryById
+import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryByType
 import dev.muffar.moneyfikasi.domain.usecase.category.UpsertCategory
 import dev.muffar.moneyfikasi.domain.usecase.preferences.IsBalanceVisible
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.SetBalanceVisibility
+import dev.muffar.moneyfikasi.domain.usecase.transaction.AddTransaction
+import dev.muffar.moneyfikasi.domain.usecase.transaction.AddTransfer
 import dev.muffar.moneyfikasi.domain.usecase.transaction.DeleteTransaction
 import dev.muffar.moneyfikasi.domain.usecase.transaction.GetAllTransactions
 import dev.muffar.moneyfikasi.domain.usecase.transaction.GetTransactionById
 import dev.muffar.moneyfikasi.domain.usecase.transaction.GetTransactions
-import dev.muffar.moneyfikasi.domain.usecase.transaction.AddTransaction
-import dev.muffar.moneyfikasi.domain.usecase.transaction.AddTransfer
 import dev.muffar.moneyfikasi.domain.usecase.transaction.GetTransferDetail
 import dev.muffar.moneyfikasi.domain.usecase.transaction.SaveTransactionImage
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
@@ -49,6 +50,7 @@ object UseCaseModule {
         deleteCategory = DeleteCategory(categoryRepository),
         getAllCategories = GetAllCategories(categoryRepository),
         getCategoryById = GetCategoryById(categoryRepository),
+        getCategoryByType = GetCategoryByType(categoryRepository)
     )
 
     @Provides
