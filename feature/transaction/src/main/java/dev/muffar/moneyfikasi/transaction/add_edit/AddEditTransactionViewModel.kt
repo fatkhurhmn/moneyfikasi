@@ -49,14 +49,14 @@ class AddEditTransactionViewModel @Inject constructor(
 
     fun onEvent(event: AddEditTransactionEvent) {
         when (event) {
-            is AddEditTransactionEvent.OnInitType -> setType(event.type)
-            is AddEditTransactionEvent.OnAmountChange -> onAmountChange(event.amount)
-            is AddEditTransactionEvent.OnCategorySelect -> onCategorySelect(event.category)
-            is AddEditTransactionEvent.OnWalletSelect -> onWalletSelect(event.wallet)
-            is AddEditTransactionEvent.OnDateSelect -> onDateSelect(event.date)
-            is AddEditTransactionEvent.OnTimeSelect -> onTimeSelect(event.time)
-            is AddEditTransactionEvent.OnNoteChange -> onNoteChange(event.note)
-            is AddEditTransactionEvent.OnCreateClicked -> onSaveTransaction()
+            is AddEditTransactionEvent.InitType -> setType(event.type)
+            is AddEditTransactionEvent.AmountChanged -> onAmountChange(event.amount)
+            is AddEditTransactionEvent.CategorySelected -> onCategorySelect(event.category)
+            is AddEditTransactionEvent.WalletSelected -> onWalletSelect(event.wallet)
+            is AddEditTransactionEvent.DateSelected -> onDateSelect(event.date)
+            is AddEditTransactionEvent.TimeSelected -> onTimeSelect(event.time)
+            is AddEditTransactionEvent.NoteChanged -> onNoteChange(event.note)
+            is AddEditTransactionEvent.SaveTransaction -> onSaveTransaction()
         }
     }
 

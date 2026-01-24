@@ -3,7 +3,6 @@ package dev.muffar.moneyfikasi.transaction.add_edit.navigation
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -32,34 +31,33 @@ fun NavGraphBuilder.addEditTransactionNavigation(
         }
 
         LaunchedEffect(Unit) {
-            event(AddEditTransactionEvent.OnInitType(type ?: TransactionType.EXPENSE))
+            event(AddEditTransactionEvent.InitType(type ?: TransactionType.EXPENSE))
         }
 
         AddEditTransactionScreen(
-            modifier = Modifier,
             state = state,
             eventFlow = eventFlow,
             onAmountChange = { amount ->
-                event(AddEditTransactionEvent.OnAmountChange(amount))
+                event(AddEditTransactionEvent.AmountChanged(amount))
             },
             onNoteChange = { note ->
-                event(AddEditTransactionEvent.OnNoteChange(note))
+                event(AddEditTransactionEvent.NoteChanged(note))
             },
             onCategorySelect = { category ->
-                event(AddEditTransactionEvent.OnCategorySelect(category))
+                event(AddEditTransactionEvent.CategorySelected(category))
             },
             onWalletSelect = { wallet ->
-                event(AddEditTransactionEvent.OnWalletSelect(wallet))
+                event(AddEditTransactionEvent.WalletSelected(wallet))
             },
             onDateSelect = { date ->
-                event(AddEditTransactionEvent.OnDateSelect(date))
+                event(AddEditTransactionEvent.DateSelected(date))
             },
             onTimeSelect = { time ->
-                event(AddEditTransactionEvent.OnTimeSelect(time))
+                event(AddEditTransactionEvent.TimeSelected(time))
             },
             onAddNewWalletClick = onNavigateToAddWallet,
             onAddNewCategoryClick = { onNavigateToAddCategory(state.categoryType) },
-            onCreateClick = { event(AddEditTransactionEvent.OnCreateClicked) },
+            onSaveClick = { event(AddEditTransactionEvent.SaveTransaction) },
             onBackClick = onNavigateBack
         )
     }

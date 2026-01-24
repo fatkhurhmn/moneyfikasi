@@ -1,9 +1,7 @@
 package dev.muffar.moneyfikasi.transaction.add_edit
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -25,10 +23,9 @@ import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionF
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun AddEditTransactionScreen(
-    modifier: Modifier = Modifier,
     state: AddEditTransactionState,
     eventFlow: SharedFlow<AddEditTransactionViewModel.UiEvent>,
     onAmountChange: (String) -> Unit,
@@ -38,7 +35,7 @@ fun AddEditTransactionScreen(
     onTimeSelect: (Pair<Int, Int>) -> Unit,
     onNoteChange: (String) -> Unit,
     onBackClick: () -> Unit,
-    onCreateClick: () -> Unit,
+    onSaveClick: () -> Unit,
     onAddNewWalletClick: () -> Unit,
     onAddNewCategoryClick: () -> Unit,
 ) {
@@ -55,38 +52,32 @@ fun AddEditTransactionScreen(
                 onBackClick = onBackClick
             )
         },
+        bottomBar = { AddEditTransactionButton(onSaveClick) }
     ) {
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(top = it.calculateTopPadding())
-                .verticalScroll(scrollState)
+        AddEditTransactionForm(
+            modifier = Modifier
+                .padding(it)
+                .consumeWindowInsets(it)
                 .imePadding()
-                .padding(16.dp)
-        ) {
-            AddEditTransactionForm(
-                amount = state.amount,
-                note = state.note,
-                category = state.category,
-                wallet = state.wallet,
-                date = state.date,
-                time = state.hour to state.minute,
-                categoryOptions = state.categories,
-                walletOptions = state.walletOptions,
-                onAmountChange = onAmountChange,
-                onNoteChange = onNoteChange,
-                onCategorySelect = onCategorySelect,
-                onAddNewCategoryClick = onAddNewCategoryClick,
-                onWalletSelect = onWalletSelect,
-                onAddNewWalletClick = onAddNewWalletClick,
-                onDateSelect = onDateSelect,
-                onTimeSelect = onTimeSelect
-            )
-
-            Spacer(Modifier.height(32.dp))
-
-            AddEditTransactionButton(onCreateClick)
-        }
+                .verticalScroll(scrollState)
+                .padding(16.dp),
+            amount = state.amount,
+            note = state.note,
+            category = state.category,
+            wallet = state.wallet,
+            date = state.date,
+            time = state.hour to state.minute,
+            categoryOptions = state.categories,
+            walletOptions = state.walletOptions,
+            onAmountChange = onAmountChange,
+            onNoteChange = onNoteChange,
+            onCategorySelect = onCategorySelect,
+            onAddNewCategoryClick = onAddNewCategoryClick,
+            onWalletSelect = onWalletSelect,
+            onAddNewWalletClick = onAddNewWalletClick,
+            onDateSelect = onDateSelect,
+            onTimeSelect = onTimeSelect
+        )
     }
 
     LaunchedEffect(eventFlow) {

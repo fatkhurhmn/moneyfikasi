@@ -1,6 +1,5 @@
 package dev.muffar.moneyfikasi.transaction.add_edit.component
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +13,7 @@ import dev.muffar.moneyfikasi.domain.model.Wallet
 
 @Composable
 fun AddEditTransactionForm(
+    modifier: Modifier = Modifier,
     amount: String,
     note: String,
     category: Category,
@@ -32,17 +32,11 @@ fun AddEditTransactionForm(
     onTimeSelect: (Pair<Int, Int>) -> Unit,
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        modifier = modifier.fillMaxWidth(),
     ) {
         AmountInput(
             amount = amount,
             onAmountChange = onAmountChange
-        )
-
-        NoteInput(
-            note = note,
-            onNoteChange = onNoteChange
         )
 
         CategoryInput(
@@ -72,5 +66,10 @@ fun AddEditTransactionForm(
                 onTimeSelect = onTimeSelect
             )
         }
+
+        NoteInput(
+            note = note,
+            onNoteChange = onNoteChange
+        )
     }
 }
