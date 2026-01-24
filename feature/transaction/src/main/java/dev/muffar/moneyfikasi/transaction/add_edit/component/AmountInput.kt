@@ -9,8 +9,8 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
-import dev.muffar.moneyfikasi.common_ui.component.message.ErrorMessage
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
+import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.filterAmount
 

@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.common_ui.component.message
+package dev.muffar.moneyfikasi.domain.model
 
 data class ErrorMessage(
     val message: String? = null,

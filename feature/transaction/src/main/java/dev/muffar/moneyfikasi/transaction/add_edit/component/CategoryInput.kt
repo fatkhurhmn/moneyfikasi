@@ -1,7 +1,7 @@
 package dev.muffar.moneyfikasi.transaction.add_edit.component
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
@@ -16,9 +16,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.CategoryPickerSheet
 import dev.muffar.moneyfikasi.common_ui.component.button.IconFieldButton
-import dev.muffar.moneyfikasi.common_ui.component.message.ErrorMessage
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
+import dev.muffar.moneyfikasi.common_ui.component.text_input.TextInputError
 import dev.muffar.moneyfikasi.domain.model.Category
+import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
@@ -32,7 +33,7 @@ fun CategoryInput(
 
     var showCategoryPicker by remember { mutableStateOf(false) }
 
-    Box {
+    Column {
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -42,7 +43,6 @@ fun CategoryInput(
                 onValueChange = {},
                 label = stringResource(R.string.category),
                 placeholder = stringResource(R.string.select_category),
-                error = error,
                 isClickable = true,
                 onClick = { showCategoryPicker = true }
             )
@@ -54,7 +54,7 @@ fun CategoryInput(
                 onIconClick = { showCategoryPicker = true }
             )
         }
-
+        TextInputError(error)
         AnimatedVisibility(showCategoryPicker) {
             CategoryPickerSheet(
                 categoryOptions = categoryOptions,

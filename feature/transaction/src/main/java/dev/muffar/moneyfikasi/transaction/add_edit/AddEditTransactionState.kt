@@ -1,8 +1,8 @@
 package dev.muffar.moneyfikasi.transaction.add_edit
 
-import dev.muffar.moneyfikasi.common_ui.component.message.ErrorMessage
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.CategoryType
+import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.utils.extensions.toFormattedDateTime
