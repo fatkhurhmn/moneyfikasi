@@ -11,10 +11,16 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.TextFieldValue
+import dev.muffar.moneyfikasi.common_ui.component.keyboardAsState
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 
 @Composable
@@ -33,12 +39,18 @@ fun CommonTextInput(
     onClick: () -> Unit = {},
     leadingIcon: @Composable (() -> Unit)? = null,
 ) {
+
+    val isKeyboardVisible by keyboardAsState()
+    val focusRequester = remember { FocusRequester() }
+    val focusManager = LocalFocusManager.current
+
     Column(
         modifier = modifier
     ) {
         TextInputLabel(label)
         OutlinedTextField(
             modifier = Modifier
+                .focusRequester(focusRequester)
                 .fillMaxWidth()
                 .clickable(
                     indication = null,
@@ -58,6 +70,12 @@ fun CommonTextInput(
         )
         TextInputError(error)
     }
+
+    LaunchedEffect(isKeyboardVisible) {
+        if (!isKeyboardVisible) {
+            focusManager.clearFocus()
+        }
+    }
 }
 
 @Composable
@@ -73,12 +91,18 @@ fun CommonTextInput(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
 ) {
+    val isKeyboardVisible by keyboardAsState()
+    val focusRequester = remember { FocusRequester() }
+    val focusManager = LocalFocusManager.current
+
     Column(
         modifier = modifier
     ) {
         TextInputLabel(label)
         OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .focusRequester(focusRequester)
+                .fillMaxWidth(),
             value = value,
             onValueChange = onValueChange,
             shape = MaterialTheme.shapes.medium,
@@ -92,14 +116,21 @@ fun CommonTextInput(
         )
         TextInputError(error)
     }
+
+
+    LaunchedEffect(isKeyboardVisible) {
+        if (!isKeyboardVisible) {
+            focusManager.clearFocus()
+        }
+    }
 }
 
 @Composable
 private fun textInputColor(isClickable: Boolean) =
     OutlinedTextFieldDefaults.colors(
-        focusedBorderColor = Color.Transparent,
+        focusedBorderColor = MaterialTheme.colorScheme.primary,
         unfocusedBorderColor = Color.Transparent,
-        errorBorderColor = Color.Transparent,
+        errorBorderColor = MaterialTheme.colorScheme.error,
         focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(0.8f),
         unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(0.8f),
         errorContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(0.8f),
