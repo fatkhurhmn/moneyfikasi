@@ -8,7 +8,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -16,6 +15,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
+import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
+import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionButton
@@ -44,7 +45,7 @@ fun AddEditTransactionScreen(
 
     Scaffold(
         snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
+            SnackbarMessage(state = snackbarHostState)
         },
         topBar = {
             CommonTopAppBar(
@@ -78,8 +79,9 @@ fun AddEditTransactionScreen(
             when (it) {
                 is AddEditTransactionViewModel.UiEvent.SaveTransaction -> onBackClick()
                 is AddEditTransactionViewModel.UiEvent.DeleteTransaction -> onBackClick()
-                is AddEditTransactionViewModel.UiEvent.ShowMessage -> snackbarHostState.showSnackbar(
+                is AddEditTransactionViewModel.UiEvent.ShowMessage -> snackbarHostState.showMessage(
                     it.message,
+                    it.type
                 )
             }
         }

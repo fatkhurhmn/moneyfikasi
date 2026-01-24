@@ -47,7 +47,6 @@ fun WalletInput(
                 onClick = { showWalletPicker = true }
             )
             Spacer(modifier = Modifier.width(16.dp))
-
             IconFieldButton(
                 icon = wallet.icon,
                 color = wallet.color,

@@ -13,10 +13,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.TextFieldValue
@@ -43,6 +46,7 @@ fun CommonTextInput(
     val isKeyboardVisible by keyboardAsState()
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
+    var isFocus by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier
@@ -51,6 +55,7 @@ fun CommonTextInput(
         OutlinedTextField(
             modifier = Modifier
                 .focusRequester(focusRequester)
+                .onFocusChanged { isFocus = it.isFocused }
                 .fillMaxWidth()
                 .clickable(
                     indication = null,
@@ -60,7 +65,7 @@ fun CommonTextInput(
             onValueChange = { onValueChange(it.trimStart()) },
             isError = error.message != null,
             shape = MaterialTheme.shapes.medium,
-            colors = textInputColor(isClickable),
+            colors = textInputColor(isClickable, isFocus),
             placeholder = { Text(text = placeholder) },
             enabled = if (isClickable) false else enabled,
             readOnly = if (isClickable) true else readOnly,
@@ -94,6 +99,7 @@ fun CommonTextInput(
     val isKeyboardVisible by keyboardAsState()
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
+    var isFocus by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier
@@ -102,12 +108,13 @@ fun CommonTextInput(
         OutlinedTextField(
             modifier = Modifier
                 .focusRequester(focusRequester)
+                .onFocusChanged { isFocus = it.isFocused }
                 .fillMaxWidth(),
             value = value,
             onValueChange = onValueChange,
             shape = MaterialTheme.shapes.medium,
             isError = error.message != null,
-            colors = textInputColor(false),
+            colors = textInputColor(false, isFocus),
             placeholder = { Text(text = placeholder) },
             enabled = enabled,
             readOnly = readOnly,
@@ -126,11 +133,11 @@ fun CommonTextInput(
 }
 
 @Composable
-private fun textInputColor(isClickable: Boolean) =
+private fun textInputColor(isClickable: Boolean, isFocus: Boolean) =
     OutlinedTextFieldDefaults.colors(
         focusedBorderColor = MaterialTheme.colorScheme.primary,
         unfocusedBorderColor = Color.Transparent,
-        errorBorderColor = MaterialTheme.colorScheme.error,
+        errorBorderColor = if (isFocus) MaterialTheme.colorScheme.error else Color.Transparent,
         focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(0.8f),
         unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(0.8f),
         errorContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(0.8f),

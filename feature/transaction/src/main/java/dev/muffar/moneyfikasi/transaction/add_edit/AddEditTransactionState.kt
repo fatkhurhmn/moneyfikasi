@@ -40,7 +40,4 @@ data class AddEditTransactionState(
             TransactionType.INCOME, TransactionType.TRANSFER_IN -> CategoryType.INCOME
             else -> CategoryType.EXPENSE
         }
-
-    val isFormValid: Boolean
-        get() = amountError.isNull && categoryError.isNull && walletError.isNull
 }

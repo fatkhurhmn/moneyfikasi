@@ -4,9 +4,9 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
-import dev.muffar.moneyfikasi.domain.model.InvalidTransactionException
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
@@ -163,8 +163,7 @@ class AddEditTransactionViewModel @Inject constructor(
 
     private fun onSaveTransaction() {
         val state = state.value
-        validateForm()
-        if (!state.isFormValid) return
+        if (!isFormValid()) return
         viewModelScope.launch {
             try {
                 if (state.isEditMode) {
@@ -188,17 +187,20 @@ class AddEditTransactionViewModel @Inject constructor(
                     )
                 }
                 _eventFlow.emit(UiEvent.SaveTransaction)
-            } catch (e: InvalidTransactionException) {
-                _eventFlow.emit(UiEvent.ShowMessage(e.message))
+            } catch (e: Exception) {
+                _eventFlow.emit(UiEvent.ShowMessage(e.message ?: "", SnackbarType.ERROR))
             }
         }
     }
 
-    private fun validateForm() {
+    private fun isFormValid(): Boolean {
         viewModelScope.launch {
             updateAmountError()
             updateCategoryError()
             updateWalletError()
+        }
+        return state.value.run {
+            categoryError.isNull && walletError.isNull && amountError.isNull
         }
     }
 
@@ -210,7 +212,7 @@ class AddEditTransactionViewModel @Inject constructor(
     }
 
     sealed class UiEvent {
-        data class ShowMessage(val message: String) : UiEvent()
+        data class ShowMessage(val message: String, val type: SnackbarType) : UiEvent()
         data object SaveTransaction : UiEvent()
         data object DeleteTransaction : UiEvent()
     }
