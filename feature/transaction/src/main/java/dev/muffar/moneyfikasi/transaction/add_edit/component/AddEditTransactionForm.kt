@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.transaction.add_edit.component
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,18 +11,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.Wallet
+import dev.muffar.moneyfikasi.transaction.add_edit.AddEditTransactionState
 
 @Composable
 fun AddEditTransactionForm(
     modifier: Modifier = Modifier,
-    amount: String,
-    note: String,
-    category: Category,
-    wallet: Wallet,
-    date: Long,
-    time: Pair<Int, Int>,
-    categoryOptions: List<Category>,
-    walletOptions: List<Wallet>,
+    state: AddEditTransactionState,
     onAmountChange: (String) -> Unit,
     onNoteChange: (String) -> Unit,
     onCategorySelect: (Category) -> Unit,
@@ -33,22 +28,26 @@ fun AddEditTransactionForm(
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         AmountInput(
-            amount = amount,
+            amount = state.amount,
+            error = state.amountError,
             onAmountChange = onAmountChange
         )
 
         CategoryInput(
-            category = category,
-            categoryOptions = categoryOptions,
+            category = state.category,
+            error = state.categoryError,
+            categoryOptions = state.categoryOptions,
             onCategorySelect = onCategorySelect,
             onAddNewCategoryClick = onAddNewCategoryClick
         )
 
         WalletInput(
-            wallet = wallet,
-            walletOptions = walletOptions,
+            wallet = state.wallet,
+            error = state.walletError,
+            walletOptions = state.walletOptions,
             onWalletSelect = onWalletSelect,
             onAddNewWalletClick = onAddNewWalletClick
         )
@@ -56,19 +55,19 @@ fun AddEditTransactionForm(
         Row {
             DateInput(
                 modifier = Modifier.weight(0.6f),
-                date = date,
+                date = state.date,
                 onDateSelect = onDateSelect
             )
             Spacer(modifier = Modifier.width(16.dp))
             TimeInput(
                 modifier = Modifier.weight(0.4f),
-                time = time,
+                time = state.hour to state.minute,
                 onTimeSelect = onTimeSelect
             )
         }
 
         NoteInput(
-            note = note,
+            note = state.note,
             onNoteChange = onNoteChange
         )
     }

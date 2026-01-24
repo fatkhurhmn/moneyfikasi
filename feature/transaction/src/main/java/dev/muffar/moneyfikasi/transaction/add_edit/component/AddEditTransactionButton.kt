@@ -2,6 +2,7 @@ package dev.muffar.moneyfikasi.transaction.add_edit.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,7 +16,9 @@ import dev.muffar.moneyfikasi.resource.R
 fun AddEditTransactionButton(
     onSave: () -> Unit,
 ) {
-    Column {
+    Column(
+        modifier = Modifier.imePadding()
+    ) {
         CommonHorizontalDivider()
         CommonButton(
             modifier = Modifier

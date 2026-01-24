@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.WalletPickerSheet
 import dev.muffar.moneyfikasi.common_ui.component.button.IconFieldButton
+import dev.muffar.moneyfikasi.common_ui.component.message.ErrorMessage
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
@@ -23,6 +24,7 @@ import dev.muffar.moneyfikasi.resource.R
 @Composable
 fun WalletInput(
     wallet: Wallet,
+    error: ErrorMessage,
     walletOptions: List<Wallet>,
     onWalletSelect: (Wallet) -> Unit,
     onAddNewWalletClick: () -> Unit
@@ -40,6 +42,7 @@ fun WalletInput(
                 onValueChange = {},
                 label = stringResource(R.string.wallet),
                 placeholder = stringResource(R.string.select_wallet),
+                error = error,
                 isClickable = true,
                 onClick = { showWalletPicker = true }
             )

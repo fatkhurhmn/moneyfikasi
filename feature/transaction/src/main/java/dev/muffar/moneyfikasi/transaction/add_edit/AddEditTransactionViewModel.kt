@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.muffar.moneyfikasi.common_ui.component.message.ErrorMessage
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.InvalidTransactionException
 import dev.muffar.moneyfikasi.domain.model.TransactionType
@@ -12,6 +13,7 @@ import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.utils.constants.UUIDConst
 import dev.muffar.moneyfikasi.utils.extensions.clearThousandFormat
 import dev.muffar.moneyfikasi.utils.extensions.formatThousand
 import dev.muffar.moneyfikasi.utils.extensions.toFormattedDateTime
@@ -98,7 +100,7 @@ class AddEditTransactionViewModel @Inject constructor(
             categoryUseCases.getCategoryByType(state.value.categoryType)
                 .collectLatest { categories ->
                     val filteredCategories = categories.filter { it.isActive }
-                    _state.update { it.copy(categories = filteredCategories) }
+                    _state.update { it.copy(categoryOptions = filteredCategories) }
                 }
         }
     }
@@ -115,6 +117,13 @@ class AddEditTransactionViewModel @Inject constructor(
     private fun onAmountChange(amount: String) {
         if (amount.length > 17) return
         _state.update { it.copy(amount = amount) }
+        updateAmountError()
+    }
+
+    private fun updateAmountError() {
+        val amount = state.value.amount.clearThousandFormat().toDouble()
+        val error = if (amount <= 0) "Amount cannot be zero" else null
+        _state.update { it.copy(amountError = ErrorMessage(error)) }
     }
 
     private fun onNoteChange(note: String) {
@@ -123,15 +132,25 @@ class AddEditTransactionViewModel @Inject constructor(
     }
 
     private fun onCategorySelect(category: Category) {
-        _state.update {
-            it.copy(category = category)
-        }
+        _state.update { it.copy(category = category) }
+        updateCategoryError()
+    }
+
+    private fun updateCategoryError() {
+        val category = state.value.category
+        val error = if (category.id == UUIDConst.empty) "Category cannot be empty" else null
+        _state.update { it.copy(categoryError = ErrorMessage(error)) }
     }
 
     private fun onWalletSelect(wallet: Wallet) {
-        _state.update {
-            it.copy(wallet = wallet)
-        }
+        _state.update { it.copy(wallet = wallet) }
+        updateWalletError()
+    }
+
+    private fun updateWalletError() {
+        val wallet = state.value.wallet
+        val error = if (wallet.id == UUIDConst.empty) "Wallet cannot be empty" else null
+        _state.update { it.copy(walletError = ErrorMessage(error)) }
     }
 
     private fun onDateSelect(date: Long) {
@@ -143,7 +162,9 @@ class AddEditTransactionViewModel @Inject constructor(
     }
 
     private fun onSaveTransaction() {
-        val state = this.state.value
+        val state = state.value
+        validateForm()
+        if (!state.isFormValid) return
         viewModelScope.launch {
             try {
                 if (state.isEditMode) {
@@ -170,6 +191,14 @@ class AddEditTransactionViewModel @Inject constructor(
             } catch (e: InvalidTransactionException) {
                 _eventFlow.emit(UiEvent.ShowMessage(e.message))
             }
+        }
+    }
+
+    private fun validateForm() {
+        viewModelScope.launch {
+            updateAmountError()
+            updateCategoryError()
+            updateWalletError()
         }
     }
 

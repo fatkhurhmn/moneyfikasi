@@ -61,14 +61,7 @@ fun AddEditTransactionScreen(
                 .imePadding()
                 .verticalScroll(scrollState)
                 .padding(16.dp),
-            amount = state.amount,
-            note = state.note,
-            category = state.category,
-            wallet = state.wallet,
-            date = state.date,
-            time = state.hour to state.minute,
-            categoryOptions = state.categories,
-            walletOptions = state.walletOptions,
+            state = state,
             onAmountChange = onAmountChange,
             onNoteChange = onNoteChange,
             onCategorySelect = onCategorySelect,

@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.CategoryPickerSheet
 import dev.muffar.moneyfikasi.common_ui.component.button.IconFieldButton
+import dev.muffar.moneyfikasi.common_ui.component.message.ErrorMessage
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.resource.R
@@ -23,6 +24,7 @@ import dev.muffar.moneyfikasi.resource.R
 @Composable
 fun CategoryInput(
     category: Category,
+    error: ErrorMessage,
     categoryOptions: List<Category>,
     onCategorySelect: (Category) -> Unit,
     onAddNewCategoryClick: () -> Unit
@@ -40,6 +42,7 @@ fun CategoryInput(
                 onValueChange = {},
                 label = stringResource(R.string.category),
                 placeholder = stringResource(R.string.select_category),
+                error = error,
                 isClickable = true,
                 onClick = { showCategoryPicker = true }
             )

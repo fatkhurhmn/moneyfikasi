@@ -9,6 +9,7 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
+import dev.muffar.moneyfikasi.common_ui.component.message.ErrorMessage
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.filterAmount
@@ -16,6 +17,7 @@ import dev.muffar.moneyfikasi.utils.extensions.filterAmount
 @Composable
 fun AmountInput(
     amount: String,
+    error: ErrorMessage,
     onAmountChange: (String) -> Unit
 ) {
     CommonTextInput(
@@ -24,6 +26,7 @@ fun AmountInput(
         onValueChange = { it.text.filterAmount()?.let(onAmountChange) },
         label = stringResource(R.string.amount),
         placeholder = stringResource(R.string.enter_amount),
+        error = error,
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Done,
             keyboardType = KeyboardType.Number
