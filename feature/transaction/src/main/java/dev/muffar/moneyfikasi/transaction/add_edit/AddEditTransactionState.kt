@@ -12,7 +12,7 @@ data class AddEditTransactionState(
     val id: UUID? = null,
     val type: TransactionType = TransactionType.EXPENSE,
 
-    val amount: String = "0",
+    val amount: String = "",
     val amountError: ErrorMessage = ErrorMessage(),
 
     val category: Category = Category(),

@@ -8,7 +8,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.TextFieldValue
 import dev.muffar.moneyfikasi.common_ui.component.keyboardAsState
@@ -131,41 +129,3 @@ fun CommonTextInput(
         }
     }
 }
-
-@Composable
-private fun textInputColor(isClickable: Boolean, isFocus: Boolean) =
-    OutlinedTextFieldDefaults.colors(
-        focusedBorderColor = MaterialTheme.colorScheme.primary,
-        unfocusedBorderColor = Color.Transparent,
-        errorBorderColor = if (isFocus) MaterialTheme.colorScheme.error else Color.Transparent,
-        focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(0.8f),
-        unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(0.8f),
-        errorContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(0.8f),
-        focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
-        unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
-        disabledContainerColor = if (isClickable) {
-            MaterialTheme.colorScheme.surfaceVariant.copy(0.8f)
-        } else {
-            Color.Transparent
-        },
-        disabledTextColor = if (isClickable) {
-            MaterialTheme.colorScheme.onBackground
-        } else {
-            MaterialTheme.colorScheme.onSurfaceVariant
-        },
-        disabledBorderColor = if (isClickable) {
-            MaterialTheme.colorScheme.surfaceVariant.copy(0.8f)
-        } else {
-            MaterialTheme.colorScheme.onSurfaceVariant
-        },
-        disabledLeadingIconColor = if (isClickable) {
-            MaterialTheme.colorScheme.onBackground
-        } else {
-            MaterialTheme.colorScheme.onSurfaceVariant
-        },
-        disabledTrailingIconColor = if (isClickable) {
-            MaterialTheme.colorScheme.onBackground
-        } else {
-            MaterialTheme.colorScheme.onSurfaceVariant
-        }
-    )

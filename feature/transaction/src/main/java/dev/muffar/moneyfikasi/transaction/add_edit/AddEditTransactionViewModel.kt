@@ -121,8 +121,12 @@ class AddEditTransactionViewModel @Inject constructor(
     }
 
     private fun updateAmountError() {
-        val amount = state.value.amount.clearThousandFormat().toDouble()
-        val error = if (amount <= 0) "Amount cannot be zero" else null
+        val amount = state.value.amount
+        val error = when {
+            amount.isEmpty() -> "Amount cannot be empty"
+            amount.clearThousandFormat().toDouble() == 0.0 -> "Minimum amount is 1"
+            else -> null
+        }
         _state.update { it.copy(amountError = ErrorMessage(error)) }
     }
 
@@ -149,7 +153,7 @@ class AddEditTransactionViewModel @Inject constructor(
 
     private fun updateWalletError() {
         val wallet = state.value.wallet
-        val error = if (wallet.id == UUIDConst.empty) "Wallet cannot be empty" else null
+        val error = if (wallet.isNotSet) "Wallet cannot be empty" else null
         _state.update { it.copy(walletError = ErrorMessage(error)) }
     }
 
