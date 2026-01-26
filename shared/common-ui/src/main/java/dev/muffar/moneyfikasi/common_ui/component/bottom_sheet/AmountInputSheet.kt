@@ -14,7 +14,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.button.RowNegativePositiveButton
-import dev.muffar.moneyfikasi.common_ui.component.calculator.CalculatorKeyboard
+import dev.muffar.moneyfikasi.common_ui.component.calculator.CalculatorScreen
+import dev.muffar.moneyfikasi.common_ui.component.calculator.rememberCalculatorState
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.launch
 
@@ -34,25 +35,19 @@ fun AmountInputSheet(
         }
     }
 
-
     ModalBottomSheet(
         modifier = Modifier.statusBarsPadding(),
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
         containerColor = MaterialTheme.colorScheme.surface
     ) {
-
+        val calcState = rememberCalculatorState()
         BottomSheetTitle(stringResource(R.string.enter_amount))
-        CalculatorKeyboard(
-            onNumberClick = {},
-            onOperatorClick = {},
-            onDecimalClick = {},
-            onBackspaceClick = {},
-            onClearClick = {},
-            onEqualsClick = {},
-            modifier = Modifier.padding(16.dp)
-        )
         CommonHorizontalDivider()
+        CalculatorScreen(
+            state = calcState,
+            modifier = Modifier.weight(1f)
+        )
         RowNegativePositiveButton(
             modifier = Modifier
                 .fillMaxWidth()
