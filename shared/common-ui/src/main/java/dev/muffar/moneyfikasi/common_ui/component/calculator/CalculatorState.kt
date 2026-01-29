@@ -39,6 +39,16 @@ class CalculatorState {
     }
 
     private fun appendInput(value: String) {
+        if (input == "Error") {
+            input = if (value == CalculatorSymbols.DECIMAL) "0." else value
+            return
+        }
+
+        val lastSegment = input.takeLastWhile { !isOperator(it) }
+        if ((lastSegment + value).count { it.isDigit() } > 17 && value.any { it.isDigit() }) {
+            return
+        }
+
         if (input == "0" && value != CalculatorSymbols.DECIMAL) {
             input = value
         } else {
@@ -106,7 +116,11 @@ class CalculatorState {
 
     private fun formatResult(value: Double): String {
         val df = DecimalFormat("#.########")
-        return df.format(value)
+        val formatted = df.format(value)
+        if (formatted.count { it.isDigit() } > 17) {
+            return "Error"
+        }
+        return formatted
     }
 
     private fun evaluateExpression(expression: String): Double {
