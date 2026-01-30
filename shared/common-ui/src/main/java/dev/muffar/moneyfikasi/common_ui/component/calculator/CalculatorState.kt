@@ -17,7 +17,14 @@ class CalculatorState {
     var history by mutableStateOf("")
         private set
 
+    var errorMessage by mutableStateOf("")
+        private set
+
     fun onAction(action: CalculatorKey) {
+        if (errorMessage.isNotEmpty()) {
+            performClear()
+        }
+
         when (action) {
             is CalculatorKey.Number -> appendInput(action.number.toString())
             is CalculatorKey.TripleZero -> appendInput(CalculatorSymbols.TRIPLE_ZERO)
@@ -27,11 +34,7 @@ class CalculatorState {
             }
 
             is CalculatorKey.Operation -> appendOperation(action.operation.symbol)
-            is CalculatorKey.Clear -> {
-                input = "0"
-                history = ""
-            }
-
+            is CalculatorKey.Clear -> performClear()
             is CalculatorKey.Delete -> performDeletion()
             is CalculatorKey.Calculate -> performCalculation()
             is CalculatorKey.ToggleSign -> performSignToggle()
@@ -64,6 +67,12 @@ class CalculatorState {
         } else {
             input += symbol
         }
+    }
+
+    private fun performClear(){
+        input = "0"
+        history = ""
+        errorMessage = ""
     }
 
     private fun performDeletion() {
@@ -118,6 +127,7 @@ class CalculatorState {
         val df = DecimalFormat("#.########")
         val formatted = df.format(value)
         if (formatted.count { it.isDigit() } > 17) {
+            errorMessage = "Number too large"
             return "Error"
         }
         return formatted

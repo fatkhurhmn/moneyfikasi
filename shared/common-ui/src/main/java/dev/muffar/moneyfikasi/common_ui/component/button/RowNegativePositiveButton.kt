@@ -12,6 +12,8 @@ fun RowNegativePositiveButton(
     negativeText: String,
     positiveText: String,
     modifier: Modifier = Modifier,
+    negativeEnabled: Boolean = true,
+    positiveEnabled: Boolean = true,
     onNegativeClick: () -> Unit,
     onPositiveClick: () -> Unit
 ) {
@@ -19,12 +21,14 @@ fun RowNegativePositiveButton(
         CommonOutlinedButton(
             text = negativeText,
             modifier = Modifier.weight(1f),
+            enabled = negativeEnabled,
             onClick = onNegativeClick
         )
         Spacer(modifier = Modifier.width(8.dp))
         CommonButton(
             text = positiveText,
             modifier = Modifier.weight(1f),
+            enabled = positiveEnabled,
             onClick = onPositiveClick
         )
     }

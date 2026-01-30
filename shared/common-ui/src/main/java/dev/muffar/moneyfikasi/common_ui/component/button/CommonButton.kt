@@ -10,10 +10,12 @@ import androidx.compose.ui.Modifier
 fun CommonButton(
     text: String,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     onClick: () -> Unit
 ) {
     Button(
         modifier = modifier,
+        enabled = enabled,
         onClick = onClick,
         shape = MaterialTheme.shapes.large,
     ) {

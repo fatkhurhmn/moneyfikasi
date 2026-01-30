@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AmountInputSheet(
+    onConfirm: (String) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
 
@@ -48,18 +49,21 @@ fun AmountInputSheet(
             state = calcState,
             modifier = Modifier.weight(1f)
         )
+        CommonHorizontalDivider()
         RowNegativePositiveButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             negativeText = stringResource(R.string.cancel),
             positiveText = stringResource(R.string.ok),
+            positiveEnabled = calcState.errorMessage.isEmpty(),
             onNegativeClick = {
                 hideSheet()
                 onDismissRequest()
             },
             onPositiveClick = {
                 hideSheet()
+                onConfirm(calcState.input)
             }
         )
     }

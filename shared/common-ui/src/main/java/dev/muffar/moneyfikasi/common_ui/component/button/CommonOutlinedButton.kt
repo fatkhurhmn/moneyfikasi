@@ -13,11 +13,13 @@ import androidx.compose.ui.unit.dp
 fun CommonOutlinedButton(
     text: String,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     onClick: () -> Unit
 ) {
     OutlinedButton(
         modifier = modifier,
         onClick = onClick,
+        enabled = enabled,
         shape = MaterialTheme.shapes.large,
         colors = ButtonDefaults.outlinedButtonColors(
             contentColor = MaterialTheme.colorScheme.primary,

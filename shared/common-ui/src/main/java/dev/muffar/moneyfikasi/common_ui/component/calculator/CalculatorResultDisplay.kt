@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.common_ui.component.calculator
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.Spring
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,6 +34,7 @@ import java.text.DecimalFormat
 fun CalculatorResultDisplay(
     input: String,
     history: String,
+    error: String,
     modifier: Modifier = Modifier
 ) {
     val txtScale = remember { Animatable(1f) }
@@ -57,31 +60,51 @@ fun CalculatorResultDisplay(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.End
     ) {
+        Column(
+            modifier = modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.End
+        ) {
+            AnimatedContent(
+                targetState = history,
+                transitionSpec = { fadeIn().togetherWith(fadeOut()) },
+                label = "HistoryAnimation"
+            ) { targetHistory ->
+                Text(
+                    text = formatWithCommas(targetHistory),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.End,
+                    lineHeight = 24.sp
+                )
+            }
 
-        AnimatedContent(
-            targetState = history,
-            transitionSpec = { fadeIn().togetherWith(fadeOut()) },
-            label = "HistoryAnimation"
-        ) { targetHistory ->
+            Spacer(modifier = Modifier.height(12.dp))
+
             Text(
-                text = formatWithCommas(targetHistory),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                text = formatWithCommas(input),
+                style = MaterialTheme.typography.displaySmall,
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.End,
-                lineHeight = 24.sp
+                maxLines = 5,
             )
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
-
-        Text(
-            text = formatWithCommas(input),
-            style = MaterialTheme.typography.displaySmall,
-            color = MaterialTheme.colorScheme.onSurface,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.End,
-            maxLines = 5,
-        )
+        if (error.isNotEmpty()) {
+            AnimatedVisibility(
+                visible = error.isNotEmpty(),
+                modifier = Modifier.padding(vertical = 16.dp)
+            ) {
+                Text(
+                    text = error,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.error,
+                    textAlign = TextAlign.End,
+                    lineHeight = 24.sp
+                )
+            }
+        }
     }
 }
 

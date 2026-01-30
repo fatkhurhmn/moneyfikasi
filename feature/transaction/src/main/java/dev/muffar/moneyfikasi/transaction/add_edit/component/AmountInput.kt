@@ -44,6 +44,7 @@ fun AmountInput(
 
         AnimatedVisibility(showAmountInputSheet) {
             AmountInputSheet(
+                onConfirm = onAmountChange,
                 onDismissRequest = { showAmountInputSheet = false }
             )
         }
