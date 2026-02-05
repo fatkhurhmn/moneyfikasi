@@ -23,10 +23,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.muffar.moneyfikasi.resource.R
 import java.text.DecimalFormat
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -34,7 +36,7 @@ import java.text.DecimalFormat
 fun CalculatorResultDisplay(
     input: String,
     history: String,
-    error: String,
+    error: CalculatorError?,
     modifier: Modifier = Modifier
 ) {
     val txtScale = remember { Animatable(1f) }
@@ -91,13 +93,13 @@ fun CalculatorResultDisplay(
             )
         }
 
-        if (error.isNotEmpty()) {
+        if (error != null) {
             AnimatedVisibility(
-                visible = error.isNotEmpty(),
+                visible = error == CalculatorError.TooLargeNumber,
                 modifier = Modifier.padding(vertical = 16.dp)
             ) {
                 Text(
-                    text = error,
+                    text = stringResource(R.string.number_too_large),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.error,
                     textAlign = TextAlign.End,

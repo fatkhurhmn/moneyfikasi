@@ -15,7 +15,7 @@ fun CalculatorScreen(
         CalculatorResultDisplay(
             input = state.input,
             history = state.history,
-            error = state.errorMessage,
+            error = state.error,
             modifier = Modifier.weight(1f)
         )
         CalculatorKeyboard(state::onAction)

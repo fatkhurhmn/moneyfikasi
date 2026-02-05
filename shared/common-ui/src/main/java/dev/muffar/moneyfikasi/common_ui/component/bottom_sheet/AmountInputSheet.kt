@@ -17,11 +17,13 @@ import dev.muffar.moneyfikasi.common_ui.component.button.RowNegativePositiveButt
 import dev.muffar.moneyfikasi.common_ui.component.calculator.CalculatorScreen
 import dev.muffar.moneyfikasi.common_ui.component.calculator.rememberCalculatorState
 import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.utils.extensions.clearThousandFormat
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AmountInputSheet(
+    amount: String,
     onConfirm: (String) -> Unit,
     onDismissRequest: () -> Unit,
 ) {
@@ -42,9 +44,8 @@ fun AmountInputSheet(
         sheetState = sheetState,
         containerColor = MaterialTheme.colorScheme.surface
     ) {
-        val calcState = rememberCalculatorState()
+        val calcState = rememberCalculatorState(amount)
         BottomSheetTitle(stringResource(R.string.enter_amount))
-        CommonHorizontalDivider()
         CalculatorScreen(
             state = calcState,
             modifier = Modifier.weight(1f)
@@ -56,14 +57,14 @@ fun AmountInputSheet(
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             negativeText = stringResource(R.string.cancel),
             positiveText = stringResource(R.string.ok),
-            positiveEnabled = calcState.errorMessage.isEmpty(),
+            positiveEnabled = calcState.error == null,
             onNegativeClick = {
                 hideSheet()
                 onDismissRequest()
             },
             onPositiveClick = {
                 hideSheet()
-                onConfirm(calcState.input)
+                onConfirm(calcState.input.clearThousandFormat())
             }
         )
     }

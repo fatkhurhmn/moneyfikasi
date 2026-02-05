@@ -8,40 +8,42 @@ import androidx.compose.runtime.setValue
 import java.text.DecimalFormat
 
 @Composable
-fun rememberCalculatorState() = remember { CalculatorState() }
+fun rememberCalculatorState(
+    initialInput: String = "0"
+) = remember { CalculatorState(initialInput) }
 
-class CalculatorState {
-    var input by mutableStateOf("0")
+class CalculatorState(initialInput: String) {
+    var input by mutableStateOf(initialInput)
         private set
 
     var history by mutableStateOf("")
         private set
 
-    var errorMessage by mutableStateOf("")
+    var error by mutableStateOf<CalculatorError?>(null)
         private set
 
     fun onAction(action: CalculatorKey) {
-        if (errorMessage.isNotEmpty()) {
-            performClear()
+        if (action !is CalculatorKey.Calculate) {
+            error = null
         }
 
         when (action) {
             is CalculatorKey.Number -> appendInput(action.number.toString())
             is CalculatorKey.TripleZero -> appendInput(CalculatorSymbols.TRIPLE_ZERO)
-            is CalculatorKey.Decimal -> {
-                if (!canAddDecimal(input)) return
-                appendInput(CalculatorSymbols.DECIMAL)
-            }
-
+            is CalculatorKey.Decimal -> appendInput(CalculatorSymbols.DECIMAL)
             is CalculatorKey.Operation -> appendOperation(action.operation.symbol)
             is CalculatorKey.Clear -> performClear()
             is CalculatorKey.Delete -> performDeletion()
             is CalculatorKey.Calculate -> performCalculation()
             is CalculatorKey.ToggleSign -> performSignToggle()
         }
+        recheckErrorForCurrentInput()
     }
 
+
     private fun appendInput(value: String) {
+        if (!canAddDecimal(input)) return
+
         if (input == "Error") {
             input = if (value == CalculatorSymbols.DECIMAL) "0." else value
             return
@@ -69,13 +71,18 @@ class CalculatorState {
         }
     }
 
-    private fun performClear(){
+    private fun performClear() {
         input = "0"
         history = ""
-        errorMessage = ""
+        error = null
     }
 
     private fun performDeletion() {
+        if (input == "Error") {
+            performClear()
+            return
+        }
+
         input = if (input.length > 1) {
             input.dropLast(1)
         } else {
@@ -113,24 +120,38 @@ class CalculatorState {
     private fun performCalculation() {
         try {
             if (input.isNotEmpty() && input.last().isDigit()) {
+                val originalInput = input
                 val result = evaluateExpression(input)
-                history = input
-                input = formatResult(result)
+
+                if (!result.isFinite()) {
+                    setTooLargeError()
+                    return
+                }
+
+                val formatted = formatResult(result) ?: run {
+                    setTooLargeError()
+                    return
+                }
+
+                history = originalInput
+                input = formatted
+                error = null
             }
         } catch (e: Exception) {
-            e.printStackTrace()
+            error = CalculatorError.InvalidExpression
             input = "Error"
         }
     }
 
-    private fun formatResult(value: Double): String {
+    private fun formatResult(value: Double): String? {
         val df = DecimalFormat("#.########")
         val formatted = df.format(value)
-        if (formatted.count { it.isDigit() } > 17) {
-            errorMessage = "Number too large"
-            return "Error"
+
+        return if (formatted.count { it.isDigit() } > 17) {
+            null
+        } else {
+            formatted
         }
-        return formatted
     }
 
     private fun evaluateExpression(expression: String): Double {
@@ -202,5 +223,28 @@ class CalculatorState {
 
     private fun isOperator(char: Char): Boolean {
         return char.toString() in MathOperation.entries.map { it.symbol }.toSet()
+    }
+
+    private fun setTooLargeError() {
+        error = CalculatorError.TooLargeNumber
+        input = "Error"
+    }
+
+    private fun recheckErrorForCurrentInput() {
+        if (error != null) return
+
+        if (input.any { isOperator(it) }) {
+            error = CalculatorError.InvalidResultFormat
+            return
+        }
+
+        val value = input.toDoubleOrNull() ?: run {
+            error = CalculatorError.InvalidResultFormat
+            return
+        }
+
+        if (value <= 0 || !input.all { it.isDigit() }) {
+            error = CalculatorError.InvalidResultFormat
+        }
     }
 }

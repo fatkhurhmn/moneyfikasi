@@ -18,6 +18,7 @@ import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.filterAmount
+import dev.muffar.moneyfikasi.utils.extensions.formatThousand
 
 @Composable
 fun AmountInput(
@@ -29,7 +30,7 @@ fun AmountInput(
     Column {
         CommonTextInput(
             modifier = Modifier.fillMaxWidth(),
-            value = amount,
+            value = amount.toDouble().formatThousand(),
             onValueChange = { it.filterAmount()?.let(onAmountChange) },
             label = stringResource(R.string.amount),
             placeholder = stringResource(R.string.enter_amount),
@@ -44,6 +45,7 @@ fun AmountInput(
 
         AnimatedVisibility(showAmountInputSheet) {
             AmountInputSheet(
+                amount = amount,
                 onConfirm = onAmountChange,
                 onDismissRequest = { showAmountInputSheet = false }
             )

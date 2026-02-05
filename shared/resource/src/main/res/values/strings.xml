@@ -119,4 +119,5 @@
     <string name="custom_date">Custom Date</string>
     <string name="new_wallet">New Wallet</string>
     <string name="new_category">New Category</string>
+    <string name="number_too_large">Number too large</string>
 </resources>
