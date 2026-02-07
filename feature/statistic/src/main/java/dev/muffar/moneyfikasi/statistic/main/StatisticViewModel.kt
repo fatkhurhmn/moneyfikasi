@@ -3,17 +3,22 @@ package dev.muffar.moneyfikasi.statistic.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
-import dev.muffar.moneyfikasi.domain.model.TimePeriod
-import dev.muffar.moneyfikasi.statistic.main.component.StatisticSheetType
+import dev.muffar.moneyfikasi.domain.utils.extension.toDateRange
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,28 +32,34 @@ class StatisticViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        loadOverviews()
-        loadCategories()
+        observeTransactions()
         loadWallets()
+        loadCategories()
     }
 
     fun onEvent(event: StatisticEvent) {
         when (event) {
-            is StatisticEvent.OnLocalDateTimeChange -> onLocalDateTimeChange(event.localDateTime)
-            is StatisticEvent.OnDateRangeChanged -> onDateRangeChange(event.start, event.end)
-            is StatisticEvent.OnShowBottomSheet -> onShowBottomSheet(event.type)
-            is StatisticEvent.OnFilterChanged -> onFilterChanged(event.filter)
+            is StatisticEvent.DateRangeChanged -> onDateRangeChange(event.dateRange)
+            is StatisticEvent.TimeReferenceChanged -> onTimeReferenceChange(event.timeReference)
+            is StatisticEvent.ShowChooseDateSheet -> onShowChooseDateSheet(event.show)
+            is StatisticEvent.ShowCustomDateSheet -> onShowCustomDateSheet(event.show)
         }
     }
 
-    private fun loadOverviews() {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun observeTransactions() {
         viewModelScope.launch {
-            transactionUseCases.getAllTransactions(
-                _state.value.startDateRange,
-                _state.value.endDateRange,
-                _state.value.categories,
-                _state.value.wallets
-            )
+            state
+                .map { Triple(it.dateRange, it.categories, it.wallets) }
+                .distinctUntilChanged()
+                .flatMapLatest { (dateRange, category, wallets) ->
+                    transactionUseCases.getAllTransactions(
+                        dateRange.start,
+                        dateRange.end,
+                        category,
+                        wallets
+                    )
+                }
                 .collectLatest { transactions ->
 
                     val incomeTransaction = transactions.filter { it.isIncome }
@@ -81,7 +92,6 @@ class StatisticViewModel @Inject constructor(
                     _state.update {
                         it.copy(categories = categories.toSet())
                     }
-                    loadOverviews()
                 }
         }
     }
@@ -93,35 +103,34 @@ class StatisticViewModel @Inject constructor(
                     _state.update { state ->
                         state.copy(wallets = wallets.toSet())
                     }
-                    loadOverviews()
                 }
         }
     }
 
-    private fun onLocalDateTimeChange(localDateTime: LocalDateTime) {
-        _state.update { it.copy(currentLocalDateTime = localDateTime) }
-    }
-
-    private fun onDateRangeChange(start: Long, end: Long) {
-        _state.update { state ->
-            state.copy(
-                startDateRange = start,
-                endDateRange = end
+    private fun onTimeReferenceChange(dateTime: LocalDateTime) {
+        val currentTimePeriod = state.value.dateRange.timePeriod
+        _state.update {
+            it.copy(
+                timeReference = dateTime,
+                dateRange = currentTimePeriod.toDateRange(dateTime)
             )
         }
-        loadOverviews()
     }
 
-    private fun onShowBottomSheet(type: StatisticSheetType?) {
+    private fun onDateRangeChange(dateRange: DateRange) {
         _state.update {
-            it.copy(sheetType = type)
+            it.copy(
+                dateRange = dateRange,
+                timeReference = LocalDateTime.now().with(LocalTime.MIN)
+            )
         }
     }
 
-    private fun onFilterChanged(filter: TimePeriod) {
-        _state.update {
-            it.copy(filter = filter)
-        }
-        loadOverviews()
+    private fun onShowChooseDateSheet(show: Boolean) {
+        _state.update { it.copy(showChooseDateSheet = show) }
+    }
+
+    private fun onShowCustomDateSheet(show: Boolean) {
+        _state.update { it.copy(showCustomDateSheet = show) }
     }
 }

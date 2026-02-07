@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.statistic.main
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -11,11 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.CommonTabs
-import dev.muffar.moneyfikasi.domain.model.TimePeriod
-import dev.muffar.moneyfikasi.statistic.main.component.StatisticBottomSheet
-import dev.muffar.moneyfikasi.statistic.main.component.StatisticDateFilterSection
+import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.ChooseDateSheet
+import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.CustomDateSheet
+import dev.muffar.moneyfikasi.common_ui.component.calendar_header.DateRangeSwitcher
+import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticOverviewSection
-import dev.muffar.moneyfikasi.statistic.main.component.StatisticSheetType
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticTopBar
 import dev.muffar.moneyfikasi.statistic.main.component.TransactionStatisticContent
 import org.threeten.bp.LocalDateTime
@@ -26,32 +27,25 @@ import java.util.UUID
 fun StatisticScreen(
     modifier: Modifier = Modifier,
     state: StatisticState,
-    onFilterChanged: (TimePeriod) -> Unit,
-    onLocalDateTimeChange: (LocalDateTime) -> Unit,
-    onDateRangeChange: (Long, Long) -> Unit,
-    onShowBottomSheet: (StatisticSheetType?) -> Unit,
+    onTimeReferenceChange: (LocalDateTime) -> Unit,
+    onDateRangeChange: (DateRange) -> Unit,
     onItemClick: (dateRange: Pair<Long, Long>, category: UUID) -> Unit,
+    onShowChooseDateSheet: (Boolean) -> Unit,
+    onShowCustomDateSheet: (Boolean) -> Unit,
 ) {
     val pagerState = rememberPagerState { state.tabs.size }
 
     Scaffold(
-        topBar = {
-            StatisticTopBar(
-                onFilterClick = { onShowBottomSheet(StatisticSheetType.FILTER) }
-            )
-        },
+        topBar = { StatisticTopBar(onFilterClick = { onShowChooseDateSheet(true) }) },
         contentWindowInsets = WindowInsets(0.dp),
     ) {
         Column(
             modifier = modifier.padding(it)
         ) {
-            StatisticDateFilterSection(
-                filter = state.filter,
-                currentLocalDateTime = state.currentLocalDateTime,
-                startDateMillis = state.startDateRange,
-                endDateMillis = state.endDateRange,
-                onDateChange = onDateRangeChange,
-                onLocalDateTimeChange = onLocalDateTimeChange
+            DateRangeSwitcher(
+                timeReference = state.timeReference,
+                dateRange = state.dateRange,
+                onTimeReferenceChange = onTimeReferenceChange,
             )
 
             StatisticOverviewSection(
@@ -59,6 +53,7 @@ fun StatisticScreen(
                 expense = state.overviewExpense,
                 total = state.overviewTotal
             )
+
             CommonHorizontalDivider(8.dp)
             CommonTabs(
                 tabs = state.tabs.map { tab -> tab to false },
@@ -70,7 +65,7 @@ fun StatisticScreen(
                         transactions = state.incomeTransactions,
                         onClick = { category ->
                             onItemClick(
-                                state.startDateRange to state.endDateRange,
+                                state.dateRange.start to state.dateRange.end,
                                 category.id
                             )
                         }
@@ -81,7 +76,7 @@ fun StatisticScreen(
                         transactions = state.expenseTransactions,
                         onClick = { category ->
                             onItemClick(
-                                state.startDateRange to state.endDateRange,
+                                state.dateRange.start to state.dateRange.end,
                                 category.id
                             )
                         }
@@ -90,18 +85,20 @@ fun StatisticScreen(
             }
         }
 
-        if (state.sheetType != null) {
-            StatisticBottomSheet(
-                type = state.sheetType,
-                filter = state.filter,
-                startDateMillis = state.startDateRange,
-                endDateMillis = state.endDateRange,
-                onFilterChanged = onFilterChanged,
-                onDateChange = { start, date ->
-                    onDateRangeChange(start, date)
-                    onFilterChanged(TimePeriod.CUSTOM)
-                },
-                onShowBottomSheet = onShowBottomSheet
+        AnimatedVisibility(state.showChooseDateSheet) {
+            ChooseDateSheet(
+                dateRange = state.dateRange,
+                onDismissRequest = { onShowChooseDateSheet(false) },
+                onCustomDateClick = { onShowCustomDateSheet(true) },
+                onChoose = onDateRangeChange
+            )
+        }
+
+        AnimatedVisibility(state.showCustomDateSheet) {
+            CustomDateSheet(
+                dateRange = state.dateRange,
+                onDateChange = onDateRangeChange,
+                onDismissRequest = { onShowCustomDateSheet(false) }
             )
         }
     }

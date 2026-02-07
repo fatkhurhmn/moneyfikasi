@@ -23,12 +23,10 @@ fun NavGraphBuilder.statisticNavigation(
         StatisticScreen(
             modifier = Modifier,
             state = state,
-            onFilterChanged = { event(StatisticEvent.OnFilterChanged(it)) },
-            onLocalDateTimeChange = { event(StatisticEvent.OnLocalDateTimeChange(it)) },
-            onDateRangeChange = { start, end ->
-                event(StatisticEvent.OnDateRangeChanged(start, end))
-            },
-            onShowBottomSheet = { event(StatisticEvent.OnShowBottomSheet(it)) },
+            onTimeReferenceChange = { event(StatisticEvent.TimeReferenceChanged(it)) },
+            onDateRangeChange = { event(StatisticEvent.DateRangeChanged(it)) },
+            onShowChooseDateSheet = { event(StatisticEvent.ShowChooseDateSheet(it)) },
+            onShowCustomDateSheet = { event(StatisticEvent.ShowCustomDateSheet(it)) },
             onItemClick = onNavigateToStatisticDetail
         )
     }

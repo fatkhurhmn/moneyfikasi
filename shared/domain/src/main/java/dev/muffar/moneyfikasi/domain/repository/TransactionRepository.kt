@@ -11,8 +11,8 @@ interface TransactionRepository {
     fun getAllTransactions(
         startDateRange: Long,
         endDateRange: Long,
-        categories: Set<UUID>?,
-        wallets: Set<UUID>?,
+        categories: Set<UUID>? = null,
+        wallets: Set<UUID>? = null,
     ): Flow<List<Transaction>>
 
     fun getAllTransactions(query: String): Flow<List<Transaction>>

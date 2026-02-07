@@ -21,7 +21,7 @@ fun StatisticTopBar(
         action = {
             IconButton(onClick = onFilterClick) {
                 Icon(
-                    painter = painterResource(R.drawable.ic_filter),
+                    painter = painterResource(R.drawable.ic_date),
                     contentDescription = null,
                     modifier = Modifier.size(30.dp)
                 )

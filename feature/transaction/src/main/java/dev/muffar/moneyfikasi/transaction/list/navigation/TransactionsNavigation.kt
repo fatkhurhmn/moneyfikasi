@@ -35,9 +35,9 @@ fun NavGraphBuilder.transactionsNavigation(
             onTimeReferenceChange = { event(TransactionsEvent.TimeReferenceChanged(it)) },
             onDateRangeChange = { event(TransactionsEvent.DateRangeChanged(it)) },
             onShowFilterSheet = { event(TransactionsEvent.ShowFilterSheet(it)) },
-            onShowChooseDateSheet = { event(TransactionsEvent.ShowChooseDateSheet(it)) },
-            onShowCustomDateSheet = { event(TransactionsEvent.ShowCustomDateSheet(it)) },
-            onResetFilter = { event(TransactionsEvent.ResetFilter) },
+                onShowChooseDateSheet = { event(TransactionsEvent.ShowChooseDateSheet(it)) },
+                onShowCustomDateSheet = { event(TransactionsEvent.ShowCustomDateSheet(it)) },
+                onResetFilter = { event(TransactionsEvent.ResetFilter) },
             onFilterChanged = { event(TransactionsEvent.FilterChanged(it)) },
         )
     }
