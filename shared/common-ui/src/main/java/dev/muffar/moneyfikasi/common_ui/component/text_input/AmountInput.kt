@@ -16,7 +16,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.AmountInputSheet
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.filterAmount
+import dev.muffar.moneyfikasi.utils.extensions.clearThousandFormat
 import dev.muffar.moneyfikasi.utils.extensions.formatThousand
 
 @Composable
@@ -29,8 +29,8 @@ fun AmountInput(
     Column {
         CommonTextInput(
             modifier = Modifier.fillMaxWidth(),
-            value = amount.toDouble().formatThousand(),
-            onValueChange = { it.filterAmount()?.let(onAmountChange) },
+            value = amount,
+            onValueChange = { },
             label = stringResource(R.string.amount),
             placeholder = stringResource(R.string.enter_amount),
             error = error,
@@ -44,8 +44,10 @@ fun AmountInput(
 
         AnimatedVisibility(showAmountInputSheet) {
             AmountInputSheet(
-                amount = amount,
-                onConfirm = onAmountChange,
+                amount = amount.clearThousandFormat(),
+                onConfirm = {
+                    onAmountChange(it.toDouble().formatThousand())
+                },
                 onDismissRequest = { showAmountInputSheet = false }
             )
         }
