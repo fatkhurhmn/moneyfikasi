@@ -42,17 +42,12 @@ fun NavGraphBuilder.transferTransactionNavigation(
             onDateSelect = { date ->
                 event(TransferTransactionEvent.DateSelected(date))
             },
-            onTimeSelect = { hour, minute ->
-                event(TransferTransactionEvent.TimeSelected(hour, minute))
+            onTimeSelect = { time ->
+                event(TransferTransactionEvent.TimeSelected(time))
             },
             onBackClick = onNavigateBack,
-            onCreateClick = {
-                event(TransferTransactionEvent.SaveTransfer)
-            },
-            onShowBottomSheet = { sheetType ->
-                event(TransferTransactionEvent.OnBottomSheetChange(sheetType))
-            },
             onAddWallet = onNavigateToAddWallet,
+            onTransfer = { event(TransferTransactionEvent.SaveTransfer) },
         )
     }
 }

@@ -7,10 +7,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -21,9 +19,8 @@ import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.transaction.transfer.component.AddEditTransactionBottomSheet
+import dev.muffar.moneyfikasi.transaction.transfer.component.TransferTransactionButton
 import dev.muffar.moneyfikasi.transaction.transfer.component.TransferTransactionForm
-import dev.muffar.moneyfikasi.transaction.transfer.component.TransferTransactionSheetType
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
 
@@ -38,15 +35,11 @@ fun TransferTransactionScreen(
     onSourceWalletSelect: (Wallet) -> Unit,
     onTargetWalletSelect: (Wallet) -> Unit,
     onDateSelect: (Long) -> Unit,
-    onTimeSelect: (Int, Int) -> Unit,
+    onTimeSelect: (Pair<Int, Int>) -> Unit,
     onBackClick: () -> Unit,
-    onCreateClick: () -> Unit,
     onAddWallet: () -> Unit,
-    onShowBottomSheet: (TransferTransactionSheetType?) -> Unit,
+    onTransfer: () -> Unit,
 ) {
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
-    )
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollState = rememberScrollState()
 
@@ -60,6 +53,7 @@ fun TransferTransactionScreen(
                 onBackClick = onBackClick
             )
         },
+        bottomBar = { TransferTransactionButton(onTransfer) }
     ) {
         Column(
             modifier = modifier
@@ -72,34 +66,13 @@ fun TransferTransactionScreen(
             TransferTransactionForm(
                 state = state,
                 onAmountChange = onAmountChange,
-                onOriginWalletClick = { onShowBottomSheet(TransferTransactionSheetType.SOURCE_WALLET) },
-                onDestinationWalletClick = { onShowBottomSheet(TransferTransactionSheetType.TARGET_WALLET) },
+                onSourceWalletSelect = onSourceWalletSelect,
+                onTargetWalletSelect = onTargetWalletSelect,
                 onAdminFeeChange = onFeeChange,
-                onDateClick = { onShowBottomSheet(TransferTransactionSheetType.DATE) },
-                onTimeClick = { onShowBottomSheet(TransferTransactionSheetType.TIME) },
-                onTransferClick = onCreateClick
+                onDateSelect = onDateSelect,
+                onTimeSelect = onTimeSelect,
+                onAddNewWalletClick = onAddWallet
             )
-
-            if (state.bottomSheetType != null) {
-                ModalBottomSheet(
-                    onDismissRequest = { onShowBottomSheet(null) },
-                    sheetState = sheetState
-                ) {
-                    AddEditTransactionBottomSheet(
-                        type = state.bottomSheetType,
-                        wallets = state.wallets,
-                        date = state.date,
-                        hour = state.hour,
-                        minute = state.minute,
-                        onDateSelect = onDateSelect,
-                        onTimeSelect = onTimeSelect,
-                        onDismiss = { onShowBottomSheet(null) },
-                        onAddWallet = onAddWallet,
-                        onSourceWalletSelect = onSourceWalletSelect,
-                        onTargetWalletSelect = onTargetWalletSelect
-                    )
-                }
-            }
         }
     }
 

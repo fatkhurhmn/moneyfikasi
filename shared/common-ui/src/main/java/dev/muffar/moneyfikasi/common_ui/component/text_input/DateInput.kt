@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.transaction.add_edit.component
+package dev.muffar.moneyfikasi.common_ui.component.text_input
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.DatePickerSheet
-import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.toFormattedDateTime
 

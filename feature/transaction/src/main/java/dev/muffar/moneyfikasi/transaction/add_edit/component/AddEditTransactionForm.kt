@@ -9,6 +9,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.text_input.AmountInput
+import dev.muffar.moneyfikasi.common_ui.component.text_input.DateInput
+import dev.muffar.moneyfikasi.common_ui.component.text_input.TimeInput
+import dev.muffar.moneyfikasi.common_ui.component.text_input.WalletInput
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.transaction.add_edit.AddEditTransactionState

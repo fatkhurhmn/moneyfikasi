@@ -10,7 +10,6 @@ import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
-import dev.muffar.moneyfikasi.transaction.transfer.component.TransferTransactionSheetType
 import dev.muffar.moneyfikasi.utils.extensions.clearThousandFormat
 import dev.muffar.moneyfikasi.utils.extensions.formatThousand
 import dev.muffar.moneyfikasi.utils.extensions.toFormattedDateTime
@@ -53,10 +52,9 @@ class TransferTransactionViewModel @Inject constructor(
             is TransferTransactionEvent.SourceWalletSelected -> onSourceWalletSelect(event.wallet)
             is TransferTransactionEvent.TargetWalletSelected -> onTargetWalletSelect(event.wallet)
             is TransferTransactionEvent.DateSelected -> onDateSelect(event.date)
-            is TransferTransactionEvent.TimeSelected -> onTimeSelect(event.hour, event.minute)
+            is TransferTransactionEvent.TimeSelected -> onTimeSelect(event.time)
             is TransferTransactionEvent.NoteChanged -> onNoteChange(event.note)
             is TransferTransactionEvent.SaveTransfer -> onSaveTransfer()
-            is TransferTransactionEvent.OnBottomSheetChange -> onBottomSheetChange(event.type)
         }
     }
 
@@ -91,7 +89,7 @@ class TransferTransactionViewModel @Inject constructor(
         viewModelScope.launch {
             walletUseCases.getAllWallets().collectLatest { wallets ->
                 val activeWallets = wallets.filter { it.isActive }
-                _state.update { it.copy(wallets = activeWallets) }
+                _state.update { it.copy(walletOptions = activeWallets) }
             }
         }
     }
@@ -152,8 +150,8 @@ class TransferTransactionViewModel @Inject constructor(
         _state.update { it.copy(date = date) }
     }
 
-    private fun onTimeSelect(hour: Int, minute: Int) {
-        _state.update { it.copy(hour = hour, minute = minute) }
+    private fun onTimeSelect(time: Pair<Int, Int>) {
+        _state.update { it.copy(hour = time.first, minute = time.second) }
     }
 
     private fun onSaveTransfer() {
@@ -187,10 +185,6 @@ class TransferTransactionViewModel @Inject constructor(
                 _eventFlow.emit(UiEvent.ShowMessage(e.message ?: "", SnackbarType.ERROR))
             }
         }
-    }
-
-    private fun onBottomSheetChange(type: TransferTransactionSheetType?) {
-        _state.update { it.copy(bottomSheetType = type) }
     }
 
     private fun isFormValid(): Boolean {
