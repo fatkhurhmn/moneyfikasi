@@ -4,7 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.muffar.moneyfikasi.domain.model.InvalidTransactionException
+import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
+import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
@@ -98,6 +99,17 @@ class TransferTransactionViewModel @Inject constructor(
     private fun onAmountChange(amount: String) {
         if (amount.length > 17) return
         _state.update { it.copy(amount = amount) }
+        updateAmountError()
+    }
+
+    private fun updateAmountError() {
+        val amount = state.value.amount
+        val error = when {
+            amount.isEmpty() -> "Amount cannot be empty"
+            amount.clearThousandFormat().toDouble() == 0.0 -> "Minimum amount is 1"
+            else -> null
+        }
+        _state.update { it.copy(amountError = ErrorMessage(error)) }
     }
 
     private fun onFeeChange(fee: String) {
@@ -114,12 +126,26 @@ class TransferTransactionViewModel @Inject constructor(
         _state.update {
             it.copy(sourceWallet = wallet)
         }
+        updateSourceWalletError()
+    }
+
+    private fun updateSourceWalletError() {
+        val wallet = state.value.sourceWallet
+        val error = if (wallet.isNotSet) "Source wallet cannot be empty" else null
+        _state.update { it.copy(sourceWalletError = ErrorMessage(error)) }
     }
 
     private fun onTargetWalletSelect(wallet: Wallet) {
         _state.update {
             it.copy(targetWallet = wallet)
         }
+        updateTargetWalletError()
+    }
+
+    private fun updateTargetWalletError() {
+        val wallet = state.value.targetWallet
+        val error = if (wallet.isNotSet) "Target wallet cannot be empty" else null
+        _state.update { it.copy(targetWalletError = ErrorMessage(error)) }
     }
 
     private fun onDateSelect(date: Long) {
@@ -132,6 +158,7 @@ class TransferTransactionViewModel @Inject constructor(
 
     private fun onSaveTransfer() {
         val state = this.state.value
+        if (!isFormValid()) return
         viewModelScope.launch {
             try {
                 if (state.isEditMode) {
@@ -156,14 +183,25 @@ class TransferTransactionViewModel @Inject constructor(
                     )
                 }
                 _eventFlow.emit(UiEvent.SaveTransaction)
-            } catch (e: InvalidTransactionException) {
-                _eventFlow.emit(UiEvent.ShowMessage(e.message))
+            } catch (e: Exception) {
+                _eventFlow.emit(UiEvent.ShowMessage(e.message ?: "", SnackbarType.ERROR))
             }
         }
     }
 
     private fun onBottomSheetChange(type: TransferTransactionSheetType?) {
         _state.update { it.copy(bottomSheetType = type) }
+    }
+
+    private fun isFormValid(): Boolean {
+        viewModelScope.launch {
+            updateAmountError()
+            updateSourceWalletError()
+            updateTargetWalletError()
+        }
+        return state.value.run {
+            amountError.isNull && sourceWalletError.isNull && targetWalletError.isNull
+        }
     }
 
     private fun getFormattedDate(): LocalDateTime {
@@ -174,7 +212,7 @@ class TransferTransactionViewModel @Inject constructor(
     }
 
     sealed class UiEvent {
-        data class ShowMessage(val message: String) : UiEvent()
+        data class ShowMessage(val message: String, val type: SnackbarType) : UiEvent()
         data object SaveTransaction : UiEvent()
         data object DeleteTransaction : UiEvent()
     }

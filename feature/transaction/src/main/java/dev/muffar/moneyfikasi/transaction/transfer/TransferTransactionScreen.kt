@@ -9,7 +9,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -19,15 +18,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
+import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.transfer.component.AddEditTransactionBottomSheet
 import dev.muffar.moneyfikasi.transaction.transfer.component.TransferTransactionForm
 import dev.muffar.moneyfikasi.transaction.transfer.component.TransferTransactionSheetType
-import dev.muffar.moneyfikasi.utils.extensions.toFormattedDateTime
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
-import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,21 +50,9 @@ fun TransferTransactionScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollState = rememberScrollState()
 
-    LaunchedEffect(eventFlow) {
-        eventFlow.collectLatest {
-            when (it) {
-                is TransferTransactionViewModel.UiEvent.SaveTransaction -> onBackClick()
-                is TransferTransactionViewModel.UiEvent.DeleteTransaction -> onBackClick()
-                is TransferTransactionViewModel.UiEvent.ShowMessage -> snackbarHostState.showSnackbar(
-                    it.message,
-                )
-            }
-        }
-    }
-
     Scaffold(
         snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
+            SnackbarMessage(state = snackbarHostState)
         },
         topBar = {
             CommonTopAppBar(
@@ -84,12 +70,7 @@ fun TransferTransactionScreen(
                 .padding(16.dp)
         ) {
             TransferTransactionForm(
-                amount = state.amount,
-                adminFee = state.fee,
-                date = state.date.toFormattedDateTime("MMM, dd yyyy"),
-                time = String.format(Locale.getDefault(), "%02d:%02d", state.hour, state.minute),
-                sourceWallet = state.sourceWallet,
-                targetWallet = state.targetWallet,
+                state = state,
                 onAmountChange = onAmountChange,
                 onOriginWalletClick = { onShowBottomSheet(TransferTransactionSheetType.SOURCE_WALLET) },
                 onDestinationWalletClick = { onShowBottomSheet(TransferTransactionSheetType.TARGET_WALLET) },
@@ -118,6 +99,18 @@ fun TransferTransactionScreen(
                         onTargetWalletSelect = onTargetWalletSelect
                     )
                 }
+            }
+        }
+    }
+
+    LaunchedEffect(eventFlow) {
+        eventFlow.collectLatest {
+            when (it) {
+                is TransferTransactionViewModel.UiEvent.SaveTransaction -> onBackClick()
+                is TransferTransactionViewModel.UiEvent.DeleteTransaction -> onBackClick()
+                is TransferTransactionViewModel.UiEvent.ShowMessage -> snackbarHostState.showSnackbar(
+                    it.message,
+                )
             }
         }
     }

@@ -19,22 +19,6 @@ class UpdateTransfer(
         date: LocalDateTime,
         note: String?
     ) {
-        if (amount == 0.0) {
-            throw InvalidTransactionException("Amount cannot be zero")
-        }
-
-        if (sourceWalletId == generateEmptyUUID()) {
-            throw InvalidTransactionException("Select source wallet please")
-        }
-
-        if (targetWalletId == generateEmptyUUID()) {
-            throw InvalidTransactionException("Select target wallet please")
-        }
-
-        if (sourceWalletId == targetWalletId) {
-            throw InvalidTransactionException("Cannot transfer to the same wallet")
-        }
-
         repository.updateTransfer(
             referenceId = referenceId,
             sourceWalletId = sourceWalletId,
@@ -44,9 +28,5 @@ class UpdateTransfer(
             date = date,
             note = note
         )
-    }
-
-    private fun generateEmptyUUID(): UUID {
-        return UUID.fromString("00000000-0000-0000-0000-000000000000")
     }
 }
