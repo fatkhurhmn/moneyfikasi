@@ -47,14 +47,14 @@ class TransferTransactionViewModel @Inject constructor(
 
     fun onEvent(event: TransferTransactionEvent) {
         when (event) {
-            is TransferTransactionEvent.OnAmountChange -> onAmountChange(event.amount)
-            is TransferTransactionEvent.OnFeeChange -> onFeeChange(event.fee)
-            is TransferTransactionEvent.OnSourceWalletSelect -> onSourceWalletSelect(event.wallet)
-            is TransferTransactionEvent.OnTargetWalletSelect -> onTargetWalletSelect(event.wallet)
-            is TransferTransactionEvent.OnDateSelect -> onDateSelect(event.date)
-            is TransferTransactionEvent.OnTimeSelect -> onTimeSelect(event.hour, event.minute)
-            is TransferTransactionEvent.OnNoteChange -> onNoteChange(event.note)
-            is TransferTransactionEvent.OnCreateClicked -> onSaveTransaction()
+            is TransferTransactionEvent.AmountChanged -> onAmountChange(event.amount)
+            is TransferTransactionEvent.FeeChanged -> onFeeChange(event.fee)
+            is TransferTransactionEvent.SourceWalletSelected -> onSourceWalletSelect(event.wallet)
+            is TransferTransactionEvent.TargetWalletSelected -> onTargetWalletSelect(event.wallet)
+            is TransferTransactionEvent.DateSelected -> onDateSelect(event.date)
+            is TransferTransactionEvent.TimeSelected -> onTimeSelect(event.hour, event.minute)
+            is TransferTransactionEvent.NoteChanged -> onNoteChange(event.note)
+            is TransferTransactionEvent.SaveTransfer -> onSaveTransfer()
             is TransferTransactionEvent.OnBottomSheetChange -> onBottomSheetChange(event.type)
         }
     }
@@ -130,7 +130,7 @@ class TransferTransactionViewModel @Inject constructor(
         _state.update { it.copy(hour = hour, minute = minute) }
     }
 
-    private fun onSaveTransaction() {
+    private fun onSaveTransfer() {
         val state = this.state.value
         viewModelScope.launch {
             try {

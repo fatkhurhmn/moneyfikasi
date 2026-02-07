@@ -28,26 +28,26 @@ fun NavGraphBuilder.transferTransactionNavigation(
             state = state,
             eventFlow = eventFlow,
             onAmountChange = { amount ->
-                event(TransferTransactionEvent.OnAmountChange(amount))
+                event(TransferTransactionEvent.AmountChanged(amount))
             },
             onFeeChange = { fee ->
-                event(TransferTransactionEvent.OnFeeChange(fee))
+                event(TransferTransactionEvent.FeeChanged(fee))
             },
             onSourceWalletSelect = { wallet ->
-                event(TransferTransactionEvent.OnSourceWalletSelect(wallet))
+                event(TransferTransactionEvent.SourceWalletSelected(wallet))
             },
             onTargetWalletSelect = { wallet ->
-                event(TransferTransactionEvent.OnTargetWalletSelect(wallet))
+                event(TransferTransactionEvent.TargetWalletSelected(wallet))
             },
             onDateSelect = { date ->
-                event(TransferTransactionEvent.OnDateSelect(date))
+                event(TransferTransactionEvent.DateSelected(date))
             },
             onTimeSelect = { hour, minute ->
-                event(TransferTransactionEvent.OnTimeSelect(hour, minute))
+                event(TransferTransactionEvent.TimeSelected(hour, minute))
             },
             onBackClick = onNavigateBack,
             onCreateClick = {
-                event(TransferTransactionEvent.OnCreateClicked)
+                event(TransferTransactionEvent.SaveTransfer)
             },
             onShowBottomSheet = { sheetType ->
                 event(TransferTransactionEvent.OnBottomSheetChange(sheetType))
