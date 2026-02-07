@@ -1,7 +1,6 @@
 package dev.muffar.moneyfikasi.transaction.transfer
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -55,25 +54,22 @@ fun TransferTransactionScreen(
         },
         bottomBar = { TransferTransactionButton(onTransfer) }
     ) {
-        Column(
+        TransferTransactionForm(
             modifier = modifier
-                .fillMaxSize()
-                .padding(top = it.calculateTopPadding())
-                .verticalScroll(scrollState)
+                .padding(it)
+                .consumeWindowInsets(it)
                 .imePadding()
-                .padding(16.dp)
-        ) {
-            TransferTransactionForm(
-                state = state,
-                onAmountChange = onAmountChange,
-                onSourceWalletSelect = onSourceWalletSelect,
-                onTargetWalletSelect = onTargetWalletSelect,
-                onAdminFeeChange = onFeeChange,
-                onDateSelect = onDateSelect,
-                onTimeSelect = onTimeSelect,
-                onAddNewWalletClick = onAddWallet
-            )
-        }
+                .verticalScroll(scrollState)
+                .padding(16.dp),
+            state = state,
+            onAmountChange = onAmountChange,
+            onSourceWalletSelect = onSourceWalletSelect,
+            onTargetWalletSelect = onTargetWalletSelect,
+            onAdminFeeChange = onFeeChange,
+            onDateSelect = onDateSelect,
+            onTimeSelect = onTimeSelect,
+            onAddNewWalletClick = onAddWallet
+        )
     }
 
     LaunchedEffect(eventFlow) {

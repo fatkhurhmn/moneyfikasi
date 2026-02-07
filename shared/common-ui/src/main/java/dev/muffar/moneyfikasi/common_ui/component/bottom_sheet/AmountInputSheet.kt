@@ -42,7 +42,8 @@ fun AmountInputSheet(
         modifier = Modifier.statusBarsPadding(),
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surface
+        containerColor = MaterialTheme.colorScheme.surface,
+        sheetGesturesEnabled = false
     ) {
         val calcState = rememberCalculatorState(amount)
         BottomSheetTitle(stringResource(R.string.enter_amount))
