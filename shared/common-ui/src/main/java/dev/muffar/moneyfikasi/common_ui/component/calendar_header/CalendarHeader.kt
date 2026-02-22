@@ -31,7 +31,7 @@ fun CalendarHeader(
             .padding(horizontal = 8.dp, vertical = 4.dp)
             .fillMaxWidth()
             .clip(CircleShape)
-            .border(1.dp, MaterialTheme.colorScheme.outline, CircleShape),
+            .border(1.dp, MaterialTheme.colorScheme.primary, CircleShape),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

@@ -8,9 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import dev.muffar.moneyfikasi.category.list.component.CategoriesContent
-import dev.muffar.moneyfikasi.common_ui.component.button.CommonAddButton
 import dev.muffar.moneyfikasi.common_ui.component.CommonTabs
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
+import dev.muffar.moneyfikasi.common_ui.component.button.CommonAddButton
+import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.resource.R
 import java.util.UUID
@@ -26,7 +27,10 @@ fun CategoriesScreen(
 ) {
     val expenseCategories = state.categories.filter { it.isExpense }
     val incomeCategories = state.categories.filter { it.isIncome }
-
+    val tabs = mapOf(
+        CategoryType.INCOME.name to MainColor.Green.primary,
+        CategoryType.EXPENSE.name to MainColor.Red.primary,
+    )
     val pagerState = rememberPagerState { state.tabs.size }
 
     Scaffold(
@@ -47,7 +51,7 @@ fun CategoriesScreen(
     ) {
         CommonTabs(
             modifier = modifier.padding(it),
-            tabs = state.tabs.map { tab -> tab to false },
+            tabs = tabs,
             pagerState = pagerState
         ) { index ->
             when (index) {
