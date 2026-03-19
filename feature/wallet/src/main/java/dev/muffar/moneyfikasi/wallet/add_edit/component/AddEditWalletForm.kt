@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.wallet.add_edit.AddEditWalletState
 
 @Composable
@@ -35,7 +34,7 @@ fun AddEditWalletForm(
         WalletNameInput(
             name = state.name,
             onNameChange = onNameChange,
-            error = ErrorMessage()
+            error = state.nameError
         )
 
         WalletBalanceInput(
@@ -49,7 +48,7 @@ fun AddEditWalletForm(
             color = state.color,
             onIconSelect = onIconSelect,
             onColorSelect = onColorSelect,
-            error = ErrorMessage()
+            error = state.iconError
         )
 
         if (state.id != null) {

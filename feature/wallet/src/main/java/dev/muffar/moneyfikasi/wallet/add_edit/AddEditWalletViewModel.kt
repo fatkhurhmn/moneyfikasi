@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
-import dev.muffar.moneyfikasi.domain.model.InvalidWalletException
+import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.utils.extensions.formatThousand
@@ -71,6 +71,12 @@ class AddEditWalletViewModel @Inject constructor(
         _state.update { it.copy(name = name) }
     }
 
+    private fun updateNameError() {
+        val name = _state.value.name
+        val error = if (name.isEmpty()) "Name cannot be empty" else null
+        _state.update { it.copy(nameError = ErrorMessage(error)) }
+    }
+
     private fun onBalanceChange(balance: String) {
         _state.update { it.copy(balance = balance) }
     }
@@ -81,6 +87,13 @@ class AddEditWalletViewModel @Inject constructor(
 
     private fun onColorChange(color: Long) {
         _state.update { it.copy(color = color) }
+    }
+
+    private fun updateIconAndColor() {
+        val icon = _state.value.icon
+        val color = _state.value.color
+        val error = if (icon.isEmpty() || color == 0L) "Please select an icon and color" else null
+        _state.update { it.copy(iconError = ErrorMessage(error)) }
     }
 
     private fun onWalletActive() {
@@ -96,12 +109,12 @@ class AddEditWalletViewModel @Inject constructor(
     }
 
     private fun onSaveWallet() {
+        if (!isFormValid()) return
         viewModelScope.launch {
             try {
                 walletUseCases.upsertWallet(state.value.wallet)
                 _eventFlow.emit(UiEvent.SaveWallet)
-            } catch (e: InvalidWalletException) {
-                e.printStackTrace()
+            } catch (e: Exception) {
                 e.printStackTrace()
                 _eventFlow.emit(
                     UiEvent.ShowMessage(
@@ -128,6 +141,14 @@ class AddEditWalletViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    private fun isFormValid(): Boolean {
+        viewModelScope.launch {
+            updateNameError()
+            updateIconAndColor()
+        }
+        return _state.value.run { nameError.isNull && iconError.isNull }
     }
 
     sealed class UiEvent {

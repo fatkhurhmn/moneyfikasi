@@ -18,5 +18,3 @@ data class Wallet(
     val displayAvailableBalance: String
         get() = "Available balance: " + if (isNotSet) "-" else balance.formatThousand()
 }
-
-class InvalidWalletException(override val message: String) : Exception(message)
