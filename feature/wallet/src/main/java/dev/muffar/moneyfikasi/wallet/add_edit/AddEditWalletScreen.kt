@@ -40,7 +40,7 @@ fun AddEditWalletScreen(
     onBalanceChange: (String) -> Unit,
     onIconChange: (String) -> Unit,
     onColorChange: (Long) -> Unit,
-    onIsActiveChange: () -> Unit,
+    onWalletActive: () -> Unit,
     onShowBottomSheet: (AddEditWalletBottomSheet?) -> Unit,
     onShowAlert: (Boolean) -> Unit,
     onSubmit: () -> Unit,
@@ -101,7 +101,7 @@ fun AddEditWalletScreen(
                 onColorClick = {
                     onShowBottomSheet(AddEditWalletBottomSheet.COLOR)
                 },
-                onIsActiveChange = onIsActiveChange,
+                onIsActiveChange = onWalletActive,
             )
             Spacer(modifier = Modifier.height(24.dp))
             AddEditWalletButton(

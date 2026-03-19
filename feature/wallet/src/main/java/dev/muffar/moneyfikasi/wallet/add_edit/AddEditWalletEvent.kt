@@ -3,13 +3,13 @@ package dev.muffar.moneyfikasi.wallet.add_edit
 import dev.muffar.moneyfikasi.wallet.add_edit.component.AddEditWalletBottomSheet
 
 sealed class AddEditWalletEvent {
-    data class OnNameChange(val name: String) : AddEditWalletEvent()
-    data class OnBalanceChange(val balance: String) : AddEditWalletEvent()
-    data class OnColorChange(val color: Long) : AddEditWalletEvent()
-    data class OnIconChange(val icon: String) : AddEditWalletEvent()
-    data object OnIsActiveChange : AddEditWalletEvent()
-    data class OnBottomSheetChange(val type: AddEditWalletBottomSheet?) : AddEditWalletEvent()
-    data class OnShowAlert(val showAlert: Boolean) : AddEditWalletEvent()
-    data object OnSubmitWallet : AddEditWalletEvent()
-    data object OnDeleteWallet : AddEditWalletEvent()
+    data class NameChanged(val name: String) : AddEditWalletEvent()
+    data class BalanceChanged(val balance: String) : AddEditWalletEvent()
+    data class ColorChanged(val color: Long) : AddEditWalletEvent()
+    data class IconChanged(val icon: String) : AddEditWalletEvent()
+    data object WalletActivated : AddEditWalletEvent()
+    data class BottomSheetChanged(val type: AddEditWalletBottomSheet?) : AddEditWalletEvent()
+    data class ShowDeleteAlert(val showAlert: Boolean) : AddEditWalletEvent()
+    data object SaveWallet : AddEditWalletEvent()
+    data object DeleteWallet : AddEditWalletEvent()
 }

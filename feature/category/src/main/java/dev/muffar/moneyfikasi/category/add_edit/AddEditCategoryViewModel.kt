@@ -40,7 +40,7 @@ class AddEditCategoryViewModel @Inject constructor(
             is AddEditCategoryEvent.NameChanged -> onNameChange(event.name)
             is AddEditCategoryEvent.IconChanged -> onIconChange(event.icon)
             is AddEditCategoryEvent.ColorChanged -> onColorChange(event.color)
-            is AddEditCategoryEvent.ActivationEnabled -> onActivationEnable()
+            is AddEditCategoryEvent.CategoryActivated -> onCategoryActive()
             is AddEditCategoryEvent.ShowDeleteAlert -> onShowDeleteAlert(event.showAlert)
             is AddEditCategoryEvent.SaveCategory -> onSaveCategory()
             is AddEditCategoryEvent.DeleteCategory -> onDeleteCategory()
@@ -96,7 +96,7 @@ class AddEditCategoryViewModel @Inject constructor(
         _state.update { it.copy(iconError = ErrorMessage(error)) }
     }
 
-    private fun onActivationEnable() {
+    private fun onCategoryActive() {
         val isActive = !_state.value.isActive
         _state.update { it.copy(isActive = isActive) }
         viewModelScope.launch {

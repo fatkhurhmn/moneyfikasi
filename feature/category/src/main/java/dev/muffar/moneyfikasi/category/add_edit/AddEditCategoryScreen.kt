@@ -32,7 +32,7 @@ fun AddEditCategoryScreen(
     onNameChange: (String) -> Unit,
     onIconSelect: (String) -> Unit,
     onColorSelect: (Long) -> Unit,
-    onIsActiveChange: () -> Unit,
+    onCategoryActive: () -> Unit,
     onShowAlert: (Boolean) -> Unit,
     onSubmit: () -> Unit,
     onDelete: () -> Unit,
@@ -74,7 +74,7 @@ fun AddEditCategoryScreen(
             onNameChange = onNameChange,
             onIconSelect = onIconSelect,
             onColorSelect = onColorSelect,
-            onIsActiveChange = onIsActiveChange,
+            onIsActiveChange = onCategoryActive,
         )
     }
 

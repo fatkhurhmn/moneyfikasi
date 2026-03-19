@@ -42,7 +42,7 @@ fun NavGraphBuilder.addEditCategoryNavigation(
             onColorSelect = { color ->
                 event(AddEditCategoryEvent.ColorChanged(color))
             },
-            onIsActiveChange = { event(AddEditCategoryEvent.ActivationEnabled) },
+            onCategoryActive = { event(AddEditCategoryEvent.CategoryActivated) },
             onShowAlert = { showAlert ->
                 event(AddEditCategoryEvent.ShowDeleteAlert(showAlert))
             },

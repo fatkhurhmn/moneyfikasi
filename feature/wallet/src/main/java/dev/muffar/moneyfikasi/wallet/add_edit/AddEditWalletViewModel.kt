@@ -36,15 +36,15 @@ class AddEditWalletViewModel @Inject constructor(
 
     fun onEvent(event: AddEditWalletEvent) {
         when (event) {
-            is AddEditWalletEvent.OnNameChange -> onNameChange(event.name)
-            is AddEditWalletEvent.OnBalanceChange -> onBalanceChange(event.balance)
-            is AddEditWalletEvent.OnIconChange -> onIconChange(event.icon)
-            is AddEditWalletEvent.OnColorChange -> onColorChange(event.color)
-            is AddEditWalletEvent.OnIsActiveChange -> onIsActiveChange()
-            is AddEditWalletEvent.OnBottomSheetChange -> onBottomSheetChange(event.type)
-            is AddEditWalletEvent.OnShowAlert -> onShowAlert(event.showAlert)
-            is AddEditWalletEvent.OnSubmitWallet -> onSaveWallet()
-            is AddEditWalletEvent.OnDeleteWallet -> onDeleteWallet()
+            is AddEditWalletEvent.NameChanged -> onNameChange(event.name)
+            is AddEditWalletEvent.BalanceChanged -> onBalanceChange(event.balance)
+            is AddEditWalletEvent.IconChanged -> onIconChange(event.icon)
+            is AddEditWalletEvent.ColorChanged -> onColorChange(event.color)
+            is AddEditWalletEvent.WalletActivated -> onWalletActive()
+            is AddEditWalletEvent.BottomSheetChanged -> onBottomSheetChange(event.type)
+            is AddEditWalletEvent.ShowDeleteAlert -> onShowAlert(event.showAlert)
+            is AddEditWalletEvent.SaveWallet -> onSaveWallet()
+            is AddEditWalletEvent.DeleteWallet -> onDeleteWallet()
         }
     }
 
@@ -84,7 +84,7 @@ class AddEditWalletViewModel @Inject constructor(
         _state.update { it.copy(color = color) }
     }
 
-    private fun onIsActiveChange() {
+    private fun onWalletActive() {
         val isActive = !_state.value.isActive
         _state.update { it.copy(isActive = isActive) }
         viewModelScope.launch {

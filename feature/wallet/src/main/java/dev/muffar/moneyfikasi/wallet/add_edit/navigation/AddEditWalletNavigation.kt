@@ -24,26 +24,26 @@ fun NavGraphBuilder.addEditWalletNavigation(
             state = state,
             eventFlow = viewModel.eventFlow,
             onNameChange = { name ->
-                event(AddEditWalletEvent.OnNameChange(name))
+                event(AddEditWalletEvent.NameChanged(name))
             },
             onBalanceChange = { balance ->
-                event(AddEditWalletEvent.OnBalanceChange(balance))
+                event(AddEditWalletEvent.BalanceChanged(balance))
             },
             onIconChange = { icon ->
-                event(AddEditWalletEvent.OnIconChange(icon))
+                event(AddEditWalletEvent.IconChanged(icon))
             },
             onColorChange = { color ->
-                event(AddEditWalletEvent.OnColorChange(color))
+                event(AddEditWalletEvent.ColorChanged(color))
             },
-            onIsActiveChange = { event(AddEditWalletEvent.OnIsActiveChange) },
+            onWalletActive = { event(AddEditWalletEvent.WalletActivated) },
             onShowBottomSheet = { sheetType ->
-                event(AddEditWalletEvent.OnBottomSheetChange(sheetType))
+                event(AddEditWalletEvent.BottomSheetChanged(sheetType))
             },
             onShowAlert = { showAlert ->
-                event(AddEditWalletEvent.OnShowAlert(showAlert))
+                event(AddEditWalletEvent.ShowDeleteAlert(showAlert))
             },
-            onSubmit = { event(AddEditWalletEvent.OnSubmitWallet) },
-            onDelete = { event(AddEditWalletEvent.OnDeleteWallet) },
+            onSubmit = { event(AddEditWalletEvent.SaveWallet) },
+            onDelete = { event(AddEditWalletEvent.DeleteWallet) },
             onBackClick = navigateBack
         )
     }
