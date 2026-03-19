@@ -2,7 +2,7 @@ package dev.muffar.moneyfikasi.wallet.add_edit
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
@@ -69,14 +69,21 @@ fun AddEditWalletScreen(
                 onBackClick = onBackClick
             )
         },
+        bottomBar = {
+            AddEditWalletButton(
+                isEdit = state.id != null,
+                onSave = onSubmit,
+                onDelete = { onShowAlert(true) }
+            )
+        },
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) {
         Column(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(top = it.calculateTopPadding())
-                .verticalScroll(scrollState)
+            modifier = Modifier
+                .padding(it)
+                .consumeWindowInsets(it)
                 .imePadding()
+                .verticalScroll(scrollState)
                 .padding(16.dp)
         ) {
             WalletCard(
@@ -102,12 +109,6 @@ fun AddEditWalletScreen(
                     onShowBottomSheet(AddEditWalletBottomSheet.COLOR)
                 },
                 onIsActiveChange = onWalletActive,
-            )
-            Spacer(modifier = Modifier.height(24.dp))
-            AddEditWalletButton(
-                isEdit = state.id != null,
-                onSave = onSubmit,
-                onDelete = { onShowAlert(true) }
             )
         }
         if (state.bottomSheetType != null) {
