@@ -11,7 +11,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -25,6 +24,8 @@ import dev.muffar.moneyfikasi.category.add_edit.component.AddEditCategoryButton
 import dev.muffar.moneyfikasi.category.add_edit.component.AddEditCategoryForm
 import dev.muffar.moneyfikasi.common_ui.component.CommonAlertDialog
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
+import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
+import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -55,16 +56,6 @@ fun AddEditCategoryScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollState = rememberScrollState()
 
-    LaunchedEffect(eventFlow) {
-        eventFlow.collectLatest {
-            when (it) {
-                is AddEditCategoryViewModel.UiEvent.SaveCategory -> onBackClick()
-                is AddEditCategoryViewModel.UiEvent.DeleteCategory -> onBackClick()
-                is AddEditCategoryViewModel.UiEvent.ShowMessage -> snackbarHostState.showSnackbar(it.message)
-            }
-        }
-    }
-
     Scaffold(
         topBar = {
             CommonTopAppBar(
@@ -72,7 +63,7 @@ fun AddEditCategoryScreen(
                 onBackClick = onBackClick
             )
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) }
+        snackbarHost = { SnackbarMessage(snackbarHostState) }
     ) {
         Column(
             modifier = modifier
@@ -139,6 +130,19 @@ fun AddEditCategoryScreen(
                     onShowAlert(false)
                 }
             )
+        }
+    }
+
+    LaunchedEffect(eventFlow) {
+        eventFlow.collectLatest {
+            when (it) {
+                is AddEditCategoryViewModel.UiEvent.SaveCategory -> onBackClick()
+                is AddEditCategoryViewModel.UiEvent.DeleteCategory -> onBackClick()
+                is AddEditCategoryViewModel.UiEvent.ShowMessage -> snackbarHostState.showMessage(
+                    it.message,
+                    it.type
+                )
+            }
         }
     }
 }

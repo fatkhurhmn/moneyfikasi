@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.category.add_edit.component.AddEditCategoryBottomSheet
+import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
 import dev.muffar.moneyfikasi.domain.model.CategoryType
-import dev.muffar.moneyfikasi.domain.model.InvalidCategoryException
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -104,8 +104,14 @@ class AddEditCategoryViewModel @Inject constructor(
             try {
                 categoryUseCases.upsertCategory(state.value.category)
                 _eventFlow.emit(UiEvent.SaveCategory)
-            } catch (e: InvalidCategoryException) {
-                _eventFlow.emit(UiEvent.ShowMessage(e.message))
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _eventFlow.emit(
+                    UiEvent.ShowMessage(
+                        "Failed to save category",
+                        SnackbarType.ERROR
+                    )
+                )
             }
         }
     }
@@ -116,13 +122,19 @@ class AddEditCategoryViewModel @Inject constructor(
                 categoryUseCases.deleteCategory(state.value.category)
                 _eventFlow.emit(UiEvent.DeleteCategory)
             } catch (e: Exception) {
-                _eventFlow.emit(UiEvent.ShowMessage(e.message ?: "Error deleting category"))
+                e.printStackTrace()
+                _eventFlow.emit(
+                    UiEvent.ShowMessage(
+                        "Failed to delete category",
+                        SnackbarType.ERROR
+                    )
+                )
             }
         }
     }
 
     sealed class UiEvent {
-        data class ShowMessage(val message: String) : UiEvent()
+        data class ShowMessage(val message: String, val type: SnackbarType) : UiEvent()
         data object SaveCategory : UiEvent()
         data object DeleteCategory : UiEvent()
     }
