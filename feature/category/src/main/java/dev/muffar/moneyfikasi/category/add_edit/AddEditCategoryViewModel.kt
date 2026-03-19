@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.category.add_edit.component.AddEditCategoryBottomSheet
-import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.InvalidCategoryException
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
@@ -37,15 +36,15 @@ class AddEditCategoryViewModel @Inject constructor(
 
     fun onEvent(event: AddEditCategoryEvent) {
         when (event) {
-            is AddEditCategoryEvent.OnInitType -> setType(event.type)
-            is AddEditCategoryEvent.OnNameChange -> onNameChange(event.name)
-            is AddEditCategoryEvent.OnIconChange -> onIconChange(event.icon)
-            is AddEditCategoryEvent.OnColorChange -> onColorChange(event.color)
-            is AddEditCategoryEvent.OnIsActiveChange -> onIsActiveChange()
-            is AddEditCategoryEvent.OnBottomSheetChange -> onBottomSheetChange(event.type)
-            is AddEditCategoryEvent.OnShowAlert -> onShowAlert(event.showAlert)
-            is AddEditCategoryEvent.OnSubmitCategory -> onSaveCategory()
-            is AddEditCategoryEvent.OnDeleteCategory -> onDeleteCategory()
+            is AddEditCategoryEvent.InitType -> setType(event.type)
+            is AddEditCategoryEvent.NameChanged -> onNameChange(event.name)
+            is AddEditCategoryEvent.IconChanged -> onIconChange(event.icon)
+            is AddEditCategoryEvent.ColorChanged -> onColorChange(event.color)
+            is AddEditCategoryEvent.ActivationEnabled -> onActivationEnable()
+            is AddEditCategoryEvent.BottomSheetChanged -> onBottomSheetChange(event.type)
+            is AddEditCategoryEvent.ShowDeleteAlert -> onShowDeleteAlert(event.showAlert)
+            is AddEditCategoryEvent.SaveCategory -> onSaveCategory()
+            is AddEditCategoryEvent.DeleteCategory -> onDeleteCategory()
         }
     }
 
@@ -84,7 +83,7 @@ class AddEditCategoryViewModel @Inject constructor(
         _state.update { it.copy(color = color) }
     }
 
-    private fun onIsActiveChange() {
+    private fun onActivationEnable() {
         val isActive = !_state.value.isActive
         _state.update { it.copy(isActive = isActive) }
         viewModelScope.launch {
@@ -96,7 +95,7 @@ class AddEditCategoryViewModel @Inject constructor(
         _state.update { it.copy(bottomSheetType = type) }
     }
 
-    private fun onShowAlert(showAlert: Boolean) {
+    private fun onShowDeleteAlert(showAlert: Boolean) {
         _state.update { it.copy(showAlert = showAlert) }
     }
 

@@ -27,30 +27,30 @@ fun NavGraphBuilder.addEditCategoryNavigation(
         }
 
         LaunchedEffect(Unit) {
-            event(AddEditCategoryEvent.OnInitType(type ?: CategoryType.INCOME))
+            event(AddEditCategoryEvent.InitType(type ?: CategoryType.INCOME))
         }
 
         AddEditCategoryScreen(
             state = state,
             eventFlow = viewModel.eventFlow,
             onNameChange = { name ->
-                event(AddEditCategoryEvent.OnNameChange(name))
+                event(AddEditCategoryEvent.NameChanged(name))
             },
             onIconChange = { icon ->
-                event(AddEditCategoryEvent.OnIconChange(icon))
+                event(AddEditCategoryEvent.IconChanged(icon))
             },
             onColorChange = { color ->
-                event(AddEditCategoryEvent.OnColorChange(color))
+                event(AddEditCategoryEvent.ColorChanged(color))
             },
-            onIsActiveChange = { event(AddEditCategoryEvent.OnIsActiveChange) },
+            onIsActiveChange = { event(AddEditCategoryEvent.ActivationEnabled) },
             onShowBottomSheet = { sheetType ->
-                event(AddEditCategoryEvent.OnBottomSheetChange(sheetType))
+                event(AddEditCategoryEvent.BottomSheetChanged(sheetType))
             },
             onShowAlert = { showAlert ->
-                event(AddEditCategoryEvent.OnShowAlert(showAlert))
+                event(AddEditCategoryEvent.ShowDeleteAlert(showAlert))
             },
-            onSubmit = { event(AddEditCategoryEvent.OnSubmitCategory) },
-            onDelete = { event(AddEditCategoryEvent.OnDeleteCategory) },
+            onSubmit = { event(AddEditCategoryEvent.SaveCategory) },
+            onDelete = { event(AddEditCategoryEvent.DeleteCategory) },
             onBackClick = navigateBack
         )
     }

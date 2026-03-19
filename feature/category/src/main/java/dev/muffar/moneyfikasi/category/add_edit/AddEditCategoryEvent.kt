@@ -4,13 +4,13 @@ import dev.muffar.moneyfikasi.category.add_edit.component.AddEditCategoryBottomS
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 
 sealed class AddEditCategoryEvent {
-    data class OnInitType(val type: CategoryType) : AddEditCategoryEvent()
-    data class OnNameChange(val name: String) : AddEditCategoryEvent()
-    data class OnIconChange(val icon: String) : AddEditCategoryEvent()
-    data class OnColorChange(val color: Long) : AddEditCategoryEvent()
-    data object OnIsActiveChange : AddEditCategoryEvent()
-    data class OnBottomSheetChange(val type: AddEditCategoryBottomSheet?) : AddEditCategoryEvent()
-    data class OnShowAlert(val showAlert: Boolean) : AddEditCategoryEvent()
-    data object OnSubmitCategory : AddEditCategoryEvent()
-    data object OnDeleteCategory : AddEditCategoryEvent()
+    data class InitType(val type: CategoryType) : AddEditCategoryEvent()
+    data class NameChanged(val name: String) : AddEditCategoryEvent()
+    data class IconChanged(val icon: String) : AddEditCategoryEvent()
+    data class ColorChanged(val color: Long) : AddEditCategoryEvent()
+    data object ActivationEnabled : AddEditCategoryEvent()
+    data class BottomSheetChanged(val type: AddEditCategoryBottomSheet?) : AddEditCategoryEvent()
+    data class ShowDeleteAlert(val showAlert: Boolean) : AddEditCategoryEvent()
+    data object SaveCategory : AddEditCategoryEvent()
+    data object DeleteCategory : AddEditCategoryEvent()
 }
