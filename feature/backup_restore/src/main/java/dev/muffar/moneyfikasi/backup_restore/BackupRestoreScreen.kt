@@ -4,26 +4,22 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.backup_restore.component.BackupRestoreButton
+import dev.muffar.moneyfikasi.backup_restore.component.BackupRestoreImage
 import dev.muffar.moneyfikasi.backup_restore.component.BackupRestoreNotes
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
+import dev.muffar.moneyfikasi.common_ui.component.button.CommonButton
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -64,32 +60,21 @@ fun BackupRestoreScreen(
                 .padding(it)
                 .padding(vertical = 4.dp)
         ) {
-
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_restore_backup2),
-                    contentDescription = stringResource(R.string.backup_restore),
-                    modifier = Modifier
-                        .padding(vertical = 32.dp)
-                        .size(150.dp)
-                )
-            }
-
-            BackupRestoreButton(
-                title = stringResource(R.string.backup),
-                onClick = {
-                    dirBackupLauncher.launch(null)
-                }
+            BackupRestoreImage()
+            CommonButton(
+                text = stringResource(R.string.backup),
+                onClick = { dirBackupLauncher.launch(null) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
             )
             Spacer(modifier = Modifier.height(8.dp))
-            BackupRestoreButton(
-                title = stringResource(R.string.restore),
-                onClick = {
-                    dirRestoreLauncher.launch(null)
-                }
+            CommonButton(
+                text = stringResource(R.string.restore),
+                onClick = { dirRestoreLauncher.launch(null) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
             BackupRestoreNotes()
