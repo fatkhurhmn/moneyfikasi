@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
 import dev.muffar.moneyfikasi.domain.model.CategoryType
+import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -71,6 +72,13 @@ class AddEditCategoryViewModel @Inject constructor(
 
     private fun onNameChange(name: String) {
         _state.update { it.copy(name = name) }
+        updateNameError()
+    }
+
+    private fun updateNameError() {
+        val name = _state.value.name
+        val error = if (name.isEmpty()) "Name cannot be empty" else null
+        _state.update { it.copy(nameError = ErrorMessage(error)) }
     }
 
     private fun onIconChange(icon: String) {
@@ -79,6 +87,13 @@ class AddEditCategoryViewModel @Inject constructor(
 
     private fun onColorChange(color: Long) {
         _state.update { it.copy(color = color) }
+    }
+
+    private fun updateIconAndColor() {
+        val icon = _state.value.icon
+        val color = _state.value.color
+        val error = if (icon.isEmpty() || color == 0L) "Please select an icon and color" else null
+        _state.update { it.copy(iconError = ErrorMessage(error)) }
     }
 
     private fun onActivationEnable() {
@@ -94,6 +109,7 @@ class AddEditCategoryViewModel @Inject constructor(
     }
 
     private fun onSaveCategory() {
+        if (!isFormValid()) return
         viewModelScope.launch {
             try {
                 categoryUseCases.upsertCategory(state.value.category)
@@ -125,6 +141,14 @@ class AddEditCategoryViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    private fun isFormValid(): Boolean {
+        viewModelScope.launch {
+            updateNameError()
+            updateIconAndColor()
+        }
+        return _state.value.run { nameError.isNull && iconError.isNull }
     }
 
     sealed class UiEvent {

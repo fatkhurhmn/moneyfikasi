@@ -2,6 +2,7 @@ package dev.muffar.moneyfikasi.category.add_edit.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -14,18 +15,19 @@ import dev.muffar.moneyfikasi.resource.R
 
 @Composable
 fun AddEditCategoryButton(
-    modifier: Modifier = Modifier,
     isEdit: Boolean,
     onSave: () -> Unit,
     onDelete: () -> Unit,
 ) {
-    Column {
+    Column(
+        modifier = Modifier.imePadding()
+    ) {
         CommonHorizontalDivider()
         if (!isEdit) {
             CommonButton(
                 text = stringResource(R.string.save),
                 onClick = onSave,
-                modifier = modifier
+                modifier = Modifier
                     .padding(horizontal = 16.dp, vertical = 8.dp)
                     .fillMaxWidth()
             )
@@ -35,7 +37,7 @@ fun AddEditCategoryButton(
                 positiveText = stringResource(R.string.save),
                 onNegativeClick = onDelete,
                 onPositiveClick = onSave,
-                modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
         }
     }

@@ -21,5 +21,3 @@ data class Category(
     val isFeeTransfer: Boolean
         get() = id == UUIDConst.TransferFeeCategoryId
 }
-
-data class InvalidCategoryException(override val message: String) : Exception()

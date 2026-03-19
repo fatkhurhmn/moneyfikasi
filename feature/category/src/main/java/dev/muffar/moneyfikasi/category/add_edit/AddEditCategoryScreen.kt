@@ -70,11 +70,7 @@ fun AddEditCategoryScreen(
                 .imePadding()
                 .verticalScroll(scrollState)
                 .padding(16.dp),
-            id = state.id,
-            name = state.name,
-            icon = state.icon,
-            color = state.color,
-            isActive = state.isActive,
+            state = state,
             onNameChange = onNameChange,
             onIconSelect = onIconSelect,
             onColorSelect = onColorSelect,

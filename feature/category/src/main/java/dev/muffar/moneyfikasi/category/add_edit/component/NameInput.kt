@@ -7,18 +7,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
+import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
 fun NameInput(
     name: String,
     onNameChange: (String) -> Unit,
+    error: ErrorMessage
 ) {
     CommonTextInput(
         modifier = Modifier.fillMaxWidth(),
         value = name,
         onValueChange = onNameChange,
         label = stringResource(R.string.name),
+        error = error,
         placeholder = stringResource(R.string.enter_category_name),
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Done

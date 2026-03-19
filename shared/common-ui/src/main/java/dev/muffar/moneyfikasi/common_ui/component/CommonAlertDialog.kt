@@ -30,7 +30,8 @@ fun CommonAlertDialog(
         dismissButton = {
             CommonOutlinedButton(
                 onClick = onDismiss,
-                text = negativeText
+                text = negativeText,
+                color = MaterialTheme.colorScheme.error
             )
         },
         title = { Text(text = title, style = MaterialTheme.typography.titleMedium) },

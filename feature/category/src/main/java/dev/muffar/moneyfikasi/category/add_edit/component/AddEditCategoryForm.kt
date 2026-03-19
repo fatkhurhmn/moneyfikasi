@@ -2,23 +2,16 @@ package dev.muffar.moneyfikasi.category.add_edit.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import java.util.UUID
+import dev.muffar.moneyfikasi.category.add_edit.AddEditCategoryState
 
 @Composable
 fun AddEditCategoryForm(
     modifier: Modifier = Modifier,
-    id: UUID?,
-    name: String,
-    icon: String,
-    color: Long,
-    isActive: Boolean,
+    state: AddEditCategoryState,
     onNameChange: (String) -> Unit,
     onIconSelect: (String) -> Unit,
     onColorSelect: (Long) -> Unit,
@@ -30,28 +23,22 @@ fun AddEditCategoryForm(
     ) {
 
         NameInput(
-            name = name,
-            onNameChange = onNameChange
+            name = state.name,
+            onNameChange = onNameChange,
+            error = state.nameError
         )
 
-        Row(
-            modifier = Modifier
-        ) {
-            CategoryIconInput(
-                icon = icon,
-                color = color,
-                onIconSelect = onIconSelect
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            CategoryColorInput(
-                color = color,
-                onColorSelect = onColorSelect
-            )
-        }
+        CategoryIconAndColorInput(
+            icon = state.icon,
+            color = state.color,
+            onIconSelect = onIconSelect,
+            onColorSelect = onColorSelect,
+            error = state.iconError
+        )
 
-        if (id != null) {
+        if (state.id != null) {
             CategoryActivationButton(
-                isActive = isActive,
+                isActive = state.isActive,
                 onIsActiveChange = onIsActiveChange
             )
         }
