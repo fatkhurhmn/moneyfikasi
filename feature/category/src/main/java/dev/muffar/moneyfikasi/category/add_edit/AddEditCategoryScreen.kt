@@ -1,9 +1,7 @@
 package dev.muffar.moneyfikasi.category.add_edit
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -63,6 +61,13 @@ fun AddEditCategoryScreen(
                 onBackClick = onBackClick
             )
         },
+        bottomBar = {
+            AddEditCategoryButton(
+                isEdit = state.id != null,
+                onSave = onSubmit,
+                onDelete = { onShowAlert(true) }
+            )
+        },
         snackbarHost = { SnackbarMessage(snackbarHostState) }
     ) {
         Column(
@@ -88,14 +93,6 @@ fun AddEditCategoryScreen(
                 },
                 onIsActiveChange = onIsActiveChange,
             )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            AddEditCategoryButton(
-                isEdit = state.id != null,
-                onSave = onSubmit,
-                onDelete = { onShowAlert(true) }
-            )
         }
 
         if (state.bottomSheetType != null) {
@@ -117,20 +114,20 @@ fun AddEditCategoryScreen(
                 )
             }
         }
+    }
 
-        if (state.showAlert) {
-            CommonAlertDialog(
-                title = stringResource(R.string.delete_category),
-                message = stringResource(R.string.delete_category_confirmation),
-                positiveText = stringResource(R.string.delete),
-                negativeText = stringResource(R.string.cancel),
-                onDismiss = { onShowAlert(false) },
-                onConfirm = {
-                    onDelete()
-                    onShowAlert(false)
-                }
-            )
-        }
+    if (state.showAlert) {
+        CommonAlertDialog(
+            title = stringResource(R.string.delete_category),
+            message = stringResource(R.string.delete_category_confirmation),
+            positiveText = stringResource(R.string.delete),
+            negativeText = stringResource(R.string.cancel),
+            onDismiss = { onShowAlert(false) },
+            onConfirm = {
+                onDelete()
+                onShowAlert(false)
+            }
+        )
     }
 
     LaunchedEffect(eventFlow) {
