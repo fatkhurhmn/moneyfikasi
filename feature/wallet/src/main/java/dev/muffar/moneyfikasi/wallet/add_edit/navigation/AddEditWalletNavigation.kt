@@ -29,10 +29,10 @@ fun NavGraphBuilder.addEditWalletNavigation(
             onBalanceChange = { balance ->
                 event(AddEditWalletEvent.BalanceChanged(balance))
             },
-            onIconChange = { icon ->
+            onIconSelect = { icon ->
                 event(AddEditWalletEvent.IconChanged(icon))
             },
-            onColorChange = { color ->
+            onColorSelect = { color ->
                 event(AddEditWalletEvent.ColorChanged(color))
             },
             onWalletActive = { event(AddEditWalletEvent.WalletActivated) },

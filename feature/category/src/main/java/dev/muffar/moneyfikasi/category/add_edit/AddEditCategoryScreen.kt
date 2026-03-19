@@ -74,7 +74,7 @@ fun AddEditCategoryScreen(
             onNameChange = onNameChange,
             onIconSelect = onIconSelect,
             onColorSelect = onColorSelect,
-            onIsActiveChange = onCategoryActive,
+            onCategoryActive = onCategoryActive,
         )
     }
 

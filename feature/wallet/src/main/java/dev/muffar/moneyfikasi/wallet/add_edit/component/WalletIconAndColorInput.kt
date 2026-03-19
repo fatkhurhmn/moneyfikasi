@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.category.add_edit.component
+package dev.muffar.moneyfikasi.wallet.add_edit.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,15 +11,13 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.text_input.ColorPicker
 import dev.muffar.moneyfikasi.common_ui.component.text_input.IconPicker
 import dev.muffar.moneyfikasi.common_ui.component.text_input.TextInputError
-import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
-import dev.muffar.moneyfikasi.domain.utils.CategoryIcon
+import dev.muffar.moneyfikasi.domain.utils.WalletIcon
 
 @Composable
-fun CategoryIconAndColorInput(
+fun WalletIconAndColorInput(
     icon: String,
     color: Long,
-    type: CategoryType,
     onIconSelect: (String) -> Unit,
     onColorSelect: (Long) -> Unit,
     error: ErrorMessage
@@ -27,11 +25,11 @@ fun CategoryIconAndColorInput(
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
-        Row {
+        Row{
             IconPicker(
+                options = WalletIcon.getIcons(),
                 icon = icon,
                 color = color,
-                options = CategoryIcon.getCategories(type),
                 onIconSelect = onIconSelect
             )
             Spacer(modifier = Modifier.width(16.dp))

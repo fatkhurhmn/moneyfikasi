@@ -1,88 +1,62 @@
 package dev.muffar.moneyfikasi.wallet.add_edit.component
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextRange
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.component.button.ColorFieldButton
-import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
-import dev.muffar.moneyfikasi.common_ui.component.button.IconFieldButton
-import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.filterAmount
-import java.util.UUID
+import dev.muffar.moneyfikasi.domain.model.ErrorMessage
+import dev.muffar.moneyfikasi.wallet.add_edit.AddEditWalletState
 
 @Composable
 fun AddEditWalletForm(
-    id: UUID?,
-    name: String,
-    balance: String,
-    icon: String,
-    color: Long,
-    isActive: Boolean,
+    modifier: Modifier = Modifier,
+    state: AddEditWalletState,
     onNameChange: (String) -> Unit,
     onBalanceChange: (String) -> Unit,
-    onIconClick: () -> Unit,
-    onColorClick: () -> Unit,
-    onIsActiveChange: () -> Unit,
+    onIconSelect: (String) -> Unit,
+    onColorSelect: (Long) -> Unit,
+    onWalletActive: () -> Unit,
 ) {
-    Column {
-        CommonTextInput(
-            modifier = Modifier.fillMaxWidth(),
-            value = name,
-            onValueChange = onNameChange,
-            label = stringResource(R.string.name),
-            placeholder = stringResource(R.string.enter_wallet_name),
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next
-            )
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        WalletCard(
+            name = state.name,
+            color = state.color,
+            icon = state.icon,
+            balance = state.balance,
         )
-        Spacer(modifier = Modifier.height(16.dp))
-        CommonTextInput(
-            modifier = Modifier.fillMaxWidth(),
-            value = TextFieldValue(balance, TextRange(balance.length)),
-            onValueChange = { it.text.filterAmount()?.let(onBalanceChange) },
-            label = stringResource(R.string.balance),
-            placeholder = stringResource(R.string.enter_wallet_balance),
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done,
-                keyboardType = KeyboardType.Number
-            ),
-            enabled = id == null,
-            readOnly = id != null
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Row(
-            modifier = Modifier
-        ) {
-            IconFieldButton(
-                icon = icon,
-                color = color,
-                onIconClick = onIconClick
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            ColorFieldButton(
-                color = color,
-                onColorClick = onColorClick,
-                modifier = Modifier.weight(1f)
-            )
-        }
 
-        if (id != null) {
+        WalletNameInput(
+            name = state.name,
+            onNameChange = onNameChange,
+            error = ErrorMessage()
+        )
+
+        WalletBalanceInput(
+            id = state.id,
+            balance = state.balance,
+            onBalanceChange = onBalanceChange
+        )
+
+        WalletIconAndColorInput(
+            icon = state.icon,
+            color = state.color,
+            onIconSelect = onIconSelect,
+            onColorSelect = onColorSelect,
+            error = ErrorMessage()
+        )
+
+        if (state.id != null) {
             Spacer(modifier = Modifier.height(16.dp))
             WalletActivationButton(
-                isActive = isActive,
-                onIsActiveChange = onIsActiveChange
+                isActive = state.isActive,
+                onIsActiveChange = onWalletActive
             )
         }
     }

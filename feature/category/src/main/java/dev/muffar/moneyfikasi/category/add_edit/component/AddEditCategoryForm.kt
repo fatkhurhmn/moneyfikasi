@@ -15,14 +15,14 @@ fun AddEditCategoryForm(
     onNameChange: (String) -> Unit,
     onIconSelect: (String) -> Unit,
     onColorSelect: (Long) -> Unit,
-    onIsActiveChange: () -> Unit,
+    onCategoryActive: () -> Unit,
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
-        NameInput(
+        CategoryNameInput(
             name = state.name,
             onNameChange = onNameChange,
             error = state.nameError
@@ -31,6 +31,7 @@ fun AddEditCategoryForm(
         CategoryIconAndColorInput(
             icon = state.icon,
             color = state.color,
+            type = state.type,
             onIconSelect = onIconSelect,
             onColorSelect = onColorSelect,
             error = state.iconError
@@ -39,7 +40,7 @@ fun AddEditCategoryForm(
         if (state.id != null) {
             CategoryActivationButton(
                 isActive = state.isActive,
-                onIsActiveChange = onIsActiveChange
+                onIsActiveChange = onCategoryActive
             )
         }
     }

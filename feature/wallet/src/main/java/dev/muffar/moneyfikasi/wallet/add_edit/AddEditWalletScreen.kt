@@ -1,9 +1,6 @@
 package dev.muffar.moneyfikasi.wallet.add_edit
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -26,20 +23,18 @@ import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.wallet.add_edit.component.AddEditWalletBottomSheet
 import dev.muffar.moneyfikasi.wallet.add_edit.component.AddEditWalletButton
 import dev.muffar.moneyfikasi.wallet.add_edit.component.AddEditWalletForm
-import dev.muffar.moneyfikasi.wallet.add_edit.component.WalletCard
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditWalletScreen(
-    modifier: Modifier = Modifier,
     state: AddEditWalletState,
     eventFlow: SharedFlow<AddEditWalletViewModel.UiEvent>,
     onNameChange: (String) -> Unit,
     onBalanceChange: (String) -> Unit,
-    onIconChange: (String) -> Unit,
-    onColorChange: (Long) -> Unit,
+    onIconSelect: (String) -> Unit,
+    onColorSelect: (Long) -> Unit,
     onWalletActive: () -> Unit,
     onShowBottomSheet: (AddEditWalletBottomSheet?) -> Unit,
     onShowAlert: (Boolean) -> Unit,
@@ -78,39 +73,21 @@ fun AddEditWalletScreen(
         },
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) {
-        Column(
+        AddEditWalletForm(
             modifier = Modifier
                 .padding(it)
                 .consumeWindowInsets(it)
                 .imePadding()
                 .verticalScroll(scrollState)
-                .padding(16.dp)
-        ) {
-            WalletCard(
-                name = state.name,
-                color = state.color,
-                icon = state.icon,
-                balance = state.balance,
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            AddEditWalletForm(
-                id = state.id,
-                name = state.name,
-                balance = state.balance,
-                icon = state.icon,
-                color = state.color,
-                isActive = state.isActive,
-                onNameChange = onNameChange,
-                onBalanceChange = onBalanceChange,
-                onIconClick = {
-                    onShowBottomSheet(AddEditWalletBottomSheet.ICON)
-                },
-                onColorClick = {
-                    onShowBottomSheet(AddEditWalletBottomSheet.COLOR)
-                },
-                onIsActiveChange = onWalletActive,
-            )
-        }
+                .padding(16.dp),
+            state = state,
+            onNameChange = onNameChange,
+            onBalanceChange = onBalanceChange,
+            onIconSelect = onIconSelect,
+            onColorSelect = onColorSelect,
+            onWalletActive = onWalletActive,
+        )
+
         if (state.bottomSheetType != null) {
             ModalBottomSheet(
                 onDismissRequest = { onShowBottomSheet(null) },
@@ -119,11 +96,11 @@ fun AddEditWalletScreen(
                 AddEditWalletBottomSheet(
                     type = state.bottomSheetType,
                     onIconSelect = { icon ->
-                        onIconChange(icon)
+                        onIconSelect(icon)
                         onShowBottomSheet(null)
                     },
                     onColorSelect = { color ->
-                        onColorChange(color)
+                        onColorSelect(color)
                     },
                     onDismiss = { onShowBottomSheet(null) }
                 )

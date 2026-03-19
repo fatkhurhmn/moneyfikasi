@@ -1,69 +1,34 @@
 package dev.muffar.moneyfikasi.common_ui.component.text_input
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.component.IconByName
-import dev.muffar.moneyfikasi.resource.R
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.IconPickerSheet
+import dev.muffar.moneyfikasi.common_ui.component.button.IconFieldButton
 
 @Composable
 fun IconPicker(
-    modifier: Modifier = Modifier,
-    icons : List<String>,
-    onClick: (String) -> Unit,
-    onClose: () -> Unit,
+    icon: String,
+    color: Long,
+    options: List<String>,
+    onIconSelect: (String) -> Unit
 ) {
-    Column(
-        modifier = modifier.padding(bottom = 16.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = stringResource(R.string.select_icon),
-                style = MaterialTheme.typography.titleLarge
-            )
-            IconButton(onClick = onClose) {
-                Icon(
-                    imageVector = Icons.Rounded.Close,
-                    contentDescription = null
-                )
-            }
-        }
+    var showIconPicker by remember { mutableStateOf(false) }
 
-        Spacer(modifier = Modifier.height(16.dp))
+    IconFieldButton(
+        icon = icon,
+        color = color,
+        onIconClick = { showIconPicker = true }
+    )
 
-        LazyVerticalGrid(columns = GridCells.Fixed(4)) {
-            items(icons.size) {
-                val icon = icons[it]
-                IconButton(onClick = { onClick(icon) }) {
-                    IconByName(
-                        name = icon,
-                        tint = MaterialTheme.colorScheme.onBackground.copy(0.8f)
-                    )
-                }
-            }
-        }
+    AnimatedVisibility(showIconPicker) {
+        IconPickerSheet(
+            icons = options,
+            onDismissRequest = { showIconPicker = false },
+            onClick = onIconSelect
+        )
     }
 }

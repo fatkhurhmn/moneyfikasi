@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.category.add_edit.component
+package dev.muffar.moneyfikasi.wallet.add_edit.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
@@ -11,7 +11,7 @@ import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
-fun NameInput(
+fun WalletNameInput(
     name: String,
     onNameChange: (String) -> Unit,
     error: ErrorMessage
@@ -22,7 +22,7 @@ fun NameInput(
         onValueChange = onNameChange,
         label = stringResource(R.string.name),
         error = error,
-        placeholder = stringResource(R.string.enter_category_name),
+        placeholder = stringResource(R.string.enter_wallet_name),
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Done
         )
