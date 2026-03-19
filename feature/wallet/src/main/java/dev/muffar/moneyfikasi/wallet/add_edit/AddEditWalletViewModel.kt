@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
 import dev.muffar.moneyfikasi.domain.model.InvalidWalletException
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
@@ -100,7 +101,14 @@ class AddEditWalletViewModel @Inject constructor(
                 walletUseCases.upsertWallet(state.value.wallet)
                 _eventFlow.emit(UiEvent.SaveWallet)
             } catch (e: InvalidWalletException) {
-                _eventFlow.emit(UiEvent.ShowMessage(e.message))
+                e.printStackTrace()
+                e.printStackTrace()
+                _eventFlow.emit(
+                    UiEvent.ShowMessage(
+                        "Failed to save wallet",
+                        SnackbarType.ERROR
+                    )
+                )
             }
         }
     }
@@ -111,13 +119,19 @@ class AddEditWalletViewModel @Inject constructor(
                 walletUseCases.deleteWallet(state.value.wallet)
                 _eventFlow.emit(UiEvent.DeleteWallet)
             } catch (e: Exception) {
-                _eventFlow.emit(UiEvent.ShowMessage(e.message ?: "Error deleting wallet"))
+                e.printStackTrace()
+                _eventFlow.emit(
+                    UiEvent.ShowMessage(
+                        "Failed to delete wallet",
+                        SnackbarType.ERROR
+                    )
+                )
             }
         }
     }
 
     sealed class UiEvent {
-        data class ShowMessage(val message: String) : UiEvent()
+        data class ShowMessage(val message: String, val type: SnackbarType) : UiEvent()
         data object SaveWallet : UiEvent()
         data object DeleteWallet : UiEvent()
     }

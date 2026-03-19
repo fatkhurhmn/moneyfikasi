@@ -7,7 +7,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -17,6 +16,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonAlertDialog
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
+import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
+import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.wallet.add_edit.component.AddEditWalletButton
 import dev.muffar.moneyfikasi.wallet.add_edit.component.AddEditWalletForm
@@ -42,16 +43,6 @@ fun AddEditWalletScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollState = rememberScrollState()
 
-    LaunchedEffect(eventFlow) {
-        eventFlow.collectLatest {
-            when (it) {
-                is AddEditWalletViewModel.UiEvent.SaveWallet -> onBackClick()
-                is AddEditWalletViewModel.UiEvent.DeleteWallet -> onBackClick()
-                is AddEditWalletViewModel.UiEvent.ShowMessage -> snackbarHostState.showSnackbar(it.message)
-            }
-        }
-    }
-
     Scaffold(
         topBar = {
             CommonTopAppBar(
@@ -66,7 +57,7 @@ fun AddEditWalletScreen(
                 onDelete = { onShowAlert(true) }
             )
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) }
+        snackbarHost = { SnackbarMessage(snackbarHostState) }
     ) {
         AddEditWalletForm(
             modifier = Modifier
@@ -96,5 +87,18 @@ fun AddEditWalletScreen(
                 onShowAlert(false)
             }
         )
+    }
+
+    LaunchedEffect(eventFlow) {
+        eventFlow.collectLatest {
+            when (it) {
+                is AddEditWalletViewModel.UiEvent.SaveWallet -> onBackClick()
+                is AddEditWalletViewModel.UiEvent.DeleteWallet -> onBackClick()
+                is AddEditWalletViewModel.UiEvent.ShowMessage -> snackbarHostState.showMessage(
+                    it.message,
+                    it.type
+                )
+            }
+        }
     }
 }
