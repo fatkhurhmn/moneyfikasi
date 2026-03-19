@@ -1,6 +1,5 @@
 package dev.muffar.moneyfikasi.category.add_edit
 
-import dev.muffar.moneyfikasi.category.add_edit.component.AddEditCategoryBottomSheet
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 
 sealed class AddEditCategoryEvent {
@@ -9,7 +8,6 @@ sealed class AddEditCategoryEvent {
     data class IconChanged(val icon: String) : AddEditCategoryEvent()
     data class ColorChanged(val color: Long) : AddEditCategoryEvent()
     data object ActivationEnabled : AddEditCategoryEvent()
-    data class BottomSheetChanged(val type: AddEditCategoryBottomSheet?) : AddEditCategoryEvent()
     data class ShowDeleteAlert(val showAlert: Boolean) : AddEditCategoryEvent()
     data object SaveCategory : AddEditCategoryEvent()
     data object DeleteCategory : AddEditCategoryEvent()

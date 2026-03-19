@@ -36,16 +36,13 @@ fun NavGraphBuilder.addEditCategoryNavigation(
             onNameChange = { name ->
                 event(AddEditCategoryEvent.NameChanged(name))
             },
-            onIconChange = { icon ->
+            onIconSelect = { icon ->
                 event(AddEditCategoryEvent.IconChanged(icon))
             },
-            onColorChange = { color ->
+            onColorSelect = { color ->
                 event(AddEditCategoryEvent.ColorChanged(color))
             },
             onIsActiveChange = { event(AddEditCategoryEvent.ActivationEnabled) },
-            onShowBottomSheet = { sheetType ->
-                event(AddEditCategoryEvent.BottomSheetChanged(sheetType))
-            },
             onShowAlert = { showAlert ->
                 event(AddEditCategoryEvent.ShowDeleteAlert(showAlert))
             },

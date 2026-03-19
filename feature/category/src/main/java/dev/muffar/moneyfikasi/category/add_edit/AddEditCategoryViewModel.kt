@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.muffar.moneyfikasi.category.add_edit.component.AddEditCategoryBottomSheet
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
@@ -41,7 +40,6 @@ class AddEditCategoryViewModel @Inject constructor(
             is AddEditCategoryEvent.IconChanged -> onIconChange(event.icon)
             is AddEditCategoryEvent.ColorChanged -> onColorChange(event.color)
             is AddEditCategoryEvent.ActivationEnabled -> onActivationEnable()
-            is AddEditCategoryEvent.BottomSheetChanged -> onBottomSheetChange(event.type)
             is AddEditCategoryEvent.ShowDeleteAlert -> onShowDeleteAlert(event.showAlert)
             is AddEditCategoryEvent.SaveCategory -> onSaveCategory()
             is AddEditCategoryEvent.DeleteCategory -> onDeleteCategory()
@@ -89,10 +87,6 @@ class AddEditCategoryViewModel @Inject constructor(
         viewModelScope.launch {
             categoryUseCases.upsertCategory(state.value.category)
         }
-    }
-
-    private fun onBottomSheetChange(type: AddEditCategoryBottomSheet?) {
-        _state.update { it.copy(bottomSheetType = type) }
     }
 
     private fun onShowDeleteAlert(showAlert: Boolean) {
