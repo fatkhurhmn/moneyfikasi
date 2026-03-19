@@ -8,7 +8,6 @@ import dev.muffar.moneyfikasi.domain.model.InvalidWalletException
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.utils.extensions.formatThousand
-import dev.muffar.moneyfikasi.wallet.add_edit.component.AddEditWalletBottomSheet
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -41,7 +40,6 @@ class AddEditWalletViewModel @Inject constructor(
             is AddEditWalletEvent.IconChanged -> onIconChange(event.icon)
             is AddEditWalletEvent.ColorChanged -> onColorChange(event.color)
             is AddEditWalletEvent.WalletActivated -> onWalletActive()
-            is AddEditWalletEvent.BottomSheetChanged -> onBottomSheetChange(event.type)
             is AddEditWalletEvent.ShowDeleteAlert -> onShowAlert(event.showAlert)
             is AddEditWalletEvent.SaveWallet -> onSaveWallet()
             is AddEditWalletEvent.DeleteWallet -> onDeleteWallet()
@@ -90,10 +88,6 @@ class AddEditWalletViewModel @Inject constructor(
         viewModelScope.launch {
             walletUseCases.upsertWallet(state.value.wallet)
         }
-    }
-
-    private fun onBottomSheetChange(type: AddEditWalletBottomSheet?) {
-        _state.update { it.copy(bottomSheetType = type) }
     }
 
     private fun onShowAlert(showAlert: Boolean) {

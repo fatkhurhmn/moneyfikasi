@@ -6,11 +6,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -20,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonAlertDialog
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.wallet.add_edit.component.AddEditWalletBottomSheet
 import dev.muffar.moneyfikasi.wallet.add_edit.component.AddEditWalletButton
 import dev.muffar.moneyfikasi.wallet.add_edit.component.AddEditWalletForm
 import kotlinx.coroutines.flow.SharedFlow
@@ -36,14 +33,12 @@ fun AddEditWalletScreen(
     onIconSelect: (String) -> Unit,
     onColorSelect: (Long) -> Unit,
     onWalletActive: () -> Unit,
-    onShowBottomSheet: (AddEditWalletBottomSheet?) -> Unit,
     onShowAlert: (Boolean) -> Unit,
     onSubmit: () -> Unit,
     onDelete: () -> Unit,
     onBackClick: () -> Unit,
 ) {
 
-    val sheetState = rememberModalBottomSheetState()
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollState = rememberScrollState()
 
@@ -87,38 +82,19 @@ fun AddEditWalletScreen(
             onColorSelect = onColorSelect,
             onWalletActive = onWalletActive,
         )
+    }
 
-        if (state.bottomSheetType != null) {
-            ModalBottomSheet(
-                onDismissRequest = { onShowBottomSheet(null) },
-                sheetState = sheetState
-            ) {
-                AddEditWalletBottomSheet(
-                    type = state.bottomSheetType,
-                    onIconSelect = { icon ->
-                        onIconSelect(icon)
-                        onShowBottomSheet(null)
-                    },
-                    onColorSelect = { color ->
-                        onColorSelect(color)
-                    },
-                    onDismiss = { onShowBottomSheet(null) }
-                )
+    if (state.showAlert) {
+        CommonAlertDialog(
+            title = stringResource(R.string.delete_wallet),
+            message = stringResource(R.string.delete_wallet_confirmation),
+            positiveText = stringResource(R.string.delete),
+            negativeText = stringResource(R.string.cancel),
+            onDismiss = { onShowAlert(false) },
+            onConfirm = {
+                onDelete()
+                onShowAlert(false)
             }
-        }
-
-        if (state.showAlert) {
-            CommonAlertDialog(
-                title = stringResource(R.string.delete_wallet),
-                message = stringResource(R.string.delete_wallet_confirmation),
-                positiveText = stringResource(R.string.delete),
-                negativeText = stringResource(R.string.cancel),
-                onDismiss = { onShowAlert(false) },
-                onConfirm = {
-                    onDelete()
-                    onShowAlert(false)
-                }
-            )
-        }
+        )
     }
 }

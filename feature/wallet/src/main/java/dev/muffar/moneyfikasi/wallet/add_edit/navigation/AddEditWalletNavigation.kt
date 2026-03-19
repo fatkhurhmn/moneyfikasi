@@ -36,9 +36,6 @@ fun NavGraphBuilder.addEditWalletNavigation(
                 event(AddEditWalletEvent.ColorChanged(color))
             },
             onWalletActive = { event(AddEditWalletEvent.WalletActivated) },
-            onShowBottomSheet = { sheetType ->
-                event(AddEditWalletEvent.BottomSheetChanged(sheetType))
-            },
             onShowAlert = { showAlert ->
                 event(AddEditWalletEvent.ShowDeleteAlert(showAlert))
             },
