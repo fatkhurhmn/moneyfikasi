@@ -16,13 +16,15 @@ fun NavGraphBuilder.transactionsNavGraph(
     onNavigateToTransferTransaction: () -> Unit,
     onNavigateToAddWallet: () -> Unit,
     onNavigateToAddCategory: (CategoryType) -> Unit,
+    onNavigateToSearch: () -> Unit,
     onNavigateBack: () -> Unit,
 ) {
 
     transactionsNavigation(
         onNavigateToTransactionDetail = onNavigateToTransactionDetail,
         onNavigateToAddScreen = onNavigateToAddTransaction,
-        onNavigateToTransferScreen = onNavigateToTransferTransaction
+        onNavigateToTransferScreen = onNavigateToTransferTransaction,
+        onNavigateToSearch = onNavigateToSearch
     )
 
     addEditTransactionNavigation(

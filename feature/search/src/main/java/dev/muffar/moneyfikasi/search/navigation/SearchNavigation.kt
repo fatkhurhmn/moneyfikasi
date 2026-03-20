@@ -3,6 +3,7 @@ package dev.muffar.moneyfikasi.search.navigation
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import dev.muffar.moneyfikasi.navigation.Screen
@@ -25,4 +26,8 @@ fun NavGraphBuilder.searchNavigation(
             onNavigateToTransactionDetail = onNavigateToTransactionDetail
         )
     }
+}
+
+fun NavController.toSearchScreen() {
+    navigate(Screen.Search.route)
 }

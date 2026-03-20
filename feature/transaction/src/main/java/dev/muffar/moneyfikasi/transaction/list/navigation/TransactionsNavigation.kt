@@ -15,7 +15,8 @@ import java.util.UUID
 fun NavGraphBuilder.transactionsNavigation(
     onNavigateToTransactionDetail: (UUID, Boolean) -> Unit,
     onNavigateToAddScreen: (TransactionType) -> Unit,
-    onNavigateToTransferScreen: () -> Unit
+    onNavigateToTransferScreen: () -> Unit,
+    onNavigateToSearch: () -> Unit
 ) {
     composable(Screen.Transactions.route) {
         val viewModel = hiltViewModel<TransactionsViewModel>()
@@ -35,9 +36,10 @@ fun NavGraphBuilder.transactionsNavigation(
             onTimeReferenceChange = { event(TransactionsEvent.TimeReferenceChanged(it)) },
             onDateRangeChange = { event(TransactionsEvent.DateRangeChanged(it)) },
             onShowFilterSheet = { event(TransactionsEvent.ShowFilterSheet(it)) },
-                onShowChooseDateSheet = { event(TransactionsEvent.ShowChooseDateSheet(it)) },
-                onShowCustomDateSheet = { event(TransactionsEvent.ShowCustomDateSheet(it)) },
-                onResetFilter = { event(TransactionsEvent.ResetFilter) },
+            onShowChooseDateSheet = { event(TransactionsEvent.ShowChooseDateSheet(it)) },
+            onShowCustomDateSheet = { event(TransactionsEvent.ShowCustomDateSheet(it)) },
+            onSearchClick = onNavigateToSearch,
+            onResetFilter = { event(TransactionsEvent.ResetFilter) },
             onFilterChanged = { event(TransactionsEvent.FilterChanged(it)) },
         )
     }

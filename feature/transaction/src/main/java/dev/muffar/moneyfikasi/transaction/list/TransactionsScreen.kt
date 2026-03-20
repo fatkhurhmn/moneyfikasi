@@ -38,6 +38,7 @@ fun TransactionsScreen(
     onShowFilterSheet: (Boolean) -> Unit,
     onShowChooseDateSheet: (Boolean) -> Unit,
     onShowCustomDateSheet: (Boolean) -> Unit,
+    onSearchClick: () -> Unit,
     onResetFilter: () -> Unit,
     onFilterChanged: (TransactionFilter) -> Unit,
 ) {
@@ -45,6 +46,7 @@ fun TransactionsScreen(
         topBar = {
             TransactionsTopBar(
                 onChooseDateClick = { onShowChooseDateSheet(true) },
+                onSearchClick = onSearchClick,
                 showFilterBadge = state.isFilterApplied,
                 onFilterClick = { onShowFilterSheet(true) }
             )

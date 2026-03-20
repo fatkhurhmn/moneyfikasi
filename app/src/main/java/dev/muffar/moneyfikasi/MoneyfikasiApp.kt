@@ -18,7 +18,6 @@ fun MoneyfikasiApp(
 ) {
     val mainRoute = listOf(
         Screen.Transactions.route,
-        Screen.Search.route,
         Screen.Statistic.route,
         Screen.Settings.route,
     )

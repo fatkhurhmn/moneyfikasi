@@ -75,17 +75,6 @@ fun MainBottomNav(
 
             BottomBarItem(
                 navController = navController,
-                selectedIcon = painterResource(R.drawable.ic_search_on),
-                unselectedIcon = painterResource(R.drawable.ic_search_off),
-                label = stringResource(R.string.search_menu),
-                route = Screen.Search.route,
-                modifier = Modifier
-                    .padding(2.dp)
-                    .weight(1f)
-            )
-
-            BottomBarItem(
-                navController = navController,
                 selectedIcon = painterResource(R.drawable.ic_statistic_on),
                 unselectedIcon = painterResource(R.drawable.ic_statistic_off),
                 label = stringResource(R.string.statistic_menu),

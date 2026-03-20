@@ -12,6 +12,7 @@ import dev.muffar.moneyfikasi.category.categoriesNavGraph
 import dev.muffar.moneyfikasi.category.list.navigation.toCategoriesScreen
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.search.navigation.searchNavigation
+import dev.muffar.moneyfikasi.search.navigation.toSearchScreen
 import dev.muffar.moneyfikasi.settings.navigation.settingsNavGraph
 import dev.muffar.moneyfikasi.statistic.detail.navigation.toStatisticDetailScreen
 import dev.muffar.moneyfikasi.statistic.statisticNavGraph
@@ -51,7 +52,8 @@ fun RootNavigation(
                 navController.toTransferTransactionScreen()
             },
             onNavigateToAddWallet = { navController.toAddEditWalletScreen() },
-            onNavigateToAddCategory = { navController.toAddEditCategoryScreen(it) }
+            onNavigateToAddCategory = { navController.toAddEditCategoryScreen(it) },
+            onNavigateToSearch = { navController.toSearchScreen() },
         )
 
         statisticNavGraph(
