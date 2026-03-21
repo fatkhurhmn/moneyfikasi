@@ -10,6 +10,7 @@ import dev.muffar.moneyfikasi.backup_restore.navigation.toBackupRestoreScreen
 import dev.muffar.moneyfikasi.category.add_edit.navigation.toAddEditCategoryScreen
 import dev.muffar.moneyfikasi.category.categoriesNavGraph
 import dev.muffar.moneyfikasi.category.list.navigation.toCategoriesScreen
+import dev.muffar.moneyfikasi.feature.dashboard.navigation.dashboardNavigation
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.search.navigation.searchNavigation
 import dev.muffar.moneyfikasi.search.navigation.toSearchScreen
@@ -30,8 +31,10 @@ fun RootNavigation(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Transactions.route
+        startDestination = Screen.Dashboard.route
     ) {
+
+        dashboardNavigation()
 
         transactionsNavGraph(
             onNavigateBack = { navController.navigateUp() },

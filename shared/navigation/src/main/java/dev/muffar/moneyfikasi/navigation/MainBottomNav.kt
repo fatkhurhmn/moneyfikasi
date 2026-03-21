@@ -64,6 +64,17 @@ fun MainBottomNav(
         ) {
             BottomBarItem(
                 navController = navController,
+                selectedIcon = painterResource(R.drawable.ic_dashboard_on),
+                unselectedIcon = painterResource(R.drawable.ic_dashboard_off),
+                label = stringResource(R.string.dashboard_menu),
+                route = Screen.Dashboard.route,
+                modifier = Modifier
+                    .padding(2.dp)
+                    .weight(1f)
+            )
+
+            BottomBarItem(
+                navController = navController,
                 selectedIcon = painterResource(R.drawable.ic_transaction_on),
                 unselectedIcon = painterResource(R.drawable.ic_transaction_off),
                 label = stringResource(R.string.transaction_menu),
@@ -125,7 +136,7 @@ fun BottomBarItem(
             ) {
                 if (!isSelected) {
                     navController.navigate(route) {
-                        popUpTo(Screen.Transactions.route) {
+                        popUpTo(Screen.Dashboard.route) {
                             saveState = true
                         }
                         launchSingleTop = true

@@ -17,6 +17,7 @@ fun MoneyfikasiApp(
     navController: NavHostController,
 ) {
     val mainRoute = listOf(
+        Screen.Dashboard.route,
         Screen.Transactions.route,
         Screen.Statistic.route,
         Screen.Settings.route,
