@@ -1,8 +1,10 @@
 package dev.muffar.moneyfikasi.search
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -16,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
 import dev.muffar.moneyfikasi.common_ui.component.text_input.SearchBar
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.search.component.SearchTopBar
 import dev.muffar.moneyfikasi.search.component.TransactionsList
 import java.util.UUID
 
@@ -30,20 +31,18 @@ fun SearchScreen(
 
     Scaffold(
         topBar = {
-            Column(
-                modifier = Modifier.padding(16.dp)
-            ) {
-                SearchTopBar()
-                SearchBar(
-                    searchQuery = state.searchQuery ?: "",
-                    onQueryChange = onQueryChange
-                )
-            }
+            SearchBar(
+                modifier = Modifier.fillMaxWidth().padding(16.dp),
+                searchQuery = state.searchQuery ?: "",
+                onQueryChange = onQueryChange
+            )
         }
-    ) { innerPadding ->
+    ) {
         Box(
             modifier = modifier
-                .padding(innerPadding)
+                .padding(it)
+                .consumeWindowInsets(it)
+                .imePadding()
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
@@ -52,7 +51,6 @@ fun SearchScreen(
                     text = stringResource(R.string.type_to_search),
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
                 )
-                return@Box
             } else {
                 if (state.transactions.isNotEmpty()) {
                     TransactionsList(

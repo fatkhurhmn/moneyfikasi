@@ -22,7 +22,7 @@ fun NavGraphBuilder.searchNavigation(
 
         SearchScreen(
             state = state,
-            onQueryChange = { event.invoke(SearchEvent.OnQueryChange(it)) },
+            onQueryChange = { event.invoke(SearchEvent.QueryChanged(it)) },
             onNavigateToTransactionDetail = onNavigateToTransactionDetail
         )
     }

@@ -22,7 +22,7 @@ class SearchViewModel @Inject constructor(
 
     fun onEvent(event: SearchEvent) {
         when (event) {
-            is SearchEvent.OnQueryChange -> onQueryChange(event.query)
+            is SearchEvent.QueryChanged -> onQueryChange(event.query)
         }
     }
 
