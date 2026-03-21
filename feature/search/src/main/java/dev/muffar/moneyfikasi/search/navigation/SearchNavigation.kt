@@ -13,7 +13,8 @@ import dev.muffar.moneyfikasi.search.SearchViewModel
 import java.util.UUID
 
 fun NavGraphBuilder.searchNavigation(
-    onNavigateToTransactionDetail: (UUID, Boolean) -> Unit
+    onNavigateToTransactionDetail: (UUID, Boolean) -> Unit,
+    onNavigateBack: () -> Unit,
 ) {
     composable(Screen.Search.route) {
         val viewModel = hiltViewModel<SearchViewModel>()
@@ -23,7 +24,8 @@ fun NavGraphBuilder.searchNavigation(
         SearchScreen(
             state = state,
             onQueryChange = { event.invoke(SearchEvent.QueryChanged(it)) },
-            onNavigateToTransactionDetail = onNavigateToTransactionDetail
+            onNavigateToTransactionDetail = onNavigateToTransactionDetail,
+            onBackClick = onNavigateBack,
         )
     }
 }

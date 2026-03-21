@@ -27,6 +27,7 @@ fun SearchScreen(
     state: SearchState,
     onQueryChange: (String) -> Unit,
     onNavigateToTransactionDetail: (UUID, Boolean) -> Unit,
+    onBackClick: () -> Unit,
 ) {
 
     Scaffold(
@@ -34,6 +35,7 @@ fun SearchScreen(
             SearchBar(
                 modifier = Modifier.fillMaxWidth().padding(16.dp),
                 searchQuery = state.searchQuery ?: "",
+                onBackClick = onBackClick,
                 onQueryChange = onQueryChange
             )
         }

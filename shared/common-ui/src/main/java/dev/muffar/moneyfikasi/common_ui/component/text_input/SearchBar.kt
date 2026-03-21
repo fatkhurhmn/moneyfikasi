@@ -1,11 +1,13 @@
 package dev.muffar.moneyfikasi.common_ui.component.text_input
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -17,6 +19,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
@@ -32,6 +35,7 @@ import kotlinx.coroutines.delay
 fun SearchBar(
     modifier: Modifier = Modifier,
     searchQuery: String,
+    onBackClick: () -> Unit,
     onQueryChange: (String) -> Unit,
 ) {
 
@@ -52,8 +56,11 @@ fun SearchBar(
         shape = MaterialTheme.shapes.medium,
         leadingIcon = {
             Icon(
-                imageVector = Icons.Rounded.Search,
-                contentDescription = stringResource(R.string.search)
+                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                contentDescription = stringResource(R.string.back),
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .clickable { onBackClick() }
             )
         },
         trailingIcon = {

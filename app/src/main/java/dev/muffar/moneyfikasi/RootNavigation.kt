@@ -73,6 +73,7 @@ fun RootNavigation(
             onNavigateToTransactionDetail = { id, isTransfer ->
                 navController.toTransactionDetail(id, isTransfer)
             },
+            onNavigateBack = { navController.navigateUp() }
         )
 
         composable(Screen.Debt.route) {
