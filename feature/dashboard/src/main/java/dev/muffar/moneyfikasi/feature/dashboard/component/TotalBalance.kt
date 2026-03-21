@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.transaction.list.component
+package dev.muffar.moneyfikasi.feature.dashboard.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource

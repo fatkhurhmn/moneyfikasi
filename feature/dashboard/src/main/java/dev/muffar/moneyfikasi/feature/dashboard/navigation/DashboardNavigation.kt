@@ -5,6 +5,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import dev.muffar.moneyfikasi.feature.dashboard.DashboardEvent
 import dev.muffar.moneyfikasi.feature.dashboard.DashboardScreen
 import dev.muffar.moneyfikasi.feature.dashboard.DashboardViewModel
 import dev.muffar.moneyfikasi.navigation.Screen
@@ -15,7 +16,8 @@ fun NavGraphBuilder.dashboardNavigation() {
         val state by viewModel.state.collectAsStateWithLifecycle()
 
         DashboardScreen(
-            state = state
+            state = state,
+            onToggleBalanceVisibility = { viewModel.onEvent(DashboardEvent.ToggleBalanceVisibility) }
         )
     }
 }
