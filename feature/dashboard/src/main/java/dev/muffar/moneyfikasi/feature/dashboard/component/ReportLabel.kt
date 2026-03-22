@@ -49,8 +49,8 @@ fun ReportLabel(
         )
         Row(
             modifier = Modifier
-                .clickable(onClick = onDateRangeClick)
                 .clip(CircleShape)
+                .clickable(onClick = onDateRangeClick)
                 .border(1.dp, MaterialTheme.colorScheme.primary, CircleShape)
                 .padding(horizontal = 10.dp, vertical = 4.dp),
             verticalAlignment = Alignment.CenterVertically,

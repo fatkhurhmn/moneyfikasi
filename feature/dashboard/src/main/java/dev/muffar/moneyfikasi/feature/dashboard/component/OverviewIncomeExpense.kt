@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -44,7 +45,8 @@ fun OverviewIncomeExpense(
             modifier = Modifier
                 .size(50.dp)
                 .padding(8.dp)
-                .align(Alignment.TopEnd),
+                .align(Alignment.TopEnd)
+                .alpha(0.5f),
             painter = painterResource(id = icon),
             contentDescription = null,
         )
