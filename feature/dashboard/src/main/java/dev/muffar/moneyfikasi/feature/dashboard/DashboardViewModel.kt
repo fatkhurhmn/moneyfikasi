@@ -3,11 +3,18 @@ package dev.muffar.moneyfikasi.feature.dashboard
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
+import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -16,6 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
     private val walletUseCases: WalletUseCases,
+    private val categoryUseCases: CategoryUseCases,
+    private val transactionUseCases: TransactionUseCases,
     private val preferencesUseCases: PreferencesUseCases,
 ) : ViewModel() {
 
@@ -23,18 +32,77 @@ class DashboardViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        getWallets()
         getPreferences()
+        loadCategories()
+        loadWallets()
+        observeTransactions()
     }
 
-    private fun getWallets() {
-        walletUseCases.getAllWallets()
-            .onEach { wallets ->
-                val totalBalance = wallets.sumOf { it.balance }
-                _state.update {
-                    it.copy(totalBalance = totalBalance)
+    fun onEvent(event: DashboardEvent) {
+        when (event) {
+            is DashboardEvent.Refresh -> {}
+            is DashboardEvent.ToggleBalanceVisibility -> toggleBalanceVisibility()
+        }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun observeTransactions() {
+        viewModelScope.launch {
+            state
+                .map { Triple(it.dateRange, it.categories, it.wallets) }
+                .distinctUntilChanged()
+                .flatMapLatest { (dateRange, category, wallets) ->
+                    transactionUseCases.getAllTransactions(
+                        dateRange.start,
+                        dateRange.end,
+                        category,
+                        wallets
+                    )
                 }
-            }.launchIn(viewModelScope)
+                .collectLatest { transactions ->
+                    val reportBalance = transactions.sumOf { it.amount }
+                    val reportIncome = transactions
+                        .filter { it.isIncome }
+                        .sumOf { it.amount }
+                    val reportExpense = transactions
+                        .filter { it.isExpense }
+                        .sumOf { it.amount }
+
+                    _state.update { state ->
+                        state.copy(
+                            reportIncome = reportIncome,
+                            reportExpense = reportExpense,
+                            reportBalance = reportBalance
+                        )
+                    }
+                }
+        }
+    }
+
+    private fun loadCategories() {
+        viewModelScope.launch {
+            categoryUseCases.getAllCategories(true)
+                .collectLatest { categories ->
+                    _state.update {
+                        it.copy(categories = categories.toSet())
+                    }
+                }
+        }
+    }
+
+    private fun loadWallets() {
+        viewModelScope.launch {
+            walletUseCases.getAllWallets()
+                .collectLatest { wallets ->
+                    val totalBalance = wallets.sumOf { it.balance }
+                    _state.update { state ->
+                        state.copy(
+                            totalBalance = totalBalance,
+                            wallets = wallets.toSet()
+                        )
+                    }
+                }
+        }
     }
 
     private fun getPreferences() {
@@ -42,13 +110,6 @@ class DashboardViewModel @Inject constructor(
             .onEach { isVisible ->
                 _state.update { it.copy(isBalanceVisible = isVisible) }
             }.launchIn(viewModelScope)
-    }
-
-    fun onEvent(event: DashboardEvent) {
-        when (event) {
-            is DashboardEvent.Refresh -> getWallets()
-            is DashboardEvent.ToggleBalanceVisibility -> toggleBalanceVisibility()
-        }
     }
 
     private fun toggleBalanceVisibility() {
