@@ -29,7 +29,7 @@ fun DashboardScreen(
     onShowReportDateSheet: (Boolean) -> Unit,
     onDateRangeChange: (DateRange) -> Unit,
     onSeeAllTransactionsClick: () -> Unit,
-    onTransactionClick: (UUID) -> Unit,
+    onTransactionClick: (UUID, Boolean) -> Unit,
 ) {
     Scaffold(
         topBar = {

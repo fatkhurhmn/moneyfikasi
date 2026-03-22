@@ -3,6 +3,7 @@ package dev.muffar.moneyfikasi.transaction.list.navigation
 import androidx.compose.runtime.getValue
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import dev.muffar.moneyfikasi.domain.model.TransactionType
@@ -43,4 +44,8 @@ fun NavGraphBuilder.transactionsNavigation(
             onFilterChanged = { event(TransactionsEvent.FilterChanged(it)) },
         )
     }
+}
+
+fun NavController.toTransactionsScreen() {
+    navigate(Screen.Transactions.route)
 }
