@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
@@ -93,7 +94,11 @@ class DashboardViewModel @Inject constructor(
                                 reportIncome = currentIncome,
                                 reportExpense = currentExpense,
                                 reportBalance = currentBalance,
-                                balanceTrend = calculateTrend(currentBalance, previousBalance)
+                                balanceTrend = calculateTrend(currentBalance, previousBalance),
+                                lastTransactions = currentTransactions
+                                    .filter { it.type != TransactionType.TRANSFER_IN && it.type != TransactionType.TRANSFER_OUT }
+                                    .sortedByDescending { it.date }
+                                    .take(5)
                             )
                         }
                     }.collectLatest { }

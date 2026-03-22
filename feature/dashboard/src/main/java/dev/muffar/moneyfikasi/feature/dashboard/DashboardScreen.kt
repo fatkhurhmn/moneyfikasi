@@ -16,9 +16,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.DateRange
-import dev.muffar.moneyfikasi.feature.dashboard.component.ReportCard
+import dev.muffar.moneyfikasi.feature.dashboard.component.LastTransactionsSection
 import dev.muffar.moneyfikasi.feature.dashboard.component.ReportDateSheet
+import dev.muffar.moneyfikasi.feature.dashboard.component.ReportSection
 import dev.muffar.moneyfikasi.feature.dashboard.component.TotalBalance
+import java.util.UUID
 
 @Composable
 fun DashboardScreen(
@@ -26,6 +28,8 @@ fun DashboardScreen(
     onToggleBalanceVisibility: () -> Unit,
     onShowReportDateSheet: (Boolean) -> Unit,
     onDateRangeChange: (DateRange) -> Unit,
+    onSeeAllTransactionsClick: () -> Unit,
+    onTransactionClick: (UUID) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -47,15 +51,22 @@ fun DashboardScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(horizontal = 16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            ReportCard(
+            ReportSection(
                 state = state,
                 onDateRangeClick = { onShowReportDateSheet(true) }
             )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            LastTransactionsSection(
+                transactions = state.lastTransactions,
+                onSeeAllTransactionsClick = onSeeAllTransactionsClick,
+                onTransactionClick = onTransactionClick
+            )
+
             Spacer(modifier = Modifier.height(16.dp))
-            // Other dashboard components
         }
     }
 

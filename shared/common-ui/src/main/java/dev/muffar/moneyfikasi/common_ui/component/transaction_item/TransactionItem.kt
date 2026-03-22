@@ -30,6 +30,7 @@ fun TransactionItem(
     modifier: Modifier = Modifier,
     transaction: Transaction,
     onClick: (UUID) -> Unit,
+    showDate: Boolean = false,
 ) {
     Row(
         modifier = modifier
@@ -61,6 +62,11 @@ fun TransactionItem(
         Column(
             horizontalAlignment = Alignment.End,
         ) {
+            val date = if (showDate) {
+                transaction.date.format(DateTimeFormatter.ofPattern("dd MMM, H:mm"))
+            } else {
+                transaction.date.format(DateTimeFormatter.ofPattern("H:mm"))
+            }
             Text(
                 text = getFormattedAmount(transaction.amount, transaction.type),
                 style = MaterialTheme.typography.bodyLarge,
@@ -70,7 +76,7 @@ fun TransactionItem(
             )
             Spacer(modifier = Modifier.height(2.dp))
             Text(
-                text = transaction.date.format(DateTimeFormatter.ofPattern("H:mm")),
+                text = date,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -85,7 +91,7 @@ private fun getFormattedAmount(amount: Double, type: TransactionType): String {
     }
 }
 
-private fun getAmountColor(type: TransactionType): Color{
+private fun getAmountColor(type: TransactionType): Color {
     return when (type) {
         TransactionType.INCOME, TransactionType.TRANSFER_IN -> MainColor.Green.primary
         TransactionType.EXPENSE, TransactionType.TRANSFER_OUT -> MainColor.Red.primary

@@ -2,6 +2,7 @@ package dev.muffar.moneyfikasi.feature.dashboard
 
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.DateRange
+import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.model.Wallet
 
 data class DashboardState(
@@ -15,5 +16,6 @@ data class DashboardState(
     val dateRange: DateRange = DateRange(),
     val categories: Set<Category> = emptySet(),
     val wallets: Set<Wallet> = emptySet(),
+    val lastTransactions: List<Transaction> = emptyList(),
     val showReportDateSheet: Boolean = false,
 )
