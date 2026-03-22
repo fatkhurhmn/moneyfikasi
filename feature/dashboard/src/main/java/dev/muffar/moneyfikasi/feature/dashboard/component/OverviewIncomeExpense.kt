@@ -28,49 +28,44 @@ import dev.muffar.moneyfikasi.utils.extensions.formatThousand
 fun OverviewIncomeExpense(
     modifier: Modifier = Modifier,
     categoryType: CategoryType,
-    amount: Double
+    amount: Double,
 ) {
-    val color = when (categoryType) {
-        CategoryType.INCOME -> MainColor.Green.extraLight
-        CategoryType.EXPENSE -> MainColor.Red.extraLight
-    }
-    val icon = when (categoryType) {
-        CategoryType.INCOME -> R.drawable.ic_income
-        CategoryType.EXPENSE -> R.drawable.ic_expense
-    }
+    val isIncome = categoryType == CategoryType.INCOME
+    val containerColor = if (isIncome) MainColor.Green.extraLight else MainColor.Red.extraLight
+    val textColor = if (isIncome) MainColor.Green.primary else MainColor.Red.primary
+    val icon = if (isIncome) R.drawable.ic_income else R.drawable.ic_expense
 
     Box(
         modifier = modifier
             .clip(MaterialTheme.shapes.medium)
-            .background(color.copy(alpha = 0.7f))
+            .background(containerColor.copy(alpha = 0.7f))
     ) {
         Image(
             modifier = Modifier
                 .size(50.dp)
                 .padding(8.dp)
-                .align(Alignment.CenterStart),
+                .align(Alignment.TopEnd),
             painter = painterResource(id = icon),
             contentDescription = null,
         )
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .align(Alignment.Center)
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(2.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = categoryType.name.capitalize(),
-                style = MaterialTheme.typography.bodyMedium,
+                text = categoryType.name.lowercase().capitalize(),
+                style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface
             )
             Text(
                 text = amount.formatThousand(),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface,
-                textAlign = TextAlign.Center
+                color = textColor,
+                textAlign = TextAlign.Center,
             )
         }
     }

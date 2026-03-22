@@ -12,14 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.CategoryType
-import dev.muffar.moneyfikasi.domain.model.DateRange
+import dev.muffar.moneyfikasi.feature.dashboard.DashboardState
 
 @Composable
 fun ReportCard(
-    dateRange: DateRange,
-    balance: Double,
-    income: Double,
-    expense: Double,
+    state: DashboardState,
     onDateRangeClick: () -> Unit,
 ) {
     Column(
@@ -27,10 +24,14 @@ fun ReportCard(
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         ReportLabel(
-            dateRange = dateRange,
+            dateRange = state.dateRange,
             onDateRangeClick = onDateRangeClick
         )
-        OverviewBalance(balance = balance)
+        OverviewBalance(
+            balance = state.reportBalance,
+            trend = state.balanceTrend,
+            timePeriod = state.dateRange.timePeriod
+        )
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -40,13 +41,13 @@ fun ReportCard(
             OverviewIncomeExpense(
                 modifier = Modifier.weight(1f),
                 categoryType = CategoryType.INCOME,
-                amount = income
+                amount = state.reportIncome,
             )
             Spacer(modifier = Modifier.width(8.dp))
             OverviewIncomeExpense(
                 modifier = Modifier.weight(1f),
                 categoryType = CategoryType.EXPENSE,
-                amount = expense
+                amount = state.reportExpense,
             )
         }
     }

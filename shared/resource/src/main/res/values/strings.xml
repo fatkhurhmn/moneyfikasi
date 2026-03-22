@@ -125,4 +125,7 @@
     <string name="today">today</string>
     <string name="this_week">this week</string>
     <string name="this_month">this month</string>
+    <string name="trend_vs_yesterday">%s from yesterday</string>
+    <string name="trend_vs_last_week">%s from last week</string>
+    <string name="trend_vs_last_month">%s from last month</string>
 </resources>

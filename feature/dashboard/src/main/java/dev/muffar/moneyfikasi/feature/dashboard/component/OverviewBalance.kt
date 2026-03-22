@@ -16,11 +16,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
+import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.formatThousand
 
 @Composable
-fun OverviewBalance(balance: Double) {
+fun OverviewBalance(
+    balance: Double,
+    trend: Double,
+    timePeriod: TimePeriod
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -50,5 +55,6 @@ fun OverviewBalance(balance: Double) {
             ),
             color = MaterialTheme.colorScheme.onPrimary,
         )
+        BalanceTrendIndicator(trend = trend, timePeriod = timePeriod)
     }
 }

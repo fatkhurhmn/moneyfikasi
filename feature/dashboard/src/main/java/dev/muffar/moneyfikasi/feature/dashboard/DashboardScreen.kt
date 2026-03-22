@@ -51,10 +51,7 @@ fun DashboardScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             ReportCard(
-                dateRange = state.dateRange,
-                income = state.reportIncome,
-                expense = state.reportExpense,
-                balance = state.reportBalance,
+                state = state,
                 onDateRangeClick = { onShowReportDateSheet(true) }
             )
             Spacer(modifier = Modifier.height(16.dp))
