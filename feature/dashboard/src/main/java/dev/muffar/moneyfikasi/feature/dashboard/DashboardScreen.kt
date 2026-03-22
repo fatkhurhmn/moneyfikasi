@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.feature.dashboard
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,13 +15,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.feature.dashboard.component.ReportCard
+import dev.muffar.moneyfikasi.feature.dashboard.component.ReportDateSheet
 import dev.muffar.moneyfikasi.feature.dashboard.component.TotalBalance
 
 @Composable
 fun DashboardScreen(
     state: DashboardState,
     onToggleBalanceVisibility: () -> Unit,
+    onShowReportDateSheet: (Boolean) -> Unit,
+    onDateRangeChange: (DateRange) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -45,14 +50,23 @@ fun DashboardScreen(
                 .padding(horizontal = 16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            Spacer(modifier = Modifier.height(8.dp))
             ReportCard(
+                dateRange = state.dateRange,
                 income = state.reportIncome,
                 expense = state.reportExpense,
-                balance = state.reportBalance
+                balance = state.reportBalance,
+                onDateRangeClick = { onShowReportDateSheet(true) }
             )
             Spacer(modifier = Modifier.height(16.dp))
             // Other dashboard components
         }
+    }
+
+    AnimatedVisibility(state.showReportDateSheet) {
+        ReportDateSheet(
+            dateRange = state.dateRange,
+            onDismissRequest = { onShowReportDateSheet(false) },
+            onChoose = onDateRangeChange
+        )
     }
 }

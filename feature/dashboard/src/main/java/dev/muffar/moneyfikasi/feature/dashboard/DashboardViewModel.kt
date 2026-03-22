@@ -3,6 +3,7 @@ package dev.muffar.moneyfikasi.feature.dashboard
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
@@ -42,6 +43,8 @@ class DashboardViewModel @Inject constructor(
         when (event) {
             is DashboardEvent.Refresh -> {}
             is DashboardEvent.ToggleBalanceVisibility -> toggleBalanceVisibility()
+            is DashboardEvent.DateRangeChanged -> onDateRangeChange(event.dateRange)
+            is DashboardEvent.ShowReportDateSheet -> onShowReportDateSheet(event.show)
         }
     }
 
@@ -116,5 +119,13 @@ class DashboardViewModel @Inject constructor(
         viewModelScope.launch {
             preferencesUseCases.setBalanceVisibility(!_state.value.isBalanceVisible)
         }
+    }
+
+    private fun onShowReportDateSheet(show: Boolean) {
+        _state.update { it.copy(showReportDateSheet = show) }
+    }
+
+    private fun onDateRangeChange(dateRange: DateRange) {
+        _state.update { it.copy(dateRange = dateRange) }
     }
 }

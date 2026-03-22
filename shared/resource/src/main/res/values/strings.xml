@@ -121,4 +121,8 @@
     <string name="new_wallet">New Wallet</string>
     <string name="new_category">New Category</string>
     <string name="number_too_large">Number too large</string>
+    <string name="report">Report</string>
+    <string name="today">today</string>
+    <string name="this_week">this week</string>
+    <string name="this_month">this month</string>
 </resources>

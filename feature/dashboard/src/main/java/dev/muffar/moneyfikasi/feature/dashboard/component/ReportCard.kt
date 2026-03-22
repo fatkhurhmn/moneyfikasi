@@ -12,18 +12,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.CategoryType
+import dev.muffar.moneyfikasi.domain.model.DateRange
 
 @Composable
 fun ReportCard(
+    dateRange: DateRange,
     balance: Double,
     income: Double,
     expense: Double,
+    onDateRangeClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        ReportLabel()
+        ReportLabel(
+            dateRange = dateRange,
+            onDateRangeClick = onDateRangeClick
+        )
         OverviewBalance(balance = balance)
         Row(
             modifier = Modifier

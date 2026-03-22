@@ -13,5 +13,6 @@ data class DashboardState(
     val isLoading: Boolean = false,
     val dateRange : DateRange = DateRange(),
     val categories: Set<Category> = emptySet(),
-    val wallets: Set<Wallet> = emptySet()
+    val wallets: Set<Wallet> = emptySet(),
+    val showReportDateSheet: Boolean = false,
 )
