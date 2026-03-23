@@ -20,7 +20,7 @@ import dev.muffar.moneyfikasi.resource.R
 import java.util.UUID
 
 @Composable
-fun LastTransactionsSection(
+fun RecentTransactionsSection(
     transactions: List<Transaction>,
     onSeeAllTransactionsClick: () -> Unit,
     onTransactionClick: (UUID, Boolean) -> Unit,
@@ -34,7 +34,7 @@ fun LastTransactionsSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = stringResource(R.string.last_transactions),
+                text = stringResource(R.string.recent_transaction),
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.Bold
                 )

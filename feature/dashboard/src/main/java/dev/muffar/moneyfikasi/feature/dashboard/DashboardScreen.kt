@@ -16,7 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.DateRange
-import dev.muffar.moneyfikasi.feature.dashboard.component.LastTransactionsSection
+import dev.muffar.moneyfikasi.feature.dashboard.component.RecentTransactionsSection
 import dev.muffar.moneyfikasi.feature.dashboard.component.ReportDateSheet
 import dev.muffar.moneyfikasi.feature.dashboard.component.ReportSection
 import dev.muffar.moneyfikasi.feature.dashboard.component.TotalBalance
@@ -60,8 +60,8 @@ fun DashboardScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            LastTransactionsSection(
-                transactions = state.lastTransactions,
+            RecentTransactionsSection(
+                transactions = state.recentTransactions,
                 onSeeAllTransactionsClick = onSeeAllTransactionsClick,
                 onTransactionClick = onTransactionClick
             )

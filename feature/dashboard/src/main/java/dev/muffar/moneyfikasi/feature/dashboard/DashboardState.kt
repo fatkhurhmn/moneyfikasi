@@ -17,6 +17,6 @@ data class DashboardState(
     val dateRange: DateRange = DateRange(),
     val categories: Set<Category> = emptySet(),
     val wallets: Set<Wallet> = emptySet(),
-    val lastTransactions: List<Transaction> = emptyList(),
+    val recentTransactions: List<Transaction> = emptyList(),
     val showReportDateSheet: Boolean = false,
 )
