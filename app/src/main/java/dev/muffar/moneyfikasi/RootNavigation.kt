@@ -19,7 +19,6 @@ import dev.muffar.moneyfikasi.statistic.detail.navigation.toStatisticDetailScree
 import dev.muffar.moneyfikasi.statistic.statisticNavGraph
 import dev.muffar.moneyfikasi.transaction.add_edit.navigation.toAddEditTransactionScreen
 import dev.muffar.moneyfikasi.transaction.detail.navigation.toTransactionDetail
-import dev.muffar.moneyfikasi.transaction.list.navigation.toTransactionsScreen
 import dev.muffar.moneyfikasi.transaction.transactionsNavGraph
 import dev.muffar.moneyfikasi.transaction.transfer.navigation.toTransferTransactionScreen
 import dev.muffar.moneyfikasi.wallet.add_edit.navigation.toAddEditWalletScreen
@@ -39,7 +38,15 @@ fun RootNavigation(
             onTransactionClick = { id, isTransfer ->
                 navController.toTransactionDetail(id, isTransfer)
             },
-            onSeeAllTransactionsClick = { navController.toTransactionsScreen() }
+            onSeeAllTransactionsClick = {
+                navController.navigate(Screen.Transactions.route) {
+                    popUpTo(Screen.Dashboard.route) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            }
         )
 
         transactionsNavGraph(
