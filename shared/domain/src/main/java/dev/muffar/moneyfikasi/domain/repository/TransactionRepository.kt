@@ -15,6 +15,8 @@ interface TransactionRepository {
         wallets: Set<UUID>? = null,
     ): Flow<List<Transaction>>
 
+    fun getRecentTransactions(limit: Int): Flow<List<Transaction>>
+
     fun getIncomeSum(
         startDateRange: Long,
         endDateRange: Long,

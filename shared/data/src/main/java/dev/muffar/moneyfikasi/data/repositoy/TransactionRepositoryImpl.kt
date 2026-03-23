@@ -32,6 +32,11 @@ class TransactionRepositoryImpl @Inject constructor(
         ).map { list -> list.map { it.toDomain() } }
     }
 
+    override fun getRecentTransactions(limit: Int): Flow<List<Transaction>> {
+        return transactionDao.getRecentTransactions(limit)
+            .map { list -> list.map { it.toDomain() } }
+    }
+
     override fun getIncomeSum(
         startDateRange: Long,
         endDateRange: Long,

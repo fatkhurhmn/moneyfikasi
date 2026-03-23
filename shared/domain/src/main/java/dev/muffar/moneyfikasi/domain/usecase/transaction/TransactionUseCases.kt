@@ -13,5 +13,6 @@ data class TransactionUseCases(
     val saveTransactionImage: SaveTransactionImage,
     val getIncomeSum: GetIncomeSum,
     val getExpenseSum: GetExpenseSum,
-    val getNetBalance: GetNetBalance
+    val getNetBalance: GetNetBalance,
+    val getRecentTransactions: GetRecentTransactions
 )

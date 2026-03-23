@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
-import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
@@ -49,6 +48,7 @@ class DashboardViewModel @Inject constructor(
         loadCategories()
         loadWallets()
         observeTransactions()
+        loadRecentTransactions()
     }
 
     fun onEvent(event: DashboardEvent) {
@@ -73,21 +73,25 @@ class DashboardViewModel @Inject constructor(
                         transactionUseCases.getExpenseSum(dateRange.start, dateRange.end, categories, wallets),
                         transactionUseCases.getNetBalance(dateRange.start, dateRange.end, categories, wallets),
                         transactionUseCases.getNetBalance(previousRange.first, previousRange.second, categories, wallets),
-                        transactionUseCases.getAllTransactions(dateRange.start, dateRange.end, categories, wallets)
-                    ) { currentIncome, currentExpense, currentBalance, prevBalance, transactions ->
+                    ) { currentIncome, currentExpense, currentBalance, prevBalance ->
                         _state.update { state ->
                             state.copy(
                                 reportIncome = currentIncome,
                                 reportExpense = currentExpense,
                                 reportBalance = currentBalance,
-                                balanceTrend = calculateTrend(currentBalance, prevBalance),
-                                lastTransactions = transactions
-                                    .filter { it.type != TransactionType.TRANSFER_IN && it.type != TransactionType.TRANSFER_OUT }
-                                    .sortedByDescending { it.date }
-                                    .take(5)
+                                balanceTrend = calculateTrend(currentBalance, prevBalance)
                             )
                         }
                     }.collectLatest { }
+                }
+        }
+    }
+
+    private fun loadRecentTransactions() {
+        viewModelScope.launch {
+            transactionUseCases.getRecentTransactions(5)
+                .collectLatest { transactions ->
+                    _state.update { it.copy(lastTransactions = transactions) }
                 }
         }
     }

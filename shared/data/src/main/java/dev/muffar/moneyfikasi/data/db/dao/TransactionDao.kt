@@ -35,6 +35,17 @@ abstract class TransactionDao {
         wallets: Set<UUID>?
     ): Flow<List<TransactionWithDetails>>
 
+    @Transaction
+    @Query(
+        """
+        SELECT * FROM transactions 
+        WHERE type NOT IN ('TRANSFER_IN', 'TRANSFER_OUT')
+        ORDER BY date DESC 
+        LIMIT :limit
+        """
+    )
+    abstract fun getRecentTransactions(limit: Int): Flow<List<TransactionWithDetails>>
+
     @Query(
         """
         SELECT COALESCE(SUM(amount), 0.0) FROM transactions 
