@@ -116,6 +116,7 @@
     <string name="transfer">Transfer</string>
     <string name="transfer_summary">Transfer Summary</string>
     <string name="choose_date">Choose Date</string>
+    <string name="choose_period">Choose Period</string>
     <string name="reset">Reset</string>
     <string name="custom_date">Custom Date</string>
     <string name="new_wallet">New Wallet</string>
@@ -125,9 +126,9 @@
     <string name="today">today</string>
     <string name="this_week">this week</string>
     <string name="this_month">this month</string>
-    <string name="trend_vs_yesterday">%s%% from yesterday</string>
-    <string name="trend_vs_last_week">%s%% from last week</string>
-    <string name="trend_vs_last_month">%s%% from last month</string>
+    <string name="trend_vs_yesterday">%s from yesterday</string>
+    <string name="trend_vs_last_week">%s from last week</string>
+    <string name="trend_vs_last_month">%s from last month</string>
     <string name="recent_transaction">Recent Transactions</string>
     <string name="see_all">See All</string>
 </resources>

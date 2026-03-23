@@ -4,8 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowDownward
-import androidx.compose.material.icons.rounded.ArrowUpward
+import androidx.compose.material.icons.automirrored.filled.TrendingDown
+import androidx.compose.material.icons.automirrored.filled.TrendingUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -16,44 +16,49 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
+import dev.muffar.moneyfikasi.domain.model.TrendResult
+import dev.muffar.moneyfikasi.domain.model.TrendType
 import dev.muffar.moneyfikasi.resource.R
-import kotlin.math.absoluteValue
 
 @Composable
 fun BalanceTrendIndicator(
-    trend: Double,
+    trendResult: TrendResult,
     timePeriod: TimePeriod,
     modifier: Modifier = Modifier,
 ) {
-    val isPositive = trend >= 0
-    val icon = if (isPositive) Icons.Rounded.ArrowUpward else Icons.Rounded.ArrowDownward
+    val icon = when (trendResult.type) {
+        TrendType.UP -> Icons.AutoMirrored.Default.TrendingUp
+        TrendType.DOWN -> Icons.AutoMirrored.Default.TrendingDown
+        else -> null
+    }
 
     val trendMessage = when (timePeriod) {
-        TimePeriod.DAILY -> stringResource(R.string.trend_vs_yesterday, trend.absoluteValue.toInt())
+        TimePeriod.DAILY -> stringResource(R.string.trend_vs_yesterday, trendResult.message)
         TimePeriod.WEEKLY -> stringResource(
             R.string.trend_vs_last_month,
-            trend.absoluteValue.toInt()
+            trendResult.message
         )
 
         TimePeriod.MONTHLY -> stringResource(
             R.string.trend_vs_last_month,
-            trend.absoluteValue.toInt()
+            trendResult.message
         )
 
         else -> ""
     }
-
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f),
-            modifier = Modifier.size(14.dp)
-        )
+        if (icon != null) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f),
+                modifier = Modifier.size(14.dp)
+            )
+        }
         Text(
             text = trendMessage,
             style = MaterialTheme.typography.labelSmall.copy(

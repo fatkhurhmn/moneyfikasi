@@ -3,6 +3,7 @@ package dev.muffar.moneyfikasi.feature.dashboard
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.Transaction
+import dev.muffar.moneyfikasi.domain.model.TrendResult
 import dev.muffar.moneyfikasi.domain.model.Wallet
 
 data class DashboardState(
@@ -10,7 +11,7 @@ data class DashboardState(
     val reportBalance: Double = 0.0,
     val reportIncome: Double = 0.0,
     val reportExpense: Double = 0.0,
-    val balanceTrend: Double = 0.0,
+    val balanceTrend: TrendResult = TrendResult(),
     val savingPercentage: Double = 0.0,
     val isBalanceVisible: Boolean = true,
     val isLoading: Boolean = false,

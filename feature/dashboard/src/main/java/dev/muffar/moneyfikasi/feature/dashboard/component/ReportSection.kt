@@ -32,8 +32,8 @@ fun ReportSection(
         )
         OverviewBalance(
             balance = state.reportBalance,
-            trend = state.balanceTrend,
-            timePeriod = state.dateRange.timePeriod
+            trendResult = state.balanceTrend,
+            timePeriod = state.dateRange.timePeriod,
         )
         Row(
             modifier = Modifier

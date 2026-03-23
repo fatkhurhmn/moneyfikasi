@@ -69,7 +69,7 @@ fun ReportDateSheet(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth()
         ) {
-            BottomSheetTitle(stringResource(R.string.choose_date))
+            BottomSheetTitle(stringResource(R.string.choose_period))
             options.forEach { option ->
                 Column(
                     modifier = Modifier

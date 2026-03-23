@@ -17,14 +17,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
+import dev.muffar.moneyfikasi.domain.model.TrendResult
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.formatThousand
 
 @Composable
 fun OverviewBalance(
     balance: Double,
-    trend: Double,
-    timePeriod: TimePeriod
+    trendResult: TrendResult,
+    timePeriod: TimePeriod,
 ) {
     Column(
         modifier = Modifier
@@ -55,6 +56,6 @@ fun OverviewBalance(
             ),
             color = MaterialTheme.colorScheme.onPrimary,
         )
-        BalanceTrendIndicator(trend = trend, timePeriod = timePeriod)
+        BalanceTrendIndicator(trendResult = trendResult, timePeriod = timePeriod)
     }
 }

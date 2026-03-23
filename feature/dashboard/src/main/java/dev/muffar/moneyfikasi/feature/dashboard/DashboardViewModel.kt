@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
+import dev.muffar.moneyfikasi.domain.model.TrendResult
+import dev.muffar.moneyfikasi.domain.model.TrendType
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
@@ -69,10 +71,30 @@ class DashboardViewModel @Inject constructor(
                 .collectLatest { (dateRange, categories, wallets) ->
                     val previousRange = getPreviousDateRange(dateRange)
                     combine(
-                        transactionUseCases.getIncomeSum(dateRange.start, dateRange.end, categories, wallets),
-                        transactionUseCases.getExpenseSum(dateRange.start, dateRange.end, categories, wallets),
-                        transactionUseCases.getNetBalance(dateRange.start, dateRange.end, categories, wallets),
-                        transactionUseCases.getNetBalance(previousRange.first, previousRange.second, categories, wallets),
+                        transactionUseCases.getIncomeSum(
+                            dateRange.start,
+                            dateRange.end,
+                            categories,
+                            wallets
+                        ),
+                        transactionUseCases.getExpenseSum(
+                            dateRange.start,
+                            dateRange.end,
+                            categories,
+                            wallets
+                        ),
+                        transactionUseCases.getNetBalance(
+                            dateRange.start,
+                            dateRange.end,
+                            categories,
+                            wallets
+                        ),
+                        transactionUseCases.getNetBalance(
+                            previousRange.first,
+                            previousRange.second,
+                            categories,
+                            wallets
+                        ),
                     ) { currentIncome, currentExpense, currentBalance, prevBalance ->
                         _state.update { state ->
                             state.copy(
@@ -123,9 +145,54 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-    private fun calculateTrend(current: Double, previous: Double): Double {
-        if (previous == 0.0) return if (current > 0) 100.0 else 0.0
-        return ((current - previous) / previous) * 100
+    fun calculateTrend(current: Double, previous: Double): TrendResult {
+
+        if (current == 0.0 && previous == 0.0) {
+            return TrendResult(
+                percentage = 0.0,
+                type = TrendType.NEUTRAL
+            )
+        }
+
+        if (previous == 0.0) {
+            return if (current > 0) {
+                TrendResult(
+                    percentage = 0.0,
+                    type = TrendType.NEW_GROWTH
+                )
+            } else {
+                TrendResult(
+                    percentage = 0.0,
+                    type = TrendType.NEW_LOSS
+                )
+            }
+        }
+
+        val change = current - previous
+        val percentage = (change / kotlin.math.abs(previous)) * 100
+
+        return when {
+            percentage > 0 -> {
+                TrendResult(
+                    percentage = percentage,
+                    type = TrendType.UP
+                )
+            }
+
+            percentage < 0 -> {
+                TrendResult(
+                    percentage = percentage,
+                    type = TrendType.DOWN
+                )
+            }
+
+            else -> {
+                TrendResult(
+                    percentage = 0.0,
+                    type = TrendType.NEUTRAL
+                )
+            }
+        }
     }
 
     private fun loadCategories() {
