@@ -15,6 +15,27 @@ interface TransactionRepository {
         wallets: Set<UUID>? = null,
     ): Flow<List<Transaction>>
 
+    fun getIncomeSum(
+        startDateRange: Long,
+        endDateRange: Long,
+        categories: Set<UUID>? = null,
+        wallets: Set<UUID>? = null,
+    ): Flow<Double>
+
+    fun getExpenseSum(
+        startDateRange: Long,
+        endDateRange: Long,
+        categories: Set<UUID>? = null,
+        wallets: Set<UUID>? = null,
+    ): Flow<Double>
+
+    fun getNetBalance(
+        startDateRange: Long,
+        endDateRange: Long,
+        categories: Set<UUID>? = null,
+        wallets: Set<UUID>? = null,
+    ): Flow<Double>
+
     fun getAllTransactions(query: String): Flow<List<Transaction>>
 
     fun getTransactionsByWallet(walletId: UUID): Flow<List<Transaction>>

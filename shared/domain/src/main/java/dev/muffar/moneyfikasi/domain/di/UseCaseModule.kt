@@ -25,6 +25,9 @@ import dev.muffar.moneyfikasi.domain.usecase.transaction.AddTransaction
 import dev.muffar.moneyfikasi.domain.usecase.transaction.AddTransfer
 import dev.muffar.moneyfikasi.domain.usecase.transaction.DeleteTransaction
 import dev.muffar.moneyfikasi.domain.usecase.transaction.GetAllTransactions
+import dev.muffar.moneyfikasi.domain.usecase.transaction.GetExpenseSum
+import dev.muffar.moneyfikasi.domain.usecase.transaction.GetIncomeSum
+import dev.muffar.moneyfikasi.domain.usecase.transaction.GetNetBalance
 import dev.muffar.moneyfikasi.domain.usecase.transaction.GetTransactionById
 import dev.muffar.moneyfikasi.domain.usecase.transaction.GetTransactions
 import dev.muffar.moneyfikasi.domain.usecase.transaction.GetTransferDetail
@@ -76,7 +79,10 @@ object UseCaseModule {
         addTransfer = AddTransfer(transactionRepository),
         updateTransfer = UpdateTransfer(transactionRepository),
         getTransferDetail = GetTransferDetail(transactionRepository),
-        saveTransactionImage = SaveTransactionImage()
+        saveTransactionImage = SaveTransactionImage(),
+        getIncomeSum = GetIncomeSum(transactionRepository),
+        getExpenseSum = GetExpenseSum(transactionRepository),
+        getNetBalance = GetNetBalance(transactionRepository),
     )
 
     @Provides

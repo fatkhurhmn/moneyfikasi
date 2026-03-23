@@ -11,6 +11,7 @@ data class DashboardState(
     val reportIncome: Double = 0.0,
     val reportExpense: Double = 0.0,
     val balanceTrend: Double = 0.0,
+    val savingPercentage: Double = 0.0,
     val isBalanceVisible: Boolean = true,
     val isLoading: Boolean = false,
     val dateRange: DateRange = DateRange(),

@@ -30,6 +30,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -67,35 +68,20 @@ class DashboardViewModel @Inject constructor(
                 .distinctUntilChanged()
                 .collectLatest { (dateRange, categories, wallets) ->
                     val previousRange = getPreviousDateRange(dateRange)
-
                     combine(
-                        transactionUseCases.getAllTransactions(
-                            dateRange.start,
-                            dateRange.end,
-                            categories,
-                            wallets
-                        ),
-                        transactionUseCases.getAllTransactions(
-                            previousRange.first,
-                            previousRange.second,
-                            categories,
-                            wallets
-                        )
-                    ) { currentTransactions, previousTransactions ->
-                        val currentIncome =
-                            currentTransactions.filter { it.isIncome }.sumOf { it.amount }
-                        val currentExpense =
-                            currentTransactions.filter { it.isExpense }.sumOf { it.amount }
-                        val currentBalance = currentTransactions.sumOf { it.amount }
-                        val previousBalance = previousTransactions.sumOf { it.amount }
-
+                        transactionUseCases.getIncomeSum(dateRange.start, dateRange.end, categories, wallets),
+                        transactionUseCases.getExpenseSum(dateRange.start, dateRange.end, categories, wallets),
+                        transactionUseCases.getNetBalance(dateRange.start, dateRange.end, categories, wallets),
+                        transactionUseCases.getNetBalance(previousRange.first, previousRange.second, categories, wallets),
+                        transactionUseCases.getAllTransactions(dateRange.start, dateRange.end, categories, wallets)
+                    ) { currentIncome, currentExpense, currentBalance, prevBalance, transactions ->
                         _state.update { state ->
                             state.copy(
                                 reportIncome = currentIncome,
                                 reportExpense = currentExpense,
                                 reportBalance = currentBalance,
-                                balanceTrend = calculateTrend(currentBalance, previousBalance),
-                                lastTransactions = currentTransactions
+                                balanceTrend = calculateTrend(currentBalance, prevBalance),
+                                lastTransactions = transactions
                                     .filter { it.type != TransactionType.TRANSFER_IN && it.type != TransactionType.TRANSFER_OUT }
                                     .sortedByDescending { it.date }
                                     .take(5)
@@ -107,7 +93,7 @@ class DashboardViewModel @Inject constructor(
     }
 
     private fun getPreviousDateRange(dateRange: DateRange): Pair<Long, Long> {
-        val startDateTime = LocalDateTime.now()
+        val startDateTime: LocalDateTime = LocalDateTime.now().with(LocalTime.MIN)
         return when (dateRange.timePeriod) {
             TimePeriod.DAILY -> {
                 val prev = startDateTime.minusDays(1)

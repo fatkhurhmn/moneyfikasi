@@ -35,6 +35,56 @@ abstract class TransactionDao {
         wallets: Set<UUID>?
     ): Flow<List<TransactionWithDetails>>
 
+    @Query(
+        """
+        SELECT COALESCE(SUM(amount), 0.0) FROM transactions 
+        WHERE type = 'INCOME' 
+        AND (date BETWEEN :start AND :end)
+        AND (category_id IN (:categories))
+        AND (wallet_id IN (:wallets))
+        """
+    )
+    abstract fun getIncomeSum(
+        start: Long,
+        end: Long,
+        categories: Set<UUID>?,
+        wallets: Set<UUID>?
+    ): Flow<Double>
+
+    @Query(
+        """
+        SELECT COALESCE(SUM(amount), 0.0) FROM transactions 
+        WHERE type = 'EXPENSE' 
+        AND (date BETWEEN :start AND :end)
+        AND (category_id IN (:categories))
+        AND (wallet_id IN (:wallets))
+        """
+    )
+    abstract fun getExpenseSum(
+        start: Long,
+        end: Long,
+        categories: Set<UUID>?,
+        wallets: Set<UUID>?
+    ): Flow<Double>
+
+    @Query(
+        """
+        SELECT 
+            COALESCE(SUM(CASE WHEN type = 'INCOME' THEN amount ELSE 0 END), 0.0) - 
+            COALESCE(SUM(CASE WHEN type = 'EXPENSE' THEN amount ELSE 0 END), 0.0)
+        FROM transactions 
+        WHERE (date BETWEEN :start AND :end)
+        AND (category_id IN (:categories))
+        AND (wallet_id IN (:wallets))
+        """
+    )
+    abstract fun getNetBalance(
+        start: Long,
+        end: Long,
+        categories: Set<UUID>?,
+        wallets: Set<UUID>?
+    ): Flow<Double>
+
     @Transaction
     @Query("SELECT * FROM transactions WHERE note LIKE '%' || :query || '%'")
     abstract fun getAllTransactions(query: String): Flow<List<TransactionWithDetails>>

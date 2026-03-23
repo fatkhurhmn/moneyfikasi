@@ -32,6 +32,33 @@ class TransactionRepositoryImpl @Inject constructor(
         ).map { list -> list.map { it.toDomain() } }
     }
 
+    override fun getIncomeSum(
+        startDateRange: Long,
+        endDateRange: Long,
+        categories: Set<UUID>?,
+        wallets: Set<UUID>?
+    ): Flow<Double> {
+        return transactionDao.getIncomeSum(startDateRange, endDateRange, categories, wallets)
+    }
+
+    override fun getExpenseSum(
+        startDateRange: Long,
+        endDateRange: Long,
+        categories: Set<UUID>?,
+        wallets: Set<UUID>?
+    ): Flow<Double> {
+        return transactionDao.getExpenseSum(startDateRange, endDateRange, categories, wallets)
+    }
+
+    override fun getNetBalance(
+        startDateRange: Long,
+        endDateRange: Long,
+        categories: Set<UUID>?,
+        wallets: Set<UUID>?
+    ): Flow<Double> {
+        return transactionDao.getNetBalance(startDateRange, endDateRange, categories, wallets)
+    }
+
     override fun getAllTransactions(query: String): Flow<List<Transaction>> {
         return transactionDao.getAllTransactions(query)
             .map { list -> list.map { it.toDomain() } }

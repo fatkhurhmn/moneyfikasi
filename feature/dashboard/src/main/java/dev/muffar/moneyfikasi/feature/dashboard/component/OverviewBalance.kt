@@ -24,7 +24,6 @@ import dev.muffar.moneyfikasi.utils.extensions.formatThousand
 fun OverviewBalance(
     balance: Double,
     trend: Double,
-
     timePeriod: TimePeriod
 ) {
     Column(

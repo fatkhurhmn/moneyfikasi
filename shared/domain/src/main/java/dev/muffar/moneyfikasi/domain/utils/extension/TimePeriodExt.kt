@@ -11,9 +11,10 @@ import dev.muffar.moneyfikasi.utils.extensions.startOfMonth
 import dev.muffar.moneyfikasi.utils.extensions.startOfWeek
 import dev.muffar.moneyfikasi.utils.extensions.startOfYear
 import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalTime
 
 fun TimePeriod.toDateRange(localDateTime: LocalDateTime? = null): DateRange {
-    val dateTime = localDateTime ?: LocalDateTime.now()
+    val dateTime = localDateTime?.with(LocalTime.MIN) ?: LocalDateTime.now().with(LocalTime.MIN)
     return when (this) {
         TimePeriod.DAILY -> DateRange(
             timePeriod = TimePeriod.DAILY,
