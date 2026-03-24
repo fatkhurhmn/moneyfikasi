@@ -57,6 +57,7 @@ class DashboardViewModel @Inject constructor(
         when (event) {
             is DashboardEvent.Refresh -> {}
             is DashboardEvent.ToggleBalanceVisibility -> toggleBalanceVisibility()
+            is DashboardEvent.ToggleReportVisibility -> toggleReportVisibility()
             is DashboardEvent.DateRangeChanged -> onDateRangeChange(event.dateRange)
             is DashboardEvent.ShowReportDateSheet -> onShowReportDateSheet(event.show)
         }
@@ -226,11 +227,22 @@ class DashboardViewModel @Inject constructor(
             .onEach { isVisible ->
                 _state.update { it.copy(isBalanceVisible = isVisible) }
             }.launchIn(viewModelScope)
+
+        preferencesUseCases.isReportVisible()
+            .onEach { isVisible ->
+                _state.update { it.copy(isReportVisible = isVisible) }
+            }.launchIn(viewModelScope)
     }
 
     private fun toggleBalanceVisibility() {
         viewModelScope.launch {
             preferencesUseCases.setBalanceVisibility(!_state.value.isBalanceVisible)
+        }
+    }
+
+    private fun toggleReportVisibility() {
+        viewModelScope.launch {
+            preferencesUseCases.setReportVisibility(!_state.value.isReportVisible)
         }
     }
 

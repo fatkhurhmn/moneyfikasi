@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -30,6 +31,7 @@ fun OverviewIncomeExpense(
     modifier: Modifier = Modifier,
     categoryType: CategoryType,
     amount: Double,
+    isAmountVisible: Boolean,
 ) {
     val isIncome = categoryType == CategoryType.INCOME
     val containerColor = if (isIncome) MainColor.Green.extraLight else MainColor.Red.extraLight
@@ -62,8 +64,13 @@ fun OverviewIncomeExpense(
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface
             )
+
+            val amountValue =
+                if (isAmountVisible) amount.formatThousand()
+                else stringResource(R.string.invisible_balance)
+
             Text(
-                text = amount.formatThousand(),
+                text = amountValue,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = textColor,

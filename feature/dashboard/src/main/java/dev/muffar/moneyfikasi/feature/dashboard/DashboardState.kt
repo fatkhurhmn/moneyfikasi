@@ -14,6 +14,7 @@ data class DashboardState(
     val balanceTrend: TrendResult = TrendResult(),
     val savingPercentage: Double = 0.0,
     val isBalanceVisible: Boolean = true,
+    val isReportVisible: Boolean = true,
     val isLoading: Boolean = false,
     val dateRange: DateRange = DateRange(),
     val categories: Set<Category> = emptySet(),

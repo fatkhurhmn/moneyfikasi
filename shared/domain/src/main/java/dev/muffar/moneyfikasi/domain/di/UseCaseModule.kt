@@ -19,8 +19,10 @@ import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryById
 import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryByType
 import dev.muffar.moneyfikasi.domain.usecase.category.UpsertCategory
 import dev.muffar.moneyfikasi.domain.usecase.preferences.IsBalanceVisible
+import dev.muffar.moneyfikasi.domain.usecase.preferences.IsReportVisible
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.SetBalanceVisibility
+import dev.muffar.moneyfikasi.domain.usecase.preferences.SetReportVisibility
 import dev.muffar.moneyfikasi.domain.usecase.transaction.AddTransaction
 import dev.muffar.moneyfikasi.domain.usecase.transaction.AddTransfer
 import dev.muffar.moneyfikasi.domain.usecase.transaction.DeleteTransaction
@@ -101,5 +103,7 @@ object UseCaseModule {
     ) = PreferencesUseCases(
         setBalanceVisibility = SetBalanceVisibility(preferencesRepository),
         isBalanceVisible = IsBalanceVisible(preferencesRepository),
+        setReportVisibility = SetReportVisibility(preferencesRepository),
+        isReportVisible = IsReportVisible(preferencesRepository),
     )
 }

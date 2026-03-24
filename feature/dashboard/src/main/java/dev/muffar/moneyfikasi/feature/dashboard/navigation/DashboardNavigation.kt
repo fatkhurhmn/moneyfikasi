@@ -24,6 +24,7 @@ fun NavGraphBuilder.dashboardNavigation(
             onShowReportDateSheet = { viewModel.onEvent(DashboardEvent.ShowReportDateSheet(it)) },
             onDateRangeChange = { viewModel.onEvent(DashboardEvent.DateRangeChanged(it)) },
             onToggleBalanceVisibility = { viewModel.onEvent(DashboardEvent.ToggleBalanceVisibility) },
+            onToggleReportVisibility = { viewModel.onEvent(DashboardEvent.ToggleReportVisibility) },
             onSeeAllTransactionsClick = onSeeAllTransactionsClick,
             onTransactionClick = onTransactionClick,
         )

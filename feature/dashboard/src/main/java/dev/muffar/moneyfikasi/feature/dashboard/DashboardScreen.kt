@@ -26,6 +26,7 @@ import java.util.UUID
 fun DashboardScreen(
     state: DashboardState,
     onToggleBalanceVisibility: () -> Unit,
+    onToggleReportVisibility: () -> Unit,
     onShowReportDateSheet: (Boolean) -> Unit,
     onDateRangeChange: (DateRange) -> Unit,
     onSeeAllTransactionsClick: () -> Unit,
@@ -55,7 +56,8 @@ fun DashboardScreen(
         ) {
             ReportSection(
                 state = state,
-                onDateRangeClick = { onShowReportDateSheet(true) }
+                onDateRangeClick = { onShowReportDateSheet(true) },
+                onVisibilityClick = onToggleReportVisibility,
             )
 
             Spacer(modifier = Modifier.height(24.dp))

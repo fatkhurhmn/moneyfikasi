@@ -12,4 +12,10 @@ class PreferencesRepositoryImpl(
     }
 
     override fun isBalanceVisible(): Flow<Boolean> = preferencesManager.isBalanceVisible
+
+    override suspend fun setReportVisibility(isVisible: Boolean) {
+        preferencesManager.setReportVisibility(isVisible)
+    }
+
+    override fun isReportVisible(): Flow<Boolean> = preferencesManager.isReportVisible
 }

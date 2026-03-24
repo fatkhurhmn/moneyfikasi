@@ -20,7 +20,18 @@ data class PreferencesManager @Inject constructor(
         it[BALANCE_VISIBILITY] ?: false
     }
 
+    suspend fun setReportVisibility(isVisible: Boolean) {
+        datastore.edit {
+            it[REPORT_VISIBILITY] = isVisible
+        }
+    }
+
+    val isReportVisible = datastore.data.map {
+        it[REPORT_VISIBILITY] ?: false
+    }
+
     companion object {
         val BALANCE_VISIBILITY = booleanPreferencesKey("balance_visibility")
+        val REPORT_VISIBILITY = booleanPreferencesKey("report_visibility")
     }
 }

@@ -19,6 +19,7 @@ import dev.muffar.moneyfikasi.feature.dashboard.DashboardState
 fun ReportSection(
     state: DashboardState,
     onDateRangeClick: () -> Unit,
+    onVisibilityClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -28,12 +29,14 @@ fun ReportSection(
     ) {
         ReportLabel(
             dateRange = state.dateRange,
-            onDateRangeClick = onDateRangeClick
+            onDateRangeClick = onDateRangeClick,
         )
         OverviewBalance(
             balance = state.reportBalance,
             trendResult = state.balanceTrend,
             timePeriod = state.dateRange.timePeriod,
+            isBalanceVisible = state.isReportVisible,
+            onVisibilityClick = onVisibilityClick,
         )
         Row(
             modifier = Modifier
@@ -45,12 +48,14 @@ fun ReportSection(
                 modifier = Modifier.weight(1f),
                 categoryType = CategoryType.INCOME,
                 amount = state.reportIncome,
+                isAmountVisible = state.isReportVisible,
             )
             Spacer(modifier = Modifier.width(8.dp))
             OverviewIncomeExpense(
                 modifier = Modifier.weight(1f),
                 categoryType = CategoryType.EXPENSE,
                 amount = state.reportExpense,
+                isAmountVisible = state.isReportVisible,
             )
         }
     }
