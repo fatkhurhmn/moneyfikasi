@@ -46,6 +46,11 @@ fun TransactionItem(
                 .weight(1f)
                 .padding(end = 16.dp)
         ) {
+            val date = if (showDate) {
+                transaction.date.format(DateTimeFormatter.ofPattern("dd MMM, H:mm"))
+            } else {
+                transaction.date.format(DateTimeFormatter.ofPattern("H:mm"))
+            }
             ItemCategoryIcon(transaction.category)
             Spacer(modifier = Modifier.width(8.dp))
             Column {
@@ -56,17 +61,16 @@ fun TransactionItem(
                     overflow = TextOverflow.Ellipsis
                 )
                 Spacer(modifier = Modifier.height(2.dp))
-                ItemWalletCard(transaction.wallet)
+                Text(
+                    text = date,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
         }
         Column(
             horizontalAlignment = Alignment.End,
         ) {
-            val date = if (showDate) {
-                transaction.date.format(DateTimeFormatter.ofPattern("dd MMM, H:mm"))
-            } else {
-                transaction.date.format(DateTimeFormatter.ofPattern("H:mm"))
-            }
             Text(
                 text = getFormattedAmount(transaction.amount, transaction.type),
                 style = MaterialTheme.typography.bodyLarge,
@@ -75,11 +79,7 @@ fun TransactionItem(
                 overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.height(2.dp))
-            Text(
-                text = date,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            ItemWalletCard(transaction.wallet)
         }
     }
 }

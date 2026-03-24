@@ -111,7 +111,7 @@ class DashboardViewModel @Inject constructor(
 
     private fun loadRecentTransactions() {
         viewModelScope.launch {
-            transactionUseCases.getRecentTransactions(5)
+            transactionUseCases.getRecentTransactions(3)
                 .collectLatest { transactions ->
                     _state.update { it.copy(recentTransactions = transactions) }
                 }

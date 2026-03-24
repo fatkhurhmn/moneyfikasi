@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -46,7 +47,10 @@ fun TotalBalance(
 
             Text(
                 text = balanceValue,
-                style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp),
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                ),
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
             )

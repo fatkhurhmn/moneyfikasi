@@ -35,7 +35,7 @@ fun BalanceTrendIndicator(
     val trendMessage = when (timePeriod) {
         TimePeriod.DAILY -> stringResource(R.string.trend_vs_yesterday, trendResult.message)
         TimePeriod.WEEKLY -> stringResource(
-            R.string.trend_vs_last_month,
+            R.string.trend_vs_last_week,
             trendResult.message
         )
 
