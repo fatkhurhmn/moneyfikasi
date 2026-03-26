@@ -1,6 +1,5 @@
 package dev.muffar.moneyfikasi.navigation
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -14,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.BottomAppBarDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -31,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import dev.muffar.moneyfikasi.resource.R
@@ -42,7 +43,7 @@ fun MainBottomNav(
     contentColor: Color = contentColorFor(containerColor),
     tonalElevation: Dp = 1.dp,
     contentPadding: PaddingValues = BottomAppBarDefaults.ContentPadding,
-    contentHeight: Dp = 80.dp,
+    contentHeight: Dp = 65.dp,
     windowInsets: WindowInsets = BottomAppBarDefaults.windowInsets,
     navController: NavHostController,
 ) {
@@ -50,7 +51,7 @@ fun MainBottomNav(
         color = containerColor,
         contentColor = contentColor,
         tonalElevation = tonalElevation,
-        shadowElevation = 0.5.dp,
+        shadowElevation = 0.2.dp,
         modifier = modifier
     ) {
         Row(
@@ -64,8 +65,8 @@ fun MainBottomNav(
         ) {
             BottomBarItem(
                 navController = navController,
-                selectedIcon = painterResource(R.drawable.ic_dashboard_on),
-                unselectedIcon = painterResource(R.drawable.ic_dashboard_off),
+                selectedIcon = painterResource(R.drawable.ic_home_fill),
+                unselectedIcon = painterResource(R.drawable.ic_home_outline),
                 label = stringResource(R.string.dashboard_menu),
                 route = Screen.Dashboard.route,
                 modifier = Modifier
@@ -75,8 +76,8 @@ fun MainBottomNav(
 
             BottomBarItem(
                 navController = navController,
-                selectedIcon = painterResource(R.drawable.ic_transaction_on),
-                unselectedIcon = painterResource(R.drawable.ic_transaction_off),
+                selectedIcon = painterResource(R.drawable.ic_transaction_fill),
+                unselectedIcon = painterResource(R.drawable.ic_transaction_outline),
                 label = stringResource(R.string.transaction_menu),
                 route = Screen.Transactions.route,
                 modifier = Modifier
@@ -86,8 +87,8 @@ fun MainBottomNav(
 
             BottomBarItem(
                 navController = navController,
-                selectedIcon = painterResource(R.drawable.ic_statistic_on),
-                unselectedIcon = painterResource(R.drawable.ic_statistic_off),
+                selectedIcon = painterResource(R.drawable.ic_statistic_fill),
+                unselectedIcon = painterResource(R.drawable.ic_statistic_outline),
                 label = stringResource(R.string.statistic_menu),
                 route = Screen.Statistic.route,
                 modifier = Modifier
@@ -97,8 +98,8 @@ fun MainBottomNav(
 
             BottomBarItem(
                 navController = navController,
-                selectedIcon = painterResource(R.drawable.ic_settings_on),
-                unselectedIcon = painterResource(R.drawable.ic_settings_off),
+                selectedIcon = painterResource(R.drawable.ic_settings_fill),
+                unselectedIcon = painterResource(R.drawable.ic_settings_outline),
                 label = stringResource(R.string.settings_menu),
                 route = Screen.Settings.route,
                 modifier = Modifier
@@ -145,20 +146,22 @@ fun BottomBarItem(
                 }
             }
     ) {
-        Image(
+        Icon(
             painter = if (isSelected) selectedIcon else unselectedIcon,
             contentDescription = label,
-            modifier = Modifier.size(30.dp)
+            modifier = Modifier.size(24.dp),
+            tint = iconColor
         )
 
         Text(
             text = label,
             color = iconColor,
-            style = MaterialTheme.typography.bodyMedium.copy(
-                fontWeight = if (isSelected) FontWeight.Medium else FontWeight.Normal
+            style = MaterialTheme.typography.bodySmall.copy(
+                fontSize = 10.sp
             ),
+            fontWeight = if (isSelected) FontWeight.Medium else FontWeight.Normal,
             overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(top = 4.dp),
+            modifier = Modifier.padding(top = 2.dp),
             maxLines = 1
         )
     }
