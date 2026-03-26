@@ -67,8 +67,8 @@ fun MainBottomNav(
                 navController = navController,
                 selectedIcon = painterResource(R.drawable.ic_home_fill),
                 unselectedIcon = painterResource(R.drawable.ic_home_outline),
-                label = stringResource(R.string.dashboard_menu),
-                route = Screen.Dashboard.route,
+                label = stringResource(R.string.home_menu),
+                route = Screen.Home.route,
                 modifier = Modifier
                     .padding(2.dp)
                     .weight(1f)
@@ -137,7 +137,7 @@ fun BottomBarItem(
             ) {
                 if (!isSelected) {
                     navController.navigate(route) {
-                        popUpTo(Screen.Dashboard.route) {
+                        popUpTo(Screen.Home.route) {
                             saveState = true
                         }
                         launchSingleTop = true

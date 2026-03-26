@@ -7,7 +7,7 @@ import java.util.UUID
 sealed class Screen(val route: String) {
     data object Main : Screen("main")
 
-    data object Dashboard : Screen("dashboard")
+    data object Home : Screen("home")
 
     data object Debt : Screen("debt")
 

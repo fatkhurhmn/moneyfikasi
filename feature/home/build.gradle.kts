@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "dev.muffar.moneyfikasi.dashboard"
+    namespace = "dev.muffar.moneyfikasi.home"
     compileSdk = 36
 
     defaultConfig {

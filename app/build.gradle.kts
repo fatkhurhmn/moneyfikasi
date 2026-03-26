@@ -63,7 +63,7 @@ dependencies {
     implementation(projects.shared.resource)
     implementation(projects.shared.utils)
 
-    implementation(projects.feature.dashboard)
+    implementation(projects.feature.home)
     implementation(projects.feature.transaction)
     implementation(projects.feature.settings)
     implementation(projects.feature.category)

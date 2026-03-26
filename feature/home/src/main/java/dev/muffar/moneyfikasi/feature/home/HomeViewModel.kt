@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.feature.dashboard
+package dev.muffar.moneyfikasi.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -35,14 +35,14 @@ import org.threeten.bp.LocalTime
 import javax.inject.Inject
 
 @HiltViewModel
-class DashboardViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
     private val walletUseCases: WalletUseCases,
     private val categoryUseCases: CategoryUseCases,
     private val transactionUseCases: TransactionUseCases,
     private val preferencesUseCases: PreferencesUseCases,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(DashboardState())
+    private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
 
     init {
@@ -53,13 +53,13 @@ class DashboardViewModel @Inject constructor(
         loadRecentTransactions()
     }
 
-    fun onEvent(event: DashboardEvent) {
+    fun onEvent(event: HomeEvent) {
         when (event) {
-            is DashboardEvent.Refresh -> {}
-            is DashboardEvent.ToggleBalanceVisibility -> toggleBalanceVisibility()
-            is DashboardEvent.ToggleReportVisibility -> toggleReportVisibility()
-            is DashboardEvent.DateRangeChanged -> onDateRangeChange(event.dateRange)
-            is DashboardEvent.ShowReportDateSheet -> onShowReportDateSheet(event.show)
+            is HomeEvent.Refresh -> {}
+            is HomeEvent.ToggleBalanceVisibility -> toggleBalanceVisibility()
+            is HomeEvent.ToggleReportVisibility -> toggleReportVisibility()
+            is HomeEvent.DateRangeChanged -> onDateRangeChange(event.dateRange)
+            is HomeEvent.ShowReportDateSheet -> onShowReportDateSheet(event.show)
         }
     }
 
@@ -114,7 +114,7 @@ class DashboardViewModel @Inject constructor(
         viewModelScope.launch {
             transactionUseCases.getRecentTransactions(3)
                 .collectLatest { transactions ->
-                    _state.update { it.copy(recentTransactions = transactions+transactions+transactions+transactions) }
+                    _state.update { it.copy(recentTransactions = transactions) }
                 }
         }
     }

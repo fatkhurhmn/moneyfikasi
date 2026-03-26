@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.feature.dashboard.component
+package dev.muffar.moneyfikasi.feature.home.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,11 +13,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.CategoryType
-import dev.muffar.moneyfikasi.feature.dashboard.DashboardState
+import dev.muffar.moneyfikasi.feature.home.HomeState
 
 @Composable
 fun ReportSection(
-    state: DashboardState,
+    state: HomeState,
     onDateRangeClick: () -> Unit,
     onVisibilityClick: () -> Unit,
 ) {

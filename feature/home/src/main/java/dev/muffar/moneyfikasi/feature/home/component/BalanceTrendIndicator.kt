@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.feature.dashboard.component
+package dev.muffar.moneyfikasi.feature.home.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

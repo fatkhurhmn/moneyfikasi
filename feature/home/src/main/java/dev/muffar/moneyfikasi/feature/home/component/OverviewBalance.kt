@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.feature.dashboard.component
+package dev.muffar.moneyfikasi.feature.home.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

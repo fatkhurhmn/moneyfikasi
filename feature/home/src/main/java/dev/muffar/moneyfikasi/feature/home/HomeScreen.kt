@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.feature.dashboard
+package dev.muffar.moneyfikasi.feature.home
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
@@ -16,15 +16,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.DateRange
-import dev.muffar.moneyfikasi.feature.dashboard.component.RecentTransactionsSection
-import dev.muffar.moneyfikasi.feature.dashboard.component.ReportDateSheet
-import dev.muffar.moneyfikasi.feature.dashboard.component.ReportSection
-import dev.muffar.moneyfikasi.feature.dashboard.component.TotalBalance
+import dev.muffar.moneyfikasi.feature.home.component.RecentTransactionsSection
+import dev.muffar.moneyfikasi.feature.home.component.ReportDateSheet
+import dev.muffar.moneyfikasi.feature.home.component.ReportSection
+import dev.muffar.moneyfikasi.feature.home.component.TotalBalance
 import java.util.UUID
 
 @Composable
-fun DashboardScreen(
-    state: DashboardState,
+fun HomeScreen(
+    state: HomeState,
     onToggleBalanceVisibility: () -> Unit,
     onToggleReportVisibility: () -> Unit,
     onShowReportDateSheet: (Boolean) -> Unit,

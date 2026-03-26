@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.feature.dashboard
+package dev.muffar.moneyfikasi.feature.home
 
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.DateRange
@@ -6,7 +6,7 @@ import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.model.TrendResult
 import dev.muffar.moneyfikasi.domain.model.Wallet
 
-data class DashboardState(
+data class HomeState(
     val totalBalance: Double = 0.0,
     val reportBalance: Double = 0.0,
     val reportIncome: Double = 0.0,
