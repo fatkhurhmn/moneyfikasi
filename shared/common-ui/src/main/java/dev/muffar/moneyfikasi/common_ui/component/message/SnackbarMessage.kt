@@ -1,6 +1,5 @@
 package dev.muffar.moneyfikasi.common_ui.component.message
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -8,6 +7,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.withTimeoutOrNull
 
@@ -36,6 +37,12 @@ fun SnackbarMessage(
             SnackbarType.PLAIN -> null
         }
 
+        val tint = when (type) {
+            SnackbarType.SUCCESS -> MainColor.Green.kindaLight
+            SnackbarType.ERROR -> MainColor.Red.kindaLight
+            SnackbarType.PLAIN -> MainColor.Blue.kindaLight
+        }
+
         Card(
             elevation = CardDefaults.cardElevation(4.dp),
             shape = MaterialTheme.shapes.medium,
@@ -47,10 +54,11 @@ fun SnackbarMessage(
                 modifier = Modifier.padding(16.dp)
             ) {
                 if (icon != null) {
-                    Image(
+                    Icon(
                         painter = icon,
                         contentDescription = null,
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(24.dp),
+                        tint = tint
                     )
                     Spacer(Modifier.width(16.dp))
                 }

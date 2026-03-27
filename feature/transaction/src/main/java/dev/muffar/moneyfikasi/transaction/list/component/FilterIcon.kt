@@ -25,7 +25,7 @@ fun FilterIcon(
             Icon(
                 painter = painterResource(R.drawable.ic_filter),
                 contentDescription = null,
-                modifier = Modifier.size(30.dp)
+                modifier = Modifier.size(24.dp)
             )
         }
 

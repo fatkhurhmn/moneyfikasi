@@ -23,7 +23,7 @@ fun StatisticTopBar(
                 Icon(
                     painter = painterResource(R.drawable.ic_date),
                     contentDescription = null,
-                    modifier = Modifier.size(30.dp)
+                    modifier = Modifier.size(24.dp)
                 )
             }
         }

@@ -79,13 +79,13 @@ fun ExpandableTransactionButton(
             onClick = { expanded = !expanded },
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = Color.White,
-            modifier = Modifier.size(64.dp)
+            modifier = Modifier.size(64.dp),
         ) {
             Icon(
                 painter = painterResource(R.drawable.ic_add),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(28.dp)
+                    .size(20.dp)
                     .rotate(rotation)
             )
         }

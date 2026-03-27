@@ -15,9 +15,9 @@ fun SearchIcon(
 ) {
     IconButton(onClick = onClick) {
         Icon(
-            painter = painterResource(R.drawable.ic_search_off),
+            painter = painterResource(R.drawable.ic_search),
             contentDescription = null,
-            modifier = Modifier.size(30.dp)
+            modifier = Modifier.size(24.dp)
         )
     }
 }

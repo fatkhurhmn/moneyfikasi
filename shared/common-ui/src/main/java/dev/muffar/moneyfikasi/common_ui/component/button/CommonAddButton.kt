@@ -25,7 +25,7 @@ fun CommonAddButton(
             painter = painterResource(id = R.drawable.ic_add),
             tint = MaterialTheme.colorScheme.onPrimary,
             contentDescription = contentDescription,
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier.size(20.dp)
         )
     }
 }

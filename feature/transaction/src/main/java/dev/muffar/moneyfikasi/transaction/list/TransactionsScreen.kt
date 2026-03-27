@@ -58,7 +58,7 @@ fun TransactionsScreen(
                 onExpenseClick = { onAddTransactionClick(TransactionType.EXPENSE) },
                 onTransferClick = { onAddTransactionClick(null) },
             )
-        }
+        },
     ) {
         Column(
             modifier = Modifier.padding(it)

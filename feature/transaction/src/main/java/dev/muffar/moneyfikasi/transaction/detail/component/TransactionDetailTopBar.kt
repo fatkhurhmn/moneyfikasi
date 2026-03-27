@@ -27,7 +27,7 @@ fun TransactionDetailTopBar(
                     painter = painterResource(R.drawable.ic_delete),
                     contentDescription = stringResource(R.string.delete),
                     tint = MaterialTheme.colorScheme.error,
-                    modifier = Modifier.size(26.dp)
+                    modifier = Modifier.size(24.dp)
                 )
             }
             IconButton(
@@ -37,7 +37,7 @@ fun TransactionDetailTopBar(
                     painter = painterResource(R.drawable.ic_edit),
                     contentDescription = stringResource(R.string.edit),
                     tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(26.dp)
+                    modifier = Modifier.size(24.dp)
                 )
             }
         }
