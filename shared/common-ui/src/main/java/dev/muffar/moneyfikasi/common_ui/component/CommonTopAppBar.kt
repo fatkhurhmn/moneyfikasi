@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
@@ -50,7 +51,8 @@ fun CommonTopAppBar(
             }
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.titleMedium,
+                fontSize = 18.sp,
                 modifier = Modifier.padding(vertical = 16.dp)
             )
         }

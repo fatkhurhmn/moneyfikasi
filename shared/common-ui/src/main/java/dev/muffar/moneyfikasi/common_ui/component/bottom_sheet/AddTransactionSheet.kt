@@ -98,7 +98,7 @@ private fun AddTransactionItem(
         Image(
             painter = icon,
             contentDescription = title,
-            modifier = Modifier.size(30.dp)
+            modifier = Modifier.size(36.dp)
         )
         Spacer(modifier = Modifier.width(16.dp))
         Text(text = title)
