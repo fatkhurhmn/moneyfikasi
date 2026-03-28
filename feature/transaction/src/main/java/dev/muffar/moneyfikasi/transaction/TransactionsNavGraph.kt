@@ -12,8 +12,6 @@ import java.util.UUID
 fun NavGraphBuilder.transactionsNavGraph(
     onNavigateToTransactionDetail: (UUID, Boolean) -> Unit,
     onNavigateToEditTransaction: (TransactionType?, UUID) -> Unit,
-    onNavigateToAddTransaction: (TransactionType) -> Unit,
-    onNavigateToTransferTransaction: () -> Unit,
     onNavigateToAddWallet: () -> Unit,
     onNavigateToAddCategory: (CategoryType) -> Unit,
     onNavigateToSearch: () -> Unit,
@@ -22,8 +20,6 @@ fun NavGraphBuilder.transactionsNavGraph(
 
     transactionsNavigation(
         onNavigateToTransactionDetail = onNavigateToTransactionDetail,
-        onNavigateToAddScreen = onNavigateToAddTransaction,
-        onNavigateToTransferScreen = onNavigateToTransferTransaction,
         onNavigateToSearch = onNavigateToSearch
     )
 

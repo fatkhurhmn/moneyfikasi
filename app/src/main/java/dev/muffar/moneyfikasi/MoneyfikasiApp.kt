@@ -11,6 +11,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import dev.muffar.moneyfikasi.navigation.MainBottomNav
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.transaction.add_edit.navigation.toAddEditTransactionScreen
+import dev.muffar.moneyfikasi.transaction.transfer.navigation.toTransferTransactionScreen
 
 @Composable
 fun MoneyfikasiApp(
@@ -30,7 +32,16 @@ fun MoneyfikasiApp(
     Scaffold(
         bottomBar = {
             if (isBottomNavVisible) {
-                MainBottomNav(navController = navController)
+                MainBottomNav(
+                    navController = navController,
+                    onAddTransaction = { type ->
+                        if (type != null) {
+                            navController.toAddEditTransactionScreen(type)
+                        } else {
+                            navController.toTransferTransactionScreen()
+                        }
+                    }
+                )
             }
         },
     ) {

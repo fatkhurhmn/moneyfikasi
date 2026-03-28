@@ -17,9 +17,7 @@ import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.CustomDateSheet
 import dev.muffar.moneyfikasi.common_ui.component.calendar_header.DateRangeSwitcher
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TransactionFilter
-import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.transaction.list.component.ExpandableTransactionButton
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsFilterSheet
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsList
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsLoading
@@ -32,7 +30,6 @@ import java.util.UUID
 fun TransactionsScreen(
     state: TransactionsState,
     onTransactionItemClick: (UUID, Boolean) -> Unit,
-    onAddTransactionClick: (TransactionType?) -> Unit,
     onTimeReferenceChange: (LocalDateTime) -> Unit,
     onDateRangeChange: (DateRange) -> Unit,
     onShowFilterSheet: (Boolean) -> Unit,
@@ -52,13 +49,6 @@ fun TransactionsScreen(
             )
         },
         contentWindowInsets = WindowInsets(0.dp),
-        floatingActionButton = {
-            ExpandableTransactionButton(
-                onIncomeClick = { onAddTransactionClick(TransactionType.INCOME) },
-                onExpenseClick = { onAddTransactionClick(TransactionType.EXPENSE) },
-                onTransferClick = { onAddTransactionClick(null) },
-            )
-        },
     ) {
         Column(
             modifier = Modifier.padding(it)

@@ -20,7 +20,7 @@ fun BackupRestoreImage() {
         contentAlignment = Alignment.Center
     ) {
         Image(
-            painter = painterResource(id = R.drawable.ic_restore_backup2),
+            painter = painterResource(id = R.drawable.ic_backup_restore),
             contentDescription = stringResource(R.string.backup_restore),
             modifier = Modifier
                 .padding(vertical = 32.dp)

@@ -1,12 +1,11 @@
 package dev.muffar.moneyfikasi.navigation
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,46 +19,47 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.AddTransactionSheet
+import dev.muffar.moneyfikasi.common_ui.component.button.AddTransactionButton
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
 fun MainBottomNav(
     modifier: Modifier = Modifier,
-    containerColor: Color = BottomAppBarDefaults.containerColor.copy(alpha = 0.1f),
-    contentColor: Color = contentColorFor(containerColor),
-    tonalElevation: Dp = 1.dp,
-    contentPadding: PaddingValues = BottomAppBarDefaults.ContentPadding,
-    contentHeight: Dp = 65.dp,
-    windowInsets: WindowInsets = BottomAppBarDefaults.windowInsets,
     navController: NavHostController,
+    onAddTransaction: (TransactionType?) -> Unit
 ) {
+    val containerColor = BottomAppBarDefaults.containerColor.copy(alpha = 0.1f)
+    var showBottomSheet by remember { mutableStateOf(false) }
+
     Surface(
         color = containerColor,
-        contentColor = contentColor,
-        tonalElevation = tonalElevation,
+        contentColor = contentColorFor(containerColor),
+        tonalElevation = 1.dp,
         shadowElevation = 0.2.dp,
         modifier = modifier
     ) {
         Row(
             Modifier
                 .fillMaxWidth()
-                .windowInsetsPadding(windowInsets)
-                .height(contentHeight)
-                .padding(contentPadding),
+                .windowInsetsPadding(BottomAppBarDefaults.windowInsets)
+                .height(65.dp)
+                .padding(BottomAppBarDefaults.ContentPadding),
             horizontalArrangement = Arrangement.Absolute.SpaceAround,
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -80,6 +80,13 @@ fun MainBottomNav(
                 unselectedIcon = painterResource(R.drawable.ic_transaction_outline),
                 label = stringResource(R.string.transaction_menu),
                 route = Screen.Transactions.route,
+                modifier = Modifier
+                    .padding(2.dp)
+                    .weight(1f)
+            )
+
+            AddTransactionButton(
+                onClick = { showBottomSheet = true },
                 modifier = Modifier
                     .padding(2.dp)
                     .weight(1f)
@@ -107,6 +114,15 @@ fun MainBottomNav(
                     .weight(1f)
             )
         }
+    }
+
+    AnimatedVisibility(showBottomSheet) {
+        AddTransactionSheet(
+            onAddIncome = { onAddTransaction(TransactionType.INCOME) },
+            onAddExpense = { onAddTransaction(TransactionType.EXPENSE) },
+            onAddTransfer = { onAddTransaction(null) },
+            onDismissRequest = { showBottomSheet = false }
+        )
     }
 }
 

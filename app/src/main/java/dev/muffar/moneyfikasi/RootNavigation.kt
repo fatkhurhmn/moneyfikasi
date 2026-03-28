@@ -61,12 +61,6 @@ fun RootNavigation(
                     navController.toTransferTransactionScreen(id)
                 }
             },
-            onNavigateToAddTransaction = { type ->
-                navController.toAddEditTransactionScreen(type)
-            },
-            onNavigateToTransferTransaction = {
-                navController.toTransferTransactionScreen()
-            },
             onNavigateToAddWallet = { navController.toAddEditWalletScreen() },
             onNavigateToAddCategory = { navController.toAddEditCategoryScreen(it) },
             onNavigateToSearch = { navController.toSearchScreen() },
