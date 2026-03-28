@@ -53,7 +53,7 @@ fun CommonTopAppBar(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
                 fontSize = 18.sp,
-                modifier = Modifier.padding(vertical = 16.dp)
+                modifier = Modifier.padding(vertical = 8.dp)
             )
         }
         Spacer(modifier = Modifier.weight(1f))
