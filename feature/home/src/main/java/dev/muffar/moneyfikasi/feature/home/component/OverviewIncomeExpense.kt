@@ -41,14 +41,13 @@ fun OverviewIncomeExpense(
     Box(
         modifier = modifier
             .clip(MaterialTheme.shapes.medium)
-            .background(containerColor.copy(alpha = 0.7f))
+            .background(containerColor.copy(alpha = 0.5f))
     ) {
         Image(
             modifier = Modifier
                 .size(50.dp)
                 .padding(8.dp)
-                .align(Alignment.TopEnd)
-                .alpha(0.5f),
+                .align(Alignment.TopEnd),
             painter = painterResource(id = icon),
             contentDescription = null,
         )
