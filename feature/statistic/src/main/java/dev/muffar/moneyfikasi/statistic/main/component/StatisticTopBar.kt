@@ -1,14 +1,10 @@
 package dev.muffar.moneyfikasi.statistic.main.component
 
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
+import dev.muffar.moneyfikasi.common_ui.component.button.TopBarIconButton
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
@@ -19,13 +15,10 @@ fun StatisticTopBar(
         title = stringResource(R.string.statistic_menu),
         showBackButton = false,
         action = {
-            IconButton(onClick = onFilterClick) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_date),
-                    contentDescription = null,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
+            TopBarIconButton(
+                painter = painterResource(R.drawable.ic_date),
+                onClick = onFilterClick
+            )
         }
     )
 }

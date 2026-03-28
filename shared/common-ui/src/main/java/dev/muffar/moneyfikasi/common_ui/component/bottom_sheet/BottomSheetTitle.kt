@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 
 @Composable
@@ -22,7 +23,8 @@ fun BottomSheetTitle(
     ) {
         Text(
             text = title,
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.titleMedium,
+            fontSize = 18.sp,
             textAlign = TextAlign.Start,
             modifier = Modifier
                 .fillMaxWidth()
