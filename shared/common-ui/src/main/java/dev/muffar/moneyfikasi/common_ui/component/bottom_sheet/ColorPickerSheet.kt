@@ -21,7 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.domain.utils.Colors
+import dev.muffar.moneyfikasi.domain.model.Colors
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.launch
 

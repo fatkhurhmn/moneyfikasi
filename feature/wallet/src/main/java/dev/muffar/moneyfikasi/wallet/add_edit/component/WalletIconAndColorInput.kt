@@ -11,8 +11,8 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.text_input.ColorPicker
 import dev.muffar.moneyfikasi.common_ui.component.text_input.IconPicker
 import dev.muffar.moneyfikasi.common_ui.component.text_input.TextInputError
+import dev.muffar.moneyfikasi.domain.model.AppIcon
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
-import dev.muffar.moneyfikasi.domain.utils.WalletIcon
 
 @Composable
 fun WalletIconAndColorInput(
@@ -27,7 +27,7 @@ fun WalletIconAndColorInput(
     ) {
         Row{
             IconPicker(
-                options = WalletIcon.getIcons(),
+                options = AppIcon.walletIcons,
                 icon = icon,
                 color = color,
                 onIconSelect = onIconSelect

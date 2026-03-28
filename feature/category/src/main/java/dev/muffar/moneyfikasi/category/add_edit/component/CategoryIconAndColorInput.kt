@@ -11,9 +11,9 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.text_input.ColorPicker
 import dev.muffar.moneyfikasi.common_ui.component.text_input.IconPicker
 import dev.muffar.moneyfikasi.common_ui.component.text_input.TextInputError
+import dev.muffar.moneyfikasi.domain.model.AppIcon
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
-import dev.muffar.moneyfikasi.domain.utils.CategoryIcon
 
 @Composable
 fun CategoryIconAndColorInput(
@@ -24,6 +24,12 @@ fun CategoryIconAndColorInput(
     onColorSelect: (Long) -> Unit,
     error: ErrorMessage
 ) {
+    val iconOption = if (type == CategoryType.EXPENSE) {
+        AppIcon.expenseCategoryIcons
+    } else {
+        AppIcon.incomeCategoryIcons
+    }
+
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -31,7 +37,7 @@ fun CategoryIconAndColorInput(
             IconPicker(
                 icon = icon,
                 color = color,
-                options = CategoryIcon.getCategories(type),
+                options = iconOption,
                 onIconSelect = onIconSelect
             )
             Spacer(modifier = Modifier.width(16.dp))

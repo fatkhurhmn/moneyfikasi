@@ -4,11 +4,11 @@ import dev.muffar.moneyfikasi.data.db.entity.CategoryEntity
 import dev.muffar.moneyfikasi.data.db.entity.TransactionEntity
 import dev.muffar.moneyfikasi.data.db.entity.TransactionWithDetails
 import dev.muffar.moneyfikasi.data.db.entity.WalletEntity
+import dev.muffar.moneyfikasi.domain.model.AppIcon
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.model.Wallet
-import dev.muffar.moneyfikasi.domain.utils.CategoryIcon
 
 // --- Wallet Mappers ---
 
@@ -70,7 +70,7 @@ fun TransactionWithDetails.toDomain(): Transaction {
         wallet = this.wallet.toDomain(),
         category = this.category?.toDomain() ?: Category(
             name = "Unauthorized",
-            icon = CategoryIcon.WIDGETS.iconName,
+            icon = AppIcon.Widgets.name,
             color = 0xFFb8b4aa,
             type = CategoryType.EXPENSE,
         )
