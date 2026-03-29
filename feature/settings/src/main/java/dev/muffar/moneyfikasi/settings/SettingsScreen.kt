@@ -17,6 +17,7 @@ fun SettingsScreen(
     modifier: Modifier = Modifier,
     onWalletsClick: () -> Unit,
     onCategoriesClick: () -> Unit,
+    onQuickTransactionClick: () -> Unit,
     onBackupRestoreClick: () -> Unit
 ) {
     Scaffold(
@@ -38,6 +39,11 @@ fun SettingsScreen(
                 title = stringResource(R.string.categories),
                 icon = painterResource(id = R.drawable.ic_category),
                 onClick = onCategoriesClick
+            )
+            SettingsItem(
+                title = stringResource(R.string.quick_transaction),
+                icon = painterResource(id = R.drawable.ic_ink),
+                onClick = onQuickTransactionClick
             )
             SettingsItem(
                 title = stringResource(R.string.backup_restore),

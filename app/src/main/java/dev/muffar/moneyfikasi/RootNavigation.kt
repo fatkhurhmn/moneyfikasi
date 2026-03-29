@@ -86,13 +86,10 @@ fun RootNavigation(
             onNavigateBack = { navController.navigateUp() }
         )
 
-        composable(Screen.Debt.route) {
-            Text("Debt")
-        }
-
         settingsNavGraph(
             navigateToWallets = { navController.toWalletsScreen() },
             navigateToCategories = { navController.toCategoriesScreen() },
+            navigateToQuickTransaction = { },
             navigateToBackupRestore = { navController.toBackupRestoreScreen() }
         )
 

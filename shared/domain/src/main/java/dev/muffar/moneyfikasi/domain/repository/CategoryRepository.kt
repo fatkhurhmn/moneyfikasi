@@ -10,7 +10,7 @@ interface CategoryRepository {
 
     suspend fun getCategoryById(id: UUID): Category?
 
-    fun getCategoriesByType(type: CategoryType): Flow<List<Category>>
+    fun getCategoriesByType(type: CategoryType, includeTransfer: Boolean): Flow<List<Category>>
 
     suspend fun upsertCategory(category: Category)
 
