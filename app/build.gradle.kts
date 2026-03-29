@@ -70,6 +70,7 @@ dependencies {
     implementation(projects.feature.wallet)
     implementation(projects.feature.statistic)
     implementation(projects.feature.search)
+    implementation(projects.feature.quickTransaction)
     implementation(projects.feature.backupRestore)
 
     implementation(libs.androidx.core.ktx)

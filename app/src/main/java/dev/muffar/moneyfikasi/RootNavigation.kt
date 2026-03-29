@@ -1,10 +1,8 @@
 package dev.muffar.moneyfikasi
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import dev.muffar.moneyfikasi.backup_restore.navigation.backupRestoreNavGraph
 import dev.muffar.moneyfikasi.backup_restore.navigation.toBackupRestoreScreen
 import dev.muffar.moneyfikasi.category.add_edit.navigation.toAddEditCategoryScreen
@@ -12,6 +10,8 @@ import dev.muffar.moneyfikasi.category.categoriesNavGraph
 import dev.muffar.moneyfikasi.category.list.navigation.toCategoriesScreen
 import dev.muffar.moneyfikasi.feature.home.navigation.homeNavigation
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.quick_transaction.list.navigation.toQuickTransactionsScreen
+import dev.muffar.moneyfikasi.quick_transaction.quickTransactionGraph
 import dev.muffar.moneyfikasi.search.navigation.searchNavigation
 import dev.muffar.moneyfikasi.search.navigation.toSearchScreen
 import dev.muffar.moneyfikasi.settings.navigation.settingsNavGraph
@@ -89,7 +89,7 @@ fun RootNavigation(
         settingsNavGraph(
             navigateToWallets = { navController.toWalletsScreen() },
             navigateToCategories = { navController.toCategoriesScreen() },
-            navigateToQuickTransaction = { },
+            navigateToQuickTransaction = { navController.toQuickTransactionsScreen() },
             navigateToBackupRestore = { navController.toBackupRestoreScreen() }
         )
 
@@ -106,6 +106,10 @@ fun RootNavigation(
         walletsNavGraph(
             navigateToAddWallet = { navController.toAddEditWalletScreen() },
             navigateToEditWallet = { navController.toAddEditWalletScreen(it) },
+            navigateBack = { navController.navigateUp() }
+        )
+
+        quickTransactionGraph(
             navigateBack = { navController.navigateUp() }
         )
 
