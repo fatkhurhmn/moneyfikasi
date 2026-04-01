@@ -75,5 +75,5 @@ sealed class Screen(val route: String) {
 
     data object BackupRestore : Screen("backup_restore")
 
-    data object QuickTransaction : Screen("quick_transaction")
+    data object PresetList : Screen("preset_list")
 }

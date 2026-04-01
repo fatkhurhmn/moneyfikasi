@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.quick_transaction.list
+package dev.muffar.moneyfikasi.preset.list
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.Scaffold
@@ -10,15 +10,15 @@ import dev.muffar.moneyfikasi.resource.R
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun QuickTransactionsScreen(
-    state: QuickTransactionsState,
+fun PresetListScreen(
+    state: PresetListState,
     onBackClick: () -> Unit,
 ) {
 
     Scaffold(
         topBar = {
             CommonTopAppBar(
-                title = stringResource(R.string.quick_transaction),
+                title = stringResource(R.string.preset),
                 onBackClick = onBackClick
             )
         },

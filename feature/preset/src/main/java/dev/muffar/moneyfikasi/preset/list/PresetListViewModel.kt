@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.quick_transaction.list
+package dev.muffar.moneyfikasi.preset.list
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class  QuickTransactionsViewModel @Inject constructor(
+class  PresetListViewModel @Inject constructor(
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(QuickTransactionsState())
+    private val _state = MutableStateFlow(PresetListState())
     val state = _state.asStateFlow()
 
 }

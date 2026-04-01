@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "dev.muffar.moneyfikasi.quick_transaction"
+    namespace = "dev.muffar.moneyfikasi.preset"
     compileSdk = 36
 
     defaultConfig {

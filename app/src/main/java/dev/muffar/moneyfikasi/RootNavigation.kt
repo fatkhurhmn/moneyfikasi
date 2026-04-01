@@ -10,8 +10,8 @@ import dev.muffar.moneyfikasi.category.categoriesNavGraph
 import dev.muffar.moneyfikasi.category.list.navigation.toCategoriesScreen
 import dev.muffar.moneyfikasi.feature.home.navigation.homeNavigation
 import dev.muffar.moneyfikasi.navigation.Screen
-import dev.muffar.moneyfikasi.quick_transaction.list.navigation.toQuickTransactionsScreen
-import dev.muffar.moneyfikasi.quick_transaction.quickTransactionGraph
+import dev.muffar.moneyfikasi.preset.list.navigation.toPresetListScreen
+import dev.muffar.moneyfikasi.preset.presetGraph
 import dev.muffar.moneyfikasi.search.navigation.searchNavigation
 import dev.muffar.moneyfikasi.search.navigation.toSearchScreen
 import dev.muffar.moneyfikasi.settings.navigation.settingsNavGraph
@@ -89,7 +89,7 @@ fun RootNavigation(
         settingsNavGraph(
             navigateToWallets = { navController.toWalletsScreen() },
             navigateToCategories = { navController.toCategoriesScreen() },
-            navigateToQuickTransaction = { navController.toQuickTransactionsScreen() },
+            navigateToPreset = { navController.toPresetListScreen() },
             navigateToBackupRestore = { navController.toBackupRestoreScreen() }
         )
 
@@ -109,7 +109,7 @@ fun RootNavigation(
             navigateBack = { navController.navigateUp() }
         )
 
-        quickTransactionGraph(
+        presetGraph(
             navigateBack = { navController.navigateUp() }
         )
 
