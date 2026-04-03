@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
 import dev.muffar.moneyfikasi.domain.model.Preset
 import dev.muffar.moneyfikasi.resource.R
@@ -29,9 +30,9 @@ fun PresetsContent(
         }
     } else {
         EmptyDataList(
-            painter = painterResource(id = R.drawable.ic_empty_transactions),
-            title = "No Presets Yet",
-            description = "Start adding one to track your finances."
+            painter = painterResource(id = R.drawable.ic_empty_preset),
+            title = stringResource(R.string.no_preset),
+            description = stringResource(R.string.no_preset_message)
         )
     }
 }

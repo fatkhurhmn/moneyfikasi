@@ -138,4 +138,6 @@
     <string name="enter_preset_name">Enter preset name</string>
     <string name="delete_preset">Delete Preset</string>
     <string name="delete_preset_message">Are you sure you want to delete this preset?</string>
+    <string name="no_preset">No Presets Yet</string>
+    <string name="no_preset_message">Create one to quickly add transactions.</string>
 </resources>
