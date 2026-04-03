@@ -8,11 +8,13 @@ import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.model.Preset
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preset.PresetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.utils.extensions.clearThousandFormat
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -39,12 +41,12 @@ class AddEditPresetViewModel @Inject constructor(
 
     init {
         initState()
-        loadCategories()
         loadWallets()
     }
 
     fun onEvent(event: AddEditPresetEvent) {
         when (event) {
+            is AddEditPresetEvent.InitType -> onInitType(event.type)
             is AddEditPresetEvent.NameChanged -> onNameChange(event.name)
             is AddEditPresetEvent.AmountChanged -> onAmountChange(event.amount)
             is AddEditPresetEvent.CategoryChanged -> onCategorySelect(event.category)
@@ -77,9 +79,10 @@ class AddEditPresetViewModel @Inject constructor(
 
     private fun loadCategories() {
         viewModelScope.launch {
-            categoryUseCases.getAllCategories(true).collectLatest { categories ->
-                _state.update { it.copy(categories = categories) }
-            }
+            categoryUseCases.getCategoryByType(state.value.categoryType)
+                .collectLatest { categories ->
+                    _state.update { it.copy(categories = categories) }
+                }
         }
     }
 
@@ -89,6 +92,11 @@ class AddEditPresetViewModel @Inject constructor(
                 _state.update { it.copy(wallets = wallets) }
             }
         }
+    }
+
+    private fun onInitType(type: TransactionType) {
+        _state.update { it.copy(type = type) }
+        loadCategories()
     }
 
     private fun onNameChange(name: String) {
@@ -121,21 +129,23 @@ class AddEditPresetViewModel @Inject constructor(
     }
 
     private fun onSavePreset() {
+        val state = state.value
         if (!isFormValid()) return
         viewModelScope.launch {
             try {
                 val preset = Preset(
-                    id = _state.value.id ?: UUID.randomUUID(),
-                    name = _state.value.name,
-                    amount = _state.value.amount.toDouble(),
-                    type = _state.value.type,
-                    category = _state.value.category,
-                    wallet = _state.value.wallet,
-                    note = _state.value.note.ifEmpty { null }
+                    id = state.id ?: UUID.randomUUID(),
+                    name = state.name,
+                    amount = state.amount.clearThousandFormat().toDouble(),
+                    type = state.type,
+                    category = state.category,
+                    wallet = state.wallet,
+                    note = state.note.trim()
                 )
                 presetUseCases.upsertPreset(preset)
                 _eventFlow.emit(UiEvent.SavePreset)
             } catch (e: Exception) {
+                e.printStackTrace()
                 _eventFlow.emit(UiEvent.ShowMessage("Failed to save preset", SnackbarType.ERROR))
             }
         }

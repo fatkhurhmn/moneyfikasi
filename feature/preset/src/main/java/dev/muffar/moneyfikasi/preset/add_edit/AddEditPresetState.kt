@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.preset.add_edit
 
 import dev.muffar.moneyfikasi.domain.model.Category
+import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
@@ -18,4 +19,10 @@ data class AddEditPresetState(
     val categories: List<Category> = emptyList(),
     val wallets: List<Wallet> = emptyList(),
     val isLoading: Boolean = false,
-)
+){
+    val categoryType: CategoryType
+        get() = when (type) {
+            TransactionType.INCOME, TransactionType.TRANSFER_IN -> CategoryType.INCOME
+            else -> CategoryType.EXPENSE
+        }
+}

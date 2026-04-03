@@ -6,14 +6,15 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.preset.list.PresetListScreen
 import dev.muffar.moneyfikasi.preset.list.PresetListViewModel
 import java.util.UUID
 
 fun NavGraphBuilder.presetListNavigation(
-    onAddPresetClick: () -> Unit,
-    onPresetClick: (UUID) -> Unit,
+    navigateToAddPreset: (TransactionType) -> Unit,
+    navigateToEditPreset: (TransactionType, UUID) -> Unit,
     navigateBack: () -> Unit,
 ) {
     composable(route = Screen.PresetList.route) {
@@ -22,8 +23,8 @@ fun NavGraphBuilder.presetListNavigation(
 
         PresetListScreen(
             state = state,
-            onAddPresetClick = onAddPresetClick,
-            onPresetClick = onPresetClick,
+            onAddPresetClick = navigateToAddPreset,
+            onPresetClick = navigateToEditPreset,
             onBackClick = navigateBack
         )
     }

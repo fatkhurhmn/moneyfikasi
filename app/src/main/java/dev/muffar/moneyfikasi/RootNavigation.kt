@@ -111,9 +111,11 @@ fun RootNavigation(
         )
 
         presetGraph(
-            navigateBack = { navController.navigateUp() },
-            onPresetClick = {},
-            onAddPresetClick = { navController.toAddEditPresetScreen() }
+            navigateToAddPreset = { navController.toAddEditPresetScreen(it) },
+            navigateToEditPreset = { type, id ->
+                navController.toAddEditPresetScreen(type, id)
+            },
+            navigateBack = { navController.navigateUp() }
         )
 
         backupRestoreNavGraph(
