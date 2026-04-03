@@ -5,9 +5,9 @@ import java.util.UUID
 data class Preset(
     val id: UUID = UUID.randomUUID(),
     val name: String,
-    val amount: Double,
+    val amount: Double? = null,
     val type: TransactionType,
-    val category: Category,
-    val wallet: Wallet,
+    val category: Category? = null,
+    val wallet: Wallet? = null,
     val note: String? = null
 )

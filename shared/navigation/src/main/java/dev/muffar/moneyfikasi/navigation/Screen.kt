@@ -9,8 +9,6 @@ sealed class Screen(val route: String) {
 
     data object Home : Screen("home")
 
-    data object Debt : Screen("debt")
-
     data object Search : Screen("search")
     data object Settings : Screen("settings")
 
@@ -26,7 +24,6 @@ sealed class Screen(val route: String) {
 
     data object Wallets : Screen("wallets")
     data object AddEditWallet : Screen("add_edit_wallet?wallet_id={wallet_id}") {
-        const val TYPE = "type"
         const val WALLET_ID = "wallet_id"
         fun routeWithArg(id: UUID? = null): String {
             val walletId = id?.toString() ?: ""

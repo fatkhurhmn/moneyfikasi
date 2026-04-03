@@ -33,16 +33,16 @@ data class PresetEntity(
     val name: String,
 
     @ColumnInfo(name = "amount")
-    val amount: Double,
+    val amount: Double? = null,
 
     @ColumnInfo(name = "type")
     val type: TransactionType,
 
     @ColumnInfo(name = "wallet_id")
-    val walletId: UUID,
+    val walletId: UUID? = null,
 
     @ColumnInfo(name = "category_id")
-    val categoryId: UUID,
+    val categoryId: UUID? = null,
 
     @ColumnInfo(name = "note")
     val note: String? = null

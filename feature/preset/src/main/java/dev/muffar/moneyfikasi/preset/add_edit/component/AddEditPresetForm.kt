@@ -47,14 +47,14 @@ fun AddEditPresetForm(
         )
 
         CategoryInput(
-            category = state.category,
+            category = state.category ?: Category(),
             categoryOptions = state.categories,
             onCategorySelect = onCategoryChange,
             onAddNewCategoryClick = onAddNewCategoryClick,
         )
 
         WalletInput(
-            wallet = state.wallet,
+            wallet = state.wallet ?: Wallet(),
             walletOptions = state.wallets,
             onWalletSelect = onWalletChange,
             onAddNewWalletClick = onAddNewWalletClick,

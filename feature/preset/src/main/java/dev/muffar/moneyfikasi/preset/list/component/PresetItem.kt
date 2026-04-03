@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
@@ -18,6 +17,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.transaction_item.ItemCategoryIcon
+import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.Preset
 import dev.muffar.moneyfikasi.utils.extensions.formatThousand
 import java.util.UUID
@@ -35,7 +35,7 @@ fun PresetItem(
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        ItemCategoryIcon(category = preset.category)
+        ItemCategoryIcon(category = preset.category ?: Category())
         Spacer(modifier = Modifier.width(16.dp))
         Column(
             modifier = Modifier.weight(1f)
@@ -63,14 +63,14 @@ fun PresetItem(
             horizontalAlignment = Alignment.End
         ) {
             Text(
-                text = preset.amount.formatThousand(),
+                text = preset.amount?.formatThousand() ?: "0",
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp
                 )
             )
             Text(
-                text = preset.wallet.name,
+                text = preset.wallet?.name ?: "",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

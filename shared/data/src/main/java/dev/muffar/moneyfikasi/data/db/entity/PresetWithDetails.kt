@@ -10,11 +10,11 @@ data class PresetWithDetails(
         parentColumn = "wallet_id",
         entityColumn = "id"
     )
-    val wallet: WalletEntity,
+    val wallet: WalletEntity?,
 
     @Relation(
         parentColumn = "category_id",
         entityColumn = "id"
     )
-    val category: CategoryEntity
+    val category: CategoryEntity?
 )

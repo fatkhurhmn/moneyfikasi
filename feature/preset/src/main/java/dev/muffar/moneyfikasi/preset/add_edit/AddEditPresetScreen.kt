@@ -44,7 +44,12 @@ fun AddEditPresetScreen(
 
     Scaffold(
         snackbarHost = { SnackbarMessage(state = snackbarHostState) },
-        topBar = { AddEditPresetTopBar(onBackClick) },
+        topBar = {
+            AddEditPresetTopBar(
+                type = state.type,
+                onBackClick = onBackClick
+            )
+        },
         bottomBar = { BottomBarSaveButton(onSaveClick) }
     ) {
         AddEditPresetForm(
