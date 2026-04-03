@@ -10,6 +10,7 @@ import dev.muffar.moneyfikasi.category.categoriesNavGraph
 import dev.muffar.moneyfikasi.category.list.navigation.toCategoriesScreen
 import dev.muffar.moneyfikasi.feature.home.navigation.homeNavigation
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.preset.add_edit.navigation.toAddEditPresetScreen
 import dev.muffar.moneyfikasi.preset.list.navigation.toPresetListScreen
 import dev.muffar.moneyfikasi.preset.presetGraph
 import dev.muffar.moneyfikasi.search.navigation.searchNavigation
@@ -110,7 +111,9 @@ fun RootNavigation(
         )
 
         presetGraph(
-            navigateBack = { navController.navigateUp() }
+            navigateBack = { navController.navigateUp() },
+            onPresetClick = {},
+            onAddPresetClick = { navController.toAddEditPresetScreen() }
         )
 
         backupRestoreNavGraph(

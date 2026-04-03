@@ -23,7 +23,7 @@ import dev.muffar.moneyfikasi.resource.R
 @Composable
 fun WalletInput(
     wallet: Wallet,
-    error: ErrorMessage,
+    error: ErrorMessage = ErrorMessage(),
     label: String = stringResource(R.string.wallet),
     walletOptions: List<Wallet>,
     onWalletSelect: (Wallet) -> Unit,

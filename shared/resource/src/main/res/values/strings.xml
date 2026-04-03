@@ -132,4 +132,6 @@
     <string name="trend_vs_last_month">%s from last month</string>
     <string name="recent_transaction">Recent Transactions</string>
     <string name="see_all">See All</string>
+    <string name="preset_name">Preset Name</string>
+    <string name="enter_preset_name">Enter preset name</string>
 </resources>

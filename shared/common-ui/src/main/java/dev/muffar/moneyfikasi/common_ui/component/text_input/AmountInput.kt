@@ -22,7 +22,7 @@ import dev.muffar.moneyfikasi.utils.extensions.formatThousand
 @Composable
 fun AmountInput(
     amount: String,
-    error: ErrorMessage,
+    error: ErrorMessage = ErrorMessage(),
     onAmountChange: (String) -> Unit
 ) {
     var showAmountInputSheet by remember { mutableStateOf(false) }

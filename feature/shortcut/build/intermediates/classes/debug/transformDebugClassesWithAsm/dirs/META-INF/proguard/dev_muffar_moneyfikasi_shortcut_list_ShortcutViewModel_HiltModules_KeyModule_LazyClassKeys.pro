@@ -1,0 +1,1 @@
+-keep,allowobfuscation,allowshrinking class dev.muffar.moneyfikasi.shortcut.list.ShortcutViewModel
