@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.category.add_edit.component
+package dev.muffar.moneyfikasi.common_ui.component.button
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,15 +9,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
-import dev.muffar.moneyfikasi.common_ui.component.button.CommonButton
-import dev.muffar.moneyfikasi.common_ui.component.button.RowNegativePositiveButton
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
-fun AddEditCategoryButton(
+fun BottomBarAddEditButton(
     isEdit: Boolean,
     onSave: () -> Unit,
-    onDelete: () -> Unit,
+    onDelete: () -> Unit
 ) {
     Column(
         modifier = Modifier.imePadding()

@@ -16,10 +16,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonAlertDialog
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
+import dev.muffar.moneyfikasi.common_ui.component.button.BottomBarAddEditButton
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.wallet.add_edit.component.AddEditWalletButton
 import dev.muffar.moneyfikasi.wallet.add_edit.component.AddEditWalletForm
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -51,7 +51,7 @@ fun AddEditWalletScreen(
             )
         },
         bottomBar = {
-            AddEditWalletButton(
+            BottomBarAddEditButton(
                 isEdit = state.id != null,
                 onSave = onSubmit,
                 onDelete = { onShowAlert(true) }

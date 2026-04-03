@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.transaction.add_edit.component
+package dev.muffar.moneyfikasi.common_ui.component.button
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,16 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
-import dev.muffar.moneyfikasi.common_ui.component.button.CommonButton
 import dev.muffar.moneyfikasi.common_ui.component.keyboardAsState
-import dev.muffar.moneyfikasi.resource.R
 
 @Composable
-fun AddEditTransactionButton(
-    onSave: () -> Unit,
+fun BottomBarButton(
+    title: String,
+    onClick: () -> Unit
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val isKeyboardVisible by keyboardAsState()
@@ -30,9 +28,9 @@ fun AddEditTransactionButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp, horizontal = 16.dp),
-            text = stringResource(R.string.save),
+            text = title,
             onClick = {
-                onSave()
+                onClick()
                 if (isKeyboardVisible) {
                     keyboardController?.hide()
                 }

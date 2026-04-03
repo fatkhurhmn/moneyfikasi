@@ -1,7 +1,6 @@
 package dev.muffar.moneyfikasi.preset.add_edit
 
 import dev.muffar.moneyfikasi.domain.model.Category
-import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 
 sealed class AddEditPresetEvent {

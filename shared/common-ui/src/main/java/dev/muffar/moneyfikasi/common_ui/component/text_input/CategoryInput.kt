@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.preset.add_edit.component
+package dev.muffar.moneyfikasi.common_ui.component.text_input
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
@@ -16,8 +16,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.CategoryPickerSheet
 import dev.muffar.moneyfikasi.common_ui.component.button.IconFieldButton
-import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
-import dev.muffar.moneyfikasi.common_ui.component.text_input.TextInputError
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.resource.R

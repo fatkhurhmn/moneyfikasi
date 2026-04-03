@@ -15,11 +15,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
+import dev.muffar.moneyfikasi.common_ui.component.button.BottomBarSaveButton
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.Wallet
-import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionButton
 import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionForm
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -53,7 +53,7 @@ fun AddEditTransactionScreen(
                 onBackClick = onBackClick
             )
         },
-        bottomBar = { AddEditTransactionButton(onSaveClick) }
+        bottomBar = { BottomBarSaveButton(onSaveClick) }
     ) {
         AddEditTransactionForm(
             modifier = Modifier

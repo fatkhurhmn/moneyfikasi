@@ -14,10 +14,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.category.add_edit.component.AddEditCategoryButton
 import dev.muffar.moneyfikasi.category.add_edit.component.AddEditCategoryForm
 import dev.muffar.moneyfikasi.common_ui.component.CommonAlertDialog
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
+import dev.muffar.moneyfikasi.common_ui.component.button.BottomBarAddEditButton
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.resource.R
@@ -55,7 +55,7 @@ fun AddEditCategoryScreen(
             )
         },
         bottomBar = {
-            AddEditCategoryButton(
+            BottomBarAddEditButton(
                 isEdit = state.id != null,
                 onSave = onSubmit,
                 onDelete = { onShowAlert(true) }

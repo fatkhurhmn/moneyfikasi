@@ -14,11 +14,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.button.BottomBarSaveButton
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.Wallet
-import dev.muffar.moneyfikasi.preset.add_edit.component.AddEditPresetButton
 import dev.muffar.moneyfikasi.preset.add_edit.component.AddEditPresetForm
 import dev.muffar.moneyfikasi.preset.add_edit.component.AddEditPresetTopBar
 import kotlinx.coroutines.flow.SharedFlow
@@ -45,7 +45,7 @@ fun AddEditPresetScreen(
     Scaffold(
         snackbarHost = { SnackbarMessage(state = snackbarHostState) },
         topBar = { AddEditPresetTopBar(onBackClick) },
-        bottomBar = { AddEditPresetButton(onSaveClick) }
+        bottomBar = { BottomBarSaveButton(onSaveClick) }
     ) {
         AddEditPresetForm(
             modifier = Modifier

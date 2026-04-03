@@ -8,10 +8,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.text_input.AmountInput
+import dev.muffar.moneyfikasi.common_ui.component.text_input.CategoryInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
+import dev.muffar.moneyfikasi.common_ui.component.text_input.NoteInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.WalletInput
 import dev.muffar.moneyfikasi.domain.model.Category
-import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.preset.add_edit.AddEditPresetState
 import dev.muffar.moneyfikasi.resource.R
