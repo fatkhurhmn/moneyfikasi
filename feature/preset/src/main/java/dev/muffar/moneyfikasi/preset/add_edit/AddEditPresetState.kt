@@ -14,7 +14,7 @@ data class AddEditPresetState(
     val type: TransactionType = TransactionType.EXPENSE,
     val category: Category? = null,
     val wallet: Wallet? = null,
-    val note: String = "",
+    val description: String = "",
     val nameError: ErrorMessage = ErrorMessage(),
     val categories: List<Category> = emptyList(),
     val wallets: List<Wallet> = emptyList(),

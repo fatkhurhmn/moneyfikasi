@@ -44,6 +44,6 @@ data class PresetEntity(
     @ColumnInfo(name = "category_id")
     val categoryId: UUID? = null,
 
-    @ColumnInfo(name = "note")
-    val note: String? = null
+    @ColumnInfo(name = "description")
+    val description: String? = null
 )

@@ -10,6 +10,6 @@ sealed class AddEditPresetEvent {
     data class AmountChanged(val amount: String) : AddEditPresetEvent()
     data class CategoryChanged(val category: Category) : AddEditPresetEvent()
     data class WalletChanged(val wallet: Wallet) : AddEditPresetEvent()
-    data class NoteChanged(val note: String) : AddEditPresetEvent()
+    data class DescriptionChanged(val description: String) : AddEditPresetEvent()
     data object SavePreset : AddEditPresetEvent()
 }

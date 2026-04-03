@@ -9,5 +9,5 @@ data class Preset(
     val type: TransactionType,
     val category: Category? = null,
     val wallet: Wallet? = null,
-    val note: String? = null
+    val description: String? = null
 )

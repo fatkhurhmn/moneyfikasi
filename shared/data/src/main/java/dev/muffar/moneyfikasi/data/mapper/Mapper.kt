@@ -102,7 +102,7 @@ fun PresetWithDetails.toDomain(): Preset {
         type = this.preset.type,
         wallet = this.wallet?.toDomain(),
         category = this.category?.toDomain(),
-        note = this.preset.note
+        description = this.preset.description
     )
 }
 
@@ -114,6 +114,6 @@ fun Preset.toEntity(): PresetEntity {
         type = this.type,
         walletId = this.wallet?.id,
         categoryId = this.category?.id,
-        note = this.note
+        description = this.description
     )
 }

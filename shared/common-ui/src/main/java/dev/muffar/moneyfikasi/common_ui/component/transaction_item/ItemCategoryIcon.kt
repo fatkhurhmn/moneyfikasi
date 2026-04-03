@@ -9,17 +9,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.IconByName
+import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 import dev.muffar.moneyfikasi.domain.model.Category
 
 @Composable
-fun ItemCategoryIcon(category: Category) {
+fun ItemCategoryIcon(category: Category?) {
+    val color = if (category != null) Color(category.color) else MainColor.LightGray
     Card(
         colors = CardDefaults.cardColors(
-            containerColor = Color(category.color),
+            containerColor = color,
         ),
     ) {
         IconByName(
-            name = category.icon,
+            name = category?.icon,
             tint = Color.White,
             modifier = Modifier
                 .padding(8.dp)

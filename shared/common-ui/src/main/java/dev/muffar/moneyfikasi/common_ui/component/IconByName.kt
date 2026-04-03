@@ -1,5 +1,7 @@
 package dev.muffar.moneyfikasi.common_ui.component
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.QuestionMark
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
@@ -10,13 +12,17 @@ import dev.muffar.moneyfikasi.domain.model.AppIcon
 
 @Composable
 fun IconByName(
-    name: String,
+    name: String?,
     modifier: Modifier = Modifier,
     tint: Color = LocalContentColor.current,
 ) {
-    val icon = AppIcon.fromName(name)
+    val icon = if (name != null) {
+        AppIcon.fromName(name).toImageVector()
+    } else {
+        Icons.Default.QuestionMark
+    }
     Icon(
-        imageVector = icon.toImageVector(),
+        imageVector = icon,
         contentDescription = "$name icon",
         modifier = modifier,
         tint = tint

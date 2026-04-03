@@ -51,7 +51,7 @@ class AddEditPresetViewModel @Inject constructor(
             is AddEditPresetEvent.AmountChanged -> onAmountChange(event.amount)
             is AddEditPresetEvent.CategoryChanged -> onCategorySelect(event.category)
             is AddEditPresetEvent.WalletChanged -> onWalletSelect(event.wallet)
-            is AddEditPresetEvent.NoteChanged -> onNoteChange(event.note)
+            is AddEditPresetEvent.DescriptionChanged -> onDescriptionChange(event.description)
             is AddEditPresetEvent.SavePreset -> onSavePreset()
         }
     }
@@ -69,7 +69,7 @@ class AddEditPresetViewModel @Inject constructor(
                             type = it.type,
                             category = it.category,
                             wallet = it.wallet,
-                            note = it.note ?: ""
+                            description = it.description ?: ""
                         )
                     }
                 }
@@ -115,9 +115,9 @@ class AddEditPresetViewModel @Inject constructor(
         _state.update { it.copy(amount = amount) }
     }
 
-    private fun onNoteChange(note: String) {
-        if (note.length > 255) return
-        _state.update { it.copy(note = note) }
+    private fun onDescriptionChange(description: String) {
+        if (description.length > 255) return
+        _state.update { it.copy(description = description) }
     }
 
     private fun onCategorySelect(category: Category) {
@@ -140,7 +140,7 @@ class AddEditPresetViewModel @Inject constructor(
                     type = state.type,
                     category = state.category,
                     wallet = state.wallet,
-                    note = state.note.trim()
+                    description = state.description.trim()
                 )
                 presetUseCases.upsertPreset(preset)
                 _eventFlow.emit(UiEvent.SavePreset)

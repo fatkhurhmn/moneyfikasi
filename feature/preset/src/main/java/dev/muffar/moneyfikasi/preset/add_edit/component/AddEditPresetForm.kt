@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.text_input.AmountInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CategoryInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
-import dev.muffar.moneyfikasi.common_ui.component.text_input.NoteInput
+import dev.muffar.moneyfikasi.common_ui.component.text_input.DescriptionInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.WalletInput
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.Wallet
@@ -27,7 +27,7 @@ fun AddEditPresetForm(
     onAddNewCategoryClick: () -> Unit,
     onWalletChange: (Wallet) -> Unit,
     onAddNewWalletClick: () -> Unit,
-    onNoteChange: (String) -> Unit,
+    onDescriptionChange: (String) -> Unit,
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -39,6 +39,11 @@ fun AddEditPresetForm(
             label = stringResource(R.string.preset_name),
             placeholder = stringResource(R.string.enter_preset_name),
             error = state.nameError
+        )
+
+        DescriptionInput(
+            description = state.description,
+            onDescriptionChange = onDescriptionChange
         )
 
         AmountInput(
@@ -58,11 +63,6 @@ fun AddEditPresetForm(
             walletOptions = state.wallets,
             onWalletSelect = onWalletChange,
             onAddNewWalletClick = onAddNewWalletClick,
-        )
-
-        NoteInput(
-            note = state.note,
-            onNoteChange = onNoteChange
         )
     }
 }

@@ -50,7 +50,7 @@ fun NavGraphBuilder.addEditPresetNavigation(
             onAddNewCategoryClick = {},
             onAddNewWalletClick = {},
             onWalletChange = { event(AddEditPresetEvent.WalletChanged(it)) },
-            onNoteChange = { event(AddEditPresetEvent.NoteChanged(it)) },
+            onDescriptionChange = { event(AddEditPresetEvent.DescriptionChanged(it)) },
             onSaveClick = { event(AddEditPresetEvent.SavePreset) },
             onBackClick = navigateBack
         )
