@@ -52,7 +52,9 @@ fun NavGraphBuilder.addEditPresetNavigation(
             onWalletChange = { event(AddEditPresetEvent.WalletChanged(it)) },
             onDescriptionChange = { event(AddEditPresetEvent.DescriptionChanged(it)) },
             onSaveClick = { event(AddEditPresetEvent.SavePreset) },
-            onBackClick = navigateBack
+            onBackClick = navigateBack,
+            onDeleteClick = { event(AddEditPresetEvent.DeletePreset) },
+            onShowDeleteAlert = { event(AddEditPresetEvent.ShowDeleteAlert(it)) },
         )
     }
 }

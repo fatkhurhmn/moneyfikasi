@@ -54,6 +54,8 @@ class AddEditPresetViewModel @Inject constructor(
             is AddEditPresetEvent.WalletChanged -> onWalletSelect(event.wallet)
             is AddEditPresetEvent.DescriptionChanged -> onDescriptionChange(event.description)
             is AddEditPresetEvent.SavePreset -> onSavePreset()
+            is AddEditPresetEvent.DeletePreset -> onDeletePreset()
+            is AddEditPresetEvent.ShowDeleteAlert -> onShowDeleteAlert(event.show)
         }
     }
 
@@ -73,6 +75,7 @@ class AddEditPresetViewModel @Inject constructor(
                             description = it.description ?: ""
                         )
                     }
+                    loadCategories()
                 }
             }
         }
@@ -129,25 +132,33 @@ class AddEditPresetViewModel @Inject constructor(
         _state.update { it.copy(wallet = wallet) }
     }
 
+    private fun onShowDeleteAlert(show: Boolean) {
+        _state.update { it.copy(showAlert = show) }
+    }
+
     private fun onSavePreset() {
         val state = state.value
         if (!isFormValid()) return
         viewModelScope.launch {
             try {
-                val preset = Preset(
-                    id = state.id ?: UUID.randomUUID(),
-                    name = state.name,
-                    amount = state.amount.clearThousandFormat().toDouble(),
-                    type = state.type,
-                    category = state.category,
-                    wallet = state.wallet,
-                    description = state.description.trim()
-                )
-                presetUseCases.upsertPreset(preset)
+                presetUseCases.upsertPreset(state.preset)
                 _eventFlow.emit(UiEvent.SavePreset)
             } catch (e: Exception) {
                 e.printStackTrace()
                 _eventFlow.emit(UiEvent.ShowMessage("Failed to save preset", SnackbarType.ERROR))
+            }
+        }
+    }
+
+    private fun onDeletePreset() {
+        val state = state.value
+        viewModelScope.launch {
+            try {
+                presetUseCases.deletePreset(state.preset)
+                _eventFlow.emit(UiEvent.DeletePreset)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _eventFlow.emit(UiEvent.ShowMessage("Failed to delete preset", SnackbarType.ERROR))
             }
         }
     }
@@ -160,5 +171,6 @@ class AddEditPresetViewModel @Inject constructor(
     sealed class UiEvent {
         data class ShowMessage(val message: String, val type: SnackbarType) : UiEvent()
         data object SavePreset : UiEvent()
+        data object DeletePreset : UiEvent()
     }
 }

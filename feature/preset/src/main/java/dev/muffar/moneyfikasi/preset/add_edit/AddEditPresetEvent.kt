@@ -12,4 +12,6 @@ sealed class AddEditPresetEvent {
     data class WalletChanged(val wallet: Wallet?) : AddEditPresetEvent()
     data class DescriptionChanged(val description: String) : AddEditPresetEvent()
     data object SavePreset : AddEditPresetEvent()
+    data object DeletePreset : AddEditPresetEvent()
+    data class ShowDeleteAlert(val show: Boolean) : AddEditPresetEvent()
 }

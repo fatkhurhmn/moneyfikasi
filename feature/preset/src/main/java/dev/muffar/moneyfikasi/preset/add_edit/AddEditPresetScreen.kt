@@ -13,7 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.CommonAlertDialog
 import dev.muffar.moneyfikasi.common_ui.component.button.BottomBarSaveButton
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
@@ -21,6 +23,7 @@ import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.preset.add_edit.component.AddEditPresetForm
 import dev.muffar.moneyfikasi.preset.add_edit.component.AddEditPresetTopBar
+import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
 
@@ -37,6 +40,8 @@ fun AddEditPresetScreen(
     onAddNewWalletClick: () -> Unit,
     onDescriptionChange: (String) -> Unit,
     onSaveClick: () -> Unit,
+    onDeleteClick: () -> Unit,
+    onShowDeleteAlert: (Boolean) -> Unit,
     onBackClick: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -46,8 +51,10 @@ fun AddEditPresetScreen(
         snackbarHost = { SnackbarMessage(state = snackbarHostState) },
         topBar = {
             AddEditPresetTopBar(
+                isEditMode = state.id != null,
                 type = state.type,
-                onBackClick = onBackClick
+                onBackClick = onBackClick,
+                onDeleteClick = { onShowDeleteAlert(true) }
             )
         },
         bottomBar = { BottomBarSaveButton(onSaveClick) }
@@ -70,10 +77,25 @@ fun AddEditPresetScreen(
         )
     }
 
+    if (state.showAlert) {
+        CommonAlertDialog(
+            title = stringResource(R.string.delete_preset),
+            message = stringResource(R.string.delete_preset_message),
+            onConfirm = {
+                onDeleteClick()
+                onShowDeleteAlert(false)
+            },
+            onDismiss = { onShowDeleteAlert(false) },
+            positiveText = stringResource(R.string.delete),
+            negativeText = stringResource(R.string.cancel)
+        )
+    }
+
     LaunchedEffect(eventFlow) {
         eventFlow.collectLatest {
             when (it) {
                 is AddEditPresetViewModel.UiEvent.SavePreset -> onBackClick()
+                is AddEditPresetViewModel.UiEvent.DeletePreset -> onBackClick()
                 is AddEditPresetViewModel.UiEvent.ShowMessage -> snackbarHostState.showMessage(
                     it.message,
                     it.type
