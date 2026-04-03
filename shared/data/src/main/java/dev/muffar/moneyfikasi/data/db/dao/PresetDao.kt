@@ -1,0 +1,34 @@
+package dev.muffar.moneyfikasi.data.db.dao
+
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Transaction
+import androidx.room.Update
+import dev.muffar.moneyfikasi.data.db.entity.PresetEntity
+import dev.muffar.moneyfikasi.data.db.entity.PresetWithDetails
+import kotlinx.coroutines.flow.Flow
+import java.util.UUID
+
+@Dao
+interface PresetDao {
+
+    @Transaction
+    @Query("SELECT * FROM presets")
+    fun getAllPresets(): Flow<List<PresetWithDetails>>
+
+    @Transaction
+    @Query("SELECT * FROM presets WHERE id = :id")
+    suspend fun getPresetById(id: UUID): PresetWithDetails?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertPreset(preset: PresetEntity)
+
+    @Update
+    suspend fun updatePreset(preset: PresetEntity)
+
+    @Delete
+    suspend fun deletePreset(preset: PresetEntity)
+}

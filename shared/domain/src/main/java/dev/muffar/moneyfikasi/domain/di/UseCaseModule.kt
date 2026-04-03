@@ -7,6 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import dev.muffar.moneyfikasi.domain.repository.BackupRestoreRepository
 import dev.muffar.moneyfikasi.domain.repository.CategoryRepository
 import dev.muffar.moneyfikasi.domain.repository.PreferencesRepository
+import dev.muffar.moneyfikasi.domain.repository.PresetRepository
 import dev.muffar.moneyfikasi.domain.repository.TransactionRepository
 import dev.muffar.moneyfikasi.domain.repository.WalletRepository
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupData
@@ -23,6 +24,11 @@ import dev.muffar.moneyfikasi.domain.usecase.preferences.IsReportVisible
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.SetBalanceVisibility
 import dev.muffar.moneyfikasi.domain.usecase.preferences.SetReportVisibility
+import dev.muffar.moneyfikasi.domain.usecase.preset.DeletePreset
+import dev.muffar.moneyfikasi.domain.usecase.preset.GetAllPresets
+import dev.muffar.moneyfikasi.domain.usecase.preset.GetPresetById
+import dev.muffar.moneyfikasi.domain.usecase.preset.PresetUseCases
+import dev.muffar.moneyfikasi.domain.usecase.preset.UpsertPreset
 import dev.muffar.moneyfikasi.domain.usecase.transaction.AddTransaction
 import dev.muffar.moneyfikasi.domain.usecase.transaction.AddTransfer
 import dev.muffar.moneyfikasi.domain.usecase.transaction.DeleteTransaction
@@ -105,5 +111,15 @@ object UseCaseModule {
         isBalanceVisible = IsBalanceVisible(preferencesRepository),
         setReportVisibility = SetReportVisibility(preferencesRepository),
         isReportVisible = IsReportVisible(preferencesRepository),
+    )
+
+    @Provides
+    fun providePresetUseCases(
+        presetRepository: PresetRepository,
+    ) = PresetUseCases(
+        getAllPresets = GetAllPresets(presetRepository),
+        getPresetById = GetPresetById(presetRepository),
+        upsertPreset = UpsertPreset(presetRepository),
+        deletePreset = DeletePreset(presetRepository)
     )
 }

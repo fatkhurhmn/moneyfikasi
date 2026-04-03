@@ -1,12 +1,15 @@
 package dev.muffar.moneyfikasi.data.mapper
 
 import dev.muffar.moneyfikasi.data.db.entity.CategoryEntity
+import dev.muffar.moneyfikasi.data.db.entity.PresetEntity
+import dev.muffar.moneyfikasi.data.db.entity.PresetWithDetails
 import dev.muffar.moneyfikasi.data.db.entity.TransactionEntity
 import dev.muffar.moneyfikasi.data.db.entity.TransactionWithDetails
 import dev.muffar.moneyfikasi.data.db.entity.WalletEntity
 import dev.muffar.moneyfikasi.domain.model.AppIcon
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.CategoryType
+import dev.muffar.moneyfikasi.domain.model.Preset
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.model.Wallet
 
@@ -85,6 +88,32 @@ fun Transaction.toEntity(): TransactionEntity {
         type = this.type,
         amount = this.amount,
         date = this.date,
+        note = this.note
+    )
+}
+
+// --- Preset Mappers ---
+
+fun PresetWithDetails.toDomain(): Preset {
+    return Preset(
+        id = this.preset.id,
+        name = this.preset.name,
+        amount = this.preset.amount,
+        type = this.preset.type,
+        wallet = this.wallet.toDomain(),
+        category = this.category.toDomain(),
+        note = this.preset.note
+    )
+}
+
+fun Preset.toEntity(): PresetEntity {
+    return PresetEntity(
+        id = this.id,
+        name = this.name,
+        amount = this.amount,
+        type = this.type,
+        walletId = this.wallet.id,
+        categoryId = this.category.id,
         note = this.note
     )
 }

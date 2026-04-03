@@ -6,19 +6,22 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import dev.muffar.moneyfikasi.data.db.dao.CategoryDao
+import dev.muffar.moneyfikasi.data.db.dao.PresetDao
 import dev.muffar.moneyfikasi.data.db.dao.TransactionDao
 import dev.muffar.moneyfikasi.data.db.dao.WalletDao
 import dev.muffar.moneyfikasi.data.db.entity.CategoryEntity
+import dev.muffar.moneyfikasi.data.db.entity.PresetEntity
 import dev.muffar.moneyfikasi.data.db.entity.TransactionEntity
 import dev.muffar.moneyfikasi.data.db.entity.WalletEntity
 import dev.muffar.moneyfikasi.data.utils.PrepopulateDbCallback
 
 @Database(
-    version = 1,
+    version = 2,
     entities = [
         CategoryEntity::class,
         TransactionEntity::class,
         WalletEntity::class,
+        PresetEntity::class,
     ],
     exportSchema = true
 )
@@ -28,6 +31,7 @@ abstract class MoneyfikasiDatabase : RoomDatabase() {
     abstract fun categoryDao(): CategoryDao
     abstract fun transactionDao(): TransactionDao
     abstract fun walletDao(): WalletDao
+    abstract fun presetDao(): PresetDao
 
     companion object {
         const val DATABASE_NAME = "moneyfikasi"
