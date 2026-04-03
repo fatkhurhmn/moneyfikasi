@@ -55,13 +55,10 @@ fun PresetItem(
                 )
             }
         }
+        Spacer(modifier = Modifier.width(8.dp))
         Column(
             horizontalAlignment = Alignment.End
         ) {
-            Text(
-                text = preset.amount?.formatThousand() ?: "0",
-                style = MaterialTheme.typography.titleMedium
-            )
             val wallet = preset.wallet
             if (wallet != null) {
                 Text(
@@ -72,6 +69,10 @@ fun PresetItem(
                     color = Color(wallet.color)
                 )
             }
+            Text(
+                text = preset.amount?.formatThousand() ?: "0",
+                style = MaterialTheme.typography.titleMedium
+            )
         }
     }
 }

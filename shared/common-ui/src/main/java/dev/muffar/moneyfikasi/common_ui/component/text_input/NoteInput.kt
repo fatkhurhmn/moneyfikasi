@@ -21,6 +21,7 @@ fun NoteInput(
         placeholder = stringResource(R.string.enter_note),
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Done,
-        )
+        ),
+        onClear = { onNoteChange("") }
     )
 }

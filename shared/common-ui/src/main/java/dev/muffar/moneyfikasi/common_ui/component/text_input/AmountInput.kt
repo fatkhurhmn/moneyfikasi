@@ -23,7 +23,8 @@ import dev.muffar.moneyfikasi.utils.extensions.formatThousand
 fun AmountInput(
     amount: String,
     error: ErrorMessage = ErrorMessage(),
-    onAmountChange: (String) -> Unit
+    onAmountChange: (String) -> Unit,
+    onClear: () -> Unit = {}
 ) {
     var showAmountInputSheet by remember { mutableStateOf(false) }
     Column {
@@ -39,7 +40,8 @@ fun AmountInput(
                 imeAction = ImeAction.Done,
                 keyboardType = KeyboardType.Number
             ),
-            onClick = { showAmountInputSheet = true }
+            onClick = { showAmountInputSheet = true },
+            onClear = onClear
         )
 
         AnimatedVisibility(showAmountInputSheet) {

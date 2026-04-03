@@ -27,7 +27,8 @@ fun WalletInput(
     label: String = stringResource(R.string.wallet),
     walletOptions: List<Wallet>,
     onWalletSelect: (Wallet) -> Unit,
-    onAddNewWalletClick: () -> Unit
+    onAddNewWalletClick: () -> Unit,
+    onClear: () -> Unit = {}
 ) {
 
     var showWalletPicker by remember { mutableStateOf(false) }
@@ -40,6 +41,7 @@ fun WalletInput(
                 modifier = Modifier.weight(1f),
                 value = wallet.name,
                 onValueChange = {},
+                onClear = onClear,
                 label = label,
                 placeholder = stringResource(R.string.select_wallet),
                 isClickable = true,

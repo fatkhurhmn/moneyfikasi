@@ -15,6 +15,7 @@ import dev.muffar.moneyfikasi.domain.usecase.preset.PresetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.utils.extensions.clearThousandFormat
+import dev.muffar.moneyfikasi.utils.extensions.formatThousand
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -65,7 +66,7 @@ class AddEditPresetViewModel @Inject constructor(
                         state.copy(
                             id = it.id,
                             name = it.name,
-                            amount = it.amount.toString(),
+                            amount = it.amount?.formatThousand() ?: "0",
                             type = it.type,
                             category = it.category,
                             wallet = it.wallet,
@@ -120,11 +121,11 @@ class AddEditPresetViewModel @Inject constructor(
         _state.update { it.copy(description = description) }
     }
 
-    private fun onCategorySelect(category: Category) {
+    private fun onCategorySelect(category: Category?) {
         _state.update { it.copy(category = category) }
     }
 
-    private fun onWalletSelect(wallet: Wallet) {
+    private fun onWalletSelect(wallet: Wallet?) {
         _state.update { it.copy(wallet = wallet) }
     }
 

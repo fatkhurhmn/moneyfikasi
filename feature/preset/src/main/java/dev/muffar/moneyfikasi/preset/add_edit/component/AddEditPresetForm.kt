@@ -23,9 +23,9 @@ fun AddEditPresetForm(
     state: AddEditPresetState,
     onNameChange: (String) -> Unit,
     onAmountChange: (String) -> Unit,
-    onCategoryChange: (Category) -> Unit,
+    onCategoryChange: (Category?) -> Unit,
     onAddNewCategoryClick: () -> Unit,
-    onWalletChange: (Wallet) -> Unit,
+    onWalletChange: (Wallet?) -> Unit,
     onAddNewWalletClick: () -> Unit,
     onDescriptionChange: (String) -> Unit,
 ) {
@@ -49,6 +49,7 @@ fun AddEditPresetForm(
         AmountInput(
             amount = state.amount,
             onAmountChange = onAmountChange,
+            onClear = { onAmountChange("0") }
         )
 
         CategoryInput(
@@ -56,6 +57,7 @@ fun AddEditPresetForm(
             categoryOptions = state.categories,
             onCategorySelect = onCategoryChange,
             onAddNewCategoryClick = onAddNewCategoryClick,
+            onClear = { onCategoryChange(null) }
         )
 
         WalletInput(
@@ -63,6 +65,7 @@ fun AddEditPresetForm(
             walletOptions = state.wallets,
             onWalletSelect = onWalletChange,
             onAddNewWalletClick = onAddNewWalletClick,
+            onClear = { onWalletChange(null) }
         )
     }
 }

@@ -4,8 +4,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Clear
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -21,6 +25,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.keyboardAsState
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 
@@ -38,6 +43,7 @@ fun CommonTextInput(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     onClick: () -> Unit = {},
+    onClear: (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
 ) {
 
@@ -69,7 +75,18 @@ fun CommonTextInput(
             readOnly = if (isClickable) true else readOnly,
             keyboardActions = keyboardActions,
             keyboardOptions = keyboardOptions,
-            leadingIcon = leadingIcon
+            leadingIcon = leadingIcon,
+            trailingIcon = if (onClear != null && value.isNotEmpty() && value != "0") {
+                {
+                    Icon(
+                        imageVector = Icons.Rounded.Clear,
+                        contentDescription = "Clear",
+                        modifier = Modifier
+                            .size(16.dp)
+                            .clickable { onClear() }
+                    )
+                }
+            } else null
         )
         TextInputError(error)
     }
