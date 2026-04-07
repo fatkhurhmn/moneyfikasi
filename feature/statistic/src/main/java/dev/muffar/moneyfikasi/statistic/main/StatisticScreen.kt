@@ -10,12 +10,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.component.CommonTabs
+import dev.muffar.moneyfikasi.common_ui.component.tabs.IncomeExpenseTabs
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.ChooseDateSheet
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.CustomDateSheet
 import dev.muffar.moneyfikasi.common_ui.component.calendar_header.DateRangeSwitcher
-import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
-import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticOverviewSection
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticTopBar
@@ -34,10 +32,6 @@ fun StatisticScreen(
     onShowChooseDateSheet: (Boolean) -> Unit,
     onShowCustomDateSheet: (Boolean) -> Unit,
 ) {
-    val tabs = mapOf(
-        CategoryType.INCOME.name to MainColor.Green.primary,
-        CategoryType.EXPENSE.name to MainColor.Red.primary,
-    )
     val pagerState = rememberPagerState { state.tabs.size }
 
     Scaffold(
@@ -59,8 +53,7 @@ fun StatisticScreen(
                 total = state.overviewTotal
             )
 
-            CommonTabs(
-                tabs = tabs,
+            IncomeExpenseTabs(
                 pagerState = pagerState
             ) { index ->
                 when (index) {

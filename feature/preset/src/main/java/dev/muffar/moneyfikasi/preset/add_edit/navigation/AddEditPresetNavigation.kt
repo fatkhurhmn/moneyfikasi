@@ -38,23 +38,26 @@ fun NavGraphBuilder.addEditPresetNavigation(
         }
 
         LaunchedEffect(Unit) {
-            event(AddEditPresetEvent.InitType(type ?: TransactionType.EXPENSE))
+            event(AddEditPresetEvent.TypeChanged(type ?: TransactionType.EXPENSE))
         }
 
         AddEditPresetScreen(
             state = state,
             eventFlow = viewModel.eventFlow,
-            onNameChange = { event(AddEditPresetEvent.NameChanged(it)) },
-            onAmountChange = { event(AddEditPresetEvent.AmountChanged(it)) },
-            onCategoryChange = { event(AddEditPresetEvent.CategoryChanged(it)) },
+            onTypeChange = { type -> event(AddEditPresetEvent.TypeChanged(type)) },
+            onNameChange = { name -> event(AddEditPresetEvent.NameChanged(name)) },
+            onAmountChange = { amount -> event(AddEditPresetEvent.AmountChanged(amount)) },
+            onCategoryChange = { category -> event(AddEditPresetEvent.CategoryChanged(category)) },
             onAddNewCategoryClick = {},
             onAddNewWalletClick = {},
-            onWalletChange = { event(AddEditPresetEvent.WalletChanged(it)) },
-            onDescriptionChange = { event(AddEditPresetEvent.DescriptionChanged(it)) },
+            onWalletChange = { wallet -> event(AddEditPresetEvent.WalletChanged(wallet)) },
+            onDescriptionChange = { description ->
+                event(AddEditPresetEvent.DescriptionChanged(description))
+            },
             onSaveClick = { event(AddEditPresetEvent.SavePreset) },
             onBackClick = navigateBack,
             onDeleteClick = { event(AddEditPresetEvent.DeletePreset) },
-            onShowDeleteAlert = { event(AddEditPresetEvent.ShowDeleteAlert(it)) },
+            onShowDeleteAlert = { show -> event(AddEditPresetEvent.ShowDeleteAlert(show)) }
         )
     }
 }

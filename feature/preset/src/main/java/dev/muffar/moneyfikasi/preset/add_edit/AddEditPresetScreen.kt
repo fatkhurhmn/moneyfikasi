@@ -20,6 +20,7 @@ import dev.muffar.moneyfikasi.common_ui.component.button.BottomBarSaveButton
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.domain.model.Category
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.preset.add_edit.component.AddEditPresetForm
 import dev.muffar.moneyfikasi.preset.add_edit.component.AddEditPresetTopBar
@@ -32,6 +33,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun AddEditPresetScreen(
     state: AddEditPresetState,
     eventFlow: SharedFlow<AddEditPresetViewModel.UiEvent>,
+    onTypeChange: (TransactionType) -> Unit,
     onNameChange: (String) -> Unit,
     onAmountChange: (String) -> Unit,
     onCategoryChange: (Category?) -> Unit,
@@ -67,6 +69,7 @@ fun AddEditPresetScreen(
                 .verticalScroll(scrollState)
                 .padding(16.dp),
             state = state,
+            onTypeChange = onTypeChange,
             onNameChange = onNameChange,
             onAmountChange = onAmountChange,
             onCategoryChange = onCategoryChange,

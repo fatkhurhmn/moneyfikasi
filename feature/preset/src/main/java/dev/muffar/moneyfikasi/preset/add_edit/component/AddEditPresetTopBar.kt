@@ -17,7 +17,7 @@ fun AddEditPresetTopBar(
     onDeleteClick: () -> Unit,
 ) {
     CommonTopAppBar(
-        title = "Preset ${type.name.lowercase().capitalize()}",
+        title = "${type.name.lowercase().capitalize()} Preset",
         onBackClick = onBackClick,
         action = {
             if (isEditMode) {

@@ -41,7 +41,7 @@ fun SettingsScreen(
                 onClick = onCategoriesClick
             )
             SettingsItem(
-                title = stringResource(R.string.preset),
+                title = stringResource(R.string.presets),
                 icon = painterResource(id = R.drawable.ic_ink),
                 onClick = onPresetClick
             )

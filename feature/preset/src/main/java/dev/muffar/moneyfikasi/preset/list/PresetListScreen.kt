@@ -7,10 +7,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import dev.muffar.moneyfikasi.common_ui.component.CommonTabs
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
+import dev.muffar.moneyfikasi.common_ui.component.tabs.IncomeExpenseTabs
 import dev.muffar.moneyfikasi.common_ui.component.button.CommonAddButton
-import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.preset.list.component.PresetsContent
 import dev.muffar.moneyfikasi.resource.R
@@ -27,17 +26,12 @@ fun PresetListScreen(
 ) {
     val incomePresets = state.presets.filter { it.type == TransactionType.INCOME }
     val expensePresets = state.presets.filter { it.type == TransactionType.EXPENSE }
-
-    val tabs = mapOf(
-        TransactionType.INCOME.name to MainColor.Green.primary,
-        TransactionType.EXPENSE.name to MainColor.Red.primary,
-    )
     val pagerState = rememberPagerState { state.tabs.size }
 
     Scaffold(
         topBar = {
             CommonTopAppBar(
-                title = stringResource(R.string.preset),
+                title = stringResource(R.string.presets),
                 onBackClick = onBackClick
             )
         },
@@ -50,9 +44,8 @@ fun PresetListScreen(
             )
         }
     ) { paddingValues ->
-        CommonTabs(
+        IncomeExpenseTabs(
             modifier = modifier.padding(paddingValues),
-            tabs = tabs,
             pagerState = pagerState
         ) { index ->
             when (index) {

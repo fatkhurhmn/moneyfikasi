@@ -7,14 +7,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
-import dev.muffar.moneyfikasi.domain.model.Preset
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preset.PresetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
-import dev.muffar.moneyfikasi.utils.extensions.clearThousandFormat
 import dev.muffar.moneyfikasi.utils.extensions.formatThousand
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -47,7 +45,7 @@ class AddEditPresetViewModel @Inject constructor(
 
     fun onEvent(event: AddEditPresetEvent) {
         when (event) {
-            is AddEditPresetEvent.InitType -> onInitType(event.type)
+            is AddEditPresetEvent.TypeChanged -> onTypeChange(event.type)
             is AddEditPresetEvent.NameChanged -> onNameChange(event.name)
             is AddEditPresetEvent.AmountChanged -> onAmountChange(event.amount)
             is AddEditPresetEvent.CategoryChanged -> onCategorySelect(event.category)
@@ -98,7 +96,7 @@ class AddEditPresetViewModel @Inject constructor(
         }
     }
 
-    private fun onInitType(type: TransactionType) {
+    private fun onTypeChange(type: TransactionType) {
         _state.update { it.copy(type = type) }
         loadCategories()
     }
