@@ -48,7 +48,9 @@ fun RootNavigation(
                     restoreState = true
                 }
             },
-            onPresetClick = {},
+            onPresetClick = { type, id ->
+                navController.toAddEditTransactionScreen(type = type, presetId = id)
+            },
         )
 
         transactionsNavGraph(

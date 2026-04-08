@@ -33,12 +33,14 @@ sealed class Screen(val route: String) {
 
     data object Transactions : Screen("transactions")
     data object AddEditTransaction :
-        Screen("add_edit_transaction/{type}?transaction_id={transaction_id}") {
+        Screen("add_edit_transaction/{type}?transaction_id={transaction_id}&preset_id={preset_id}") {
         const val TYPE = "type"
         const val TRANSACTION_ID = "transaction_id"
-        fun routeWithArg(type: TransactionType, id: UUID? = null): String {
+        const val PRESET_ID = "preset_id"
+        fun routeWithArg(type: TransactionType, id: UUID? = null, presetId: UUID? = null): String {
             val transactionId = id?.toString() ?: ""
-            return "add_edit_transaction/$type?$TRANSACTION_ID=$transactionId"
+            val pId = presetId?.toString() ?: ""
+            return "add_edit_transaction/$type?$TRANSACTION_ID=$transactionId&$PRESET_ID=$pId"
         }
     }
 

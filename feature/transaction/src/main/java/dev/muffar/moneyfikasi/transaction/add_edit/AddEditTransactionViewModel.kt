@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.transaction.add_edit
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +11,7 @@ import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
+import dev.muffar.moneyfikasi.domain.usecase.preset.PresetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
@@ -36,6 +38,7 @@ class AddEditTransactionViewModel @Inject constructor(
     private val transactionUseCases: TransactionUseCases,
     private val categoryUseCases: CategoryUseCases,
     private val walletUseCases: WalletUseCases,
+    private val presetUseCases: PresetUseCases,
     private val handle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -64,34 +67,65 @@ class AddEditTransactionViewModel @Inject constructor(
     }
 
     private fun initState() {
-        handle.get<String>(Screen.AddEditTransaction.TRANSACTION_ID)?.let { id ->
-            if (id.isEmpty()) return
-            val transactionId = UUID.fromString(id)
-            viewModelScope.launch {
-                transactionUseCases.getTransactionById(transactionId)?.let { transaction ->
-                    _state.update { state ->
-                        val date = transaction.date.toMilliseconds()
-                        with(transaction) {
-                            state.copy(
-                                id = transactionId,
-                                type = type,
-                                amount = amount.formatThousand(),
-                                category = category,
-                                wallet = wallet,
-                                note = note ?: "",
-                                date = date,
-                                hour = date.toFormattedDateTime("H").toInt(),
-                                minute = date.toFormattedDateTime("mm").toInt()
-                            )
-                        }
-                    }
+        val transactionIdStr = handle.get<String>(Screen.AddEditTransaction.TRANSACTION_ID)
+        val presetIdStr = handle.get<String>(Screen.AddEditTransaction.PRESET_ID)
+
+        if (!transactionIdStr.isNullOrEmpty()) {
+            val transactionId = UUID.fromString(transactionIdStr)
+            populateTransaction(transactionId)
+        } else if (!presetIdStr.isNullOrEmpty()) {
+            val presetId = UUID.fromString(presetIdStr)
+            populatePreset(presetId)
+        }
+    }
+
+    private fun populateTransaction(transactionId: UUID) {
+        viewModelScope.launch {
+            transactionUseCases.getTransactionById(transactionId)?.let { transaction ->
+                _state.update { state ->
+                    val date = transaction.date.toMilliseconds()
+                    state.copy(
+                        id = transactionId,
+                        type = transaction.type,
+                        amount = transaction.amount.formatThousand(),
+                        category = transaction.category,
+                        wallet = transaction.wallet,
+                        note = transaction.note ?: "",
+                        date = date,
+                        hour = date.toFormattedDateTime("H").toInt(),
+                        minute = date.toFormattedDateTime("mm").toInt()
+                    )
                 }
+                loadCategories()
+            }
+        }
+    }
+
+    private fun populatePreset(presetId: UUID) {
+        viewModelScope.launch {
+            presetUseCases.getPresetById(presetId)?.let { preset ->
+                _state.update { state ->
+                    state.copy(
+                        type = preset.type,
+                        amount = preset.amount?.formatThousand() ?: "0",
+                        category = preset.category ?: Category(),
+                        wallet = preset.wallet ?: Wallet(),
+                        note = preset.description ?: ""
+                    )
+                }
+                loadCategories()
             }
         }
     }
 
     private fun onTypeChanged(type: TransactionType) {
-        _state.update { it.copy(type = type, category = Category()) }
+        val isChanged = state.value.type != type
+        _state.update {
+            it.copy(
+                type = type,
+                category = if (isChanged) Category() else it.category
+            )
+        }
         loadCategories()
     }
 

@@ -13,13 +13,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.Preset
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.resource.R
 import java.util.UUID
 
 @Composable
 fun QuickTransactionSection(
     presets: List<Preset>,
-    onPresetClick: (UUID) -> Unit,
+    onPresetClick: (TransactionType, UUID) -> Unit,
 ) {
     if (presets.isEmpty()) return
 
@@ -40,7 +41,7 @@ fun QuickTransactionSection(
             items(presets, key = { it.id }) { preset ->
                 QuickTransactionItem(
                     preset = preset,
-                    onClick = { onPresetClick(preset.id) }
+                    onClick = { onPresetClick(preset.type, preset.id) }
                 )
             }
         }

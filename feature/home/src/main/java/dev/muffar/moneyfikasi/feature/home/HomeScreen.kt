@@ -1,7 +1,6 @@
 package dev.muffar.moneyfikasi.feature.home
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.DateRange
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.feature.home.component.QuickTransactionSection
 import dev.muffar.moneyfikasi.feature.home.component.RecentTransactionsSection
 import dev.muffar.moneyfikasi.feature.home.component.ReportDateSheet
@@ -31,7 +31,7 @@ fun HomeScreen(
     onDateRangeChange: (DateRange) -> Unit,
     onSeeAllTransactionsClick: () -> Unit,
     onTransactionClick: (UUID, Boolean) -> Unit,
-    onPresetClick: (UUID) -> Unit,
+    onPresetClick: (TransactionType, UUID) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -53,8 +53,7 @@ fun HomeScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+                .verticalScroll(rememberScrollState())
         ) {
             ReportSection(
                 state = state,

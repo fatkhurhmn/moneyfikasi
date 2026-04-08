@@ -6,7 +6,9 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.navigation.Screen
@@ -20,7 +22,22 @@ fun NavGraphBuilder.addEditTransactionNavigation(
     onNavigateToAddWallet: () -> Unit,
     onNavigateToAddCategory: (CategoryType) -> Unit
 ) {
-    composable(Screen.AddEditTransaction.route) {
+    composable(
+        route = Screen.AddEditTransaction.route,
+        arguments = listOf(
+            navArgument(Screen.AddEditTransaction.TYPE) { type = NavType.StringType },
+            navArgument(Screen.AddEditTransaction.TRANSACTION_ID) {
+                type = NavType.StringType
+                nullable = true
+                defaultValue = null
+            },
+            navArgument(Screen.AddEditTransaction.PRESET_ID) {
+                type = NavType.StringType
+                nullable = true
+                defaultValue = null
+            }
+        )
+    ) {
         val viewModel = hiltViewModel<AddEditTransactionViewModel>()
         val state by viewModel.state.collectAsState()
         val event = viewModel::onEvent
@@ -66,6 +83,10 @@ fun NavGraphBuilder.addEditTransactionNavigation(
     }
 }
 
-fun NavController.toAddEditTransactionScreen(type: TransactionType, id: UUID? = null) {
-    navigate(Screen.AddEditTransaction.routeWithArg(type, id))
+fun NavController.toAddEditTransactionScreen(
+    type: TransactionType,
+    transactionId: UUID? = null,
+    presetId: UUID? = null
+) {
+    navigate(Screen.AddEditTransaction.routeWithArg(type, transactionId, presetId))
 }
