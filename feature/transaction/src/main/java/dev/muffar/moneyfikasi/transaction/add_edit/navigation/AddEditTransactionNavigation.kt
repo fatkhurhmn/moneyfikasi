@@ -31,12 +31,15 @@ fun NavGraphBuilder.addEditTransactionNavigation(
         }
 
         LaunchedEffect(Unit) {
-            event(AddEditTransactionEvent.InitType(type ?: TransactionType.EXPENSE))
+            event(AddEditTransactionEvent.TypeChanged(type ?: TransactionType.EXPENSE))
         }
 
         AddEditTransactionScreen(
             state = state,
             eventFlow = eventFlow,
+            onTypeChange = { type ->
+                event(AddEditTransactionEvent.TypeChanged(type))
+            },
             onAmountChange = { amount ->
                 event(AddEditTransactionEvent.AmountChanged(amount))
             },

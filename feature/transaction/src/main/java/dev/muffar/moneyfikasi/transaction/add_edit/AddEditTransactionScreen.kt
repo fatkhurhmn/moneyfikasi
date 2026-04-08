@@ -19,6 +19,7 @@ import dev.muffar.moneyfikasi.common_ui.component.button.BottomBarSaveButton
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.domain.model.Category
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionForm
 import kotlinx.coroutines.flow.SharedFlow
@@ -29,6 +30,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun AddEditTransactionScreen(
     state: AddEditTransactionState,
     eventFlow: SharedFlow<AddEditTransactionViewModel.UiEvent>,
+    onTypeChange: (TransactionType) -> Unit,
     onAmountChange: (String) -> Unit,
     onCategorySelect: (Category) -> Unit,
     onWalletSelect: (Wallet) -> Unit,
@@ -63,6 +65,7 @@ fun AddEditTransactionScreen(
                 .verticalScroll(scrollState)
                 .padding(16.dp),
             state = state,
+            onTypeChange = onTypeChange,
             onAmountChange = onAmountChange,
             onNoteChange = onNoteChange,
             onCategorySelect = onCategorySelect,

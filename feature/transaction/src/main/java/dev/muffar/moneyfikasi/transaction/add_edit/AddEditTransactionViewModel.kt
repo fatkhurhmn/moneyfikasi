@@ -47,11 +47,12 @@ class AddEditTransactionViewModel @Inject constructor(
 
     init {
         initState()
+        loadWallets()
     }
 
     fun onEvent(event: AddEditTransactionEvent) {
         when (event) {
-            is AddEditTransactionEvent.InitType -> setType(event.type)
+            is AddEditTransactionEvent.TypeChanged -> onTypeChanged(event.type)
             is AddEditTransactionEvent.AmountChanged -> onAmountChange(event.amount)
             is AddEditTransactionEvent.CategorySelected -> onCategorySelect(event.category)
             is AddEditTransactionEvent.WalletSelected -> onWalletSelect(event.wallet)
@@ -89,10 +90,9 @@ class AddEditTransactionViewModel @Inject constructor(
         }
     }
 
-    private fun setType(type: TransactionType) {
-        _state.update { it.copy(type = type) }
+    private fun onTypeChanged(type: TransactionType) {
+        _state.update { it.copy(type = type, category = Category()) }
         loadCategories()
-        loadWallets()
     }
 
     private fun loadCategories() {

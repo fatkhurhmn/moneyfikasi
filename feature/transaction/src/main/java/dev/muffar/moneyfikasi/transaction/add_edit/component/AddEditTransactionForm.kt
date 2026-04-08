@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.tabs.IncomeExpenseTabHeader
 import dev.muffar.moneyfikasi.common_ui.component.text_input.AmountInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CategoryInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.DateInput
@@ -16,6 +17,7 @@ import dev.muffar.moneyfikasi.common_ui.component.text_input.NoteInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.TimeInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.WalletInput
 import dev.muffar.moneyfikasi.domain.model.Category
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.transaction.add_edit.AddEditTransactionState
 
@@ -23,6 +25,7 @@ import dev.muffar.moneyfikasi.transaction.add_edit.AddEditTransactionState
 fun AddEditTransactionForm(
     modifier: Modifier = Modifier,
     state: AddEditTransactionState,
+    onTypeChange: (TransactionType) -> Unit,
     onAmountChange: (String) -> Unit,
     onNoteChange: (String) -> Unit,
     onCategorySelect: (Category) -> Unit,
@@ -36,6 +39,14 @@ fun AddEditTransactionForm(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        IncomeExpenseTabHeader(
+            selectedTab = if (state.type == TransactionType.INCOME) 0 else 1,
+            onTabSelected = {
+                val type = if (it == 0) TransactionType.INCOME else TransactionType.EXPENSE
+                onTypeChange(type)
+            }
+        )
+
         AmountInput(
             amount = state.amount,
             error = state.amountError,
