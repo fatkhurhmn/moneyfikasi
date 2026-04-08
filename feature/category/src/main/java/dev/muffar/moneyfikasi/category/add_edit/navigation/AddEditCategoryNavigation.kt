@@ -27,12 +27,13 @@ fun NavGraphBuilder.addEditCategoryNavigation(
         }
 
         LaunchedEffect(Unit) {
-            event(AddEditCategoryEvent.InitType(type ?: CategoryType.INCOME))
+            event(AddEditCategoryEvent.TypeChanged(type ?: CategoryType.INCOME))
         }
 
         AddEditCategoryScreen(
             state = state,
             eventFlow = viewModel.eventFlow,
+            onTypeChange = { type -> event(AddEditCategoryEvent.TypeChanged(type)) },
             onNameChange = { name ->
                 event(AddEditCategoryEvent.NameChanged(name))
             },

@@ -20,6 +20,7 @@ import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.common_ui.component.button.BottomBarAddEditButton
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
+import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -29,6 +30,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun AddEditCategoryScreen(
     state: AddEditCategoryState,
     eventFlow: SharedFlow<AddEditCategoryViewModel.UiEvent>,
+    onTypeChange: (CategoryType) -> Unit,
     onNameChange: (String) -> Unit,
     onIconSelect: (String) -> Unit,
     onColorSelect: (Long) -> Unit,
@@ -71,6 +73,7 @@ fun AddEditCategoryScreen(
                 .verticalScroll(scrollState)
                 .padding(16.dp),
             state = state,
+            onTypeChange = onTypeChange,
             onNameChange = onNameChange,
             onIconSelect = onIconSelect,
             onColorSelect = onColorSelect,

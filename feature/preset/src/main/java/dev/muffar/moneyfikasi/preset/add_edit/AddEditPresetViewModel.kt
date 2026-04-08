@@ -97,7 +97,7 @@ class AddEditPresetViewModel @Inject constructor(
     }
 
     private fun onTypeChange(type: TransactionType) {
-        _state.update { it.copy(type = type) }
+        _state.update { it.copy(type = type, category = null) }
         loadCategories()
     }
 

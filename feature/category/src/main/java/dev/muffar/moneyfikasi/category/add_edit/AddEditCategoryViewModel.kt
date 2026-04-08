@@ -36,7 +36,7 @@ class AddEditCategoryViewModel @Inject constructor(
 
     fun onEvent(event: AddEditCategoryEvent) {
         when (event) {
-            is AddEditCategoryEvent.InitType -> setType(event.type)
+            is AddEditCategoryEvent.TypeChanged -> onTypeChang(event.type)
             is AddEditCategoryEvent.NameChanged -> onNameChange(event.name)
             is AddEditCategoryEvent.IconChanged -> onIconChange(event.icon)
             is AddEditCategoryEvent.ColorChanged -> onColorChange(event.color)
@@ -58,6 +58,7 @@ class AddEditCategoryViewModel @Inject constructor(
                             name = it.name,
                             icon = it.icon,
                             color = it.color,
+                            type = it.type,
                             isActive = it.isActive
                         )
                     }
@@ -66,8 +67,8 @@ class AddEditCategoryViewModel @Inject constructor(
         }
     }
 
-    private fun setType(type: CategoryType) {
-        _state.update { it.copy(type = type) }
+    private fun onTypeChang(type: CategoryType) {
+        _state.update { it.copy(type = type, icon = "") }
     }
 
     private fun onNameChange(name: String) {

@@ -7,11 +7,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.category.add_edit.AddEditCategoryState
+import dev.muffar.moneyfikasi.common_ui.component.tabs.IncomeExpenseTabHeader
+import dev.muffar.moneyfikasi.domain.model.CategoryType
 
 @Composable
 fun AddEditCategoryForm(
     modifier: Modifier = Modifier,
     state: AddEditCategoryState,
+    onTypeChange: (CategoryType) -> Unit,
     onNameChange: (String) -> Unit,
     onIconSelect: (String) -> Unit,
     onColorSelect: (Long) -> Unit,
@@ -21,6 +24,13 @@ fun AddEditCategoryForm(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        IncomeExpenseTabHeader(
+            selectedTab = if (state.type == CategoryType.INCOME) 0 else 1,
+            onTabSelected = {
+                val type = if (it == 0) CategoryType.INCOME else CategoryType.EXPENSE
+                onTypeChange(type)
+            }
+        )
 
         CategoryNameInput(
             name = state.name,
