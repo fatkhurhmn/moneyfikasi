@@ -16,7 +16,7 @@ import java.util.UUID
 interface PresetDao {
 
     @Transaction
-    @Query("SELECT * FROM presets")
+    @Query("SELECT * FROM presets ORDER BY LOWER(name) ASC")
     fun getAllPresets(): Flow<List<PresetWithDetails>>
 
     @Transaction

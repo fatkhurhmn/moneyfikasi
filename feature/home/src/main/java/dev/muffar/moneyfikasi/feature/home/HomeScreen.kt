@@ -1,12 +1,11 @@
 package dev.muffar.moneyfikasi.feature.home
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -16,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.DateRange
+import dev.muffar.moneyfikasi.feature.home.component.QuickTransactionSection
 import dev.muffar.moneyfikasi.feature.home.component.RecentTransactionsSection
 import dev.muffar.moneyfikasi.feature.home.component.ReportDateSheet
 import dev.muffar.moneyfikasi.feature.home.component.ReportSection
@@ -31,6 +31,7 @@ fun HomeScreen(
     onDateRangeChange: (DateRange) -> Unit,
     onSeeAllTransactionsClick: () -> Unit,
     onTransactionClick: (UUID, Boolean) -> Unit,
+    onPresetClick: (UUID) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -52,7 +53,8 @@ fun HomeScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             ReportSection(
                 state = state,
@@ -60,15 +62,16 @@ fun HomeScreen(
                 onVisibilityClick = onToggleReportVisibility,
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            QuickTransactionSection(
+                presets = state.presets,
+                onPresetClick = onPresetClick,
+            )
 
             RecentTransactionsSection(
                 transactions = state.recentTransactions,
                 onSeeAllTransactionsClick = onSeeAllTransactionsClick,
                 onTransactionClick = onTransactionClick
             )
-
-            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 

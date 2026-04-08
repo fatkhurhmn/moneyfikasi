@@ -22,6 +22,7 @@ import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.utils.extensions.capitalize
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
 
@@ -40,11 +41,7 @@ fun AddEditCategoryScreen(
     onDelete: () -> Unit,
     onBackClick: () -> Unit,
 ) {
-    val title = if (state.category.isIncome) {
-        stringResource(R.string.income_category)
-    } else {
-        stringResource(R.string.expense_category)
-    }
+    val title = "${stringResource(R.string.category)} ${state.type.name.lowercase().capitalize()}"
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollState = rememberScrollState()

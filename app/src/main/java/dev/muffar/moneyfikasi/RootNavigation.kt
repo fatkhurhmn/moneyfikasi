@@ -47,7 +47,8 @@ fun RootNavigation(
                     launchSingleTop = true
                     restoreState = true
                 }
-            }
+            },
+            onPresetClick = {},
         )
 
         transactionsNavGraph(

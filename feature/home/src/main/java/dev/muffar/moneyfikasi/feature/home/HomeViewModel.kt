@@ -9,6 +9,7 @@ import dev.muffar.moneyfikasi.domain.model.TrendResult
 import dev.muffar.moneyfikasi.domain.model.TrendType
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
+import dev.muffar.moneyfikasi.domain.usecase.preset.PresetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.utils.extensions.endOfDay
@@ -33,6 +34,7 @@ import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
 import javax.inject.Inject
+import kotlin.math.abs
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -40,6 +42,7 @@ class HomeViewModel @Inject constructor(
     private val categoryUseCases: CategoryUseCases,
     private val transactionUseCases: TransactionUseCases,
     private val preferencesUseCases: PreferencesUseCases,
+    private val presetUseCases: PresetUseCases,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeState())
@@ -51,6 +54,7 @@ class HomeViewModel @Inject constructor(
         loadWallets()
         observeTransactions()
         loadRecentTransactions()
+        loadPresets()
     }
 
     fun onEvent(event: HomeEvent) {
@@ -119,6 +123,15 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private fun loadPresets() {
+        viewModelScope.launch {
+            presetUseCases.getAllPresets()
+                .collectLatest { presets ->
+                    _state.update { it.copy(presets = presets) }
+                }
+        }
+    }
+
     private fun getPreviousDateRange(dateRange: DateRange): Pair<Long, Long> {
         val startDateTime: LocalDateTime = LocalDateTime.now().with(LocalTime.MIN)
         return when (dateRange.timePeriod) {
@@ -170,7 +183,7 @@ class HomeViewModel @Inject constructor(
         }
 
         val change = current - previous
-        val percentage = (change / kotlin.math.abs(previous)) * 100
+        val percentage = (change / abs(previous)) * 100
 
         return when {
             percentage > 0 -> {

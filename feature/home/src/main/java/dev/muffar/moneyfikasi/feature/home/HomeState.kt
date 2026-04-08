@@ -2,6 +2,7 @@ package dev.muffar.moneyfikasi.feature.home
 
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.DateRange
+import dev.muffar.moneyfikasi.domain.model.Preset
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.model.TrendResult
 import dev.muffar.moneyfikasi.domain.model.Wallet
@@ -20,5 +21,6 @@ data class HomeState(
     val categories: Set<Category> = emptySet(),
     val wallets: Set<Wallet> = emptySet(),
     val recentTransactions: List<Transaction> = emptyList(),
+    val presets: List<Preset> = emptyList(),
     val showReportDateSheet: Boolean = false,
 )
