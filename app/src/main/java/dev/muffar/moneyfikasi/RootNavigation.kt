@@ -8,6 +8,7 @@ import dev.muffar.moneyfikasi.backup_restore.navigation.toBackupRestoreScreen
 import dev.muffar.moneyfikasi.category.add_edit.navigation.toAddEditCategoryScreen
 import dev.muffar.moneyfikasi.category.categoriesNavGraph
 import dev.muffar.moneyfikasi.category.list.navigation.toCategoriesScreen
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.feature.home.navigation.homeNavigation
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.preset.add_edit.navigation.toAddEditPresetScreen
@@ -51,6 +52,7 @@ fun RootNavigation(
             onPresetClick = { type, id ->
                 navController.toAddEditTransactionScreen(type = type, presetId = id)
             },
+            navigateToAddPreset = { navController.toAddEditPresetScreen(TransactionType.INCOME) }
         )
 
         transactionsNavGraph(

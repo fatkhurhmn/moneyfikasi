@@ -141,4 +141,5 @@
     <string name="no_preset">No Presets Yet</string>
     <string name="no_preset_message">Create one to quickly add transactions.</string>
     <string name="quick_transaction">Quick Transaction</string>
+    <string name="add_preset">Add Preset</string>
 </resources>

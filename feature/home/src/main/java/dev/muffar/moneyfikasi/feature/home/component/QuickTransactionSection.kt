@@ -3,6 +3,7 @@ package dev.muffar.moneyfikasi.feature.home.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -21,6 +22,7 @@ import java.util.UUID
 fun QuickTransactionSection(
     presets: List<Preset>,
     onPresetClick: (TransactionType, UUID) -> Unit,
+    onAddPresetClick: () -> Unit,
 ) {
     if (presets.isEmpty()) return
 
@@ -29,21 +31,26 @@ fun QuickTransactionSection(
             label = stringResource(R.string.quick_transaction),
             showSeeAll = false
         )
-        LazyHorizontalGrid(
-            rows = GridCells.Fixed(2),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(170.dp),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            items(presets, key = { it.id }) { preset ->
-                QuickTransactionItem(
-                    preset = preset,
-                    onClick = { onPresetClick(preset.type, preset.id) }
-                )
+        Spacer(modifier = Modifier.height(8.dp))
+        if (presets.isNotEmpty()) {
+            LazyHorizontalGrid(
+                rows = GridCells.Fixed(2),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(170.dp),
+                contentPadding = PaddingValues(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                items(presets, key = { it.id }) { preset ->
+                    QuickTransactionItem(
+                        preset = preset,
+                        onClick = { onPresetClick(preset.type, preset.id) }
+                    )
+                }
             }
+        } else {
+            EmptyPresetSection(onAddPresetClick = onAddPresetClick)
         }
     }
 }

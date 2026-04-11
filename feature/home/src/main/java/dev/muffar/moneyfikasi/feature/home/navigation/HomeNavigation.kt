@@ -16,6 +16,7 @@ fun NavGraphBuilder.homeNavigation(
     onTransactionClick: (UUID, Boolean) -> Unit,
     onSeeAllTransactionsClick: () -> Unit,
     onPresetClick: (TransactionType, UUID) -> Unit,
+    navigateToAddPreset: () -> Unit,
 ) {
     composable(Screen.Home.route) {
         val viewModel = hiltViewModel<HomeViewModel>()
@@ -29,7 +30,8 @@ fun NavGraphBuilder.homeNavigation(
             onToggleReportVisibility = { viewModel.onEvent(HomeEvent.ToggleReportVisibility) },
             onSeeAllTransactionsClick = onSeeAllTransactionsClick,
             onTransactionClick = onTransactionClick,
-            onPresetClick = onPresetClick
+            onPresetClick = onPresetClick,
+            onAddPresetClick = navigateToAddPreset,
         )
     }
 }

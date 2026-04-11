@@ -1,6 +1,5 @@
 package dev.muffar.moneyfikasi.transaction.add_edit
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

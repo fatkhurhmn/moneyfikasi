@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.feature.home
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,6 +33,7 @@ fun HomeScreen(
     onSeeAllTransactionsClick: () -> Unit,
     onTransactionClick: (UUID, Boolean) -> Unit,
     onPresetClick: (TransactionType, UUID) -> Unit,
+    onAddPresetClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -53,7 +55,8 @@ fun HomeScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             ReportSection(
                 state = state,
@@ -64,6 +67,7 @@ fun HomeScreen(
             QuickTransactionSection(
                 presets = state.presets,
                 onPresetClick = onPresetClick,
+                onAddPresetClick = onAddPresetClick
             )
 
             RecentTransactionsSection(
