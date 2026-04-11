@@ -38,13 +38,13 @@ fun NavGraphBuilder.addEditPresetNavigation(
         }
 
         LaunchedEffect(Unit) {
-            event(AddEditPresetEvent.TypeChanged(type ?: TransactionType.EXPENSE))
+            event(AddEditPresetEvent.TypeChanged(type ?: TransactionType.EXPENSE, true))
         }
 
         AddEditPresetScreen(
             state = state,
             eventFlow = viewModel.eventFlow,
-            onTypeChange = { type -> event(AddEditPresetEvent.TypeChanged(type)) },
+            onTypeChange = { type -> event(AddEditPresetEvent.TypeChanged(type, false)) },
             onNameChange = { name -> event(AddEditPresetEvent.NameChanged(name)) },
             onAmountChange = { amount -> event(AddEditPresetEvent.AmountChanged(amount)) },
             onCategoryChange = { category -> event(AddEditPresetEvent.CategoryChanged(category)) },

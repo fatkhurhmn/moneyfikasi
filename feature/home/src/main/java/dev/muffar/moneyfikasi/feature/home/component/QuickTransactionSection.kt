@@ -24,8 +24,6 @@ fun QuickTransactionSection(
     onPresetClick: (TransactionType, UUID) -> Unit,
     onAddPresetClick: () -> Unit,
 ) {
-    if (presets.isEmpty()) return
-
     Column {
         DashboardLabel(
             label = stringResource(R.string.quick_transaction),

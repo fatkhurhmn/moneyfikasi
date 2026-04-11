@@ -45,7 +45,7 @@ class AddEditPresetViewModel @Inject constructor(
 
     fun onEvent(event: AddEditPresetEvent) {
         when (event) {
-            is AddEditPresetEvent.TypeChanged -> onTypeChange(event.type)
+            is AddEditPresetEvent.TypeChanged -> onTypeChange(event.type, event.isInit)
             is AddEditPresetEvent.NameChanged -> onNameChange(event.name)
             is AddEditPresetEvent.AmountChanged -> onAmountChange(event.amount)
             is AddEditPresetEvent.CategoryChanged -> onCategorySelect(event.category)
@@ -96,8 +96,9 @@ class AddEditPresetViewModel @Inject constructor(
         }
     }
 
-    private fun onTypeChange(type: TransactionType) {
-        _state.update { it.copy(type = type, category = null) }
+    private fun onTypeChange(type: TransactionType, isInit: Boolean) {
+        val category = if (isInit) _state.value.category else null
+        _state.update { it.copy(type = type, category = category) }
         loadCategories()
     }
 

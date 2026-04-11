@@ -48,14 +48,14 @@ fun NavGraphBuilder.addEditTransactionNavigation(
         }
 
         LaunchedEffect(Unit) {
-            event(AddEditTransactionEvent.TypeChanged(type ?: TransactionType.EXPENSE))
+            event(AddEditTransactionEvent.TypeChanged(type ?: TransactionType.EXPENSE, true))
         }
 
         AddEditTransactionScreen(
             state = state,
             eventFlow = eventFlow,
             onTypeChange = { type ->
-                event(AddEditTransactionEvent.TypeChanged(type))
+                event(AddEditTransactionEvent.TypeChanged(type, false))
             },
             onAmountChange = { amount ->
                 event(AddEditTransactionEvent.AmountChanged(amount))
