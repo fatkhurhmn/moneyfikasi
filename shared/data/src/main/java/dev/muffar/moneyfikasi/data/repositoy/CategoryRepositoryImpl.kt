@@ -33,7 +33,7 @@ class CategoryRepositoryImpl @Inject constructor(
     }
 
     override suspend fun upsertCategory(category: Category) {
-        categoryDao.insertCategory(category.toEntity())
+        categoryDao.upsertCategory(category.toEntity())
     }
 
     override suspend fun deleteCategory(category: Category) {

@@ -24,7 +24,7 @@ class PresetRepositoryImpl @Inject constructor(
     }
 
     override suspend fun upsertPreset(preset: Preset) {
-        presetDao.insertPreset(preset.toEntity())
+        presetDao.upsertPreset(preset.toEntity())
     }
 
     override suspend fun deletePreset(preset: Preset) {

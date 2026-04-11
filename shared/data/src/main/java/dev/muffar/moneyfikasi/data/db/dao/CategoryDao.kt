@@ -2,10 +2,9 @@ package dev.muffar.moneyfikasi.data.db.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import androidx.room.Upsert
 import dev.muffar.moneyfikasi.data.db.entity.CategoryEntity
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import kotlinx.coroutines.flow.Flow
@@ -22,11 +21,8 @@ interface CategoryDao {
     @Query("SELECT * FROM categories WHERE id = :id")
     suspend fun getCategoryById(id: UUID): CategoryEntity?
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCategory(category: CategoryEntity)
-
-    @Update
-    suspend fun updateCategory(category: CategoryEntity)
+    @Upsert
+    suspend fun upsertCategory(category: CategoryEntity)
 
     @Delete
     suspend fun deleteCategory(category: CategoryEntity)

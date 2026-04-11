@@ -25,7 +25,7 @@ class WalletRepositoryImpl @Inject constructor(
     }
 
     override suspend fun upsertWallet(wallet: Wallet) {
-        walletDao.insertWallet(wallet.toEntity())
+        walletDao.upsertWallet(wallet.toEntity())
     }
 
     override suspend fun deleteWallet(wallet: Wallet) {
