@@ -64,7 +64,7 @@ fun SnackbarMessage(
                 }
                 Text(
                     text = snackbarData.visuals.message,
-                    style = MaterialTheme.typography.labelLarge
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
         }
@@ -73,7 +73,7 @@ fun SnackbarMessage(
 
 suspend fun SnackbarHostState.showMessage(message: String, type: SnackbarType) {
     currentSnackbarData?.dismiss()
-    withTimeoutOrNull(1000) {
+    withTimeoutOrNull(2000) {
         showSnackbar(
             MessageSnackbarVisuals(
                 message = message,

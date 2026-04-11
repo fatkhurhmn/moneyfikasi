@@ -13,6 +13,7 @@ import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preset.PresetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.utils.extensions.clearThousandFormat
 import dev.muffar.moneyfikasi.utils.extensions.formatThousand
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -136,8 +137,8 @@ class AddEditPresetViewModel @Inject constructor(
     }
 
     private fun onSavePreset() {
-        val state = state.value
         if (!isFormValid()) return
+        val state = state.value
         viewModelScope.launch {
             try {
                 presetUseCases.upsertPreset(state.preset)
@@ -164,7 +165,24 @@ class AddEditPresetViewModel @Inject constructor(
 
     private fun isFormValid(): Boolean {
         updateNameError()
-        return _state.value.nameError.isNull
+        val state = _state.value
+        val isNameValid = state.nameError.isNull
+
+        val amount = state.amount.clearThousandFormat().toDoubleOrNull() ?: 0.0
+        val isAtLeastOneFilled = amount > 0 || state.category != null || state.wallet != null
+
+        if (isNameValid && !isAtLeastOneFilled) {
+            viewModelScope.launch {
+                _eventFlow.emit(
+                    UiEvent.ShowMessage(
+                        "Please provide at least an amount, category, or wallet",
+                        SnackbarType.ERROR
+                    )
+                )
+            }
+        }
+
+        return isNameValid && isAtLeastOneFilled
     }
 
     sealed class UiEvent {
