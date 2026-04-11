@@ -120,6 +120,8 @@ fun RootNavigation(
             navigateToEditPreset = { type, id ->
                 navController.toAddEditPresetScreen(type, id)
             },
+            navigateToAddWallet = { navController.toAddEditWalletScreen() },
+            navigateToAddCategory = { navController.toAddEditCategoryScreen(it) },
             navigateBack = { navController.navigateUp() }
         )
 

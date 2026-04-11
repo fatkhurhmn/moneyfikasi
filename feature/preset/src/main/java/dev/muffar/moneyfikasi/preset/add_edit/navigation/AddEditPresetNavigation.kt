@@ -9,6 +9,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.preset.add_edit.AddEditPresetEvent
@@ -17,7 +18,9 @@ import dev.muffar.moneyfikasi.preset.add_edit.AddEditPresetViewModel
 import java.util.UUID
 
 fun NavGraphBuilder.addEditPresetNavigation(
-    navigateBack: () -> Unit,
+    navigateToAddWallet: () -> Unit,
+    navigateToAddCategory: (type: CategoryType) -> Unit,
+    navigateBack: () -> Unit
 ) {
     composable(
         route = Screen.AddEditPreset.route,
@@ -48,8 +51,8 @@ fun NavGraphBuilder.addEditPresetNavigation(
             onNameChange = { name -> event(AddEditPresetEvent.NameChanged(name)) },
             onAmountChange = { amount -> event(AddEditPresetEvent.AmountChanged(amount)) },
             onCategoryChange = { category -> event(AddEditPresetEvent.CategoryChanged(category)) },
-            onAddNewCategoryClick = {},
-            onAddNewWalletClick = {},
+            onAddNewCategoryClick = { navigateToAddCategory(state.categoryType) },
+            onAddNewWalletClick = navigateToAddWallet,
             onWalletChange = { wallet -> event(AddEditPresetEvent.WalletChanged(wallet)) },
             onDescriptionChange = { description ->
                 event(AddEditPresetEvent.DescriptionChanged(description))

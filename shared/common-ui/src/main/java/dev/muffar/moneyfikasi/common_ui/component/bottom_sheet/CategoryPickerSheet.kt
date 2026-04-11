@@ -85,7 +85,7 @@ fun CategoryPickerSheet(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             leftText = stringResource(R.string.cancel),
-            rightText = stringResource(R.string.new_category),
+            rightText = stringResource(R.string.create),
             onLeftClick = { hideSheet() },
             onRightClick = {
                 hideSheet()

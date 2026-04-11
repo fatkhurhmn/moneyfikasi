@@ -88,7 +88,7 @@ fun WalletPickerSheet(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             leftText = stringResource(R.string.cancel),
-            rightText = stringResource(R.string.new_wallet),
+            rightText = stringResource(R.string.create),
             onLeftClick = { hideSheet() },
             onRightClick = {
                 hideSheet()

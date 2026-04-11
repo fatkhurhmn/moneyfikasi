@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Transaction
-import androidx.room.Update
 import androidx.room.Upsert
 import dev.muffar.moneyfikasi.data.db.entity.PresetEntity
 import dev.muffar.moneyfikasi.data.db.entity.PresetWithDetails
