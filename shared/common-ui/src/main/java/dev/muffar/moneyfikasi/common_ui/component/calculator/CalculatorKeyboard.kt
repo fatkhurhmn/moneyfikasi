@@ -29,8 +29,8 @@ fun CalculatorKeyboard(
         CalculatorKey.Number(3),
         CalculatorKey.Operation(MathOperation.Add),
         CalculatorKey.TripleZero,
+        CalculatorKey.DoubleZero,
         CalculatorKey.Number(0),
-        CalculatorKey.Decimal,
         CalculatorKey.Calculate
     )
 

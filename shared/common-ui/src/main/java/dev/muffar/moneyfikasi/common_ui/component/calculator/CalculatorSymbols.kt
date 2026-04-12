@@ -4,7 +4,7 @@ object CalculatorSymbols {
     const val CLEAR = "AC"
     const val DELETE = "⌫"
     const val TRIPLE_ZERO = "000"
-    const val DECIMAL = "."
+    const val DOUBLE_ZERO = "00"
     const val EQUALS = "="
     const val TOGGLE_SIGN = "±"
 }

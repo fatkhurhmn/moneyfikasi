@@ -30,7 +30,7 @@ class CalculatorState(initialInput: String) {
         when (action) {
             is CalculatorKey.Number -> appendInput(action.number.toString())
             is CalculatorKey.TripleZero -> appendInput(CalculatorSymbols.TRIPLE_ZERO)
-            is CalculatorKey.Decimal -> appendInput(CalculatorSymbols.DECIMAL)
+            is CalculatorKey.DoubleZero -> appendInput(CalculatorSymbols.DOUBLE_ZERO)
             is CalculatorKey.Operation -> appendOperation(action.operation.symbol)
             is CalculatorKey.Clear -> performClear()
             is CalculatorKey.Delete -> performDeletion()
@@ -45,7 +45,7 @@ class CalculatorState(initialInput: String) {
         if (!canAddDecimal(input)) return
 
         if (input == "Error") {
-            input = if (value == CalculatorSymbols.DECIMAL) "0." else value
+            input = value
             return
         }
 
@@ -54,7 +54,7 @@ class CalculatorState(initialInput: String) {
             return
         }
 
-        if (input == "0" && value != CalculatorSymbols.DECIMAL) {
+        if (input == "0") {
             input = value
         } else {
             input += value

@@ -24,7 +24,7 @@ fun AmountInput(
     amount: String,
     error: ErrorMessage = ErrorMessage(),
     onAmountChange: (String) -> Unit,
-    onClear: () -> Unit = {}
+    onClear: (() -> Unit)? = null
 ) {
     var showAmountInputSheet by remember { mutableStateOf(false) }
     Column {

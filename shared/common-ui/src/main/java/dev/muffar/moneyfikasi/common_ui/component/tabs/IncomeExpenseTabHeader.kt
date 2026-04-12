@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 import dev.muffar.moneyfikasi.domain.model.CategoryType
+import dev.muffar.moneyfikasi.utils.extensions.capitalize
 
 @Composable
 fun IncomeExpenseTabHeader(
@@ -65,7 +66,7 @@ fun IncomeExpenseTabHeader(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = title,
+                        text = title.capitalize(),
                         color = textColor,
                         style = MaterialTheme.typography.labelMedium
                     )

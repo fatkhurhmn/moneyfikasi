@@ -58,9 +58,9 @@ private fun getSymbol(action: CalculatorKey): String {
         is CalculatorKey.Number -> action.number.toString()
         is CalculatorKey.Operation -> action.operation.symbol
         is CalculatorKey.TripleZero -> CalculatorSymbols.TRIPLE_ZERO
+        is CalculatorKey.DoubleZero -> CalculatorSymbols.DOUBLE_ZERO
         CalculatorKey.Clear -> CalculatorSymbols.CLEAR
         CalculatorKey.Delete -> CalculatorSymbols.DELETE
-        CalculatorKey.Decimal -> CalculatorSymbols.DECIMAL
         CalculatorKey.Calculate -> CalculatorSymbols.EQUALS
         CalculatorKey.ToggleSign -> CalculatorSymbols.TOGGLE_SIGN
     }
