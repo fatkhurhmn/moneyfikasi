@@ -21,7 +21,7 @@ fun RecentTransactionsSection(
     Column {
         DashboardLabel(
             label = stringResource(R.string.recent_transaction),
-            onSeeAllClick = onSeeAllTransactionsClick
+            onMoreClick = onSeeAllTransactionsClick
         )
         Spacer(modifier = Modifier.height(8.dp))
         if (transactions.isNotEmpty()) {

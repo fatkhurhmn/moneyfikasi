@@ -34,6 +34,7 @@ fun HomeScreen(
     onTransactionClick: (UUID, Boolean) -> Unit,
     onPresetClick: (TransactionType, UUID) -> Unit,
     onAddPresetClick: () -> Unit,
+    onPresetsClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -67,7 +68,8 @@ fun HomeScreen(
             QuickTransactionSection(
                 presets = state.presets,
                 onPresetClick = onPresetClick,
-                onAddPresetClick = onAddPresetClick
+                onAddPresetClick = onAddPresetClick,
+                onPresetsClick = onPresetsClick
             )
 
             RecentTransactionsSection(

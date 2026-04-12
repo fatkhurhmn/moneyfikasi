@@ -13,9 +13,13 @@ import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 import dev.muffar.moneyfikasi.domain.model.Category
 
 @Composable
-fun ItemCategoryIcon(category: Category?) {
+fun ItemCategoryIcon(
+    category: Category?,
+    modifier: Modifier = Modifier
+) {
     val color = if (category != null) Color(category.color) else MainColor.LightGray
     Card(
+        modifier = modifier,
         colors = CardDefaults.cardColors(
             containerColor = color,
         ),

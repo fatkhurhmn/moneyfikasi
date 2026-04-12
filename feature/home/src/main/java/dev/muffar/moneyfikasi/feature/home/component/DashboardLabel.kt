@@ -10,16 +10,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
 fun DashboardLabel(
     label: String,
-    showSeeAll: Boolean = true,
-    onSeeAllClick: () -> Unit = {}
+    moreButton: Boolean = true,
+    moreText: String = stringResource(R.string.see_all),
+    onMoreClick: () -> Unit = {}
 ) {
     Row(
         modifier = Modifier
@@ -34,12 +37,16 @@ fun DashboardLabel(
                 fontWeight = FontWeight.Bold
             )
         )
-        if (showSeeAll) {
+        if (moreButton) {
             Text(
-                text = stringResource(R.string.see_all),
+                text = moreText,
                 style = MaterialTheme.typography.labelLarge,
+                fontSize = 14.sp,
                 color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.clickable { onSeeAllClick() }
+                modifier = Modifier
+                    .clip(MaterialTheme.shapes.small)
+                    .clickable { onMoreClick() }
+                    .padding(2.dp)
             )
         }
     }
