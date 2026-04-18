@@ -53,8 +53,8 @@ fun ColorPickerSheet(
         BottomSheetTitle(stringResource(R.string.select_color))
         LazyVerticalGrid(
             columns = GridCells.Fixed(4),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
             contentPadding = PaddingValues(16.dp)
         ) {
             items(colors.size) {
@@ -63,7 +63,7 @@ fun ColorPickerSheet(
                     modifier = Modifier
                         .clip(MaterialTheme.shapes.medium)
                         .width(75.dp)
-                        .height(50.dp)
+                        .height(40.dp)
                         .background(Color(color))
                         .clickable {
                             onClick(color)

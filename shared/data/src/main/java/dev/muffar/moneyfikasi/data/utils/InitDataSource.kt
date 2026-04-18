@@ -4,6 +4,7 @@ import dev.muffar.moneyfikasi.data.db.entity.CategoryEntity
 import dev.muffar.moneyfikasi.data.db.entity.WalletEntity
 import dev.muffar.moneyfikasi.domain.model.AppIcon
 import dev.muffar.moneyfikasi.domain.model.CategoryType
+import dev.muffar.moneyfikasi.domain.model.Colors
 import dev.muffar.moneyfikasi.utils.constants.UUIDConst
 
 object InitDataSource {
@@ -13,68 +14,68 @@ object InitDataSource {
             CategoryEntity(
                 name = "Electricity",
                 icon = AppIcon.Bolt.name,
-                color = 0xFFFFC107,
+                color = Colors.Yellow10.color,
                 type = CategoryType.EXPENSE,
             ),
             CategoryEntity(
                 name = "Entertainment",
                 icon = AppIcon.ConfirmationNumber.name,
-                color = 0xFF7B1FA2,
+                color = Colors.Blue10.color,
                 type = CategoryType.EXPENSE,
             ),
             CategoryEntity(
                 name = "Exercise",
                 icon = AppIcon.FitnessCenter.name,
-                color = 0xFF6D4C41,
+                color = Colors.Brown10.color,
                 type = CategoryType.EXPENSE,
             ),
             CategoryEntity(
                 name = "Food & drink",
                 icon = AppIcon.Fastfood.name,
-                color = 0xFFFFEB3B,
+                color = Colors.Orange10.color,
                 type = CategoryType.EXPENSE,
             ),
             CategoryEntity(
                 name = "Hobby",
                 icon = AppIcon.SportsEsports.name,
-                color = 0xFF00897B,
+                color = Colors.Teal10.color,
                 type = CategoryType.EXPENSE,
             ),
             CategoryEntity(
                 name = "Health",
                 icon = AppIcon.MedicalServices.name,
-                color = 0xFFC2185B,
+                color = Colors.Green10.color,
                 type = CategoryType.EXPENSE,
             ),
             CategoryEntity(
                 name = "Other",
                 icon = AppIcon.Widgets.name,
-                color = 0xFF9E9E9E,
+                color = Colors.Grey10.color,
                 type = CategoryType.EXPENSE,
             ),
             TRANSFER_OUT_CATEGORY,
             CategoryEntity(
                 name = "Shopping",
                 icon = AppIcon.ShoppingBag.name,
-                color = 0xFFFF9800,
+                color = Colors.Orange30.color,
                 type = CategoryType.EXPENSE,
             ),
             CategoryEntity(
                 name = "Transport",
                 icon = AppIcon.DirectionsCar.name,
-                color = 0xFFED32F2F,
+                color = Colors.Red20.color,
                 type = CategoryType.EXPENSE,
             ),
             CategoryEntity(
                 name = "Travel",
                 icon = AppIcon.Flight.name,
-                color = 0xFF388E3C,
+                color = Colors.BlueGrey20.color,
                 type = CategoryType.EXPENSE,
             ),
             CategoryEntity(
                 name = "Water",
                 icon = AppIcon.WaterDrop.name,
-                color = 0xFF1976D2,
+                color = Colors.Blue10.color,
                 type = CategoryType.EXPENSE,
             )
         )
@@ -83,25 +84,25 @@ object InitDataSource {
             CategoryEntity(
                 name = "Business",
                 icon = AppIcon.BusinessCenter.name,
-                color = 0xFF6D4C41,
+                color = Colors.Lime20.color,
                 type = CategoryType.INCOME,
             ),
             CategoryEntity(
                 name = "Gift",
                 icon = AppIcon.CardGiftcard.name,
-                color = 0xFFE91E63,
+                color = Colors.Pink10.color,
                 type = CategoryType.INCOME,
             ),
             CategoryEntity(
                 name = "Invest",
                 icon = AppIcon.TrendingUp.name,
-                color = 0xFF8BC34A,
+                color = Colors.Cyan10.color,
                 type = CategoryType.INCOME,
             ),
             CategoryEntity(
                 name = "Salary",
                 icon = AppIcon.Paid.name,
-                color = 0xFFED32F2F,
+                color = Colors.Green10.color,
                 type = CategoryType.INCOME,
             ),
             TRANSFER_IN_CATEGORY
@@ -119,7 +120,7 @@ object InitDataSource {
         id = UUIDConst.TransferOutCategoryId,
         name = "Transfer",
         icon = AppIcon.SyncAlt.name,
-        color = 0xFFFC3D56,
+        color = Colors.Red20.color,
         type = CategoryType.EXPENSE,
         isTransferCategory = true
     )
@@ -128,7 +129,7 @@ object InitDataSource {
         id = UUIDConst.TransferInCategoryId,
         name = "Transfer",
         icon = AppIcon.SyncAlt.name,
-        color = 0xFF3AAD7A,
+        color = Colors.Green10.color,
         type = CategoryType.INCOME,
         isTransferCategory = true
     )
@@ -137,7 +138,7 @@ object InitDataSource {
         id = UUIDConst.TransferFeeCategoryId,
         name = "Admin Fee",
         icon = AppIcon.Paid.name,
-        color = 0xFF557689,
+        color = Colors.Purple10.color,
         type = CategoryType.EXPENSE,
         isTransferCategory = true
     )
@@ -147,7 +148,7 @@ object InitDataSource {
             WalletEntity(
                 name = "Main",
                 icon = AppIcon.AccountBalanceWallet.name,
-                color = 0xFF00897B,
+                color = Colors.Blue10.color,
                 balance = 0.0,
                 isActive = true
             )

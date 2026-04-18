@@ -42,11 +42,11 @@ fun QuickTransactionItem(
         modifier = modifier
             .background(
                 if (color == null) MainColor.LightGray else Color(color),
-                MaterialTheme.shapes.large
+                MaterialTheme.shapes.medium
             )
             .width(itemWidth)
             .aspectRatio(aspectRatio)
-            .clip(MaterialTheme.shapes.large)
+            .clip(MaterialTheme.shapes.medium)
             .clickable { onClick() }
             .padding(4.dp)
     ) {
