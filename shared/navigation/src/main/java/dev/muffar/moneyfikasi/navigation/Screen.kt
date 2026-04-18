@@ -83,4 +83,13 @@ sealed class Screen(val route: String) {
             return "add_edit_preset/$type?$PRESET_ID=$presetId"
         }
     }
+
+    data object Budgets : Screen("budgets")
+    data object AddEditBudget : Screen("add_edit_budget?budget_id={budget_id}") {
+        const val BUDGET_ID = "budget_id"
+        fun routeWithArg(id: UUID? = null): String {
+            val budgetId = id?.toString() ?: ""
+            return "add_edit_budget?$BUDGET_ID=$budgetId"
+        }
+    }
 }

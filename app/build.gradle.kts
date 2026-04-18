@@ -72,6 +72,7 @@ dependencies {
     implementation(projects.feature.search)
     implementation(projects.feature.preset)
     implementation(projects.feature.backupRestore)
+    implementation(projects.feature.budget)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

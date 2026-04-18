@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.muffar.moneyfikasi.domain.repository.BackupRestoreRepository
+import dev.muffar.moneyfikasi.domain.repository.BudgetRepository
 import dev.muffar.moneyfikasi.domain.repository.CategoryRepository
 import dev.muffar.moneyfikasi.domain.repository.PreferencesRepository
 import dev.muffar.moneyfikasi.domain.repository.PresetRepository
@@ -13,6 +14,11 @@ import dev.muffar.moneyfikasi.domain.repository.WalletRepository
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupData
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupRestoreUseCases
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.RestoreData
+import dev.muffar.moneyfikasi.domain.usecase.budget.BudgetUseCases
+import dev.muffar.moneyfikasi.domain.usecase.budget.DeleteBudget
+import dev.muffar.moneyfikasi.domain.usecase.budget.GetAllBudgets
+import dev.muffar.moneyfikasi.domain.usecase.budget.GetBudgetById
+import dev.muffar.moneyfikasi.domain.usecase.budget.UpsertBudget
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.category.DeleteCategory
 import dev.muffar.moneyfikasi.domain.usecase.category.GetAllCategories
@@ -121,5 +127,15 @@ object UseCaseModule {
         getPresetById = GetPresetById(presetRepository),
         upsertPreset = UpsertPreset(presetRepository),
         deletePreset = DeletePreset(presetRepository)
+    )
+
+    @Provides
+    fun provideBudgetUseCases(
+        budgetRepository: BudgetRepository,
+    ) = BudgetUseCases(
+        getAllBudgets = GetAllBudgets(budgetRepository),
+        getBudgetById = GetBudgetById(budgetRepository),
+        upsertBudget = UpsertBudget(budgetRepository),
+        deleteBudget = DeleteBudget(budgetRepository)
     )
 }

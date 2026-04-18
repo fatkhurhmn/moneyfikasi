@@ -142,4 +142,7 @@
     <string name="no_preset_message">Create one to quickly add transactions.</string>
     <string name="quick_transaction">Quick Transaction</string>
     <string name="add_preset">Add Preset</string>
+    <string name="budgets">Budgets</string>
+    <string name="budget">Budget</string>
+    <string name="budget_name_placeholder">Enter budget name</string>
 </resources>

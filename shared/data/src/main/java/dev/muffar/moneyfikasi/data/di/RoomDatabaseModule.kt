@@ -36,4 +36,8 @@ object RoomDatabaseModule {
     @Provides
     @Singleton
     fun providePresetDao(db: MoneyfikasiDatabase) = db.presetDao()
+
+    @Provides
+    @Singleton
+    fun provideBudgetDao(db: MoneyfikasiDatabase) = db.budgetDao()
 }

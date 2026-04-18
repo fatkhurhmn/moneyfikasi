@@ -5,9 +5,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import dev.muffar.moneyfikasi.backup_restore.navigation.backupRestoreNavGraph
 import dev.muffar.moneyfikasi.backup_restore.navigation.toBackupRestoreScreen
+import dev.muffar.moneyfikasi.budget.add_edit.navigation.toAddEditBudgetScreen
+import dev.muffar.moneyfikasi.budget.budgetsNavGraph
+import dev.muffar.moneyfikasi.budget.list.navigation.toBudgetsScreen
 import dev.muffar.moneyfikasi.category.add_edit.navigation.toAddEditCategoryScreen
 import dev.muffar.moneyfikasi.category.categoriesNavGraph
 import dev.muffar.moneyfikasi.category.list.navigation.toCategoriesScreen
+import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.feature.home.navigation.homeNavigation
 import dev.muffar.moneyfikasi.navigation.Screen
@@ -97,6 +101,7 @@ fun RootNavigation(
             navigateToWallets = { navController.toWalletsScreen() },
             navigateToCategories = { navController.toCategoriesScreen() },
             navigateToPreset = { navController.toPresetListScreen() },
+            navigateToBudgets = { navController.toBudgetsScreen() },
             navigateToBackupRestore = { navController.toBackupRestoreScreen() }
         )
 
@@ -123,6 +128,13 @@ fun RootNavigation(
             },
             navigateToAddWallet = { navController.toAddEditWalletScreen() },
             navigateToAddCategory = { navController.toAddEditCategoryScreen(it) },
+            navigateBack = { navController.navigateUp() }
+        )
+
+        budgetsNavGraph(
+            navigateToAddBudget = { navController.toAddEditBudgetScreen() },
+            navigateToEditBudget = { navController.toAddEditBudgetScreen(it) },
+            navigateToAddCategory = { navController.toAddEditCategoryScreen(CategoryType.EXPENSE) },
             navigateBack = { navController.navigateUp() }
         )
 

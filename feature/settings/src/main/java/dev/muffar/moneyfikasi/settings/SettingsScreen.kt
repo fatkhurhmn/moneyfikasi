@@ -18,6 +18,7 @@ fun SettingsScreen(
     onWalletsClick: () -> Unit,
     onCategoriesClick: () -> Unit,
     onPresetClick: () -> Unit,
+    onBudgetsClick: () -> Unit,
     onBackupRestoreClick: () -> Unit
 ) {
     Scaffold(
@@ -44,6 +45,11 @@ fun SettingsScreen(
                 title = stringResource(R.string.presets),
                 icon = painterResource(id = R.drawable.ic_ink),
                 onClick = onPresetClick
+            )
+            SettingsItem(
+                title = stringResource(R.string.budgets),
+                icon = painterResource(id = R.drawable.ic_budget),
+                onClick = onBudgetsClick
             )
             SettingsItem(
                 title = stringResource(R.string.backup_restore),
