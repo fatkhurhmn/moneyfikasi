@@ -145,4 +145,8 @@
     <string name="budgets">Budgets</string>
     <string name="budget">Budget</string>
     <string name="budget_name_placeholder">Enter budget name</string>
+    <string name="delete_budget">Delete Budget</string>
+    <string name="delete_budget_message">Are you sure you want to delete this budget?</string>
+    <string name="no_budget">No Budgets Yet</string>
+    <string name="no_budget_message">Create one to track your expenses.</string>
 </resources>

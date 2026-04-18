@@ -71,8 +71,8 @@ fun AddEditBudgetScreen(
 
     if (state.showAlert) {
         CommonAlertDialog(
-            title = stringResource(R.string.delete),
-            message = "Are you sure you want to delete this budget?",
+            title = stringResource(R.string.delete_budget),
+            message = stringResource(R.string.delete_budget_message),
             positiveText = stringResource(R.string.delete),
             negativeText = stringResource(R.string.cancel),
             onDismiss = { onShowAlert(false) },
