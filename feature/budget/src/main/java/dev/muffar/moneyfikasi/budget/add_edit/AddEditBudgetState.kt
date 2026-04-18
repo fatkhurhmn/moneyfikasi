@@ -21,7 +21,6 @@ data class AddEditBudgetState(
     val budget: Budget
         get() = Budget(
             id = id ?: UUID.randomUUID(),
-            name = name,
             amount = amount.clearThousandFormat().toDoubleOrNull() ?: 0.0,
             category = if (category.name.isNotEmpty()) category else null
         )

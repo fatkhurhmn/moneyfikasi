@@ -48,8 +48,8 @@ fun BudgetItem(
                 if (budget.category != null) {
                     ItemCategoryIcon(category = budget.category!!)
                     Spacer(modifier = Modifier.width(16.dp))
+                    Text(text = budget.category!!.name, style = MaterialTheme.typography.titleMedium)
                 }
-                Text(text = budget.name, style = MaterialTheme.typography.titleMedium)
             }
             Text(
                 text = budget.amount.formatThousand(),

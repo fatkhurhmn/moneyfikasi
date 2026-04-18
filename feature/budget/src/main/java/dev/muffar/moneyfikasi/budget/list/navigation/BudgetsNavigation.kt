@@ -1,7 +1,8 @@
 package dev.muffar.moneyfikasi.budget.list.navigation
 
 import androidx.compose.runtime.getValue
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
@@ -21,8 +22,8 @@ fun NavGraphBuilder.budgetsNavigation(
     navigateBack: () -> Unit,
 ) {
     composable(route = Screen.Budgets.route) {
-        val viewModel: BudgetsViewModel = hiltViewModel()
-        val state by viewModel.state
+        val viewModel = hiltViewModel<BudgetsViewModel>()
+        val state by viewModel.state.collectAsStateWithLifecycle()
 
         BudgetsScreen(
             state = state,

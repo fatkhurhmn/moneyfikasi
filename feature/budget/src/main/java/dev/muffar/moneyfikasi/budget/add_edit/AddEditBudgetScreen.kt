@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.budget.add_edit.component.AddEditBudgetForm
+import dev.muffar.moneyfikasi.common_ui.component.CommonAlertDialog
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.common_ui.component.button.BottomBarAddEditButton
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
@@ -27,10 +28,10 @@ import kotlinx.coroutines.flow.collectLatest
 fun AddEditBudgetScreen(
     state: AddEditBudgetState,
     eventFlow: SharedFlow<AddEditBudgetViewModel.UiEvent>,
-    onNameChange: (String) -> Unit,
     onAmountChange: (String) -> Unit,
-    onCategorySelect: (Category?) -> Unit,
+    onCategorySelect: (Category) -> Unit,
     onAddNewCategoryClick: () -> Unit,
+    onShowAlert: (Boolean) -> Unit,
     onSubmit: () -> Unit,
     onDelete: () -> Unit,
     onBackClick: () -> Unit,
@@ -49,7 +50,7 @@ fun AddEditBudgetScreen(
             BottomBarAddEditButton(
                 isEdit = state.id != null,
                 onSave = onSubmit,
-                onDelete = onDelete
+                onDelete = { onShowAlert(true) }
             )
         },
         snackbarHost = { SnackbarMessage(snackbarHostState) }
@@ -62,10 +63,23 @@ fun AddEditBudgetScreen(
                 .verticalScroll(scrollState)
                 .padding(16.dp),
             state = state,
-            onNameChange = onNameChange,
             onAmountChange = onAmountChange,
             onCategorySelect = onCategorySelect,
             onAddNewCategoryClick = onAddNewCategoryClick
+        )
+    }
+
+    if (state.showAlert) {
+        CommonAlertDialog(
+            title = stringResource(R.string.delete),
+            message = "Are you sure you want to delete this budget?",
+            positiveText = stringResource(R.string.delete),
+            negativeText = stringResource(R.string.cancel),
+            onDismiss = { onShowAlert(false) },
+            onConfirm = {
+                onDelete()
+                onShowAlert(false)
+            }
         )
     }
 

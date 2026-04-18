@@ -39,11 +39,11 @@ class AddEditBudgetViewModel @Inject constructor(
     init {
         initState()
         loadCategories()
+        loadBudgets()
     }
 
     fun onEvent(event: AddEditBudgetEvent) {
         when (event) {
-            is AddEditBudgetEvent.OnNameChange -> onNameChange(event.name)
             is AddEditBudgetEvent.OnAmountChange -> onAmountChange(event.amount)
             is AddEditBudgetEvent.OnCategoryChange -> onCategorySelect(event.category)
             is AddEditBudgetEvent.OnSaveBudget -> onSaveBudget()
@@ -60,7 +60,6 @@ class AddEditBudgetViewModel @Inject constructor(
                         _state.update {
                             it.copy(
                                 id = budget.id,
-                                name = budget.name,
                                 amount = budget.amount.formatThousand(),
                                 category = budget.category ?: Category()
                             )
@@ -71,23 +70,21 @@ class AddEditBudgetViewModel @Inject constructor(
         }
     }
 
-    private fun loadCategories() {
+    private fun loadBudgets() {
         viewModelScope.launch {
-            categoryUseCases.getCategoryByType(CategoryType.EXPENSE, false).collectLatest { categories ->
-                _state.update { it.copy(categoryOptions = categories) }
+            budgetUseCases.getAllBudgets().collectLatest { budgets ->
+                _state.update { it.copy(budgets = budgets) }
             }
         }
     }
 
-    private fun onNameChange(name: String) {
-        if (name.length > 50) return
-        _state.update { it.copy(name = name) }
-        updateNameError()
-    }
-
-    private fun updateNameError() {
-        val error = if (_state.value.name.isEmpty()) "Name cannot be empty" else null
-        _state.update { it.copy(nameError = ErrorMessage(error)) }
+    private fun loadCategories() {
+        viewModelScope.launch {
+            categoryUseCases.getCategoryByType(CategoryType.EXPENSE, false)
+                .collectLatest { categories ->
+                    _state.update { it.copy(categoryOptions = categories) }
+                }
+        }
     }
 
     private fun onAmountChange(amount: String) {
@@ -108,7 +105,12 @@ class AddEditBudgetViewModel @Inject constructor(
     }
 
     private fun updateCategoryError() {
-        val error = if (_state.value.category.name.isEmpty()) "Category must be selected" else null
+        val currentCategory = _state.value.category
+        val error = when {
+            currentCategory.name.isEmpty() -> "Category must be selected"
+            currentCategory.id in _state.value.budgets.map { it.category?.id } -> "This category already has a budget"
+            else -> null
+        }
         _state.update { it.copy(categoryError = ErrorMessage(error)) }
     }
 
@@ -124,7 +126,12 @@ class AddEditBudgetViewModel @Inject constructor(
                 budgetUseCases.upsertBudget(state.budget)
                 _eventFlow.emit(UiEvent.SaveBudget)
             } catch (e: Exception) {
-                _eventFlow.emit(UiEvent.ShowMessage("Failed to save budget", SnackbarType.ERROR))
+                _eventFlow.emit(
+                    UiEvent.ShowMessage(
+                        "Failed to save budget. Each category can only have one budget.",
+                        SnackbarType.ERROR
+                    )
+                )
             }
         }
     }
@@ -143,11 +150,10 @@ class AddEditBudgetViewModel @Inject constructor(
     }
 
     private fun isFormValid(): Boolean {
-        updateNameError()
         updateAmountError()
         updateCategoryError()
         val state = _state.value
-        return state.nameError.isNull && state.amountError.isNull && state.categoryError.isNull
+        return state.amountError.isNull && state.categoryError.isNull
     }
 
     sealed class UiEvent {

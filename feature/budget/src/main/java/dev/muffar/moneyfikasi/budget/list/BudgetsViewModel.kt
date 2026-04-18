@@ -6,6 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.usecase.budget.BudgetUseCases
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -16,8 +19,8 @@ class BudgetsViewModel @Inject constructor(
     private val budgetUseCases: BudgetUseCases
 ) : ViewModel() {
 
-    private val _state = mutableStateOf(BudgetsState())
-    val state: State<BudgetsState> = _state
+    private val _state = MutableStateFlow(BudgetsState())
+    val state: StateFlow<BudgetsState> = _state.asStateFlow()
 
     init {
         getBudgets()

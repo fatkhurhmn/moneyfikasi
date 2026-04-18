@@ -1,7 +1,7 @@
 package dev.muffar.moneyfikasi.budget.add_edit.navigation
 
 import androidx.compose.runtime.getValue
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -17,7 +17,7 @@ import java.util.UUID
 fun NavGraphBuilder.addEditBudgetNavigation(
     navigateBack: () -> Unit,
     navigateToAddCategory: () -> Unit,
-    ) {
+) {
     composable(
         route = Screen.AddEditBudget.route,
         arguments = listOf(
@@ -33,12 +33,12 @@ fun NavGraphBuilder.addEditBudgetNavigation(
         AddEditBudgetScreen(
             state = state,
             eventFlow = viewModel.eventFlow,
-            onNameChange = { viewModel.onEvent(AddEditBudgetEvent.OnNameChange(it)) },
             onAmountChange = { viewModel.onEvent(AddEditBudgetEvent.OnAmountChange(it)) },
             onCategorySelect = { viewModel.onEvent(AddEditBudgetEvent.OnCategoryChange(it)) },
             onAddNewCategoryClick = navigateToAddCategory,
+            onShowAlert = { viewModel.onEvent(AddEditBudgetEvent.OnShowDeleteAlert(it)) },
             onSubmit = { viewModel.onEvent(AddEditBudgetEvent.OnSaveBudget) },
-            onDelete = { /* TODO */ },
+            onDelete = { viewModel.onEvent(AddEditBudgetEvent.OnDeleteBudget) },
             onBackClick = navigateBack
         )
     }

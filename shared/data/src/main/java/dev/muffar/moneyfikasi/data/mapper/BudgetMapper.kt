@@ -7,7 +7,6 @@ import dev.muffar.moneyfikasi.domain.model.Budget
 fun BudgetWithCategory.toDomain(): Budget {
     return Budget(
         id = this.budget.id,
-        name = this.budget.name,
         amount = this.budget.amount,
         category = this.category?.toDomain()
     )
@@ -16,7 +15,6 @@ fun BudgetWithCategory.toDomain(): Budget {
 fun Budget.toEntity(): BudgetEntity {
     return BudgetEntity(
         id = this.id,
-        name = this.name,
         amount = this.amount,
         categoryId = this.category?.id
     )
