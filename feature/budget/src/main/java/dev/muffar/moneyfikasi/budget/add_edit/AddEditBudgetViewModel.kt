@@ -61,7 +61,7 @@ class AddEditBudgetViewModel @Inject constructor(
                             it.copy(
                                 id = budget.id,
                                 amount = budget.amount.formatThousand(),
-                                category = budget.category ?: Category()
+                                category = budget.category
                             )
                         }
                     }
@@ -108,7 +108,7 @@ class AddEditBudgetViewModel @Inject constructor(
         val currentCategory = _state.value.category
         val error = when {
             currentCategory.name.isEmpty() -> "Category must be selected"
-            currentCategory.id in _state.value.budgets.map { it.category?.id } -> "This category already has a budget"
+            _state.value.id == null && currentCategory.id in _state.value.budgets.map { it.category.id } -> "This category already has a budget"
             else -> null
         }
         _state.update { it.copy(categoryError = ErrorMessage(error)) }

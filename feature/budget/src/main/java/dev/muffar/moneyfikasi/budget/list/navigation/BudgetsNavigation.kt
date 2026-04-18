@@ -12,10 +12,6 @@ import dev.muffar.moneyfikasi.budget.list.BudgetsViewModel
 import dev.muffar.moneyfikasi.navigation.Screen
 import java.util.UUID
 
-fun NavController.toBudgetsScreen(navOptions: NavOptions? = null) {
-    this.navigate(Screen.Budgets.route, navOptions)
-}
-
 fun NavGraphBuilder.budgetsNavigation(
     navigateToAddBudget: () -> Unit,
     navigateToEditBudget: (UUID) -> Unit,
@@ -32,4 +28,8 @@ fun NavGraphBuilder.budgetsNavigation(
             onBackClick = navigateBack
         )
     }
+}
+
+fun NavController.toBudgetsScreen(navOptions: NavOptions? = null) {
+    this.navigate(Screen.Budgets.route, navOptions)
 }

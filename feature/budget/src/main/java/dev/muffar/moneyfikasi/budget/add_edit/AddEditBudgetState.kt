@@ -8,8 +8,6 @@ import java.util.UUID
 
 data class AddEditBudgetState(
     val id: UUID? = null,
-    val name: String = "",
-    val nameError: ErrorMessage = ErrorMessage(),
     val amount: String = "0",
     val amountError: ErrorMessage = ErrorMessage(),
     val category: Category = Category(),
@@ -22,6 +20,6 @@ data class AddEditBudgetState(
         get() = Budget(
             id = id ?: UUID.randomUUID(),
             amount = amount.clearThousandFormat().toDoubleOrNull() ?: 0.0,
-            category = if (category.name.isNotEmpty()) category else null
+            category = category
         )
 }

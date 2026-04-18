@@ -24,7 +24,7 @@ fun BudgetsContent(
             items(budgets, key = { it.id }) { budget ->
                 BudgetItem(
                     budget = budget,
-                    spentAmount = 0.0, // TODO: Implement spent amount calculation
+                    spentAmount = budget.spentAmount,
                     onClick = { onClick(budget.id) }
                 )
             }

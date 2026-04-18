@@ -19,5 +19,5 @@ data class BudgetEntity(
     val amount: Double,
 
     @ColumnInfo(name = "category_id")
-    val categoryId: UUID?
+    val categoryId: UUID
 )
