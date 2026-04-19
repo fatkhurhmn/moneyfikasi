@@ -25,10 +25,10 @@ fun PresetGrid(
     onPresetClick: (type: TransactionType, id: UUID) -> Unit
 ) {
 
-    val itemWidth = 70.dp
+    val itemWidth = 60.dp
     val spacing = 12.dp
     val horizontalPadding = 16.dp
-    val aspectRatio = 1f
+    val aspectRatio = 0.9f
 
     val itemHeight = itemWidth / aspectRatio
     val gridHeight = (itemHeight * 2) + spacing

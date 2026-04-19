@@ -37,7 +37,18 @@ fun QuickTransactionItem(
     aspectRatio: Float = 1f,
     onClick: () -> Unit,
 ) {
-    val color = preset.category?.color
+    val color = when {
+        preset.category != null -> preset.category?.color
+        preset.wallet != null -> preset.wallet?.color
+        else -> null
+    }
+
+    val icon = when {
+        preset.category != null -> preset.category?.icon
+        preset.wallet != null -> preset.wallet?.icon
+        else -> null
+    }
+
     Box(
         modifier = modifier
             .background(
@@ -57,7 +68,7 @@ fun QuickTransactionItem(
             verticalArrangement = Arrangement.Center
         ) {
             IconByName(
-                name = preset.category?.icon,
+                name = icon,
                 tint = Color.White,
                 modifier = Modifier.size(28.dp)
             )

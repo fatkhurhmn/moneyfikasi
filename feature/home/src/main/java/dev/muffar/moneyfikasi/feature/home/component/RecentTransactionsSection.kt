@@ -18,27 +18,24 @@ fun RecentTransactionsSection(
     onSeeAllTransactionsClick: () -> Unit,
     onTransactionClick: (UUID, Boolean) -> Unit,
 ) {
+    if (transactions.isEmpty()) return
     Column {
         DashboardLabel(
             label = stringResource(R.string.recent_transaction),
             onMoreClick = onSeeAllTransactionsClick
         )
         Spacer(modifier = Modifier.height(8.dp))
-        if (transactions.isNotEmpty()) {
-            transactions.forEach {
-                TransactionItem(
-                    transaction = it,
-                    onClick = { id ->
-                        onTransactionClick(
-                            id,
-                            it.isTransfer || it.category.isFeeTransfer
-                        )
-                    },
-                    showDate = true
-                )
-            }
-        } else {
-            EmptyTransactionSection()
+        transactions.forEach {
+            TransactionItem(
+                transaction = it,
+                onClick = { id ->
+                    onTransactionClick(
+                        id,
+                        it.isTransfer || it.category.isFeeTransfer
+                    )
+                },
+                showDate = true
+            )
         }
     }
 }
