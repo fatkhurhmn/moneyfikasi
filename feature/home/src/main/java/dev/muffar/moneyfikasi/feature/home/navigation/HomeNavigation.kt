@@ -16,6 +16,8 @@ fun NavGraphBuilder.homeNavigation(
     onTransactionClick: (UUID, Boolean) -> Unit,
     onSeeAllTransactionsClick: () -> Unit,
     onPresetClick: (TransactionType, UUID) -> Unit,
+    onBudgetClick: (UUID) -> Unit,
+    onSeeAllBudgetsClick: () -> Unit,
     navigateToAddPreset: () -> Unit,
     navigateToPresets: () -> Unit,
 ) {
@@ -34,6 +36,8 @@ fun NavGraphBuilder.homeNavigation(
             onPresetClick = onPresetClick,
             onAddPresetClick = navigateToAddPreset,
             onPresetsClick = navigateToPresets,
+            onBudgetClick = onBudgetClick,
+            onSeeAllBudgetsClick = onSeeAllBudgetsClick
         )
     }
 }

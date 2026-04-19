@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TransactionType
+import dev.muffar.moneyfikasi.feature.home.component.BudgetSection
 import dev.muffar.moneyfikasi.feature.home.component.QuickTransactionSection
 import dev.muffar.moneyfikasi.feature.home.component.RecentTransactionsSection
 import dev.muffar.moneyfikasi.feature.home.component.ReportDateSheet
@@ -35,6 +36,8 @@ fun HomeScreen(
     onPresetClick: (TransactionType, UUID) -> Unit,
     onAddPresetClick: () -> Unit,
     onPresetsClick: () -> Unit,
+    onBudgetClick: (UUID) -> Unit,
+    onSeeAllBudgetsClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -70,6 +73,12 @@ fun HomeScreen(
                 onPresetClick = onPresetClick,
                 onAddPresetClick = onAddPresetClick,
                 onPresetsClick = onPresetsClick
+            )
+
+            BudgetSection(
+                budgets = state.budgets,
+                onBudgetClick = onBudgetClick,
+                onSeeAllBudgetsClick = onSeeAllBudgetsClick
             )
 
             RecentTransactionsSection(

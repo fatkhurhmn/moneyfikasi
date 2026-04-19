@@ -7,6 +7,7 @@ import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.model.TrendResult
 import dev.muffar.moneyfikasi.domain.model.TrendType
+import dev.muffar.moneyfikasi.domain.usecase.budget.BudgetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preset.PresetUseCases
@@ -33,6 +34,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
+import org.threeten.bp.ZoneOffset
 import javax.inject.Inject
 import kotlin.math.abs
 
@@ -43,6 +45,7 @@ class HomeViewModel @Inject constructor(
     private val transactionUseCases: TransactionUseCases,
     private val preferencesUseCases: PreferencesUseCases,
     private val presetUseCases: PresetUseCases,
+    private val budgetUseCases: BudgetUseCases,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeState())
@@ -55,6 +58,7 @@ class HomeViewModel @Inject constructor(
         observeTransactions()
         loadRecentTransactions()
         loadPresets()
+        loadBudgets()
     }
 
     fun onEvent(event: HomeEvent) {
@@ -129,6 +133,48 @@ class HomeViewModel @Inject constructor(
                 .collectLatest { presets ->
                     _state.update { it.copy(presets = presets) }
                 }
+        }
+    }
+
+    private fun loadBudgets() {
+        val startOfMonth = LocalDateTime.now()
+            .withDayOfMonth(1)
+            .withHour(0)
+            .withMinute(0)
+            .withSecond(0)
+            .toInstant(ZoneOffset.UTC)
+            .toEpochMilli()
+
+        val endOfMonth = LocalDateTime.now()
+            .plusMonths(1)
+            .withDayOfMonth(1)
+            .withHour(0)
+            .withMinute(0)
+            .withSecond(0)
+            .toInstant(ZoneOffset.UTC)
+            .toEpochMilli()
+
+        viewModelScope.launch {
+            budgetUseCases.getAllBudgets().collectLatest { budgets ->
+                _state.update { it.copy(budgets = budgets) }
+                budgets.forEach { budget ->
+                    launch {
+                        transactionUseCases.getExpenseSum(
+                            startDateRange = startOfMonth,
+                            endDateRange = endOfMonth,
+                            categories = setOf(budget.category),
+                            wallets = emptySet()
+                        ).collectLatest { spent ->
+                            _state.update { state ->
+                                val updatedBudgets = state.budgets.map {
+                                    if (it.id == budget.id) it.copy(spentAmount = spent) else it
+                                }.sortedByDescending { if (it.amount > 0) it.spentAmount / it.amount else 0.0 }
+                                state.copy(budgets = updatedBudgets)
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

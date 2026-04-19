@@ -56,8 +56,10 @@ fun RootNavigation(
             onPresetClick = { type, id ->
                 navController.toAddEditTransactionScreen(type = type, presetId = id)
             },
+            onBudgetClick = { id -> navController.toAddEditBudgetScreen(id) },
+            onSeeAllBudgetsClick = { navController.toBudgetsScreen() },
             navigateToAddPreset = { navController.toAddEditPresetScreen(TransactionType.INCOME) },
-            navigateToPresets = { navController.toPresetListScreen() }
+            navigateToPresets = { navController.toPresetListScreen() },
         )
 
         transactionsNavGraph(
