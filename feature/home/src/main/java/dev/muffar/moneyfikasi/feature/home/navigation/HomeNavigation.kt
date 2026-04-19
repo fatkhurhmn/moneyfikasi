@@ -20,6 +20,7 @@ fun NavGraphBuilder.homeNavigation(
     onSeeAllBudgetsClick: () -> Unit,
     navigateToAddPreset: () -> Unit,
     navigateToPresets: () -> Unit,
+    navigateToAddBudget: () -> Unit
 ) {
     composable(Screen.Home.route) {
         val viewModel = hiltViewModel<HomeViewModel>()
@@ -37,7 +38,8 @@ fun NavGraphBuilder.homeNavigation(
             onAddPresetClick = navigateToAddPreset,
             onPresetsClick = navigateToPresets,
             onBudgetClick = onBudgetClick,
-            onSeeAllBudgetsClick = onSeeAllBudgetsClick
+            onSeeAllBudgetsClick = onSeeAllBudgetsClick,
+            onAddBudgetClick = navigateToAddBudget
         )
     }
 }

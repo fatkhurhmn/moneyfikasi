@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.budget.list.component
+package dev.muffar.moneyfikasi.common_ui.component.budget
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -44,11 +44,11 @@ fun BudgetItem(
     }
 
     Row(
-        modifier
+        modifier = Modifier
             .clickable { onClick() }
             .fillMaxWidth()
             .height(70.dp)
-            .padding(horizontal = 24.dp, vertical = 8.dp)
+            .then(modifier)
     ) {
         ItemCategoryIcon(
             category = budget.category,

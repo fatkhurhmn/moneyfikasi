@@ -38,6 +38,7 @@ fun HomeScreen(
     onPresetsClick: () -> Unit,
     onBudgetClick: (UUID) -> Unit,
     onSeeAllBudgetsClick: () -> Unit,
+    onAddBudgetClick: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -60,7 +61,7 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
             ReportSection(
                 state = state,
@@ -78,7 +79,8 @@ fun HomeScreen(
             BudgetSection(
                 budgets = state.budgets,
                 onBudgetClick = onBudgetClick,
-                onSeeAllBudgetsClick = onSeeAllBudgetsClick
+                onSeeAllBudgetsClick = onSeeAllBudgetsClick,
+                onAddBudgetClick = onAddBudgetClick
             )
 
             RecentTransactionsSection(

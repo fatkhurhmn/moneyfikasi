@@ -36,7 +36,7 @@ fun TransactionItem(
         modifier = modifier
             .fillMaxWidth()
             .clickable { onClick(transaction.id) }
-            .padding(horizontal = 16.dp, vertical = 10.dp),
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {

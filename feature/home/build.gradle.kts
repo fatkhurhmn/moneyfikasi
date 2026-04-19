@@ -39,8 +39,6 @@ dependencies {
     implementation(projects.shared.resource)
     implementation(projects.shared.utils)
 
-    implementation(projects.feature.budget)
-
     implementation(libs.androidx.core.ktx)
 
     implementation(platform(libs.androidx.compose.bom))
