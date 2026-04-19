@@ -81,10 +81,11 @@ fun RootNavigation(
         )
 
         statisticNavGraph(
-            onNavigateToStatisticDetail = { dateRange, categoryId ->
+            onNavigateToStatisticDetail = { dateRange, categoryId, categoryName ->
                 navController.toStatisticDetailScreen(
                     dateRange,
-                    categoryId.toString()
+                    categoryId.toString(),
+                    categoryName
                 )
             },
             onNavigateToTransactionDetail = { id, isTransfer ->

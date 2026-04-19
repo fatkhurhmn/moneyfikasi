@@ -13,7 +13,7 @@ import dev.muffar.moneyfikasi.statistic.main.StatisticViewModel
 import java.util.UUID
 
 fun NavGraphBuilder.statisticNavigation(
-    onNavigateToStatisticDetail : (Pair<Long, Long>, UUID) -> Unit
+    onNavigateToStatisticDetail : (Pair<Long, Long>, UUID, String) -> Unit
 ) {
     composable(Screen.Statistic.route) {
         val viewModel = hiltViewModel<StatisticViewModel>()

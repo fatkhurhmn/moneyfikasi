@@ -20,6 +20,7 @@ fun NavGraphBuilder.statisticDetailNavigation(
         val state by viewModel.state.collectAsState()
 
         StatisticDetailScreen(
+            categoryName = it.arguments?.getString(Screen.StatisticDetail.CATEGORY_NAME) ?: "",
             state = state,
             onClick = onNavigateToDetail,
             onBackClick = onNavigateBack
@@ -27,6 +28,6 @@ fun NavGraphBuilder.statisticDetailNavigation(
     }
 }
 
-fun NavController.toStatisticDetailScreen(dateRange: Pair<Long, Long>, categoryId: String) {
-    navigate(Screen.StatisticDetail.routeWithArg(dateRange.first, dateRange.second, categoryId))
+fun NavController.toStatisticDetailScreen(dateRange: Pair<Long, Long>, categoryId: String, categoryName: String) {
+    navigate(Screen.StatisticDetail.routeWithArg(dateRange.first, dateRange.second, categoryId, categoryName))
 }

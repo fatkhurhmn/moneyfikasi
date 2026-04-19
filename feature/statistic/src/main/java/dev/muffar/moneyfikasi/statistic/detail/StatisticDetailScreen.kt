@@ -29,6 +29,7 @@ import java.util.UUID
 @Composable
 fun StatisticDetailScreen(
     modifier: Modifier = Modifier,
+    categoryName: String,
     state: StatisticDetailState,
     onClick: (UUID, Boolean) -> Unit,
     onBackClick: () -> Unit,
@@ -40,7 +41,7 @@ fun StatisticDetailScreen(
     Scaffold(
         topBar = {
             CommonTopAppBar(
-                title = stringResource(R.string.statistic_detail),
+                title = categoryName,
                 onBackClick = onBackClick
             )
         }

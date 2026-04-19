@@ -6,7 +6,7 @@ import dev.muffar.moneyfikasi.statistic.main.navigation.statisticNavigation
 import java.util.UUID
 
 fun NavGraphBuilder.statisticNavGraph(
-    onNavigateToStatisticDetail: (Pair<Long, Long>, UUID) -> Unit,
+    onNavigateToStatisticDetail: (Pair<Long, Long>, UUID, String) -> Unit,
     onNavigateToTransactionDetail: (UUID, Boolean) -> Unit,
     onNavigateBack: () -> Unit,
 ) {

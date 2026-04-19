@@ -28,7 +28,7 @@ fun StatisticScreen(
     state: StatisticState,
     onTimeReferenceChange: (LocalDateTime) -> Unit,
     onDateRangeChange: (DateRange) -> Unit,
-    onItemClick: (dateRange: Pair<Long, Long>, category: UUID) -> Unit,
+    onItemClick: (dateRange: Pair<Long, Long>, category: UUID, categoryName: String) -> Unit,
     onShowChooseDateSheet: (Boolean) -> Unit,
     onShowCustomDateSheet: (Boolean) -> Unit,
 ) {
@@ -63,7 +63,8 @@ fun StatisticScreen(
                         onClick = { category ->
                             onItemClick(
                                 state.dateRange.start to state.dateRange.end,
-                                category.id
+                                category.id,
+                                category.name
                             )
                         }
                     )
@@ -74,7 +75,8 @@ fun StatisticScreen(
                         onClick = { category ->
                             onItemClick(
                                 state.dateRange.start to state.dateRange.end,
-                                category.id
+                                category.id,
+                                category.name
                             )
                         }
                     )
