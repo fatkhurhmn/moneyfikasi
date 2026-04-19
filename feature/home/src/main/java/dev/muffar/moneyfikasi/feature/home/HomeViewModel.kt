@@ -59,6 +59,7 @@ class HomeViewModel @Inject constructor(
         loadRecentTransactions()
         loadPresets()
         loadBudgets()
+        observeBudgets()
     }
 
     fun onEvent(event: HomeEvent) {
@@ -137,22 +138,9 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun loadBudgets() {
-        val startOfMonth = LocalDateTime.now()
-            .withDayOfMonth(1)
-            .withHour(0)
-            .withMinute(0)
-            .withSecond(0)
-            .toInstant(ZoneOffset.UTC)
-            .toEpochMilli()
+        val startOfMonth = LocalDateTime.now().startOfMonth()
 
-        val endOfMonth = LocalDateTime.now()
-            .plusMonths(1)
-            .withDayOfMonth(1)
-            .withHour(0)
-            .withMinute(0)
-            .withSecond(0)
-            .toInstant(ZoneOffset.UTC)
-            .toEpochMilli()
+        val endOfMonth = LocalDateTime.now().endOfMonth()
 
         viewModelScope.launch {
             budgetUseCases.getAllBudgets().collectLatest { budgets ->
@@ -175,6 +163,34 @@ class HomeViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    private fun observeBudgets() {
+        viewModelScope.launch {
+            state
+                .map { Pair(it.wallets, it.budgets) }
+                .collectLatest { (wallets, budgets) ->
+                    budgets.forEach { budget ->
+                        launch {
+                            val startOfMonth = LocalDateTime.now().startOfMonth()
+                            val endOfMonth = LocalDateTime.now().endOfMonth()
+                            transactionUseCases.getExpenseSum(
+                                startDateRange = startOfMonth,
+                                endDateRange = endOfMonth,
+                                categories = setOf(budget.category),
+                                wallets = wallets.toSet()
+                            ).collectLatest { spent ->
+                                _state.update { state ->
+                                    val updatedBudgets = state.budgets.map {
+                                        if (it.id == budget.id) it.copy(spentAmount = spent) else it
+                                    }
+                                    state.copy(budgets = updatedBudgets)
+                                }
+                            }
+                        }
+                    }
+                }
         }
     }
 
