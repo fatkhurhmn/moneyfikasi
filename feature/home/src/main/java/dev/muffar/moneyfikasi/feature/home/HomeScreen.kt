@@ -36,7 +36,6 @@ fun HomeScreen(
     onPresetClick: (TransactionType, UUID) -> Unit,
     onAddPresetClick: () -> Unit,
     onPresetsClick: () -> Unit,
-    onBudgetClick: (UUID) -> Unit,
     onSeeAllBudgetsClick: () -> Unit,
     onAddBudgetClick: () -> Unit
 ) {
@@ -78,7 +77,7 @@ fun HomeScreen(
 
             BudgetSection(
                 budgets = state.budgets,
-                onBudgetClick = onBudgetClick,
+                onBudgetClick = {},
                 onSeeAllBudgetsClick = onSeeAllBudgetsClick,
                 onAddBudgetClick = onAddBudgetClick
             )
