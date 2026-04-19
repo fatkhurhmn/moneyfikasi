@@ -140,7 +140,7 @@
     <string name="delete_preset_message">Are you sure you want to delete this preset?</string>
     <string name="no_preset">No Presets Yet</string>
     <string name="no_preset_message">Create one to quickly add transactions.</string>
-    <string name="quick_transaction">Quick Transaction</string>
+    <string name="quick_transactions">Quick Transactions</string>
     <string name="add_preset">Add Preset</string>
     <string name="budgets">Budgets</string>
     <string name="budget">Budget</string>

@@ -21,7 +21,7 @@ fun QuickTransactionSection(
 ) {
     Column {
         DashboardLabel(
-            label = stringResource(R.string.quick_transaction),
+            label = stringResource(R.string.quick_transactions),
             moreText = stringResource(R.string.presets),
             onMoreClick = onPresetsClick
         )
