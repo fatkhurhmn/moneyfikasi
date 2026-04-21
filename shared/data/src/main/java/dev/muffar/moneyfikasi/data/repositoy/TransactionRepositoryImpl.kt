@@ -1,5 +1,9 @@
 package dev.muffar.moneyfikasi.data.repositoy
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import dev.muffar.moneyfikasi.data.db.dao.TransactionDao
 import dev.muffar.moneyfikasi.data.db.dao.WalletDao
 import dev.muffar.moneyfikasi.data.db.entity.TransactionEntity
@@ -30,6 +34,33 @@ class TransactionRepositoryImpl @Inject constructor(
             categories = categories,
             wallets = wallets
         ).map { list -> list.map { it.toDomain() } }
+    }
+
+    override fun getAllTransactionsPaged(
+        startDateRange: Long,
+        endDateRange: Long,
+        categories: Set<UUID>?,
+        wallets: Set<UUID>?
+    ): Flow<PagingData<Transaction>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5,
+            ),
+            pagingSourceFactory = {
+                transactionDao.getAllTransactionsPaged(
+                    start = startDateRange,
+                    end = endDateRange,
+                    categories = categories,
+                    wallets = wallets
+                )
+            }
+        ).flow.map { pagingData ->
+            pagingData.map {
+                it.toDomain().apply {
+                    println("Paging: New Transaction emitted ${this.date}")
+                }
+            }
+        }
     }
 
     override fun getRecentTransactions(limit: Int): Flow<List<Transaction>> {

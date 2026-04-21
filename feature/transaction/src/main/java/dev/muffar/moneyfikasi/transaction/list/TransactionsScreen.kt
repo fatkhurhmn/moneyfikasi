@@ -11,6 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.ChooseDateSheet
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.CustomDateSheet
@@ -39,6 +41,8 @@ fun TransactionsScreen(
     onResetFilter: () -> Unit,
     onFilterChanged: (TransactionFilter) -> Unit,
 ) {
+    val transactions = state.transactions.collectAsLazyPagingItems()
+
     Scaffold(
         topBar = {
             TransactionsTopBar(
@@ -59,18 +63,18 @@ fun TransactionsScreen(
                 onTimeReferenceChange = onTimeReferenceChange,
             )
 
-            when {
-                state.transactionsByDate.isNotEmpty() -> TransactionsList(
-                    transactionsByDate = state.transactionsByDate,
-                    onItemClick = onTransactionItemClick
-                )
-
-                state.isLoading -> TransactionsLoading()
-
-                else -> EmptyDataList(
+            if (transactions.loadState.refresh is LoadState.Loading) {
+                TransactionsLoading()
+            } else if (transactions.itemCount == 0) {
+                EmptyDataList(
                     painter = painterResource(id = R.drawable.ic_empty_transactions),
                     title = stringResource(id = R.string.no_transactions),
                     description = stringResource(id = R.string.no_transactions_message)
+                )
+            } else {
+                TransactionsList(
+                    transactions = transactions,
+                    onItemClick = onTransactionItemClick
                 )
             }
         }

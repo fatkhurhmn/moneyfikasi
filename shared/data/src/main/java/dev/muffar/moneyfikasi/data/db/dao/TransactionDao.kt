@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.data.db.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -23,17 +24,70 @@ abstract class TransactionDao {
         """
         SELECT * FROM transactions 
         WHERE (date BETWEEN :start AND :end) 
-        AND (category_id IN (:categories)) 
-        AND (wallet_id IN (:wallets)) 
+        AND (:filterCategories = 0 OR category_id IN (:categories)) 
+        AND (:filterWallets = 0 OR wallet_id IN (:wallets)) 
         ORDER BY date DESC
         """
     )
-    abstract fun getAllTransactions(
+    protected abstract fun getAllTransactionsInternal(
+        start: Long,
+        end: Long,
+        categories: Set<UUID>?,
+        filterCategories: Boolean,
+        wallets: Set<UUID>?,
+        filterWallets: Boolean
+    ): Flow<List<TransactionWithDetails>>
+
+    fun getAllTransactions(
         start: Long,
         end: Long,
         categories: Set<UUID>?,
         wallets: Set<UUID>?
-    ): Flow<List<TransactionWithDetails>>
+    ): Flow<List<TransactionWithDetails>> {
+        return getAllTransactionsInternal(
+            start,
+            end,
+            categories,
+            !categories.isNullOrEmpty(),
+            wallets,
+            !wallets.isNullOrEmpty()
+        )
+    }
+
+    @Transaction
+    @Query(
+        """
+        SELECT * FROM transactions 
+        WHERE (date BETWEEN :start AND :end) 
+        AND (:filterCategories = 0 OR category_id IN (:categories)) 
+        AND (:filterWallets = 0 OR wallet_id IN (:wallets)) 
+        ORDER BY date DESC
+        """
+    )
+    protected abstract fun getAllTransactionsPagedInternal(
+        start: Long,
+        end: Long,
+        categories: Set<UUID>?,
+        filterCategories: Boolean,
+        wallets: Set<UUID>?,
+        filterWallets: Boolean
+    ): PagingSource<Int, TransactionWithDetails>
+
+    fun getAllTransactionsPaged(
+        start: Long,
+        end: Long,
+        categories: Set<UUID>?,
+        wallets: Set<UUID>?
+    ): PagingSource<Int, TransactionWithDetails> {
+        return getAllTransactionsPagedInternal(
+            start,
+            end,
+            categories,
+            !categories.isNullOrEmpty(),
+            wallets,
+            !wallets.isNullOrEmpty()
+        )
+    }
 
     @Transaction
     @Query(
@@ -48,53 +102,106 @@ abstract class TransactionDao {
 
     @Query(
         """
-        SELECT COALESCE(SUM(amount), 0.0) FROM transactions 
+        SELECT TOTAL(amount) FROM transactions 
         WHERE type = 'INCOME' 
         AND (date BETWEEN :start AND :end)
-        AND (category_id IN (:categories))
-        AND (wallet_id IN (:wallets))
+        AND (:filterCategories = 0 OR category_id IN (:categories))
+        AND (:filterWallets = 0 OR wallet_id IN (:wallets))
         """
     )
-    abstract fun getIncomeSum(
+    protected abstract fun getIncomeSumInternal(
+        start: Long,
+        end: Long,
+        categories: Set<UUID>?,
+        filterCategories: Boolean,
+        wallets: Set<UUID>?,
+        filterWallets: Boolean
+    ): Flow<Double>
+
+    fun getIncomeSum(
         start: Long,
         end: Long,
         categories: Set<UUID>?,
         wallets: Set<UUID>?
-    ): Flow<Double>
+    ): Flow<Double> {
+        return getIncomeSumInternal(
+            start,
+            end,
+            categories,
+            !categories.isNullOrEmpty(),
+            wallets,
+            !wallets.isNullOrEmpty()
+        )
+    }
 
     @Query(
         """
-        SELECT COALESCE(SUM(amount), 0.0) FROM transactions 
+        SELECT TOTAL(amount) FROM transactions 
         WHERE type = 'EXPENSE' 
         AND (date BETWEEN :start AND :end)
-        AND (category_id IN (:categories))
-        AND (wallet_id IN (:wallets))
+        AND (:filterCategories = 0 OR category_id IN (:categories))
+        AND (:filterWallets = 0 OR wallet_id IN (:wallets))
         """
     )
-    abstract fun getExpenseSum(
+    protected abstract fun getExpenseSumInternal(
+        start: Long,
+        end: Long,
+        categories: Set<UUID>?,
+        filterCategories: Boolean,
+        wallets: Set<UUID>?,
+        filterWallets: Boolean
+    ): Flow<Double>
+
+    fun getExpenseSum(
         start: Long,
         end: Long,
         categories: Set<UUID>?,
         wallets: Set<UUID>?
-    ): Flow<Double>
+    ): Flow<Double> {
+        return getExpenseSumInternal(
+            start,
+            end,
+            categories,
+            !categories.isNullOrEmpty(),
+            wallets,
+            !wallets.isNullOrEmpty()
+        )
+    }
 
     @Query(
         """
         SELECT 
-            COALESCE(SUM(CASE WHEN type = 'INCOME' THEN amount ELSE 0 END), 0.0) - 
-            COALESCE(SUM(CASE WHEN type = 'EXPENSE' THEN amount ELSE 0 END), 0.0)
+            TOTAL(CASE WHEN type = 'INCOME' THEN amount WHEN type = 'EXPENSE' THEN -amount ELSE 0 END)
         FROM transactions 
         WHERE (date BETWEEN :start AND :end)
-        AND (category_id IN (:categories))
-        AND (wallet_id IN (:wallets))
+        AND (:filterCategories = 0 OR category_id IN (:categories))
+        AND (:filterWallets = 0 OR wallet_id IN (:wallets))
         """
     )
-    abstract fun getNetBalance(
+    protected abstract fun getNetBalanceInternal(
+        start: Long,
+        end: Long,
+        categories: Set<UUID>?,
+        filterCategories: Boolean,
+        wallets: Set<UUID>?,
+        filterWallets: Boolean
+    ): Flow<Double>
+
+    fun getNetBalance(
         start: Long,
         end: Long,
         categories: Set<UUID>?,
         wallets: Set<UUID>?
-    ): Flow<Double>
+    ): Flow<Double> {
+        return getNetBalanceInternal(
+            start,
+            end,
+            categories,
+            !categories.isNullOrEmpty(),
+            wallets,
+            !wallets.isNullOrEmpty()
+        )
+    }
 
     @Transaction
     @Query("SELECT * FROM transactions WHERE note LIKE '%' || :query || '%'")
@@ -242,7 +349,7 @@ abstract class TransactionDao {
             updateWalletBalance(oldFeeTx.walletId, oldFeeTx.amount) // Refund Fee
         }
 
-        // 2. Update Source & Target Rows
+        // 2. Update Source \u0026 Target Rows
         val updatedSource = oldSourceTx.copy(
             walletId = sourceWalletId,
             amount = amount,

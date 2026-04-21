@@ -43,6 +43,8 @@ dependencies {
     implementation(libs.threetenabp)
 
     implementation(libs.androidx.datastore)
+
+    implementation(libs.androidx.paging.runtime)
 }
 
 kapt {

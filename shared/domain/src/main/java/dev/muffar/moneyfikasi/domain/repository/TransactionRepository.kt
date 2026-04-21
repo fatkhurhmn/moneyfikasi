@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.domain.repository
 
+import androidx.paging.PagingData
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.TransferDetail
@@ -14,6 +15,13 @@ interface TransactionRepository {
         categories: Set<UUID>? = null,
         wallets: Set<UUID>? = null,
     ): Flow<List<Transaction>>
+
+    fun getAllTransactionsPaged(
+        startDateRange: Long,
+        endDateRange: Long,
+        categories: Set<UUID>? = null,
+        wallets: Set<UUID>? = null,
+    ): Flow<PagingData<Transaction>>
 
     fun getRecentTransactions(limit: Int): Flow<List<Transaction>>
 

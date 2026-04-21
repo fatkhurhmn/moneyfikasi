@@ -2,6 +2,7 @@ package dev.muffar.moneyfikasi.transaction.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TransactionFilter
@@ -9,15 +10,14 @@ import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.domain.utils.extension.toDateRange
-import dev.muffar.moneyfikasi.utils.extensions.format
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDateTime
@@ -54,31 +54,20 @@ class TransactionsViewModel @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun observeTransactions() {
-        viewModelScope.launch {
-            state
-                .map { Pair(it.filter, it.dateRange) }
-                .distinctUntilChanged()
-                .flatMapLatest { (filter, dateRange) ->
-                    transactionUseCases.getAllTransactions(
-                        dateRange.start,
-                        dateRange.end,
-                        filter.categories,
-                        filter.wallets
-                    )
-                }
-                .onStart { _state.update { it.copy(isLoading = true) } }
-                .collectLatest { transactions ->
-                    _state.update {
-                        it.copy(
-                            transactions = transactions,
-                            transactionsByDate = transactions.groupBy { tx ->
-                                tx.date.format("yyyy-MM-dd")
-                            },
-                            isLoading = false
-                        )
-                    }
-                }
-        }
+        val transactions = state
+            .map { Pair(it.filter, it.dateRange) }
+            .distinctUntilChanged()
+            .flatMapLatest { (filter, dateRange) ->
+                transactionUseCases.getAllTransactionsPaged(
+                    dateRange.start,
+                    dateRange.end,
+                    filter.categories,
+                    filter.wallets
+                )
+            }
+            .cachedIn(viewModelScope)
+
+        _state.update { it.copy(transactions = transactions) }
     }
 
     private fun loadCategories() {

@@ -39,6 +39,7 @@ import dev.muffar.moneyfikasi.domain.usecase.transaction.AddTransaction
 import dev.muffar.moneyfikasi.domain.usecase.transaction.AddTransfer
 import dev.muffar.moneyfikasi.domain.usecase.transaction.DeleteTransaction
 import dev.muffar.moneyfikasi.domain.usecase.transaction.GetAllTransactions
+import dev.muffar.moneyfikasi.domain.usecase.transaction.GetAllTransactionsPaged
 import dev.muffar.moneyfikasi.domain.usecase.transaction.GetExpenseSum
 import dev.muffar.moneyfikasi.domain.usecase.transaction.GetIncomeSum
 import dev.muffar.moneyfikasi.domain.usecase.transaction.GetNetBalance
@@ -99,6 +100,7 @@ object UseCaseModule {
         getExpenseSum = GetExpenseSum(transactionRepository),
         getNetBalance = GetNetBalance(transactionRepository),
         getRecentTransactions = GetRecentTransactions(transactionRepository),
+        getAllTransactionsPaged = GetAllTransactionsPaged(transactionRepository)
     )
 
     @Provides
