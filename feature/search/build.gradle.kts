@@ -51,6 +51,8 @@ dependencies {
 
     implementation(libs.threetenabp)
 
+    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.compose)
 }
 
 kapt {

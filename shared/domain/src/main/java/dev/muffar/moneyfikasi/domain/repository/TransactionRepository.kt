@@ -48,6 +48,8 @@ interface TransactionRepository {
 
     fun getAllTransactions(query: String): Flow<List<Transaction>>
 
+    fun getAllTransactionsPaged(query: String): Flow<PagingData<Transaction>>
+
     fun getTransactionsByWallet(walletId: UUID): Flow<List<Transaction>>
 
     suspend fun getTransactionById(id: UUID): Transaction?

@@ -58,11 +58,7 @@ class TransactionRepositoryImpl @Inject constructor(
                 )
             }
         ).flow.map { pagingData ->
-            pagingData.map {
-                it.toDomain().apply {
-                    println("Paging: New Transaction emitted ${this.date}")
-                }
-            }
+            pagingData.map { it.toDomain() }
         }
     }
 
@@ -101,6 +97,21 @@ class TransactionRepositoryImpl @Inject constructor(
     override fun getAllTransactions(query: String): Flow<List<Transaction>> {
         return transactionDao.getAllTransactions(query)
             .map { list -> list.map { it.toDomain() } }
+    }
+
+    override fun getAllTransactionsPaged(query: String): Flow<PagingData<Transaction>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                initialLoadSize = 20,
+                enablePlaceholders = false,
+            ),
+            pagingSourceFactory = {
+                transactionDao.getAllTransactionsPaged(query)
+            }
+        ).flow.map { pagingData ->
+            pagingData.map { it.toDomain() }
+        }
     }
 
     override fun getTransactionsByWallet(walletId: UUID): Flow<List<Transaction>> {

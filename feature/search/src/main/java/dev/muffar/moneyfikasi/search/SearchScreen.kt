@@ -15,10 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.collectAsLazyPagingItems
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
 import dev.muffar.moneyfikasi.common_ui.component.text_input.SearchBar
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.search.component.TransactionsList
+import kotlinx.coroutines.flow.Flow
+import org.threeten.bp.LocalDateTime
 import java.util.UUID
 
 @Composable
@@ -28,7 +31,9 @@ fun SearchScreen(
     onQueryChange: (String) -> Unit,
     onNavigateToTransactionDetail: (UUID, Boolean) -> Unit,
     onBackClick: () -> Unit,
+    onGetDailyBalance: (LocalDateTime) -> Flow<Double>,
 ) {
+    val transactions = state.transactions.collectAsLazyPagingItems()
 
     Scaffold(
         topBar = {
@@ -36,7 +41,7 @@ fun SearchScreen(
                 modifier = Modifier.fillMaxWidth().padding(16.dp),
                 searchQuery = state.searchQuery ?: "",
                 onBackClick = onBackClick,
-                onQueryChange = onQueryChange
+                onQueryChange = onQueryChange,
             )
         }
     ) {
@@ -54,17 +59,17 @@ fun SearchScreen(
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
                 )
             } else {
-                if (state.transactions.isNotEmpty()) {
+                if (transactions.itemCount > 0) {
                     TransactionsList(
-                        dates = state.transactionsByDate.keys.toList(),
-                        transactions = state.transactionsByDate.values.toList(),
+                        transactions = transactions,
                         onItemClick = { id, isTransfer ->
                             onNavigateToTransactionDetail(
                                 id,
-                                isTransfer
+                                isTransfer,
                             )
                         },
-                        modifier = Modifier.fillMaxSize()
+                        onGetDailyBalance = onGetDailyBalance,
+                        modifier = Modifier.fillMaxSize(),
                     )
                 } else {
                     EmptyDataList(

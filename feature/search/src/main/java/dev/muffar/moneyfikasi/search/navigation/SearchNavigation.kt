@@ -26,6 +26,7 @@ fun NavGraphBuilder.searchNavigation(
             onQueryChange = { event.invoke(SearchEvent.QueryChanged(it)) },
             onNavigateToTransactionDetail = onNavigateToTransactionDetail,
             onBackClick = onNavigateBack,
+            onGetDailyBalance = viewModel::getDailyBalance
         )
     }
 }

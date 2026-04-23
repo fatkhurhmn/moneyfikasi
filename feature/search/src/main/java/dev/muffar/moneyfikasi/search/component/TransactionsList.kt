@@ -1,57 +1,88 @@
 package dev.muffar.moneyfikasi.search.component
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.itemKey
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
-import dev.muffar.moneyfikasi.common_ui.component.GroupTransactionHeader
+import dev.muffar.moneyfikasi.common_ui.component.GroupTransactionHeaderV2
 import dev.muffar.moneyfikasi.common_ui.component.transaction_item.TransactionItem
 import dev.muffar.moneyfikasi.domain.model.Transaction
+import dev.muffar.moneyfikasi.utils.extensions.format
+import kotlinx.coroutines.flow.Flow
+import org.threeten.bp.LocalDateTime
 import java.util.UUID
 
 @Composable
 fun TransactionsList(
     modifier: Modifier = Modifier,
-    dates: List<String>,
-    transactions: List<List<Transaction>>,
-    onItemClick: (UUID, Boolean) -> Unit
+    transactions: LazyPagingItems<Transaction>,
+    onItemClick: (UUID, Boolean) -> Unit,
+    onGetDailyBalance: (LocalDateTime) -> Flow<Double>,
 ) {
     LazyColumn(
         modifier = modifier,
         contentPadding = PaddingValues(bottom = 54.dp)
     ) {
-        dates.forEachIndexed { index, _ ->
-            item {
-                GroupTransactionHeader(
-                    date = transactions[index].first().date,
-                    transactions = transactions[index]
-                )
-            }
+        items(
+            count = transactions.itemCount,
+            key = transactions.itemKey { transaction -> transaction.id }
+        ) { index ->
+            val transaction = transactions[index] ?: return@items
+            val prevTransaction = if (index > 0) transactions[index - 1] else null
 
-            item {
+            val isNewDay = prevTransaction == null ||
+                    (transaction.date.format("yyyy-MM-dd") != prevTransaction.date.format("yyyy-MM-dd"))
+
+            if (isNewDay) {
+                val dailyBalanceFlow = remember(transaction.date.toLocalDate()) {
+                    onGetDailyBalance(transaction.date)
+                }
+                val balance by dailyBalanceFlow.collectAsState(initial = 0.0)
+                GroupTransactionHeaderV2(date = transaction.date, balanceOnDate = balance)
                 CommonHorizontalDivider()
             }
 
-            items(
-                items = transactions[index],
-                key = { transaction -> transaction.id }
-            ) { transaction ->
-                TransactionItem(
-                    transaction = transaction,
-                    onClick = { id ->
-                        onItemClick(
-                            id,
-                            transaction.isTransfer || transaction.category.isFeeTransfer
-                        )
-                    }
-                )
+            TransactionItem(
+                transaction = transaction,
+                onClick = { id ->
+                    onItemClick(
+                        id,
+                        transaction.isTransfer || transaction.category.isFeeTransfer
+                    )
+                }
+            )
+
+            val nextTransaction =
+                if (index < transactions.itemCount - 1) transactions[index + 1] else null
+            val isEndOfDay = nextTransaction == null ||
+                    transaction.date.format("yyyy-MM-dd") != nextTransaction.date.format("yyyy-MM-dd")
+
+            CommonHorizontalDivider(if (isEndOfDay) 8.dp else 0.dp)
+        }
+
+        when (transactions.loadState.append) {
+            is LoadState.Loading -> {
+                item {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                    )
+                }
             }
-            item {
-                CommonHorizontalDivider(8.dp)
-            }
+
+            else -> {}
         }
     }
 }

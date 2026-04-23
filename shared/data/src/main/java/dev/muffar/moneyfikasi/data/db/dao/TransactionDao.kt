@@ -212,6 +212,10 @@ abstract class TransactionDao {
     abstract fun getAllTransactions(query: String): Flow<List<TransactionWithDetails>>
 
     @Transaction
+    @Query("SELECT * FROM transactions WHERE note LIKE '%' || :query || '%'")
+    abstract fun getAllTransactionsPaged(query: String): PagingSource<Int, TransactionWithDetails>
+
+    @Transaction
     @Query("SELECT * FROM transactions WHERE wallet_id = :walletId ORDER BY date DESC")
     abstract fun getTransactionsByWallet(walletId: UUID): Flow<List<TransactionWithDetails>>
 
