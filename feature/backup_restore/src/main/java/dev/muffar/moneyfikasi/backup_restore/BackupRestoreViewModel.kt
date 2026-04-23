@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupRestoreUseCases
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -34,10 +35,10 @@ class BackupRestoreViewModel @Inject constructor(
         viewModelScope.launch {
             backupRestoreUseCases.backupData(uri)
                 .onSuccess {
-                    _eventFlow.emit(UiEvent.ShowMessage("Backup Success"))
+                    _eventFlow.emit(UiEvent.ShowMessage("Backup success", SnackbarType.SUCCESS))
                 }
                 .onFailure {
-                    _eventFlow.emit(UiEvent.ShowMessage("Backup Failed: ${it.message}"))
+                    _eventFlow.emit(UiEvent.ShowMessage("Backup failed", SnackbarType.ERROR))
                 }
         }
     }
@@ -46,15 +47,15 @@ class BackupRestoreViewModel @Inject constructor(
         viewModelScope.launch {
             backupRestoreUseCases.restoreData(uri)
                 .onSuccess {
-                    _eventFlow.emit(UiEvent.ShowMessage("Restore Success"))
+                    _eventFlow.emit(UiEvent.ShowMessage("Restore success", SnackbarType.SUCCESS))
                 }
                 .onFailure {
-                    _eventFlow.emit(UiEvent.ShowMessage("Restore Failed: ${it.message}"))
+                    _eventFlow.emit(UiEvent.ShowMessage("Restore failed", SnackbarType.ERROR))
                 }
         }
     }
 
     sealed class UiEvent {
-        data class ShowMessage(val message: String) : UiEvent()
+        data class ShowMessage(val message: String, val type: SnackbarType) : UiEvent()
     }
 }

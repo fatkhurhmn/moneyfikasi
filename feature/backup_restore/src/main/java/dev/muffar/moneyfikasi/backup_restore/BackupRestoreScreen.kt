@@ -1,7 +1,6 @@
 package dev.muffar.moneyfikasi.backup_restore
 
 import android.net.Uri
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
@@ -10,16 +9,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.backup_restore.component.BackupRestoreImage
 import dev.muffar.moneyfikasi.backup_restore.component.BackupRestoreNotes
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.common_ui.component.button.CommonButton
+import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
+import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -32,7 +34,8 @@ fun BackupRestoreScreen(
     onRestoreClick: (Uri) -> Unit,
     onBackClick: () -> Unit,
 ) {
-    val context = LocalContext.current
+    val snackbarHostState = remember { SnackbarHostState() }
+
     val dirBackupLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.OpenDocumentTree()) {
             if (it != null) {
@@ -53,7 +56,8 @@ fun BackupRestoreScreen(
                 title = stringResource(R.string.backup_restore),
                 onBackClick = onBackClick
             )
-        }
+        },
+        snackbarHost = { SnackbarMessage(snackbarHostState) }
     ) {
         Column(
             modifier = modifier
@@ -85,7 +89,7 @@ fun BackupRestoreScreen(
         eventFlow.collectLatest {
             when (it) {
                 is BackupRestoreViewModel.UiEvent.ShowMessage -> {
-                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                    snackbarHostState.showMessage(it.message, it.type)
                 }
             }
         }
