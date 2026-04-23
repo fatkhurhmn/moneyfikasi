@@ -48,6 +48,9 @@ dependencies {
     kapt(libs.dagger.hilt.compiler)
 
     implementation(libs.threetenabp)
+
+    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.compose)
 }
 
 kapt {

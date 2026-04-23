@@ -23,7 +23,8 @@ fun NavGraphBuilder.statisticDetailNavigation(
             categoryName = it.arguments?.getString(Screen.StatisticDetail.CATEGORY_NAME) ?: "",
             state = state,
             onClick = onNavigateToDetail,
-            onBackClick = onNavigateBack
+            onBackClick = onNavigateBack,
+            onGetDailySum = viewModel::getDailySum
         )
     }
 }
