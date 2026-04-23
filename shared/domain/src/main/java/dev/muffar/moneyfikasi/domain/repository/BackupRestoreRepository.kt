@@ -3,6 +3,6 @@ package dev.muffar.moneyfikasi.domain.repository
 import android.net.Uri
 
 interface BackupRestoreRepository {
-    fun backupData(uri: Uri): Int
-    fun restoreData(uri: Uri, restart: Boolean = true)
+    suspend fun backupData(uri: Uri): Result<Unit>
+    suspend fun restoreData(uri: Uri, restart: Boolean = true): Result<Unit>
 }

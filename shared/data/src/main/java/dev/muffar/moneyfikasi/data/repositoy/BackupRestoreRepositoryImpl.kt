@@ -6,116 +6,108 @@ import android.net.Uri
 import androidx.documentfile.provider.DocumentFile
 import dev.muffar.moneyfikasi.data.db.MoneyfikasiDatabase
 import dev.muffar.moneyfikasi.domain.repository.BackupRestoreRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
+import java.util.zip.ZipEntry
+import java.util.zip.ZipInputStream
+import java.util.zip.ZipOutputStream
 import kotlin.system.exitProcess
 
 class BackupRestoreRepositoryImpl(
     private val context: Context,
     private val db: MoneyfikasiDatabase,
 ) : BackupRestoreRepository {
-    override fun backupData(uri: Uri): Int {
-        var result = -99
-        val dbFile = context.getDatabasePath(MoneyfikasiDatabase.DATABASE_NAME)
-        val dbWalFile = File(dbFile.path + MoneyfikasiDatabase.SQLITE_WAL_FILE_SUFFIX)
-        val dbShmFile = File(dbFile.path + MoneyfikasiDatabase.SQLITE_SHM_FILE_SUFFIX)
-        checkpoint()
 
+    override suspend fun backupData(uri: Uri): Result<Unit> = withContext(Dispatchers.IO) {
         try {
-            val targetDocumentFile = DocumentFile.fromTreeUri(context, uri)
-            targetDocumentFile?.findFile(BACKUP_NAME)?.delete()
-            targetDocumentFile?.findFile(BACKUP_WAL_NAME)?.delete()
-            targetDocumentFile?.findFile(BACKUP_SHM_NAME)?.delete()
-
-            val backupFile =
-                targetDocumentFile?.createFile(
-                    "application/octet-stream",
-                    BACKUP_NAME
-                )
-            val backupWalFile = targetDocumentFile?.createFile(
-                "application/octet-stream",
-                BACKUP_WAL_NAME
-            )
-            val backupShmFile = targetDocumentFile?.createFile(
-                "application/octet-stream",
-                BACKUP_SHM_NAME
-            )
-
-            context.contentResolver.openOutputStream(backupFile!!.uri).use { output ->
-                dbFile.inputStream().use { input -> input.copyTo(output!!) }
-            }
-
-            if (dbWalFile.exists()) {
-                context.contentResolver.openOutputStream(backupWalFile!!.uri).use { output ->
-                    dbWalFile.inputStream().use { input -> input.copyTo(output!!) }
-                }
-            }
-
-            if (dbShmFile.exists()) {
-                context.contentResolver.openOutputStream(backupShmFile!!.uri).use { output ->
-                    dbShmFile.inputStream().use { input -> input.copyTo(output!!) }
-                }
-            }
-
-            result = 0
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        return result
-    }
-
-    override fun restoreData(uri: Uri, restart: Boolean) {
-        val contentResolver = context.contentResolver
-
-        val dbFile = context.getDatabasePath(MoneyfikasiDatabase.DATABASE_NAME)
-        val dbWalFile = File(dbFile.path + MoneyfikasiDatabase.SQLITE_WAL_FILE_SUFFIX)
-        val dbShmFile = File(dbFile.path + MoneyfikasiDatabase.SQLITE_SHM_FILE_SUFFIX)
-
-        try {
-            val bkpFileUri =
-                DocumentFile.fromTreeUri(context, uri)?.findFile(BACKUP_NAME)?.uri ?: return
-            val inputStream = contentResolver.openInputStream(bkpFileUri)
-                ?: throw IOException("Failed to get input stream")
-            dbFile.outputStream().use { outputStream -> inputStream.copyTo(outputStream) }
-
-            val bkpWalFileUri =
-                DocumentFile.fromTreeUri(context, uri)?.findFile(BACKUP_WAL_NAME)?.uri
-            if (bkpWalFileUri != null && dbWalFile.exists()) {
-                val walInputStream = contentResolver.openInputStream(bkpWalFileUri)
-                    ?: throw IOException("Failed to get input stream")
-                dbWalFile.outputStream().use { outputStream -> walInputStream.copyTo(outputStream) }
-            }
-
-            val bkpShmFileUri =
-                DocumentFile.fromTreeUri(context, uri)?.findFile(BACKUP_SHM_NAME)?.uri
-            if (bkpShmFileUri != null && dbShmFile.exists()) {
-                val shmInputStream = contentResolver.openInputStream(bkpShmFileUri)
-                    ?: throw IOException("Failed to get input stream")
-                dbShmFile.outputStream().use { outputStream -> shmInputStream.copyTo(outputStream) }
-            }
-
             checkpoint()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
 
-        if (restart) {
-            val i = context.packageManager.getLaunchIntentForPackage(context.packageName)
-            i!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            context.startActivity(i)
-            exitProcess(0)
+            val dbFile = context.getDatabasePath(MoneyfikasiDatabase.DATABASE_NAME)
+            val filesToBackup = listOf(
+                dbFile,
+                File(dbFile.path + MoneyfikasiDatabase.SQLITE_WAL_FILE_SUFFIX),
+                File(dbFile.path + MoneyfikasiDatabase.SQLITE_SHM_FILE_SUFFIX)
+            ).filter { it.exists() }
+
+            val targetDocumentFile = DocumentFile.fromTreeUri(context, uri)
+                ?: return@withContext Result.failure(IOException("Failed to get target directory"))
+
+            targetDocumentFile.findFile(BACKUP_ZIP_NAME)?.delete()
+
+            val backupFile = targetDocumentFile.createFile("application/zip", BACKUP_ZIP_NAME)
+                ?: return@withContext Result.failure(IOException("Failed to create backup file"))
+
+            context.contentResolver.openOutputStream(backupFile.uri)?.use { outputStream ->
+                ZipOutputStream(outputStream).use { zipOut ->
+                    filesToBackup.forEach { file ->
+                        zipOut.putNextEntry(ZipEntry(file.name))
+                        file.inputStream().use { input ->
+                            input.copyTo(zipOut)
+                        }
+                        zipOut.closeEntry()
+                    }
+                }
+            }
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
         }
     }
+
+    override suspend fun restoreData(uri: Uri, restart: Boolean): Result<Unit> =
+        withContext(Dispatchers.IO) {
+            try {
+                val targetDocumentFile = DocumentFile.fromTreeUri(context, uri)
+                val zipFile = targetDocumentFile?.findFile(BACKUP_ZIP_NAME)
+                    ?: return@withContext Result.failure(IOException("Backup file not found"))
+
+                db.close()
+
+                val dbFile = context.getDatabasePath(MoneyfikasiDatabase.DATABASE_NAME)
+                val dbDir = dbFile.parentFile ?: return@withContext Result.failure(IOException("Database directory not found"))
+
+                context.contentResolver.openInputStream(zipFile.uri)?.use { inputStream ->
+                    ZipInputStream(inputStream).use { zipIn ->
+                        var entry = zipIn.nextEntry
+                        while (entry != null) {
+                            val outFile = File(dbDir, entry.name)
+                            FileOutputStream(outFile).use { output ->
+                                zipIn.copyTo(output)
+                            }
+                            zipIn.closeEntry()
+                            entry = zipIn.nextEntry
+                        }
+                    }
+                }
+
+                checkpoint()
+
+                if (restart) {
+                    restartApp()
+                }
+                Result.success(Unit)
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+        }
 
     private fun checkpoint() {
-        val db = db.openHelper.writableDatabase
-        db.query("PRAGMA wal_checkpoint(FULL);")
-        db.query("PRAGMA wal_checkpoint(TRUNCATE);")
+        val supportDb = db.openHelper.writableDatabase
+        supportDb.query("PRAGMA wal_checkpoint(FULL);").close()
+        supportDb.query("PRAGMA wal_checkpoint(TRUNCATE);").close()
     }
 
-    companion object{
-        private const val BACKUP_NAME = "moneyfikasi_backup"
-        private const val BACKUP_WAL_NAME = MoneyfikasiDatabase.DATABASE_BACKUP_NAME + "-wal"
-        private const val BACKUP_SHM_NAME = MoneyfikasiDatabase.DATABASE_BACKUP_NAME + "-shm"
+    private fun restartApp() {
+        val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
+        intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        context.startActivity(intent)
+        exitProcess(0)
+    }
+
+    companion object {
+        private const val BACKUP_ZIP_NAME = "moneyfikasi_backup.zip"
     }
 }

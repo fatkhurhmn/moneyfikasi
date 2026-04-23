@@ -25,19 +25,32 @@ class BackupRestoreViewModel @Inject constructor(
             }
 
             is BackupRestoreEvent.OnRestoreData -> {
-                backupRestoreUseCases.restoreData(event.uri)
+                restoreData(event.uri)
             }
         }
     }
 
     private fun backupData(uri: Uri) {
         viewModelScope.launch {
-            val result = backupRestoreUseCases.backupData(uri)
-            if (result == 0) {
-                _eventFlow.emit(UiEvent.ShowMessage("Backup Success"))
-            } else {
-                _eventFlow.emit(UiEvent.ShowMessage("Backup Failed"))
-            }
+            backupRestoreUseCases.backupData(uri)
+                .onSuccess {
+                    _eventFlow.emit(UiEvent.ShowMessage("Backup Success"))
+                }
+                .onFailure {
+                    _eventFlow.emit(UiEvent.ShowMessage("Backup Failed: ${it.message}"))
+                }
+        }
+    }
+
+    private fun restoreData(uri: Uri) {
+        viewModelScope.launch {
+            backupRestoreUseCases.restoreData(uri)
+                .onSuccess {
+                    _eventFlow.emit(UiEvent.ShowMessage("Restore Success"))
+                }
+                .onFailure {
+                    _eventFlow.emit(UiEvent.ShowMessage("Restore Failed: ${it.message}"))
+                }
         }
     }
 

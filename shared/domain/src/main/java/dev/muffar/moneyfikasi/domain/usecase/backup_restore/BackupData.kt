@@ -7,7 +7,7 @@ class BackupData(
     private val backupRestoreRepository: BackupRestoreRepository
 ) {
 
-    operator fun invoke(uri: Uri):Int {
+    suspend operator fun invoke(uri: Uri): Result<Unit> {
         return backupRestoreRepository.backupData(uri)
     }
 }
