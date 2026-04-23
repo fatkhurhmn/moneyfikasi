@@ -7,4 +7,7 @@ interface PreferencesRepository {
     fun isBalanceVisible(): Flow<Boolean>
     suspend fun setReportVisibility(isVisible: Boolean)
     fun isReportVisible(): Flow<Boolean>
+    suspend fun setLatestBackup(fileName: String, date: Long)
+    fun getLatestBackupName(): Flow<String>
+    fun getLatestBackupDate(): Flow<Long>
 }

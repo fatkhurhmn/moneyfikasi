@@ -24,7 +24,7 @@ class BackupRestoreRepositoryImpl(
     private val db: MoneyfikasiDatabase,
 ) : BackupRestoreRepository {
 
-    override suspend fun backupData(uri: Uri): Result<Unit> = withContext(Dispatchers.IO) {
+    override suspend fun backupData(uri: Uri): Result<String> = withContext(Dispatchers.IO) {
         try {
             checkpoint()
 
@@ -53,7 +53,7 @@ class BackupRestoreRepositoryImpl(
                     }
                 }
             }
-            Result.success(Unit)
+            Result.success(fileName)
         } catch (e: Exception) {
             Result.failure(e)
         }

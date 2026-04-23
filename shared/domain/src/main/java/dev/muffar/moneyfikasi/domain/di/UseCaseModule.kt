@@ -25,10 +25,12 @@ import dev.muffar.moneyfikasi.domain.usecase.category.GetAllCategories
 import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryById
 import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryByType
 import dev.muffar.moneyfikasi.domain.usecase.category.UpsertCategory
+import dev.muffar.moneyfikasi.domain.usecase.preferences.GetLatestBackup
 import dev.muffar.moneyfikasi.domain.usecase.preferences.IsBalanceVisible
 import dev.muffar.moneyfikasi.domain.usecase.preferences.IsReportVisible
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.SetBalanceVisibility
+import dev.muffar.moneyfikasi.domain.usecase.preferences.SetLatestBackup
 import dev.muffar.moneyfikasi.domain.usecase.preferences.SetReportVisibility
 import dev.muffar.moneyfikasi.domain.usecase.preset.DeletePreset
 import dev.muffar.moneyfikasi.domain.usecase.preset.GetAllPresets
@@ -121,6 +123,8 @@ object UseCaseModule {
         isBalanceVisible = IsBalanceVisible(preferencesRepository),
         setReportVisibility = SetReportVisibility(preferencesRepository),
         isReportVisible = IsReportVisible(preferencesRepository),
+        getLatestBackup = GetLatestBackup(preferencesRepository),
+        setLatestBackup = SetLatestBackup(preferencesRepository)
     )
 
     @Provides

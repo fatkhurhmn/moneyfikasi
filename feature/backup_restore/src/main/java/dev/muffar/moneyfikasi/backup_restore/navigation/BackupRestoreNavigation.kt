@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.backup_restore.navigation
 
+import androidx.compose.runtime.getValue
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -14,9 +15,11 @@ fun NavGraphBuilder.backupRestoreNavGraph(
 ) {
     composable(route = Screen.BackupRestore.route) {
         val viewModel = hiltViewModel<BackupRestoreViewModel>()
+        val state by viewModel.state
         val event = viewModel::onEvent
 
         BackupRestoreScreen(
+            state = state,
             eventFlow = viewModel.eventFlow,
             onBackupClick = { event(BackupRestoreEvent.OnBackupData(it)) },
             onRestoreClick = { event(BackupRestoreEvent.OnRestoreData(it)) },

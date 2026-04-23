@@ -18,4 +18,12 @@ class PreferencesRepositoryImpl(
     }
 
     override fun isReportVisible(): Flow<Boolean> = preferencesManager.isReportVisible
+
+    override suspend fun setLatestBackup(fileName: String, date: Long) {
+        preferencesManager.setLatestBackup(fileName, date)
+    }
+
+    override fun getLatestBackupName(): Flow<String> = preferencesManager.latestBackupName
+
+    override fun getLatestBackupDate(): Flow<Long> = preferencesManager.latestBackupDate
 }
