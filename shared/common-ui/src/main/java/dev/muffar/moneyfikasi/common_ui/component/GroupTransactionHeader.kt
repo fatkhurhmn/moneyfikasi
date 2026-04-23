@@ -14,27 +14,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.domain.model.Transaction
-import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.utils.extensions.format
 import dev.muffar.moneyfikasi.utils.extensions.formatThousand
 import org.threeten.bp.LocalDateTime
 
 @Composable
-fun GroupTransactionHeader(
+fun GroupTransactionHeaderV2(
     date: LocalDateTime,
-    transactions: List<Transaction>,
+    balanceOnDate: Double
 ) {
     val day = date.format("dd")
     val dayOfWeek = date.format("EEE")
     val monthYear = date.format("MMM yyyy")
-
-    val balance = transactions.sumOf {
-        when(it.type){
-            TransactionType.INCOME, TransactionType.TRANSFER_IN -> it.amount
-            TransactionType.EXPENSE, TransactionType.TRANSFER_OUT-> -it.amount
-        }
-    }
 
     Row(
         modifier = Modifier
@@ -66,7 +57,7 @@ fun GroupTransactionHeader(
         }
 
         Text(
-            text = balance.formatThousand(),
+            text = balanceOnDate.formatThousand(),
             style = MaterialTheme.typography.titleMedium.copy(
                 fontWeight = FontWeight.Medium,
             )
