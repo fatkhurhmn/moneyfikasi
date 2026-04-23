@@ -44,7 +44,7 @@ fun BackupRestoreScreen(
         }
 
     val dirRestoreLauncher =
-        rememberLauncherForActivityResult(ActivityResultContracts.OpenDocumentTree()) {
+        rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) {
             if (it != null) {
                 onRestoreClick(it)
             }
@@ -75,7 +75,7 @@ fun BackupRestoreScreen(
             Spacer(modifier = Modifier.height(8.dp))
             CommonButton(
                 text = stringResource(R.string.restore),
-                onClick = { dirRestoreLauncher.launch(null) },
+                onClick = { dirRestoreLauncher.launch(arrayOf("application/zip")) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)

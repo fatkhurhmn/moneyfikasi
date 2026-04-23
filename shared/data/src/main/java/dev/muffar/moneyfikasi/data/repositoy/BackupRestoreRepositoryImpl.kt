@@ -11,6 +11,9 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
@@ -35,9 +38,8 @@ class BackupRestoreRepositoryImpl(
             val targetDocumentFile = DocumentFile.fromTreeUri(context, uri)
                 ?: return@withContext Result.failure(IOException("Failed to get target directory"))
 
-            targetDocumentFile.findFile(BACKUP_ZIP_NAME)?.delete()
-
-            val backupFile = targetDocumentFile.createFile("application/zip", BACKUP_ZIP_NAME)
+            val fileName = getBackupFileName()
+            val backupFile = targetDocumentFile.createFile("application/zip", fileName)
                 ?: return@withContext Result.failure(IOException("Failed to create backup file"))
 
             context.contentResolver.openOutputStream(backupFile.uri)?.use { outputStream ->
@@ -60,16 +62,12 @@ class BackupRestoreRepositoryImpl(
     override suspend fun restoreData(uri: Uri, restart: Boolean): Result<Unit> =
         withContext(Dispatchers.IO) {
             try {
-                val targetDocumentFile = DocumentFile.fromTreeUri(context, uri)
-                val zipFile = targetDocumentFile?.findFile(BACKUP_ZIP_NAME)
-                    ?: return@withContext Result.failure(IOException("Backup file not found"))
-
                 db.close()
 
                 val dbFile = context.getDatabasePath(MoneyfikasiDatabase.DATABASE_NAME)
                 val dbDir = dbFile.parentFile ?: return@withContext Result.failure(IOException("Database directory not found"))
 
-                context.contentResolver.openInputStream(zipFile.uri)?.use { inputStream ->
+                context.contentResolver.openInputStream(uri)?.use { inputStream ->
                     ZipInputStream(inputStream).use { zipIn ->
                         var entry = zipIn.nextEntry
                         while (entry != null) {
@@ -100,6 +98,11 @@ class BackupRestoreRepositoryImpl(
         supportDb.query("PRAGMA wal_checkpoint(TRUNCATE);").close()
     }
 
+    private fun getBackupFileName(): String {
+        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        return "moneyfikasi_backup_$timestamp.zip"
+    }
+
     private fun restartApp() {
         val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
         intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -108,6 +111,5 @@ class BackupRestoreRepositoryImpl(
     }
 
     companion object {
-        private const val BACKUP_ZIP_NAME = "moneyfikasi_backup.zip"
     }
 }
