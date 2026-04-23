@@ -44,7 +44,10 @@ class TransactionRepositoryImpl @Inject constructor(
     ): Flow<PagingData<Transaction>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 5,
+                pageSize = 20,
+                initialLoadSize = 20,
+                enablePlaceholders = false,
+                prefetchDistance = 5
             ),
             pagingSourceFactory = {
                 transactionDao.getAllTransactionsPaged(

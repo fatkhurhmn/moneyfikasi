@@ -10,8 +10,11 @@ import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.domain.utils.extension.toDateRange
+import dev.muffar.moneyfikasi.utils.extensions.endOfDay
+import dev.muffar.moneyfikasi.utils.extensions.startOfDay
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -68,6 +71,16 @@ class TransactionsViewModel @Inject constructor(
             .cachedIn(viewModelScope)
 
         _state.update { it.copy(transactions = transactions) }
+    }
+
+    fun getDailyBalance(date: LocalDateTime): Flow<Double> {
+        val filter = state.value.filter
+        return transactionUseCases.getNetBalance(
+            date.startOfDay(),
+            date.endOfDay(),
+            filter.categories,
+            filter.wallets
+        )
     }
 
     private fun loadCategories() {

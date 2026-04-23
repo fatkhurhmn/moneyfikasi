@@ -24,6 +24,7 @@ import dev.muffar.moneyfikasi.transaction.list.component.TransactionsFilterSheet
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsList
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsLoading
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsTopBar
+import kotlinx.coroutines.flow.Flow
 import org.threeten.bp.LocalDateTime
 import java.util.UUID
 
@@ -40,6 +41,7 @@ fun TransactionsScreen(
     onSearchClick: () -> Unit,
     onResetFilter: () -> Unit,
     onFilterChanged: (TransactionFilter) -> Unit,
+    onGetDailyBalance: (LocalDateTime) -> Flow<Double>,
 ) {
     val transactions = state.transactions.collectAsLazyPagingItems()
 
@@ -74,7 +76,8 @@ fun TransactionsScreen(
             } else {
                 TransactionsList(
                     transactions = transactions,
-                    onItemClick = onTransactionItemClick
+                    onItemClick = onTransactionItemClick,
+                    onGetDailyBalance = onGetDailyBalance
                 )
             }
         }

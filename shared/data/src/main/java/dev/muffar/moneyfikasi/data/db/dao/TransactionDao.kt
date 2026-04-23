@@ -171,7 +171,11 @@ abstract class TransactionDao {
     @Query(
         """
         SELECT 
-            TOTAL(CASE WHEN type = 'INCOME' THEN amount WHEN type = 'EXPENSE' THEN -amount ELSE 0 END)
+            TOTAL(CASE 
+                WHEN type IN ('INCOME', 'TRANSFER_IN') THEN amount 
+                WHEN type IN ('EXPENSE', 'TRANSFER_OUT') THEN -amount 
+                ELSE 0 
+            END)
         FROM transactions 
         WHERE (date BETWEEN :start AND :end)
         AND (:filterCategories = 0 OR category_id IN (:categories))

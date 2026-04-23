@@ -31,6 +31,7 @@ fun NavGraphBuilder.transactionsNavigation(
             onSearchClick = onNavigateToSearch,
             onResetFilter = { event(TransactionsEvent.ResetFilter) },
             onFilterChanged = { event(TransactionsEvent.FilterChanged(it)) },
+            onGetDailyBalance = viewModel::getDailyBalance
         )
     }
 }
