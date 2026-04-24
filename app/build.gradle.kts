@@ -83,6 +83,8 @@ dependencies {
 
     implementation(libs.dagger.hilt.android)
     kapt(libs.dagger.hilt.compiler)
+    implementation(libs.androidx.hilt.work)
+    kapt(libs.androidx.hilt.compiler)
 
     implementation(libs.threetenabp)
 

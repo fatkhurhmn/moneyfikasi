@@ -15,10 +15,12 @@ room = "2.8.4"
 dagger-hilt = "2.58"
 threetenabp = "1.4.9"
 hilt-navigation-compose = "1.3.0"
+hilt-work = "1.2.0"
 compose-shimmer = "1.3.3"
 mp-android-chart = "v3.1.0"
 documentfile = "1.1.0"
 datastore = "1.2.0"
+work-manager = "2.10.0"
 appcompat = "1.7.1"
 material = "1.13.0"
 paging = "3.3.6"
@@ -49,6 +51,8 @@ compose-shimmer = { group = "com.valentinilk.shimmer", name = "compose-shimmer",
 
 # Hilt Navigation
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
+androidx-hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hilt-work" }
+androidx-hilt-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hilt-work" }
 
 # Dagger-Hilt
 dagger-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "dagger-hilt" }
@@ -69,6 +73,7 @@ androidx-documentfile = { group = "androidx.documentfile", name = "documentfile"
 
 # DataStore
 androidx-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
+androidx-work-runtime = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work-manager" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 

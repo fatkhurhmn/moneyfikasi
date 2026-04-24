@@ -106,6 +106,13 @@
     <string name="backup_restore_note">Backup your data into a ZIP file to easily restore your transaction history later.</string>
     <string name="latest_backup">Latest Backup:</string>
     <string name="no_backup_yet">No backup yet</string>
+    <string name="automatic_backup">Automatic Backup</string>
+    <string name="auto_backup_description">Scheduled data backup to your selected folder.</string>
+    <string name="select_backup_folder">Select Backup Folder</string>
+    <string name="backup_period">Backup Period</string>
+    <string name="daily">Daily</string>
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
     <string name="restore_confirmation_title">Restore Data</string>
     <string name="restore_confirmation_message">Are you sure you want to restore your data? This will overwrite your current data and the app will restart.</string>
     <string name="invisible_balance">• • • • • • •</string>

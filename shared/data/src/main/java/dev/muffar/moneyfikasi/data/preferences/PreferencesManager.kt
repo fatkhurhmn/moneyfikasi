@@ -47,10 +47,43 @@ data class PreferencesManager @Inject constructor(
         it[LATEST_BACKUP_DATE] ?: 0L
     }
 
+    suspend fun setAutoBackupEnabled(isEnabled: Boolean) {
+        datastore.edit {
+            it[AUTO_BACKUP_ENABLED] = isEnabled
+        }
+    }
+
+    val isAutoBackupEnabled = datastore.data.map {
+        it[AUTO_BACKUP_ENABLED] ?: false
+    }
+
+    suspend fun setAutoBackupUri(uri: String) {
+        datastore.edit {
+            it[AUTO_BACKUP_URI] = uri
+        }
+    }
+
+    val autoBackupUri = datastore.data.map {
+        it[AUTO_BACKUP_URI] ?: ""
+    }
+
+    suspend fun setAutoBackupPeriod(period: String) {
+        datastore.edit {
+            it[AUTO_BACKUP_PERIOD] = period
+        }
+    }
+
+    val autoBackupPeriod = datastore.data.map {
+        it[AUTO_BACKUP_PERIOD] ?: "Daily"
+    }
+
     companion object {
         val BALANCE_VISIBILITY = booleanPreferencesKey("balance_visibility")
         val REPORT_VISIBILITY = booleanPreferencesKey("report_visibility")
         val LATEST_BACKUP_NAME = stringPreferencesKey("latest_backup_name")
         val LATEST_BACKUP_DATE = longPreferencesKey("latest_backup_date")
+        val AUTO_BACKUP_ENABLED = booleanPreferencesKey("auto_backup_enabled")
+        val AUTO_BACKUP_URI = stringPreferencesKey("auto_backup_uri")
+        val AUTO_BACKUP_PERIOD = stringPreferencesKey("auto_backup_period")
     }
 }

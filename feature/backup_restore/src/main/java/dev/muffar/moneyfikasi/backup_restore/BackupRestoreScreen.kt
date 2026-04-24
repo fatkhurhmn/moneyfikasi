@@ -24,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.backup_restore.component.AutoBackupSection
 import dev.muffar.moneyfikasi.backup_restore.component.BackupLatestInfo
 import dev.muffar.moneyfikasi.backup_restore.component.BackupRestoreImage
 import dev.muffar.moneyfikasi.common_ui.component.CommonAlertDialog
@@ -43,6 +44,9 @@ fun BackupRestoreScreen(
     eventFlow: SharedFlow<BackupRestoreViewModel.UiEvent>,
     onBackupClick: (Uri) -> Unit,
     onRestoreClick: (Uri) -> Unit,
+    onAutoBackupEnabledChange: (Boolean) -> Unit,
+    onAutoBackupFolderSelected: (Uri) -> Unit,
+    onAutoBackupPeriodSelected: (String) -> Unit,
     onBackClick: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -109,6 +113,15 @@ fun BackupRestoreScreen(
             BackupLatestInfo(
                 fileName = state.latestBackupName,
                 date = state.latestBackupDate
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            AutoBackupSection(
+                isEnabled = state.isAutoBackupEnabled,
+                onEnabledChange = onAutoBackupEnabledChange,
+                folderUri = state.autoBackupUri,
+                onFolderSelected = onAutoBackupFolderSelected,
+                period = state.autoBackupPeriod,
+                onPeriodSelected = onAutoBackupPeriodSelected
             )
             Spacer(modifier = Modifier.height(16.dp))
         }

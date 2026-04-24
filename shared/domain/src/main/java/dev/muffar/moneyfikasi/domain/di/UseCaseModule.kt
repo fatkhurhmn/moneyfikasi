@@ -25,10 +25,16 @@ import dev.muffar.moneyfikasi.domain.usecase.category.GetAllCategories
 import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryById
 import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryByType
 import dev.muffar.moneyfikasi.domain.usecase.category.UpsertCategory
+import dev.muffar.moneyfikasi.domain.usecase.preferences.GetAutoBackupPeriod
+import dev.muffar.moneyfikasi.domain.usecase.preferences.GetAutoBackupUri
 import dev.muffar.moneyfikasi.domain.usecase.preferences.GetLatestBackup
+import dev.muffar.moneyfikasi.domain.usecase.preferences.IsAutoBackupEnabled
 import dev.muffar.moneyfikasi.domain.usecase.preferences.IsBalanceVisible
 import dev.muffar.moneyfikasi.domain.usecase.preferences.IsReportVisible
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
+import dev.muffar.moneyfikasi.domain.usecase.preferences.SetAutoBackupEnabled
+import dev.muffar.moneyfikasi.domain.usecase.preferences.SetAutoBackupPeriod
+import dev.muffar.moneyfikasi.domain.usecase.preferences.SetAutoBackupUri
 import dev.muffar.moneyfikasi.domain.usecase.preferences.SetBalanceVisibility
 import dev.muffar.moneyfikasi.domain.usecase.preferences.SetLatestBackup
 import dev.muffar.moneyfikasi.domain.usecase.preferences.SetReportVisibility
@@ -124,7 +130,13 @@ object UseCaseModule {
         setReportVisibility = SetReportVisibility(preferencesRepository),
         isReportVisible = IsReportVisible(preferencesRepository),
         getLatestBackup = GetLatestBackup(preferencesRepository),
-        setLatestBackup = SetLatestBackup(preferencesRepository)
+        setLatestBackup = SetLatestBackup(preferencesRepository),
+        isAutoBackupEnabled = IsAutoBackupEnabled(preferencesRepository),
+        setAutoBackupEnabled = SetAutoBackupEnabled(preferencesRepository),
+        getAutoBackupUri = GetAutoBackupUri(preferencesRepository),
+        setAutoBackupUri = SetAutoBackupUri(preferencesRepository),
+        getAutoBackupPeriod = GetAutoBackupPeriod(preferencesRepository),
+        setAutoBackupPeriod = SetAutoBackupPeriod(preferencesRepository)
     )
 
     @Provides

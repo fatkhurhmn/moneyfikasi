@@ -6,5 +6,11 @@ data class PreferencesUseCases(
     val isReportVisible: IsReportVisible,
     val setReportVisibility: SetReportVisibility,
     val getLatestBackup: GetLatestBackup,
-    val setLatestBackup: SetLatestBackup
+    val setLatestBackup: SetLatestBackup,
+    val isAutoBackupEnabled: IsAutoBackupEnabled,
+    val setAutoBackupEnabled: SetAutoBackupEnabled,
+    val getAutoBackupUri: GetAutoBackupUri,
+    val setAutoBackupUri: SetAutoBackupUri,
+    val getAutoBackupPeriod: GetAutoBackupPeriod,
+    val setAutoBackupPeriod: SetAutoBackupPeriod
 )

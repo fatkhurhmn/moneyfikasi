@@ -26,4 +26,22 @@ class PreferencesRepositoryImpl(
     override fun getLatestBackupName(): Flow<String> = preferencesManager.latestBackupName
 
     override fun getLatestBackupDate(): Flow<Long> = preferencesManager.latestBackupDate
+
+    override suspend fun setAutoBackupEnabled(isEnabled: Boolean) {
+        preferencesManager.setAutoBackupEnabled(isEnabled)
+    }
+
+    override fun isAutoBackupEnabled(): Flow<Boolean> = preferencesManager.isAutoBackupEnabled
+
+    override suspend fun setAutoBackupUri(uri: String) {
+        preferencesManager.setAutoBackupUri(uri)
+    }
+
+    override fun getAutoBackupUri(): Flow<String> = preferencesManager.autoBackupUri
+
+    override suspend fun setAutoBackupPeriod(period: String) {
+        preferencesManager.setAutoBackupPeriod(period)
+    }
+
+    override fun getAutoBackupPeriod(): Flow<String> = preferencesManager.autoBackupPeriod
 }
