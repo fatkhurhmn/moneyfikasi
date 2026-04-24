@@ -1,7 +1,7 @@
 package dev.muffar.moneyfikasi.data.worker
 
 import android.content.Context
-import android.net.Uri
+import androidx.core.net.toUri
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
@@ -10,7 +10,6 @@ import dagger.assisted.AssistedInject
 import dev.muffar.moneyfikasi.domain.repository.BackupRestoreRepository
 import dev.muffar.moneyfikasi.domain.repository.PreferencesRepository
 import kotlinx.coroutines.flow.first
-import androidx.core.net.toUri
 
 @HiltWorker
 class BackupWorker @AssistedInject constructor(

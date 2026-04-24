@@ -23,7 +23,7 @@ fun BackupRestoreImage() {
             painter = painterResource(id = R.drawable.ic_backup_restore),
             contentDescription = stringResource(R.string.backup_restore),
             modifier = Modifier
-                .padding(vertical = 32.dp)
+                .padding(vertical = 24.dp)
                 .size(150.dp)
         )
     }

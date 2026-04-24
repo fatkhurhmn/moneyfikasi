@@ -22,7 +22,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -31,7 +30,7 @@ import javax.inject.Inject
 class BackupRestoreViewModel @Inject constructor(
     private val backupRestoreUseCases: BackupRestoreUseCases,
     private val preferencesUseCases: PreferencesUseCases,
-    @ApplicationContext private val context: Context,
+    @param:ApplicationContext private val context: Context,
 ) : ViewModel() {
 
     private val _state = mutableStateOf(BackupRestoreState())
@@ -76,7 +75,12 @@ class BackupRestoreViewModel @Inject constructor(
                     _eventFlow.emit(UiEvent.ShowMessage("Backup success", SnackbarType.SUCCESS))
                 }
                 .onFailure {
-                    _eventFlow.emit(UiEvent.ShowMessage("Backup failed: ${it.message}", SnackbarType.ERROR))
+                    _eventFlow.emit(
+                        UiEvent.ShowMessage(
+                            "Backup failed: ${it.message}",
+                            SnackbarType.ERROR
+                        )
+                    )
                 }
             _state.value = _state.value.copy(isLoading = false)
         }
@@ -90,7 +94,12 @@ class BackupRestoreViewModel @Inject constructor(
                     _eventFlow.emit(UiEvent.ShowMessage("Restore success", SnackbarType.SUCCESS))
                 }
                 .onFailure {
-                    _eventFlow.emit(UiEvent.ShowMessage("Restore failed: ${it.message}", SnackbarType.ERROR))
+                    _eventFlow.emit(
+                        UiEvent.ShowMessage(
+                            "Restore failed: ${it.message}",
+                            SnackbarType.ERROR
+                        )
+                    )
                 }
             _state.value = _state.value.copy(isLoading = false)
         }
