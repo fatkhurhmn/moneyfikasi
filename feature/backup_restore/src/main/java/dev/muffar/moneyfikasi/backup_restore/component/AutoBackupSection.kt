@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
@@ -39,11 +40,12 @@ fun AutoBackupSection(
     period: String,
     onPeriodSelected: (String) -> Unit,
 ) {
-    val dirLauncher = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocumentTree()) {
-        if (it != null) {
-            onFolderSelected(it)
+    val dirLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.OpenDocumentTree()) {
+            if (it != null) {
+                onFolderSelected(it)
+            }
         }
-    }
 
     var showPeriodMenu by remember { mutableStateOf(false) }
     val periods = listOf(
@@ -51,6 +53,16 @@ fun AutoBackupSection(
         stringResource(R.string.weekly) to "Weekly",
         stringResource(R.string.monthly) to "Monthly"
     )
+
+    val formattedFolderUri = remember(folderUri) {
+        if (folderUri.isEmpty()) {
+            ""
+        } else {
+            val uri = folderUri.toUri()
+            val path = uri.path?.let { Uri.decode(it) } ?: folderUri
+            path.split(":").lastOrNull()?.trim('/') ?: path
+        }
+    }
 
     Surface(
         modifier = modifier.fillMaxWidth(),
@@ -98,7 +110,7 @@ fun AutoBackupSection(
                             color = MaterialTheme.colorScheme.primary
                         )
                         Text(
-                            text = folderUri.ifEmpty { stringResource(R.string.select_backup_folder) },
+                            text = formattedFolderUri.ifEmpty { stringResource(R.string.select_backup_folder) },
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )

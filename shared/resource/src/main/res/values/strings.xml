@@ -107,7 +107,7 @@
     <string name="latest_backup">Latest Backup:</string>
     <string name="no_backup_yet">No backup yet</string>
     <string name="automatic_backup">Automatic Backup</string>
-    <string name="auto_backup_description">Scheduled data backup to your selected folder.</string>
+    <string name="auto_backup_description">Scheduled data backup to your selected folder</string>
     <string name="select_backup_folder">Select Backup Folder</string>
     <string name="backup_period">Backup Period</string>
     <string name="daily">Daily</string>
