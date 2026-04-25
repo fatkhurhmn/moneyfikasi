@@ -39,7 +39,6 @@ abstract class MoneyfikasiDatabase : RoomDatabase() {
 
     companion object {
         const val DATABASE_NAME = "moneyfikasi"
-        const val DATABASE_BACKUP_NAME = "moneyfikasi_backup"
         const val SQLITE_WAL_FILE_SUFFIX = "-wal"
         const val SQLITE_SHM_FILE_SUFFIX = "-shm"
 

@@ -100,7 +100,7 @@ class BackupRestoreRepositoryImpl(
 
     private fun getBackupFileName(): String {
         val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        return "moneyfikasi_backup_$timestamp.zip"
+        return "moneyfikasi_$timestamp.zip"
     }
 
     private fun restartApp() {
@@ -108,8 +108,5 @@ class BackupRestoreRepositoryImpl(
         intent?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(intent)
         exitProcess(0)
-    }
-
-    companion object {
     }
 }

@@ -34,10 +34,10 @@ import dev.muffar.moneyfikasi.resource.R
 fun AutoBackupSection(
     modifier: Modifier = Modifier,
     isEnabled: Boolean,
-    onEnabledChange: (Boolean) -> Unit,
     folderUri: String,
-    onFolderSelected: (Uri) -> Unit,
     period: String,
+    onEnabledChange: (Boolean) -> Unit,
+    onFolderSelected: (Uri) -> Unit,
     onPeriodSelected: (String) -> Unit,
 ) {
     val dirLauncher =
@@ -60,7 +60,8 @@ fun AutoBackupSection(
         } else {
             val uri = folderUri.toUri()
             val path = uri.path?.let { Uri.decode(it) } ?: folderUri
-            path.split(":").lastOrNull()?.trim('/') ?: path
+            val folderPath = path.split(":").lastOrNull()?.trim('/') ?: path
+            "sdcard/$folderPath"
         }
     }
 
