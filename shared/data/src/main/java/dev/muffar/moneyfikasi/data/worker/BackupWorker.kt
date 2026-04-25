@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.first
 
 @HiltWorker
 class BackupWorker @AssistedInject constructor(
-    @Assisted private val context: Context,
+    @Assisted context: Context,
     @Assisted workerParams: WorkerParameters,
     private val backupRestoreRepository: BackupRestoreRepository,
     private val preferencesRepository: PreferencesRepository,
