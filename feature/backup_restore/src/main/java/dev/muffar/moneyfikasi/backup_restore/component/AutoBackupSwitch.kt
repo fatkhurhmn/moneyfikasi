@@ -38,6 +38,7 @@ fun AutoBackupSwitch(
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.primary
             )
+            Spacer(modifier = Modifier.height(2.dp))
             Text(
                 text = stringResource(R.string.auto_backup_description),
                 style = MaterialTheme.typography.bodySmall,

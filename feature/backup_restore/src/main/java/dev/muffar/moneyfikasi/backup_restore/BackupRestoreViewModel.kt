@@ -112,7 +112,7 @@ class BackupRestoreViewModel @Inject constructor(
         viewModelScope.launch {
             preferencesUseCases.setAutoBackupEnabled(isEnabled)
             if (isEnabled) {
-                scheduleBackup()
+                scheduleBackup(isEnabled = true)
             } else {
                 cancelBackup()
             }
@@ -127,7 +127,7 @@ class BackupRestoreViewModel @Inject constructor(
             )
             preferencesUseCases.setAutoBackupUri(uri.toString())
             if (_state.value.isAutoBackupEnabled) {
-                scheduleBackup()
+                scheduleBackup(uri = uri.toString())
             }
         }
     }
@@ -136,35 +136,40 @@ class BackupRestoreViewModel @Inject constructor(
         viewModelScope.launch {
             preferencesUseCases.setAutoBackupPeriod(period)
             if (_state.value.isAutoBackupEnabled) {
-                scheduleBackup()
+                scheduleBackup(period = period)
             }
         }
     }
 
-    private fun scheduleBackup() {
-        val uri = _state.value.autoBackupUri
-        if (uri.isEmpty()) return
+    private fun scheduleBackup(
+        isEnabled: Boolean = _state.value.isAutoBackupEnabled,
+        uri: String = _state.value.autoBackupUri,
+        period: String = _state.value.autoBackupPeriod
+    ) {
+        if (!isEnabled || uri.isEmpty()) return
 
-        val period = _state.value.autoBackupPeriod
-        val interval = when (period) {
-            "Daily" -> 1L
-            "Weekly" -> 7L
-            "Monthly" -> 30L
-            else -> 1L
+        val (interval, timeUnit) = when (period) {
+            "Daily" -> 1L to TimeUnit.DAYS
+            "Weekly" -> 7L to TimeUnit.DAYS
+            "Monthly" -> 30L to TimeUnit.DAYS
+            else -> 1L to TimeUnit.DAYS
         }
 
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
-            .setRequiresBatteryNotLow(true)
+            .setRequiresCharging(false)
+            .setRequiresBatteryNotLow(false)
             .build()
 
-        val backupRequest = PeriodicWorkRequestBuilder<BackupWorker>(interval, TimeUnit.DAYS)
+        val backupRequest = PeriodicWorkRequestBuilder<BackupWorker>(interval, timeUnit)
             .setConstraints(constraints)
+            .setInitialDelay(interval, timeUnit)
+            .addTag("BACKUP_TAG")
             .build()
 
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
             AUTO_BACKUP_WORK_NAME,
-            ExistingPeriodicWorkPolicy.UPDATE,
+            ExistingPeriodicWorkPolicy.REPLACE,
             backupRequest
         )
     }
