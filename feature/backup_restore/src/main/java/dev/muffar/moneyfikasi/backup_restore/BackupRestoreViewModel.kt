@@ -18,6 +18,7 @@ import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
 import dev.muffar.moneyfikasi.data.worker.BackupWorker
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupRestoreUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
@@ -69,6 +70,7 @@ class BackupRestoreViewModel @Inject constructor(
     private fun backupData(uri: Uri) {
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
+            delay(1000)
             backupRestoreUseCases.backupData(uri)
                 .onSuccess {
                     preferencesUseCases.setLatestBackup(it, System.currentTimeMillis())
@@ -89,6 +91,7 @@ class BackupRestoreViewModel @Inject constructor(
     private fun restoreData(uri: Uri) {
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
+            delay(1000)
             backupRestoreUseCases.restoreData(uri)
                 .onSuccess {
                     _eventFlow.emit(UiEvent.ShowMessage("Restore success", SnackbarType.SUCCESS))

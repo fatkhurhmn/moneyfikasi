@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.common_ui.component
+package dev.muffar.moneyfikasi.common_ui.component.dialog
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme

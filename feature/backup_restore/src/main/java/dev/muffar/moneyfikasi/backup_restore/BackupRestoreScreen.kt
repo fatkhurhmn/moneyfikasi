@@ -22,6 +22,7 @@ import dev.muffar.moneyfikasi.backup_restore.component.BackupLatestInfo
 import dev.muffar.moneyfikasi.backup_restore.component.BackupRestoreButton
 import dev.muffar.moneyfikasi.backup_restore.component.BackupRestoreImage
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
+import dev.muffar.moneyfikasi.common_ui.component.dialog.LoadingDialog
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.resource.R
@@ -59,9 +60,6 @@ fun BackupRestoreScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp)
         ) {
-            if (state.isLoading) {
-                LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
-            }
             BackupRestoreImage()
 
             BackupRestoreButton(
@@ -84,6 +82,10 @@ fun BackupRestoreScreen(
                 onPeriodSelected = onAutoBackupPeriodSelected
             )
         }
+    }
+
+    if (state.isLoading) {
+        LoadingDialog(message = stringResource(R.string.loading))
     }
 
     LaunchedEffect(eventFlow) {

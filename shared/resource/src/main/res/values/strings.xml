@@ -156,4 +156,5 @@
     <string name="no_budget">No Budgets Yet</string>
     <string name="no_budget_message">Create one to track your expenses.</string>
     <string name="add_budget">Add Budget</string>
+    <string name="loading">Loading…</string>
 </resources>
