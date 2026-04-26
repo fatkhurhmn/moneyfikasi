@@ -24,6 +24,9 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
+import org.threeten.bp.Duration
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalTime
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -163,9 +166,13 @@ class BackupRestoreViewModel @Inject constructor(
             .setRequiresBatteryNotLow(false)
             .build()
 
+        val currentTime = LocalDateTime.now()
+        val nextMidnight = currentTime.plusDays(1).with(LocalTime.MIDNIGHT)
+        val initialDelay = Duration.between(currentTime, nextMidnight).toMillis()
+
         val backupRequest = PeriodicWorkRequestBuilder<BackupWorker>(interval, timeUnit)
             .setConstraints(constraints)
-            .setInitialDelay(interval, timeUnit)
+            .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
             .addTag("BACKUP_TAG")
             .build()
 
