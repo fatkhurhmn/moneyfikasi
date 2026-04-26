@@ -11,8 +11,8 @@ import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.usecase.budget.BudgetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
-import dev.muffar.moneyfikasi.utils.extensions.clearThousandFormat
-import dev.muffar.moneyfikasi.utils.extensions.formatThousand
+import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
+import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow

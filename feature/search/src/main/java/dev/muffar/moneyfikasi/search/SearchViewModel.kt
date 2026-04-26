@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
-import dev.muffar.moneyfikasi.utils.extensions.endOfDay
-import dev.muffar.moneyfikasi.utils.extensions.startOfDay
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfDay
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.startOfDay
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -30,9 +30,9 @@ import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.endOfMonth
-import dev.muffar.moneyfikasi.utils.extensions.startOfMonth
-import dev.muffar.moneyfikasi.utils.extensions.toFormattedDateTime
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfMonth
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.startOfMonth
+import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDateTime
 

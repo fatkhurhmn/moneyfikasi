@@ -6,7 +6,7 @@ import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.model.Preset
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
-import dev.muffar.moneyfikasi.utils.extensions.clearThousandFormat
+import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
 import java.util.UUID
 
 data class AddEditPresetState(

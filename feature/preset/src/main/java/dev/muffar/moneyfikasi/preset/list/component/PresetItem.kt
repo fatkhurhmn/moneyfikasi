@@ -18,7 +18,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.transaction_item.ItemCategoryIcon
 import dev.muffar.moneyfikasi.domain.model.Preset
-import dev.muffar.moneyfikasi.utils.extensions.formatThousand
+import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import java.util.UUID
 
 @Composable

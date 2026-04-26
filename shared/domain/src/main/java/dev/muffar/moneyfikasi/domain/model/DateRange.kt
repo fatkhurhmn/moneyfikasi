@@ -1,8 +1,8 @@
 package dev.muffar.moneyfikasi.domain.model
 
-import dev.muffar.moneyfikasi.utils.extensions.endOfMonth
-import dev.muffar.moneyfikasi.utils.extensions.startOfMonth
-import dev.muffar.moneyfikasi.utils.extensions.toFormattedDateTime
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfMonth
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.startOfMonth
+import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
 

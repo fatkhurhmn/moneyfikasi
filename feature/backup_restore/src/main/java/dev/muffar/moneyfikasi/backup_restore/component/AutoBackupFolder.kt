@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.toDisplayPath
+import dev.muffar.moneyfikasi.utils.extensions.StringExt.toDisplayPath
 
 @Composable
 fun AutoBackupFolder(

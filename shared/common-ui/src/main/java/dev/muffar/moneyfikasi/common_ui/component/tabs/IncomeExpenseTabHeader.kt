@@ -22,7 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 import dev.muffar.moneyfikasi.domain.model.CategoryType
-import dev.muffar.moneyfikasi.utils.extensions.capitalize
+import dev.muffar.moneyfikasi.utils.extensions.StringExt.capitalize
 
 @Composable
 fun IncomeExpenseTabHeader(

@@ -3,7 +3,7 @@ package dev.muffar.moneyfikasi.budget.add_edit
 import dev.muffar.moneyfikasi.domain.model.Budget
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
-import dev.muffar.moneyfikasi.utils.extensions.clearThousandFormat
+import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
 import java.util.UUID
 
 data class AddEditBudgetState(

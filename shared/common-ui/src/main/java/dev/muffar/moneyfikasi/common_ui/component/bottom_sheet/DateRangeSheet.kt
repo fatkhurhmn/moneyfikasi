@@ -25,8 +25,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.toFormattedDateTime
-import dev.muffar.moneyfikasi.utils.extensions.toMilliseconds
+import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.toMilliseconds
 import org.threeten.bp.LocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)

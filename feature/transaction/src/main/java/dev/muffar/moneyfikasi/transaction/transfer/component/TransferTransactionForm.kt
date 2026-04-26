@@ -23,7 +23,7 @@ import dev.muffar.moneyfikasi.common_ui.component.text_input.WalletInput
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.transfer.TransferTransactionState
-import dev.muffar.moneyfikasi.utils.extensions.filterAmount
+import dev.muffar.moneyfikasi.utils.extensions.StringExt.filterAmount
 
 @Composable
 fun TransferTransactionForm(

@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.DatePickerSheet
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.toFormattedDateTime
+import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
 
 @Composable
 fun DateInput(

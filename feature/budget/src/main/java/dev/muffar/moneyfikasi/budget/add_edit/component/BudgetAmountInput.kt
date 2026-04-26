@@ -12,8 +12,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.filterAmount
-import java.util.UUID
+import dev.muffar.moneyfikasi.utils.extensions.StringExt.filterAmount
 
 @Composable
 fun BudgetAmountInput(

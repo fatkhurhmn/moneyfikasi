@@ -23,7 +23,7 @@ import dev.muffar.moneyfikasi.common_ui.component.IconByName
 import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.formatThousand
+import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 
 @Composable
 fun StatisticTransactionItem(

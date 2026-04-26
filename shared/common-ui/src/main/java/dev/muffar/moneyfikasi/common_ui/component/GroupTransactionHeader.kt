@@ -14,8 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.utils.extensions.format
-import dev.muffar.moneyfikasi.utils.extensions.formatThousand
+import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.format
 import org.threeten.bp.LocalDateTime
 
 @Composable

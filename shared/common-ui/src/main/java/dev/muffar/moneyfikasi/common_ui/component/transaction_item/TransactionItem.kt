@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.model.TransactionType
-import dev.muffar.moneyfikasi.utils.extensions.formatThousand
+import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import org.threeten.bp.format.DateTimeFormatter
 import java.util.UUID
 

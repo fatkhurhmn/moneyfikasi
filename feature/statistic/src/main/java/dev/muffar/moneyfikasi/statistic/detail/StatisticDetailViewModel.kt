@@ -12,8 +12,8 @@ import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
-import dev.muffar.moneyfikasi.utils.extensions.endOfDay
-import dev.muffar.moneyfikasi.utils.extensions.startOfDay
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfDay
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.startOfDay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

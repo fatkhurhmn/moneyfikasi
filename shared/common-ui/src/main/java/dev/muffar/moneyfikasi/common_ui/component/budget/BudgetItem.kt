@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.transaction_item.ItemCategoryIcon
 import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 import dev.muffar.moneyfikasi.domain.model.Budget
-import dev.muffar.moneyfikasi.utils.extensions.formatThousand
+import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 
 @Composable
 fun BudgetItem(

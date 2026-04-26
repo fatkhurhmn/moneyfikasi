@@ -2,14 +2,14 @@ package dev.muffar.moneyfikasi.domain.utils.extension
 
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
-import dev.muffar.moneyfikasi.utils.extensions.endOfDay
-import dev.muffar.moneyfikasi.utils.extensions.endOfMonth
-import dev.muffar.moneyfikasi.utils.extensions.endOfWeek
-import dev.muffar.moneyfikasi.utils.extensions.endOfYear
-import dev.muffar.moneyfikasi.utils.extensions.startOfDay
-import dev.muffar.moneyfikasi.utils.extensions.startOfMonth
-import dev.muffar.moneyfikasi.utils.extensions.startOfWeek
-import dev.muffar.moneyfikasi.utils.extensions.startOfYear
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfDay
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfMonth
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfWeek
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfYear
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.startOfDay
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.startOfMonth
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.startOfWeek
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.startOfYear
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.LocalTime
 

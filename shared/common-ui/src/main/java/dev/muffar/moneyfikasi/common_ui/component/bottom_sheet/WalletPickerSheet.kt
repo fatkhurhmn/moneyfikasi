@@ -29,7 +29,7 @@ import dev.muffar.moneyfikasi.common_ui.component.button.DoubleOutlinedButton
 import dev.muffar.moneyfikasi.common_ui.component.transaction_item.ItemWalletIcon
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.formatThousand
+import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

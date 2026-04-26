@@ -15,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.toDisplayPath
+import dev.muffar.moneyfikasi.utils.extensions.StringExt.toDisplayPath
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

@@ -6,8 +6,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.usecase.budget.BudgetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
-import dev.muffar.moneyfikasi.utils.extensions.endOfMonth
-import dev.muffar.moneyfikasi.utils.extensions.startOfMonth
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfMonth
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.startOfMonth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

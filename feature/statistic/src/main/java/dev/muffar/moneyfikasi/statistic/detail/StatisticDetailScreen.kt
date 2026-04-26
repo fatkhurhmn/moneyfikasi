@@ -29,8 +29,8 @@ import dev.muffar.moneyfikasi.common_ui.component.transaction_item.TransactionIt
 import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.format
-import dev.muffar.moneyfikasi.utils.extensions.formatThousand
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.format
+import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import kotlinx.coroutines.flow.Flow
 import org.threeten.bp.LocalDateTime
 import java.util.UUID

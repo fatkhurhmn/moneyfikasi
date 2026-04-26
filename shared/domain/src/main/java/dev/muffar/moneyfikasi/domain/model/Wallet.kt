@@ -1,7 +1,7 @@
 package dev.muffar.moneyfikasi.domain.model
 
 import dev.muffar.moneyfikasi.utils.constants.UUIDConst
-import dev.muffar.moneyfikasi.utils.extensions.formatThousand
+import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import java.util.UUID
 
 data class Wallet(

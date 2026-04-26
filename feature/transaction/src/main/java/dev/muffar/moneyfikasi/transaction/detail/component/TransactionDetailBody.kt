@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.format
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.format
 import org.threeten.bp.LocalDateTime
 
 @Composable

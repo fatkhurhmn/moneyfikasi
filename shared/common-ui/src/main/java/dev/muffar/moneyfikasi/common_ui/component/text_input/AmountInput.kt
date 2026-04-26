@@ -16,8 +16,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.AmountInputSheet
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.clearThousandFormat
-import dev.muffar.moneyfikasi.utils.extensions.formatThousand
+import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
+import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 
 @Composable
 fun AmountInput(

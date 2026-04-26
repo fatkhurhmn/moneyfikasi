@@ -26,8 +26,8 @@ import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.utils.extension.toDateRange
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.capitalize
-import dev.muffar.moneyfikasi.utils.extensions.toFormattedDateTime
+import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
+import dev.muffar.moneyfikasi.utils.extensions.StringExt.capitalize
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

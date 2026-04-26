@@ -18,7 +18,7 @@ import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.GroupTransactionHeaderV2
 import dev.muffar.moneyfikasi.common_ui.component.transaction_item.TransactionItem
 import dev.muffar.moneyfikasi.domain.model.Transaction
-import dev.muffar.moneyfikasi.utils.extensions.format
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.format
 import kotlinx.coroutines.flow.Flow
 import org.threeten.bp.LocalDateTime
 import java.util.UUID

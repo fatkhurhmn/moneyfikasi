@@ -7,7 +7,7 @@ import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.common_ui.component.button.TopBarIconButton
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.capitalize
+import dev.muffar.moneyfikasi.utils.extensions.StringExt.capitalize
 
 @Composable
 fun AddEditPresetTopBar(

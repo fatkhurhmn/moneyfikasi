@@ -19,7 +19,7 @@ import dev.muffar.moneyfikasi.common_ui.component.button.RowNegativePositiveButt
 import dev.muffar.moneyfikasi.common_ui.component.calculator.CalculatorScreen
 import dev.muffar.moneyfikasi.common_ui.component.calculator.rememberCalculatorState
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.clearThousandFormat
+import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

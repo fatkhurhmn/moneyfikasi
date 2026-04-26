@@ -2,7 +2,7 @@ package dev.muffar.moneyfikasi.wallet.add_edit
 
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.model.Wallet
-import dev.muffar.moneyfikasi.utils.extensions.clearThousandFormat
+import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
 import java.util.UUID
 
 data class AddEditWalletState(

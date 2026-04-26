@@ -5,7 +5,7 @@ import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
-import dev.muffar.moneyfikasi.utils.extensions.toFormattedDateTime
+import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
 import java.util.UUID
 
 data class AddEditTransactionState(
