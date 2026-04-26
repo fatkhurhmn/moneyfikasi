@@ -83,7 +83,7 @@ fun ExportScreen(
         }
     }
 
-    if (state.isLoading){
+    if (state.isLoading) {
         LoadingDialog()
     }
 
