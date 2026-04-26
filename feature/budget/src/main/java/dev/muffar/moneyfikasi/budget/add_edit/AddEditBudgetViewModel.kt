@@ -126,6 +126,7 @@ class AddEditBudgetViewModel @Inject constructor(
                 budgetUseCases.upsertBudget(state.budget)
                 _eventFlow.emit(UiEvent.SaveBudget)
             } catch (e: Exception) {
+                e.printStackTrace()
                 _eventFlow.emit(
                     UiEvent.ShowMessage(
                         "Failed to save budget. Each category can only have one budget.",
@@ -144,6 +145,7 @@ class AddEditBudgetViewModel @Inject constructor(
                 budgetUseCases.deleteBudget(state.budget)
                 _eventFlow.emit(UiEvent.DeleteBudget)
             } catch (e: Exception) {
+                e.printStackTrace()
                 _eventFlow.emit(UiEvent.ShowMessage("Failed to delete budget", SnackbarType.ERROR))
             }
         }

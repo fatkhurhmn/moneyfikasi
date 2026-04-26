@@ -51,6 +51,7 @@ class BackupWorker @AssistedInject constructor(
                 Result.retry()
             }
         } catch (e: Exception) {
+            e.printStackTrace()
             Result.failure()
         }
     }
