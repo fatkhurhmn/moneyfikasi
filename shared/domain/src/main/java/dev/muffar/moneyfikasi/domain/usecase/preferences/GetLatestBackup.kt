@@ -11,9 +11,10 @@ class GetLatestBackup(
     operator fun invoke(): Flow<LatestBackup> {
         return combine(
             preferencesRepository.getLatestBackupName(),
-            preferencesRepository.getLatestBackupDate()
-        ) { name, date ->
-            LatestBackup(name, date)
+            preferencesRepository.getLatestBackupDate(),
+            preferencesRepository.getLatestBackupFolder()
+        ) { name, date, folder ->
+            LatestBackup(name, date, folder)
         }
     }
 }

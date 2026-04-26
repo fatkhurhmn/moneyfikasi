@@ -14,8 +14,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
 import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.utils.extensions.toDisplayPath
 
 @Composable
 fun AutoBackupFolder(
@@ -23,14 +23,7 @@ fun AutoBackupFolder(
     onFolderSelected: (Uri) -> Unit
 ) {
     val formattedFolderUri = remember(folderUri) {
-        if (folderUri.isEmpty()) {
-            ""
-        } else {
-            val uri = folderUri.toUri()
-            val path = uri.path?.let { Uri.decode(it) } ?: folderUri
-            val displayPath = path.split("/0/").lastOrNull() ?: path
-            if (displayPath.startsWith("/")) displayPath else "/$displayPath"
-        }
+        folderUri.toDisplayPath()
     }
     val dirLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.OpenDocumentTree()) {

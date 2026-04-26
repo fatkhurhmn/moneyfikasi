@@ -76,7 +76,8 @@ fun BackupRestoreScreen(
 
             BackupLatestInfo(
                 fileName = state.latestBackupName,
-                date = state.latestBackupDate
+                date = state.latestBackupDate,
+                folder = state.latestBackupFolder
             )
 
             AutoBackupSection(

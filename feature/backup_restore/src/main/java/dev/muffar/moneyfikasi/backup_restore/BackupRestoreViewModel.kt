@@ -55,6 +55,7 @@ class BackupRestoreViewModel @Inject constructor(
             _state.value = _state.value.copy(
                 latestBackupName = latestBackup.name,
                 latestBackupDate = latestBackup.date,
+                latestBackupFolder = latestBackup.folder,
                 isAutoBackupEnabled = isAutoBackupEnabled,
                 autoBackupUri = autoBackupUri,
                 autoBackupPeriod = autoBackupPeriod,
@@ -84,7 +85,7 @@ class BackupRestoreViewModel @Inject constructor(
                     if (_state.value.isDeletePreviousBackup && previousBackupName.isNotEmpty()) {
                         backupRestoreUseCases.deleteBackup(uri, previousBackupName)
                     }
-                    preferencesUseCases.setLatestBackup(fileName, System.currentTimeMillis())
+                    preferencesUseCases.setLatestBackup(fileName, System.currentTimeMillis(), uri.toString())
                     _eventFlow.emit(UiEvent.ShowMessage("Backup success", SnackbarType.SUCCESS))
                 }
                 .onFailure {

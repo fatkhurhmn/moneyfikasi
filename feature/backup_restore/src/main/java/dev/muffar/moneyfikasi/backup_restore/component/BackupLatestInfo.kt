@@ -9,11 +9,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.utils.extensions.toDisplayPath
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -23,11 +25,16 @@ fun BackupLatestInfo(
     modifier: Modifier = Modifier,
     fileName: String,
     date: Long,
+    folder: String,
 ) {
+    val formattedFolder = remember(folder) {
+        folder.toDisplayPath()
+    }
+
     Surface(
         modifier = modifier.fillMaxWidth(),
         shape = MaterialTheme.shapes.medium,
-        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
+        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f),
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
@@ -44,6 +51,9 @@ fun BackupLatestInfo(
                 Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                     BackupInfoItem(label = stringResource(R.string.date), value = formattedDate)
                     BackupInfoItem(label = stringResource(R.string.name), value = fileName)
+                    if (formattedFolder.isNotEmpty()) {
+                        BackupInfoItem(label = stringResource(R.string.location), value = formattedFolder)
+                    }
                 }
             } else {
                 Text(

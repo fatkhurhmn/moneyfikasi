@@ -37,7 +37,7 @@ class BackupWorker @AssistedInject constructor(
                 if (isDeletePreviousBackup && previousBackupName.isNotEmpty()) {
                     backupRestoreRepository.deleteBackup(uri, previousBackupName)
                 }
-                preferencesRepository.setLatestBackup(newFileName, System.currentTimeMillis())
+                preferencesRepository.setLatestBackup(newFileName, System.currentTimeMillis(), uri.toString())
                 Result.success()
             } else {
                 Result.retry()

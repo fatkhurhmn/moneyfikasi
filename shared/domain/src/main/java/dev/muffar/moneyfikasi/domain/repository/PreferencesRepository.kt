@@ -8,9 +8,10 @@ interface PreferencesRepository {
     fun isBalanceVisible(): Flow<Boolean>
     suspend fun setReportVisibility(isVisible: Boolean)
     fun isReportVisible(): Flow<Boolean>
-    suspend fun setLatestBackup(fileName: String, date: Long)
+    suspend fun setLatestBackup(fileName: String, date: Long, folder: String)
     fun getLatestBackupName(): Flow<String>
     fun getLatestBackupDate(): Flow<Long>
+    fun getLatestBackupFolder(): Flow<String>
     suspend fun setAutoBackupEnabled(isEnabled: Boolean)
     fun isAutoBackupEnabled(): Flow<Boolean>
     suspend fun setAutoBackupUri(uri: String)
