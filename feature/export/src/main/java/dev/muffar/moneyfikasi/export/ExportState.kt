@@ -9,4 +9,12 @@ data class ExportState(
     val format: ExportFormat = ExportFormat.CSV,
     val isExporting: Boolean = false,
     val message: String? = null
-)
+) {
+    val fileName: String
+        get() = "moneyfikasi_export_${startDate.toLocalDate()}_${endDate.toLocalDate()}.${
+            when (format) {
+                ExportFormat.CSV -> "csv"
+                ExportFormat.XLSX -> "xlsx"
+            }
+        }"
+}

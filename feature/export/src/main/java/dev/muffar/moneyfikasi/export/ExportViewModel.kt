@@ -9,6 +9,7 @@ import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.export.utils.ExportManager
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfDay
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.startOfDay
+import dev.muffar.moneyfikasi.utils.extensions.LongExt.toLocalDateTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +19,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.threeten.bp.LocalDateTime
 import java.io.OutputStream
 import javax.inject.Inject
 
@@ -26,10 +26,6 @@ import javax.inject.Inject
 class ExportViewModel @Inject constructor(
     private val transactionUseCases: TransactionUseCases,
 ) : ViewModel() {
-
-    init {
-        System.setProperty("org.apache.poi.util.XMLHelper.feature.secure-processing", "false")
-    }
 
     private val _state = MutableStateFlow(ExportState())
     val state = _state.asStateFlow()
@@ -44,28 +40,19 @@ class ExportViewModel @Inject constructor(
             is ExportEvent.OnStartDateChanged -> onStartDateChanged(event.date)
             is ExportEvent.OnEndDateChanged -> onEndDateChanged(event.date)
             is ExportEvent.OnFormatChanged -> onFormatChanged(event.format)
-            is ExportEvent.OnExportClick -> onExportClick()
         }
     }
 
-    private fun onStartDateChanged(date: LocalDateTime) {
-        _state.update { it.copy(startDate = date) }
+    private fun onStartDateChanged(date: Long) {
+        _state.update { it.copy(startDate = date.toLocalDateTime()) }
     }
 
-    private fun onEndDateChanged(date: LocalDateTime) {
-        _state.update { it.copy(endDate = date) }
+    private fun onEndDateChanged(date: Long) {
+        _state.update { it.copy(endDate = date.toLocalDateTime()) }
     }
 
     private fun onFormatChanged(format: ExportFormat) {
         _state.update { it.copy(format = format) }
-    }
-
-    private fun onExportClick() {
-        viewModelScope.launch {
-            val filename =
-                "transactions_${System.currentTimeMillis()}.${state.value.format.name.lowercase()}"
-            _eventFlow.send(UiEvent.SaveFile(filename, state.value.format))
-        }
     }
 
     suspend fun exportTransactions(outputStream: OutputStream) {
@@ -94,7 +81,6 @@ class ExportViewModel @Inject constructor(
     }
 
     sealed class UiEvent {
-        data class SaveFile(val filename: String, val format: ExportFormat) : UiEvent()
         data class ShowMessage(val message: String, val type: SnackbarType) : UiEvent()
     }
 }

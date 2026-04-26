@@ -21,7 +21,8 @@ import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
 @Composable
 fun DateInput(
     date: Long,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
+    label: String = stringResource(R.string.date),
     onDateSelect: (Long) -> Unit
 ) {
 
@@ -30,7 +31,7 @@ fun DateInput(
         modifier = modifier.fillMaxWidth(),
         value = date.toFormattedDateTime("MMM, dd yyyy"),
         onValueChange = {},
-        label = stringResource(R.string.date),
+        label = label,
         placeholder = stringResource(R.string.select_date),
         isClickable = true,
         leadingIcon = {

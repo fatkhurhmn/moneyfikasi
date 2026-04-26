@@ -166,4 +166,6 @@
     <string name="export_successful">Export successful</string>
     <string name="export_failed">Export failed: %s</string>
     <string name="export_note">Select the date range and format to export your transaction history.</string>
+    <string name="csv">.csv</string>
+    <string name="xlsx">.xlsx</string>
 </resources>
