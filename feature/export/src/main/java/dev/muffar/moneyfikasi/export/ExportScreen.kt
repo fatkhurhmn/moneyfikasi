@@ -18,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.common_ui.component.button.BottomBarButton
+import dev.muffar.moneyfikasi.common_ui.component.dialog.LoadingDialog
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.domain.model.ExportFormat
@@ -44,16 +45,6 @@ fun ExportScreen(
         contract = ActivityResultContracts.CreateDocument("*/*")
     ) { uri ->
         uri?.let { onExportTransactions(it) }
-    }
-
-    LaunchedEffect(eventFlow) {
-        eventFlow.collectLatest { event ->
-            when (event) {
-                is ExportViewModel.UiEvent.ShowMessage -> {
-                    snackbarHostState.showMessage(event.message, event.type)
-                }
-            }
-        }
     }
 
     Scaffold(
@@ -89,7 +80,20 @@ fun ExportScreen(
                 selected = state.format,
                 onFormatChanged = onFormatChanged
             )
-            Spacer(modifier = Modifier.weight(1f))
+        }
+    }
+
+    if (state.isLoading){
+        LoadingDialog()
+    }
+
+    LaunchedEffect(eventFlow) {
+        eventFlow.collectLatest { event ->
+            when (event) {
+                is ExportViewModel.UiEvent.ShowMessage -> {
+                    snackbarHostState.showMessage(event.message, event.type)
+                }
+            }
         }
     }
 }

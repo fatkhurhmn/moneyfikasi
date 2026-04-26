@@ -92,7 +92,7 @@ fun BackupRestoreScreen(
     }
 
     if (state.isLoading) {
-        LoadingDialog(message = stringResource(R.string.loading))
+        LoadingDialog()
     }
 
     LaunchedEffect(eventFlow) {

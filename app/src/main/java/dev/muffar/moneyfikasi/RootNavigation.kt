@@ -37,7 +37,6 @@ import dev.muffar.moneyfikasi.wallet.walletsNavGraph
 fun RootNavigation(
     navController: NavHostController,
 ) {
-    val context = androidx.compose.ui.platform.LocalContext.current
     NavHost(
         navController = navController,
         startDestination = Screen.Home.route
@@ -150,8 +149,7 @@ fun RootNavigation(
         )
 
         exportNavGraph(
-            context = context,
-            onBackClick = { navController.navigateUp() }
+            navigateBack = { navController.navigateUp() }
         )
     }
 }

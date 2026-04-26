@@ -25,14 +25,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import dev.muffar.moneyfikasi.resource.R
 
 @Composable
 fun LoadingDialog(
     modifier: Modifier = Modifier,
-    message: String? = null,
+    message: String? = stringResource(id = R.string.loading),
     onDismissRequest: () -> Unit = {}
 ) {
     Dialog(

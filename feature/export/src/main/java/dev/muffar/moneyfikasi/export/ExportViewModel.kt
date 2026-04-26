@@ -1,7 +1,6 @@
 package dev.muffar.moneyfikasi.export
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
 import dev.muffar.moneyfikasi.domain.model.ExportFormat
@@ -17,7 +16,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.OutputStream
 import javax.inject.Inject
@@ -56,7 +54,7 @@ class ExportViewModel @Inject constructor(
     }
 
     suspend fun exportTransactions(outputStream: OutputStream) {
-        _state.update { it.copy(isExporting = true) }
+        _state.update { it.copy(isLoading = true) }
         try {
             val transactions = transactionUseCases.getAllTransactions(
                 state.value.startDate.startOfDay(),
@@ -76,7 +74,7 @@ class ExportViewModel @Inject constructor(
         } catch (e: Exception) {
             _eventFlow.send(UiEvent.ShowMessage("Export failed: ${e.message}", SnackbarType.ERROR))
         } finally {
-            _state.update { it.copy(isExporting = false) }
+            _state.update { it.copy(isLoading = false) }
         }
     }
 
