@@ -33,12 +33,12 @@ fun NavGraphBuilder.addEditBudgetNavigation(
         AddEditBudgetScreen(
             state = state,
             eventFlow = viewModel.eventFlow,
-            onAmountChange = { viewModel.onEvent(AddEditBudgetEvent.OnAmountChange(it)) },
-            onCategorySelect = { viewModel.onEvent(AddEditBudgetEvent.OnCategoryChange(it)) },
+            onAmountChange = { viewModel.onEvent(AddEditBudgetEvent.AmountChanged(it)) },
+            onCategorySelect = { viewModel.onEvent(AddEditBudgetEvent.CategoryChanged(it)) },
             onAddNewCategoryClick = navigateToAddCategory,
-            onShowAlert = { viewModel.onEvent(AddEditBudgetEvent.OnShowDeleteAlert(it)) },
-            onSubmit = { viewModel.onEvent(AddEditBudgetEvent.OnSaveBudget) },
-            onDelete = { viewModel.onEvent(AddEditBudgetEvent.OnDeleteBudget) },
+            onShowAlert = { viewModel.onEvent(AddEditBudgetEvent.ShowDeleteAlert(it)) },
+            onSubmit = { viewModel.onEvent(AddEditBudgetEvent.SaveBudget) },
+            onDelete = { viewModel.onEvent(AddEditBudgetEvent.DeleteBudget) },
             onBackClick = navigateBack
         )
     }

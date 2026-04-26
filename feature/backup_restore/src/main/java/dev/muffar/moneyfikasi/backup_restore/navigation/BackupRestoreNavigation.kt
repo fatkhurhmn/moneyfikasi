@@ -21,12 +21,12 @@ fun NavGraphBuilder.backupRestoreNavGraph(
         BackupRestoreScreen(
             state = state,
             eventFlow = viewModel.eventFlow,
-            onBackupClick = { event(BackupRestoreEvent.OnBackupData(it)) },
-            onRestoreClick = { event(BackupRestoreEvent.OnRestoreData(it)) },
-            onAutoBackupEnabledChange = { event(BackupRestoreEvent.OnAutoBackupEnabledChanged(it)) },
-            onAutoBackupFolderSelected = { event(BackupRestoreEvent.OnAutoBackupUriChanged(it)) },
-            onAutoBackupPeriodSelected = { event(BackupRestoreEvent.OnAutoBackupPeriodChanged(it)) },
-            onDeletePreviousBackupChange = { event(BackupRestoreEvent.OnDeletePreviousBackupChanged(it)) },
+            onBackupClick = { event(BackupRestoreEvent.BackupData(it)) },
+            onRestoreClick = { event(BackupRestoreEvent.RestoreData(it)) },
+            onAutoBackupEnabledChange = { event(BackupRestoreEvent.AutoBackupEnabledChanged(it)) },
+            onAutoBackupFolderSelected = { event(BackupRestoreEvent.AutoBackupUriChanged(it)) },
+            onAutoBackupPeriodSelected = { event(BackupRestoreEvent.AutoBackupPeriodChanged(it)) },
+            onDeletePreviousBackupChange = { event(BackupRestoreEvent.DeletePreviousBackupChanged(it)) },
             onBackClick = navigateBack,
         )
     }

@@ -35,9 +35,9 @@ class ExportViewModel @Inject constructor(
 
     fun onEvent(event: ExportEvent) {
         when (event) {
-            is ExportEvent.OnStartDateChanged -> onStartDateChanged(event.date)
-            is ExportEvent.OnEndDateChanged -> onEndDateChanged(event.date)
-            is ExportEvent.OnFormatChanged -> onFormatChanged(event.format)
+            is ExportEvent.StartDateChanged -> onStartDateChanged(event.date)
+            is ExportEvent.EndDateChanged -> onEndDateChanged(event.date)
+            is ExportEvent.FormatChanged -> onFormatChanged(event.format)
         }
     }
 

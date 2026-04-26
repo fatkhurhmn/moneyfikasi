@@ -44,11 +44,11 @@ class AddEditBudgetViewModel @Inject constructor(
 
     fun onEvent(event: AddEditBudgetEvent) {
         when (event) {
-            is AddEditBudgetEvent.OnAmountChange -> onAmountChange(event.amount)
-            is AddEditBudgetEvent.OnCategoryChange -> onCategorySelect(event.category)
-            is AddEditBudgetEvent.OnSaveBudget -> onSaveBudget()
-            is AddEditBudgetEvent.OnDeleteBudget -> onDeleteBudget()
-            is AddEditBudgetEvent.OnShowDeleteAlert -> onShowDeleteAlert(event.show)
+            is AddEditBudgetEvent.AmountChanged -> onAmountChange(event.amount)
+            is AddEditBudgetEvent.CategoryChanged -> onCategorySelect(event.category)
+            is AddEditBudgetEvent.SaveBudget -> onSaveBudget()
+            is AddEditBudgetEvent.DeleteBudget -> onDeleteBudget()
+            is AddEditBudgetEvent.ShowDeleteAlert -> onShowDeleteAlert(event.show)
         }
     }
 

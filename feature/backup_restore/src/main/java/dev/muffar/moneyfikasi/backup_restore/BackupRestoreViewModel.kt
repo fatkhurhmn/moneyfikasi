@@ -67,12 +67,12 @@ class BackupRestoreViewModel @Inject constructor(
 
     fun onEvent(event: BackupRestoreEvent) {
         when (event) {
-            is BackupRestoreEvent.OnBackupData -> backupData(event.uri)
-            is BackupRestoreEvent.OnRestoreData -> restoreData(event.uri)
-            is BackupRestoreEvent.OnAutoBackupEnabledChanged -> setAutoBackupEnabled(event.isEnabled)
-            is BackupRestoreEvent.OnAutoBackupUriChanged -> setAutoBackupUri(event.uri)
-            is BackupRestoreEvent.OnAutoBackupPeriodChanged -> setAutoBackupPeriod(event.period)
-            is BackupRestoreEvent.OnDeletePreviousBackupChanged -> setDeletePreviousBackup(event.isEnabled)
+            is BackupRestoreEvent.BackupData -> backupData(event.uri)
+            is BackupRestoreEvent.RestoreData -> restoreData(event.uri)
+            is BackupRestoreEvent.AutoBackupEnabledChanged -> setAutoBackupEnabled(event.isEnabled)
+            is BackupRestoreEvent.AutoBackupUriChanged -> setAutoBackupUri(event.uri)
+            is BackupRestoreEvent.AutoBackupPeriodChanged -> setAutoBackupPeriod(event.period)
+            is BackupRestoreEvent.DeletePreviousBackupChanged -> setDeletePreviousBackup(event.isEnabled)
         }
     }
 

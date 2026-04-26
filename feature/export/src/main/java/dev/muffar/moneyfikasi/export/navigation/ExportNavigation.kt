@@ -27,9 +27,9 @@ fun NavGraphBuilder.exportNavGraph(
         ExportScreen(
             state = state,
             eventFlow = viewModel.eventFlow,
-            onStartDateChanged = { onEvent(ExportEvent.OnStartDateChanged(it)) },
-            onEndDateChanged = { onEvent(ExportEvent.OnEndDateChanged(it)) },
-            onFormatChanged = { onEvent(ExportEvent.OnFormatChanged(it)) },
+            onStartDateChanged = { onEvent(ExportEvent.StartDateChanged(it)) },
+            onEndDateChanged = { onEvent(ExportEvent.EndDateChanged(it)) },
+            onFormatChanged = { onEvent(ExportEvent.FormatChanged(it)) },
             onExportTransactions = { uri ->
                 scope.launch {
                     context.contentResolver.openOutputStream(uri)?.use {
