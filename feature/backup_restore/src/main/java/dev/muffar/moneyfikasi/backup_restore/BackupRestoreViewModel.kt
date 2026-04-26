@@ -16,6 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
 import dev.muffar.moneyfikasi.data.worker.BackupWorker
+import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupRestoreUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
 import kotlinx.coroutines.delay
@@ -137,7 +138,7 @@ class BackupRestoreViewModel @Inject constructor(
         }
     }
 
-    private fun setAutoBackupPeriod(period: String) {
+    private fun setAutoBackupPeriod(period: TimePeriod) {
         viewModelScope.launch {
             preferencesUseCases.setAutoBackupPeriod(period)
             if (_state.value.isAutoBackupEnabled) {
@@ -149,14 +150,14 @@ class BackupRestoreViewModel @Inject constructor(
     private fun scheduleBackup(
         isEnabled: Boolean = _state.value.isAutoBackupEnabled,
         uri: String = _state.value.autoBackupUri,
-        period: String = _state.value.autoBackupPeriod
+        period: TimePeriod = _state.value.autoBackupPeriod
     ) {
         if (!isEnabled || uri.isEmpty()) return
 
         val (interval, timeUnit) = when (period) {
-            "Daily" -> 1L to TimeUnit.DAYS
-            "Weekly" -> 7L to TimeUnit.DAYS
-            "Monthly" -> 30L to TimeUnit.DAYS
+            TimePeriod.DAILY -> 1L to TimeUnit.DAYS
+            TimePeriod.WEEKLY -> 7L to TimeUnit.DAYS
+            TimePeriod.MONTHLY -> 30L to TimeUnit.DAYS
             else -> 1L to TimeUnit.DAYS
         }
 

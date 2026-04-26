@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.backup_restore.component
 
 import android.net.Uri
+import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
@@ -13,10 +14,10 @@ fun AutoBackupSection(
     modifier: Modifier = Modifier,
     isEnabled: Boolean,
     folderUri: String,
-    period: String,
+    period: TimePeriod,
     onEnabledChange: (Boolean) -> Unit,
     onFolderSelected: (Uri) -> Unit,
-    onPeriodSelected: (String) -> Unit,
+    onPeriodSelected: (TimePeriod) -> Unit,
 ) {
     Surface(
         modifier = modifier.fillMaxWidth(),

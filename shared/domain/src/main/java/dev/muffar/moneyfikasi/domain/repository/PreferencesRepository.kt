@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.domain.repository
 
+import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import kotlinx.coroutines.flow.Flow
 
 interface PreferencesRepository {
@@ -14,6 +15,6 @@ interface PreferencesRepository {
     fun isAutoBackupEnabled(): Flow<Boolean>
     suspend fun setAutoBackupUri(uri: String)
     fun getAutoBackupUri(): Flow<String>
-    suspend fun setAutoBackupPeriod(period: String)
-    fun getAutoBackupPeriod(): Flow<String>
+    suspend fun setAutoBackupPeriod(period: TimePeriod)
+    fun getAutoBackupPeriod(): Flow<TimePeriod>
 }

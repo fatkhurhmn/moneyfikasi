@@ -23,6 +23,7 @@ import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.common_ui.component.dialog.LoadingDialog
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
+import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -36,7 +37,7 @@ fun BackupRestoreScreen(
     onRestoreClick: (Uri) -> Unit,
     onAutoBackupEnabledChange: (Boolean) -> Unit,
     onAutoBackupFolderSelected: (Uri) -> Unit,
-    onAutoBackupPeriodSelected: (String) -> Unit,
+    onAutoBackupPeriodSelected: (TimePeriod) -> Unit,
     onBackClick: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }

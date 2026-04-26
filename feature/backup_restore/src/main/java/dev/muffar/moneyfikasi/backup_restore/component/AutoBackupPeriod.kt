@@ -22,19 +22,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
 fun AutoBackupPeriod(
-    period: String,
-    onPeriodSelected: (String) -> Unit
+    period: TimePeriod,
+    onPeriodSelected: (TimePeriod) -> Unit
 ) {
 
     var showPeriodMenu by remember { mutableStateOf(false) }
     val periods = listOf(
-        stringResource(R.string.daily) to "Daily",
-        stringResource(R.string.weekly) to "Weekly",
-        stringResource(R.string.monthly) to "Monthly"
+        stringResource(R.string.daily) to TimePeriod.DAILY,
+        stringResource(R.string.weekly) to TimePeriod.WEEKLY,
+        stringResource(R.string.monthly) to TimePeriod.MONTHLY
     )
 
     Column(
@@ -53,7 +54,7 @@ fun AutoBackupPeriod(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(
-                text = periods.find { it.second == period }?.first ?: period,
+                text = periods.find { it.second == period }?.first ?: period.name,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -66,7 +67,8 @@ fun AutoBackupPeriod(
 
         DropdownMenu(
             expanded = showPeriodMenu,
-            onDismissRequest = { showPeriodMenu = false }
+            onDismissRequest = { showPeriodMenu = false },
+            containerColor = MaterialTheme.colorScheme.surface
         ) {
             periods.forEach { (label, value) ->
                 DropdownMenuItem(

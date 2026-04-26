@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.data.repositoy
 
 import dev.muffar.moneyfikasi.data.preferences.PreferencesManager
+import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.repository.PreferencesRepository
 import kotlinx.coroutines.flow.Flow
 
@@ -39,9 +40,9 @@ class PreferencesRepositoryImpl(
 
     override fun getAutoBackupUri(): Flow<String> = preferencesManager.autoBackupUri
 
-    override suspend fun setAutoBackupPeriod(period: String) {
+    override suspend fun setAutoBackupPeriod(period: TimePeriod) {
         preferencesManager.setAutoBackupPeriod(period)
     }
 
-    override fun getAutoBackupPeriod(): Flow<String> = preferencesManager.autoBackupPeriod
+    override fun getAutoBackupPeriod(): Flow<TimePeriod> = preferencesManager.autoBackupPeriod
 }

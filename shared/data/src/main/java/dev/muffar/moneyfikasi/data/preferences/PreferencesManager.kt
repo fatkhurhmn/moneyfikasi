@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -67,14 +68,19 @@ data class PreferencesManager @Inject constructor(
         it[AUTO_BACKUP_URI] ?: ""
     }
 
-    suspend fun setAutoBackupPeriod(period: String) {
+    suspend fun setAutoBackupPeriod(period: TimePeriod) {
         datastore.edit {
-            it[AUTO_BACKUP_PERIOD] = period
+            it[AUTO_BACKUP_PERIOD] = period.name
         }
     }
 
     val autoBackupPeriod = datastore.data.map {
-        it[AUTO_BACKUP_PERIOD] ?: "Daily"
+        val periodName = it[AUTO_BACKUP_PERIOD] ?: TimePeriod.DAILY.name
+        try {
+            TimePeriod.valueOf(periodName)
+        } catch (e: Exception) {
+            TimePeriod.DAILY
+        }
     }
 
     companion object {
