@@ -19,7 +19,8 @@ fun SettingsScreen(
     onCategoriesClick: () -> Unit,
     onPresetClick: () -> Unit,
     onBudgetsClick: () -> Unit,
-    onBackupRestoreClick: () -> Unit
+    onBackupRestoreClick: () -> Unit,
+    onExportClick: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -55,6 +56,11 @@ fun SettingsScreen(
                 title = stringResource(R.string.backup_restore),
                 icon = painterResource(id = R.drawable.ic_restore_backup),
                 onClick = onBackupRestoreClick
+            )
+            SettingsItem(
+                title = stringResource(R.string.export),
+                icon = painterResource(id = R.drawable.ic_export),
+                onClick = onExportClick
             )
         }
     }

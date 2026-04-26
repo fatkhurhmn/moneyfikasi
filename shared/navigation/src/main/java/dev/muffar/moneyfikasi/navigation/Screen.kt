@@ -98,4 +98,6 @@ sealed class Screen(val route: String) {
             return "add_edit_budget?$BUDGET_ID=$budgetId"
         }
     }
+
+    data object Export : Screen("export")
 }

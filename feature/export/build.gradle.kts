@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "dev.muffar.moneyfikasi.backup_restore"
+    namespace = "dev.muffar.moneyfikasi.export"
     compileSdk = 36
 
     defaultConfig {
@@ -48,11 +48,13 @@ dependencies {
     implementation(libs.dagger.hilt.android)
     kapt(libs.dagger.hilt.compiler)
 
-    implementation(libs.androidx.work.runtime)
-    implementation(libs.androidx.hilt.work)
-    kapt(libs.androidx.hilt.compiler)
-
     implementation(libs.threetenabp)
+    
+    // Excel export
+    implementation(libs.poi)
+    implementation(libs.poi.ooxml)
+    implementation(libs.log4j.to.slf4j)
+    implementation(libs.slf4j.android)
 }
 
 kapt {

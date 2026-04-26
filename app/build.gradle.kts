@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId = "dev.muffar.moneyfikasi"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -44,6 +44,9 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/DEPENDENCIES"
+            excludes += "/META-INF/LICENSE*"
+            excludes += "/META-INF/NOTICE*"
         }
     }
 }
@@ -73,6 +76,7 @@ dependencies {
     implementation(projects.feature.preset)
     implementation(projects.feature.backupRestore)
     implementation(projects.feature.budget)
+    implementation(projects.feature.export)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

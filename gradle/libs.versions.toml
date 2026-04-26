@@ -24,6 +24,9 @@ work-manager = "2.10.0"
 appcompat = "1.7.1"
 material = "1.13.0"
 paging = "3.3.6"
+poi = "5.2.3"
+log4j = "2.24.3"
+slf4j-android = "2.0.17-0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -81,6 +84,10 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
 androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
 androidx-paging-common = { group = "androidx.paging", name = "paging-common", version.ref = "paging" }
+poi = { group = "org.apache.poi", name = "poi", version.ref = "poi" }
+poi-ooxml = { group = "org.apache.poi", name = "poi-ooxml", version.ref = "poi" }
+log4j-to-slf4j = { group = "org.apache.logging.log4j", name = "log4j-to-slf4j", version.ref = "log4j" }
+slf4j-android = { group = "uk.uuid.slf4j", name = "slf4j-android", version.ref = "slf4j-android" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

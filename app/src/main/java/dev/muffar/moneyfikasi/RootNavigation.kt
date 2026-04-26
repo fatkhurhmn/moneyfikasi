@@ -13,6 +13,8 @@ import dev.muffar.moneyfikasi.category.categoriesNavGraph
 import dev.muffar.moneyfikasi.category.list.navigation.toCategoriesScreen
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
+import dev.muffar.moneyfikasi.export.navigation.exportNavGraph
+import dev.muffar.moneyfikasi.export.navigation.toExportScreen
 import dev.muffar.moneyfikasi.feature.home.navigation.homeNavigation
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.preset.add_edit.navigation.toAddEditPresetScreen
@@ -35,6 +37,7 @@ import dev.muffar.moneyfikasi.wallet.walletsNavGraph
 fun RootNavigation(
     navController: NavHostController,
 ) {
+    val context = androidx.compose.ui.platform.LocalContext.current
     NavHost(
         navController = navController,
         startDestination = Screen.Home.route
@@ -105,7 +108,8 @@ fun RootNavigation(
             navigateToCategories = { navController.toCategoriesScreen() },
             navigateToPreset = { navController.toPresetListScreen() },
             navigateToBudgets = { navController.toBudgetsScreen() },
-            navigateToBackupRestore = { navController.toBackupRestoreScreen() }
+            navigateToBackupRestore = { navController.toBackupRestoreScreen() },
+            navigateToExport = { navController.toExportScreen() }
         )
 
         categoriesNavGraph(
@@ -143,6 +147,11 @@ fun RootNavigation(
 
         backupRestoreNavGraph(
             navigateBack = { navController.navigateUp() }
+        )
+
+        exportNavGraph(
+            context = context,
+            onBackClick = { navController.navigateUp() }
         )
     }
 }
