@@ -113,6 +113,8 @@
     <string name="daily">Daily</string>
     <string name="weekly">Weekly</string>
     <string name="monthly">Monthly</string>
+    <string name="delete_previous_backup">Delete Previous Backup</string>
+    <string name="delete_previous_backup_description">Automatically delete the previous backup after a successful new backup</string>
     <string name="restore_confirmation_title">Restore Data</string>
     <string name="restore_confirmation_message">Are you sure you want to restore your data? This will overwrite your current data and the app will restart.</string>
     <string name="invisible_balance">• • • • • • •</string>

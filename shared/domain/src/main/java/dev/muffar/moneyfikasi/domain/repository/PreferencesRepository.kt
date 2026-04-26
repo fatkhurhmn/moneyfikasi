@@ -17,4 +17,6 @@ interface PreferencesRepository {
     fun getAutoBackupUri(): Flow<String>
     suspend fun setAutoBackupPeriod(period: TimePeriod)
     fun getAutoBackupPeriod(): Flow<TimePeriod>
+    suspend fun setDeletePreviousBackup(isEnabled: Boolean)
+    fun isDeletePreviousBackup(): Flow<Boolean>
 }

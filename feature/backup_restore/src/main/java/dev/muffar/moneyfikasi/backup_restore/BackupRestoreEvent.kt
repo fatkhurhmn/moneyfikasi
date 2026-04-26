@@ -9,4 +9,5 @@ sealed class BackupRestoreEvent {
     data class OnAutoBackupEnabledChanged(val isEnabled: Boolean) : BackupRestoreEvent()
     data class OnAutoBackupUriChanged(val uri: Uri) : BackupRestoreEvent()
     data class OnAutoBackupPeriodChanged(val period: TimePeriod) : BackupRestoreEvent()
+    data class OnDeletePreviousBackupChanged(val isEnabled: Boolean) : BackupRestoreEvent()
 }

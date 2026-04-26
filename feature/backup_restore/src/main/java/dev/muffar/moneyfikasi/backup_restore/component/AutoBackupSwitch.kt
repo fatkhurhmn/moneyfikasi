@@ -62,7 +62,7 @@ fun AutoBackupSwitch(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.width(16.dp))
         Switch(
             checked = isEnabled,
             onCheckedChange = onEnabledChange

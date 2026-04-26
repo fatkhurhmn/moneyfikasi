@@ -27,11 +27,17 @@ class BackupWorker @AssistedInject constructor(
         if (uriString.isEmpty()) return Result.failure()
 
         val uri = uriString.toUri()
-        
+        val isDeletePreviousBackup = preferencesRepository.isDeletePreviousBackup().first()
+        val previousBackupName = preferencesRepository.getLatestBackupName().first()
+
         return try {
             val result = backupRestoreRepository.backupData(uri)
             if (result.isSuccess) {
-                preferencesRepository.setLatestBackup(result.getOrThrow(), System.currentTimeMillis())
+                val newFileName = result.getOrThrow()
+                if (isDeletePreviousBackup && previousBackupName.isNotEmpty()) {
+                    backupRestoreRepository.deleteBackup(uri, previousBackupName)
+                }
+                preferencesRepository.setLatestBackup(newFileName, System.currentTimeMillis())
                 Result.success()
             } else {
                 Result.retry()

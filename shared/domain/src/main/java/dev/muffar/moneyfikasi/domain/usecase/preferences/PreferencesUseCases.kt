@@ -12,5 +12,7 @@ data class PreferencesUseCases(
     val getAutoBackupUri: GetAutoBackupUri,
     val setAutoBackupUri: SetAutoBackupUri,
     val getAutoBackupPeriod: GetAutoBackupPeriod,
-    val setAutoBackupPeriod: SetAutoBackupPeriod
+    val setAutoBackupPeriod: SetAutoBackupPeriod,
+    val isDeletePreviousBackup: IsDeletePreviousBackup,
+    val setDeletePreviousBackup: SetDeletePreviousBackup
 )

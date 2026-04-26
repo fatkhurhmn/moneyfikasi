@@ -49,14 +49,16 @@ class BackupRestoreViewModel @Inject constructor(
             preferencesUseCases.getLatestBackup(),
             preferencesUseCases.isAutoBackupEnabled(),
             preferencesUseCases.getAutoBackupUri(),
-            preferencesUseCases.getAutoBackupPeriod()
-        ) { latestBackup, isAutoBackupEnabled, autoBackupUri, autoBackupPeriod ->
+            preferencesUseCases.getAutoBackupPeriod(),
+            preferencesUseCases.isDeletePreviousBackup()
+        ) { latestBackup, isAutoBackupEnabled, autoBackupUri, autoBackupPeriod, isDeletePreviousBackup ->
             _state.value = _state.value.copy(
                 latestBackupName = latestBackup.name,
                 latestBackupDate = latestBackup.date,
                 isAutoBackupEnabled = isAutoBackupEnabled,
                 autoBackupUri = autoBackupUri,
-                autoBackupPeriod = autoBackupPeriod
+                autoBackupPeriod = autoBackupPeriod,
+                isDeletePreviousBackup = isDeletePreviousBackup
             )
         }.launchIn(viewModelScope)
     }
@@ -68,23 +70,28 @@ class BackupRestoreViewModel @Inject constructor(
             is BackupRestoreEvent.OnAutoBackupEnabledChanged -> setAutoBackupEnabled(event.isEnabled)
             is BackupRestoreEvent.OnAutoBackupUriChanged -> setAutoBackupUri(event.uri)
             is BackupRestoreEvent.OnAutoBackupPeriodChanged -> setAutoBackupPeriod(event.period)
+            is BackupRestoreEvent.OnDeletePreviousBackupChanged -> setDeletePreviousBackup(event.isEnabled)
         }
     }
 
     private fun backupData(uri: Uri) {
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
-            delay(1000)
+            val previousBackupName = _state.value.latestBackupName
+            delay(500)
             backupRestoreUseCases.backupData(uri)
-                .onSuccess {
-                    preferencesUseCases.setLatestBackup(it, System.currentTimeMillis())
+                .onSuccess { fileName ->
+                    if (_state.value.isDeletePreviousBackup && previousBackupName.isNotEmpty()) {
+                        backupRestoreUseCases.deleteBackup(uri, previousBackupName)
+                    }
+                    preferencesUseCases.setLatestBackup(fileName, System.currentTimeMillis())
                     _eventFlow.emit(UiEvent.ShowMessage("Backup success", SnackbarType.SUCCESS))
                 }
                 .onFailure {
                     _eventFlow.emit(
                         UiEvent.ShowMessage(
                             "Backup failed: ${it.message}",
-                            SnackbarType.ERROR
+                            SnackbarType.ERROR,
                         )
                     )
                 }
@@ -95,7 +102,7 @@ class BackupRestoreViewModel @Inject constructor(
     private fun restoreData(uri: Uri) {
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
-            delay(1000)
+            delay(500)
             backupRestoreUseCases.restoreData(uri)
                 .onSuccess {
                     _eventFlow.emit(UiEvent.ShowMessage("Restore success", SnackbarType.SUCCESS))
@@ -104,7 +111,7 @@ class BackupRestoreViewModel @Inject constructor(
                     _eventFlow.emit(
                         UiEvent.ShowMessage(
                             "Restore failed: ${it.message}",
-                            SnackbarType.ERROR
+                            SnackbarType.ERROR,
                         )
                     )
                 }
@@ -147,6 +154,12 @@ class BackupRestoreViewModel @Inject constructor(
         }
     }
 
+    private fun setDeletePreviousBackup(isEnabled: Boolean) {
+        viewModelScope.launch {
+            preferencesUseCases.setDeletePreviousBackup(isEnabled)
+        }
+    }
+
     private fun scheduleBackup(
         isEnabled: Boolean = _state.value.isAutoBackupEnabled,
         uri: String = _state.value.autoBackupUri,
@@ -163,8 +176,8 @@ class BackupRestoreViewModel @Inject constructor(
 
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
-            .setRequiresCharging(false)
-            .setRequiresBatteryNotLow(false)
+            .setRequiresCharging(requiresCharging = false)
+            .setRequiresBatteryNotLow(requiresBatteryNotLow = false)
             .build()
 
         val currentTime = LocalDateTime.now()

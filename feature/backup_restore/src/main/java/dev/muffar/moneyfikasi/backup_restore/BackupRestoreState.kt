@@ -8,5 +8,6 @@ data class BackupRestoreState(
     val isAutoBackupEnabled: Boolean = false,
     val autoBackupUri: String = "",
     val autoBackupPeriod: TimePeriod = TimePeriod.DAILY,
+    val isDeletePreviousBackup: Boolean = true,
     val isLoading: Boolean = false,
 )

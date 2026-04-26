@@ -26,6 +26,7 @@ fun NavGraphBuilder.backupRestoreNavGraph(
             onAutoBackupEnabledChange = { event(BackupRestoreEvent.OnAutoBackupEnabledChanged(it)) },
             onAutoBackupFolderSelected = { event(BackupRestoreEvent.OnAutoBackupUriChanged(it)) },
             onAutoBackupPeriodSelected = { event(BackupRestoreEvent.OnAutoBackupPeriodChanged(it)) },
+            onDeletePreviousBackupChange = { event(BackupRestoreEvent.OnDeletePreviousBackupChanged(it)) },
             onBackClick = navigateBack,
         )
     }

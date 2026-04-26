@@ -19,6 +19,7 @@ import dev.muffar.moneyfikasi.backup_restore.component.AutoBackupSection
 import dev.muffar.moneyfikasi.backup_restore.component.BackupLatestInfo
 import dev.muffar.moneyfikasi.backup_restore.component.BackupRestoreButton
 import dev.muffar.moneyfikasi.backup_restore.component.BackupRestoreImage
+import dev.muffar.moneyfikasi.backup_restore.component.DeletePreviousBackupSwitch
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.common_ui.component.dialog.LoadingDialog
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
@@ -38,6 +39,7 @@ fun BackupRestoreScreen(
     onAutoBackupEnabledChange: (Boolean) -> Unit,
     onAutoBackupFolderSelected: (Uri) -> Unit,
     onAutoBackupPeriodSelected: (TimePeriod) -> Unit,
+    onDeletePreviousBackupChange: (Boolean) -> Unit,
     onBackClick: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -67,6 +69,11 @@ fun BackupRestoreScreen(
                 onRestoreClick = onRestoreClick
             )
 
+            DeletePreviousBackupSwitch(
+                isEnabled = state.isDeletePreviousBackup,
+                onEnabledChange = onDeletePreviousBackupChange
+            )
+
             BackupLatestInfo(
                 fileName = state.latestBackupName,
                 date = state.latestBackupDate
@@ -78,7 +85,7 @@ fun BackupRestoreScreen(
                 folderUri = state.autoBackupUri,
                 onFolderSelected = onAutoBackupFolderSelected,
                 period = state.autoBackupPeriod,
-                onPeriodSelected = onAutoBackupPeriodSelected
+                onPeriodSelected = onAutoBackupPeriodSelected,
             )
         }
     }

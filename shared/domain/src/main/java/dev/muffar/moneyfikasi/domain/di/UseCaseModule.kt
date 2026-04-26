@@ -13,6 +13,7 @@ import dev.muffar.moneyfikasi.domain.repository.TransactionRepository
 import dev.muffar.moneyfikasi.domain.repository.WalletRepository
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupData
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupRestoreUseCases
+import dev.muffar.moneyfikasi.domain.usecase.backup_restore.DeleteBackup
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.RestoreData
 import dev.muffar.moneyfikasi.domain.usecase.budget.BudgetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.budget.DeleteBudget
@@ -30,12 +31,14 @@ import dev.muffar.moneyfikasi.domain.usecase.preferences.GetAutoBackupUri
 import dev.muffar.moneyfikasi.domain.usecase.preferences.GetLatestBackup
 import dev.muffar.moneyfikasi.domain.usecase.preferences.IsAutoBackupEnabled
 import dev.muffar.moneyfikasi.domain.usecase.preferences.IsBalanceVisible
+import dev.muffar.moneyfikasi.domain.usecase.preferences.IsDeletePreviousBackup
 import dev.muffar.moneyfikasi.domain.usecase.preferences.IsReportVisible
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.SetAutoBackupEnabled
 import dev.muffar.moneyfikasi.domain.usecase.preferences.SetAutoBackupPeriod
 import dev.muffar.moneyfikasi.domain.usecase.preferences.SetAutoBackupUri
 import dev.muffar.moneyfikasi.domain.usecase.preferences.SetBalanceVisibility
+import dev.muffar.moneyfikasi.domain.usecase.preferences.SetDeletePreviousBackup
 import dev.muffar.moneyfikasi.domain.usecase.preferences.SetLatestBackup
 import dev.muffar.moneyfikasi.domain.usecase.preferences.SetReportVisibility
 import dev.muffar.moneyfikasi.domain.usecase.preset.DeletePreset
@@ -119,6 +122,7 @@ object UseCaseModule {
     ) = BackupRestoreUseCases(
         backupData = BackupData(backupRestoreRepository),
         restoreData = RestoreData(backupRestoreRepository),
+        deleteBackup = DeleteBackup(backupRestoreRepository),
     )
 
     @Provides
@@ -136,7 +140,9 @@ object UseCaseModule {
         getAutoBackupUri = GetAutoBackupUri(preferencesRepository),
         setAutoBackupUri = SetAutoBackupUri(preferencesRepository),
         getAutoBackupPeriod = GetAutoBackupPeriod(preferencesRepository),
-        setAutoBackupPeriod = SetAutoBackupPeriod(preferencesRepository)
+        setAutoBackupPeriod = SetAutoBackupPeriod(preferencesRepository),
+        isDeletePreviousBackup = IsDeletePreviousBackup(preferencesRepository),
+        setDeletePreviousBackup = SetDeletePreviousBackup(preferencesRepository)
     )
 
     @Provides

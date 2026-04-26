@@ -83,6 +83,16 @@ data class PreferencesManager @Inject constructor(
         }
     }
 
+    suspend fun setDeletePreviousBackup(isEnabled: Boolean) {
+        datastore.edit {
+            it[DELETE_PREVIOUS_BACKUP] = isEnabled
+        }
+    }
+
+    val isDeletePreviousBackup = datastore.data.map {
+        it[DELETE_PREVIOUS_BACKUP] ?: true
+    }
+
     companion object {
         val BALANCE_VISIBILITY = booleanPreferencesKey("balance_visibility")
         val REPORT_VISIBILITY = booleanPreferencesKey("report_visibility")
@@ -91,5 +101,6 @@ data class PreferencesManager @Inject constructor(
         val AUTO_BACKUP_ENABLED = booleanPreferencesKey("auto_backup_enabled")
         val AUTO_BACKUP_URI = stringPreferencesKey("auto_backup_uri")
         val AUTO_BACKUP_PERIOD = stringPreferencesKey("auto_backup_period")
+        val DELETE_PREVIOUS_BACKUP = booleanPreferencesKey("delete_previous_backup")
     }
 }

@@ -95,6 +95,28 @@ class BackupRestoreRepositoryImpl(
             }
         }
 
+    override suspend fun deleteBackup(uri: Uri, fileName: String): Result<Unit> =
+        withContext(Dispatchers.IO) {
+            try {
+                val targetDocumentFile = when (uri.scheme) {
+                    "content" -> DocumentFile.fromTreeUri(context, uri)
+                    "file" -> uri.path?.let { DocumentFile.fromFile(File(it)) }
+                    else -> null
+                } ?: return@withContext Result.failure(IOException("Failed to get target directory"))
+
+                val backupFile = targetDocumentFile.findFile(fileName)
+                    ?: return@withContext Result.failure(IOException("Backup file not found"))
+
+                if (backupFile.delete()) {
+                    Result.success(Unit)
+                } else {
+                    Result.failure(IOException("Failed to delete backup file"))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+        }
+
     private fun checkpoint() {
         val supportDb = db.openHelper.writableDatabase
         supportDb.query("PRAGMA wal_checkpoint(FULL);").close()

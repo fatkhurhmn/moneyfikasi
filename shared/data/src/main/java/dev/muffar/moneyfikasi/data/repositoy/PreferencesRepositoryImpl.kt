@@ -45,4 +45,10 @@ class PreferencesRepositoryImpl(
     }
 
     override fun getAutoBackupPeriod(): Flow<TimePeriod> = preferencesManager.autoBackupPeriod
+
+    override suspend fun setDeletePreviousBackup(isEnabled: Boolean) {
+        preferencesManager.setDeletePreviousBackup(isEnabled)
+    }
+
+    override fun isDeletePreviousBackup(): Flow<Boolean> = preferencesManager.isDeletePreviousBackup
 }
