@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.utils.extensions
 
+import dev.muffar.moneyfikasi.utils.extensions.StringExt.capitalize
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.Month
