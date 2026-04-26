@@ -53,7 +53,7 @@ abstract class MoneyfikasiDatabase : RoomDatabase() {
                     DATABASE_NAME
                 )
                     .addCallback(PrepopulateDbCallback(context))
-                    .fallbackToDestructiveMigration()
+                    .fallbackToDestructiveMigration(true)
                     .build()
 
                 INSTANCE = instance
