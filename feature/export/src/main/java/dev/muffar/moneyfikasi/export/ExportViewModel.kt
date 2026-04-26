@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.threeten.bp.LocalDateTime
 import java.io.OutputStream
 import javax.inject.Inject
 
@@ -39,24 +40,30 @@ class ExportViewModel @Inject constructor(
 
     fun onEvent(event: ExportEvent) {
         when (event) {
-            is ExportEvent.OnStartDateChanged -> {
-                _state.update { it.copy(startDate = event.date) }
-            }
+            is ExportEvent.OnStartDateChanged -> onStartDateChanged(event.date)
+            is ExportEvent.OnEndDateChanged -> onEndDateChanged(event.date)
+            is ExportEvent.OnFormatChanged -> onFormatChanged(event.format)
+            is ExportEvent.OnExportClick -> onExportClick()
+        }
+    }
 
-            is ExportEvent.OnEndDateChanged -> {
-                _state.update { it.copy(endDate = event.date) }
-            }
+    private fun onStartDateChanged(date: LocalDateTime) {
+        _state.update { it.copy(startDate = date) }
+    }
 
-            is ExportEvent.OnFormatChanged -> {
-                _state.update { it.copy(format = event.format) }
-            }
+    private fun onEndDateChanged(date: LocalDateTime) {
+        _state.update { it.copy(endDate = date) }
+    }
 
-            is ExportEvent.OnExportClick -> {
-                viewModelScope.launch {
-                    val filename = "transactions_${System.currentTimeMillis()}.${state.value.format.name.lowercase()}"
-                    _eventFlow.send(UiEvent.SaveFile(filename, state.value.format))
-                }
-            }
+    private fun onFormatChanged(format: ExportFormat) {
+        _state.update { it.copy(format = format) }
+    }
+
+    private fun onExportClick() {
+        viewModelScope.launch {
+            val filename =
+                "transactions_${System.currentTimeMillis()}.${state.value.format.name.lowercase()}"
+            _eventFlow.send(UiEvent.SaveFile(filename, state.value.format))
         }
     }
 
