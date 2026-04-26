@@ -3,7 +3,9 @@ package dev.muffar.moneyfikasi.export
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
+import dev.muffar.moneyfikasi.export.utils.ExportManager
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfDay
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.startOfDay
 import kotlinx.coroutines.Dispatchers
@@ -75,13 +77,16 @@ class ExportViewModel @Inject constructor(
                     exportManager.exportToExcel(transactions, outputStream)
                 }
             }
-            _state.update { it.copy(isExporting = false, message = "Export successful") }
+            _eventFlow.send(UiEvent.ShowMessage("Export successful", SnackbarType.SUCCESS))
         } catch (e: Exception) {
-            _state.update { it.copy(isExporting = false, message = "Export failed: ${e.message}") }
+            _eventFlow.send(UiEvent.ShowMessage("Export failed: ${e.message}", SnackbarType.ERROR))
+        } finally {
+            _state.update { it.copy(isExporting = false) }
         }
     }
 
     sealed class UiEvent {
         data class SaveFile(val filename: String, val format: ExportFormat) : UiEvent()
+        data class ShowMessage(val message: String, val type: SnackbarType) : UiEvent()
     }
 }

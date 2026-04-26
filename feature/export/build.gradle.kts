@@ -53,8 +53,6 @@ dependencies {
     // Excel export
     implementation(libs.poi)
     implementation(libs.poi.ooxml)
-    implementation(libs.log4j.to.slf4j)
-    implementation(libs.slf4j.android)
 }
 
 kapt {

@@ -27,6 +27,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
+import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
+import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.common_ui.component.text_input.DateInput
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.toMilliseconds
@@ -43,7 +45,6 @@ fun ExportScreen(
     onExportTransactions: (Uri) -> Unit,
     onBackClick: () -> Unit
 ) {
-    val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
 
     val createDocumentLauncher = rememberLauncherForActivityResult(
@@ -56,16 +57,12 @@ fun ExportScreen(
         eventFlow.collectLatest { event ->
             when (event) {
                 is ExportViewModel.UiEvent.SaveFile -> {
-                    val mimeType = if (event.format == ExportFormat.CSV) "text/csv" else "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                     createDocumentLauncher.launch(event.filename)
                 }
+                is ExportViewModel.UiEvent.ShowMessage -> {
+                    snackbarHostState.showMessage(event.message, event.type)
+                }
             }
-        }
-    }
-
-    LaunchedEffect(state.message) {
-        state.message?.let {
-            snackbarHostState.showSnackbar(it)
         }
     }
 
@@ -76,7 +73,7 @@ fun ExportScreen(
                 onBackClick = onBackClick
             )
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) }
+        snackbarHost = { SnackbarMessage(snackbarHostState) }
     ) { padding ->
         Column(
             modifier = Modifier
