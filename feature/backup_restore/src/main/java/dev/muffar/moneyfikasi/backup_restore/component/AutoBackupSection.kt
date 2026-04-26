@@ -28,7 +28,9 @@ fun AutoBackupSection(
         ) {
             AutoBackupSwitch(
                 isEnabled = isEnabled,
-                onEnabledChange = onEnabledChange
+                folderUri = folderUri,
+                onEnabledChange = onEnabledChange,
+                onFolderSelected = onFolderSelected
             )
             if (isEnabled) {
                 Column(

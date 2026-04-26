@@ -28,8 +28,8 @@ fun AutoBackupFolder(
         } else {
             val uri = folderUri.toUri()
             val path = uri.path?.let { Uri.decode(it) } ?: folderUri
-            val folderPath = path.split(":").lastOrNull()?.trim('/') ?: path
-            "sdcard/$folderPath"
+            val displayPath = path.split("/0/").lastOrNull() ?: path
+            if (displayPath.startsWith("/")) displayPath else "/$displayPath"
         }
     }
     val dirLauncher =

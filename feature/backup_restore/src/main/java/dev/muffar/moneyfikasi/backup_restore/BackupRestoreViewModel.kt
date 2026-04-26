@@ -121,10 +121,12 @@ class BackupRestoreViewModel @Inject constructor(
 
     private fun setAutoBackupUri(uri: Uri) {
         viewModelScope.launch {
-            context.contentResolver.takePersistableUriPermission(
-                uri,
-                Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-            )
+            if (uri.scheme == "content") {
+                context.contentResolver.takePersistableUriPermission(
+                    uri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                )
+            }
             preferencesUseCases.setAutoBackupUri(uri.toString())
             if (_state.value.isAutoBackupEnabled) {
                 scheduleBackup(uri = uri.toString())

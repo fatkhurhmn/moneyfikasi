@@ -35,8 +35,11 @@ class BackupRestoreRepositoryImpl(
                 File(dbFile.path + MoneyfikasiDatabase.SQLITE_SHM_FILE_SUFFIX)
             ).filter { it.exists() }
 
-            val targetDocumentFile = DocumentFile.fromTreeUri(context, uri)
-                ?: return@withContext Result.failure(IOException("Failed to get target directory"))
+            val targetDocumentFile = when (uri.scheme) {
+                "content" -> DocumentFile.fromTreeUri(context, uri)
+                "file" -> uri.path?.let { DocumentFile.fromFile(File(it)) }
+                else -> null
+            } ?: return@withContext Result.failure(IOException("Failed to get target directory"))
 
             val fileName = getBackupFileName()
             val backupFile = targetDocumentFile.createFile("application/zip", fileName)
