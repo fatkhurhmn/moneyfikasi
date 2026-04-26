@@ -16,6 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
 import dev.muffar.moneyfikasi.data.worker.BackupWorker
+import dev.muffar.moneyfikasi.domain.model.LatestBackup
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupRestoreUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
@@ -78,12 +79,16 @@ class BackupRestoreViewModel @Inject constructor(
     private fun backupData(uri: Uri) {
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
-            val previousBackupName = _state.value.latestBackupName
-            delay(500)
+            val previousBackup = LatestBackup(
+                name = _state.value.latestBackupName,
+                date = _state.value.latestBackupDate,
+                folder = _state.value.latestBackupFolder
+            )
+            delay(200)
             backupRestoreUseCases.backupData(uri)
                 .onSuccess { fileName ->
-                    if (_state.value.isDeletePreviousBackup && previousBackupName.isNotEmpty()) {
-                        backupRestoreUseCases.deleteBackup(uri, previousBackupName)
+                    if (_state.value.isDeletePreviousBackup && previousBackup.name.isNotEmpty() && previousBackup.folder.isNotEmpty()) {
+                        backupRestoreUseCases.deleteBackup(previousBackup)
                     }
                     preferencesUseCases.setLatestBackup(fileName, System.currentTimeMillis(), uri.toString())
                     _eventFlow.emit(UiEvent.ShowMessage("Backup success", SnackbarType.SUCCESS))
@@ -103,7 +108,7 @@ class BackupRestoreViewModel @Inject constructor(
     private fun restoreData(uri: Uri) {
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
-            delay(500)
+            delay(200)
             backupRestoreUseCases.restoreData(uri)
                 .onSuccess {
                     _eventFlow.emit(UiEvent.ShowMessage("Restore success", SnackbarType.SUCCESS))

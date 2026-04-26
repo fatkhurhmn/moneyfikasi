@@ -3,8 +3,10 @@ package dev.muffar.moneyfikasi.data.repositoy
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import dev.muffar.moneyfikasi.data.db.MoneyfikasiDatabase
+import dev.muffar.moneyfikasi.domain.model.LatestBackup
 import dev.muffar.moneyfikasi.domain.repository.BackupRestoreRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -35,11 +37,8 @@ class BackupRestoreRepositoryImpl(
                 File(dbFile.path + MoneyfikasiDatabase.SQLITE_SHM_FILE_SUFFIX)
             ).filter { it.exists() }
 
-            val targetDocumentFile = when (uri.scheme) {
-                "content" -> DocumentFile.fromTreeUri(context, uri)
-                "file" -> uri.path?.let { DocumentFile.fromFile(File(it)) }
-                else -> null
-            } ?: return@withContext Result.failure(IOException("Failed to get target directory"))
+            val targetDocumentFile = getTargetDirectory(uri)
+                ?: return@withContext Result.failure(IOException("Failed to get target directory"))
 
             val fileName = getBackupFileName()
             val backupFile = targetDocumentFile.createFile("application/zip", fileName)
@@ -95,16 +94,14 @@ class BackupRestoreRepositoryImpl(
             }
         }
 
-    override suspend fun deleteBackup(uri: Uri, fileName: String): Result<Unit> =
+    override suspend fun deleteBackup(latestBackup: LatestBackup): Result<Unit> =
         withContext(Dispatchers.IO) {
             try {
-                val targetDocumentFile = when (uri.scheme) {
-                    "content" -> DocumentFile.fromTreeUri(context, uri)
-                    "file" -> uri.path?.let { DocumentFile.fromFile(File(it)) }
-                    else -> null
-                } ?: return@withContext Result.failure(IOException("Failed to get target directory"))
+                val uri = latestBackup.folder.toUri()
+                val targetDocumentFile = getTargetDirectory(uri)
+                    ?: return@withContext Result.failure(IOException("Failed to get target directory"))
 
-                val backupFile = targetDocumentFile.findFile(fileName)
+                val backupFile = targetDocumentFile.findFile(latestBackup.name)
                     ?: return@withContext Result.failure(IOException("Backup file not found"))
 
                 if (backupFile.delete()) {
@@ -116,6 +113,14 @@ class BackupRestoreRepositoryImpl(
                 Result.failure(e)
             }
         }
+
+    private fun getTargetDirectory(uri: Uri): DocumentFile? {
+        return when (uri.scheme) {
+            "content" -> DocumentFile.fromTreeUri(context, uri)
+            "file" -> uri.path?.let { DocumentFile.fromFile(File(it)) }
+            else -> null
+        }
+    }
 
     private fun checkpoint() {
         val supportDb = db.openHelper.writableDatabase

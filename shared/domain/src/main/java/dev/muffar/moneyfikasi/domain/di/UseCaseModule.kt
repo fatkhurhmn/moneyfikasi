@@ -14,6 +14,7 @@ import dev.muffar.moneyfikasi.domain.repository.WalletRepository
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupData
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupRestoreUseCases
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.DeleteBackup
+import dev.muffar.moneyfikasi.domain.usecase.backup_restore.DeleteLatestBackup
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.RestoreData
 import dev.muffar.moneyfikasi.domain.usecase.budget.BudgetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.budget.DeleteBudget
@@ -119,10 +120,12 @@ object UseCaseModule {
     @Provides
     fun provideBackupRestoreUseCases(
         backupRestoreRepository: BackupRestoreRepository,
+        preferencesRepository: PreferencesRepository,
     ) = BackupRestoreUseCases(
         backupData = BackupData(backupRestoreRepository),
         restoreData = RestoreData(backupRestoreRepository),
         deleteBackup = DeleteBackup(backupRestoreRepository),
+        deleteLatestBackup = DeleteLatestBackup(backupRestoreRepository, preferencesRepository)
     )
 
     @Provides
