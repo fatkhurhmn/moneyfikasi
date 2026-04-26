@@ -12,6 +12,7 @@ fun NavGraphBuilder.settingsNavGraph(
     navigateToBudgets: () -> Unit,
     navigateToBackupRestore: () -> Unit,
     navigateToExport: () -> Unit,
+    navigateToAppLock: () -> Unit,
 ) {
     composable(route = Screen.Settings.route) {
         SettingsScreen(
@@ -20,7 +21,8 @@ fun NavGraphBuilder.settingsNavGraph(
             onPresetClick = navigateToPreset,
             onBudgetsClick = navigateToBudgets,
             onBackupRestoreClick = navigateToBackupRestore,
-            onExportClick = navigateToExport
+            onExportClick = navigateToExport,
+            onAppLockClick = navigateToAppLock
         )
     }
 }

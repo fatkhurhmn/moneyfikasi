@@ -2,9 +2,12 @@ package dev.muffar.moneyfikasi.settings
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -20,7 +23,8 @@ fun SettingsScreen(
     onPresetClick: () -> Unit,
     onBudgetsClick: () -> Unit,
     onBackupRestoreClick: () -> Unit,
-    onExportClick: () -> Unit
+    onExportClick: () -> Unit,
+    onAppLockClick: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -61,6 +65,11 @@ fun SettingsScreen(
                 title = stringResource(R.string.export),
                 icon = painterResource(id = R.drawable.ic_export),
                 onClick = onExportClick
+            )
+            SettingsItem(
+                title = stringResource(R.string.app_lock),
+                icon = rememberVectorPainter(Icons.Rounded.Lock),
+                onClick = onAppLockClick
             )
         }
     }

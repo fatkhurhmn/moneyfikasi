@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import dev.muffar.moneyfikasi.domain.model.AppLockType
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -98,6 +99,31 @@ data class PreferencesManager @Inject constructor(
         it[DELETE_PREVIOUS_BACKUP] ?: true
     }
 
+    suspend fun setAppLockType(type: AppLockType) {
+        datastore.edit {
+            it[APP_LOCK_TYPE] = type.name
+        }
+    }
+
+    val appLockType = datastore.data.map {
+        val typeName = it[APP_LOCK_TYPE] ?: AppLockType.NONE.name
+        try {
+            AppLockType.valueOf(typeName)
+        } catch (e: Exception) {
+            AppLockType.NONE
+        }
+    }
+
+    suspend fun setAppLockPin(pin: String) {
+        datastore.edit {
+            it[APP_LOCK_PIN] = pin
+        }
+    }
+
+    val appLockPin = datastore.data.map {
+        it[APP_LOCK_PIN] ?: ""
+    }
+
     companion object {
         val BALANCE_VISIBILITY = booleanPreferencesKey("balance_visibility")
         val REPORT_VISIBILITY = booleanPreferencesKey("report_visibility")
@@ -108,5 +134,7 @@ data class PreferencesManager @Inject constructor(
         val AUTO_BACKUP_URI = stringPreferencesKey("auto_backup_uri")
         val AUTO_BACKUP_PERIOD = stringPreferencesKey("auto_backup_period")
         val DELETE_PREVIOUS_BACKUP = booleanPreferencesKey("delete_previous_backup")
+        val APP_LOCK_TYPE = stringPreferencesKey("app_lock_type")
+        val APP_LOCK_PIN = stringPreferencesKey("app_lock_pin")
     }
 }

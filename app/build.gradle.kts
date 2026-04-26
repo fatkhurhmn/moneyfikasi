@@ -77,6 +77,7 @@ dependencies {
     implementation(projects.feature.backupRestore)
     implementation(projects.feature.budget)
     implementation(projects.feature.export)
+    implementation(projects.feature.applock)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

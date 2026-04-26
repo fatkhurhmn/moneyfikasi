@@ -25,6 +25,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.keyboardAsState
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
@@ -42,6 +43,7 @@ fun CommonTextInput(
     isClickable: Boolean = false,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
     onClick: () -> Unit = {},
     onClear: (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
@@ -75,6 +77,7 @@ fun CommonTextInput(
             readOnly = if (isClickable) true else readOnly,
             keyboardActions = keyboardActions,
             keyboardOptions = keyboardOptions,
+            visualTransformation = visualTransformation,
             leadingIcon = leadingIcon,
             trailingIcon = if (onClear != null && value.isNotEmpty() && value != "0") {
                 {

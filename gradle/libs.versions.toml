@@ -25,6 +25,7 @@ appcompat = "1.7.1"
 material = "1.13.0"
 paging = "3.3.6"
 poi = "5.2.3"
+biometric = "1.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -84,6 +85,7 @@ androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", 
 androidx-paging-common = { group = "androidx.paging", name = "paging-common", version.ref = "paging" }
 poi = { group = "org.apache.poi", name = "poi", version.ref = "poi" }
 poi-ooxml = { group = "org.apache.poi", name = "poi-ooxml", version.ref = "poi" }
+androidx-biometric = { group = "androidx.biometric", name = "biometric", version.ref = "biometric" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

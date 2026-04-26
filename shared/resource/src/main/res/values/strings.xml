@@ -168,4 +168,12 @@
     <string name="export_note">Select the date range and format to export your transaction history.</string>
     <string name="csv">.csv</string>
     <string name="xlsx">.xlsx</string>
+    <string name="app_lock">App Lock</string>
+    <string name="lock_type">Lock Type</string>
+    <string name="pin">PIN</string>
+    <string name="biometric">Biometric</string>
+    <string name="enable_app_lock">Enable App Lock</string>
+    <string name="confirm_pin">Confirm PIN</string>
+    <string name="pin_min_length">PIN must be at least 4 digits</string>
+    <string name="pin_not_match">PINs do not match</string>
 </resources>

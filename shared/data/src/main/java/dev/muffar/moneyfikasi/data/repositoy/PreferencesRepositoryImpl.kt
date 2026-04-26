@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.data.repositoy
 
 import dev.muffar.moneyfikasi.data.preferences.PreferencesManager
+import dev.muffar.moneyfikasi.domain.model.AppLockType
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.repository.PreferencesRepository
 import kotlinx.coroutines.flow.Flow
@@ -53,4 +54,16 @@ class PreferencesRepositoryImpl(
     }
 
     override fun isDeletePreviousBackup(): Flow<Boolean> = preferencesManager.isDeletePreviousBackup
+
+    override suspend fun setAppLockType(type: AppLockType) {
+        preferencesManager.setAppLockType(type)
+    }
+
+    override fun getAppLockType(): Flow<AppLockType> = preferencesManager.appLockType
+
+    override suspend fun setAppLockPin(pin: String) {
+        preferencesManager.setAppLockPin(pin)
+    }
+
+    override fun getAppLockPin(): Flow<String> = preferencesManager.appLockPin
 }

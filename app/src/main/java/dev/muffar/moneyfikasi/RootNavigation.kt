@@ -3,6 +3,8 @@ package dev.muffar.moneyfikasi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import dev.muffar.moneyfikasi.applock.navigation.appLockNavGraph
+import dev.muffar.moneyfikasi.applock.navigation.toAppLockScreen
 import dev.muffar.moneyfikasi.backup_restore.navigation.backupRestoreNavGraph
 import dev.muffar.moneyfikasi.backup_restore.navigation.toBackupRestoreScreen
 import dev.muffar.moneyfikasi.budget.add_edit.navigation.toAddEditBudgetScreen
@@ -108,7 +110,8 @@ fun RootNavigation(
             navigateToPreset = { navController.toPresetListScreen() },
             navigateToBudgets = { navController.toBudgetsScreen() },
             navigateToBackupRestore = { navController.toBackupRestoreScreen() },
-            navigateToExport = { navController.toExportScreen() }
+            navigateToExport = { navController.toExportScreen() },
+            navigateToAppLock = { navController.toAppLockScreen() }
         )
 
         categoriesNavGraph(
@@ -149,6 +152,10 @@ fun RootNavigation(
         )
 
         exportNavGraph(
+            navigateBack = { navController.navigateUp() }
+        )
+
+        appLockNavGraph(
             navigateBack = { navController.navigateUp() }
         )
     }
