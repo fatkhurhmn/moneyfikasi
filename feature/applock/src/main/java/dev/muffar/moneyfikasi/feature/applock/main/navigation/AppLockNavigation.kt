@@ -13,7 +13,7 @@ import dev.muffar.moneyfikasi.navigation.Screen
 
 fun NavGraphBuilder.appLockNavigation(
     navigateBack: () -> Unit,
-    navigateToSetPin: () -> Unit,
+    onNavigateToEnterPin: () -> Unit,
 ) {
     composable(route = Screen.AppLock.route) {
         val viewModel = hiltViewModel<AppLockViewModel>()
@@ -26,7 +26,7 @@ fun NavGraphBuilder.appLockNavigation(
             eventFlow = eventFlow,
             onAppLockEnabledChanged = { onEvent(AppLockEvent.OnAppLockEnabledChanged(it)) },
             onBackClick = navigateBack,
-            onNavigateToSetPin = navigateToSetPin
+            onNavigateToEnterPin = onNavigateToEnterPin
         )
     }
 }

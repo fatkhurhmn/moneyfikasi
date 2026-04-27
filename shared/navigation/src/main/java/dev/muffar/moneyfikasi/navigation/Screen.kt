@@ -101,5 +101,5 @@ sealed class Screen(val route: String) {
 
     data object AppLock : Screen("app_lock")
 
-    data object SetPin : Screen("set_pin")
+    data object EnterPin : Screen("enter_pin")
 }

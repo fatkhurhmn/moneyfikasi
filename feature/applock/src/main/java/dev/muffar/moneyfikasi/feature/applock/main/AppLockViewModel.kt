@@ -53,7 +53,7 @@ class AppLockViewModel @Inject constructor(
     private fun onAppLockEnabledChanged(isEnabled: Boolean) {
         viewModelScope.launch {
             if (isEnabled && state.value.pin.isEmpty()) {
-                _eventFlow.emit(UiEvent.NavigateToSetPin)
+                _eventFlow.emit(UiEvent.NavigateToEnterPin)
                 return@launch
             }
 
@@ -63,6 +63,6 @@ class AppLockViewModel @Inject constructor(
     }
 
     sealed class UiEvent {
-        object NavigateToSetPin : UiEvent()
+        object NavigateToEnterPin : UiEvent()
     }
 }

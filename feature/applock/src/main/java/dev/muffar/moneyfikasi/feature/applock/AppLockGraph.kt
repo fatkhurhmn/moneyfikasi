@@ -2,17 +2,17 @@ package dev.muffar.moneyfikasi.feature.applock
 
 import androidx.navigation.NavGraphBuilder
 import dev.muffar.moneyfikasi.feature.applock.main.navigation.appLockNavigation
-import dev.muffar.moneyfikasi.feature.applock.set_pin.navigation.setPinNavigation
+import dev.muffar.moneyfikasi.feature.applock.enter_pin.navigation.enterPinNavGraph
 
 fun NavGraphBuilder.appLockNavGraph(
     navigateBack: () -> Unit,
-    navigateToSetPin: () -> Unit,
+    onNavigateToEnterPin: () -> Unit,
 ) {
     appLockNavigation(
         navigateBack = navigateBack,
-        navigateToSetPin = navigateToSetPin
+        onNavigateToEnterPin = onNavigateToEnterPin
     )
-    setPinNavigation(
+    enterPinNavGraph(
         navigateBack = navigateBack
     )
 }

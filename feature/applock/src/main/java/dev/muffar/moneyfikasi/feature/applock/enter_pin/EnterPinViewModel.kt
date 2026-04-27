@@ -1,9 +1,8 @@
-package dev.muffar.moneyfikasi.feature.applock.set_pin
+package dev.muffar.moneyfikasi.feature.applock.enter_pin
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,23 +11,24 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 
 @HiltViewModel
-class SetPinViewModel @Inject constructor(
+class EnterPinViewModel @Inject constructor(
     private val preferencesUseCases: PreferencesUseCases,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(SetPinState())
+    private val _state = MutableStateFlow(EnterPinState())
     val state = _state.asStateFlow()
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
-    fun onEvent(event: SetPinEvent) {
+    fun onEvent(event: EnterPinEvent) {
         when (event) {
-            is SetPinEvent.OnPinChanged -> onPinChanged(event.pin)
-            is SetPinEvent.OnBackToEnterPin -> onBackToEnterPin()
-            is SetPinEvent.OnCancel -> onCancel()
+            is EnterPinEvent.OnPinChanged -> onPinChanged(event.pin)
+            is EnterPinEvent.OnBackToEnterPin -> onBackToEnterPin()
+            is EnterPinEvent.OnCancel -> onCancel()
         }
     }
 
@@ -36,17 +36,17 @@ class SetPinViewModel @Inject constructor(
         _state.update { it.copy(currentPin = pin, error = ErrorMessage()) }
         if (pin.length == 4) {
             when (state.value.step) {
-                SetPinStep.ENTER_PIN -> {
+                EnterPinStep.ENTER_PIN -> {
                     _state.update {
                         it.copy(
                             pin = pin,
                             currentPin = "",
-                            step = SetPinStep.CONFIRM_PIN
+                            step = EnterPinStep.CONFIRM_PIN
                         )
                     }
                 }
 
-                SetPinStep.CONFIRM_PIN -> {
+                EnterPinStep.CONFIRM_PIN -> {
                     if (pin == state.value.pin) {
                         onSavePin(pin)
                     } else {
@@ -65,7 +65,7 @@ class SetPinViewModel @Inject constructor(
     private fun onBackToEnterPin() {
         _state.update {
             it.copy(
-                step = SetPinStep.ENTER_PIN,
+                step = EnterPinStep.ENTER_PIN,
                 pin = "",
                 confirmPin = "",
                 currentPin = "",

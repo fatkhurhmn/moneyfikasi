@@ -17,7 +17,7 @@ import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.export.navigation.exportNavGraph
 import dev.muffar.moneyfikasi.export.navigation.toExportScreen
 import dev.muffar.moneyfikasi.feature.applock.main.navigation.toAppLockScreen
-import dev.muffar.moneyfikasi.feature.applock.set_pin.navigation.toSetPinScreen
+import dev.muffar.moneyfikasi.feature.applock.enter_pin.navigation.toEnterPinScreen
 import dev.muffar.moneyfikasi.feature.home.navigation.homeNavigation
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.preset.add_edit.navigation.toAddEditPresetScreen
@@ -158,7 +158,7 @@ fun RootNavigation(
 
         appLockNavGraph(
             navigateBack = { navController.navigateUp() },
-            navigateToSetPin = { navController.toSetPinScreen() }
+            onNavigateToEnterPin = { navController.toEnterPinScreen() }
         )
     }
 }

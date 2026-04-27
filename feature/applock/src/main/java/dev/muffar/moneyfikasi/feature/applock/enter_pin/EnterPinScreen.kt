@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.feature.applock.set_pin
+package dev.muffar.moneyfikasi.feature.applock.enter_pin
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,9 +28,9 @@ import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SetPinScreen(
-    state: SetPinState,
-    eventFlow: SharedFlow<SetPinViewModel.UiEvent>,
+fun EnterPinScreen(
+    state: EnterPinState,
+    eventFlow: SharedFlow<EnterPinViewModel.UiEvent>,
     onPinChanged: (String) -> Unit,
     onBackToEnterPin: () -> Unit,
     onCancel: () -> Unit,
@@ -47,8 +47,8 @@ fun SetPinScreen(
     LaunchedEffect(eventFlow) {
         eventFlow.collectLatest {
             when (it) {
-                is SetPinViewModel.UiEvent.SavePin -> onNavigateBack()
-                is SetPinViewModel.UiEvent.NavigateBack -> onNavigateBack()
+                is EnterPinViewModel.UiEvent.SavePin -> onNavigateBack()
+                is EnterPinViewModel.UiEvent.NavigateBack -> onNavigateBack()
             }
         }
     }
@@ -58,7 +58,7 @@ fun SetPinScreen(
             CommonTopAppBar(
                 title = stringResource(R.string.set_pin),
                 onBackClick = {
-                    if (state.step == SetPinStep.CONFIRM_PIN) {
+                    if (state.step == EnterPinStep.CONFIRM_PIN) {
                         onBackToEnterPin()
                     } else {
                         onCancel()
@@ -76,13 +76,13 @@ fun SetPinScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            val title = if (state.step == SetPinStep.ENTER_PIN) {
+            val title = if (state.step == EnterPinStep.ENTER_PIN) {
                 stringResource(R.string.enter_pin)
             } else {
                 stringResource(R.string.confirm_pin)
             }
 
-            val subtitle = if (state.step == SetPinStep.ENTER_PIN) {
+            val subtitle = if (state.step == EnterPinStep.ENTER_PIN) {
                 stringResource(R.string.enter_4_digit_pin)
             } else {
                 stringResource(R.string.re_enter_pin_to_confirm)
