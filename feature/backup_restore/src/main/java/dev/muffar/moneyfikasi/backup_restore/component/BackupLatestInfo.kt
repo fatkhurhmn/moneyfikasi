@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -14,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.toDisplayPath
 import java.text.SimpleDateFormat
@@ -22,7 +22,6 @@ import java.util.Locale
 
 @Composable
 fun BackupLatestInfo(
-    modifier: Modifier = Modifier,
     fileName: String,
     date: Long,
     folder: String,
@@ -31,11 +30,7 @@ fun BackupLatestInfo(
         folder.toDisplayPath()
     }
 
-    Surface(
-        modifier = modifier.fillMaxWidth(),
-        shape = MaterialTheme.shapes.medium,
-        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f),
-    ) {
+    PrimaryCard {
         Column(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -47,12 +42,16 @@ fun BackupLatestInfo(
             )
 
             if (fileName.isNotEmpty()) {
-                val formattedDate = SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault()).format(Date(date))
+                val formattedDate =
+                    SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault()).format(Date(date))
                 Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                     BackupInfoItem(label = stringResource(R.string.date), value = formattedDate)
                     BackupInfoItem(label = stringResource(R.string.name), value = fileName)
                     if (formattedFolder.isNotEmpty()) {
-                        BackupInfoItem(label = stringResource(R.string.location), value = formattedFolder)
+                        BackupInfoItem(
+                            label = stringResource(R.string.location),
+                            value = formattedFolder
+                        )
                     }
                 }
             } else {

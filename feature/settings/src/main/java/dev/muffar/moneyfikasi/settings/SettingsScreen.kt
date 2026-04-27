@@ -68,7 +68,7 @@ fun SettingsScreen(
             )
             SettingsItem(
                 title = stringResource(R.string.app_lock),
-                icon = rememberVectorPainter(Icons.Rounded.Lock),
+                icon = painterResource(id = R.drawable.ic_applock),
                 onClick = onAppLockClick
             )
         }

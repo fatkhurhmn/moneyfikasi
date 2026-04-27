@@ -3,15 +3,13 @@ package dev.muffar.moneyfikasi.backup_restore.component
 import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 
 @Composable
 fun AutoBackupSection(
-    modifier: Modifier = Modifier,
     isEnabled: Boolean,
     folderUri: String,
     period: TimePeriod,
@@ -19,11 +17,7 @@ fun AutoBackupSection(
     onFolderSelected: (Uri) -> Unit,
     onPeriodSelected: (TimePeriod) -> Unit,
 ) {
-    Surface(
-        modifier = modifier.fillMaxWidth(),
-        shape = MaterialTheme.shapes.medium,
-        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)
-    ) {
+    PrimaryCard {
         Column(
             modifier = Modifier.fillMaxWidth(),
         ) {
