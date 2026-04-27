@@ -174,4 +174,9 @@
     <string name="confirm_pin">Confirm PIN</string>
     <string name="pin_min_length">PIN must be at least 4 digits</string>
     <string name="pin_not_match">PINs do not match</string>
+    <string name="set_pin">Set PIN</string>
+    <string name="enter_pin">Enter PIN</string>
+    <string name="enter_4_digit_pin">Enter 4-digit PIN</string>
+    <string name="re_enter_pin_to_confirm">Re-enter PIN to confirm</string>
+    <string name="change_pin">Change PIN</string>
 </resources>

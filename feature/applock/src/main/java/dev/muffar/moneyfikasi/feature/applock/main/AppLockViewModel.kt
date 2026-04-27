@@ -1,26 +1,29 @@
-package dev.muffar.moneyfikasi.applock.main
+package dev.muffar.moneyfikasi.feature.applock.main
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AppLockViewModel @Inject constructor(
-    private val application: Application,
     private val preferencesUseCases: PreferencesUseCases,
-) : AndroidViewModel(application) {
+) : ViewModel() {
 
     private val _state = MutableStateFlow(AppLockState())
     val state = _state.asStateFlow()
+
+    private val _eventFlow = MutableSharedFlow<UiEvent>()
+    val eventFlow = _eventFlow.asSharedFlow()
 
     init {
         loadAppLockSettings()
@@ -29,9 +32,6 @@ class AppLockViewModel @Inject constructor(
     fun onEvent(event: AppLockEvent) {
         when (event) {
             is AppLockEvent.OnAppLockEnabledChanged -> onAppLockEnabledChanged(event.isEnabled)
-            is AppLockEvent.OnPinChanged -> onPinChanged(event.pin)
-            is AppLockEvent.OnConfirmPinChanged -> onConfirmPinChanged(event.pin)
-            is AppLockEvent.OnSaveAppLock -> onSaveAppLock()
         }
     }
 
@@ -51,21 +51,16 @@ class AppLockViewModel @Inject constructor(
     }
 
     private fun onAppLockEnabledChanged(isEnabled: Boolean) {
-        _state.update {
-            it.copy(
-                isAppLockEnabled = isEnabled,
-            )
+        viewModelScope.launch {
+            if (isEnabled && state.value.pin.isEmpty()) {
+                _eventFlow.emit(UiEvent.NavigateToSetPin)
+            } else {
+                preferencesUseCases.enableAppLock(isEnabled)
+            }
         }
     }
 
-    private fun onPinChanged(pin: String) {
-        _state.update { it.copy(pin = pin, error = ErrorMessage()) }
-    }
-
-    private fun onConfirmPinChanged(pin: String) {
-        _state.update { it.copy(confirmPin = pin, error = ErrorMessage()) }
-    }
-
-    private fun onSaveAppLock() {
+    sealed class UiEvent {
+        object NavigateToSetPin : UiEvent()
     }
 }

@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.applock.main
+package dev.muffar.moneyfikasi.feature.applock.main
 
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 

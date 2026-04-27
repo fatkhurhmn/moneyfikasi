@@ -100,4 +100,6 @@ sealed class Screen(val route: String) {
     data object Export : Screen("export")
 
     data object AppLock : Screen("app_lock")
+
+    data object SetPin : Screen("set_pin")
 }

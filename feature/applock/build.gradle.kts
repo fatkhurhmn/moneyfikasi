@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "dev.muffar.moneyfikasi.applock"
+    namespace = "dev.muffar.moneyfikasi.feature.applock"
     compileSdk = 37
 
     defaultConfig {

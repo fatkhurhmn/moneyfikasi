@@ -3,8 +3,7 @@ package dev.muffar.moneyfikasi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import dev.muffar.moneyfikasi.applock.main.navigation.appLockNavGraph
-import dev.muffar.moneyfikasi.applock.main.navigation.toAppLockScreen
+import dev.muffar.moneyfikasi.feature.applock.appLockNavGraph
 import dev.muffar.moneyfikasi.backup_restore.navigation.backupRestoreNavGraph
 import dev.muffar.moneyfikasi.backup_restore.navigation.toBackupRestoreScreen
 import dev.muffar.moneyfikasi.budget.add_edit.navigation.toAddEditBudgetScreen
@@ -17,6 +16,8 @@ import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.export.navigation.exportNavGraph
 import dev.muffar.moneyfikasi.export.navigation.toExportScreen
+import dev.muffar.moneyfikasi.feature.applock.main.navigation.toAppLockScreen
+import dev.muffar.moneyfikasi.feature.applock.set_pin.navigation.toSetPinScreen
 import dev.muffar.moneyfikasi.feature.home.navigation.homeNavigation
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.preset.add_edit.navigation.toAddEditPresetScreen
@@ -156,7 +157,8 @@ fun RootNavigation(
         )
 
         appLockNavGraph(
-            navigateBack = { navController.navigateUp() }
+            navigateBack = { navController.navigateUp() },
+            navigateToSetPin = { navController.toSetPinScreen() }
         )
     }
 }
