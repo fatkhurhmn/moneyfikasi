@@ -22,7 +22,6 @@ fun NavGraphBuilder.appLockNavGraph(
         AppLockScreen(
             state = state,
             onAppLockEnabledChanged = { onEvent(AppLockEvent.OnAppLockEnabledChanged(it)) },
-            onAppLockTypeChanged = { onEvent(AppLockEvent.OnAppLockTypeChanged(it)) },
             onPinChanged = { onEvent(AppLockEvent.OnPinChanged(it)) },
             onConfirmPinChanged = { onEvent(AppLockEvent.OnConfirmPinChanged(it)) },
             onSaveAppLock = { onEvent(AppLockEvent.OnSaveAppLock) },

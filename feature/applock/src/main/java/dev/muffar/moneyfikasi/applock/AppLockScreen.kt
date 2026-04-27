@@ -20,11 +20,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.applock.component.AppLockTypeRadioGroup
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.common_ui.component.button.BottomBarButton
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
-import dev.muffar.moneyfikasi.domain.model.AppLockType
 import dev.muffar.moneyfikasi.resource.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,7 +30,6 @@ import dev.muffar.moneyfikasi.resource.R
 fun AppLockScreen(
     state: AppLockState,
     onAppLockEnabledChanged: (Boolean) -> Unit,
-    onAppLockTypeChanged: (AppLockType) -> Unit,
     onPinChanged: (String) -> Unit,
     onConfirmPinChanged: (String) -> Unit,
     onSaveAppLock: () -> Unit,
@@ -74,33 +71,24 @@ fun AppLockScreen(
 
             if (state.isAppLockEnabled) {
                 Spacer(modifier = Modifier.height(24.dp))
-                AppLockTypeRadioGroup(
-                    selected = state.appLockType,
-                    isBiometricAvailable = state.isBiometricAvailable,
-                    onTypeChanged = onAppLockTypeChanged
+                CommonTextInput(
+                    value = state.pin,
+                    onValueChange = onPinChanged,
+                    label = stringResource(R.string.pin),
+                    placeholder = "****",
+                    error = state.error,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
+                    visualTransformation = PasswordVisualTransformation()
                 )
-
-                if (state.appLockType == AppLockType.PIN) {
-                    Spacer(modifier = Modifier.height(24.dp))
-                    CommonTextInput(
-                        value = state.pin,
-                        onValueChange = onPinChanged,
-                        label = stringResource(R.string.pin),
-                        placeholder = "****",
-                        error = state.error,
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
-                        visualTransformation = PasswordVisualTransformation()
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    CommonTextInput(
-                        value = state.confirmPin,
-                        onValueChange = onConfirmPinChanged,
-                        label = stringResource(R.string.confirm_pin),
-                        placeholder = "****",
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
-                        visualTransformation = PasswordVisualTransformation()
-                    )
-                }
+                Spacer(modifier = Modifier.height(16.dp))
+                CommonTextInput(
+                    value = state.confirmPin,
+                    onValueChange = onConfirmPinChanged,
+                    label = stringResource(R.string.confirm_pin),
+                    placeholder = "****",
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
+                    visualTransformation = PasswordVisualTransformation()
+                )
             }
         }
     }

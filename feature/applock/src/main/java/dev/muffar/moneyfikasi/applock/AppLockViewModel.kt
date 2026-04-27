@@ -1,8 +1,8 @@
 package dev.muffar.moneyfikasi.applock
 
+import android.app.Application
 import android.content.Context
-import androidx.biometric.BiometricManager
-import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,22 +21,20 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AppLockViewModel @Inject constructor(
+    private val application: Application,
     private val preferencesUseCases: PreferencesUseCases,
-    @ApplicationContext private val context: Context,
-) : ViewModel() {
+) : AndroidViewModel(application) {
 
     private val _state = MutableStateFlow(AppLockState())
     val state = _state.asStateFlow()
 
     init {
-        checkBiometricAvailability()
         loadAppLockSettings()
     }
 
     fun onEvent(event: AppLockEvent) {
         when (event) {
             is AppLockEvent.OnAppLockEnabledChanged -> onAppLockEnabledChanged(event.isEnabled)
-            is AppLockEvent.OnAppLockTypeChanged -> onAppLockTypeChanged(event.type)
             is AppLockEvent.OnPinChanged -> onPinChanged(event.pin)
             is AppLockEvent.OnConfirmPinChanged -> onConfirmPinChanged(event.pin)
             is AppLockEvent.OnSaveAppLock -> onSaveAppLock()
@@ -59,27 +57,19 @@ class AppLockViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    private fun checkBiometricAvailability() {
-        val biometricManager = BiometricManager.from(context)
-        val isAvailable = when (biometricManager.canAuthenticate(BIOMETRIC_STRONG)) {
-            BiometricManager.BIOMETRIC_SUCCESS -> true
-            else -> false
-        }
-        _state.update { it.copy(isBiometricAvailable = isAvailable) }
-    }
-
     private fun onAppLockEnabledChanged(isEnabled: Boolean) {
-        _state.update { it.copy(isAppLockEnabled = isEnabled) }
+        _state.update {
+            it.copy(
+                isAppLockEnabled = isEnabled,
+                appLockType = if (isEnabled) AppLockType.PIN else AppLockType.NONE
+            )
+        }
         if (!isEnabled) {
             viewModelScope.launch {
                 preferencesUseCases.setAppLockType(AppLockType.NONE)
                 preferencesUseCases.setAppLockPin("")
             }
         }
-    }
-
-    private fun onAppLockTypeChanged(type: AppLockType) {
-        _state.update { it.copy(appLockType = type) }
     }
 
     private fun onPinChanged(pin: String) {
@@ -93,11 +83,11 @@ class AppLockViewModel @Inject constructor(
     private fun onSaveAppLock() {
         if (state.value.appLockType == AppLockType.PIN) {
             if (state.value.pin.length < 4) {
-                _state.update { it.copy(error = ErrorMessage(context.getString(R.string.pin_min_length))) }
+                _state.update { it.copy(error = ErrorMessage(application.getString(R.string.pin_min_length))) }
                 return
             }
             if (state.value.pin != state.value.confirmPin) {
-                _state.update { it.copy(error = ErrorMessage(context.getString(R.string.pin_not_match))) }
+                _state.update { it.copy(error = ErrorMessage(application.getString(R.string.pin_not_match))) }
                 return
             }
         }

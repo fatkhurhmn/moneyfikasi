@@ -8,7 +8,6 @@ data class AppLockState(
     val isAppLockEnabled: Boolean = false,
     val pin: String = "",
     val confirmPin: String = "",
-    val isBiometricAvailable: Boolean = false,
     val isLoading: Boolean = false,
     val error: ErrorMessage = ErrorMessage()
 )
