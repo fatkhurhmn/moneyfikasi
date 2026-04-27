@@ -1,22 +1,16 @@
 package dev.muffar.moneyfikasi.applock
 
 import android.app.Application
-import android.content.Context
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.muffar.moneyfikasi.domain.model.AppLockType
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
-import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -43,13 +37,12 @@ class AppLockViewModel @Inject constructor(
 
     private fun loadAppLockSettings() {
         combine(
-            preferencesUseCases.getAppLockType(),
+            preferencesUseCases.isAppLockEnabled(),
             preferencesUseCases.getAppLockPin()
-        ) { type, pin ->
+        ) { isAppLockEnable, pin ->
             _state.update {
                 it.copy(
-                    appLockType = type,
-                    isAppLockEnabled = type != AppLockType.NONE,
+                    isAppLockEnabled = isAppLockEnable,
                     pin = pin,
                     confirmPin = pin
                 )
@@ -61,14 +54,7 @@ class AppLockViewModel @Inject constructor(
         _state.update {
             it.copy(
                 isAppLockEnabled = isEnabled,
-                appLockType = if (isEnabled) AppLockType.PIN else AppLockType.NONE
             )
-        }
-        if (!isEnabled) {
-            viewModelScope.launch {
-                preferencesUseCases.setAppLockType(AppLockType.NONE)
-                preferencesUseCases.setAppLockPin("")
-            }
         }
     }
 
@@ -81,25 +67,5 @@ class AppLockViewModel @Inject constructor(
     }
 
     private fun onSaveAppLock() {
-        if (state.value.appLockType == AppLockType.PIN) {
-            if (state.value.pin.length < 4) {
-                _state.update { it.copy(error = ErrorMessage(application.getString(R.string.pin_min_length))) }
-                return
-            }
-            if (state.value.pin != state.value.confirmPin) {
-                _state.update { it.copy(error = ErrorMessage(application.getString(R.string.pin_not_match))) }
-                return
-            }
-        }
-
-        viewModelScope.launch {
-            _state.update { it.copy(error = ErrorMessage()) }
-            preferencesUseCases.setAppLockType(state.value.appLockType)
-            if (state.value.appLockType == AppLockType.PIN) {
-                preferencesUseCases.setAppLockPin(state.value.pin)
-            } else {
-                preferencesUseCases.setAppLockPin("")
-            }
-        }
     }
 }

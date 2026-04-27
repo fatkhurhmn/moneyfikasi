@@ -1,6 +1,5 @@
 package dev.muffar.moneyfikasi.domain.repository
 
-import dev.muffar.moneyfikasi.domain.model.AppLockType
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import kotlinx.coroutines.flow.Flow
 
@@ -21,8 +20,8 @@ interface PreferencesRepository {
     fun getAutoBackupPeriod(): Flow<TimePeriod>
     suspend fun setDeletePreviousBackup(isEnabled: Boolean)
     fun isDeletePreviousBackup(): Flow<Boolean>
-    suspend fun setAppLockType(type: AppLockType)
-    fun getAppLockType(): Flow<AppLockType>
+    suspend fun enableAppLock(enable: Boolean)
+    fun isAppLockEnabled(): Flow<Boolean>
     suspend fun setAppLockPin(pin: String)
     fun getAppLockPin(): Flow<String>
 }

@@ -15,8 +15,8 @@ data class PreferencesUseCases(
     val setAutoBackupPeriod: SetAutoBackupPeriod,
     val isDeletePreviousBackup: IsDeletePreviousBackup,
     val setDeletePreviousBackup: SetDeletePreviousBackup,
-    val getAppLockType: GetAppLockType,
-    val setAppLockType: SetAppLockType,
+    val isAppLockEnabled: IsAppLockEnabled,
+    val enableAppLock: EnableAppLock,
     val getAppLockPin: GetAppLockPin,
     val setAppLockPin: SetAppLockPin
 )

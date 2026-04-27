@@ -2,8 +2,8 @@ package dev.muffar.moneyfikasi.domain.usecase.preferences
 
 import dev.muffar.moneyfikasi.domain.repository.PreferencesRepository
 
-class GetAppLockType(
+class EnableAppLock(
     private val repository: PreferencesRepository
 ) {
-    operator fun invoke() = repository.getAppLockType()
+    suspend operator fun invoke(enable: Boolean) = repository.enableAppLock(enable)
 }

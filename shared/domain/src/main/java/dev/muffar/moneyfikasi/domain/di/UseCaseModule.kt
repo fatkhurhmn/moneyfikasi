@@ -28,7 +28,7 @@ import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryById
 import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryByType
 import dev.muffar.moneyfikasi.domain.usecase.category.UpsertCategory
 import dev.muffar.moneyfikasi.domain.usecase.preferences.GetAppLockPin
-import dev.muffar.moneyfikasi.domain.usecase.preferences.GetAppLockType
+import dev.muffar.moneyfikasi.domain.usecase.preferences.IsAppLockEnabled
 import dev.muffar.moneyfikasi.domain.usecase.preferences.GetAutoBackupPeriod
 import dev.muffar.moneyfikasi.domain.usecase.preferences.GetAutoBackupUri
 import dev.muffar.moneyfikasi.domain.usecase.preferences.GetLatestBackup
@@ -38,7 +38,7 @@ import dev.muffar.moneyfikasi.domain.usecase.preferences.IsDeletePreviousBackup
 import dev.muffar.moneyfikasi.domain.usecase.preferences.IsReportVisible
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.SetAppLockPin
-import dev.muffar.moneyfikasi.domain.usecase.preferences.SetAppLockType
+import dev.muffar.moneyfikasi.domain.usecase.preferences.EnableAppLock
 import dev.muffar.moneyfikasi.domain.usecase.preferences.SetAutoBackupEnabled
 import dev.muffar.moneyfikasi.domain.usecase.preferences.SetAutoBackupPeriod
 import dev.muffar.moneyfikasi.domain.usecase.preferences.SetAutoBackupUri
@@ -150,8 +150,8 @@ object UseCaseModule {
         setAutoBackupPeriod = SetAutoBackupPeriod(preferencesRepository),
         isDeletePreviousBackup = IsDeletePreviousBackup(preferencesRepository),
         setDeletePreviousBackup = SetDeletePreviousBackup(preferencesRepository),
-        getAppLockType = GetAppLockType(preferencesRepository),
-        setAppLockType = SetAppLockType(preferencesRepository),
+        isAppLockEnabled = IsAppLockEnabled(preferencesRepository),
+        enableAppLock = EnableAppLock(preferencesRepository),
         getAppLockPin = GetAppLockPin(preferencesRepository),
         setAppLockPin = SetAppLockPin(preferencesRepository)
     )
