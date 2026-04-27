@@ -6,6 +6,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import dev.muffar.moneyfikasi.domain.model.EnterPinType
 import dev.muffar.moneyfikasi.feature.applock.main.AppLockEvent
 import dev.muffar.moneyfikasi.feature.applock.main.AppLockScreen
 import dev.muffar.moneyfikasi.feature.applock.main.AppLockViewModel
@@ -13,7 +14,7 @@ import dev.muffar.moneyfikasi.navigation.Screen
 
 fun NavGraphBuilder.appLockNavigation(
     navigateBack: () -> Unit,
-    onNavigateToEnterPin: () -> Unit,
+    onNavigateToEnterPin: (EnterPinType) -> Unit,
 ) {
     composable(route = Screen.AppLock.route) {
         val viewModel = hiltViewModel<AppLockViewModel>()
@@ -26,7 +27,7 @@ fun NavGraphBuilder.appLockNavigation(
             eventFlow = eventFlow,
             onAppLockEnabledChanged = { onEvent(AppLockEvent.OnAppLockEnabledChanged(it)) },
             onBackClick = navigateBack,
-            onNavigateToEnterPin = onNavigateToEnterPin
+            onNavigateToEnterPin = { onNavigateToEnterPin(it) }
         )
     }
 }

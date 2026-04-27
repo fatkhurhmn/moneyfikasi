@@ -180,4 +180,7 @@
     <string name="enter_4_digit_pin">Enter 4-digit PIN</string>
     <string name="re_enter_pin_to_confirm">Re-enter PIN to confirm</string>
     <string name="change_pin">Change PIN</string>
+    <string name="enter_current_pin">Enter current PIN</string>
+    <string name="enter_new_pin">Enter new PIN</string>
+    <string name="confirm_new_pin">Confirm new PIN</string>
 </resources>

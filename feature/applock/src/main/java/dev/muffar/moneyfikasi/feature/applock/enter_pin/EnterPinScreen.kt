@@ -22,6 +22,8 @@ import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.common_ui.component.pin_input.NumberPad
 import dev.muffar.moneyfikasi.common_ui.component.pin_input.PinDots
 import dev.muffar.moneyfikasi.common_ui.component.pin_input.PinHeader
+import dev.muffar.moneyfikasi.domain.model.EnterPinStep
+import dev.muffar.moneyfikasi.domain.model.EnterPinType
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -56,9 +58,13 @@ fun EnterPinScreen(
     Scaffold(
         topBar = {
             CommonTopAppBar(
-                title = stringResource(R.string.set_pin),
+                title = when (state.type) {
+                    EnterPinType.SET_PIN -> stringResource(R.string.set_pin)
+                    EnterPinType.ENTER_PIN -> stringResource(R.string.app_lock)
+                    EnterPinType.RESET_PIN -> stringResource(R.string.change_pin)
+                },
                 onBackClick = {
-                    if (state.step == EnterPinStep.CONFIRM_PIN) {
+                    if (state.step != EnterPinStep.ENTER_PIN && state.step != EnterPinStep.VERIFY_CURRENT_PIN) {
                         onBackToEnterPin()
                     } else {
                         onCancel()
@@ -76,16 +82,20 @@ fun EnterPinScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            val title = if (state.step == EnterPinStep.ENTER_PIN) {
-                stringResource(R.string.enter_pin)
-            } else {
-                stringResource(R.string.confirm_pin)
+            val title = when (state.step) {
+                EnterPinStep.ENTER_PIN -> stringResource(R.string.enter_pin)
+                EnterPinStep.CONFIRM_PIN -> stringResource(R.string.confirm_pin)
+                EnterPinStep.VERIFY_CURRENT_PIN -> stringResource(R.string.enter_pin)
+                EnterPinStep.ENTER_NEW_PIN -> stringResource(R.string.enter_pin)
+                EnterPinStep.CONFIRM_NEW_PIN -> stringResource(R.string.confirm_pin)
             }
 
-            val subtitle = if (state.step == EnterPinStep.ENTER_PIN) {
-                stringResource(R.string.enter_4_digit_pin)
-            } else {
-                stringResource(R.string.re_enter_pin_to_confirm)
+            val subtitle = when (state.step) {
+                EnterPinStep.ENTER_PIN -> stringResource(R.string.enter_4_digit_pin)
+                EnterPinStep.CONFIRM_PIN -> stringResource(R.string.re_enter_pin_to_confirm)
+                EnterPinStep.VERIFY_CURRENT_PIN -> stringResource(R.string.enter_current_pin)
+                EnterPinStep.ENTER_NEW_PIN -> stringResource(R.string.enter_new_pin)
+                EnterPinStep.CONFIRM_NEW_PIN -> stringResource(R.string.confirm_new_pin)
             }
 
             Column(
@@ -102,7 +112,7 @@ fun EnterPinScreen(
 
                 Spacer(Modifier.height(48.dp))
 
-                PinDots(filledCount = state.currentPin.length)
+                PinDots(filledCount = state.currentInput.length)
             }
 
             NumberPad(
@@ -110,13 +120,13 @@ fun EnterPinScreen(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
                 onDigit = { digit ->
-                    if (state.currentPin.length < 4) {
-                        onPinChanged(state.currentPin + digit)
+                    if (state.currentInput.length < 4) {
+                        onPinChanged(state.currentInput + digit)
                     }
                 },
                 onBackspace = {
-                    if (state.currentPin.isNotEmpty()) {
-                        onPinChanged(state.currentPin.dropLast(1))
+                    if (state.currentInput.isNotEmpty()) {
+                        onPinChanged(state.currentInput.dropLast(1))
                     }
                 }
             )

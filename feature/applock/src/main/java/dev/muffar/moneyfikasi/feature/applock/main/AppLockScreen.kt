@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
+import dev.muffar.moneyfikasi.domain.model.EnterPinType
 import dev.muffar.moneyfikasi.feature.applock.main.component.SetPinSection
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.flow.SharedFlow
@@ -22,7 +23,7 @@ fun AppLockScreen(
     eventFlow: SharedFlow<AppLockViewModel.UiEvent>,
     onAppLockEnabledChanged: (Boolean) -> Unit,
     onBackClick: () -> Unit,
-    onNavigateToEnterPin: () -> Unit
+    onNavigateToEnterPin: (EnterPinType) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -40,7 +41,7 @@ fun AppLockScreen(
             SetPinSection(
                 isAppLockEnabled = state.isAppLockEnabled,
                 onPinEnabled = onAppLockEnabledChanged,
-                onChangePinClick = onNavigateToEnterPin
+                onChangePinClick = { onNavigateToEnterPin(EnterPinType.RESET_PIN) }
             )
         }
     }
@@ -48,7 +49,7 @@ fun AppLockScreen(
     LaunchedEffect(eventFlow) {
         eventFlow.collectLatest {
             when (it) {
-                is AppLockViewModel.UiEvent.NavigateToEnterPin -> onNavigateToEnterPin()
+                is AppLockViewModel.UiEvent.NavigateToEnterPin -> onNavigateToEnterPin(it.type)
             }
         }
     }

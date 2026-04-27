@@ -13,6 +13,7 @@ import dev.muffar.moneyfikasi.category.add_edit.navigation.toAddEditCategoryScre
 import dev.muffar.moneyfikasi.category.categoriesNavGraph
 import dev.muffar.moneyfikasi.category.list.navigation.toCategoriesScreen
 import dev.muffar.moneyfikasi.domain.model.CategoryType
+import dev.muffar.moneyfikasi.domain.model.EnterPinType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.export.navigation.exportNavGraph
 import dev.muffar.moneyfikasi.export.navigation.toExportScreen
@@ -158,7 +159,7 @@ fun RootNavigation(
 
         appLockNavGraph(
             navigateBack = { navController.navigateUp() },
-            onNavigateToEnterPin = { navController.toEnterPinScreen() }
+            onNavigateToEnterPin = { navController.toEnterPinScreen(it) }
         )
     }
 }

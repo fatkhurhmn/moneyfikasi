@@ -3,6 +3,7 @@ package dev.muffar.moneyfikasi.feature.applock.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.muffar.moneyfikasi.domain.model.EnterPinType
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -53,7 +54,7 @@ class AppLockViewModel @Inject constructor(
     private fun onAppLockEnabledChanged(isEnabled: Boolean) {
         viewModelScope.launch {
             if (isEnabled && state.value.pin.isEmpty()) {
-                _eventFlow.emit(UiEvent.NavigateToEnterPin)
+                _eventFlow.emit(UiEvent.NavigateToEnterPin(EnterPinType.SET_PIN))
                 return@launch
             }
 
@@ -63,6 +64,6 @@ class AppLockViewModel @Inject constructor(
     }
 
     sealed class UiEvent {
-        object NavigateToEnterPin : UiEvent()
+        data class NavigateToEnterPin(val type: EnterPinType) : UiEvent()
     }
 }

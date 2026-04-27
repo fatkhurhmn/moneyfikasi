@@ -101,5 +101,10 @@ sealed class Screen(val route: String) {
 
     data object AppLock : Screen("app_lock")
 
-    data object EnterPin : Screen("enter_pin")
+    data object EnterPin : Screen("enter_pin/{type}") {
+        const val TYPE = "type"
+        fun routeWithArg(type: dev.muffar.moneyfikasi.domain.model.EnterPinType): String {
+            return "enter_pin/$type"
+        }
+    }
 }
