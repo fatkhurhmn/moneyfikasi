@@ -54,9 +54,11 @@ class AppLockViewModel @Inject constructor(
         viewModelScope.launch {
             if (isEnabled && state.value.pin.isEmpty()) {
                 _eventFlow.emit(UiEvent.NavigateToSetPin)
-            } else {
-                preferencesUseCases.enableAppLock(isEnabled)
+                return@launch
             }
+
+            preferencesUseCases.enableAppLock(isEnabled)
+            if (!isEnabled) preferencesUseCases.setAppLockPin("")
         }
     }
 

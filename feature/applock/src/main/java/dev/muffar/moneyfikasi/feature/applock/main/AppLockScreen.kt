@@ -24,14 +24,6 @@ fun AppLockScreen(
     onBackClick: () -> Unit,
     onNavigateToSetPin: () -> Unit
 ) {
-    LaunchedEffect(eventFlow) {
-        eventFlow.collectLatest {
-            when (it) {
-                is AppLockViewModel.UiEvent.NavigateToSetPin -> onNavigateToSetPin()
-            }
-        }
-    }
-
     Scaffold(
         topBar = {
             CommonTopAppBar(
@@ -50,6 +42,14 @@ fun AppLockScreen(
                 onPinEnabled = onAppLockEnabledChanged,
                 onChangePinClick = onNavigateToSetPin
             )
+        }
+    }
+
+    LaunchedEffect(eventFlow) {
+        eventFlow.collectLatest {
+            when (it) {
+                is AppLockViewModel.UiEvent.NavigateToSetPin -> onNavigateToSetPin()
+            }
         }
     }
 }
