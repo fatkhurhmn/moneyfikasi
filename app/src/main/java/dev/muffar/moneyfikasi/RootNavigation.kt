@@ -3,8 +3,8 @@ package dev.muffar.moneyfikasi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import dev.muffar.moneyfikasi.applock.navigation.appLockNavGraph
-import dev.muffar.moneyfikasi.applock.navigation.toAppLockScreen
+import dev.muffar.moneyfikasi.applock.main.navigation.appLockNavGraph
+import dev.muffar.moneyfikasi.applock.main.navigation.toAppLockScreen
 import dev.muffar.moneyfikasi.backup_restore.navigation.backupRestoreNavGraph
 import dev.muffar.moneyfikasi.backup_restore.navigation.toBackupRestoreScreen
 import dev.muffar.moneyfikasi.budget.add_edit.navigation.toAddEditBudgetScreen

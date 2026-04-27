@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.applock
+package dev.muffar.moneyfikasi.applock.main
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

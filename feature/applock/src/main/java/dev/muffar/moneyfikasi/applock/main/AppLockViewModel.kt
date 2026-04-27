@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.applock
+package dev.muffar.moneyfikasi.applock.main
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

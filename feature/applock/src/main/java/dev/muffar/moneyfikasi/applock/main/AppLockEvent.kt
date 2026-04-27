@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.applock
+package dev.muffar.moneyfikasi.applock.main
 
 sealed class AppLockEvent {
     data class OnAppLockEnabledChanged(val isEnabled: Boolean) : AppLockEvent()
