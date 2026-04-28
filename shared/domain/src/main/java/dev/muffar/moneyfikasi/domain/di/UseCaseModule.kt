@@ -29,7 +29,6 @@ import dev.muffar.moneyfikasi.domain.usecase.category.GetAllCategories
 import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryById
 import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryByType
 import dev.muffar.moneyfikasi.domain.usecase.category.UpsertCategory
-import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.BackupSettingsUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.GetAutoBackupPeriod
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.GetAutoBackupUri
@@ -140,37 +139,41 @@ object UseCaseModule {
     )
 
     @Provides
-    fun providePreferencesUseCases(
+    fun provideUiSettingsUseCases(
         uiSettingsRepository: UiSettingsRepository,
+    ) = UiSettingsUseCases(
+        setBalanceVisibility = SetBalanceVisibility(uiSettingsRepository),
+        isBalanceVisible = IsBalanceVisible(uiSettingsRepository),
+        setReportVisibility = SetReportVisibility(uiSettingsRepository),
+        isReportVisible = IsReportVisible(uiSettingsRepository),
+    )
+
+    @Provides
+    fun provideBackupSettingsUseCases(
         backupSettingsRepository: BackupSettingsRepository,
+    ) = BackupSettingsUseCases(
+        getLatestBackup = GetLatestBackup(backupSettingsRepository),
+        setLatestBackup = SetLatestBackup(backupSettingsRepository),
+        isAutoBackupEnabled = IsAutoBackupEnabled(backupSettingsRepository),
+        setAutoBackupEnabled = SetAutoBackupEnabled(backupSettingsRepository),
+        getAutoBackupUri = GetAutoBackupUri(backupSettingsRepository),
+        setAutoBackupUri = SetAutoBackupUri(backupSettingsRepository),
+        getAutoBackupPeriod = GetAutoBackupPeriod(backupSettingsRepository),
+        setAutoBackupPeriod = SetAutoBackupPeriod(backupSettingsRepository),
+        isDeletePreviousBackup = IsDeletePreviousBackup(backupSettingsRepository),
+        setDeletePreviousBackup = SetDeletePreviousBackup(backupSettingsRepository),
+    )
+
+    @Provides
+    fun provideSecuritySettingsUseCases(
         securitySettingsRepository: SecuritySettingsRepository,
-    ) = PreferencesUseCases(
-        ui = UiSettingsUseCases(
-            setBalanceVisibility = SetBalanceVisibility(uiSettingsRepository),
-            isBalanceVisible = IsBalanceVisible(uiSettingsRepository),
-            setReportVisibility = SetReportVisibility(uiSettingsRepository),
-            isReportVisible = IsReportVisible(uiSettingsRepository),
-        ),
-        backup = BackupSettingsUseCases(
-            getLatestBackup = GetLatestBackup(backupSettingsRepository),
-            setLatestBackup = SetLatestBackup(backupSettingsRepository),
-            isAutoBackupEnabled = IsAutoBackupEnabled(backupSettingsRepository),
-            setAutoBackupEnabled = SetAutoBackupEnabled(backupSettingsRepository),
-            getAutoBackupUri = GetAutoBackupUri(backupSettingsRepository),
-            setAutoBackupUri = SetAutoBackupUri(backupSettingsRepository),
-            getAutoBackupPeriod = GetAutoBackupPeriod(backupSettingsRepository),
-            setAutoBackupPeriod = SetAutoBackupPeriod(backupSettingsRepository),
-            isDeletePreviousBackup = IsDeletePreviousBackup(backupSettingsRepository),
-            setDeletePreviousBackup = SetDeletePreviousBackup(backupSettingsRepository),
-        ),
-        security = SecuritySettingsUseCases(
-            isAppLockEnabled = IsAppLockEnabled(securitySettingsRepository),
-            enableAppLock = EnableAppLock(securitySettingsRepository),
-            getAppLockPin = GetAppLockPin(securitySettingsRepository),
-            setAppLockPin = SetAppLockPin(securitySettingsRepository),
-            isBiometricEnabled = IsBiometricEnabled(securitySettingsRepository),
-            enableBiometric = EnableBiometric(securitySettingsRepository)
-        )
+    ) = SecuritySettingsUseCases(
+        isAppLockEnabled = IsAppLockEnabled(securitySettingsRepository),
+        enableAppLock = EnableAppLock(securitySettingsRepository),
+        getAppLockPin = GetAppLockPin(securitySettingsRepository),
+        setAppLockPin = SetAppLockPin(securitySettingsRepository),
+        isBiometricEnabled = IsBiometricEnabled(securitySettingsRepository),
+        enableBiometric = EnableBiometric(securitySettingsRepository)
     )
 
     @Provides

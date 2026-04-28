@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.muffar.moneyfikasi.domain.model.EnterPinType
-import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
+import dev.muffar.moneyfikasi.domain.usecase.preferences.security.SecuritySettingsUseCases
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -22,7 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AppLockViewModel @Inject constructor(
-    private val preferencesUseCases: PreferencesUseCases,
+    private val securitySettingsUseCases: SecuritySettingsUseCases,
     @param:ApplicationContext private val context: Context,
 ) : ViewModel() {
 
@@ -55,9 +55,9 @@ class AppLockViewModel @Inject constructor(
 
     private fun loadAppLockSettings() {
         combine(
-            preferencesUseCases.security.isAppLockEnabled(),
-            preferencesUseCases.security.getAppLockPin(),
-            preferencesUseCases.security.isBiometricEnabled()
+            securitySettingsUseCases.isAppLockEnabled(),
+            securitySettingsUseCases.getAppLockPin(),
+            securitySettingsUseCases.isBiometricEnabled()
         ) { isAppLockEnable, pin, isBiometricEnabled ->
             _state.update {
                 it.copy(
@@ -82,17 +82,17 @@ class AppLockViewModel @Inject constructor(
                 return@launch
             }
 
-            preferencesUseCases.security.enableAppLock(isEnabled)
+            securitySettingsUseCases.enableAppLock(isEnabled)
             if (!isEnabled) {
-                preferencesUseCases.security.setAppLockPin("")
-                preferencesUseCases.security.enableBiometric(false)
+                securitySettingsUseCases.setAppLockPin("")
+                securitySettingsUseCases.enableBiometric(false)
             }
         }
     }
 
     private fun onBiometricEnabledChanged(isEnabled: Boolean) {
         viewModelScope.launch {
-            preferencesUseCases.security.enableBiometric(isEnabled)
+            securitySettingsUseCases.enableBiometric(isEnabled)
         }
     }
 

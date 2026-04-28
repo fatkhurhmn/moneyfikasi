@@ -19,7 +19,7 @@ import dev.muffar.moneyfikasi.data.worker.BackupWorker
 import dev.muffar.moneyfikasi.domain.model.LatestBackup
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupRestoreUseCases
-import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
+import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.BackupSettingsUseCases
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -35,7 +35,7 @@ import javax.inject.Inject
 @HiltViewModel
 class BackupRestoreViewModel @Inject constructor(
     private val backupRestoreUseCases: BackupRestoreUseCases,
-    private val preferencesUseCases: PreferencesUseCases,
+    private val backupSettingsUseCases: BackupSettingsUseCases,
     @param:ApplicationContext private val context: Context,
 ) : ViewModel() {
 
@@ -47,11 +47,11 @@ class BackupRestoreViewModel @Inject constructor(
 
     init {
         combine(
-            preferencesUseCases.backup.getLatestBackup(),
-            preferencesUseCases.backup.isAutoBackupEnabled(),
-            preferencesUseCases.backup.getAutoBackupUri(),
-            preferencesUseCases.backup.getAutoBackupPeriod(),
-            preferencesUseCases.backup.isDeletePreviousBackup()
+            backupSettingsUseCases.getLatestBackup(),
+            backupSettingsUseCases.isAutoBackupEnabled(),
+            backupSettingsUseCases.getAutoBackupUri(),
+            backupSettingsUseCases.getAutoBackupPeriod(),
+            backupSettingsUseCases.isDeletePreviousBackup()
         ) { latestBackup, isAutoBackupEnabled, autoBackupUri, autoBackupPeriod, isDeletePreviousBackup ->
             _state.value = _state.value.copy(
                 latestBackupName = latestBackup.name,
@@ -90,7 +90,7 @@ class BackupRestoreViewModel @Inject constructor(
                     if (_state.value.isDeletePreviousBackup && previousBackup.name.isNotEmpty() && previousBackup.folder.isNotEmpty()) {
                         backupRestoreUseCases.deleteBackup(previousBackup)
                     }
-                    preferencesUseCases.backup.setLatestBackup(fileName, System.currentTimeMillis(), uri.toString())
+                    backupSettingsUseCases.setLatestBackup(fileName, System.currentTimeMillis(), uri.toString())
                     _eventFlow.emit(UiEvent.ShowMessage("Backup success", SnackbarType.SUCCESS))
                 }
                 .onFailure {
@@ -127,7 +127,7 @@ class BackupRestoreViewModel @Inject constructor(
 
     private fun setAutoBackupEnabled(isEnabled: Boolean) {
         viewModelScope.launch {
-            preferencesUseCases.backup.setAutoBackupEnabled(isEnabled)
+            backupSettingsUseCases.setAutoBackupEnabled(isEnabled)
             if (isEnabled) {
                 scheduleBackup(isEnabled = true)
             } else {
@@ -144,7 +144,7 @@ class BackupRestoreViewModel @Inject constructor(
                     Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                 )
             }
-            preferencesUseCases.backup.setAutoBackupUri(uri.toString())
+            backupSettingsUseCases.setAutoBackupUri(uri.toString())
             if (_state.value.isAutoBackupEnabled) {
                 scheduleBackup(uri = uri.toString())
             }
@@ -153,7 +153,7 @@ class BackupRestoreViewModel @Inject constructor(
 
     private fun setAutoBackupPeriod(period: TimePeriod) {
         viewModelScope.launch {
-            preferencesUseCases.backup.setAutoBackupPeriod(period)
+            backupSettingsUseCases.setAutoBackupPeriod(period)
             if (_state.value.isAutoBackupEnabled) {
                 scheduleBackup(period = period)
             }
@@ -162,7 +162,7 @@ class BackupRestoreViewModel @Inject constructor(
 
     private fun setDeletePreviousBackup(isEnabled: Boolean) {
         viewModelScope.launch {
-            preferencesUseCases.backup.setDeletePreviousBackup(isEnabled)
+            backupSettingsUseCases.setDeletePreviousBackup(isEnabled)
         }
     }
 

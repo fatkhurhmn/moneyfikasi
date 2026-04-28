@@ -3,7 +3,7 @@ package dev.muffar.moneyfikasi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
+import dev.muffar.moneyfikasi.domain.usecase.preferences.security.SecuritySettingsUseCases
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val preferencesUseCases: PreferencesUseCases,
+    private val securitySettingsUseCases: SecuritySettingsUseCases,
 ) : ViewModel() {
 
     private val _isAppLockEnabled = MutableStateFlow<Boolean?>(null)
@@ -25,7 +25,7 @@ class MainViewModel @Inject constructor(
 
     private fun checkAppLock() {
         viewModelScope.launch {
-            val isEnabled = preferencesUseCases.security.isAppLockEnabled()
+            val isEnabled = securitySettingsUseCases.isAppLockEnabled()
                 .first()
             _isAppLockEnabled.update { isEnabled }
         }
