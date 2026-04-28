@@ -3,7 +3,7 @@ package dev.muffar.moneyfikasi.domain.repository
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import kotlinx.coroutines.flow.Flow
 
-interface BackupPreferencesRepository {
+interface BackupSettingsRepository {
     suspend fun setLatestBackup(fileName: String, date: Long, folder: String)
     fun getLatestBackupName(): Flow<String>
     fun getLatestBackupDate(): Flow<Long>

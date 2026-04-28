@@ -4,14 +4,14 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.muffar.moneyfikasi.domain.repository.BackupPreferencesRepository
+import dev.muffar.moneyfikasi.domain.repository.BackupSettingsRepository
 import dev.muffar.moneyfikasi.domain.repository.BackupRestoreRepository
 import dev.muffar.moneyfikasi.domain.repository.BudgetRepository
 import dev.muffar.moneyfikasi.domain.repository.CategoryRepository
 import dev.muffar.moneyfikasi.domain.repository.PresetRepository
-import dev.muffar.moneyfikasi.domain.repository.SecurityPreferencesRepository
+import dev.muffar.moneyfikasi.domain.repository.SecuritySettingsRepository
 import dev.muffar.moneyfikasi.domain.repository.TransactionRepository
-import dev.muffar.moneyfikasi.domain.repository.UiPreferencesRepository
+import dev.muffar.moneyfikasi.domain.repository.UiSettingsRepository
 import dev.muffar.moneyfikasi.domain.repository.WalletRepository
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupData
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupRestoreUseCases
@@ -29,30 +29,30 @@ import dev.muffar.moneyfikasi.domain.usecase.category.GetAllCategories
 import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryById
 import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryByType
 import dev.muffar.moneyfikasi.domain.usecase.category.UpsertCategory
-import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.BackupPreferencesUseCases
-import dev.muffar.moneyfikasi.domain.usecase.preferences.security.EnableAppLock
-import dev.muffar.moneyfikasi.domain.usecase.preferences.security.EnableBiometric
-import dev.muffar.moneyfikasi.domain.usecase.preferences.security.GetAppLockPin
+import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
+import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.BackupSettingsUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.GetAutoBackupPeriod
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.GetAutoBackupUri
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.GetLatestBackup
-import dev.muffar.moneyfikasi.domain.usecase.preferences.security.IsAppLockEnabled
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.IsAutoBackupEnabled
-import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.IsBalanceVisible
-import dev.muffar.moneyfikasi.domain.usecase.preferences.security.IsBiometricEnabled
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.IsDeletePreviousBackup
-import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.IsReportVisible
-import dev.muffar.moneyfikasi.domain.usecase.preferences.AppPreferencesUseCases
-import dev.muffar.moneyfikasi.domain.usecase.preferences.security.SecurityPreferencesUseCases
-import dev.muffar.moneyfikasi.domain.usecase.preferences.security.SetAppLockPin
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetAutoBackupEnabled
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetAutoBackupPeriod
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetAutoBackupUri
-import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetBalanceVisibility
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetDeletePreviousBackup
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetLatestBackup
+import dev.muffar.moneyfikasi.domain.usecase.preferences.security.EnableAppLock
+import dev.muffar.moneyfikasi.domain.usecase.preferences.security.EnableBiometric
+import dev.muffar.moneyfikasi.domain.usecase.preferences.security.GetAppLockPin
+import dev.muffar.moneyfikasi.domain.usecase.preferences.security.IsAppLockEnabled
+import dev.muffar.moneyfikasi.domain.usecase.preferences.security.IsBiometricEnabled
+import dev.muffar.moneyfikasi.domain.usecase.preferences.security.SecuritySettingsUseCases
+import dev.muffar.moneyfikasi.domain.usecase.preferences.security.SetAppLockPin
+import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.IsBalanceVisible
+import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.IsReportVisible
+import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetBalanceVisibility
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetReportVisibility
-import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.UiPreferencesUseCases
+import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.UiSettingsUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preset.DeletePreset
 import dev.muffar.moneyfikasi.domain.usecase.preset.GetAllPresets
 import dev.muffar.moneyfikasi.domain.usecase.preset.GetPresetById
@@ -131,45 +131,45 @@ object UseCaseModule {
     @Provides
     fun provideBackupRestoreUseCases(
         backupRestoreRepository: BackupRestoreRepository,
-        backupPreferencesRepository: BackupPreferencesRepository,
+        backupSettingsRepository: BackupSettingsRepository,
     ) = BackupRestoreUseCases(
         backupData = BackupData(backupRestoreRepository),
         restoreData = RestoreData(backupRestoreRepository),
         deleteBackup = DeleteBackup(backupRestoreRepository),
-        deleteLatestBackup = DeleteLatestBackup(backupRestoreRepository, backupPreferencesRepository)
+        deleteLatestBackup = DeleteLatestBackup(backupRestoreRepository, backupSettingsRepository)
     )
 
     @Provides
     fun providePreferencesUseCases(
-        uiPreferencesRepository: UiPreferencesRepository,
-        backupPreferencesRepository: BackupPreferencesRepository,
-        securityPreferencesRepository: SecurityPreferencesRepository,
-    ) = AppPreferencesUseCases(
-        ui = UiPreferencesUseCases(
-            setBalanceVisibility = SetBalanceVisibility(uiPreferencesRepository),
-            isBalanceVisible = IsBalanceVisible(uiPreferencesRepository),
-            setReportVisibility = SetReportVisibility(uiPreferencesRepository),
-            isReportVisible = IsReportVisible(uiPreferencesRepository),
+        uiSettingsRepository: UiSettingsRepository,
+        backupSettingsRepository: BackupSettingsRepository,
+        securitySettingsRepository: SecuritySettingsRepository,
+    ) = PreferencesUseCases(
+        ui = UiSettingsUseCases(
+            setBalanceVisibility = SetBalanceVisibility(uiSettingsRepository),
+            isBalanceVisible = IsBalanceVisible(uiSettingsRepository),
+            setReportVisibility = SetReportVisibility(uiSettingsRepository),
+            isReportVisible = IsReportVisible(uiSettingsRepository),
         ),
-        backup = BackupPreferencesUseCases(
-            getLatestBackup = GetLatestBackup(backupPreferencesRepository),
-            setLatestBackup = SetLatestBackup(backupPreferencesRepository),
-            isAutoBackupEnabled = IsAutoBackupEnabled(backupPreferencesRepository),
-            setAutoBackupEnabled = SetAutoBackupEnabled(backupPreferencesRepository),
-            getAutoBackupUri = GetAutoBackupUri(backupPreferencesRepository),
-            setAutoBackupUri = SetAutoBackupUri(backupPreferencesRepository),
-            getAutoBackupPeriod = GetAutoBackupPeriod(backupPreferencesRepository),
-            setAutoBackupPeriod = SetAutoBackupPeriod(backupPreferencesRepository),
-            isDeletePreviousBackup = IsDeletePreviousBackup(backupPreferencesRepository),
-            setDeletePreviousBackup = SetDeletePreviousBackup(backupPreferencesRepository),
+        backup = BackupSettingsUseCases(
+            getLatestBackup = GetLatestBackup(backupSettingsRepository),
+            setLatestBackup = SetLatestBackup(backupSettingsRepository),
+            isAutoBackupEnabled = IsAutoBackupEnabled(backupSettingsRepository),
+            setAutoBackupEnabled = SetAutoBackupEnabled(backupSettingsRepository),
+            getAutoBackupUri = GetAutoBackupUri(backupSettingsRepository),
+            setAutoBackupUri = SetAutoBackupUri(backupSettingsRepository),
+            getAutoBackupPeriod = GetAutoBackupPeriod(backupSettingsRepository),
+            setAutoBackupPeriod = SetAutoBackupPeriod(backupSettingsRepository),
+            isDeletePreviousBackup = IsDeletePreviousBackup(backupSettingsRepository),
+            setDeletePreviousBackup = SetDeletePreviousBackup(backupSettingsRepository),
         ),
-        security = SecurityPreferencesUseCases(
-            isAppLockEnabled = IsAppLockEnabled(securityPreferencesRepository),
-            enableAppLock = EnableAppLock(securityPreferencesRepository),
-            getAppLockPin = GetAppLockPin(securityPreferencesRepository),
-            setAppLockPin = SetAppLockPin(securityPreferencesRepository),
-            isBiometricEnabled = IsBiometricEnabled(securityPreferencesRepository),
-            enableBiometric = EnableBiometric(securityPreferencesRepository)
+        security = SecuritySettingsUseCases(
+            isAppLockEnabled = IsAppLockEnabled(securitySettingsRepository),
+            enableAppLock = EnableAppLock(securitySettingsRepository),
+            getAppLockPin = GetAppLockPin(securitySettingsRepository),
+            setAppLockPin = SetAppLockPin(securitySettingsRepository),
+            isBiometricEnabled = IsBiometricEnabled(securitySettingsRepository),
+            enableBiometric = EnableBiometric(securitySettingsRepository)
         )
     )
 

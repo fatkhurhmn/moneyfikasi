@@ -1,11 +1,11 @@
 package dev.muffar.moneyfikasi.domain.usecase.preferences.backup
 
-import dev.muffar.moneyfikasi.domain.repository.BackupPreferencesRepository
+import dev.muffar.moneyfikasi.domain.repository.BackupSettingsRepository
 
 class SetDeletePreviousBackup(
-    private val backupPreferencesRepository: BackupPreferencesRepository
+    private val backupSettingsRepository: BackupSettingsRepository
 ) {
     suspend operator fun invoke(isEnabled: Boolean) {
-        backupPreferencesRepository.setDeletePreviousBackup(isEnabled)
+        backupSettingsRepository.setDeletePreviousBackup(isEnabled)
     }
 }

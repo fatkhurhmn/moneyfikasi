@@ -2,7 +2,7 @@ package dev.muffar.moneyfikasi.domain.repository
 
 import kotlinx.coroutines.flow.Flow
 
-interface SecurityPreferencesRepository {
+interface SecuritySettingsRepository {
     suspend fun enableAppLock(enable: Boolean)
     fun isAppLockEnabled(): Flow<Boolean>
     suspend fun setAppLockPin(pin: String)

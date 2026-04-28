@@ -1,9 +1,9 @@
 package dev.muffar.moneyfikasi.domain.usecase.preferences.security
 
-import dev.muffar.moneyfikasi.domain.repository.SecurityPreferencesRepository
+import dev.muffar.moneyfikasi.domain.repository.SecuritySettingsRepository
 
 class GetAppLockPin(
-    private val securityPreferencesRepository: SecurityPreferencesRepository
+    private val securitySettingsRepository: SecuritySettingsRepository
 ) {
-    operator fun invoke() = securityPreferencesRepository.getAppLockPin()
+    operator fun invoke() = securitySettingsRepository.getAppLockPin()
 }

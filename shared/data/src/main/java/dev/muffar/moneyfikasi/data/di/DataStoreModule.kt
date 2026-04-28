@@ -2,31 +2,65 @@ package dev.muffar.moneyfikasi.data.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore
+import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
-import androidx.datastore.preferences.core.PreferenceDataStoreFactory
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.emptyPreferences
-import androidx.datastore.preferences.preferencesDataStoreFile
+import androidx.datastore.dataStoreFile
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dev.muffar.moneyfikasi.data.preferences.serializer.BackupSettingsSerializer
+import dev.muffar.moneyfikasi.data.preferences.serializer.SecuritySettingsSerializer
+import dev.muffar.moneyfikasi.data.preferences.serializer.UiSettingsSerializer
+import dev.muffar.moneyfikasi.domain.model.BackupSettings
+import dev.muffar.moneyfikasi.domain.model.SecuritySettings
+import dev.muffar.moneyfikasi.domain.model.UiSettings
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object DataStoreModule {
+
     @Provides
     @Singleton
-    fun provideDataStore(
+    fun provideUiDataStore(
         @ApplicationContext context: Context,
-    ): DataStore<Preferences> {
-        return PreferenceDataStoreFactory.create(
-            corruptionHandler = ReplaceFileCorruptionHandler { emptyPreferences() },
+    ): DataStore<UiSettings> {
+        return DataStoreFactory.create(
+            serializer = UiSettingsSerializer,
             produceFile = {
-                context.preferencesDataStoreFile("user_preferences")
-            }
+                context.dataStoreFile("ui_settings.json")
+            },
+            corruptionHandler = ReplaceFileCorruptionHandler { UiSettings() }
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideBackupDataStore(
+        @ApplicationContext context: Context,
+    ): DataStore<BackupSettings> {
+        return DataStoreFactory.create(
+            serializer = BackupSettingsSerializer,
+            produceFile = {
+                context.dataStoreFile("backup_settings.json")
+            },
+            corruptionHandler = ReplaceFileCorruptionHandler { BackupSettings() }
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideSecurityDataStore(
+        @ApplicationContext context: Context,
+    ): DataStore<SecuritySettings> {
+        return DataStoreFactory.create(
+            serializer = SecuritySettingsSerializer,
+            produceFile = {
+                context.dataStoreFile("security_settings.json")
+            },
+            corruptionHandler = ReplaceFileCorruptionHandler { SecuritySettings() }
         )
     }
 }

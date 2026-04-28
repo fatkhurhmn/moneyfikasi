@@ -1,9 +1,9 @@
 package dev.muffar.moneyfikasi.domain.usecase.preferences.ui
 
-import dev.muffar.moneyfikasi.domain.repository.UiPreferencesRepository
+import dev.muffar.moneyfikasi.domain.repository.UiSettingsRepository
 
 class SetReportVisibility(
-    private val uiPreferencesRepository: UiPreferencesRepository
+    private val uiSettingsRepository: UiSettingsRepository
 ) {
-    suspend operator fun invoke(isVisible: Boolean) = uiPreferencesRepository.setReportVisibility(isVisible)
+    suspend operator fun invoke(isVisible: Boolean) = uiSettingsRepository.setReportVisibility(isVisible)
 }

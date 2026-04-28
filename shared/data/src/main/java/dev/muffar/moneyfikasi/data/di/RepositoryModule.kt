@@ -12,24 +12,26 @@ import dev.muffar.moneyfikasi.data.db.dao.CategoryDao
 import dev.muffar.moneyfikasi.data.db.dao.PresetDao
 import dev.muffar.moneyfikasi.data.db.dao.TransactionDao
 import dev.muffar.moneyfikasi.data.db.dao.WalletDao
-import dev.muffar.moneyfikasi.data.preferences.AppPreferences
-import dev.muffar.moneyfikasi.data.repositoy.BackupPreferencesRepositoryImpl
+import dev.muffar.moneyfikasi.data.preferences.BackupPreferences
+import dev.muffar.moneyfikasi.data.preferences.SecurityPreferences
+import dev.muffar.moneyfikasi.data.preferences.UiPreferences
+import dev.muffar.moneyfikasi.data.repositoy.BackupSettingsRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.BackupRestoreRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.BudgetRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.CategoryRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.PresetRepositoryImpl
-import dev.muffar.moneyfikasi.data.repositoy.SecurityPreferencesRepositoryImpl
+import dev.muffar.moneyfikasi.data.repositoy.SecuritySettingsRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.TransactionRepositoryImpl
-import dev.muffar.moneyfikasi.data.repositoy.UiPreferencesRepositoryImpl
+import dev.muffar.moneyfikasi.data.repositoy.UiSettingsRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.WalletRepositoryImpl
-import dev.muffar.moneyfikasi.domain.repository.BackupPreferencesRepository
+import dev.muffar.moneyfikasi.domain.repository.BackupSettingsRepository
 import dev.muffar.moneyfikasi.domain.repository.BackupRestoreRepository
 import dev.muffar.moneyfikasi.domain.repository.BudgetRepository
 import dev.muffar.moneyfikasi.domain.repository.CategoryRepository
 import dev.muffar.moneyfikasi.domain.repository.PresetRepository
-import dev.muffar.moneyfikasi.domain.repository.SecurityPreferencesRepository
+import dev.muffar.moneyfikasi.domain.repository.SecuritySettingsRepository
 import dev.muffar.moneyfikasi.domain.repository.TransactionRepository
-import dev.muffar.moneyfikasi.domain.repository.UiPreferencesRepository
+import dev.muffar.moneyfikasi.domain.repository.UiSettingsRepository
 import dev.muffar.moneyfikasi.domain.repository.WalletRepository
 import javax.inject.Singleton
 
@@ -69,26 +71,26 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideUiRepository(
-        appPreferences: AppPreferences,
-    ): UiPreferencesRepository {
-        return UiPreferencesRepositoryImpl(appPreferences)
+    fun provideUiSettingsRepository(
+        uiPreferences: UiPreferences,
+    ): UiSettingsRepository {
+        return UiSettingsRepositoryImpl(uiPreferences)
     }
 
     @Provides
     @Singleton
-    fun provideBackupPreferencesRepository(
-        appPreferences: AppPreferences,
-    ): BackupPreferencesRepository {
-        return BackupPreferencesRepositoryImpl(appPreferences)
+    fun provideBackupSettingsRepository(
+        backupPreferences: BackupPreferences,
+    ): BackupSettingsRepository {
+        return BackupSettingsRepositoryImpl(backupPreferences)
     }
 
     @Provides
     @Singleton
-    fun provideSecurityRepository(
-        appPreferences: AppPreferences,
-    ): SecurityPreferencesRepository {
-        return SecurityPreferencesRepositoryImpl(appPreferences)
+    fun provideSecuritySettingsRepository(
+        securityPreferences: SecurityPreferences,
+    ): SecuritySettingsRepository {
+        return SecuritySettingsRepositoryImpl(securityPreferences)
     }
 
     @Provides

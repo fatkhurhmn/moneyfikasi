@@ -1,6 +1,6 @@
 package dev.muffar.moneyfikasi.domain.usecase.preferences.backup
 
-data class BackupPreferencesUseCases(
+data class BackupSettingsUseCases(
     val getLatestBackup: GetLatestBackup,
     val setLatestBackup: SetLatestBackup,
     val isAutoBackupEnabled: IsAutoBackupEnabled,

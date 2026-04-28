@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.kotlinKapt)
     alias(libs.plugins.daggerHilt)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 android {
@@ -43,6 +44,7 @@ dependencies {
     implementation(libs.threetenabp)
 
     implementation(libs.androidx.datastore)
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.work.runtime)
     implementation(libs.androidx.hilt.work)
     kapt(libs.androidx.hilt.compiler)

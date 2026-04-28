@@ -1,9 +1,9 @@
 package dev.muffar.moneyfikasi.domain.usecase.preferences.ui
 
-import dev.muffar.moneyfikasi.domain.repository.UiPreferencesRepository
+import dev.muffar.moneyfikasi.domain.repository.UiSettingsRepository
 
 class IsReportVisible(
-    private val uiPreferencesRepository: UiPreferencesRepository
+    private val uiSettingsRepository: UiSettingsRepository
 ) {
-    operator fun invoke() = uiPreferencesRepository.isReportVisible()
+    operator fun invoke() = uiSettingsRepository.isReportVisible()
 }

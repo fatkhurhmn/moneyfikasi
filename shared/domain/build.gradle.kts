@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.kotlinKapt)
     alias(libs.plugins.daggerHilt)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 android {
@@ -36,6 +37,8 @@ dependencies {
     implementation(libs.threetenabp)
 
     implementation(libs.androidx.paging.common)
+
+    implementation(libs.kotlinx.serialization.json)
 }
 
 kapt {

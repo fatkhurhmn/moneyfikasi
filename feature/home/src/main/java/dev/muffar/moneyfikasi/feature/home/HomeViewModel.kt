@@ -9,7 +9,7 @@ import dev.muffar.moneyfikasi.domain.model.TrendResult
 import dev.muffar.moneyfikasi.domain.model.TrendType
 import dev.muffar.moneyfikasi.domain.usecase.budget.BudgetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
-import dev.muffar.moneyfikasi.domain.usecase.preferences.AppPreferencesUseCases
+import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preset.PresetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
@@ -42,7 +42,7 @@ class HomeViewModel @Inject constructor(
     private val walletUseCases: WalletUseCases,
     private val categoryUseCases: CategoryUseCases,
     private val transactionUseCases: TransactionUseCases,
-    private val appPreferencesUseCases: AppPreferencesUseCases,
+    private val preferencesUseCases: PreferencesUseCases,
     private val presetUseCases: PresetUseCases,
     private val budgetUseCases: BudgetUseCases,
 ) : ViewModel() {
@@ -297,12 +297,12 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getPreferences() {
-        appPreferencesUseCases.ui.isBalanceVisible()
+        preferencesUseCases.ui.isBalanceVisible()
             .onEach { isVisible ->
                 _state.update { it.copy(isBalanceVisible = isVisible) }
             }.launchIn(viewModelScope)
 
-        appPreferencesUseCases.ui.isReportVisible()
+        preferencesUseCases.ui.isReportVisible()
             .onEach { isVisible ->
                 _state.update { it.copy(isReportVisible = isVisible) }
             }.launchIn(viewModelScope)
@@ -310,13 +310,13 @@ class HomeViewModel @Inject constructor(
 
     private fun toggleBalanceVisibility() {
         viewModelScope.launch {
-            appPreferencesUseCases.ui.setBalanceVisibility(!_state.value.isBalanceVisible)
+            preferencesUseCases.ui.setBalanceVisibility(!_state.value.isBalanceVisible)
         }
     }
 
     private fun toggleReportVisibility() {
         viewModelScope.launch {
-            appPreferencesUseCases.ui.setReportVisibility(!_state.value.isReportVisible)
+            preferencesUseCases.ui.setReportVisibility(!_state.value.isReportVisible)
         }
     }
 

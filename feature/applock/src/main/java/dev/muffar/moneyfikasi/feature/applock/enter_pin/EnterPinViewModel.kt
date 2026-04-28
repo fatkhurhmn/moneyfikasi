@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.model.EnterPinStep
 import dev.muffar.moneyfikasi.domain.model.EnterPinType
-import dev.muffar.moneyfikasi.domain.usecase.preferences.AppPreferencesUseCases
+import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EnterPinViewModel @Inject constructor(
-    private val appPreferencesUseCases: AppPreferencesUseCases,
+    private val preferencesUseCases: PreferencesUseCases,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -41,8 +41,8 @@ class EnterPinViewModel @Inject constructor(
         _state.update { it.copy(type = type, step = step) }
 
         viewModelScope.launch {
-            val savedPin = appPreferencesUseCases.security.getAppLockPin().first()
-            val isBiometricEnabled = appPreferencesUseCases.security.isBiometricEnabled().first()
+            val savedPin = preferencesUseCases.security.getAppLockPin().first()
+            val isBiometricEnabled = preferencesUseCases.security.isBiometricEnabled().first()
             _state.update {
                 it.copy(
                     savedPin = savedPin,
@@ -160,9 +160,9 @@ class EnterPinViewModel @Inject constructor(
     private fun handleDisablePin(input: String) {
         if (input == state.value.savedPin) {
             viewModelScope.launch {
-                appPreferencesUseCases.security.enableAppLock(false)
-                appPreferencesUseCases.security.setAppLockPin("")
-                appPreferencesUseCases.security.enableBiometric(false)
+                preferencesUseCases.security.enableAppLock(false)
+                preferencesUseCases.security.setAppLockPin("")
+                preferencesUseCases.security.enableBiometric(false)
                 _eventFlow.emit(UiEvent.SavePin)
             }
         } else {
@@ -175,8 +175,8 @@ class EnterPinViewModel @Inject constructor(
 
     private fun savePin(pin: String) {
         viewModelScope.launch {
-            appPreferencesUseCases.security.setAppLockPin(pin)
-            appPreferencesUseCases.security.enableAppLock(true)
+            preferencesUseCases.security.setAppLockPin(pin)
+            preferencesUseCases.security.enableAppLock(true)
             _eventFlow.emit(UiEvent.SavePin)
         }
     }

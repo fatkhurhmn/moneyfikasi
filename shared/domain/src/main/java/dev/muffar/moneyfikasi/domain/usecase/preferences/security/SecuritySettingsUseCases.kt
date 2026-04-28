@@ -1,6 +1,6 @@
 package dev.muffar.moneyfikasi.domain.usecase.preferences.security
 
-data class SecurityPreferencesUseCases(
+data class SecuritySettingsUseCases(
     val isAppLockEnabled: IsAppLockEnabled,
     val enableAppLock: EnableAppLock,
     val getAppLockPin: GetAppLockPin,
