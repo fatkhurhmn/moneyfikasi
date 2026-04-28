@@ -8,7 +8,7 @@ sealed class Screen(val route: String) {
     data object Home : Screen("home")
 
     data object Search : Screen("search")
-    data object Settings : Screen("settings")
+    data object More : Screen("more")
 
     data object Categories : Screen("categories")
     data object AddEditCategory : Screen("add_edit_category/{type}?category_id={category_id}") {

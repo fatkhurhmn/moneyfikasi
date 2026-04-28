@@ -25,7 +25,7 @@ import dev.muffar.moneyfikasi.preset.list.navigation.toPresetListScreen
 import dev.muffar.moneyfikasi.preset.presetGraph
 import dev.muffar.moneyfikasi.search.navigation.searchNavigation
 import dev.muffar.moneyfikasi.search.navigation.toSearchScreen
-import dev.muffar.moneyfikasi.settings.navigation.settingsNavGraph
+import dev.muffar.moneyfikasi.more.navigation.moreNavGraph
 import dev.muffar.moneyfikasi.statistic.detail.navigation.toStatisticDetailScreen
 import dev.muffar.moneyfikasi.statistic.statisticNavGraph
 import dev.muffar.moneyfikasi.transaction.add_edit.navigation.toAddEditTransactionScreen
@@ -106,7 +106,7 @@ fun MainNavigation(
             onNavigateBack = { navController.navigateUp() }
         )
 
-        settingsNavGraph(
+        moreNavGraph(
             navigateToWallets = { navController.toWalletsScreen() },
             navigateToCategories = { navController.toCategoriesScreen() },
             navigateToPreset = { navController.toPresetListScreen() },

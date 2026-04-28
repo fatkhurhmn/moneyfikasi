@@ -105,10 +105,10 @@ fun MainBottomNav(
 
             BottomBarItem(
                 navController = navController,
-                selectedIcon = painterResource(R.drawable.ic_settings_fill),
-                unselectedIcon = painterResource(R.drawable.ic_settings_outline),
-                label = stringResource(R.string.settings_menu),
-                route = Screen.Settings.route,
+                selectedIcon = painterResource(R.drawable.ic_more_fill),
+                unselectedIcon = painterResource(R.drawable.ic_more_outline),
+                label = stringResource(R.string.more_menu),
+                route = Screen.More.route,
                 modifier = Modifier
                     .padding(2.dp)
                     .weight(1f)

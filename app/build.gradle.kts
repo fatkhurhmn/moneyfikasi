@@ -68,7 +68,7 @@ dependencies {
 
     implementation(projects.feature.home)
     implementation(projects.feature.transaction)
-    implementation(projects.feature.settings)
+    implementation(projects.feature.more)
     implementation(projects.feature.category)
     implementation(projects.feature.wallet)
     implementation(projects.feature.statistic)

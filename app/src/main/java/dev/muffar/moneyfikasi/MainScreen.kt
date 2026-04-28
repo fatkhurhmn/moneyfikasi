@@ -23,7 +23,7 @@ fun MainScreen(
         Screen.Home.route,
         Screen.Transactions.route,
         Screen.Statistic.route,
-        Screen.Settings.route,
+        Screen.More.route,
     )
 
     val navigationBackStackEntry by navController.currentBackStackEntryAsState()
