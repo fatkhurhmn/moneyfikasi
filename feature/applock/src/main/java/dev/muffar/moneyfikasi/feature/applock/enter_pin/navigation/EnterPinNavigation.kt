@@ -14,7 +14,7 @@ import dev.muffar.moneyfikasi.feature.applock.enter_pin.EnterPinScreen
 import dev.muffar.moneyfikasi.feature.applock.enter_pin.EnterPinViewModel
 import dev.muffar.moneyfikasi.navigation.Screen
 
-fun NavGraphBuilder.enterPinNavGraph(
+fun NavGraphBuilder.enterPinNavigation(
     navigateBack: () -> Unit,
 ) {
     composable(
@@ -34,8 +34,6 @@ fun NavGraphBuilder.enterPinNavGraph(
             state = state,
             eventFlow = eventFlow,
             onPinChanged = { onEvent(EnterPinEvent.OnPinChanged(it)) },
-            onBackToEnterPin = { onEvent(EnterPinEvent.OnBackToEnterPin) },
-            onCancel = { onEvent(EnterPinEvent.OnCancel) },
             onNavigateBack = navigateBack
         )
     }

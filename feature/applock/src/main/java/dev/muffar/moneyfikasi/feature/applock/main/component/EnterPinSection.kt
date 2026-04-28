@@ -36,7 +36,7 @@ fun SetPinSection(
                     .padding(horizontal = 16.dp, vertical = 20.dp)
             ) {
                 Text(
-                    text = stringResource(R.string.change_pin),
+                    text = stringResource(R.string.reset_pin),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.primary
                 )

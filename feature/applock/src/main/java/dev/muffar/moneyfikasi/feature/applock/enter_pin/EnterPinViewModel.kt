@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.model.EnterPinStep
 import dev.muffar.moneyfikasi.domain.model.EnterPinType
-import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -49,13 +48,11 @@ class EnterPinViewModel @Inject constructor(
     fun onEvent(event: EnterPinEvent) {
         when (event) {
             is EnterPinEvent.OnPinChanged -> onPinChanged(event.pin)
-            is EnterPinEvent.OnBackToEnterPin -> onBackToEnterPin()
-            is EnterPinEvent.OnCancel -> onCancel()
         }
     }
 
     private fun onPinChanged(input: String) {
-        _state.update { it.copy(currentInput = input, error = ErrorMessage()) }
+        _state.update { it.copy(currentInput = input, errorMessage = "") }
         if (input.length == 4) {
             handlePinComplete(input)
         }
@@ -76,7 +73,7 @@ class EnterPinViewModel @Inject constructor(
                     it.copy(
                         newPin = input,
                         currentInput = "",
-                        step = EnterPinStep.CONFIRM_PIN
+                        step = EnterPinStep.CONFIRM_PIN,
                     )
                 }
             }
@@ -85,14 +82,13 @@ class EnterPinViewModel @Inject constructor(
                 if (input == state.value.newPin) {
                     savePin(input)
                 } else {
-                    _state.update {
-                        it.copy(
-                            currentInput = "",
-                            error = ErrorMessage("PINs do not match. Please try again.")
-                        )
-                    }
+                    onInputPinError(
+                        step = EnterPinStep.ENTER_PIN,
+                        message = "PINs do not match. Please try again."
+                    )
                 }
             }
+
             else -> {}
         }
     }
@@ -100,15 +96,13 @@ class EnterPinViewModel @Inject constructor(
     private fun handleEnterPin(input: String) {
         if (input == state.value.savedPin) {
             viewModelScope.launch {
-                _eventFlow.emit(UiEvent.SavePin) // Reuse SavePin as Success
+                _eventFlow.emit(UiEvent.SavePin)
             }
         } else {
-            _state.update {
-                it.copy(
-                    currentInput = "",
-                    error = ErrorMessage("Incorrect PIN. Please try again.")
-                )
-            }
+            onInputPinError(
+                step = EnterPinStep.ENTER_PIN,
+                message = "Incorrect PIN. Please try again."
+            )
         }
     }
 
@@ -123,12 +117,10 @@ class EnterPinViewModel @Inject constructor(
                         )
                     }
                 } else {
-                    _state.update {
-                        it.copy(
-                            currentInput = "",
-                            error = ErrorMessage("Incorrect current PIN.")
-                        )
-                    }
+                    onInputPinError(
+                        step = EnterPinStep.VERIFY_CURRENT_PIN,
+                        message = "Incorrect current PIN. Please try again."
+                    )
                 }
             }
 
@@ -146,14 +138,13 @@ class EnterPinViewModel @Inject constructor(
                 if (input == state.value.newPin) {
                     savePin(input)
                 } else {
-                    _state.update {
-                        it.copy(
-                            currentInput = "",
-                            error = ErrorMessage("PINs do not match.")
-                        )
-                    }
+                    onInputPinError(
+                        step = EnterPinStep.ENTER_NEW_PIN,
+                        message = "PINs do not match. Please try again."
+                    )
                 }
             }
+
             else -> {}
         }
     }
@@ -166,25 +157,13 @@ class EnterPinViewModel @Inject constructor(
         }
     }
 
-    private fun onBackToEnterPin() {
-        val prevStep = when (state.value.step) {
-            EnterPinStep.CONFIRM_PIN -> EnterPinStep.ENTER_PIN
-            EnterPinStep.ENTER_NEW_PIN -> EnterPinStep.VERIFY_CURRENT_PIN
-            EnterPinStep.CONFIRM_NEW_PIN -> EnterPinStep.ENTER_NEW_PIN
-            else -> state.value.step
-        }
+    private fun onInputPinError(step: EnterPinStep, message: String) {
         _state.update {
             it.copy(
-                step = prevStep,
+                step = step,
                 currentInput = "",
-                error = ErrorMessage()
+                errorMessage = message
             )
-        }
-    }
-
-    private fun onCancel() {
-        viewModelScope.launch {
-            _eventFlow.emit(UiEvent.NavigateBack)
         }
     }
 
