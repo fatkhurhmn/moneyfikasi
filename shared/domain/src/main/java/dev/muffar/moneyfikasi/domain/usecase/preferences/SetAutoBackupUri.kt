@@ -1,11 +1,11 @@
 package dev.muffar.moneyfikasi.domain.usecase.preferences
 
-import dev.muffar.moneyfikasi.domain.repository.PreferencesRepository
+import dev.muffar.moneyfikasi.domain.repository.BackupPreferencesRepository
 
 class SetAutoBackupUri(
-    private val preferencesRepository: PreferencesRepository
+    private val backupPreferencesRepository: BackupPreferencesRepository
 ) {
     suspend operator fun invoke(uri: String) {
-        preferencesRepository.setAutoBackupUri(uri)
+        backupPreferencesRepository.setAutoBackupUri(uri)
     }
 }

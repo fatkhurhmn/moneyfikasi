@@ -8,8 +8,8 @@ import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dev.muffar.moneyfikasi.domain.model.LatestBackup
+import dev.muffar.moneyfikasi.domain.repository.BackupPreferencesRepository
 import dev.muffar.moneyfikasi.domain.repository.BackupRestoreRepository
-import dev.muffar.moneyfikasi.domain.repository.PreferencesRepository
 import kotlinx.coroutines.flow.first
 
 @HiltWorker
@@ -17,21 +17,21 @@ class BackupWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted workerParams: WorkerParameters,
     private val backupRestoreRepository: BackupRestoreRepository,
-    private val preferencesRepository: PreferencesRepository,
+    private val backupPreferencesRepository: BackupPreferencesRepository,
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
-        val isEnabled = preferencesRepository.isAutoBackupEnabled().first()
+        val isEnabled = backupPreferencesRepository.isAutoBackupEnabled().first()
         if (!isEnabled) return Result.success()
 
-        val uriString = preferencesRepository.getAutoBackupUri().first()
+        val uriString = backupPreferencesRepository.getAutoBackupUri().first()
         if (uriString.isEmpty()) return Result.failure()
 
         val uri = uriString.toUri()
-        val isDeletePreviousBackup = preferencesRepository.isDeletePreviousBackup().first()
-        val previousBackupName = preferencesRepository.getLatestBackupName().first()
-        val previousBackupDate = preferencesRepository.getLatestBackupDate().first()
-        val previousBackupFolder = preferencesRepository.getLatestBackupFolder().first()
+        val isDeletePreviousBackup = backupPreferencesRepository.isDeletePreviousBackup().first()
+        val previousBackupName = backupPreferencesRepository.getLatestBackupName().first()
+        val previousBackupDate = backupPreferencesRepository.getLatestBackupDate().first()
+        val previousBackupFolder = backupPreferencesRepository.getLatestBackupFolder().first()
 
         return try {
             val result = backupRestoreRepository.backupData(uri)
@@ -45,7 +45,7 @@ class BackupWorker @AssistedInject constructor(
                     )
                     backupRestoreRepository.deleteBackup(previousBackup)
                 }
-                preferencesRepository.setLatestBackup(newFileName, System.currentTimeMillis(), uri.toString())
+                backupPreferencesRepository.setLatestBackup(newFileName, System.currentTimeMillis(), uri.toString())
                 Result.success()
             } else {
                 Result.retry()

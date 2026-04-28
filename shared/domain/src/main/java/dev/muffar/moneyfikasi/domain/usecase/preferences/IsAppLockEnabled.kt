@@ -1,9 +1,9 @@
 package dev.muffar.moneyfikasi.domain.usecase.preferences
 
-import dev.muffar.moneyfikasi.domain.repository.PreferencesRepository
+import dev.muffar.moneyfikasi.domain.repository.SecurityPreferencesRepository
 
 class IsAppLockEnabled(
-    private val repository: PreferencesRepository
+    private val securityPreferencesRepository: SecurityPreferencesRepository
 ) {
-    operator fun invoke() = repository.isAppLockEnabled()
+    operator fun invoke() = securityPreferencesRepository.isAppLockEnabled()
 }

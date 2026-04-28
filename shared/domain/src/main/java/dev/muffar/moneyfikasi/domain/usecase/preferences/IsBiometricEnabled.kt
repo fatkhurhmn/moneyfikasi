@@ -1,12 +1,9 @@
 package dev.muffar.moneyfikasi.domain.usecase.preferences
 
-import dev.muffar.moneyfikasi.domain.repository.PreferencesRepository
-import kotlinx.coroutines.flow.Flow
+import dev.muffar.moneyfikasi.domain.repository.SecurityPreferencesRepository
 
 class IsBiometricEnabled(
-    private val preferencesRepository: PreferencesRepository
+    private val securityPreferencesRepository: SecurityPreferencesRepository
 ) {
-    operator fun invoke(): Flow<Boolean> {
-        return preferencesRepository.isBiometricEnabled()
-    }
+    operator fun invoke() = securityPreferencesRepository.isBiometricEnabled()
 }

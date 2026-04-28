@@ -1,11 +1,11 @@
 package dev.muffar.moneyfikasi.domain.usecase.preferences
 
-import dev.muffar.moneyfikasi.domain.repository.PreferencesRepository
+import dev.muffar.moneyfikasi.domain.repository.BackupPreferencesRepository
 
 class SetLatestBackup(
-    private val preferencesRepository: PreferencesRepository
+    private val backupPreferencesRepository: BackupPreferencesRepository
 ) {
     suspend operator fun invoke(fileName: String, date: Long, folder: String) {
-        preferencesRepository.setLatestBackup(fileName, date, folder)
+        backupPreferencesRepository.setLatestBackup(fileName, date, folder)
     }
 }

@@ -65,6 +65,7 @@ class BackupPreferences @Inject constructor(
         try {
             TimePeriod.valueOf(periodName)
         } catch (e: Exception) {
+            e.printStackTrace()
             TimePeriod.DAILY
         }
     }

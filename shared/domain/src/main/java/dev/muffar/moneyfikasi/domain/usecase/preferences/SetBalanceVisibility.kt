@@ -1,10 +1,9 @@
 package dev.muffar.moneyfikasi.domain.usecase.preferences
 
-import dev.muffar.moneyfikasi.domain.repository.PreferencesRepository
+import dev.muffar.moneyfikasi.domain.repository.UiPreferencesRepository
 
 class SetBalanceVisibility(
-    private val preferencesRepository: PreferencesRepository
+    private val uiPreferencesRepository: UiPreferencesRepository
 ) {
-    suspend operator fun invoke(isVisible: Boolean) =
-        preferencesRepository.setBalanceVisibility(isVisible)
+    suspend operator fun invoke(isVisible: Boolean) = uiPreferencesRepository.setBalanceVisibility(isVisible)
 }

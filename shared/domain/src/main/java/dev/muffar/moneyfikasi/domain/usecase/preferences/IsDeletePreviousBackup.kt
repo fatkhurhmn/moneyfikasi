@@ -1,12 +1,9 @@
 package dev.muffar.moneyfikasi.domain.usecase.preferences
 
-import dev.muffar.moneyfikasi.domain.repository.PreferencesRepository
-import kotlinx.coroutines.flow.Flow
+import dev.muffar.moneyfikasi.domain.repository.BackupPreferencesRepository
 
 class IsDeletePreviousBackup(
-    private val preferencesRepository: PreferencesRepository
+    private val backupPreferencesRepository: BackupPreferencesRepository
 ) {
-    operator fun invoke(): Flow<Boolean> {
-        return preferencesRepository.isDeletePreviousBackup()
-    }
+    operator fun invoke() = backupPreferencesRepository.isDeletePreviousBackup()
 }

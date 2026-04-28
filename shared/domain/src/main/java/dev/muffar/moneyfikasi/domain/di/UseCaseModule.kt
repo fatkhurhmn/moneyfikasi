@@ -4,12 +4,14 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.muffar.moneyfikasi.domain.repository.BackupPreferencesRepository
 import dev.muffar.moneyfikasi.domain.repository.BackupRestoreRepository
 import dev.muffar.moneyfikasi.domain.repository.BudgetRepository
 import dev.muffar.moneyfikasi.domain.repository.CategoryRepository
-import dev.muffar.moneyfikasi.domain.repository.PreferencesRepository
 import dev.muffar.moneyfikasi.domain.repository.PresetRepository
+import dev.muffar.moneyfikasi.domain.repository.SecurityPreferencesRepository
 import dev.muffar.moneyfikasi.domain.repository.TransactionRepository
+import dev.muffar.moneyfikasi.domain.repository.UiPreferencesRepository
 import dev.muffar.moneyfikasi.domain.repository.WalletRepository
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupData
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupRestoreUseCases
@@ -126,38 +128,40 @@ object UseCaseModule {
     @Provides
     fun provideBackupRestoreUseCases(
         backupRestoreRepository: BackupRestoreRepository,
-        preferencesRepository: PreferencesRepository,
+        backupPreferencesRepository: BackupPreferencesRepository,
     ) = BackupRestoreUseCases(
         backupData = BackupData(backupRestoreRepository),
         restoreData = RestoreData(backupRestoreRepository),
         deleteBackup = DeleteBackup(backupRestoreRepository),
-        deleteLatestBackup = DeleteLatestBackup(backupRestoreRepository, preferencesRepository)
+        deleteLatestBackup = DeleteLatestBackup(backupRestoreRepository, backupPreferencesRepository)
     )
 
     @Provides
     fun providePreferencesUseCases(
-        preferencesRepository: PreferencesRepository,
+        uiPreferencesRepository: UiPreferencesRepository,
+        backupPreferencesRepository: BackupPreferencesRepository,
+        securityPreferencesRepository: SecurityPreferencesRepository,
     ) = PreferencesUseCases(
-        setBalanceVisibility = SetBalanceVisibility(preferencesRepository),
-        isBalanceVisible = IsBalanceVisible(preferencesRepository),
-        setReportVisibility = SetReportVisibility(preferencesRepository),
-        isReportVisible = IsReportVisible(preferencesRepository),
-        getLatestBackup = GetLatestBackup(preferencesRepository),
-        setLatestBackup = SetLatestBackup(preferencesRepository),
-        isAutoBackupEnabled = IsAutoBackupEnabled(preferencesRepository),
-        setAutoBackupEnabled = SetAutoBackupEnabled(preferencesRepository),
-        getAutoBackupUri = GetAutoBackupUri(preferencesRepository),
-        setAutoBackupUri = SetAutoBackupUri(preferencesRepository),
-        getAutoBackupPeriod = GetAutoBackupPeriod(preferencesRepository),
-        setAutoBackupPeriod = SetAutoBackupPeriod(preferencesRepository),
-        isDeletePreviousBackup = IsDeletePreviousBackup(preferencesRepository),
-        setDeletePreviousBackup = SetDeletePreviousBackup(preferencesRepository),
-        isAppLockEnabled = IsAppLockEnabled(preferencesRepository),
-        enableAppLock = EnableAppLock(preferencesRepository),
-        getAppLockPin = GetAppLockPin(preferencesRepository),
-        setAppLockPin = SetAppLockPin(preferencesRepository),
-        isBiometricEnabled = IsBiometricEnabled(preferencesRepository),
-        enableBiometric = EnableBiometric(preferencesRepository)
+        setBalanceVisibility = SetBalanceVisibility(uiPreferencesRepository),
+        isBalanceVisible = IsBalanceVisible(uiPreferencesRepository),
+        setReportVisibility = SetReportVisibility(uiPreferencesRepository),
+        isReportVisible = IsReportVisible(uiPreferencesRepository),
+        getLatestBackup = GetLatestBackup(backupPreferencesRepository),
+        setLatestBackup = SetLatestBackup(backupPreferencesRepository),
+        isAutoBackupEnabled = IsAutoBackupEnabled(backupPreferencesRepository),
+        setAutoBackupEnabled = SetAutoBackupEnabled(backupPreferencesRepository),
+        getAutoBackupUri = GetAutoBackupUri(backupPreferencesRepository),
+        setAutoBackupUri = SetAutoBackupUri(backupPreferencesRepository),
+        getAutoBackupPeriod = GetAutoBackupPeriod(backupPreferencesRepository),
+        setAutoBackupPeriod = SetAutoBackupPeriod(backupPreferencesRepository),
+        isDeletePreviousBackup = IsDeletePreviousBackup(backupPreferencesRepository),
+        setDeletePreviousBackup = SetDeletePreviousBackup(backupPreferencesRepository),
+        isAppLockEnabled = IsAppLockEnabled(securityPreferencesRepository),
+        enableAppLock = EnableAppLock(securityPreferencesRepository),
+        getAppLockPin = GetAppLockPin(securityPreferencesRepository),
+        setAppLockPin = SetAppLockPin(securityPreferencesRepository),
+        isBiometricEnabled = IsBiometricEnabled(securityPreferencesRepository),
+        enableBiometric = EnableBiometric(securityPreferencesRepository)
     )
 
     @Provides

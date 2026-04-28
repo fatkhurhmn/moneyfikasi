@@ -1,11 +1,9 @@
 package dev.muffar.moneyfikasi.domain.usecase.preferences
 
-import dev.muffar.moneyfikasi.domain.repository.PreferencesRepository
+import dev.muffar.moneyfikasi.domain.repository.SecurityPreferencesRepository
 
 class EnableBiometric(
-    private val preferencesRepository: PreferencesRepository
+    private val securityPreferencesRepository: SecurityPreferencesRepository
 ) {
-    suspend operator fun invoke(enable: Boolean) {
-        preferencesRepository.enableBiometric(enable)
-    }
+    suspend operator fun invoke(enable: Boolean) = securityPreferencesRepository.enableBiometric(enable)
 }

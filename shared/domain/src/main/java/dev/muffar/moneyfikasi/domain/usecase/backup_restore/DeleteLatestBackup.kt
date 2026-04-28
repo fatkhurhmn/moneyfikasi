@@ -1,12 +1,12 @@
 package dev.muffar.moneyfikasi.domain.usecase.backup_restore
 
 import dev.muffar.moneyfikasi.domain.model.LatestBackup
+import dev.muffar.moneyfikasi.domain.repository.BackupPreferencesRepository
 import dev.muffar.moneyfikasi.domain.repository.BackupRestoreRepository
-import dev.muffar.moneyfikasi.domain.repository.PreferencesRepository
 
 class DeleteLatestBackup(
     private val backupRestoreRepository: BackupRestoreRepository,
-    private val preferencesRepository: PreferencesRepository
+    private val backupPreferencesRepository: BackupPreferencesRepository
 ) {
     suspend operator fun invoke(latestBackup: LatestBackup): Result<Unit> {
         if (latestBackup.name.isEmpty() || latestBackup.folder.isEmpty()) {
@@ -15,7 +15,7 @@ class DeleteLatestBackup(
 
         return backupRestoreRepository.deleteBackup(latestBackup)
             .onSuccess {
-                preferencesRepository.setLatestBackup("", 0L, "")
+                backupPreferencesRepository.setLatestBackup("", 0L, "")
             }
     }
 }

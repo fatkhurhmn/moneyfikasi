@@ -3,11 +3,7 @@ package dev.muffar.moneyfikasi.domain.repository
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import kotlinx.coroutines.flow.Flow
 
-interface PreferencesRepository {
-    suspend fun setBalanceVisibility(isVisible: Boolean)
-    fun isBalanceVisible(): Flow<Boolean>
-    suspend fun setReportVisibility(isVisible: Boolean)
-    fun isReportVisible(): Flow<Boolean>
+interface BackupPreferencesRepository {
     suspend fun setLatestBackup(fileName: String, date: Long, folder: String)
     fun getLatestBackupName(): Flow<String>
     fun getLatestBackupDate(): Flow<Long>
@@ -20,10 +16,4 @@ interface PreferencesRepository {
     fun getAutoBackupPeriod(): Flow<TimePeriod>
     suspend fun setDeletePreviousBackup(isEnabled: Boolean)
     fun isDeletePreviousBackup(): Flow<Boolean>
-    suspend fun enableAppLock(enable: Boolean)
-    fun isAppLockEnabled(): Flow<Boolean>
-    suspend fun setAppLockPin(pin: String)
-    fun getAppLockPin(): Flow<String>
-    suspend fun enableBiometric(enable: Boolean)
-    fun isBiometricEnabled(): Flow<Boolean>
 }

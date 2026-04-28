@@ -1,12 +1,9 @@
 package dev.muffar.moneyfikasi.domain.usecase.preferences
 
-import dev.muffar.moneyfikasi.domain.repository.PreferencesRepository
-import kotlinx.coroutines.flow.Flow
+import dev.muffar.moneyfikasi.domain.repository.BackupPreferencesRepository
 
 class IsAutoBackupEnabled(
-    private val preferencesRepository: PreferencesRepository
+    private val backupPreferencesRepository: BackupPreferencesRepository
 ) {
-    operator fun invoke(): Flow<Boolean> {
-        return preferencesRepository.isAutoBackupEnabled()
-    }
+    operator fun invoke() = backupPreferencesRepository.isAutoBackupEnabled()
 }
