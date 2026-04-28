@@ -20,6 +20,7 @@ import dev.muffar.moneyfikasi.common_ui.component.pin_input.NumberPad
 import dev.muffar.moneyfikasi.common_ui.component.pin_input.PinDots
 import dev.muffar.moneyfikasi.common_ui.component.pin_input.PinHeader
 import dev.muffar.moneyfikasi.domain.model.EnterPinStep
+import dev.muffar.moneyfikasi.domain.model.EnterPinType
 import dev.muffar.moneyfikasi.feature.applock.enter_pin.component.EnterPinTopAppBar
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.flow.SharedFlow

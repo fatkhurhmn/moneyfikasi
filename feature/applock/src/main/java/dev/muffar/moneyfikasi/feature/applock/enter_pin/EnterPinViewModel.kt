@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class EnterPinViewModel @Inject constructor(
     private val preferencesUseCases: PreferencesUseCases,
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(EnterPinState())
@@ -36,6 +36,7 @@ class EnterPinViewModel @Inject constructor(
             EnterPinType.SET_PIN -> EnterPinStep.ENTER_PIN
             EnterPinType.ENTER_PIN -> EnterPinStep.ENTER_PIN
             EnterPinType.RESET_PIN -> EnterPinStep.VERIFY_CURRENT_PIN
+            EnterPinType.DISABLE_PIN -> EnterPinStep.ENTER_PIN
         }
         _state.update { it.copy(type = type, step = step) }
 
@@ -63,6 +64,7 @@ class EnterPinViewModel @Inject constructor(
             EnterPinType.SET_PIN -> handleSetPin(input)
             EnterPinType.ENTER_PIN -> handleEnterPin(input)
             EnterPinType.RESET_PIN -> handleResetPin(input)
+            EnterPinType.DISABLE_PIN -> handleDisablePin(input)
         }
     }
 
@@ -146,6 +148,21 @@ class EnterPinViewModel @Inject constructor(
             }
 
             else -> {}
+        }
+    }
+
+    private fun handleDisablePin(input: String) {
+        if (input == state.value.savedPin) {
+            viewModelScope.launch {
+                preferencesUseCases.enableAppLock(false)
+                preferencesUseCases.setAppLockPin("")
+                _eventFlow.emit(UiEvent.SavePin)
+            }
+        } else {
+            onInputPinError(
+                step = EnterPinStep.ENTER_PIN,
+                message = "Incorrect PIN. Please try again."
+            )
         }
     }
 

@@ -11,7 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.domain.model.EnterPinType
-import dev.muffar.moneyfikasi.feature.applock.main.component.SetPinSection
+import dev.muffar.moneyfikasi.feature.applock.main.component.EnterPinSection
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -38,7 +38,7 @@ fun AppLockScreen(
                 .padding(padding)
                 .padding(16.dp)
         ) {
-            SetPinSection(
+            EnterPinSection(
                 isAppLockEnabled = state.isAppLockEnabled,
                 onPinEnabled = onAppLockEnabledChanged,
                 onChangePinClick = { onNavigateToEnterPin(EnterPinType.RESET_PIN) }

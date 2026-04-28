@@ -15,7 +15,7 @@ import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
-fun SetPinSection(
+fun EnterPinSection(
     isAppLockEnabled: Boolean,
     onPinEnabled: (Boolean) -> Unit,
     onChangePinClick: () -> Unit
@@ -24,7 +24,7 @@ fun SetPinSection(
         CommonSwitch(
             isEnabled = isAppLockEnabled,
             onEnabledChange = onPinEnabled,
-            title = stringResource(R.string.set_pin),
+            title = stringResource(R.string.app_lock),
             description = stringResource(R.string.app_lock_description)
         )
 
