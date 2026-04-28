@@ -29,27 +29,30 @@ import dev.muffar.moneyfikasi.domain.usecase.category.GetAllCategories
 import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryById
 import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryByType
 import dev.muffar.moneyfikasi.domain.usecase.category.UpsertCategory
-import dev.muffar.moneyfikasi.domain.usecase.preferences.GetAppLockPin
-import dev.muffar.moneyfikasi.domain.usecase.preferences.IsAppLockEnabled
-import dev.muffar.moneyfikasi.domain.usecase.preferences.GetAutoBackupPeriod
-import dev.muffar.moneyfikasi.domain.usecase.preferences.GetAutoBackupUri
-import dev.muffar.moneyfikasi.domain.usecase.preferences.GetLatestBackup
-import dev.muffar.moneyfikasi.domain.usecase.preferences.IsAutoBackupEnabled
-import dev.muffar.moneyfikasi.domain.usecase.preferences.IsBalanceVisible
-import dev.muffar.moneyfikasi.domain.usecase.preferences.IsDeletePreviousBackup
-import dev.muffar.moneyfikasi.domain.usecase.preferences.IsReportVisible
-import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
-import dev.muffar.moneyfikasi.domain.usecase.preferences.SetAppLockPin
-import dev.muffar.moneyfikasi.domain.usecase.preferences.EnableAppLock
-import dev.muffar.moneyfikasi.domain.usecase.preferences.EnableBiometric
-import dev.muffar.moneyfikasi.domain.usecase.preferences.IsBiometricEnabled
-import dev.muffar.moneyfikasi.domain.usecase.preferences.SetAutoBackupEnabled
-import dev.muffar.moneyfikasi.domain.usecase.preferences.SetAutoBackupPeriod
-import dev.muffar.moneyfikasi.domain.usecase.preferences.SetAutoBackupUri
-import dev.muffar.moneyfikasi.domain.usecase.preferences.SetBalanceVisibility
-import dev.muffar.moneyfikasi.domain.usecase.preferences.SetDeletePreviousBackup
-import dev.muffar.moneyfikasi.domain.usecase.preferences.SetLatestBackup
-import dev.muffar.moneyfikasi.domain.usecase.preferences.SetReportVisibility
+import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.BackupPreferencesUseCases
+import dev.muffar.moneyfikasi.domain.usecase.preferences.security.EnableAppLock
+import dev.muffar.moneyfikasi.domain.usecase.preferences.security.EnableBiometric
+import dev.muffar.moneyfikasi.domain.usecase.preferences.security.GetAppLockPin
+import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.GetAutoBackupPeriod
+import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.GetAutoBackupUri
+import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.GetLatestBackup
+import dev.muffar.moneyfikasi.domain.usecase.preferences.security.IsAppLockEnabled
+import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.IsAutoBackupEnabled
+import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.IsBalanceVisible
+import dev.muffar.moneyfikasi.domain.usecase.preferences.security.IsBiometricEnabled
+import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.IsDeletePreviousBackup
+import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.IsReportVisible
+import dev.muffar.moneyfikasi.domain.usecase.preferences.AppPreferencesUseCases
+import dev.muffar.moneyfikasi.domain.usecase.preferences.security.SecurityPreferencesUseCases
+import dev.muffar.moneyfikasi.domain.usecase.preferences.security.SetAppLockPin
+import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetAutoBackupEnabled
+import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetAutoBackupPeriod
+import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetAutoBackupUri
+import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetBalanceVisibility
+import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetDeletePreviousBackup
+import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetLatestBackup
+import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetReportVisibility
+import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.UiPreferencesUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preset.DeletePreset
 import dev.muffar.moneyfikasi.domain.usecase.preset.GetAllPresets
 import dev.muffar.moneyfikasi.domain.usecase.preset.GetPresetById
@@ -141,27 +144,33 @@ object UseCaseModule {
         uiPreferencesRepository: UiPreferencesRepository,
         backupPreferencesRepository: BackupPreferencesRepository,
         securityPreferencesRepository: SecurityPreferencesRepository,
-    ) = PreferencesUseCases(
-        setBalanceVisibility = SetBalanceVisibility(uiPreferencesRepository),
-        isBalanceVisible = IsBalanceVisible(uiPreferencesRepository),
-        setReportVisibility = SetReportVisibility(uiPreferencesRepository),
-        isReportVisible = IsReportVisible(uiPreferencesRepository),
-        getLatestBackup = GetLatestBackup(backupPreferencesRepository),
-        setLatestBackup = SetLatestBackup(backupPreferencesRepository),
-        isAutoBackupEnabled = IsAutoBackupEnabled(backupPreferencesRepository),
-        setAutoBackupEnabled = SetAutoBackupEnabled(backupPreferencesRepository),
-        getAutoBackupUri = GetAutoBackupUri(backupPreferencesRepository),
-        setAutoBackupUri = SetAutoBackupUri(backupPreferencesRepository),
-        getAutoBackupPeriod = GetAutoBackupPeriod(backupPreferencesRepository),
-        setAutoBackupPeriod = SetAutoBackupPeriod(backupPreferencesRepository),
-        isDeletePreviousBackup = IsDeletePreviousBackup(backupPreferencesRepository),
-        setDeletePreviousBackup = SetDeletePreviousBackup(backupPreferencesRepository),
-        isAppLockEnabled = IsAppLockEnabled(securityPreferencesRepository),
-        enableAppLock = EnableAppLock(securityPreferencesRepository),
-        getAppLockPin = GetAppLockPin(securityPreferencesRepository),
-        setAppLockPin = SetAppLockPin(securityPreferencesRepository),
-        isBiometricEnabled = IsBiometricEnabled(securityPreferencesRepository),
-        enableBiometric = EnableBiometric(securityPreferencesRepository)
+    ) = AppPreferencesUseCases(
+        ui = UiPreferencesUseCases(
+            setBalanceVisibility = SetBalanceVisibility(uiPreferencesRepository),
+            isBalanceVisible = IsBalanceVisible(uiPreferencesRepository),
+            setReportVisibility = SetReportVisibility(uiPreferencesRepository),
+            isReportVisible = IsReportVisible(uiPreferencesRepository),
+        ),
+        backup = BackupPreferencesUseCases(
+            getLatestBackup = GetLatestBackup(backupPreferencesRepository),
+            setLatestBackup = SetLatestBackup(backupPreferencesRepository),
+            isAutoBackupEnabled = IsAutoBackupEnabled(backupPreferencesRepository),
+            setAutoBackupEnabled = SetAutoBackupEnabled(backupPreferencesRepository),
+            getAutoBackupUri = GetAutoBackupUri(backupPreferencesRepository),
+            setAutoBackupUri = SetAutoBackupUri(backupPreferencesRepository),
+            getAutoBackupPeriod = GetAutoBackupPeriod(backupPreferencesRepository),
+            setAutoBackupPeriod = SetAutoBackupPeriod(backupPreferencesRepository),
+            isDeletePreviousBackup = IsDeletePreviousBackup(backupPreferencesRepository),
+            setDeletePreviousBackup = SetDeletePreviousBackup(backupPreferencesRepository),
+        ),
+        security = SecurityPreferencesUseCases(
+            isAppLockEnabled = IsAppLockEnabled(securityPreferencesRepository),
+            enableAppLock = EnableAppLock(securityPreferencesRepository),
+            getAppLockPin = GetAppLockPin(securityPreferencesRepository),
+            setAppLockPin = SetAppLockPin(securityPreferencesRepository),
+            isBiometricEnabled = IsBiometricEnabled(securityPreferencesRepository),
+            enableBiometric = EnableBiometric(securityPreferencesRepository)
+        )
     )
 
     @Provides

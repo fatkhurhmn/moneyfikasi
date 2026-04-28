@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.domain.usecase.preferences
+package dev.muffar.moneyfikasi.domain.usecase.preferences.security
 
 import dev.muffar.moneyfikasi.domain.repository.SecurityPreferencesRepository
 

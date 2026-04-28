@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.domain.usecase.preferences
+package dev.muffar.moneyfikasi.domain.usecase.preferences.backup
 
 import dev.muffar.moneyfikasi.domain.model.LatestBackup
 import dev.muffar.moneyfikasi.domain.repository.BackupPreferencesRepository
