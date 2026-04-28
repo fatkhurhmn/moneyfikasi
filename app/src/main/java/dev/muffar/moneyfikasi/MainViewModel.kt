@@ -25,8 +25,8 @@ class MainViewModel @Inject constructor(
 
     private fun checkAppLock() {
         viewModelScope.launch {
-            val isEnabled = securitySettingsUseCases.isAppLockEnabled()
-                .first()
+            val isEnabled = securitySettingsUseCases.getSecuritySettings()
+                .first().isAppLockEnabled
             _isAppLockEnabled.update { isEnabled }
         }
     }

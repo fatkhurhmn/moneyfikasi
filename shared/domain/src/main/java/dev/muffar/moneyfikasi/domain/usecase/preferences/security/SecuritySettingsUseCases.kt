@@ -1,10 +1,8 @@
 package dev.muffar.moneyfikasi.domain.usecase.preferences.security
 
 data class SecuritySettingsUseCases(
-    val isAppLockEnabled: IsAppLockEnabled,
+    val getSecuritySettings: GetSecuritySettings,
     val enableAppLock: EnableAppLock,
-    val getAppLockPin: GetAppLockPin,
     val setAppLockPin: SetAppLockPin,
-    val isBiometricEnabled: IsBiometricEnabled,
     val enableBiometric: EnableBiometric
 )

@@ -41,12 +41,11 @@ class EnterPinViewModel @Inject constructor(
         _state.update { it.copy(type = type, step = step) }
 
         viewModelScope.launch {
-            val savedPin = securitySettingsUseCases.getAppLockPin().first()
-            val isBiometricEnabled = securitySettingsUseCases.isBiometricEnabled().first()
+            val settings = securitySettingsUseCases.getSecuritySettings().first()
             _state.update {
                 it.copy(
-                    savedPin = savedPin,
-                    isBiometricEnabled = isBiometricEnabled
+                    savedPin = settings.appLockPin,
+                    isBiometricEnabled = settings.isBiometricEnabled
                 )
             }
         }

@@ -14,8 +14,8 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -54,17 +54,13 @@ class AppLockViewModel @Inject constructor(
     }
 
     private fun loadAppLockSettings() {
-        combine(
-            securitySettingsUseCases.isAppLockEnabled(),
-            securitySettingsUseCases.getAppLockPin(),
-            securitySettingsUseCases.isBiometricEnabled()
-        ) { isAppLockEnable, pin, isBiometricEnabled ->
+        securitySettingsUseCases.getSecuritySettings().onEach { settings ->
             _state.update {
                 it.copy(
-                    isAppLockEnabled = isAppLockEnable,
-                    isBiometricEnabled = isBiometricEnabled,
-                    pin = pin,
-                    confirmPin = pin
+                    isAppLockEnabled = settings.isAppLockEnabled,
+                    isBiometricEnabled = settings.isBiometricEnabled,
+                    pin = settings.appLockPin,
+                    confirmPin = settings.appLockPin
                 )
             }
         }.launchIn(viewModelScope)

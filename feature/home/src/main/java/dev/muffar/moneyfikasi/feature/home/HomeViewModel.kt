@@ -297,14 +297,14 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getPreferences() {
-        uiSettingsUseCases.isBalanceVisible()
-            .onEach { isVisible ->
-                _state.update { it.copy(isBalanceVisible = isVisible) }
-            }.launchIn(viewModelScope)
-
-        uiSettingsUseCases.isReportVisible()
-            .onEach { isVisible ->
-                _state.update { it.copy(isReportVisible = isVisible) }
+        uiSettingsUseCases.getUiSettings()
+            .onEach { settings ->
+                _state.update {
+                    it.copy(
+                        isBalanceVisible = settings.isBalanceVisible,
+                        isReportVisible = settings.isReportVisible
+                    )
+                }
             }.launchIn(viewModelScope)
     }
 

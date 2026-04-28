@@ -38,13 +38,10 @@ import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetDeletePreviou
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetLatestBackup
 import dev.muffar.moneyfikasi.domain.usecase.preferences.security.EnableAppLock
 import dev.muffar.moneyfikasi.domain.usecase.preferences.security.EnableBiometric
-import dev.muffar.moneyfikasi.domain.usecase.preferences.security.GetAppLockPin
-import dev.muffar.moneyfikasi.domain.usecase.preferences.security.IsAppLockEnabled
-import dev.muffar.moneyfikasi.domain.usecase.preferences.security.IsBiometricEnabled
+import dev.muffar.moneyfikasi.domain.usecase.preferences.security.GetSecuritySettings
 import dev.muffar.moneyfikasi.domain.usecase.preferences.security.SecuritySettingsUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.security.SetAppLockPin
-import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.IsBalanceVisible
-import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.IsReportVisible
+import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.GetUiSettings
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetBalanceVisibility
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetReportVisibility
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.UiSettingsUseCases
@@ -138,10 +135,9 @@ object UseCaseModule {
     fun provideUiSettingsUseCases(
         uiSettingsRepository: UiSettingsRepository,
     ) = UiSettingsUseCases(
+        getUiSettings = GetUiSettings(uiSettingsRepository),
         setBalanceVisibility = SetBalanceVisibility(uiSettingsRepository),
-        isBalanceVisible = IsBalanceVisible(uiSettingsRepository),
-        setReportVisibility = SetReportVisibility(uiSettingsRepository),
-        isReportVisible = IsReportVisible(uiSettingsRepository),
+        setReportVisibility = SetReportVisibility(uiSettingsRepository)
     )
 
     @Provides
@@ -160,11 +156,9 @@ object UseCaseModule {
     fun provideSecuritySettingsUseCases(
         securitySettingsRepository: SecuritySettingsRepository,
     ) = SecuritySettingsUseCases(
-        isAppLockEnabled = IsAppLockEnabled(securitySettingsRepository),
+        getSecuritySettings = GetSecuritySettings(securitySettingsRepository),
         enableAppLock = EnableAppLock(securitySettingsRepository),
-        getAppLockPin = GetAppLockPin(securitySettingsRepository),
         setAppLockPin = SetAppLockPin(securitySettingsRepository),
-        isBiometricEnabled = IsBiometricEnabled(securitySettingsRepository),
         enableBiometric = EnableBiometric(securitySettingsRepository)
     )
 
