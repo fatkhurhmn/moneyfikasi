@@ -12,7 +12,7 @@ import dev.muffar.moneyfikasi.data.db.dao.CategoryDao
 import dev.muffar.moneyfikasi.data.db.dao.PresetDao
 import dev.muffar.moneyfikasi.data.db.dao.TransactionDao
 import dev.muffar.moneyfikasi.data.db.dao.WalletDao
-import dev.muffar.moneyfikasi.data.preferences.PreferencesManager
+import dev.muffar.moneyfikasi.data.preferences.AppPreferences
 import dev.muffar.moneyfikasi.data.repositoy.BackupRestoreRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.BudgetRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.CategoryRepositoryImpl
@@ -66,9 +66,9 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun providePreferencesRepository(
-        preferencesManager: PreferencesManager,
+        appPreferences: AppPreferences,
     ): PreferencesRepository {
-        return PreferencesRepositoryImpl(preferencesManager)
+        return PreferencesRepositoryImpl(appPreferences)
     }
 
     @Provides

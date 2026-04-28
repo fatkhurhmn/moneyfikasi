@@ -19,7 +19,7 @@ import javax.inject.Singleton
 object DataStoreModule {
     @Provides
     @Singleton
-    fun providePreferencesManager(
+    fun provideDataStore(
         @ApplicationContext context: Context,
     ): DataStore<Preferences> {
         return PreferenceDataStoreFactory.create(

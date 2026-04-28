@@ -7,79 +7,60 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-data class PreferencesManager @Inject constructor(
-    private val datastore: DataStore<Preferences>
+class BackupPreferences @Inject constructor(
+    private val dataStore: DataStore<Preferences>,
 ) {
-    suspend fun setBalanceVisibility(isVisible: Boolean) {
-        datastore.edit {
-            it[BALANCE_VISIBILITY] = isVisible
-        }
-    }
-
-    val isBalanceVisible = datastore.data.map {
-        it[BALANCE_VISIBILITY] ?: false
-    }
-
-    suspend fun setReportVisibility(isVisible: Boolean) {
-        datastore.edit {
-            it[REPORT_VISIBILITY] = isVisible
-        }
-    }
-
-    val isReportVisible = datastore.data.map {
-        it[REPORT_VISIBILITY] ?: false
-    }
-
     suspend fun setLatestBackup(fileName: String, date: Long, folder: String) {
-        datastore.edit {
+        dataStore.edit {
             it[LATEST_BACKUP_NAME] = fileName
             it[LATEST_BACKUP_DATE] = date
             it[LATEST_BACKUP_FOLDER] = folder
         }
     }
 
-    val latestBackupName = datastore.data.map {
+    val latestBackupName: Flow<String> = dataStore.data.map {
         it[LATEST_BACKUP_NAME] ?: ""
     }
 
-    val latestBackupDate = datastore.data.map {
+    val latestBackupDate: Flow<Long> = dataStore.data.map {
         it[LATEST_BACKUP_DATE] ?: 0L
     }
 
-    val latestBackupFolder = datastore.data.map {
+    val latestBackupFolder: Flow<String> = dataStore.data.map {
         it[LATEST_BACKUP_FOLDER] ?: ""
     }
 
     suspend fun setAutoBackupEnabled(isEnabled: Boolean) {
-        datastore.edit {
+        dataStore.edit {
             it[AUTO_BACKUP_ENABLED] = isEnabled
         }
     }
 
-    val isAutoBackupEnabled = datastore.data.map {
+    val isAutoBackupEnabled: Flow<Boolean> = dataStore.data.map {
         it[AUTO_BACKUP_ENABLED] ?: false
     }
 
     suspend fun setAutoBackupUri(uri: String) {
-        datastore.edit {
+        dataStore.edit {
             it[AUTO_BACKUP_URI] = uri
         }
     }
 
-    val autoBackupUri = datastore.data.map {
+    val autoBackupUri: Flow<String> = dataStore.data.map {
         it[AUTO_BACKUP_URI] ?: ""
     }
 
     suspend fun setAutoBackupPeriod(period: TimePeriod) {
-        datastore.edit {
+        dataStore.edit {
             it[AUTO_BACKUP_PERIOD] = period.name
         }
     }
 
-    val autoBackupPeriod = datastore.data.map {
+    val autoBackupPeriod: Flow<TimePeriod> = dataStore.data.map {
         val periodName = it[AUTO_BACKUP_PERIOD] ?: TimePeriod.DAILY.name
         try {
             TimePeriod.valueOf(periodName)
@@ -89,48 +70,16 @@ data class PreferencesManager @Inject constructor(
     }
 
     suspend fun setDeletePreviousBackup(isEnabled: Boolean) {
-        datastore.edit {
+        dataStore.edit {
             it[DELETE_PREVIOUS_BACKUP] = isEnabled
         }
     }
 
-    val isDeletePreviousBackup = datastore.data.map {
+    val isDeletePreviousBackup: Flow<Boolean> = dataStore.data.map {
         it[DELETE_PREVIOUS_BACKUP] ?: true
     }
 
-    suspend fun enableAppLock(enable: Boolean) {
-        datastore.edit {
-            it[APP_LOCK] = enable
-        }
-    }
-
-    val isAppLockEnabled = datastore.data.map {
-        it[APP_LOCK] ?: false
-    }
-
-    suspend fun setAppLockPin(pin: String) {
-        datastore.edit {
-            it[APP_LOCK_PIN] = pin
-        }
-    }
-
-    val appLockPin = datastore.data.map {
-        it[APP_LOCK_PIN] ?: ""
-    }
-
-    suspend fun enableBiometric(enable: Boolean) {
-        datastore.edit {
-            it[BIOMETRIC_ENABLED] = enable
-        }
-    }
-
-    val isBiometricEnabled = datastore.data.map {
-        it[BIOMETRIC_ENABLED] ?: false
-    }
-
     companion object {
-        val BALANCE_VISIBILITY = booleanPreferencesKey("balance_visibility")
-        val REPORT_VISIBILITY = booleanPreferencesKey("report_visibility")
         val LATEST_BACKUP_NAME = stringPreferencesKey("latest_backup_name")
         val LATEST_BACKUP_DATE = longPreferencesKey("latest_backup_date")
         val LATEST_BACKUP_FOLDER = stringPreferencesKey("latest_backup_folder")
@@ -138,8 +87,5 @@ data class PreferencesManager @Inject constructor(
         val AUTO_BACKUP_URI = stringPreferencesKey("auto_backup_uri")
         val AUTO_BACKUP_PERIOD = stringPreferencesKey("auto_backup_period")
         val DELETE_PREVIOUS_BACKUP = booleanPreferencesKey("delete_previous_backup")
-        val APP_LOCK = booleanPreferencesKey("app_lock")
-        val APP_LOCK_PIN = stringPreferencesKey("app_lock_pin")
-        val BIOMETRIC_ENABLED = booleanPreferencesKey("biometric_enabled")
     }
 }
