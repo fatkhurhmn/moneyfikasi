@@ -17,6 +17,7 @@ import dev.muffar.moneyfikasi.transaction.transfer.navigation.toTransferTransact
 @Composable
 fun MoneyfikasiApp(
     navController: NavHostController,
+    startDestination: String,
 ) {
     val mainRoute = listOf(
         Screen.Home.route,
@@ -51,7 +52,8 @@ fun MoneyfikasiApp(
                 .consumeWindowInsets(it)
         ) {
             RootNavigation(
-                navController = navController
+                navController = navController,
+                startDestination = startDestination
             )
         }
     }

@@ -8,12 +8,14 @@ import dev.muffar.moneyfikasi.feature.applock.enter_pin.navigation.enterPinNavig
 fun NavGraphBuilder.appLockNavGraph(
     navigateBack: () -> Unit,
     onNavigateToEnterPin: (EnterPinType) -> Unit,
+    onEnterPinSuccess: () -> Unit,
 ) {
     appLockNavigation(
         navigateBack = navigateBack,
         onNavigateToEnterPin = onNavigateToEnterPin
     )
     enterPinNavigation(
-        navigateBack = navigateBack
+        navigateBack = navigateBack,
+        onEnterPinSuccess = onEnterPinSuccess
     )
 }

@@ -16,6 +16,7 @@ import dev.muffar.moneyfikasi.navigation.Screen
 
 fun NavGraphBuilder.enterPinNavigation(
     navigateBack: () -> Unit,
+    onEnterPinSuccess: () -> Unit,
 ) {
     composable(
         route = Screen.EnterPin.route,
@@ -34,7 +35,8 @@ fun NavGraphBuilder.enterPinNavigation(
             state = state,
             eventFlow = eventFlow,
             onPinChanged = { onEvent(EnterPinEvent.OnPinChanged(it)) },
-            onNavigateBack = navigateBack
+            onNavigateBack = navigateBack,
+            onEnterPinSuccess = onEnterPinSuccess
         )
     }
 }

@@ -33,6 +33,7 @@ fun EnterPinScreen(
     eventFlow: SharedFlow<EnterPinViewModel.UiEvent>,
     onPinChanged: (String) -> Unit,
     onNavigateBack: () -> Unit,
+    onEnterPinSuccess: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -86,7 +87,13 @@ fun EnterPinScreen(
     LaunchedEffect(eventFlow) {
         eventFlow.collectLatest {
             when (it) {
-                is EnterPinViewModel.UiEvent.SavePin -> onNavigateBack()
+                is EnterPinViewModel.UiEvent.SavePin -> {
+                    if (state.type == EnterPinType.ENTER_PIN) {
+                        onEnterPinSuccess()
+                    } else {
+                        onNavigateBack()
+                    }
+                }
                 is EnterPinViewModel.UiEvent.NavigateBack -> onNavigateBack()
             }
         }
