@@ -65,4 +65,10 @@ class PreferencesRepositoryImpl(
     }
 
     override fun getAppLockPin(): Flow<String> = preferencesManager.appLockPin
+
+    override suspend fun enableBiometric(enable: Boolean) {
+        preferencesManager.enableBiometric(enable)
+    }
+
+    override fun isBiometricEnabled(): Flow<Boolean> = preferencesManager.isBiometricEnabled
 }

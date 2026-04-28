@@ -22,6 +22,7 @@ documentfile = "1.1.0"
 datastore = "1.2.0"
 work-manager = "2.10.0"
 appcompat = "1.7.1"
+biometric = "1.2.0-alpha05"
 material = "1.13.0"
 paging = "3.3.6"
 poi = "5.2.3"
@@ -71,6 +72,7 @@ threetenabp = { group = "com.jakewharton.threetenabp", name = "threetenabp", ver
 # MPAndroidChart
 mp-android-chart = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "mp-android-chart" }
 androidx-documentfile = { group = "androidx.documentfile", name = "documentfile", version.ref = "documentfile" }
+androidx-biometric = { group = "androidx.biometric", name = "biometric", version.ref = "biometric" }
 
 # DataStore
 androidx-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }

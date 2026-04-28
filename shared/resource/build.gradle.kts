@@ -11,3 +11,7 @@ android {
         minSdk = 26
     }
 }
+
+dependencies {
+    implementation(libs.androidx.appcompat)
+}

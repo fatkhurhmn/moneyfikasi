@@ -6,6 +6,7 @@ import dev.muffar.moneyfikasi.domain.model.EnterPinType
 data class EnterPinState(
     val type: EnterPinType = EnterPinType.SET_PIN,
     val step: EnterPinStep = EnterPinStep.ENTER_PIN,
+    val isBiometricEnabled: Boolean = false,
     val savedPin: String = "",
     val newPin: String = "",
     val currentInput: String = "",

@@ -33,17 +33,20 @@ class AppLockViewModel @Inject constructor(
     fun onEvent(event: AppLockEvent) {
         when (event) {
             is AppLockEvent.OnAppLockEnabledChanged -> onAppLockEnabledChanged(event.isEnabled)
+            is AppLockEvent.OnBiometricEnabledChanged -> onBiometricEnabledChanged(event.isEnabled)
         }
     }
 
     private fun loadAppLockSettings() {
         combine(
             preferencesUseCases.isAppLockEnabled(),
-            preferencesUseCases.getAppLockPin()
-        ) { isAppLockEnable, pin ->
+            preferencesUseCases.getAppLockPin(),
+            preferencesUseCases.isBiometricEnabled()
+        ) { isAppLockEnable, pin, isBiometricEnabled ->
             _state.update {
                 it.copy(
                     isAppLockEnabled = isAppLockEnable,
+                    isBiometricEnabled = isBiometricEnabled,
                     pin = pin,
                     confirmPin = pin
                 )
@@ -64,7 +67,16 @@ class AppLockViewModel @Inject constructor(
             }
 
             preferencesUseCases.enableAppLock(isEnabled)
-            if (!isEnabled) preferencesUseCases.setAppLockPin("")
+            if (!isEnabled) {
+                preferencesUseCases.setAppLockPin("")
+                preferencesUseCases.enableBiometric(false)
+            }
+        }
+    }
+
+    private fun onBiometricEnabledChanged(isEnabled: Boolean) {
+        viewModelScope.launch {
+            preferencesUseCases.enableBiometric(isEnabled)
         }
     }
 

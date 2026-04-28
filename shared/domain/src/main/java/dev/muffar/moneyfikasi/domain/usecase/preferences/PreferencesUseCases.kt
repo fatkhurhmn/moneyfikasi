@@ -18,5 +18,7 @@ data class PreferencesUseCases(
     val isAppLockEnabled: IsAppLockEnabled,
     val enableAppLock: EnableAppLock,
     val getAppLockPin: GetAppLockPin,
-    val setAppLockPin: SetAppLockPin
+    val setAppLockPin: SetAppLockPin,
+    val isBiometricEnabled: IsBiometricEnabled,
+    val enableBiometric: EnableBiometric
 )

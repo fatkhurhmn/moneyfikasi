@@ -40,6 +40,7 @@ dependencies {
     implementation(projects.shared.utils)
 
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.biometric)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.compose)

@@ -39,6 +39,8 @@ import dev.muffar.moneyfikasi.domain.usecase.preferences.IsReportVisible
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.SetAppLockPin
 import dev.muffar.moneyfikasi.domain.usecase.preferences.EnableAppLock
+import dev.muffar.moneyfikasi.domain.usecase.preferences.EnableBiometric
+import dev.muffar.moneyfikasi.domain.usecase.preferences.IsBiometricEnabled
 import dev.muffar.moneyfikasi.domain.usecase.preferences.SetAutoBackupEnabled
 import dev.muffar.moneyfikasi.domain.usecase.preferences.SetAutoBackupPeriod
 import dev.muffar.moneyfikasi.domain.usecase.preferences.SetAutoBackupUri
@@ -153,7 +155,9 @@ object UseCaseModule {
         isAppLockEnabled = IsAppLockEnabled(preferencesRepository),
         enableAppLock = EnableAppLock(preferencesRepository),
         getAppLockPin = GetAppLockPin(preferencesRepository),
-        setAppLockPin = SetAppLockPin(preferencesRepository)
+        setAppLockPin = SetAppLockPin(preferencesRepository),
+        isBiometricEnabled = IsBiometricEnabled(preferencesRepository),
+        enableBiometric = EnableBiometric(preferencesRepository)
     )
 
     @Provides

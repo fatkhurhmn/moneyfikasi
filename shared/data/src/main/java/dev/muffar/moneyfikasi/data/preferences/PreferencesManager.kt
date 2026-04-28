@@ -118,6 +118,16 @@ data class PreferencesManager @Inject constructor(
         it[APP_LOCK_PIN] ?: ""
     }
 
+    suspend fun enableBiometric(enable: Boolean) {
+        datastore.edit {
+            it[BIOMETRIC_ENABLED] = enable
+        }
+    }
+
+    val isBiometricEnabled = datastore.data.map {
+        it[BIOMETRIC_ENABLED] ?: false
+    }
+
     companion object {
         val BALANCE_VISIBILITY = booleanPreferencesKey("balance_visibility")
         val REPORT_VISIBILITY = booleanPreferencesKey("report_visibility")
@@ -130,5 +140,6 @@ data class PreferencesManager @Inject constructor(
         val DELETE_PREVIOUS_BACKUP = booleanPreferencesKey("delete_previous_backup")
         val APP_LOCK = booleanPreferencesKey("app_lock")
         val APP_LOCK_PIN = stringPreferencesKey("app_lock_pin")
+        val BIOMETRIC_ENABLED = booleanPreferencesKey("biometric_enabled")
     }
 }

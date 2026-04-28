@@ -42,7 +42,13 @@ class EnterPinViewModel @Inject constructor(
 
         viewModelScope.launch {
             val savedPin = preferencesUseCases.getAppLockPin().first()
-            _state.update { it.copy(savedPin = savedPin) }
+            val isBiometricEnabled = preferencesUseCases.isBiometricEnabled().first()
+            _state.update {
+                it.copy(
+                    savedPin = savedPin,
+                    isBiometricEnabled = isBiometricEnabled
+                )
+            }
         }
     }
 
@@ -156,6 +162,7 @@ class EnterPinViewModel @Inject constructor(
             viewModelScope.launch {
                 preferencesUseCases.enableAppLock(false)
                 preferencesUseCases.setAppLockPin("")
+                preferencesUseCases.enableBiometric(false)
                 _eventFlow.emit(UiEvent.SavePin)
             }
         } else {

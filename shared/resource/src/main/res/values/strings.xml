@@ -188,4 +188,9 @@
     <string name="enter_current_pin">Enter current PIN</string>
     <string name="enter_new_pin">Enter new PIN</string>
     <string name="confirm_new_pin">Confirm new PIN</string>
+    <string name="biometric">Biometric</string>
+    <string name="biometric_description">Use fingerprint or face to unlock</string>
+    <string name="biometric_unlock">Biometric Unlock</string>
+    <string name="biometric_reason">Unlock Moneyfikasi</string>
+    <string name="use_pin">Use PIN</string>
 </resources>

@@ -17,7 +17,9 @@ import dev.muffar.moneyfikasi.resource.R
 @Composable
 fun EnterPinSection(
     isAppLockEnabled: Boolean,
+    isBiometricEnabled: Boolean,
     onPinEnabled: (Boolean) -> Unit,
+    onBiometricEnabled: (Boolean) -> Unit,
     onChangePinClick: () -> Unit
 ) {
     PrimaryCard {
@@ -29,6 +31,13 @@ fun EnterPinSection(
         )
 
         if (isAppLockEnabled) {
+            CommonSwitch(
+                isEnabled = isBiometricEnabled,
+                onEnabledChange = onBiometricEnabled,
+                title = stringResource(R.string.biometric),
+                description = stringResource(R.string.biometric_description)
+            )
+
             Column(
                 modifier = Modifier
                     .fillMaxWidth()

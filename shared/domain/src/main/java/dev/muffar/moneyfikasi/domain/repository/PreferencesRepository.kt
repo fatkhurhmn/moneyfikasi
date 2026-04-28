@@ -24,4 +24,6 @@ interface PreferencesRepository {
     fun isAppLockEnabled(): Flow<Boolean>
     suspend fun setAppLockPin(pin: String)
     fun getAppLockPin(): Flow<String>
+    suspend fun enableBiometric(enable: Boolean)
+    fun isBiometricEnabled(): Flow<Boolean>
 }

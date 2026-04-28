@@ -22,6 +22,7 @@ fun AppLockScreen(
     state: AppLockState,
     eventFlow: SharedFlow<AppLockViewModel.UiEvent>,
     onAppLockEnabledChanged: (Boolean) -> Unit,
+    onBiometricEnabledChanged: (Boolean) -> Unit,
     onBackClick: () -> Unit,
     onNavigateToEnterPin: (EnterPinType) -> Unit
 ) {
@@ -40,7 +41,9 @@ fun AppLockScreen(
         ) {
             EnterPinSection(
                 isAppLockEnabled = state.isAppLockEnabled,
+                isBiometricEnabled = state.isBiometricEnabled,
                 onPinEnabled = onAppLockEnabledChanged,
+                onBiometricEnabled = onBiometricEnabledChanged,
                 onChangePinClick = { onNavigateToEnterPin(EnterPinType.RESET_PIN) }
             )
         }

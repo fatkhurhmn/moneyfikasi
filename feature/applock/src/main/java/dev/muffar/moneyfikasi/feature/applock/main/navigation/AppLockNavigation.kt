@@ -26,6 +26,7 @@ fun NavGraphBuilder.appLockNavigation(
             state = state,
             eventFlow = eventFlow,
             onAppLockEnabledChanged = { onEvent(AppLockEvent.OnAppLockEnabledChanged(it)) },
+            onBiometricEnabledChanged = { onEvent(AppLockEvent.OnBiometricEnabledChanged(it)) },
             onBackClick = navigateBack,
             onNavigateToEnterPin = { onNavigateToEnterPin(it) }
         )

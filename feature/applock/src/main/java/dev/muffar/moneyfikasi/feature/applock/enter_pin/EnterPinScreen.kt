@@ -15,6 +15,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.biometric.BiometricPrompt
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.pin_input.NumberPad
 import dev.muffar.moneyfikasi.common_ui.component.pin_input.PinDots
@@ -36,6 +40,33 @@ fun EnterPinScreen(
     onEnterPinSuccess: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
+    val executor = remember { ContextCompat.getMainExecutor(context) }
+
+    val biometricPrompt = remember {
+        BiometricPrompt(
+            context as FragmentActivity,
+            executor,
+            object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+                    onEnterPinSuccess()
+                }
+            }
+        )
+    }
+
+    val promptInfo = BiometricPrompt.PromptInfo.Builder()
+        .setTitle(stringResource(R.string.biometric_unlock))
+        .setSubtitle(stringResource(R.string.biometric_reason))
+        .setNegativeButtonText(stringResource(R.string.use_pin))
+        .build()
+
+    LaunchedEffect(state.isBiometricEnabled) {
+        if (state.type == EnterPinType.ENTER_PIN && state.isBiometricEnabled) {
+            biometricPrompt.authenticate(promptInfo)
+        }
+    }
 
     Scaffold(
         topBar = {
