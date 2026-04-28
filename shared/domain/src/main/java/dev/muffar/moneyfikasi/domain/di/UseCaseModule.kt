@@ -30,11 +30,7 @@ import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryById
 import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryByType
 import dev.muffar.moneyfikasi.domain.usecase.category.UpsertCategory
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.BackupSettingsUseCases
-import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.GetAutoBackupPeriod
-import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.GetAutoBackupUri
-import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.GetLatestBackup
-import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.IsAutoBackupEnabled
-import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.IsDeletePreviousBackup
+import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.GetBackupSettings
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetAutoBackupEnabled
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetAutoBackupPeriod
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetAutoBackupUri
@@ -152,15 +148,11 @@ object UseCaseModule {
     fun provideBackupSettingsUseCases(
         backupSettingsRepository: BackupSettingsRepository,
     ) = BackupSettingsUseCases(
-        getLatestBackup = GetLatestBackup(backupSettingsRepository),
+        getBackupSettings = GetBackupSettings(backupSettingsRepository),
         setLatestBackup = SetLatestBackup(backupSettingsRepository),
-        isAutoBackupEnabled = IsAutoBackupEnabled(backupSettingsRepository),
         setAutoBackupEnabled = SetAutoBackupEnabled(backupSettingsRepository),
-        getAutoBackupUri = GetAutoBackupUri(backupSettingsRepository),
         setAutoBackupUri = SetAutoBackupUri(backupSettingsRepository),
-        getAutoBackupPeriod = GetAutoBackupPeriod(backupSettingsRepository),
         setAutoBackupPeriod = SetAutoBackupPeriod(backupSettingsRepository),
-        isDeletePreviousBackup = IsDeletePreviousBackup(backupSettingsRepository),
         setDeletePreviousBackup = SetDeletePreviousBackup(backupSettingsRepository),
     )
 

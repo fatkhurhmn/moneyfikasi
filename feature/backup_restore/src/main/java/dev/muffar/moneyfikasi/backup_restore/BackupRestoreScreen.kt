@@ -75,17 +75,17 @@ fun BackupRestoreScreen(
             )
 
             BackupLatestInfo(
-                fileName = state.latestBackupName,
-                date = state.latestBackupDate,
-                folder = state.latestBackupFolder
+                fileName = state.latestBackup.name,
+                date = state.latestBackup.date,
+                folder = state.latestBackup.folder
             )
 
             AutoBackupSection(
-                isEnabled = state.isAutoBackupEnabled,
+                isEnabled = state.autoBackup.isEnabled,
                 onEnabledChange = onAutoBackupEnabledChange,
-                folderUri = state.autoBackupUri,
+                folderUri = state.autoBackup.uri,
                 onFolderSelected = onAutoBackupFolderSelected,
-                period = state.autoBackupPeriod,
+                period = TimePeriod.valueOf(state.autoBackup.period),
                 onPeriodSelected = onAutoBackupPeriodSelected,
             )
         }

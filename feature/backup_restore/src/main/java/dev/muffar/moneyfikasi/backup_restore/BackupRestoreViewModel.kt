@@ -23,8 +23,8 @@ import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.BackupSettingsUs
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.threeten.bp.Duration
 import org.threeten.bp.LocalDateTime
@@ -46,21 +46,11 @@ class BackupRestoreViewModel @Inject constructor(
     val eventFlow = _eventFlow.asSharedFlow()
 
     init {
-        combine(
-            backupSettingsUseCases.getLatestBackup(),
-            backupSettingsUseCases.isAutoBackupEnabled(),
-            backupSettingsUseCases.getAutoBackupUri(),
-            backupSettingsUseCases.getAutoBackupPeriod(),
-            backupSettingsUseCases.isDeletePreviousBackup()
-        ) { latestBackup, isAutoBackupEnabled, autoBackupUri, autoBackupPeriod, isDeletePreviousBackup ->
+        backupSettingsUseCases.getBackupSettings().onEach { settings ->
             _state.value = _state.value.copy(
-                latestBackupName = latestBackup.name,
-                latestBackupDate = latestBackup.date,
-                latestBackupFolder = latestBackup.folder,
-                isAutoBackupEnabled = isAutoBackupEnabled,
-                autoBackupUri = autoBackupUri,
-                autoBackupPeriod = autoBackupPeriod,
-                isDeletePreviousBackup = isDeletePreviousBackup
+                latestBackup = settings.latestBackup,
+                autoBackup = settings.autoBackup,
+                isDeletePreviousBackup = settings.isDeletePreviousBackup
             )
         }.launchIn(viewModelScope)
     }
@@ -79,18 +69,19 @@ class BackupRestoreViewModel @Inject constructor(
     private fun backupData(uri: Uri) {
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
-            val previousBackup = LatestBackup(
-                name = _state.value.latestBackupName,
-                date = _state.value.latestBackupDate,
-                folder = _state.value.latestBackupFolder
-            )
+            val previousBackup = _state.value.latestBackup
             delay(200)
             backupRestoreUseCases.backupData(uri)
                 .onSuccess { fileName ->
                     if (_state.value.isDeletePreviousBackup && previousBackup.name.isNotEmpty() && previousBackup.folder.isNotEmpty()) {
                         backupRestoreUseCases.deleteBackup(previousBackup)
                     }
-                    backupSettingsUseCases.setLatestBackup(fileName, System.currentTimeMillis(), uri.toString())
+                    val latestBackup = LatestBackup(
+                        name = fileName,
+                        date = System.currentTimeMillis(),
+                        folder = uri.toString()
+                    )
+                    backupSettingsUseCases.setLatestBackup(latestBackup)
                     _eventFlow.emit(UiEvent.ShowMessage("Backup success", SnackbarType.SUCCESS))
                 }
                 .onFailure {
@@ -145,7 +136,7 @@ class BackupRestoreViewModel @Inject constructor(
                 )
             }
             backupSettingsUseCases.setAutoBackupUri(uri.toString())
-            if (_state.value.isAutoBackupEnabled) {
+            if (_state.value.autoBackup.isEnabled) {
                 scheduleBackup(uri = uri.toString())
             }
         }
@@ -154,7 +145,7 @@ class BackupRestoreViewModel @Inject constructor(
     private fun setAutoBackupPeriod(period: TimePeriod) {
         viewModelScope.launch {
             backupSettingsUseCases.setAutoBackupPeriod(period)
-            if (_state.value.isAutoBackupEnabled) {
+            if (_state.value.autoBackup.isEnabled) {
                 scheduleBackup(period = period)
             }
         }
@@ -167,9 +158,9 @@ class BackupRestoreViewModel @Inject constructor(
     }
 
     private fun scheduleBackup(
-        isEnabled: Boolean = _state.value.isAutoBackupEnabled,
-        uri: String = _state.value.autoBackupUri,
-        period: TimePeriod = _state.value.autoBackupPeriod
+        isEnabled: Boolean = _state.value.autoBackup.isEnabled,
+        uri: String = _state.value.autoBackup.uri,
+        period: TimePeriod = TimePeriod.valueOf(_state.value.autoBackup.period)
     ) {
         if (!isEnabled || uri.isEmpty()) return
 

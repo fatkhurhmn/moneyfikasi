@@ -1,14 +1,11 @@
 package dev.muffar.moneyfikasi.backup_restore
 
-import dev.muffar.moneyfikasi.domain.model.TimePeriod
+import dev.muffar.moneyfikasi.domain.model.AutoBackup
+import dev.muffar.moneyfikasi.domain.model.LatestBackup
 
 data class BackupRestoreState(
-    val latestBackupName: String = "",
-    val latestBackupDate: Long = 0L,
-    val latestBackupFolder: String = "",
-    val isAutoBackupEnabled: Boolean = false,
-    val autoBackupUri: String = "",
-    val autoBackupPeriod: TimePeriod = TimePeriod.DAILY,
+    val latestBackup: LatestBackup = LatestBackup(),
+    val autoBackup: AutoBackup = AutoBackup(),
     val isDeletePreviousBackup: Boolean = true,
     val isLoading: Boolean = false,
 )

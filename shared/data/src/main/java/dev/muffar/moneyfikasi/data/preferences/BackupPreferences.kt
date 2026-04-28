@@ -2,67 +2,39 @@ package dev.muffar.moneyfikasi.data.preferences
 
 import androidx.datastore.core.DataStore
 import dev.muffar.moneyfikasi.domain.model.BackupSettings
+import dev.muffar.moneyfikasi.domain.model.LatestBackup
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class BackupPreferences @Inject constructor(
     private val dataStore: DataStore<BackupSettings>,
 ) {
-    suspend fun setLatestBackup(fileName: String, date: Long, folder: String) {
-        dataStore.updateData {
-            it.copy(
-                latestBackupName = fileName,
-                latestBackupDate = date,
-                latestBackupFolder = folder
-            )
-        }
+    val backupSettings: Flow<BackupSettings> = dataStore.data
+
+    suspend fun saveBackupSettings(settings: BackupSettings) {
+        dataStore.updateData { settings }
     }
 
-    val latestBackupName: Flow<String> = dataStore.data.map {
-        it.latestBackupName
-    }
-
-    val latestBackupDate: Flow<Long> = dataStore.data.map {
-        it.latestBackupDate
-    }
-
-    val latestBackupFolder: Flow<String> = dataStore.data.map {
-        it.latestBackupFolder
+    suspend fun setLatestBackup(latestBackup: LatestBackup) {
+        dataStore.updateData { it.copy(latestBackup = latestBackup) }
     }
 
     suspend fun setAutoBackupEnabled(isEnabled: Boolean) {
         dataStore.updateData {
-            it.copy(isAutoBackupEnabled = isEnabled)
+            it.copy(autoBackup = it.autoBackup.copy(isEnabled = isEnabled))
         }
-    }
-
-    val isAutoBackupEnabled: Flow<Boolean> = dataStore.data.map {
-        it.isAutoBackupEnabled
     }
 
     suspend fun setAutoBackupUri(uri: String) {
         dataStore.updateData {
-            it.copy(autoBackupUri = uri)
+            it.copy(autoBackup = it.autoBackup.copy(uri = uri))
         }
-    }
-
-    val autoBackupUri: Flow<String> = dataStore.data.map {
-        it.autoBackupUri
     }
 
     suspend fun setAutoBackupPeriod(period: TimePeriod) {
         dataStore.updateData {
-            it.copy(autoBackupPeriod = period.name)
-        }
-    }
-
-    val autoBackupPeriod: Flow<TimePeriod> = dataStore.data.map {
-        try {
-            TimePeriod.valueOf(it.autoBackupPeriod)
-        } catch (_: Exception) {
-            TimePeriod.DAILY
+            it.copy(autoBackup = it.autoBackup.copy(period = period.name))
         }
     }
 
@@ -70,9 +42,5 @@ class BackupPreferences @Inject constructor(
         dataStore.updateData {
             it.copy(isDeletePreviousBackup = isEnabled)
         }
-    }
-
-    val isDeletePreviousBackup: Flow<Boolean> = dataStore.data.map {
-        it.isDeletePreviousBackup
     }
 }

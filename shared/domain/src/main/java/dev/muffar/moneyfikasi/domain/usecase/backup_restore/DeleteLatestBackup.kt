@@ -15,7 +15,7 @@ class DeleteLatestBackup(
 
         return backupRestoreRepository.deleteBackup(latestBackup)
             .onSuccess {
-                backupSettingsRepository.setLatestBackup("", 0L, "")
+                backupSettingsRepository.setLatestBackup(LatestBackup())
             }
     }
 }

@@ -4,11 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class BackupSettings(
-    val latestBackupName: String = "",
-    val latestBackupDate: Long = 0L,
-    val latestBackupFolder: String = "",
-    val isAutoBackupEnabled: Boolean = false,
-    val autoBackupUri: String = "",
-    val autoBackupPeriod: String = TimePeriod.DAILY.name,
+    val latestBackup: LatestBackup = LatestBackup(),
+    val autoBackup: AutoBackup = AutoBackup(),
     val isDeletePreviousBackup: Boolean = true
 )
