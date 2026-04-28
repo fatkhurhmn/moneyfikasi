@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RootViewModel @Inject constructor(
+class MainViewModel @Inject constructor(
     private val preferencesUseCases: PreferencesUseCases,
 ) : ViewModel() {
 

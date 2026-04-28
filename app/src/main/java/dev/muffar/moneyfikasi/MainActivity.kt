@@ -20,7 +20,7 @@ import dev.muffar.moneyfikasi.navigation.Screen
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val viewModel: RootViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize(),
                         color = MaterialTheme.colorScheme.background
                     ) {
-                        MoneyfikasiApp(
+                        MainScreen(
                             navController = rememberNavController(),
                             startDestination = startDestination
                         )

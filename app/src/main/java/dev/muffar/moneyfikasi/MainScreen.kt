@@ -15,7 +15,7 @@ import dev.muffar.moneyfikasi.transaction.add_edit.navigation.toAddEditTransacti
 import dev.muffar.moneyfikasi.transaction.transfer.navigation.toTransferTransactionScreen
 
 @Composable
-fun MoneyfikasiApp(
+fun MainScreen(
     navController: NavHostController,
     startDestination: String,
 ) {
@@ -51,7 +51,7 @@ fun MoneyfikasiApp(
                 .padding(it)
                 .consumeWindowInsets(it)
         ) {
-            RootNavigation(
+            MainNavigation(
                 navController = navController,
                 startDestination = startDestination
             )
