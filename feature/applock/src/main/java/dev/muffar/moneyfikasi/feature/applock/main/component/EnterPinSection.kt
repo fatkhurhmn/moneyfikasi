@@ -18,6 +18,7 @@ import dev.muffar.moneyfikasi.resource.R
 fun EnterPinSection(
     isAppLockEnabled: Boolean,
     isBiometricEnabled: Boolean,
+    isBiometricSupported: Boolean,
     onPinEnabled: (Boolean) -> Unit,
     onBiometricEnabled: (Boolean) -> Unit,
     onChangePinClick: () -> Unit
@@ -31,12 +32,14 @@ fun EnterPinSection(
         )
 
         if (isAppLockEnabled) {
-            CommonSwitch(
-                isEnabled = isBiometricEnabled,
-                onEnabledChange = onBiometricEnabled,
-                title = stringResource(R.string.biometric),
-                description = stringResource(R.string.biometric_description)
-            )
+            if (isBiometricSupported) {
+                CommonSwitch(
+                    isEnabled = isBiometricEnabled,
+                    onEnabledChange = onBiometricEnabled,
+                    title = stringResource(R.string.biometric),
+                    description = stringResource(R.string.biometric_description)
+                )
+            }
 
             Column(
                 modifier = Modifier

@@ -5,6 +5,7 @@ import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 data class AppLockState(
     val isAppLockEnabled: Boolean = false,
     val isBiometricEnabled: Boolean = false,
+    val isBiometricSupported: Boolean = false,
     val pin: String = "",
     val confirmPin: String = "",
     val isLoading: Boolean = false,

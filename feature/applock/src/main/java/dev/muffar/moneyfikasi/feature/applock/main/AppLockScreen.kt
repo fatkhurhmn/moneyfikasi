@@ -42,6 +42,7 @@ fun AppLockScreen(
             EnterPinSection(
                 isAppLockEnabled = state.isAppLockEnabled,
                 isBiometricEnabled = state.isBiometricEnabled,
+                isBiometricSupported = state.isBiometricSupported,
                 onPinEnabled = onAppLockEnabledChanged,
                 onBiometricEnabled = onBiometricEnabledChanged,
                 onChangePinClick = { onNavigateToEnterPin(EnterPinType.RESET_PIN) }

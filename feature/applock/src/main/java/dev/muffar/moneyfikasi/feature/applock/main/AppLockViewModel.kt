@@ -1,8 +1,13 @@
 package dev.muffar.moneyfikasi.feature.applock.main
 
+import android.content.Context
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
+import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.muffar.moneyfikasi.domain.model.EnterPinType
 import dev.muffar.moneyfikasi.domain.usecase.preferences.PreferencesUseCases
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -18,6 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AppLockViewModel @Inject constructor(
     private val preferencesUseCases: PreferencesUseCases,
+    @param:ApplicationContext private val context: Context,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(AppLockState())
@@ -27,6 +33,7 @@ class AppLockViewModel @Inject constructor(
     val eventFlow = _eventFlow.asSharedFlow()
 
     init {
+        checkBiometricSupport()
         loadAppLockSettings()
     }
 
@@ -35,6 +42,15 @@ class AppLockViewModel @Inject constructor(
             is AppLockEvent.OnAppLockEnabledChanged -> onAppLockEnabledChanged(event.isEnabled)
             is AppLockEvent.OnBiometricEnabledChanged -> onBiometricEnabledChanged(event.isEnabled)
         }
+    }
+
+    private fun checkBiometricSupport() {
+        val biometricManager = BiometricManager.from(context)
+        val isSupported = when (biometricManager.canAuthenticate(BIOMETRIC_STRONG or DEVICE_CREDENTIAL)) {
+            BiometricManager.BIOMETRIC_SUCCESS -> true
+            else -> false
+        }
+        _state.update { it.copy(isBiometricSupported = isSupported) }
     }
 
     private fun loadAppLockSettings() {
