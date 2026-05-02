@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.component.transaction_item.ItemCategoryIcon
+import dev.muffar.moneyfikasi.common_ui.component.icon.BoxedIcon
 import dev.muffar.moneyfikasi.domain.model.Preset
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import java.util.UUID
@@ -34,7 +34,10 @@ fun PresetItem(
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        ItemCategoryIcon(category = preset.category)
+        BoxedIcon(
+            icon = preset.category?.icon,
+            color = preset.category?.color
+        )
         Spacer(modifier = Modifier.width(16.dp))
         Column(
             modifier = Modifier.weight(1f)

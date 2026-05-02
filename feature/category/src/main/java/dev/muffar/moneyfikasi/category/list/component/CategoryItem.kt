@@ -16,7 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.component.transaction_item.ItemCategoryIcon
+import dev.muffar.moneyfikasi.common_ui.component.icon.BoxedIcon
 import dev.muffar.moneyfikasi.domain.model.Category
 
 @Composable
@@ -37,7 +37,10 @@ fun CategoryItem(
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ItemCategoryIcon(category = category)
+            BoxedIcon(
+                icon = category.icon,
+                color = category.color
+            )
             Spacer(modifier = Modifier.width(16.dp))
             Text(text = category.name, style = MaterialTheme.typography.bodyLarge)
         }

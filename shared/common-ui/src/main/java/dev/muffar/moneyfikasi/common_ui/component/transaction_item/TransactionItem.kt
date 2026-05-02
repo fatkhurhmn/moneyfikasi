@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.muffar.moneyfikasi.common_ui.component.icon.BoxedIcon
 import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.model.TransactionType
@@ -51,7 +52,10 @@ fun TransactionItem(
             } else {
                 transaction.date.format(DateTimeFormatter.ofPattern("H:mm"))
             }
-            ItemCategoryIcon(transaction.category)
+            BoxedIcon(
+                icon = transaction.category.icon,
+                color = transaction.category.color
+            )
             Spacer(modifier = Modifier.width(8.dp))
             Column {
                 Text(

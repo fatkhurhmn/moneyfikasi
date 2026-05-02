@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.icon.BoxedIcon
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
@@ -27,9 +28,10 @@ fun IconFieldButton(
             style = MaterialTheme.typography.labelLarge
         )
         Spacer(modifier = Modifier.height(4.dp))
-        IconPickerButton(
+        BoxedIcon(
             icon = icon,
             color = color,
+            containerSize = 50.dp,
             onClick = onIconClick
         )
     }

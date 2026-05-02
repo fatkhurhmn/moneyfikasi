@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.button.CommonFilterChip
-import dev.muffar.moneyfikasi.common_ui.component.IconByName
+import dev.muffar.moneyfikasi.common_ui.component.icon.IconByName
 import dev.muffar.moneyfikasi.domain.model.Wallet
 
 @Composable

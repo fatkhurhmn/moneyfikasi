@@ -25,7 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.muffar.moneyfikasi.common_ui.component.IconByName
+import dev.muffar.moneyfikasi.common_ui.component.icon.IconByName
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable

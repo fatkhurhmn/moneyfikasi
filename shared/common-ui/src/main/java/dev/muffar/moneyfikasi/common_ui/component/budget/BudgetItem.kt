@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.muffar.moneyfikasi.common_ui.component.transaction_item.ItemCategoryIcon
+import dev.muffar.moneyfikasi.common_ui.component.icon.BoxedIcon
 import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 import dev.muffar.moneyfikasi.domain.model.Budget
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
@@ -49,8 +49,9 @@ fun BudgetItem(
             .height(70.dp)
             .then(modifier)
     ) {
-        ItemCategoryIcon(
-            category = budget.category,
+        BoxedIcon(
+            icon = budget.category.icon,
+            color = budget.category.color,
             modifier = Modifier
                 .fillMaxHeight()
                 .aspectRatio(1f)

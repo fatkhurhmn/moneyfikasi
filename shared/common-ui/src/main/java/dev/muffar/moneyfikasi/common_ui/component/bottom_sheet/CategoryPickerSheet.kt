@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
 import dev.muffar.moneyfikasi.common_ui.component.button.DoubleOutlinedButton
-import dev.muffar.moneyfikasi.common_ui.component.transaction_item.ItemCategoryIcon
+import dev.muffar.moneyfikasi.common_ui.component.icon.BoxedIcon
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.launch
@@ -108,7 +108,10 @@ private fun CategoryOptionItem(
             .padding(horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        ItemCategoryIcon(category)
+        BoxedIcon(
+            icon = category.icon,
+            color = category.color
+        )
         Spacer(modifier = Modifier.width(8.dp))
         Text(text = category.name)
     }

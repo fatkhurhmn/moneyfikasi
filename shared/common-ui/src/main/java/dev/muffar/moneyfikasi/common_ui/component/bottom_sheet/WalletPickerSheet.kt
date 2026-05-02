@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
 import dev.muffar.moneyfikasi.common_ui.component.button.DoubleOutlinedButton
-import dev.muffar.moneyfikasi.common_ui.component.transaction_item.ItemWalletIcon
+import dev.muffar.moneyfikasi.common_ui.component.icon.BoxedIcon
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
@@ -111,7 +111,10 @@ private fun WalletOptionItem(
             .padding(horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        ItemWalletIcon(wallet)
+        BoxedIcon(
+            icon = wallet.icon,
+            color = wallet.color
+        )
         Spacer(modifier = Modifier.width(8.dp))
         Column {
             Text(text = wallet.name)
