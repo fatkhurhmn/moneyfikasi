@@ -41,13 +41,18 @@ class TransactionDetailViewModel @Inject constructor(
     }
 
     private fun onInitData() {
-        val isTransfer = handle.get<Boolean>(Screen.TransactionDetail.IS_TRANSFER) ?: false
-        val transactionId = handle.get<String>(Screen.TransactionDetail.TRANSACTION_ID)
-            ?.let { UUID.fromString(it) } ?: return
-
         viewModelScope.launch {
+            val isTransfer = handle.get<Boolean>(Screen.TransactionDetail.IS_TRANSFER) ?: false
+            val transactionId = handle.get<String>(Screen.TransactionDetail.TRANSACTION_ID)
+                ?.let { UUID.fromString(it) } ?: return@launch _eventFlow.emit(UiEvent.NavigateBack)
+
             if (isTransfer) {
-                transactionUseCases.getTransferDetail(transactionId)?.let {
+                transactionUseCases.getTransferDetail(transactionId).let {
+                    if (it == null) {
+                        _eventFlow.emit(UiEvent.NavigateBack)
+                        return@let
+                    }
+
                     _state.update { state ->
                         state.copy(
                             transactionId = transactionId,
@@ -56,7 +61,12 @@ class TransactionDetailViewModel @Inject constructor(
                     }
                 }
             } else {
-                transactionUseCases.getTransactionById(transactionId)?.let {
+                transactionUseCases.getTransactionById(transactionId).let {
+                    if (it == null) {
+                        _eventFlow.emit(UiEvent.NavigateBack)
+                        return@let
+                    }
+
                     _state.update { state ->
                         state.copy(
                             transactionId = transactionId,
@@ -106,5 +116,6 @@ class TransactionDetailViewModel @Inject constructor(
     sealed class UiEvent {
         data object DeleteTransaction : UiEvent()
         data class ShowMessage(val message: String, val type: SnackbarType) : UiEvent()
+        data object NavigateBack : UiEvent()
     }
 }

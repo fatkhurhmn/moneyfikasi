@@ -122,6 +122,7 @@ fun TransactionDetailScreen(
                     it.message,
                     it.type
                 )
+                is TransactionDetailViewModel.UiEvent.NavigateBack -> onBackClick()
             }
         }
     }
