@@ -44,7 +44,7 @@ fun IncomeExpenseTabHeader(
     Box(
         modifier = modifier
             .clip(CircleShape)
-            .border(0.8f.dp, border, CircleShape)
+            .border(1.dp, border, CircleShape)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth()
@@ -59,7 +59,9 @@ fun IncomeExpenseTabHeader(
 
                 Box(
                     modifier = Modifier
+                        .padding(4.dp)
                         .weight(1f)
+                        .clip(CircleShape)
                         .background(bgColor)
                         .clickable { onTabSelected(index) }
                         .padding(vertical = 8.dp),
@@ -68,7 +70,7 @@ fun IncomeExpenseTabHeader(
                     Text(
                         text = title.capitalize(),
                         color = textColor,
-                        style = MaterialTheme.typography.labelMedium
+                        style = MaterialTheme.typography.labelLarge
                     )
                 }
             }
