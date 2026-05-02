@@ -59,7 +59,7 @@ fun IncomeExpenseTabHeader(
 
                 Box(
                     modifier = Modifier
-                        .padding(4.dp)
+                        .padding(3.dp)
                         .weight(1f)
                         .clip(CircleShape)
                         .background(bgColor)
