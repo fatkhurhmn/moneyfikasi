@@ -6,24 +6,18 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextRange
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.text_input.AmountInput
-import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
+import dev.muffar.moneyfikasi.common_ui.component.text_input.BasicAmountInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.DateInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.TimeInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.WalletInput
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.transfer.TransferTransactionState
-import dev.muffar.moneyfikasi.utils.extensions.StringExt.filterAmount
 
 @Composable
 fun TransferTransactionForm(
@@ -65,16 +59,11 @@ fun TransferTransactionForm(
             onAddNewWalletClick = onAddNewWalletClick
         )
 
-        CommonTextInput(
-            modifier = Modifier.fillMaxWidth(),
-            value = TextFieldValue(state.fee, TextRange(state.fee.length)),
-            onValueChange = { it.text.filterAmount()?.let(onAdminFeeChange) },
+        BasicAmountInput(
+            amount = state.fee,
             label = stringResource(R.string.admin_fee),
             placeholder = stringResource(R.string.enter_admin_fee),
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done,
-                keyboardType = KeyboardType.Number
-            )
+            onAmountChange = onAdminFeeChange,
         )
 
         Row {

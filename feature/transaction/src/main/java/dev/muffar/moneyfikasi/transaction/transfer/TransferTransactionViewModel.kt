@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.transaction.transfer
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -182,6 +183,7 @@ class TransferTransactionViewModel @Inject constructor(
                 }
                 _eventFlow.emit(UiEvent.SaveTransaction)
             } catch (e: Exception) {
+                Log.e("TransferTransactionViewModel", "Error saving transaction: ${e.message}")
                 _eventFlow.emit(UiEvent.ShowMessage(e.message ?: "", SnackbarType.ERROR))
             }
         }

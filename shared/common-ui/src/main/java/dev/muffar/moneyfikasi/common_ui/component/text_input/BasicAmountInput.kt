@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.wallet.add_edit.component
+package dev.muffar.moneyfikasi.common_ui.component.text_input
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
@@ -9,28 +9,31 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
-import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
+import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.filterAmount
-import java.util.UUID
 
 @Composable
-fun WalletBalanceInput(
-    id: UUID? = null,
-    balance: String,
-    onBalanceChange: (String) -> Unit
+fun BasicAmountInput(
+    amount: String,
+    onAmountChange: (String) -> Unit,
+    label: String = stringResource(R.string.amount),
+    placeholder: String = stringResource(R.string.enter_amount),
+    error: ErrorMessage = ErrorMessage(),
+    imeAction: ImeAction = ImeAction.Done,
+    enabled: Boolean = true
 ) {
     CommonTextInput(
         modifier = Modifier.fillMaxWidth(),
-        value = TextFieldValue(balance, TextRange(balance.length)),
-        onValueChange = { it.text.filterAmount()?.let(onBalanceChange) },
-        label = stringResource(R.string.balance),
-        placeholder = stringResource(R.string.enter_wallet_balance),
+        value = TextFieldValue(amount, TextRange(amount.length)),
+        onValueChange = { it.text.filterAmount()?.let(onAmountChange) },
+        label = label,
+        placeholder = placeholder,
         keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Done,
+            imeAction = imeAction,
             keyboardType = KeyboardType.Number
         ),
-        enabled = id == null,
-        readOnly = id != null
+        error = error,
+        enabled = enabled
     )
 }

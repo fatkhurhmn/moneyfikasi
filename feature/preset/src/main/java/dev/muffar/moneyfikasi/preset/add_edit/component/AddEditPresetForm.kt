@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.tabs.IncomeExpenseTabHeader
-import dev.muffar.moneyfikasi.common_ui.component.text_input.AmountInput
+import dev.muffar.moneyfikasi.common_ui.component.text_input.BasicAmountInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CategoryInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.DescriptionInput
@@ -56,10 +56,9 @@ fun AddEditPresetForm(
             onDescriptionChange = onDescriptionChange
         )
 
-        AmountInput(
+        BasicAmountInput(
             amount = state.amount,
             onAmountChange = onAmountChange,
-            onClear = { onAmountChange("0") }
         )
 
         CategoryInput(

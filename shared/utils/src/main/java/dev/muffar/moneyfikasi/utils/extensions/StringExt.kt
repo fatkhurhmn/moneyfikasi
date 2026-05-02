@@ -17,7 +17,7 @@ object StringExt {
             val parsedValue = if (filtered.isNotBlank()) {
                 filtered.clearThousandFormat().toDouble().formatThousand()
             } else {
-                ""
+                "0"
             }
             parsedValue
         } else {

@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.text_input.BasicAmountInput
+import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.wallet.add_edit.AddEditWalletState
 
 @Composable
@@ -35,10 +38,12 @@ fun AddEditWalletForm(
             error = state.nameError
         )
 
-        WalletBalanceInput(
-            id = state.id,
-            balance = state.balance,
-            onBalanceChange = onBalanceChange
+        BasicAmountInput(
+            amount = state.balance,
+            onAmountChange = onBalanceChange,
+            label = stringResource(R.string.balance),
+            placeholder = stringResource(R.string.enter_wallet_balance),
+            enabled = state.id == null,
         )
 
         WalletIconAndColorInput(
