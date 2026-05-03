@@ -16,7 +16,7 @@ fun CommonOutlinedButton(
     text: String,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    color: Color = MaterialTheme.colorScheme.primary,
+    color: Color = MaterialTheme.colorScheme.onSurface,
     style: TextStyle = MaterialTheme.typography.titleMedium,
     onClick: () -> Unit
 ) {
@@ -28,7 +28,7 @@ fun CommonOutlinedButton(
         colors = ButtonDefaults.outlinedButtonColors(
             contentColor = color
         ),
-        border = BorderStroke(1.dp, color)
+        border = BorderStroke(1.5.dp, color)
     ) {
         Text(text, style = style)
     }

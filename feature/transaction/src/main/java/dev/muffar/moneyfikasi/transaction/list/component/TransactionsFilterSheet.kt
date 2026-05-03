@@ -61,6 +61,7 @@ fun TransactionsFilterSheet(
         sheetGesturesEnabled = false
     ) {
         Scaffold(
+            containerColor = MaterialTheme.colorScheme.surface,
             topBar = {
                 BottomSheetTitle(stringResource(R.string.filter))
             },

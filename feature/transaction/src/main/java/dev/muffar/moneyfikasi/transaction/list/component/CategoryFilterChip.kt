@@ -22,7 +22,7 @@ fun CategoryFilterChip(
             IconByName(
                 name = category.icon,
                 tint = if (isSelect) {
-                    MaterialTheme.colorScheme.primary
+                    MaterialTheme.colorScheme.onSurface
                 } else {
                     MaterialTheme.colorScheme.onSurfaceVariant
                 },

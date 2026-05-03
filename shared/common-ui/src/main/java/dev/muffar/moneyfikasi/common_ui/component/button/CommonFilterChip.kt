@@ -8,7 +8,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 
 @Composable
 fun CommonFilterChip(
@@ -28,10 +27,10 @@ fun CommonFilterChip(
         },
         leadingIcon = leadingIcon,
         colors = FilterChipDefaults.filterChipColors(
-            selectedContainerColor = MoneyfikasiTheme.financeColors.brandContainer.copy(alpha = 0.5f),
+            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
             containerColor = MaterialTheme.colorScheme.surface,
             labelColor = MaterialTheme.colorScheme.onSurface,
-            selectedLabelColor = MaterialTheme.colorScheme.primary,
+            selectedLabelColor = MaterialTheme.colorScheme.onSurface,
         ),
         shape = CircleShape,
         border = BorderStroke(

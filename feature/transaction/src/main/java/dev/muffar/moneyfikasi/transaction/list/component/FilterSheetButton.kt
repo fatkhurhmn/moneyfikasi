@@ -1,8 +1,10 @@
 package dev.muffar.moneyfikasi.transaction.list.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -18,23 +20,26 @@ fun FilterSheetButton(
     onResetClick: () -> Unit,
     onApplyClick: () -> Unit,
 ) {
-    CommonHorizontalDivider()
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-    ) {
-        DoubleOutlinedButton(
-            modifier = Modifier.fillMaxWidth(),
-            leftText = stringResource(R.string.cancel),
-            rightText = stringResource(R.string.reset),
-            onLeftClick = onCancelClick,
-            onRightClick = onResetClick
-        )
-        CommonButton(
-            modifier = Modifier.fillMaxWidth(),
-            text = stringResource(R.string.apply),
-            onClick = onApplyClick
-        )
+    Column {
+        CommonHorizontalDivider()
+        Column(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.surface)
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+        ) {
+            DoubleOutlinedButton(
+                modifier = Modifier.fillMaxWidth(),
+                leftText = stringResource(R.string.cancel),
+                rightText = stringResource(R.string.reset),
+                onLeftClick = onCancelClick,
+                onRightClick = onResetClick
+            )
+            CommonButton(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(R.string.apply),
+                onClick = onApplyClick
+            )
+        }
     }
 }
