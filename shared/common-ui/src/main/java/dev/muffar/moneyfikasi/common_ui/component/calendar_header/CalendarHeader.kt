@@ -1,7 +1,9 @@
 package dev.muffar.moneyfikasi.common_ui.component.calendar_header
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -26,38 +28,43 @@ fun CalendarHeader(
     onPreviousClick: () -> Unit = {},
     onNextClick: () -> Unit = {},
 ) {
-    Row(
+    Box(
         modifier = Modifier
-            .padding(horizontal = 8.dp, vertical = 4.dp)
-            .fillMaxWidth()
-            .clip(CircleShape)
-            .border(1.dp, MaterialTheme.colorScheme.primary, CircleShape),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+            .background(MaterialTheme.colorScheme.surface)
+            .padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 8.dp)
     ) {
-        IconButton(
-            onClick = onPreviousClick,
-            enabled = enableButton
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(CircleShape)
+                .border(1.5.dp, MaterialTheme.colorScheme.primary, CircleShape),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                imageVector = Icons.Rounded.ChevronLeft,
-                contentDescription = null
-            )
-        }
+            IconButton(
+                onClick = onPreviousClick,
+                enabled = enableButton
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.ChevronLeft,
+                    contentDescription = null
+                )
+            }
 
-        Text(
-            text = title,
-            modifier = Modifier.padding(4.dp)
-        )
-
-        IconButton(
-            onClick = onNextClick,
-            enabled = enableButton
-        ) {
-            Icon(
-                imageVector = Icons.Rounded.ChevronRight,
-                contentDescription = null,
+            Text(
+                text = title,
+                modifier = Modifier.padding(4.dp)
             )
+
+            IconButton(
+                onClick = onNextClick,
+                enabled = enableButton
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.ChevronRight,
+                    contentDescription = null,
+                )
+            }
         }
     }
 }
