@@ -3,6 +3,7 @@ package dev.muffar.moneyfikasi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,6 +32,7 @@ fun MainScreen(
     val isBottomNavVisible = mainRoute.contains(currentRoute)
 
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.surface,
         bottomBar = {
             if (isBottomNavVisible) {
                 MainBottomNav(

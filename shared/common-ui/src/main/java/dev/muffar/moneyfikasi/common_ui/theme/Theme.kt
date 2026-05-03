@@ -6,6 +6,9 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowCompat
 import dev.muffar.moneyfikasi.common_ui.theme.color.FinanceColors
 import dev.muffar.moneyfikasi.common_ui.theme.color.LocalFinanceColors
 import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
@@ -97,6 +100,15 @@ fun MoneyfikasiTheme(
     content: @Composable () -> Unit,
 ) {
     val colorScheme = if (darkTheme) MoneyfikasiDarkColorScheme else MoneyfikasiLightColorScheme
+
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        SideEffect {
+            val window = (view.context as android.app.Activity).window
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
+            WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars = !darkTheme
+        }
+    }
 
     val financeColors = if (darkTheme) {
         FinanceColors(
