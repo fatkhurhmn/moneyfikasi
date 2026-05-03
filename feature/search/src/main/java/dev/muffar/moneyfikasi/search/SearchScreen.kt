@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.search
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -38,7 +39,10 @@ fun SearchScreen(
     Scaffold(
         topBar = {
             SearchBar(
-                modifier = Modifier.fillMaxWidth().padding(16.dp),
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.surface)
+                    .fillMaxWidth()
+                    .padding(16.dp),
                 searchQuery = state.searchQuery ?: "",
                 onBackClick = onBackClick,
                 onQueryChange = onQueryChange,
