@@ -1,6 +1,5 @@
 package dev.muffar.moneyfikasi.common_ui.component.transaction_item
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -18,13 +17,12 @@ import dev.muffar.moneyfikasi.domain.model.Wallet
 @Composable
 fun ItemWalletCard(
     wallet: Wallet,
-    textStyle: TextStyle = MaterialTheme.typography.bodyMedium
+    textStyle: TextStyle = MaterialTheme.typography.bodySmall
 ) {
     Card(
         colors = CardDefaults.cardColors(
             containerColor = Color(wallet.color).copy(alpha = 0.1f),
         ),
-        border = BorderStroke(0.5f.dp, Color(wallet.color)),
         shape = RoundedCornerShape(4.dp),
     ) {
         Text(

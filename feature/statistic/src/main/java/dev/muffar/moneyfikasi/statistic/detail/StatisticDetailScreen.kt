@@ -24,7 +24,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
-import dev.muffar.moneyfikasi.common_ui.component.GroupTransactionHeaderV2
+import dev.muffar.moneyfikasi.common_ui.component.GroupTransactionHeader
 import dev.muffar.moneyfikasi.common_ui.component.transaction_item.TransactionItem
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.domain.model.TransactionType
@@ -98,7 +98,7 @@ fun StatisticDetailScreen(
                         onGetDailySum(transaction.date)
                     }
                     val balance by dailySumFlow.collectAsState(initial = 0.0)
-                    GroupTransactionHeaderV2(date = transaction.date, balanceOnDate = balance)
+                    GroupTransactionHeader(date = transaction.date, balanceOnDate = balance)
                     CommonHorizontalDivider()
                 }
 

@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -15,7 +17,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemKey
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
-import dev.muffar.moneyfikasi.common_ui.component.GroupTransactionHeaderV2
+import dev.muffar.moneyfikasi.common_ui.component.GroupTransactionHeader
 import dev.muffar.moneyfikasi.common_ui.component.transaction_item.TransactionItem
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.format
@@ -30,7 +32,7 @@ fun TransactionsList(
     onGetDailyBalance: (LocalDateTime) -> Flow<Double>
 ) {
     LazyColumn(
-        contentPadding = PaddingValues(bottom = 54.dp)
+        contentPadding = PaddingValues(bottom = 54.dp),
     ) {
         items(
             count = transactions.itemCount,
@@ -47,7 +49,7 @@ fun TransactionsList(
                     onGetDailyBalance(transaction.date)
                 }
                 val balance by dailyBalanceFlow.collectAsState(initial = 0.0)
-                GroupTransactionHeaderV2(date = transaction.date, balance)
+                GroupTransactionHeader(date = transaction.date, balance)
                 CommonHorizontalDivider()
             }
 
@@ -64,7 +66,10 @@ fun TransactionsList(
                     transaction.date.format("yyyy-MM-dd") != nextTransaction.date.format("yyyy-MM-dd")
 
             if (isEndOfDay){
-                CommonHorizontalDivider(8.dp)
+                HorizontalDivider(
+                    thickness = 8.dp,
+                    color = MaterialTheme.colorScheme.background
+                )
             }
         }
 

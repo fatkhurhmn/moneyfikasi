@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.common_ui.component.transaction_item
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,9 +36,10 @@ fun TransactionItem(
 ) {
     Row(
         modifier = modifier
+            .background(MaterialTheme.colorScheme.surface)
             .fillMaxWidth()
             .clickable { onClick(transaction.id) }
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(horizontal = 16.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -78,7 +80,7 @@ fun TransactionItem(
             val financeColors = MoneyfikasiTheme.financeColors
             Text(
                 text = getFormattedAmount(transaction.amount, transaction.type),
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodyMedium,
                 color = getAmountColor(transaction.type, financeColors),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis

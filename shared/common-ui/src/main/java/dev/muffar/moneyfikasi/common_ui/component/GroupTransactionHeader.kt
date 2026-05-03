@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.common_ui.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,12 +15,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.format
 import org.threeten.bp.LocalDateTime
 
 @Composable
-fun GroupTransactionHeaderV2(
+fun GroupTransactionHeader(
     date: LocalDateTime,
     balanceOnDate: Double
 ) {
@@ -29,8 +31,9 @@ fun GroupTransactionHeaderV2(
 
     Row(
         modifier = Modifier
+            .background(MaterialTheme.colorScheme.surface)
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(horizontal = 16.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -60,6 +63,7 @@ fun GroupTransactionHeaderV2(
             text = balanceOnDate.formatThousand(),
             style = MaterialTheme.typography.titleMedium.copy(
                 fontWeight = FontWeight.Medium,
+                fontSize = 14.sp
             )
         )
     }
