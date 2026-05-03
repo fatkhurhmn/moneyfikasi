@@ -19,7 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
+import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.capitalize
@@ -33,8 +33,9 @@ fun OverviewIncomeExpense(
     isAmountVisible: Boolean,
 ) {
     val isIncome = categoryType == CategoryType.INCOME
-    val containerColor = if (isIncome) MainColor.Green.extraLight else MainColor.Red.extraLight
-    val textColor = if (isIncome) MainColor.Green.primary else MainColor.Red.primary
+    val financeColors = MoneyfikasiTheme.financeColors
+    val containerColor = if (isIncome) financeColors.incomeContainer else financeColors.expenseContainer
+    val textColor = if (isIncome) financeColors.income else financeColors.expense
     val icon = if (isIncome) R.drawable.ic_income else R.drawable.ic_expense
 
     Box(

@@ -8,10 +8,9 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 
 fun Modifier.dottedBorder(
-    color: Color = MainColor.LightGray,
+    color: Color = Color.LightGray,
     strokeWidth: Dp = 1.dp,
     cornerRadius: Dp = 8.dp,
     dashLength: Dp = 4.dp,

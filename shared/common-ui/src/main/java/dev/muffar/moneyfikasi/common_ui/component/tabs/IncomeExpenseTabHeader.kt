@@ -19,8 +19,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
+import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.capitalize
 
@@ -30,12 +31,13 @@ fun IncomeExpenseTabHeader(
     selectedTab: Int,
     onTabSelected: (Int) -> Unit
 ) {
+    val financeColors = MoneyfikasiTheme.financeColors
     val tabs = mapOf(
-        CategoryType.INCOME.name to MainColor.Green.primary,
-        CategoryType.EXPENSE.name to MainColor.Red.primary,
+        CategoryType.INCOME.name to financeColors.income,
+        CategoryType.EXPENSE.name to financeColors.expense,
     )
 
-    var border by remember { mutableStateOf(MainColor.White) }
+    var border by remember { mutableStateOf(Color.White) }
 
     LaunchedEffect(selectedTab) {
         border = tabs.values.elementAt(selectedTab)

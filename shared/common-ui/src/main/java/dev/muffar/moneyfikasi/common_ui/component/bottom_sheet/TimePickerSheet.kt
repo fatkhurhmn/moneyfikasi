@@ -34,7 +34,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.button.RowNegativePositiveButton
-import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
+import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.launch
 
@@ -95,7 +95,7 @@ fun TimePickerSheet(
                 TimeInput(
                     state = pickerState,
                     colors = colors.copy(
-                        timeSelectorSelectedContainerColor = MainColor.Blue.extraLight,
+                        timeSelectorSelectedContainerColor = MoneyfikasiTheme.financeColors.brandContainer,
                         timeSelectorSelectedContentColor = MaterialTheme.colorScheme.onSurface
                     ),
                 )

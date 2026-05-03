@@ -21,7 +21,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.icon.IconByName
-import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 
@@ -48,7 +47,7 @@ fun WalletItem(
             ) {
                 IconByName(
                     name = wallet.icon,
-                    tint = MainColor.White,
+                    tint = Color.White,
                     modifier = Modifier.size(32.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))

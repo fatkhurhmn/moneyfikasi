@@ -5,81 +5,51 @@ import androidx.compose.ui.graphics.Color
 
 @Immutable
 object MainColor {
-    val White = Color(0xFFFFFFFF)
-    val ExtraLightGray = Color(0xFFEEEEEE)
-    val LightGray = Color(0xFFCBCBD6)
-    val Gray = Color(0xFF74747A)
-    val DarkGray = Color(0xFF303033)
-    val ExtraDarkGray = Color(0xFF1C1C1F)
-    val Black = Color(0xFF09090A)
 
-    val Red = ColorShades(
-        extraLight = Color(0xFFFFCDD2),
-        light = Color(0xFFEF9A9A),
-        kindaLight = Color(0xFFE57373),
-        primary = Color(0xFFF44336),
-        kindaDark = Color(0xFFD32F2F),
-        dark = Color(0xFFC62828),
-        extraDark = Color(0xFFB71C1C)
-    )
+    val White          = Color(0xFFFFFFFF)
+    val ExtraLightGray = Color(0xFFF7F8FA)
+    val LightGray      = Color(0xFFE4E6EA)
+    val Gray           = Color(0xFF95A0AD)
+    val DarkGray       = Color(0xFF4A5568)
+    val ExtraDarkGray  = Color(0xFF121417)
+    val Black          = Color(0xFF000000)
 
-    val Pink = ColorShades(
-        extraLight = Color(0xFFF8BBD0),
-        light = Color(0xFFF48FB1),
-        kindaLight = Color(0xFFF06292),
-        primary = Color(0xFFE91E63),
-        kindaDark = Color(0xFFC2185B),
-        dark = Color(0xFFAD1457),
-        extraDark = Color(0xFF880E4F)
-    )
+    val SurfaceDarkPage = Color(0xFF121417)
+    val SurfaceDarkCard = Color(0xFF1C1F22)
+    val SurfaceDarkRow  = Color(0xFF25292D)
 
-    val Purple = ColorShades(
-        extraLight = Color(0xFFE1BEE7),
-        light = Color(0xFFCE93D8),
-        kindaLight = Color(0xFFBA68C8),
-        primary = Color(0xFF9C27B0),
-        kindaDark = Color(0xFF7B1FA2),
-        dark = Color(0xFF6A1B9A),
-        extraDark = Color(0xFF4A148C)
-    )
+    val LimeExtraLight = Color(0xFFEAF8B1)
+    val LimeKindaLight = Color(0xFFD9F26D)
+    val Lime           = Color(0xFFC6F00D)
+    val LimeDark       = Color(0xFF9EBF0A)
+    val LimeExtraDark  = Color(0xFF7A9408)
 
-    val Blue = ColorShades(
-        extraLight = Color(0xFFBBDEFB),
-        light = Color(0xFF90CAF9),
-        kindaLight = Color(0xFF64B5F6),
-        primary = Color(0xFF2196F3),
-        kindaDark = Color(0xFF1976D2),
-        dark = Color(0xFF1565C0),
-        extraDark = Color(0xFF003566)
-    )
+    val Charcoal       = Color(0xFF121417)
+    val CharcoalLight  = Color(0xFF2C3E50)
 
-    val Green = ColorShades(
-        extraLight = Color(0xFFC8E6C9),
-        light = Color(0xFFA5D6A7),
-        kindaLight = Color(0xFF81C784),
-        primary = Color(0xFF4CAF50),
-        kindaDark = Color(0xFF388E3C),
-        dark = Color(0xFF2E7D32),
-        extraDark = Color(0xFF1B5E20)
-    )
+    val GreenExtraLight = Color(0xFFE8F8EF)
+    val GreenKindaLight = Color(0xFF6DCE99)
+    val Green           = Color(0xFF2DC46D)
+    val GreenDark       = Color(0xFF1C8E4D)
+    val GreenExtraDark  = Color(0xFF126C38)
 
-    val Yellow = ColorShades(
-        extraLight = Color(0xFFFFF9C4),
-        light = Color(0xFFFFF59D),
-        kindaLight = Color(0xFFFFF176),
-        primary = Color(0xFFFFEB3B),
-        kindaDark = Color(0xFFFFC300),
-        dark = Color(0xFFF9A825),
-        extraDark = Color(0xFFF57F17)
-    )
+    val RedExtraLight = Color(0xFFFDECEB)
+    val RedKindaLight = Color(0xFFEF9088)
+    val Red           = Color(0xFFEE5040)
+    val RedDark       = Color(0xFFB33829)
+    val RedExtraDark  = Color(0xFF972B1E)
 
-    val Orange = ColorShades(
-        extraLight = Color(0xFFFFCCBC),
-        light = Color(0xFFFFAB91),
-        kindaLight = Color(0xFFFF8A65),
-        primary = Color(0xFFFF5722),
-        kindaDark = Color(0xFFE64A19),
-        dark = Color(0xFFD84315),
-        extraDark = Color(0xFFBF360C)
-    )
+    val OrangeExtraLight = Color(0xFFFEF4E6)
+    val OrangeKindaLight = Color(0xFFF7C068)
+    val Orange           = Color(0xFFF39C12)
+    val OrangeDark       = Color(0xFFB07208)
+    val OrangeExtraDark  = Color(0xFF8A5806)
+
+    val BlueExtraLight = Color(0xFFEFF6FF)
+    val BlueKindaLight = Color(0xFF60A5FA)
+    val Blue           = Color(0xFF2563EB)
+    val BlueKindaDark  = Color(0xFF1D4ED8)
+
+    val YellowKindaDark  = Color(0xFFFFC300)
+    val YellowDark       = Color(0xFFF9A825)
 }

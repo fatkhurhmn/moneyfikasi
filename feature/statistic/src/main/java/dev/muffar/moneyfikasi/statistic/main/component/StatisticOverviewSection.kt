@@ -12,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
+import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 
@@ -22,6 +22,7 @@ fun StatisticOverviewSection(
     expense: Double,
     total: Double,
 ) {
+    val financeColors = MoneyfikasiTheme.financeColors
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -44,7 +45,7 @@ fun StatisticOverviewSection(
             Text(
                 text = formattedIncome,
                 style = MaterialTheme.typography.labelLarge,
-                color = MainColor.Green.primary
+                color = financeColors.income
             )
         }
         Row(
@@ -63,7 +64,7 @@ fun StatisticOverviewSection(
             Text(
                 text = formattedExpense,
                 style = MaterialTheme.typography.labelLarge,
-                color = MainColor.Red.primary
+                color = financeColors.expense
             )
         }
 

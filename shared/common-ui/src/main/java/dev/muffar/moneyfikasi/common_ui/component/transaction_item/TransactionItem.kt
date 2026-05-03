@@ -19,7 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.icon.BoxedIcon
-import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
+import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
@@ -75,10 +75,11 @@ fun TransactionItem(
         Column(
             horizontalAlignment = Alignment.End,
         ) {
+            val financeColors = MoneyfikasiTheme.financeColors
             Text(
                 text = getFormattedAmount(transaction.amount, transaction.type),
                 style = MaterialTheme.typography.bodyLarge,
-                color = getAmountColor(transaction.type),
+                color = getAmountColor(transaction.type, financeColors),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -95,9 +96,9 @@ private fun getFormattedAmount(amount: Double, type: TransactionType): String {
     }
 }
 
-private fun getAmountColor(type: TransactionType): Color {
+private fun getAmountColor(type: TransactionType, financeColors: dev.muffar.moneyfikasi.common_ui.theme.color.FinanceColors): Color {
     return when (type) {
-        TransactionType.INCOME, TransactionType.TRANSFER_IN -> MainColor.Green.primary
-        TransactionType.EXPENSE, TransactionType.TRANSFER_OUT -> MainColor.Red.primary
+        TransactionType.INCOME, TransactionType.TRANSFER_IN -> financeColors.income
+        TransactionType.EXPENSE, TransactionType.TRANSFER_OUT -> financeColors.expense
     }
 }

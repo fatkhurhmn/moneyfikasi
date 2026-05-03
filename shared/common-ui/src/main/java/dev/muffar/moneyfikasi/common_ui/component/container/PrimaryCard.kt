@@ -16,7 +16,7 @@ fun PrimaryCard(
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = MaterialTheme.shapes.medium,
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f))
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surface)
     ) {
         content()
     }

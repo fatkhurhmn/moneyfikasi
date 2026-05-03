@@ -26,7 +26,7 @@ import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.common_ui.component.GroupTransactionHeaderV2
 import dev.muffar.moneyfikasi.common_ui.component.transaction_item.TransactionItem
-import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
+import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.format
@@ -59,9 +59,10 @@ fun StatisticDetailScreen(
         ) {
             item {
                 val total = state.totalAmount.formatThousand()
+                val financeColors = MoneyfikasiTheme.financeColors
 
                 val color =
-                    if (state.type == TransactionType.INCOME) MainColor.Green.primary else MainColor.Red.primary
+                    if (state.type == TransactionType.INCOME) financeColors.income else financeColors.expense
 
                 Row(
                     modifier = Modifier

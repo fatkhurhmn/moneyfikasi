@@ -13,6 +13,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 
 @Composable
@@ -20,7 +21,8 @@ fun CalculatorButton(
     key: CalculatorKey,
     onClick: () -> Unit
 ) {
-    val (bgColor, textColor) = getButtonColors(key)
+    val financeColors = MoneyfikasiTheme.financeColors
+    val (bgColor, textColor) = getButtonColors(key, financeColors)
 
     Box(
         contentAlignment = Alignment.Center,
@@ -39,17 +41,20 @@ fun CalculatorButton(
     }
 }
 
-fun getButtonColors(action: CalculatorKey): Pair<Color, Color> {
+fun getButtonColors(
+    action: CalculatorKey,
+    financeColors: dev.muffar.moneyfikasi.common_ui.theme.color.FinanceColors,
+): Pair<Color, Color> {
     return when (action) {
         is CalculatorKey.Operation, CalculatorKey.ToggleSign -> Pair(
-            MainColor.Yellow.dark,
+            MainColor.YellowDark,
             MainColor.White
         )
 
-        is CalculatorKey.Clear -> Pair(MainColor.Red.kindaLight, MainColor.White)
-        is CalculatorKey.Calculate -> Pair(MainColor.Green.primary, MainColor.White)
-        is CalculatorKey.Delete -> Pair(MainColor.Blue.primary, MainColor.White)
-        else -> Pair(MainColor.ExtraLightGray, MainColor.Black)
+        is CalculatorKey.Clear -> Pair(financeColors.expenseContainer, Color.White)
+        is CalculatorKey.Calculate -> Pair(financeColors.income, Color.White)
+        is CalculatorKey.Delete -> Pair(financeColors.info, Color.White)
+        else -> Pair(MainColor.ExtraLightGray, Color.Black)
     }
 }
 

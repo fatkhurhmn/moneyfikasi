@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
+import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.withTimeoutOrNull
 
@@ -37,10 +37,11 @@ fun SnackbarMessage(
             SnackbarType.PLAIN -> null
         }
 
+        val financeColors = MoneyfikasiTheme.financeColors
         val tint = when (type) {
-            SnackbarType.SUCCESS -> MainColor.Green.kindaLight
-            SnackbarType.ERROR -> MainColor.Red.kindaLight
-            SnackbarType.PLAIN -> MainColor.Blue.kindaLight
+            SnackbarType.SUCCESS -> financeColors.income
+            SnackbarType.ERROR -> financeColors.expense
+            SnackbarType.PLAIN -> financeColors.info
         }
 
         Card(

@@ -2,10 +2,10 @@ package dev.muffar.moneyfikasi.common_ui.component
 
 import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
-import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 
 @Composable
 fun CommonHorizontalDivider(
@@ -15,6 +15,6 @@ fun CommonHorizontalDivider(
     HorizontalDivider(
         modifier = modifier,
         thickness = thickness,
-        color = MainColor.ExtraLightGray
+        color = MaterialTheme.colorScheme.outlineVariant
     )
 }

@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.icon.BoxedIcon
-import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
+import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.domain.model.Budget
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 
@@ -33,10 +33,11 @@ fun BudgetItem(
     onClick: () -> Unit,
 ) {
     val progress = if (budget.amount > 0) (spentAmount / budget.amount).toFloat() else 0f
+    val financeColors = MoneyfikasiTheme.financeColors
     val color = when(progress){
-        in 0f..0.75f -> MainColor.Blue.kindaLight
-        in 0.75f..0.90f -> MainColor.Yellow.kindaDark
-        else -> MainColor.Red.kindaLight
+        in 0f..0.75f -> financeColors.info
+        in 0.75f..0.90f -> financeColors.warning
+        else -> financeColors.expenseContainer
     }
     val remainingAmount = (budget.amount - spentAmount).let {
         if (it < 0) 0.0 else it

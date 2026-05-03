@@ -20,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.icon.IconByName
-import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
+import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
@@ -55,7 +55,7 @@ fun StatisticTransactionItem(
                     .padding(6.dp),
                 contentAlignment = Alignment.Center
             ) {
-                IconByName(name = category.icon, tint = MainColor.White)
+                IconByName(name = category.icon, tint = Color.White)
             }
 
             Spacer(modifier = Modifier.width(8.dp))
@@ -76,9 +76,10 @@ fun StatisticTransactionItem(
         Column(
             horizontalAlignment = Alignment.End
         ) {
+            val financeColors = MoneyfikasiTheme.financeColors
             Text(
                 text = formattedAmount,
-                color = if (category.isIncome) MainColor.Green.primary else MainColor.Red.primary,
+                color = if (category.isIncome) financeColors.income else financeColors.expense,
                 style = MaterialTheme.typography.bodyLarge
             )
             Text(
