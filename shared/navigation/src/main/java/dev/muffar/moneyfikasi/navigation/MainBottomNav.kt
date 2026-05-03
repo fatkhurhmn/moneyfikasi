@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.navigation
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -14,9 +15,7 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,80 +39,70 @@ import dev.muffar.moneyfikasi.resource.R
 
 @Composable
 fun MainBottomNav(
-    modifier: Modifier = Modifier,
     navController: NavHostController,
     onAddTransaction: (TransactionType?) -> Unit
 ) {
-    val containerColor = BottomAppBarDefaults.containerColor.copy(alpha = 0.1f)
     var showBottomSheet by remember { mutableStateOf(false) }
-
-    Surface(
-        color = containerColor,
-        contentColor = contentColorFor(containerColor),
-        tonalElevation = 1.dp,
-        shadowElevation = 0.2.dp,
-        modifier = modifier
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.surface)
+            .windowInsetsPadding(BottomAppBarDefaults.windowInsets)
+            .height(65.dp)
+            .padding(BottomAppBarDefaults.ContentPadding),
+        horizontalArrangement = Arrangement.Absolute.SpaceAround,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .windowInsetsPadding(BottomAppBarDefaults.windowInsets)
-                .height(65.dp)
-                .padding(BottomAppBarDefaults.ContentPadding),
-            horizontalArrangement = Arrangement.Absolute.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            BottomBarItem(
-                navController = navController,
-                selectedIcon = painterResource(R.drawable.ic_home_fill),
-                unselectedIcon = painterResource(R.drawable.ic_home_outline),
-                label = stringResource(R.string.home_menu),
-                route = Screen.Home.route,
-                modifier = Modifier
-                    .padding(2.dp)
-                    .weight(1f)
-            )
+        BottomBarItem(
+            navController = navController,
+            selectedIcon = painterResource(R.drawable.ic_home_fill),
+            unselectedIcon = painterResource(R.drawable.ic_home_outline),
+            label = stringResource(R.string.home_menu),
+            route = Screen.Home.route,
+            modifier = Modifier
+                .padding(2.dp)
+                .weight(1f)
+        )
 
-            BottomBarItem(
-                navController = navController,
-                selectedIcon = painterResource(R.drawable.ic_transaction_fill),
-                unselectedIcon = painterResource(R.drawable.ic_transaction_outline),
-                label = stringResource(R.string.transaction_menu),
-                route = Screen.Transactions.route,
-                modifier = Modifier
-                    .padding(2.dp)
-                    .weight(1f)
-            )
+        BottomBarItem(
+            navController = navController,
+            selectedIcon = painterResource(R.drawable.ic_transaction_fill),
+            unselectedIcon = painterResource(R.drawable.ic_transaction_outline),
+            label = stringResource(R.string.transaction_menu),
+            route = Screen.Transactions.route,
+            modifier = Modifier
+                .padding(2.dp)
+                .weight(1f)
+        )
 
-            AddTransactionButton(
-                onClick = { showBottomSheet = true },
-                modifier = Modifier
-                    .padding(2.dp)
-                    .weight(1f)
-            )
+        AddTransactionButton(
+            onClick = { showBottomSheet = true },
+            modifier = Modifier
+                .padding(2.dp)
+                .weight(1f)
+        )
 
-            BottomBarItem(
-                navController = navController,
-                selectedIcon = painterResource(R.drawable.ic_statistic_fill),
-                unselectedIcon = painterResource(R.drawable.ic_statistic_outline),
-                label = stringResource(R.string.statistic_menu),
-                route = Screen.Statistic.route,
-                modifier = Modifier
-                    .padding(2.dp)
-                    .weight(1f)
-            )
+        BottomBarItem(
+            navController = navController,
+            selectedIcon = painterResource(R.drawable.ic_statistic_fill),
+            unselectedIcon = painterResource(R.drawable.ic_statistic_outline),
+            label = stringResource(R.string.statistic_menu),
+            route = Screen.Statistic.route,
+            modifier = Modifier
+                .padding(2.dp)
+                .weight(1f)
+        )
 
-            BottomBarItem(
-                navController = navController,
-                selectedIcon = painterResource(R.drawable.ic_more_fill),
-                unselectedIcon = painterResource(R.drawable.ic_more_outline),
-                label = stringResource(R.string.more_menu),
-                route = Screen.More.route,
-                modifier = Modifier
-                    .padding(2.dp)
-                    .weight(1f)
-            )
-        }
+        BottomBarItem(
+            navController = navController,
+            selectedIcon = painterResource(R.drawable.ic_more_fill),
+            unselectedIcon = painterResource(R.drawable.ic_more_outline),
+            label = stringResource(R.string.more_menu),
+            route = Screen.More.route,
+            modifier = Modifier
+                .padding(2.dp)
+                .weight(1f)
+        )
     }
 
     AnimatedVisibility(showBottomSheet) {
