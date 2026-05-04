@@ -1,7 +1,6 @@
 package dev.muffar.moneyfikasi.transaction.detail
 
 import android.graphics.Bitmap
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -76,17 +75,17 @@ fun TransactionDetailScreen(
     ) {
         Card(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(horizontal = 16.dp, vertical = 24.dp)
                 .padding(it)
                 .capturable(captureController),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.background
+                containerColor = MaterialTheme.colorScheme.surface
             ),
-            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
+            elevation = CardDefaults.cardElevation(2.dp),
         ) {
             Column(
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(24.dp)
                     .fillMaxWidth()
             ) {
                 if (state.isTransfer) {
@@ -122,6 +121,7 @@ fun TransactionDetailScreen(
                     it.message,
                     it.type
                 )
+
                 is TransactionDetailViewModel.UiEvent.NavigateBack -> onBackClick()
             }
         }

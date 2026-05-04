@@ -35,10 +35,21 @@ fun TransactionDetailBody(
         )
 
         if (category != null) {
-            TransactionDetailCategory(category)
+            RowDetailBodyWithIcon(
+                label = stringResource(R.string.category),
+                icon = category.icon,
+                value = category.name,
+                color = category.color
+            )
         }
+
         if (wallet != null) {
-            TransactionDetailWallet(wallet)
+            RowDetailBodyWithIcon(
+                label = stringResource(R.string.wallet),
+                icon = wallet.icon,
+                value = wallet.name,
+                color = wallet.color
+            )
         }
     }
 }

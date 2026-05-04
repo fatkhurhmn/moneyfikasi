@@ -10,31 +10,31 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import dev.muffar.moneyfikasi.common_ui.component.transaction_item.ItemWalletCard
-import dev.muffar.moneyfikasi.domain.model.Wallet
-import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.common_ui.component.icon.LabeledIcon
 
 @Composable
-fun TransactionDetailWallet(wallet: Wallet) {
+fun RowDetailBodyWithIcon(
+    label: String,
+    icon: String,
+    value: String,
+    color: Long
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = stringResource(R.string.wallet),
+            text = label,
             style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
-        Spacer(modifier = Modifier.width(8.dp))
-        ItemWalletCard(
-            wallet = wallet,
-            textStyle = MaterialTheme.typography.labelLarge.copy(
-                fontSize = 18.sp
-            )
+        Spacer(modifier = Modifier.width(16.dp))
+        LabeledIcon(
+            icon = icon,
+            label = value,
+            color = color
         )
     }
 }

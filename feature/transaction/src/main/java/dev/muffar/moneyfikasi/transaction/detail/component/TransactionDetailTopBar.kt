@@ -26,7 +26,6 @@ fun TransactionDetailTopBar(
 
             TopBarIconButton(
                 painter = painterResource(R.drawable.ic_edit),
-                color = MaterialTheme.colorScheme.primary,
                 onClick = onEditClick
             )
         }

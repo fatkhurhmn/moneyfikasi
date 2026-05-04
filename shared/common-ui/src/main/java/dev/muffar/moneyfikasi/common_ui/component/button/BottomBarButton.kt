@@ -1,9 +1,11 @@
 package dev.muffar.moneyfikasi.common_ui.component.button
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -21,7 +23,9 @@ fun BottomBarButton(
     val isKeyboardVisible by keyboardAsState()
 
     Column(
-        modifier = Modifier.imePadding()
+        modifier = Modifier
+            .imePadding()
+            .background(MaterialTheme.colorScheme.surface)
     ) {
         CommonHorizontalDivider()
         CommonButton(

@@ -35,7 +35,7 @@ fun CommonTopAppBar(
         modifier = modifier
             .background(MaterialTheme.colorScheme.surface)
             .fillMaxWidth()
-            .padding(vertical = 4.dp, horizontal = 16.dp),
+            .padding(vertical = 8.dp, horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Row(
