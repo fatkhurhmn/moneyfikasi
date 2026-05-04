@@ -28,12 +28,7 @@ fun FilterWalletSection(
     Column(
         modifier = modifier.fillMaxWidth()
     ) {
-        Text(
-            text = stringResource(R.string.wallet),
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier.padding(vertical = 8.dp)
-        )
-
+        FilterSheetLabel(label = stringResource(R.string.wallet))
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {

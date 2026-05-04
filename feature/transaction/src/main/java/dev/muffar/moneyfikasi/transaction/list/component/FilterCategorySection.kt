@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -36,14 +34,10 @@ fun FilterCategorySection(
     Column(
         modifier = modifier.fillMaxWidth()
     ) {
-        Text(
-            text = stringResource(R.string.category),
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier
-                .padding(vertical = 8.dp)
-                .padding(top = 8.dp)
+        FilterSheetLabel(
+            label = stringResource(R.string.category),
+            modifier = Modifier.padding(top = 8.dp)
         )
-
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
@@ -83,14 +77,10 @@ fun FilterCategorySection(
             )
         }
 
-        Text(
-            text = stringResource(R.string.income),
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier
-                .padding(vertical = 8.dp)
-                .padding(top = 8.dp)
+        FilterSheetLabel(
+            label = stringResource(R.string.income),
+            modifier = Modifier.padding(top = 8.dp)
         )
-
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
@@ -103,12 +93,9 @@ fun FilterCategorySection(
             }
         }
 
-        Text(
-            text = stringResource(R.string.expense),
-            style = MaterialTheme.typography.titleMedium,
-            modifier = Modifier
-                .padding(vertical = 8.dp)
-                .padding(top = 8.dp)
+        FilterSheetLabel(
+            label = stringResource(R.string.expense),
+            modifier = Modifier.padding(top = 8.dp)
         )
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp)

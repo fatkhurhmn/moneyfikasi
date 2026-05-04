@@ -7,6 +7,7 @@ import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -28,7 +29,7 @@ fun CommonFilterChip(
         leadingIcon = leadingIcon,
         colors = FilterChipDefaults.filterChipColors(
             selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-            containerColor = MaterialTheme.colorScheme.surface,
+            containerColor = Color.Transparent,
             labelColor = MaterialTheme.colorScheme.onSurface,
             selectedLabelColor = MaterialTheme.colorScheme.onSurface,
         ),

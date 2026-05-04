@@ -57,11 +57,11 @@ fun TransactionsFilterSheet(
         modifier = Modifier.statusBarsPadding(),
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = MaterialTheme.colorScheme.surfaceVariant,
         sheetGesturesEnabled = false
     ) {
         Scaffold(
-            containerColor = MaterialTheme.colorScheme.surface,
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
             topBar = {
                 BottomSheetTitle(stringResource(R.string.filter))
             },

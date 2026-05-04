@@ -26,12 +26,13 @@ fun BottomSheetTitle(
             style = MaterialTheme.typography.titleMedium,
             fontSize = 18.sp,
             textAlign = TextAlign.Start,
+            color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 16.dp, bottom = 16.dp)
         )
         if (showDivider) {
-            CommonHorizontalDivider()
+            CommonHorizontalDivider(color = MaterialTheme.colorScheme.outline)
         }
     }
 }
