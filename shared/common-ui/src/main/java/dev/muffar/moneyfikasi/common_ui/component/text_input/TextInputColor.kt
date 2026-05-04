@@ -11,13 +11,13 @@ fun textInputColor(isClickable: Boolean, isFocus: Boolean) =
         focusedBorderColor = MaterialTheme.colorScheme.primary,
         unfocusedBorderColor = Color.Transparent,
         errorBorderColor = if (isFocus) MaterialTheme.colorScheme.error else Color.Transparent,
-        focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(0.8f),
-        unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(0.8f),
-        errorContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(0.8f),
+        focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+        unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+        errorContainerColor = MaterialTheme.colorScheme.surfaceVariant,
         focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
         unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
         disabledContainerColor = if (isClickable) {
-            MaterialTheme.colorScheme.surfaceVariant.copy(0.8f)
+            MaterialTheme.colorScheme.surfaceVariant
         } else {
             Color.Transparent
         },
@@ -27,7 +27,7 @@ fun textInputColor(isClickable: Boolean, isFocus: Boolean) =
             MaterialTheme.colorScheme.onSurfaceVariant
         },
         disabledBorderColor = if (isClickable) {
-            MaterialTheme.colorScheme.surfaceVariant.copy(0.8f)
+            MaterialTheme.colorScheme.surfaceVariant
         } else {
             MaterialTheme.colorScheme.onSurfaceVariant
         },

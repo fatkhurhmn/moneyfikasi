@@ -53,12 +53,9 @@ fun IncomeExpenseTabHeader(
         ) {
             tabs.entries.forEachIndexed { index, (title, color) ->
                 val selected = selectedTab == index
-
-                val bgColor = if (selected) color else MaterialTheme.colorScheme.surface
-
+                val bgColor = if (selected) color else Color.Transparent
                 val textColor =
-                    if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
-
+                    if (selected) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.onSurface
                 Box(
                     modifier = Modifier
                         .padding(3.dp)

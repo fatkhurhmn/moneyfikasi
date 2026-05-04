@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -55,7 +56,8 @@ fun AddEditTransactionScreen(
                 onBackClick = onBackClick
             )
         },
-        bottomBar = { BottomBarSaveButton(onSaveClick) }
+        bottomBar = { BottomBarSaveButton(onSaveClick) },
+        containerColor = MaterialTheme.colorScheme.surface
     ) {
         AddEditTransactionForm(
             modifier = Modifier
