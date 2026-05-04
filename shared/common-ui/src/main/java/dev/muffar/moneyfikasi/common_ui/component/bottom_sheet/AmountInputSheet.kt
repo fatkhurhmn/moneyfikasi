@@ -1,6 +1,5 @@
 package dev.muffar.moneyfikasi.common_ui.component.bottom_sheet
 
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -9,7 +8,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -44,7 +42,7 @@ fun AmountInputSheet(
         modifier = Modifier.statusBarsPadding(),
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = MaterialTheme.colorScheme.surfaceVariant,
         sheetGesturesEnabled = false
     ) {
         val calcState = rememberCalculatorState(amount)
@@ -53,9 +51,6 @@ fun AmountInputSheet(
             state = calcState,
             modifier = Modifier.weight(1f)
         )
-        LaunchedEffect(calcState.error) {
-            Log.d("TAG", "AmountInputSheet: ${calcState.error}")
-        }
         CommonHorizontalDivider()
         RowNegativePositiveButton(
             modifier = Modifier

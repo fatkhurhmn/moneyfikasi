@@ -46,7 +46,7 @@ fun DatePickerSheet(
         modifier = Modifier.statusBarsPadding(),
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surface
+        containerColor = MaterialTheme.colorScheme.surfaceVariant
     ) {
         val pickerState = rememberDatePickerState(initialSelectedDateMillis = date)
         val formattedStartDate =
@@ -57,7 +57,7 @@ fun DatePickerSheet(
         DatePicker(
             state = pickerState,
             colors = DatePickerDefaults.colors(
-                containerColor = MaterialTheme.colorScheme.surface,
+                containerColor = MaterialTheme.colorScheme.surfaceVariant,
                 titleContentColor = MaterialTheme.colorScheme.onSurface,
                 headlineContentColor = MaterialTheme.colorScheme.onSurface,
                 dividerColor = MaterialTheme.colorScheme.outline

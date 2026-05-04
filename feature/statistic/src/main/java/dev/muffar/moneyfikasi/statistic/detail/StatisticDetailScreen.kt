@@ -99,7 +99,7 @@ fun StatisticDetailScreen(
                     }
                     val balance by dailySumFlow.collectAsState(initial = 0.0)
                     GroupTransactionHeader(date = transaction.date, balanceOnDate = balance)
-                    CommonHorizontalDivider()
+                    CommonHorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
                 }
 
                 TransactionItem(

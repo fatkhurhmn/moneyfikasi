@@ -32,7 +32,7 @@ fun BottomSheetTitle(
                 .padding(start = 16.dp, bottom = 16.dp)
         )
         if (showDivider) {
-            CommonHorizontalDivider(color = MaterialTheme.colorScheme.outline)
+            CommonHorizontalDivider()
         }
     }
 }

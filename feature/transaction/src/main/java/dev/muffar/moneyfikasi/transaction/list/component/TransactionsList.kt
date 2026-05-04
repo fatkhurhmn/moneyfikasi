@@ -50,7 +50,7 @@ fun TransactionsList(
                 }
                 val balance by dailyBalanceFlow.collectAsState(initial = 0.0)
                 GroupTransactionHeader(date = transaction.date, balance)
-                CommonHorizontalDivider()
+                CommonHorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
             }
 
             TransactionItem(

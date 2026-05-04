@@ -21,7 +21,7 @@ fun FilterSheetButton(
     onApplyClick: () -> Unit,
 ) {
     Column {
-        CommonHorizontalDivider(color = MaterialTheme.colorScheme.outline)
+        CommonHorizontalDivider()
         Column(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.surfaceVariant)

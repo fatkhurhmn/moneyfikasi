@@ -61,7 +61,7 @@ fun TimePickerSheet(
         modifier = Modifier.statusBarsPadding(),
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surface
+        containerColor = MaterialTheme.colorScheme.surfaceVariant
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,

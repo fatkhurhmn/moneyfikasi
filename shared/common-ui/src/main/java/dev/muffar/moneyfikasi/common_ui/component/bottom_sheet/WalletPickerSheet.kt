@@ -55,7 +55,7 @@ fun WalletPickerSheet(
         modifier = Modifier.statusBarsPadding(),
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = MaterialTheme.colorScheme.surfaceVariant,
         sheetGesturesEnabled = false
     ) {
         BottomSheetTitle(stringResource(R.string.select_wallet))
@@ -117,12 +117,13 @@ private fun WalletOptionItem(
         )
         Spacer(modifier = Modifier.width(8.dp))
         Column {
-            Text(text = wallet.name)
+            Text(text = wallet.name, color = MaterialTheme.colorScheme.onSurface)
             Text(
                 text = wallet.balance.formatThousand(),
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.Medium
-                )
+                ),
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }

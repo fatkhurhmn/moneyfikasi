@@ -62,7 +62,7 @@ fun ChooseDateSheet(
         modifier = Modifier.statusBarsPadding(),
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surface
+        containerColor = MaterialTheme.colorScheme.surfaceVariant
     ) {
         val options = TimePeriod.entries
         Column(
@@ -130,7 +130,8 @@ private fun DateOptionItem(
         Text(
             text = option.capitalize(),
             style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.W400
+            fontWeight = FontWeight.W400,
+            color = MaterialTheme.colorScheme.onSurface
         )
         RadioButton(
             selected = selected,

@@ -70,7 +70,7 @@ fun CustomDateSheet(
         modifier = Modifier.statusBarsPadding(),
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surface
+        containerColor = MaterialTheme.colorScheme.surfaceVariant
     ) {
 
         val pickerState = rememberDateRangePickerState(
@@ -113,9 +113,9 @@ fun CustomDateSheet(
             },
             colors = DatePickerDefaults.colors(
                 dividerColor = MaterialTheme.colorScheme.outlineVariant,
-                dayInSelectionRangeContainerColor = MaterialTheme.colorScheme.primary.copy(0.4f),
-                dayInSelectionRangeContentColor = MaterialTheme.colorScheme.onPrimary,
-                containerColor = MaterialTheme.colorScheme.surface,
+                dayInSelectionRangeContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                dayInSelectionRangeContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                containerColor = MaterialTheme.colorScheme.surfaceVariant,
                 headlineContentColor = MaterialTheme.colorScheme.onSurface,
                 titleContentColor = MaterialTheme.colorScheme.onSurface,
             )

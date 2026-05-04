@@ -52,7 +52,7 @@ fun CategoryPickerSheet(
         modifier = Modifier.statusBarsPadding(),
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = MaterialTheme.colorScheme.surfaceVariant,
         sheetGesturesEnabled = false
     ) {
         BottomSheetTitle(stringResource(R.string.select_category))
@@ -113,6 +113,6 @@ private fun CategoryOptionItem(
             color = category.color
         )
         Spacer(modifier = Modifier.width(8.dp))
-        Text(text = category.name)
+        Text(text = category.name, color = MaterialTheme.colorScheme.onSurface)
     }
 }
