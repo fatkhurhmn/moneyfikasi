@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
@@ -23,65 +24,71 @@ fun StatisticOverviewSection(
     total: Double,
 ) {
     val financeColors = MoneyfikasiTheme.financeColors
-    Column(
+    PrimaryCard(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 12.dp),
+            .padding(8.dp),
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
         ) {
-            val formattedIncome = income.formatThousand().let { amount ->
-                if (income > 0) "+$amount" else amount
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                val formattedIncome = income.formatThousand().let { amount ->
+                    if (income > 0) "+$amount" else amount
+                }
+
+                Text(
+                    text = stringResource(R.string.income),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = formattedIncome,
+                    style = MaterialTheme.typography.labelLarge,
+                    color = financeColors.income
+                )
+            }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                val formattedExpense = expense.formatThousand().let { amount ->
+                    if (expense > 0) "-$amount" else amount
+                }
+                Text(
+                    text = stringResource(R.string.expense),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = formattedExpense,
+                    style = MaterialTheme.typography.labelLarge,
+                    color = financeColors.expense
+                )
             }
 
-            Text(
-                text = stringResource(R.string.income),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Text(
-                text = formattedIncome,
-                style = MaterialTheme.typography.labelLarge,
-                color = financeColors.income
-            )
-        }
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            val formattedExpense = expense.formatThousand().let { amount ->
-                if (expense > 0) "-$amount" else amount
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(R.string.net),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+                Text(
+                    text = total.formatThousand(),
+                    style = MaterialTheme.typography.labelLarge,
+                )
             }
-            Text(
-                text = stringResource(R.string.expense),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Text(
-                text = formattedExpense,
-                style = MaterialTheme.typography.labelLarge,
-                color = financeColors.expense
-            )
-        }
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = stringResource(R.string.total),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Text(
-                text = total.formatThousand(),
-                style = MaterialTheme.typography.labelLarge,
-            )
         }
     }
 }

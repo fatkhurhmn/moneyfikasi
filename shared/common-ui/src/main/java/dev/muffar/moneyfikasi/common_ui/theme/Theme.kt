@@ -118,10 +118,10 @@ val lightFinanceColors = FinanceColors(
 )
 
 val darkFinanceColors = FinanceColors(
-    income = MainColor.GreenKindaLight,
+    income = MainColor.Green,
     incomeContainer = MainColor.GreenDark,
     onIncomeContainer = MainColor.GreenExtraLight,
-    expense = MainColor.RedKindaLight,
+    expense = MainColor.Red,
     expenseContainer = MainColor.RedDark,
     onExpenseContainer = MainColor.RedExtraLight,
     budget = MainColor.OrangeKindaLight,

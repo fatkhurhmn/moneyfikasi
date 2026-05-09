@@ -78,7 +78,7 @@ class StatisticViewModel @Inject constructor(
                             expenseTransactions = expenseTransaction,
                             overviewIncome = overviewIncome,
                             overviewExpense = overviewExpense,
-                            overviewTotal = overviewIncome - overviewExpense
+                            overviewNet = overviewIncome - overviewExpense
                         )
                     }
                 }

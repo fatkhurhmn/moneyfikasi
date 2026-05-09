@@ -10,6 +10,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.chart.TransactionLineChart
 import dev.muffar.moneyfikasi.common_ui.component.tabs.IncomeExpenseTabs
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.ChooseDateSheet
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.CustomDateSheet
@@ -50,7 +51,13 @@ fun StatisticScreen(
             StatisticOverviewSection(
                 income = state.overviewIncome,
                 expense = state.overviewExpense,
-                total = state.overviewTotal
+                total = state.overviewNet
+            )
+
+            TransactionLineChart(
+                incomeTransactions = state.incomeTransactions,
+                expenseTransactions = state.expenseTransactions,
+                dateRange = state.dateRange
             )
 
             IncomeExpenseTabs(
