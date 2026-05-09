@@ -59,8 +59,7 @@ fun TransactionLineChart(
                 surfaceColor = surfaceColor,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(260.dp)
-                    .padding(vertical = 4.dp),
+                    .height(200.dp),
             )
         }
     }

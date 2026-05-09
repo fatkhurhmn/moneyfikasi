@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.resource.R
@@ -33,6 +34,7 @@ fun StatisticOverviewSection(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(12.dp),
+            verticalArrangement = Arrangement.spacedBy(2.dp),
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -45,12 +47,13 @@ fun StatisticOverviewSection(
 
                 Text(
                     text = stringResource(R.string.income),
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
                     text = formattedIncome,
-                    style = MaterialTheme.typography.labelLarge,
+                    style = MaterialTheme.typography.labelMedium,
+                    fontSize = 14.sp,
                     color = financeColors.income
                 )
             }
@@ -64,12 +67,13 @@ fun StatisticOverviewSection(
                 }
                 Text(
                     text = stringResource(R.string.expense),
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
                     text = formattedExpense,
-                    style = MaterialTheme.typography.labelLarge,
+                    style = MaterialTheme.typography.labelMedium,
+                    fontSize = 14.sp,
                     color = financeColors.expense
                 )
             }
@@ -81,13 +85,14 @@ fun StatisticOverviewSection(
             ) {
                 Text(
                     text = stringResource(R.string.net),
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
                     text = total.formatThousand(),
-                    style = MaterialTheme.typography.labelLarge,
-                )
+                    style = MaterialTheme.typography.labelMedium,
+                    fontSize = 14.sp,
+                    )
             }
         }
     }
