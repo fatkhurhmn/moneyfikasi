@@ -32,7 +32,7 @@ fun CategoryDistributionContent(
         if (categoryStatistics.isNotEmpty()) {
             CategoryDistributionChart(categoryStatistics)
             Column {
-                categoryStatistics.forEach { stat ->
+                categoryStatistics.take(3).forEach { stat ->
                     CategoryDistributionItem(
                         category = stat.category,
                         amount = stat.amount,
@@ -42,7 +42,6 @@ fun CategoryDistributionContent(
                     )
                 }
             }
-
             Text(
                 text = stringResource(R.string.see_all),
                 style = MaterialTheme.typography.bodyMedium,

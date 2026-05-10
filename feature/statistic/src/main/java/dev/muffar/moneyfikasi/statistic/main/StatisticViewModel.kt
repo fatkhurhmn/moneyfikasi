@@ -60,7 +60,7 @@ class StatisticViewModel @Inject constructor(
                         transactionUseCases.getIncomeSum(dateRange.start, dateRange.end, categories, wallets),
                         transactionUseCases.getExpenseSum(dateRange.start, dateRange.end, categories, wallets),
                         statisticUseCases.getTransactionTrend(dateRange, categories, wallets),
-                        statisticUseCases.getCategoryStatistics(dateRange, categories, wallets, 3)
+                        statisticUseCases.getCategoryStatistics(dateRange, categories, wallets)
                     ) { incomeSum, expenseSum, trend, categoryStats ->
                         _state.update { state ->
                             state.copy(
