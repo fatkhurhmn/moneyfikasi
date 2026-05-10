@@ -78,7 +78,7 @@ fun ChartView(
             // Slide gesture: update highlight on every finger move
             chart.onChartGestureListener = SlideGestureListener(chart)
 
-            chart.animateX(700)
+            chart.animateX(500)
             chart.invalidate()
         },
     )

@@ -6,19 +6,20 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.chart.TransactionLineChart
-import dev.muffar.moneyfikasi.common_ui.component.tabs.IncomeExpenseTabs
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.ChooseDateSheet
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.CustomDateSheet
 import dev.muffar.moneyfikasi.common_ui.component.calendar_header.DateRangeSwitcher
 import dev.muffar.moneyfikasi.domain.model.DateRange
+import dev.muffar.moneyfikasi.statistic.main.component.StatisticByCategory
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticOverviewSection
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticTopBar
-import dev.muffar.moneyfikasi.statistic.main.component.TransactionStatisticContent
 import org.threeten.bp.LocalDateTime
 import java.util.UUID
 
@@ -33,14 +34,14 @@ fun StatisticScreen(
     onShowChooseDateSheet: (Boolean) -> Unit,
     onShowCustomDateSheet: (Boolean) -> Unit,
 ) {
-    val pagerState = rememberPagerState { state.tabs.size }
-
     Scaffold(
         topBar = { StatisticTopBar(onFilterClick = { onShowChooseDateSheet(true) }) },
         contentWindowInsets = WindowInsets(0.dp),
     ) {
         Column(
-            modifier = modifier.padding(it)
+            modifier = modifier
+                .padding(it)
+                .verticalScroll(rememberScrollState())
         ) {
             DateRangeSwitcher(
                 timeReference = state.timeReference,
@@ -60,35 +61,17 @@ fun StatisticScreen(
                 dateRange = state.dateRange
             )
 
-            IncomeExpenseTabs(
-                pagerState = pagerState
-            ) { index ->
-                when (index) {
-                    0 -> TransactionStatisticContent(
-                        modifier = Modifier,
-                        transactions = state.incomeTransactions,
-                        onClick = { category ->
-                            onItemClick(
-                                state.dateRange.start to state.dateRange.end,
-                                category.id,
-                                category.name
-                            )
-                        }
-                    )
-
-                    1 -> TransactionStatisticContent(
-                        modifier = Modifier,
-                        transactions = state.expenseTransactions,
-                        onClick = { category ->
-                            onItemClick(
-                                state.dateRange.start to state.dateRange.end,
-                                category.id,
-                                category.name
-                            )
-                        }
+            StatisticByCategory(
+                transactionsIncome = state.incomeTransactions,
+                transactionsExpense = state.expenseTransactions,
+                onItemClick = { category ->
+                    onItemClick(
+                        state.dateRange.start to state.dateRange.end,
+                        category.id,
+                        category.name
                     )
                 }
-            }
+            )
         }
 
         AnimatedVisibility(state.showChooseDateSheet) {
