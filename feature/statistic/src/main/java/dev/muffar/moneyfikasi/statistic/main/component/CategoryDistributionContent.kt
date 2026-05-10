@@ -20,7 +20,7 @@ import dev.muffar.moneyfikasi.domain.model.CategoryStatistic
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
-fun StatisticByCategoryContent(
+fun CategoryDistributionContent(
     categoryStatistics: List<CategoryStatistic>,
     onItemClick: (Category) -> Unit,
     onShowAllClick: () -> Unit
@@ -33,7 +33,7 @@ fun StatisticByCategoryContent(
             CategoryDistributionChart(categoryStatistics)
             Column {
                 categoryStatistics.forEach { stat ->
-                    StatisticByCategoryItem(
+                    CategoryDistributionItem(
                         category = stat.category,
                         amount = stat.amount,
                         percentage = stat.percentage,

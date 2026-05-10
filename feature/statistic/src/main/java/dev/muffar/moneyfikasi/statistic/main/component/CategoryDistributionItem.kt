@@ -26,7 +26,7 @@ import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 
 @Composable
-fun StatisticByCategoryItem(
+fun CategoryDistributionItem(
     category: Category,
     amount: Double,
     percentage: Double,

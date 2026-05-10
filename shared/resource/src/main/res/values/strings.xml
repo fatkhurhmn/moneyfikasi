@@ -87,7 +87,6 @@
     <string name="expense_summary">Expense Summary</string>
     <string name="total">Total</string>
     <string name="net">Net</string>
-    <string name="income_vs_expense">Income vs Expense</string>
     <string name="category_distribution">Category Distribution</string>
     <string name="total_balance">Total Balance</string>
     <string name="total_n_balance">Total\nBalance</string>
@@ -197,4 +196,6 @@
     <string name="biometric_unlock">Biometric Unlock</string>
     <string name="biometric_reason">Unlock Moneyfikasi</string>
     <string name="use_pin">Use PIN</string>
+    <string name="overview">Overview</string>
+    <string name="trend">Trend</string>
 </resources>

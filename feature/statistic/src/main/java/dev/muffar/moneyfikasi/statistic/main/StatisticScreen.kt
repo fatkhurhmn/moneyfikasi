@@ -16,7 +16,7 @@ import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.CustomDateSheet
 import dev.muffar.moneyfikasi.common_ui.component.calendar_header.DateRangeSwitcher
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.statistic.main.component.IncomeExpenseTrendSection
-import dev.muffar.moneyfikasi.statistic.main.component.StatisticByCategory
+import dev.muffar.moneyfikasi.statistic.main.component.CategoryDistributionSection
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticOverviewSection
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticTopBar
 import org.threeten.bp.LocalDateTime
@@ -58,7 +58,7 @@ fun StatisticScreen(
                 trend = state.trend
             )
 
-            StatisticByCategory(
+            CategoryDistributionSection(
                 categoryStatistics = state.categoryStatistics,
                 onItemClick = { category ->
                     onItemClick(

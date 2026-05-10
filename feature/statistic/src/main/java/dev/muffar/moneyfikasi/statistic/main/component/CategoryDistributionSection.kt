@@ -13,6 +13,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
@@ -20,12 +21,14 @@ import dev.muffar.moneyfikasi.common_ui.component.tabs.IncomeExpenseTabHeader
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.CategoryStatistic
 import dev.muffar.moneyfikasi.domain.model.CategoryType
+import dev.muffar.moneyfikasi.resource.R
 
 @Composable
-fun StatisticByCategory(
+fun CategoryDistributionSection(
     categoryStatistics: Map<CategoryType, List<CategoryStatistic>>,
     onItemClick: (Category) -> Unit
 ) {
+    var selectedTab by remember { mutableIntStateOf(0) }
     PrimaryCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -36,11 +39,17 @@ fun StatisticByCategory(
                 .fillMaxWidth()
                 .padding(vertical = 12.dp)
         ) {
-            var selectedTab by remember { mutableIntStateOf(0) }
+            StatisticSectionLabel(
+                label = stringResource(R.string.category_distribution),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 12.dp)
+                    .padding(bottom = 8.dp)
+            )
             IncomeExpenseTabHeader(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 12.dp),
+                    .padding(horizontal = 12.dp, vertical = 2.dp),
                 selectedTab = selectedTab,
                 onTabSelected = { selectedTab = it },
                 labelStyle = MaterialTheme.typography.labelMedium.copy(fontSize = 14.sp),
@@ -48,8 +57,15 @@ fun StatisticByCategory(
             )
             Spacer(modifier = Modifier.height(8.dp))
             when (selectedTab) {
-                0 -> StatisticByCategoryContent(categoryStatistics[CategoryType.INCOME]?.take(3) ?: emptyList(), onItemClick, {})
-                1 -> StatisticByCategoryContent(categoryStatistics[CategoryType.EXPENSE]?.take(3) ?: emptyList(), onItemClick, {})
+                0 -> CategoryDistributionContent(
+                    categoryStatistics[CategoryType.INCOME] ?: emptyList(),
+                    onItemClick,
+                    {})
+
+                1 -> CategoryDistributionContent(
+                    categoryStatistics[CategoryType.EXPENSE] ?: emptyList(),
+                    onItemClick,
+                    {})
             }
         }
     }
