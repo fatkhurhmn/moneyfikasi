@@ -21,6 +21,7 @@ import dev.muffar.moneyfikasi.data.repositoy.BudgetRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.CategoryRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.PresetRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.SecuritySettingsRepositoryImpl
+import dev.muffar.moneyfikasi.data.repositoy.StatisticRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.TransactionRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.UiSettingsRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.WalletRepositoryImpl
@@ -30,6 +31,7 @@ import dev.muffar.moneyfikasi.domain.repository.BudgetRepository
 import dev.muffar.moneyfikasi.domain.repository.CategoryRepository
 import dev.muffar.moneyfikasi.domain.repository.PresetRepository
 import dev.muffar.moneyfikasi.domain.repository.SecuritySettingsRepository
+import dev.muffar.moneyfikasi.domain.repository.StatisticRepository
 import dev.muffar.moneyfikasi.domain.repository.TransactionRepository
 import dev.muffar.moneyfikasi.domain.repository.UiSettingsRepository
 import dev.muffar.moneyfikasi.domain.repository.WalletRepository
@@ -103,5 +105,13 @@ object RepositoryModule {
     @Singleton
     fun provideBudgetRepository(budgetDao: BudgetDao): BudgetRepository {
         return BudgetRepositoryImpl(budgetDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideStatisticRepository(
+        transactionDao: TransactionDao
+    ): StatisticRepository {
+        return StatisticRepositoryImpl(transactionDao)
     }
 }

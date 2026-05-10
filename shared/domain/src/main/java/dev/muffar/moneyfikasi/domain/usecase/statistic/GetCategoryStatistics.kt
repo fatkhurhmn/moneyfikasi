@@ -6,12 +6,13 @@ import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
+import dev.muffar.moneyfikasi.domain.repository.StatisticRepository
 import dev.muffar.moneyfikasi.domain.repository.TransactionRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
 class GetCategoryStatistics(
-    private val repository: TransactionRepository,
+    private val repository: StatisticRepository,
 ) {
     operator fun invoke(
         dateRange: DateRange,

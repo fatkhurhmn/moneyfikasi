@@ -10,6 +10,7 @@ import dev.muffar.moneyfikasi.domain.repository.BudgetRepository
 import dev.muffar.moneyfikasi.domain.repository.CategoryRepository
 import dev.muffar.moneyfikasi.domain.repository.PresetRepository
 import dev.muffar.moneyfikasi.domain.repository.SecuritySettingsRepository
+import dev.muffar.moneyfikasi.domain.repository.StatisticRepository
 import dev.muffar.moneyfikasi.domain.repository.TransactionRepository
 import dev.muffar.moneyfikasi.domain.repository.UiSettingsRepository
 import dev.muffar.moneyfikasi.domain.repository.WalletRepository
@@ -187,9 +188,9 @@ object UseCaseModule {
 
     @Provides
     fun provideStatisticUseCases(
-        transactionRepository: TransactionRepository,
+        statisticRepository: StatisticRepository,
     ) = StatisticUseCases(
-        getTransactionTrend = GetTransactionTrend(transactionRepository),
-        getCategoryStatistics = GetCategoryStatistics(transactionRepository)
+        getTransactionTrend = GetTransactionTrend(statisticRepository),
+        getCategoryStatistics = GetCategoryStatistics(statisticRepository)
     )
 }

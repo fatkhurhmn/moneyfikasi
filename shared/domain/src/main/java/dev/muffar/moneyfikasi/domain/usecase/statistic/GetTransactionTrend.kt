@@ -5,6 +5,7 @@ import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.model.TransactionTrend
 import dev.muffar.moneyfikasi.domain.model.Wallet
+import dev.muffar.moneyfikasi.domain.repository.StatisticRepository
 import dev.muffar.moneyfikasi.domain.repository.TransactionRepository
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.format
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +16,7 @@ import org.threeten.bp.ZoneId
 import java.util.Locale
 
 class GetTransactionTrend(
-    private val repository: TransactionRepository,
+    private val repository: StatisticRepository,
 ) {
     operator fun invoke(
         dateRange: DateRange,

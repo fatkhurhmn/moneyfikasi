@@ -48,22 +48,6 @@ interface TransactionRepository {
         wallets: Set<UUID>? = null,
     ): Flow<Double>
 
-    fun getCategoryStatistics(
-        startDateRange: Long,
-        endDateRange: Long,
-        type: TransactionType,
-        categories: Set<UUID>? = null,
-        wallets: Set<UUID>? = null,
-        limit: Int? = null,
-    ): Flow<List<CategoryStatistic>>
-
-    fun getTransactionTrendItems(
-        startDateRange: Long,
-        endDateRange: Long,
-        categories: Set<UUID>? = null,
-        wallets: Set<UUID>? = null,
-    ): Flow<List<TransactionTrendItem>>
-
     fun getAllTransactions(query: String): Flow<List<Transaction>>
 
     fun getAllTransactionsPaged(query: String): Flow<PagingData<Transaction>>
