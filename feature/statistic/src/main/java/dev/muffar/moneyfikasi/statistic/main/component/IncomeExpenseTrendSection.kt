@@ -56,7 +56,7 @@ fun IncomeExpenseTrendSection(
                     .fillMaxWidth()
                     .padding(bottom = 8.dp)
             )
-            LegendRow(modifier.align(Alignment.CenterHorizontally))
+            LegendRow(modifier.align(Alignment.End))
             IncomeExpenseChart(
                 chartData = chartData,
                 incomeColor = incomeColor,

@@ -1,7 +1,6 @@
 package dev.muffar.moneyfikasi.statistic.main.component
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -53,7 +52,6 @@ fun CategoryDistributionSection(
                 selectedTab = selectedTab,
                 onTabSelected = { selectedTab = it },
                 labelStyle = MaterialTheme.typography.labelMedium.copy(fontSize = 14.sp),
-                innerPadding = PaddingValues(vertical = 6.dp),
             )
             Spacer(modifier = Modifier.height(8.dp))
             when (selectedTab) {

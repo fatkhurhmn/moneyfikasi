@@ -31,7 +31,7 @@ import dev.muffar.moneyfikasi.utils.extensions.StringExt.capitalize
 fun IncomeExpenseTabHeader(
     modifier: Modifier = Modifier,
     labelStyle: TextStyle = MaterialTheme.typography.labelLarge,
-    innerPadding: PaddingValues = PaddingValues(vertical = 8.dp),
+    innerPadding: PaddingValues = PaddingValues(vertical = 6.dp),
     selectedTab: Int,
     onTabSelected: (Int) -> Unit
 ) {

@@ -39,7 +39,7 @@ fun IncomeExpenseChart(
     AndroidView(
         modifier = modifier,
         factory = { context ->
-            LineChart(context).apply {
+            AccessibleLineChart(context).apply {
                 setupStaticConfig(textColor)
             }
         },
@@ -160,5 +160,12 @@ fun createDataSet(
                 android.graphics.Color.TRANSPARENT,
             ),
         )
+    }
+}
+
+private class AccessibleLineChart(context: android.content.Context) : LineChart(context) {
+    override fun performClick(): Boolean {
+        if (super.performClick()) return true
+        return true
     }
 }
