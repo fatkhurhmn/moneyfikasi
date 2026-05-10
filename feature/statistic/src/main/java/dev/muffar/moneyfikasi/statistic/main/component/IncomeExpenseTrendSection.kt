@@ -24,6 +24,7 @@ import dev.muffar.moneyfikasi.resource.R
 fun IncomeExpenseTrendSection(
     modifier: Modifier = Modifier,
     trend: TransactionTrend,
+    onSliding: (Boolean) -> Unit = {},
 ) {
     val financeColors = MoneyfikasiTheme.financeColors
     val incomeColor = financeColors.income.toArgb()
@@ -62,6 +63,7 @@ fun IncomeExpenseTrendSection(
                 expenseColor = expenseColor,
                 textColor = textColor,
                 surfaceColor = surfaceColor,
+                onSliding = onSliding,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp),

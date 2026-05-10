@@ -1,41 +1,60 @@
 package dev.muffar.moneyfikasi.common_ui.component.line_chart.slider
 
 import android.view.MotionEvent
+import android.view.View
 import com.github.mikephil.charting.charts.LineChart
-import com.github.mikephil.charting.listener.ChartTouchListener
-import com.github.mikephil.charting.listener.OnChartGestureListener
 import kotlin.math.abs
 
-class SlideGestureListener(private val chart: LineChart) : OnChartGestureListener {
+class SlideGestureListener(
+    var onSliding: (Boolean) -> Unit,
+) : View.OnTouchListener {
 
-    override fun onChartGestureStart(me: MotionEvent, last: ChartTouchListener.ChartGesture) =
-        updateHighlight(me)
+    var chart: LineChart? = null
+    private var isSliding = false
+    private var startX = 0f
+    private var startY = 0f
+    private val slop = 10f
 
-    override fun onChartSingleTapped(me: MotionEvent) =
-        updateHighlight(me)
+    override fun onTouch(v: View, event: MotionEvent): Boolean {
+        val chart = chart ?: return false
 
-    override fun onChartLongPressed(me: MotionEvent) =
-        updateHighlight(me)
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                startX = event.x
+                startY = event.y
+            }
 
-    // Called on every pixel of finger movement — this is what enables sliding
-    override fun onChartTranslate(me: MotionEvent, dX: Float, dY: Float) {
-        if (abs(dX) > abs(dY)) {
-            updateHighlight(me)
+            MotionEvent.ACTION_MOVE -> {
+                if (!isSliding) {
+                    val dx = abs(event.x - startX)
+                    val dy = abs(event.y - startY)
+                    // If horizontal movement is significant, start sliding
+                    if (dx > slop && dx > dy) {
+                        isSliding = true
+                        onSliding(true)
+                        // Inform parent to not intercept this gesture
+                        v.parent.requestDisallowInterceptTouchEvent(true)
+                    }
+                }
+
+                if (isSliding) {
+                    val h = chart.getHighlightByTouchPoint(event.x, event.y)
+                    chart.highlightValue(h, true)
+                }
+            }
+
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                if (isSliding) {
+                    isSliding = false
+                    onSliding(false)
+                    chart.highlightValue(null, true)
+                } else if (event.action == MotionEvent.ACTION_UP) {
+                    // Fix for: SlideGestureListener#onTouch should call View#performClick
+                    v.performClick()
+                }
+            }
         }
-    }
-
-    override fun onChartGestureEnd(me: MotionEvent, last: ChartTouchListener.ChartGesture) {
-        // Intentionally keep the last highlight visible when the finger lifts,
-        // consistent with standard MPAndroidChart behaviour.
-        chart.highlightValue(null, true)
-    }
-
-    override fun onChartDoubleTapped(me: MotionEvent) {}
-    override fun onChartFling(me1: MotionEvent, me2: MotionEvent, vX: Float, vY: Float) {}
-    override fun onChartScale(me: MotionEvent, scaleX: Float, scaleY: Float) {}
-
-    private fun updateHighlight(me: MotionEvent) {
-        val h = chart.getHighlightByTouchPoint(me.x, me.y) ?: return
-        chart.highlightValue(h, true)
+        // Consume events if sliding, so chart doesn't do its own drag processing
+        return isSliding
     }
 }

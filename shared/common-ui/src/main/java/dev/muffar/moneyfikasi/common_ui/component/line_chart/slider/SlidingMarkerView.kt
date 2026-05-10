@@ -1,11 +1,11 @@
 package dev.muffar.moneyfikasi.common_ui.component.line_chart.slider
 
-import android.R
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Typeface
+import android.util.TypedValue
 import androidx.core.graphics.ColorUtils
 import com.github.mikephil.charting.components.MarkerView
 import com.github.mikephil.charting.data.Entry
@@ -25,17 +25,24 @@ class SlidingMarkerView(
     private val borderColor: Int,
     private val incomeColor: Int,
     private val expenseColor: Int,
-) : MarkerView(context, R.layout.simple_list_item_1) {
+) : MarkerView(context, android.R.layout.simple_list_item_1) {
 
     private val dp = context.resources.displayMetrics.density
-    private val sp = context.resources.displayMetrics.scaledDensity
     private val pad = 10f * dp
-    private val lh = 18f * sp
+    private val lh = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_SP,
+        18f,
+        context.resources.displayMetrics
+    )
     private val r = 8f * dp
 
     private val bgPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val txPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        textSize = 11f * sp
+        textSize = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_SP,
+            11f,
+            context.resources.displayMetrics
+        )
         typeface = Typeface.DEFAULT_BOLD
     }
 

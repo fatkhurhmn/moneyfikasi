@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.statistic.main
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
@@ -9,6 +10,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.ChooseDateSheet
@@ -33,14 +39,20 @@ fun StatisticScreen(
     onShowChooseDateSheet: (Boolean) -> Unit,
     onShowCustomDateSheet: (Boolean) -> Unit,
 ) {
+    var isChartSliding by remember { mutableStateOf(false) }
+    LaunchedEffect(isChartSliding) {
+        Log.d("TAG", "StatisticScreen: $isChartSliding")
+    }
+
     Scaffold(
         topBar = { StatisticTopBar(onFilterClick = { onShowChooseDateSheet(true) }) },
         contentWindowInsets = WindowInsets(0.dp),
     ) {
+        val scrollState = rememberScrollState()
         Column(
             modifier = modifier
                 .padding(it)
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(scrollState, enabled = !isChartSliding)
         ) {
             DateRangeSwitcher(
                 timeReference = state.timeReference,
@@ -55,7 +67,11 @@ fun StatisticScreen(
             )
 
             IncomeExpenseTrendSection(
-                trend = state.trend
+                trend = state.trend,
+                onSliding = { sliding ->
+                    Log.d("TAG", "onSliding: $sliding")
+                    isChartSliding = sliding
+                }
             )
 
             CategoryDistributionSection(

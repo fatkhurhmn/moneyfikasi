@@ -2,6 +2,9 @@ package dev.muffar.moneyfikasi.common_ui.component.line_chart
 
 import android.graphics.drawable.GradientDrawable
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
@@ -25,7 +28,12 @@ fun IncomeExpenseChart(
     textColor: Int,
     surfaceColor: Int,
     modifier: Modifier = Modifier,
+    onSliding: (Boolean) -> Unit = {},
 ) {
+    val currentOnSliding by rememberUpdatedState(onSliding)
+    val listener = remember { SlideGestureListener(currentOnSliding) }
+    listener.onSliding = currentOnSliding
+
     val incomeLabel = stringResource(R.string.income)
     val expenseLabel = stringResource(R.string.expense)
     AndroidView(
@@ -76,7 +84,8 @@ fun IncomeExpenseChart(
             }
 
             // Slide gesture: update highlight on every finger move
-            chart.onChartGestureListener = SlideGestureListener(chart)
+            listener.chart = chart
+            chart.setOnTouchListener(listener)
 
             chart.animateX(500)
             chart.invalidate()
@@ -93,8 +102,8 @@ fun LineChart.setupStaticConfig(textColor: Int) {
     setTouchEnabled(true)
     isDragXEnabled = true
     isDragYEnabled = false
-    isHighlightPerDragEnabled = true
-    isHighlightPerTapEnabled = true
+    isHighlightPerDragEnabled = false
+    isHighlightPerTapEnabled = false
 
     extraBottomOffset = 12f
     extraTopOffset = 8f
