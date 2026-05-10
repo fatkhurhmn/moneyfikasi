@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.common_ui.component
+package dev.muffar.moneyfikasi.common_ui.component.pie_chart
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.padding
@@ -22,7 +22,7 @@ import dev.muffar.moneyfikasi.domain.model.Transaction
 import java.text.DecimalFormat
 
 @Composable
-fun TransactionPieChart(
+fun CategoryDistributionChart(
     transactions: Map<Category, List<Transaction>>,
 ) {
     val onSurfaceColor = MaterialTheme.colorScheme.onSurface

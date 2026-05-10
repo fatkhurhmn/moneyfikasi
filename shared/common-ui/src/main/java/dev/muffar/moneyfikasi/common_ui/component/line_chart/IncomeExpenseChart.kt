@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.common_ui.component.chart
+package dev.muffar.moneyfikasi.common_ui.component.line_chart
 
 import android.graphics.drawable.GradientDrawable
 import androidx.compose.runtime.Composable
@@ -12,13 +12,13 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.ValueFormatter
-import dev.muffar.moneyfikasi.common_ui.component.chart.slider.SlideGestureListener
-import dev.muffar.moneyfikasi.common_ui.component.chart.slider.SlidingMarkerView
-import dev.muffar.moneyfikasi.common_ui.component.chart.slider.formatAmount
+import dev.muffar.moneyfikasi.common_ui.component.line_chart.slider.SlideGestureListener
+import dev.muffar.moneyfikasi.common_ui.component.line_chart.slider.SlidingMarkerView
+import dev.muffar.moneyfikasi.common_ui.component.line_chart.slider.formatAmount
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
-fun ChartView(
+fun IncomeExpenseChart(
     chartData: ChartData,
     incomeColor: Int,
     expenseColor: Int,

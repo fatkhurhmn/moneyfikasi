@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.common_ui.component.chart.slider
+package dev.muffar.moneyfikasi.common_ui.component.line_chart.slider
 
 import android.view.MotionEvent
 import com.github.mikephil.charting.charts.LineChart

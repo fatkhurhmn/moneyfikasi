@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.common_ui.component.chart
+package dev.muffar.moneyfikasi.common_ui.component.line_chart
 
 data class ChartData(
     val labels: List<String>,

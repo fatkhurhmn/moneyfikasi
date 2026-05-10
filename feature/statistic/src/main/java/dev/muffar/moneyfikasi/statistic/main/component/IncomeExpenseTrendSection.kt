@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.common_ui.component.chart
+package dev.muffar.moneyfikasi.statistic.main.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,8 +11,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.component.chart.legend.LegendRow
+import dev.muffar.moneyfikasi.common_ui.component.line_chart.legend.LegendRow
 import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
+import dev.muffar.moneyfikasi.common_ui.component.line_chart.ChartData
+import dev.muffar.moneyfikasi.common_ui.component.line_chart.IncomeExpenseChart
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
@@ -24,7 +26,7 @@ import org.threeten.bp.ZoneId
 import java.util.Locale
 
 @Composable
-fun TransactionLineChart(
+fun IncomeExpenseTrendSection(
     modifier: Modifier = Modifier,
     incomeTransactions: List<Transaction>,
     expenseTransactions: List<Transaction>,
@@ -51,7 +53,7 @@ fun TransactionLineChart(
                 .padding(12.dp)
         ) {
             LegendRow(modifier.align(Alignment.CenterHorizontally))
-            ChartView(
+            IncomeExpenseChart(
                 chartData = chartData,
                 incomeColor = incomeColor,
                 expenseColor = expenseColor,

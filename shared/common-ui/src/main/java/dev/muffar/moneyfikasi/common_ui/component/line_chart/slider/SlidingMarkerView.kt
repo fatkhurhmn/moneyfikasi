@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.common_ui.component.chart.slider
+package dev.muffar.moneyfikasi.common_ui.component.line_chart.slider
 
 import android.R
 import android.annotation.SuppressLint
@@ -11,7 +11,7 @@ import com.github.mikephil.charting.components.MarkerView
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.utils.MPPointF
-import dev.muffar.moneyfikasi.common_ui.component.chart.ChartData
+import dev.muffar.moneyfikasi.common_ui.component.line_chart.ChartData
 import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.roundToInt

@@ -14,7 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
-import dev.muffar.moneyfikasi.common_ui.component.TransactionPieChart
+import dev.muffar.moneyfikasi.common_ui.component.pie_chart.CategoryDistributionChart
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.resource.R
@@ -30,7 +30,7 @@ fun StatisticByCategoryContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (transactions.isNotEmpty()) {
-            TransactionPieChart(transactions)
+            CategoryDistributionChart(transactions)
             Column {
                 transactions.onEachIndexed { index, _ ->
                     val item = transactions.keys.toList()[index]

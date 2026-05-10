@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.common_ui.component.chart.legend
+package dev.muffar.moneyfikasi.common_ui.component.line_chart.legend
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
