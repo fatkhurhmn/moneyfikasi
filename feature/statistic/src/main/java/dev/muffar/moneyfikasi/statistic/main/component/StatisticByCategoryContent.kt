@@ -16,12 +16,12 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
 import dev.muffar.moneyfikasi.common_ui.component.pie_chart.CategoryDistributionChart
 import dev.muffar.moneyfikasi.domain.model.Category
-import dev.muffar.moneyfikasi.domain.model.Transaction
+import dev.muffar.moneyfikasi.domain.model.CategoryStatistic
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
 fun StatisticByCategoryContent(
-    transactions: Map<Category, List<Transaction>>,
+    categoryStatistics: List<CategoryStatistic>,
     onItemClick: (Category) -> Unit,
     onShowAllClick: () -> Unit
 ) {
@@ -29,22 +29,15 @@ fun StatisticByCategoryContent(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (transactions.isNotEmpty()) {
-            CategoryDistributionChart(transactions)
+        if (categoryStatistics.isNotEmpty()) {
+            CategoryDistributionChart(categoryStatistics)
             Column {
-                transactions.onEachIndexed { index, _ ->
-                    val item = transactions.keys.toList()[index]
-                    val amount =
-                        transactions.values.toList()[index].sumOf { it.amount }
-                    val totalAmount = transactions.values.flatten().sumOf { it.amount }
-                    val percentage = if (totalAmount > 0) amount / totalAmount else 0.0
-                    val quantity = transactions[item]?.size ?: 0
-
+                categoryStatistics.forEach { stat ->
                     StatisticByCategoryItem(
-                        category = item,
-                        amount = amount,
-                        percentage = percentage,
-                        quantity = quantity,
+                        category = stat.category,
+                        amount = stat.amount,
+                        percentage = stat.percentage,
+                        quantity = stat.transactionCount,
                         onClick = onItemClick
                     )
                 }

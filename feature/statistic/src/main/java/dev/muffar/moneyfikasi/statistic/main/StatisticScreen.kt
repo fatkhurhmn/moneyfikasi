@@ -11,11 +11,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.statistic.main.component.IncomeExpenseTrendSection
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.ChooseDateSheet
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.CustomDateSheet
 import dev.muffar.moneyfikasi.common_ui.component.calendar_header.DateRangeSwitcher
 import dev.muffar.moneyfikasi.domain.model.DateRange
+import dev.muffar.moneyfikasi.statistic.main.component.IncomeExpenseTrendSection
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticByCategory
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticOverviewSection
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticTopBar
@@ -55,14 +55,11 @@ fun StatisticScreen(
             )
 
             IncomeExpenseTrendSection(
-                incomeTransactions = state.incomeTransactions,
-                expenseTransactions = state.expenseTransactions,
-                dateRange = state.dateRange
+                trend = state.trend
             )
 
             StatisticByCategory(
-                transactionsIncome = state.incomeTransactions,
-                transactionsExpense = state.expenseTransactions,
+                categoryStatistics = state.categoryStatistics,
                 onItemClick = { category ->
                     onItemClick(
                         state.dateRange.start to state.dateRange.end,

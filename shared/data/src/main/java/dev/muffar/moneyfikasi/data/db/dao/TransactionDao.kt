@@ -8,7 +8,9 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
+import dev.muffar.moneyfikasi.data.db.entity.CategoryStatisticEntity
 import dev.muffar.moneyfikasi.data.db.entity.TransactionEntity
+import dev.muffar.moneyfikasi.data.db.entity.TransactionTrendEntity
 import dev.muffar.moneyfikasi.data.db.entity.TransactionWithDetails
 import dev.muffar.moneyfikasi.data.utils.InitDataSource
 import dev.muffar.moneyfikasi.domain.model.TransactionType
@@ -198,6 +200,88 @@ abstract class TransactionDao {
         wallets: Set<UUID>?
     ): Flow<Double> {
         return getNetBalanceInternal(
+            start,
+            end,
+            categories,
+            !categories.isNullOrEmpty(),
+            wallets,
+            !wallets.isNullOrEmpty()
+        )
+    }
+
+    @Query(
+        """
+        SELECT 
+            c.*, 
+            TOTAL(t.amount) as total_amount, 
+            COUNT(t.id) as transaction_count
+        FROM transactions t
+        INNER JOIN categories c ON t.category_id = c.id
+        WHERE (t.date BETWEEN :start AND :end)
+        AND t.type = :type
+        AND (:filterCategories = 0 OR t.category_id IN (:categories))
+        AND (:filterWallets = 0 OR t.wallet_id IN (:wallets))
+        GROUP BY t.category_id
+        ORDER BY total_amount DESC
+        LIMIT (CASE WHEN :limit > 0 THEN :limit ELSE -1 END)
+        """
+    )
+    protected abstract fun getCategoryStatisticsInternal(
+        start: Long,
+        end: Long,
+        type: TransactionType,
+        categories: Set<UUID>?,
+        filterCategories: Boolean,
+        wallets: Set<UUID>?,
+        filterWallets: Boolean,
+        limit: Int
+    ): Flow<List<CategoryStatisticEntity>>
+
+    fun getCategoryStatistics(
+        start: Long,
+        end: Long,
+        type: TransactionType,
+        categories: Set<UUID>?,
+        wallets: Set<UUID>?,
+        limit: Int? = null
+    ): Flow<List<CategoryStatisticEntity>> {
+        return getCategoryStatisticsInternal(
+            start,
+            end,
+            type,
+            categories,
+            !categories.isNullOrEmpty(),
+            wallets,
+            !wallets.isNullOrEmpty(),
+            limit ?: 0
+        )
+    }
+
+    @Query(
+        """
+        SELECT date, amount, type FROM transactions
+        WHERE (date BETWEEN :start AND :end)
+        AND type IN ('INCOME', 'EXPENSE')
+        AND (:filterCategories = 0 OR category_id IN (:categories))
+        AND (:filterWallets = 0 OR wallet_id IN (:wallets))
+        """
+    )
+    protected abstract fun getTransactionTrendItemsInternal(
+        start: Long,
+        end: Long,
+        categories: Set<UUID>?,
+        filterCategories: Boolean,
+        wallets: Set<UUID>?,
+        filterWallets: Boolean
+    ): Flow<List<TransactionTrendEntity>>
+
+    fun getTransactionTrendItems(
+        start: Long,
+        end: Long,
+        categories: Set<UUID>?,
+        wallets: Set<UUID>?
+    ): Flow<List<TransactionTrendEntity>> {
+        return getTransactionTrendItemsInternal(
             start,
             end,
             categories,

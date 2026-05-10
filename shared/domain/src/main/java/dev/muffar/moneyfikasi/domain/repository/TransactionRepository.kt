@@ -1,7 +1,9 @@
 package dev.muffar.moneyfikasi.domain.repository
 
 import androidx.paging.PagingData
+import dev.muffar.moneyfikasi.domain.model.CategoryStatistic
 import dev.muffar.moneyfikasi.domain.model.Transaction
+import dev.muffar.moneyfikasi.domain.model.TransactionTrendItem
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.TransferDetail
 import kotlinx.coroutines.flow.Flow
@@ -45,6 +47,22 @@ interface TransactionRepository {
         categories: Set<UUID>? = null,
         wallets: Set<UUID>? = null,
     ): Flow<Double>
+
+    fun getCategoryStatistics(
+        startDateRange: Long,
+        endDateRange: Long,
+        type: TransactionType,
+        categories: Set<UUID>? = null,
+        wallets: Set<UUID>? = null,
+        limit: Int? = null,
+    ): Flow<List<CategoryStatistic>>
+
+    fun getTransactionTrendItems(
+        startDateRange: Long,
+        endDateRange: Long,
+        categories: Set<UUID>? = null,
+        wallets: Set<UUID>? = null,
+    ): Flow<List<TransactionTrendItem>>
 
     fun getAllTransactions(query: String): Flow<List<Transaction>>
 

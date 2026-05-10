@@ -17,18 +17,17 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
-import dev.muffar.moneyfikasi.domain.model.Category
-import dev.muffar.moneyfikasi.domain.model.Transaction
+import dev.muffar.moneyfikasi.domain.model.CategoryStatistic
 import java.text.DecimalFormat
 
 @Composable
 fun CategoryDistributionChart(
-    transactions: Map<Category, List<Transaction>>,
+    categoryStatistics: List<CategoryStatistic>,
 ) {
     val onSurfaceColor = MaterialTheme.colorScheme.onSurface
     Crossfade(
         modifier = Modifier.padding(vertical = 8.dp),
-        targetState = transactions,
+        targetState = categoryStatistics,
         label = ""
     ) { pieChartData ->
         AndroidView(
@@ -50,14 +49,12 @@ fun CategoryDistributionChart(
             update = { pieChart ->
                 val entries = ArrayList<PieEntry>()
 
-                for (i in pieChartData.entries.indices) {
-                    val item = pieChartData.entries.toList()[i]
-                    val amount = item.value.sumOf { it.amount }
-                    entries.add(PieEntry(amount.toFloat(), item.key.name))
+                for (stat in pieChartData) {
+                    entries.add(PieEntry(stat.amount.toFloat(), stat.category.name))
                 }
 
                 val dataset = PieDataSet(entries, "").apply {
-                    colors = pieChartData.map { Color(it.key.color).toArgb() }
+                    colors = pieChartData.map { Color(it.category.color).toArgb() }
                     setDrawValues(false)
                 }
 

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
+import dev.muffar.moneyfikasi.domain.usecase.statistic.StatisticUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.domain.utils.extension.toDateRange
@@ -12,6 +13,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
@@ -24,6 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class StatisticViewModel @Inject constructor(
     private val transactionUseCases: TransactionUseCases,
+    private val statisticUseCases: StatisticUseCases,
     private val categoryUseCases: CategoryUseCases,
     private val walletUseCases: WalletUseCases,
 ) : ViewModel() {
@@ -32,7 +35,7 @@ class StatisticViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        observeTransactions()
+        observeStatistics()
         loadWallets()
         loadCategories()
     }
@@ -47,41 +50,30 @@ class StatisticViewModel @Inject constructor(
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private fun observeTransactions() {
+    private fun observeStatistics() {
         viewModelScope.launch {
             state
                 .map { Triple(it.dateRange, it.categories, it.wallets) }
                 .distinctUntilChanged()
-                .flatMapLatest { (dateRange, category, wallets) ->
-                    transactionUseCases.getAllTransactions(
-                        dateRange.start,
-                        dateRange.end,
-                        category,
-                        wallets
-                    )
-                }
-                .collectLatest { transactions ->
-
-                    val incomeTransaction = transactions.filter { it.isIncome }
-                    val expenseTransaction = transactions.filter { it.isExpense }
-
-                    val overviewIncome = transactions
-                        .filter { it.isIncome }
-                        .sumOf { it.amount }
-                    val overviewExpense = transactions
-                        .filter { it.isExpense }
-                        .sumOf { it.amount }
-
-                    _state.update { state ->
-                        state.copy(
-                            incomeTransactions = incomeTransaction,
-                            expenseTransactions = expenseTransaction,
-                            overviewIncome = overviewIncome,
-                            overviewExpense = overviewExpense,
-                            overviewNet = overviewIncome - overviewExpense
-                        )
+                .flatMapLatest { (dateRange, categories, wallets) ->
+                    combine(
+                        transactionUseCases.getIncomeSum(dateRange.start, dateRange.end, categories, wallets),
+                        transactionUseCases.getExpenseSum(dateRange.start, dateRange.end, categories, wallets),
+                        statisticUseCases.getTransactionTrend(dateRange, categories, wallets),
+                        statisticUseCases.getCategoryStatistics(dateRange, categories, wallets, 3)
+                    ) { incomeSum, expenseSum, trend, categoryStats ->
+                        _state.update { state ->
+                            state.copy(
+                                overviewIncome = incomeSum,
+                                overviewExpense = expenseSum,
+                                overviewNet = incomeSum - expenseSum,
+                                trend = trend,
+                                categoryStatistics = categoryStats
+                            )
+                        }
                     }
                 }
+                .collectLatest { }
         }
     }
 

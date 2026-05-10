@@ -1,14 +1,19 @@
 package dev.muffar.moneyfikasi.data.mapper
 
 import dev.muffar.moneyfikasi.data.db.entity.CategoryEntity
+import dev.muffar.moneyfikasi.data.db.entity.CategoryStatisticEntity
 import dev.muffar.moneyfikasi.data.db.entity.PresetEntity
+import dev.muffar.moneyfikasi.data.db.entity.TransactionTrendEntity
 import dev.muffar.moneyfikasi.data.db.entity.PresetWithDetails
 import dev.muffar.moneyfikasi.data.db.entity.TransactionEntity
 import dev.muffar.moneyfikasi.data.db.entity.TransactionWithDetails
 import dev.muffar.moneyfikasi.data.db.entity.WalletEntity
 import dev.muffar.moneyfikasi.domain.model.AppIcon
 import dev.muffar.moneyfikasi.domain.model.Category
+import dev.muffar.moneyfikasi.domain.model.CategoryStatistic
 import dev.muffar.moneyfikasi.domain.model.CategoryType
+import dev.muffar.moneyfikasi.domain.model.TransactionTrendItem
+import dev.muffar.moneyfikasi.utils.extensions.LongExt.toLocalDateTime
 import dev.muffar.moneyfikasi.domain.model.Preset
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.model.Wallet
@@ -47,6 +52,23 @@ fun CategoryEntity.toDomain(): Category {
         color = this.color,
         type = this.type,
         isActive = this.isActive
+    )
+}
+
+fun CategoryStatisticEntity.toDomain(): CategoryStatistic {
+    return CategoryStatistic(
+        category = this.category.toDomain(),
+        amount = this.totalAmount,
+        transactionCount = this.transactionCount,
+        percentage = 0.0
+    )
+}
+
+fun TransactionTrendEntity.toDomain(): TransactionTrendItem {
+    return TransactionTrendItem(
+        date = this.date.toLocalDateTime(),
+        amount = this.amount,
+        type = this.type
     )
 }
 

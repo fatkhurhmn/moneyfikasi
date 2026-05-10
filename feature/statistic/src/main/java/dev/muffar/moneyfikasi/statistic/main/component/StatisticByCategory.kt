@@ -18,33 +18,14 @@ import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
 import dev.muffar.moneyfikasi.common_ui.component.tabs.IncomeExpenseTabHeader
 import dev.muffar.moneyfikasi.domain.model.Category
-import dev.muffar.moneyfikasi.domain.model.Transaction
+import dev.muffar.moneyfikasi.domain.model.CategoryStatistic
+import dev.muffar.moneyfikasi.domain.model.CategoryType
 
 @Composable
 fun StatisticByCategory(
-    transactionsIncome: List<Transaction>,
-    transactionsExpense: List<Transaction>,
+    categoryStatistics: Map<CategoryType, List<CategoryStatistic>>,
     onItemClick: (Category) -> Unit
 ) {
-    val incomeGroupByCategory = transactionsIncome
-        .groupBy { it.category }
-        .toList()
-        .sortedByDescending { (_, value) ->
-            value.sumOf { it.amount }
-        }
-        .take(3)
-        .toMap()
-
-    val expenseGroupByCategory = transactionsExpense
-        .groupBy { it.category }
-        .toList()
-        .sortedByDescending { (_, value) ->
-            value.sumOf { it.amount }
-        }
-        .take(3)
-        .toMap()
-
-
     PrimaryCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -67,8 +48,8 @@ fun StatisticByCategory(
             )
             Spacer(modifier = Modifier.height(8.dp))
             when (selectedTab) {
-                0 -> StatisticByCategoryContent(incomeGroupByCategory, onItemClick, {})
-                1 -> StatisticByCategoryContent(expenseGroupByCategory, onItemClick, {})
+                0 -> StatisticByCategoryContent(categoryStatistics[CategoryType.INCOME]?.take(3) ?: emptyList(), onItemClick, {})
+                1 -> StatisticByCategoryContent(categoryStatistics[CategoryType.EXPENSE]?.take(3) ?: emptyList(), onItemClick, {})
             }
         }
     }

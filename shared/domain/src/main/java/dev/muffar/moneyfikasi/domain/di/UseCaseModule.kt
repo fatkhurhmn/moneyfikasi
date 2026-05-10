@@ -50,6 +50,9 @@ import dev.muffar.moneyfikasi.domain.usecase.preset.GetAllPresets
 import dev.muffar.moneyfikasi.domain.usecase.preset.GetPresetById
 import dev.muffar.moneyfikasi.domain.usecase.preset.PresetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preset.UpsertPreset
+import dev.muffar.moneyfikasi.domain.usecase.statistic.GetCategoryStatistics
+import dev.muffar.moneyfikasi.domain.usecase.statistic.GetTransactionTrend
+import dev.muffar.moneyfikasi.domain.usecase.statistic.StatisticUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.AddTransaction
 import dev.muffar.moneyfikasi.domain.usecase.transaction.AddTransfer
 import dev.muffar.moneyfikasi.domain.usecase.transaction.DeleteTransaction
@@ -180,5 +183,13 @@ object UseCaseModule {
         getBudgetById = GetBudgetById(budgetRepository),
         upsertBudget = UpsertBudget(budgetRepository),
         deleteBudget = DeleteBudget(budgetRepository)
+    )
+
+    @Provides
+    fun provideStatisticUseCases(
+        transactionRepository: TransactionRepository,
+    ) = StatisticUseCases(
+        getTransactionTrend = GetTransactionTrend(transactionRepository),
+        getCategoryStatistics = GetCategoryStatistics(transactionRepository)
     )
 }
