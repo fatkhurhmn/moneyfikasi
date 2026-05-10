@@ -13,7 +13,8 @@ import dev.muffar.moneyfikasi.statistic.main.StatisticViewModel
 import java.util.UUID
 
 fun NavGraphBuilder.statisticNavigation(
-    onNavigateToStatisticDetail : (Pair<Long, Long>, UUID, String) -> Unit
+    onNavigateToAllCategoryStatistic: (Long, Long) -> Unit,
+    onNavigateToStatisticDetail: (Pair<Long, Long>, UUID, String) -> Unit
 ) {
     composable(Screen.Statistic.route) {
         val viewModel = hiltViewModel<StatisticViewModel>()
@@ -27,7 +28,10 @@ fun NavGraphBuilder.statisticNavigation(
             onDateRangeChange = { event(StatisticEvent.DateRangeChanged(it)) },
             onShowChooseDateSheet = { event(StatisticEvent.ShowChooseDateSheet(it)) },
             onShowCustomDateSheet = { event(StatisticEvent.ShowCustomDateSheet(it)) },
-            onItemClick = onNavigateToStatisticDetail
+            onItemClick = onNavigateToStatisticDetail,
+            onShowAllClick = {
+                onNavigateToAllCategoryStatistic(state.dateRange.start, state.dateRange.end)
+            }
         )
     }
 }

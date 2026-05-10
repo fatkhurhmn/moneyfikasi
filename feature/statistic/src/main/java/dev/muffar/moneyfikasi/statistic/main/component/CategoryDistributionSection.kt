@@ -25,7 +25,8 @@ import dev.muffar.moneyfikasi.resource.R
 @Composable
 fun CategoryDistributionSection(
     categoryStatistics: Map<CategoryType, List<CategoryStatistic>>,
-    onItemClick: (Category) -> Unit
+    onItemClick: (Category) -> Unit,
+    onShowAllClick: () -> Unit
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
     PrimaryCard(
@@ -56,14 +57,16 @@ fun CategoryDistributionSection(
             Spacer(modifier = Modifier.height(8.dp))
             when (selectedTab) {
                 0 -> CategoryDistributionContent(
-                    categoryStatistics[CategoryType.INCOME] ?: emptyList(),
-                    onItemClick,
-                    {})
+                    categoryStatistics = categoryStatistics[CategoryType.INCOME] ?: emptyList(),
+                    onItemClick = onItemClick,
+                    onShowAllClick = onShowAllClick
+                )
 
                 1 -> CategoryDistributionContent(
-                    categoryStatistics[CategoryType.EXPENSE] ?: emptyList(),
-                    onItemClick,
-                    {})
+                    categoryStatistics = categoryStatistics[CategoryType.EXPENSE] ?: emptyList(),
+                    onItemClick = onItemClick,
+                    onShowAllClick = onShowAllClick
+                )
             }
         }
     }

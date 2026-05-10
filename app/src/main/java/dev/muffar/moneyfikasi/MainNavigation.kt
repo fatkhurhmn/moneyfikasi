@@ -26,6 +26,7 @@ import dev.muffar.moneyfikasi.search.navigation.searchNavigation
 import dev.muffar.moneyfikasi.search.navigation.toSearchScreen
 import dev.muffar.moneyfikasi.more.navigation.moreNavGraph
 import dev.muffar.moneyfikasi.statistic.detail.navigation.toStatisticDetailScreen
+import dev.muffar.moneyfikasi.statistic.category_distribution.navigation.toCategoryDistributionScreen
 import dev.muffar.moneyfikasi.statistic.statisticNavGraph
 import dev.muffar.moneyfikasi.transaction.add_edit.navigation.toAddEditTransactionScreen
 import dev.muffar.moneyfikasi.transaction.detail.navigation.toTransactionDetail
@@ -85,6 +86,9 @@ fun MainNavigation(
         )
 
         statisticNavGraph(
+            onNavigateToAllCategoryStatistic = { startDate, endDate ->
+                navController.toCategoryDistributionScreen(startDate, endDate)
+            },
             onNavigateToStatisticDetail = { dateRange, categoryId, categoryName ->
                 navController.toStatisticDetailScreen(
                     dateRange,

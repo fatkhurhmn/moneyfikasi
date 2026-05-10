@@ -60,6 +60,13 @@ sealed class Screen(val route: String) {
     }
 
     data object Statistic : Screen("statistic")
+    data object CategoryDistribution : Screen("all_category_statistic?start_date={start_date}&end_date={end_date}") {
+        const val START_DATE = "start_date"
+        const val END_DATE = "end_date"
+        fun routeWithArg(startDate: Long, endDate: Long): String {
+            return "all_category_statistic?$START_DATE=$startDate&$END_DATE=$endDate"
+        }
+    }
     data object StatisticDetail :
         Screen("statistic_detail?start_date={start_date}&end_date={end_date}&category_id={category_id}&category_name={category_name}") {
         const val START_DATE = "start_date"
