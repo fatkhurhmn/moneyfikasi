@@ -1,22 +1,16 @@
 package dev.muffar.moneyfikasi.statistic.main.component
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
-import dev.muffar.moneyfikasi.common_ui.component.tabs.IncomeExpenseTabHeader
+import dev.muffar.moneyfikasi.common_ui.component.tabs.IncomeExpenseTabs
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.CategoryStatistic
 import dev.muffar.moneyfikasi.domain.model.CategoryType
@@ -28,7 +22,7 @@ fun CategoryDistributionSection(
     onItemClick: (Category) -> Unit,
     onShowAllClick: () -> Unit
 ) {
-    var selectedTab by remember { mutableIntStateOf(0) }
+    val pagerState = rememberPagerState { 2 }
     PrimaryCard(
         modifier = Modifier
             .fillMaxWidth()
@@ -46,27 +40,25 @@ fun CategoryDistributionSection(
                     .padding(horizontal = 12.dp)
                     .padding(bottom = 8.dp)
             )
-            IncomeExpenseTabHeader(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 12.dp, vertical = 2.dp),
-                selectedTab = selectedTab,
-                onTabSelected = { selectedTab = it },
-                labelStyle = MaterialTheme.typography.labelMedium.copy(fontSize = 14.sp),
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            when (selectedTab) {
-                0 -> CategoryDistributionContent(
-                    categoryStatistics = categoryStatistics[CategoryType.INCOME] ?: emptyList(),
-                    onItemClick = onItemClick,
-                    onShowAllClick = onShowAllClick
-                )
+            IncomeExpenseTabs(
+                pagerState = pagerState,
+                fillMaxSize = false,
+                tabPadding = PaddingValues(horizontal = 12.dp, vertical = 2.dp)
+            ) { index ->
+                when (index) {
+                    0 -> CategoryDistributionContent(
+                        categoryStatistics = categoryStatistics[CategoryType.INCOME] ?: emptyList(),
+                        onItemClick = onItemClick,
+                        onShowAllClick = onShowAllClick
+                    )
 
-                1 -> CategoryDistributionContent(
-                    categoryStatistics = categoryStatistics[CategoryType.EXPENSE] ?: emptyList(),
-                    onItemClick = onItemClick,
-                    onShowAllClick = onShowAllClick
-                )
+                    1 -> CategoryDistributionContent(
+                        categoryStatistics = categoryStatistics[CategoryType.EXPENSE]
+                            ?: emptyList(),
+                        onItemClick = onItemClick,
+                        onShowAllClick = onShowAllClick
+                    )
+                }
             }
         }
     }

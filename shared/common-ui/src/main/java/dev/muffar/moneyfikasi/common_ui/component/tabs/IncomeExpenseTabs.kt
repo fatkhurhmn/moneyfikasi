@@ -3,6 +3,7 @@ package dev.muffar.moneyfikasi.common_ui.component.tabs
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,6 +23,8 @@ import androidx.compose.ui.unit.dp
 fun IncomeExpenseTabs(
     modifier: Modifier = Modifier,
     pagerState: PagerState,
+    tabPadding: PaddingValues = PaddingValues(16.dp),
+    fillMaxSize: Boolean = true,
     horizontalPager: @Composable (Int) -> Unit,
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
@@ -36,7 +39,7 @@ fun IncomeExpenseTabs(
 
     Column(modifier = modifier) {
         IncomeExpenseTabHeader(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(tabPadding),
             selectedTab = selectedTab,
             onTabSelected = { selectedTab = it }
         )
@@ -45,9 +48,9 @@ fun IncomeExpenseTabs(
             state = pagerState,
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)
+                .then(if (fillMaxSize) Modifier.weight(1f) else Modifier)
         ) {
-            Box(modifier = Modifier.fillMaxSize()) {
+            Box(modifier = Modifier.then(if (fillMaxSize) Modifier.fillMaxSize() else Modifier)) {
                 horizontalPager(it)
             }
         }
