@@ -1,15 +1,20 @@
 package dev.muffar.moneyfikasi.statistic.category_distribution
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
+import dev.muffar.moneyfikasi.common_ui.component.pie_chart.CategoryDistributionChart
 import dev.muffar.moneyfikasi.common_ui.component.tabs.IncomeExpenseTabs
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.resource.R
@@ -43,6 +48,14 @@ fun CategoryDistributionScreen(
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
             ) {
+                item {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CategoryDistributionChart(categoryStatistics = categoryStatistics)
+                    }
+                }
                 items(categoryStatistics, key = { it.category.id }) { stat ->
                     CategoryDistributionItem(
                         category = stat.category,

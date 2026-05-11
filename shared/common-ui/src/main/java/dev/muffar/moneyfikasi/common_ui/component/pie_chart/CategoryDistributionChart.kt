@@ -56,6 +56,7 @@ fun CategoryDistributionChart(
                 val dataset = PieDataSet(entries, "").apply {
                     colors = pieChartData.map { Color(it.category.color).toArgb() }
                     setDrawValues(false)
+                    sliceSpace = 1f
                 }
 
                 val data = PieData(dataset)
