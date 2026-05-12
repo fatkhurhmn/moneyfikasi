@@ -1,12 +1,14 @@
 package dev.muffar.moneyfikasi.statistic.category_distribution
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,19 +36,23 @@ fun CategoryDistributionScreen(
                 title = stringResource(R.string.category_distribution),
                 onBackClick = onBackClick
             )
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.surface
     ) { innerPadding ->
         val pagerState = rememberPagerState { 2 }
 
         IncomeExpenseTabs(
             modifier = modifier
                 .padding(innerPadding),
+            tabPadding = PaddingValues(8.dp),
+            fillMaxSize = true,
             pagerState = pagerState,
         ) { index ->
             val categoryType = if (index == 0) CategoryType.INCOME else CategoryType.EXPENSE
             val categoryStatistics = state.categoryStatistics[categoryType] ?: emptyList()
             LazyColumn(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(vertical = 16.dp)
             ) {
                 item {
                     Box(
