@@ -52,6 +52,7 @@ import dev.muffar.moneyfikasi.domain.usecase.preset.GetPresetById
 import dev.muffar.moneyfikasi.domain.usecase.preset.PresetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preset.UpsertPreset
 import dev.muffar.moneyfikasi.domain.usecase.statistic.GetCategoryStatistics
+import dev.muffar.moneyfikasi.domain.usecase.statistic.GetStatisticInsights
 import dev.muffar.moneyfikasi.domain.usecase.statistic.GetTransactionTrend
 import dev.muffar.moneyfikasi.domain.usecase.statistic.StatisticUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.AddTransaction
@@ -191,6 +192,7 @@ object UseCaseModule {
         statisticRepository: StatisticRepository,
     ) = StatisticUseCases(
         getTransactionTrend = GetTransactionTrend(statisticRepository),
-        getCategoryStatistics = GetCategoryStatistics(statisticRepository)
+        getCategoryStatistics = GetCategoryStatistics(statisticRepository),
+        getStatisticInsights = GetStatisticInsights(statisticRepository)
     )
 }

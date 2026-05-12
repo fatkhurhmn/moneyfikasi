@@ -23,41 +23,45 @@ fun CategoryDistributionSection(
     onShowAllClick: () -> Unit
 ) {
     val pagerState = rememberPagerState { 2 }
-    PrimaryCard(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(horizontal = 12.dp, vertical = 8.dp)
     ) {
-        Column(
+        StatisticSectionLabel(
+            label = stringResource(R.string.category_distribution),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 12.dp)
+                .padding(bottom = 8.dp)
+        )
+        PrimaryCard(
+            modifier = Modifier.fillMaxWidth()
         ) {
-            StatisticSectionLabel(
-                label = stringResource(R.string.category_distribution),
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 12.dp)
-                    .padding(bottom = 8.dp)
-            )
-            IncomeExpenseTabs(
-                pagerState = pagerState,
-                fillMaxSize = false,
-                tabPadding = PaddingValues(horizontal = 12.dp, vertical = 2.dp)
-            ) { index ->
-                when (index) {
-                    0 -> CategoryDistributionContent(
-                        categoryStatistics = categoryStatistics[CategoryType.INCOME] ?: emptyList(),
-                        onItemClick = onItemClick,
-                        onShowAllClick = onShowAllClick
-                    )
+                    .padding(12.dp)
+            ) {
+                IncomeExpenseTabs(
+                    pagerState = pagerState,
+                    fillMaxSize = false,
+                    tabPadding = PaddingValues(horizontal = 12.dp, vertical = 2.dp)
+                ) { index ->
+                    when (index) {
+                        0 -> CategoryDistributionContent(
+                            categoryStatistics = categoryStatistics[CategoryType.INCOME]
+                                ?: emptyList(),
+                            onItemClick = onItemClick,
+                            onShowAllClick = onShowAllClick
+                        )
 
-                    1 -> CategoryDistributionContent(
-                        categoryStatistics = categoryStatistics[CategoryType.EXPENSE]
-                            ?: emptyList(),
-                        onItemClick = onItemClick,
-                        onShowAllClick = onShowAllClick
-                    )
+                        1 -> CategoryDistributionContent(
+                            categoryStatistics = categoryStatistics[CategoryType.EXPENSE]
+                                ?: emptyList(),
+                            onItemClick = onItemClick,
+                            onShowAllClick = onShowAllClick
+                        )
+                    }
                 }
             }
         }

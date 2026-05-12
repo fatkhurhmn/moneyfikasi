@@ -40,34 +40,38 @@ fun IncomeExpenseTrendSection(
         )
     }
 
-    PrimaryCard(
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(horizontal = 12.dp, vertical = 8.dp)
     ) {
-        Column(
-            modifier = modifier
+        StatisticSectionLabel(
+            label = stringResource(R.string.trend),
+            modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp)
+                .padding(bottom = 8.dp)
+        )
+        PrimaryCard(
+            modifier = Modifier.fillMaxWidth(),
         ) {
-            StatisticSectionLabel(
-                label = stringResource(R.string.trend),
-                modifier = Modifier
+            Column(
+                modifier = modifier
                     .fillMaxWidth()
-                    .padding(bottom = 8.dp)
-            )
-            LegendRow(modifier.align(Alignment.End))
-            IncomeExpenseChart(
-                chartData = chartData,
-                incomeColor = incomeColor,
-                expenseColor = expenseColor,
-                textColor = textColor,
-                surfaceColor = surfaceColor,
-                onSliding = onSliding,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp),
-            )
+                    .padding(12.dp)
+            ) {
+                LegendRow(modifier.align(Alignment.End))
+                IncomeExpenseChart(
+                    chartData = chartData,
+                    incomeColor = incomeColor,
+                    expenseColor = expenseColor,
+                    textColor = textColor,
+                    surfaceColor = surfaceColor,
+                    onSliding = onSliding,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp),
+                )
+            }
         }
     }
 }

@@ -76,7 +76,7 @@ class GetTransactionTrend(
                     val expense = expenseTransactions.groupBy { it.date.monthValue }
                     for (i in 0 until 12) {
                         val month = start.plusMonths(i.toLong())
-                        labels.add(month.format("MMM yyyy"))
+                        labels.add(month.format("MMM yy"))
                         incomeValues.add(income[month.monthValue]?.sumOf { it.amount } ?: 0.0)
                         expenseValues.add(expense[month.monthValue]?.sumOf { it.amount } ?: 0.0)
                     }

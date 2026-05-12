@@ -3,6 +3,7 @@ package dev.muffar.moneyfikasi.data.repositoy
 import dev.muffar.moneyfikasi.data.db.dao.TransactionDao
 import dev.muffar.moneyfikasi.data.mapper.toDomain
 import dev.muffar.moneyfikasi.domain.model.CategoryStatistic
+import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.model.TransactionTrendItem
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.repository.StatisticRepository
@@ -44,5 +45,37 @@ class StatisticRepositoryImpl @Inject constructor(
             categories = categories,
             wallets = wallets
         ).map { list -> list.map { it.toDomain() } }
+    }
+
+    override fun getHighestTransaction(
+        startDateRange: Long,
+        endDateRange: Long,
+        type: TransactionType,
+        categories: Set<UUID>?,
+        wallets: Set<UUID>?,
+    ): Flow<Transaction?> {
+        return transactionDao.getHighestTransaction(
+            start = startDateRange,
+            end = endDateRange,
+            type = type,
+            categories = categories,
+            wallets = wallets
+        ).map { it?.toDomain() }
+    }
+
+    override fun getMostFrequentCategory(
+        startDateRange: Long,
+        endDateRange: Long,
+        type: TransactionType,
+        categories: Set<UUID>?,
+        wallets: Set<UUID>?,
+    ): Flow<CategoryStatistic?> {
+        return transactionDao.getMostFrequentCategory(
+            start = startDateRange,
+            end = endDateRange,
+            type = type,
+            categories = categories,
+            wallets = wallets
+        ).map { it?.toDomain() }
     }
 }

@@ -198,4 +198,9 @@
     <string name="use_pin">Use PIN</string>
     <string name="overview">Overview</string>
     <string name="trend">Trend</string>
+    <string name="insights">Insights</string>
+    <string name="highest_expense">Highest Expense</string>
+    <string name="highest_income">Highest Income</string>
+    <string name="frequent_expense">Frequent Expense</string>
+    <string name="frequent_income">Frequent Income</string>
 </resources>

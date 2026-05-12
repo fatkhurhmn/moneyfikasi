@@ -20,37 +20,43 @@ fun StatisticOverviewSection(
     total: Double,
 ) {
     val financeColors = MoneyfikasiTheme.financeColors
-    PrimaryCard(
+
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(horizontal = 12.dp, vertical = 8.dp)
     ) {
-        Column(
+        StatisticSectionLabel(
+            label = stringResource(R.string.overview),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp),
+                .padding(bottom = 8.dp)
+        )
+        PrimaryCard(
+            modifier = Modifier
+                .fillMaxWidth(),
         ) {
-            StatisticSectionLabel(
-                label = stringResource(R.string.overview),
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 8.dp)
-            )
-            StatisticOverviewRow(
-                label = stringResource(R.string.income),
-                amount = income.formatThousand().let { if (income > 0) "+$it" else it },
-                color = financeColors.income
-            )
-            StatisticOverviewRow(
-                label = stringResource(R.string.expense),
-                amount = expense.formatThousand().let { if (expense > 0) "-$it" else it },
-                color = financeColors.expense
-            )
-            StatisticOverviewRow(
-                label = stringResource(R.string.net),
-                amount = total.formatThousand(),
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+                    .padding(12.dp)
+            ) {
+                StatisticOverviewRow(
+                    label = stringResource(R.string.income),
+                    amount = income.formatThousand().let { if (income > 0) "+$it" else it },
+                    color = financeColors.income
+                )
+                StatisticOverviewRow(
+                    label = stringResource(R.string.expense),
+                    amount = expense.formatThousand().let { if (expense > 0) "-$it" else it },
+                    color = financeColors.expense
+                )
+                StatisticOverviewRow(
+                    label = stringResource(R.string.net),
+                    amount = total.formatThousand(),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
     }
 }

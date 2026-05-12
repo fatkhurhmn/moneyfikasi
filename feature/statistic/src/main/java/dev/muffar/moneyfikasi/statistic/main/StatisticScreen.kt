@@ -21,6 +21,7 @@ import dev.muffar.moneyfikasi.common_ui.component.calendar_header.DateRangeSwitc
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.statistic.main.component.CategoryDistributionSection
 import dev.muffar.moneyfikasi.statistic.main.component.IncomeExpenseTrendSection
+import dev.muffar.moneyfikasi.statistic.main.component.StatisticInsightsSection
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticOverviewSection
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticTopBar
 import org.threeten.bp.LocalDateTime
@@ -46,40 +47,46 @@ fun StatisticScreen(
     ) {
         val scrollState = rememberScrollState()
         Column(
-            modifier = modifier
+            modifier
                 .padding(it)
-                .verticalScroll(scrollState, enabled = !isChartSliding)
         ) {
             DateRangeSwitcher(
                 timeReference = state.timeReference,
                 dateRange = state.dateRange,
                 onTimeReferenceChange = onTimeReferenceChange,
             )
+            Column(
+                modifier = Modifier.verticalScroll(scrollState, enabled = !isChartSliding)
+            ) {
+                StatisticOverviewSection(
+                    income = state.overviewIncome,
+                    expense = state.overviewExpense,
+                    total = state.overviewNet
+                )
 
-            StatisticOverviewSection(
-                income = state.overviewIncome,
-                expense = state.overviewExpense,
-                total = state.overviewNet
-            )
+                StatisticInsightsSection(
+                    insight = state.statisticInsight
+                )
 
-            IncomeExpenseTrendSection(
-                trend = state.trend,
-                onSliding = { sliding ->
-                    isChartSliding = sliding
-                }
-            )
+                IncomeExpenseTrendSection(
+                    trend = state.trend,
+                    onSliding = { sliding ->
+                        isChartSliding = sliding
+                    }
+                )
 
-            CategoryDistributionSection(
-                categoryStatistics = state.categoryStatistics,
-                onItemClick = { category ->
-                    onItemClick(
-                        state.dateRange.start to state.dateRange.end,
-                        category.id,
-                        category.name
-                    )
-                },
-                onShowAllClick = onShowAllClick
-            )
+                CategoryDistributionSection(
+                    categoryStatistics = state.categoryStatistics,
+                    onItemClick = { category ->
+                        onItemClick(
+                            state.dateRange.start to state.dateRange.end,
+                            category.id,
+                            category.name
+                        )
+                    },
+                    onShowAllClick = onShowAllClick
+                )
+            }
         }
 
         AnimatedVisibility(state.showChooseDateSheet) {

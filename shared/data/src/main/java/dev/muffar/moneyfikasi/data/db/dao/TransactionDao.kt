@@ -292,6 +292,91 @@ abstract class TransactionDao {
     }
 
     @Transaction
+    @Query(
+        """
+        SELECT * FROM transactions 
+        WHERE type = :type
+        AND (date BETWEEN :start AND :end)
+        AND (:filterCategories = 0 OR category_id IN (:categories))
+        AND (:filterWallets = 0 OR wallet_id IN (:wallets))
+        ORDER BY amount DESC
+        LIMIT 1
+        """
+    )
+    protected abstract fun getHighestTransactionInternal(
+        start: Long,
+        end: Long,
+        type: TransactionType,
+        categories: Set<UUID>?,
+        filterCategories: Boolean,
+        wallets: Set<UUID>?,
+        filterWallets: Boolean
+    ): Flow<TransactionWithDetails?>
+
+    fun getHighestTransaction(
+        start: Long,
+        end: Long,
+        type: TransactionType,
+        categories: Set<UUID>?,
+        wallets: Set<UUID>?
+    ): Flow<TransactionWithDetails?> {
+        return getHighestTransactionInternal(
+            start,
+            end,
+            type,
+            categories,
+            !categories.isNullOrEmpty(),
+            wallets,
+            !wallets.isNullOrEmpty()
+        )
+    }
+
+    @Query(
+        """
+        SELECT 
+            c.*, 
+            TOTAL(t.amount) as total_amount, 
+            COUNT(t.id) as transaction_count
+        FROM transactions t
+        INNER JOIN categories c ON t.category_id = c.id
+        WHERE (t.date BETWEEN :start AND :end)
+        AND t.type = :type
+        AND (:filterCategories = 0 OR t.category_id IN (:categories))
+        AND (:filterWallets = 0 OR t.wallet_id IN (:wallets))
+        GROUP BY t.category_id
+        ORDER BY transaction_count DESC
+        LIMIT 1
+        """
+    )
+    protected abstract fun getMostFrequentCategoryInternal(
+        start: Long,
+        end: Long,
+        type: TransactionType,
+        categories: Set<UUID>?,
+        filterCategories: Boolean,
+        wallets: Set<UUID>?,
+        filterWallets: Boolean
+    ): Flow<CategoryStatisticEntity?>
+
+    fun getMostFrequentCategory(
+        start: Long,
+        end: Long,
+        type: TransactionType,
+        categories: Set<UUID>?,
+        wallets: Set<UUID>?
+    ): Flow<CategoryStatisticEntity?> {
+        return getMostFrequentCategoryInternal(
+            start,
+            end,
+            type,
+            categories,
+            !categories.isNullOrEmpty(),
+            wallets,
+            !wallets.isNullOrEmpty()
+        )
+    }
+
+    @Transaction
     @Query("SELECT * FROM transactions WHERE note LIKE '%' || :query || '%'")
     abstract fun getAllTransactions(query: String): Flow<List<TransactionWithDetails>>
 
