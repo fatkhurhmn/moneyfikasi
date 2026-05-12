@@ -29,6 +29,17 @@ fun NavGraphBuilder.statisticDetailNavigation(
     }
 }
 
-fun NavController.toStatisticDetailScreen(dateRange: Pair<Long, Long>, categoryId: String, categoryName: String) {
-    navigate(Screen.StatisticDetail.routeWithArg(dateRange.first, dateRange.second, categoryId, categoryName))
+fun NavController.toStatisticDetailScreen(
+    dateRange: Pair<Long, Long>,
+    categoryId: String,
+    categoryName: String
+) {
+    navigate(
+        Screen.StatisticDetail.routeWithArg(
+            dateRange.first,
+            dateRange.second,
+            categoryId,
+            categoryName
+        )
+    )
 }

@@ -17,10 +17,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.common_ui.component.pie_chart.CategoryDistributionChart
+import dev.muffar.moneyfikasi.common_ui.component.statistic.CategoryDistributionItem
 import dev.muffar.moneyfikasi.common_ui.component.tabs.IncomeExpenseTabs
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.statistic.main.component.CategoryDistributionItem
 import java.util.UUID
 
 @Composable
@@ -42,9 +42,7 @@ fun CategoryDistributionScreen(
         val pagerState = rememberPagerState { 2 }
 
         IncomeExpenseTabs(
-            modifier = modifier
-                .padding(innerPadding),
-            tabPadding = PaddingValues(8.dp),
+            modifier = modifier.padding(innerPadding),
             fillMaxSize = true,
             pagerState = pagerState,
         ) { index ->
@@ -52,14 +50,19 @@ fun CategoryDistributionScreen(
             val categoryStatistics = state.categoryStatistics[categoryType] ?: emptyList()
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(vertical = 16.dp)
+                contentPadding = PaddingValues(bottom = 16.dp)
             ) {
                 item {
                     Box(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp),
                         contentAlignment = Alignment.Center
                     ) {
-                        CategoryDistributionChart(categoryStatistics = categoryStatistics)
+                        CategoryDistributionChart(
+                            categoryStatistics = categoryStatistics,
+                            size = 200.dp,
+                        )
                     }
                 }
                 items(categoryStatistics, key = { it.category.id }) { stat ->

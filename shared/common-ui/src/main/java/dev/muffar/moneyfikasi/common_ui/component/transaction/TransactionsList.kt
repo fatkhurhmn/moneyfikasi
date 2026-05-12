@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.transaction.list.component
+package dev.muffar.moneyfikasi.common_ui.component.transaction
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,7 +18,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemKey
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.GroupTransactionHeader
-import dev.muffar.moneyfikasi.common_ui.component.transaction_item.TransactionItem
+import dev.muffar.moneyfikasi.common_ui.component.transaction.item.TransactionItem
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.format
 import kotlinx.coroutines.flow.Flow
@@ -27,13 +27,23 @@ import java.util.UUID
 
 @Composable
 fun TransactionsList(
+    modifier: Modifier = Modifier,
     transactions: LazyPagingItems<Transaction>,
     onItemClick: (UUID, Boolean) -> Unit,
-    onGetDailyBalance: (LocalDateTime) -> Flow<Double>
+    onGetDailyBalance: (LocalDateTime) -> Flow<Double>,
+    header: @Composable () -> Unit = {}
 ) {
     LazyColumn(
+        modifier = modifier,
         contentPadding = PaddingValues(bottom = 54.dp),
     ) {
+        item {
+            header()
+            HorizontalDivider(
+                thickness = 8.dp,
+                color = MaterialTheme.colorScheme.background
+            )
+        }
         items(
             count = transactions.itemCount,
             key = transactions.itemKey { it.id }
@@ -65,7 +75,7 @@ fun TransactionsList(
             val isEndOfDay = nextTransaction == null ||
                     transaction.date.format("yyyy-MM-dd") != nextTransaction.date.format("yyyy-MM-dd")
 
-            if (isEndOfDay){
+            if (isEndOfDay) {
                 HorizontalDivider(
                     thickness = 8.dp,
                     color = MaterialTheme.colorScheme.background

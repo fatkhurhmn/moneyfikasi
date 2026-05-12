@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.statistic.main.component
+package dev.muffar.moneyfikasi.common_ui.component.statistic
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

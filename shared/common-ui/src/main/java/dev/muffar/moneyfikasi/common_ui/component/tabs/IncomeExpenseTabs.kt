@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 fun IncomeExpenseTabs(
     modifier: Modifier = Modifier,
     pagerState: PagerState,
-    tabPadding: PaddingValues = PaddingValues(16.dp),
+    tabPadding: PaddingValues = PaddingValues(vertical = 8.dp, horizontal = 16.dp),
     fillMaxSize: Boolean = true,
     horizontalPager: @Composable (Int) -> Unit,
 ) {

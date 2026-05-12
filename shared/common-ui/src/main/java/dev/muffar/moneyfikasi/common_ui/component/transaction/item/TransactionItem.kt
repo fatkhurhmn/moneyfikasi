@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.common_ui.component.transaction_item
+package dev.muffar.moneyfikasi.common_ui.component.transaction.item
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

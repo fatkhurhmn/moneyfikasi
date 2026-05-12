@@ -21,7 +21,7 @@ import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TransactionFilter
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsFilterSheet
-import dev.muffar.moneyfikasi.transaction.list.component.TransactionsList
+import dev.muffar.moneyfikasi.common_ui.component.transaction.TransactionsList
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsLoading
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsTopBar
 import kotlinx.coroutines.flow.Flow

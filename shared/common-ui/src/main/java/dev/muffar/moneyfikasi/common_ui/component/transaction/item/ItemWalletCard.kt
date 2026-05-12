@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.common_ui.component.transaction_item
+package dev.muffar.moneyfikasi.common_ui.component.transaction.item
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape

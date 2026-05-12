@@ -17,7 +17,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemKey
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.GroupTransactionHeader
-import dev.muffar.moneyfikasi.common_ui.component.transaction_item.TransactionItem
+import dev.muffar.moneyfikasi.common_ui.component.transaction.item.TransactionItem
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.format
 import kotlinx.coroutines.flow.Flow

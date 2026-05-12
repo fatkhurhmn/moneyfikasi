@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.github.mikephil.charting.charts.PieChart
@@ -23,6 +24,7 @@ import java.text.DecimalFormat
 @Composable
 fun CategoryDistributionChart(
     categoryStatistics: List<CategoryStatistic>,
+    size: Dp = 150.dp
 ) {
     val onSurfaceColor = MaterialTheme.colorScheme.onSurface
     Crossfade(
@@ -31,7 +33,7 @@ fun CategoryDistributionChart(
         label = ""
     ) { pieChartData ->
         AndroidView(
-            modifier = Modifier.size(150.dp),
+            modifier = Modifier.size(size),
             factory = { context ->
                 PieChart(context).apply {
                     description.isEnabled = false
