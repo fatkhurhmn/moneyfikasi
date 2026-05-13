@@ -1,12 +1,14 @@
 package dev.muffar.moneyfikasi.statistic.main.component
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,6 +24,7 @@ import dev.muffar.moneyfikasi.common_ui.component.line_chart.ChartData
 import dev.muffar.moneyfikasi.common_ui.component.line_chart.IncomeExpenseChart
 import dev.muffar.moneyfikasi.common_ui.component.line_chart.legend.LegendRow
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
+import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.model.TransactionTrend
 import dev.muffar.moneyfikasi.resource.R
 
@@ -29,6 +32,7 @@ import dev.muffar.moneyfikasi.resource.R
 fun IncomeExpenseTrendSection(
     modifier: Modifier = Modifier,
     trend: TransactionTrend,
+    timePeriod: TimePeriod,
     onSliding: (Boolean) -> Unit = {},
 ) {
     val financeColors = MoneyfikasiTheme.financeColors
@@ -67,7 +71,6 @@ fun IncomeExpenseTrendSection(
                 onTypeSelected = { selectedTrendType = it },
             )
         }
-
         PrimaryCard(
             modifier = Modifier.fillMaxWidth(),
         ) {
@@ -81,19 +84,34 @@ fun IncomeExpenseTrendSection(
                     showIncome = selectedTrendType != TrendGraphType.EXPENSE,
                     showExpense = selectedTrendType != TrendGraphType.INCOME,
                 )
-                IncomeExpenseChart(
-                    chartData = chartData,
-                    incomeColor = incomeColor,
-                    expenseColor = expenseColor,
-                    textColor = textColor,
-                    surfaceColor = surfaceColor,
-                    showIncome = selectedTrendType != TrendGraphType.EXPENSE,
-                    showExpense = selectedTrendType != TrendGraphType.INCOME,
-                    onSliding = onSliding,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp),
-                )
+                if (timePeriod == TimePeriod.ALL || timePeriod == TimePeriod.CUSTOM) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp)
+                    ) {
+                        Text(
+                            text = "Unavailable",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.align(Alignment.Center)
+                        )
+                    }
+                } else {
+                    IncomeExpenseChart(
+                        chartData = chartData,
+                        incomeColor = incomeColor,
+                        expenseColor = expenseColor,
+                        textColor = textColor,
+                        surfaceColor = surfaceColor,
+                        showIncome = selectedTrendType != TrendGraphType.EXPENSE,
+                        showExpense = selectedTrendType != TrendGraphType.INCOME,
+                        onSliding = onSliding,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp),
+                    )
+                }
             }
         }
     }

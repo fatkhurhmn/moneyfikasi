@@ -66,6 +66,7 @@ fun StatisticScreen(
 
                 IncomeExpenseTrendSection(
                     trend = state.trend,
+                    timePeriod = state.dateRange.timePeriod,
                     onSliding = { sliding ->
                         isChartSliding = sliding
                     }
