@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -26,6 +27,7 @@ fun BottomBarButton(
         modifier = Modifier
             .imePadding()
             .background(MaterialTheme.colorScheme.surface)
+            .navigationBarsPadding()
     ) {
         CommonHorizontalDivider()
         CommonButton(

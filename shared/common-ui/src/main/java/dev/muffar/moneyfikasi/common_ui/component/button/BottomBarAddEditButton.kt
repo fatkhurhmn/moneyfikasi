@@ -3,6 +3,7 @@ package dev.muffar.moneyfikasi.common_ui.component.button
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -18,7 +19,9 @@ fun BottomBarAddEditButton(
     onDelete: () -> Unit
 ) {
     Column(
-        modifier = Modifier.imePadding()
+        modifier = Modifier
+            .imePadding()
+            .navigationBarsPadding()
     ) {
         CommonHorizontalDivider()
         if (!isEdit) {
