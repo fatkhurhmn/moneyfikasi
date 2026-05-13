@@ -64,6 +64,7 @@ enum class AppIcon {
     SyncAlt,
     Train,
     TrendingUp,
+    TrendingDown,
     TwoWheeler,
     Verified,
     VideoCameraBack,
@@ -98,7 +99,7 @@ enum class AppIcon {
             School, MenuBook, ConfirmationNumber, Movie, MusicNote,
             SportsEsports, Favorite, Map, Luggage, Hotel, CardGiftcard,
             VolunteerActivism, Pets, ChildCare, AccountBalance, Security,
-            Subscriptions, CreditCard, SyncAlt, Widgets
+            Subscriptions, CreditCard, SyncAlt, Widgets, TrendingDown
         ).map { it.name }
 
         val incomeCategoryIcons = listOf(

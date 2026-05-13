@@ -65,7 +65,10 @@ fun StatisticScreen(
                 )
 
                 StatisticInsightsSection(
-                    insight = state.statisticInsight
+                    highestExpense = state.statisticInsight.highestExpense,
+                    highestIncome = state.statisticInsight.highestIncome,
+                    mostFreqExpenseCategory = state.statisticInsight.mostFrequentExpenseCategory,
+                    mostFreqIncomeCategory = state.statisticInsight.mostFrequentIncomeCategory,
                 )
 
                 IncomeExpenseTrendSection(

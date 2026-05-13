@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.statistic.main.component
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -8,8 +9,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
+import dev.muffar.moneyfikasi.common_ui.component.icon.BoxedIcon
 
 @Composable
 fun InsightItem(
@@ -17,16 +20,25 @@ fun InsightItem(
     title: String,
     value: String,
     label: String,
-    color: androidx.compose.ui.graphics.Color
+    color: Color,
+    iconName: String?,
+    iconColor: Long?
 ) {
     PrimaryCard(modifier = modifier) {
-        Column(modifier = Modifier.padding(12.dp)) {
+        Column(
+            modifier = Modifier.padding(12.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            BoxedIcon(
+                icon = iconName,
+                color = iconColor
+            )
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = title,
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
-            Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = value,
                 style = MaterialTheme.typography.titleSmall,

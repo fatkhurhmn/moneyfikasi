@@ -7,22 +7,26 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
+import dev.muffar.moneyfikasi.common_ui.component.icon.BoxedIcon
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
-import dev.muffar.moneyfikasi.domain.model.StatisticInsight
+import dev.muffar.moneyfikasi.domain.model.AppIcon
+import dev.muffar.moneyfikasi.domain.model.CategoryStatistic
+import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 
 @Composable
 fun StatisticInsightsSection(
     modifier: Modifier = Modifier,
-    insight: StatisticInsight
+    highestExpense: Transaction?,
+    highestIncome: Transaction?,
+    mostFreqExpenseCategory: CategoryStatistic?,
+    mostFreqIncomeCategory: CategoryStatistic?,
 ) {
     val financeColors = MoneyfikasiTheme.financeColors
 
@@ -43,17 +47,21 @@ fun StatisticInsightsSection(
         ) {
             InsightItem(
                 modifier = Modifier.weight(1f),
-                title = stringResource(R.string.highest_expense),
-                value = insight.highestExpense?.amount?.formatThousand() ?: "-",
-                label = insight.highestExpense?.category?.name ?: "No Data",
-                color = financeColors.expense
+                title = stringResource(R.string.highest_income),
+                value = highestIncome?.amount?.formatThousand() ?: "-",
+                label = highestIncome?.category?.name ?: "No Data",
+                color = financeColors.income,
+                iconName = AppIcon.TrendingUp.name,
+                iconColor = financeColors.income.toArgb().toLong(),
             )
             InsightItem(
                 modifier = Modifier.weight(1f),
-                title = stringResource(R.string.frequent_expense),
-                value = insight.mostFrequentExpenseCategory?.category?.name ?: "-",
-                label = "${insight.mostFrequentExpenseCategory?.transactionCount ?: 0} times",
-                color = financeColors.expense
+                title = stringResource(R.string.highest_expense),
+                value = highestExpense?.amount?.formatThousand() ?: "-",
+                label = highestExpense?.category?.name ?: "No Data",
+                color = financeColors.expense,
+                iconName = AppIcon.TrendingDown.name,
+                iconColor = financeColors.expense.toArgb().toLong(),
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
@@ -63,17 +71,21 @@ fun StatisticInsightsSection(
         ) {
             InsightItem(
                 modifier = Modifier.weight(1f),
-                title = stringResource(R.string.highest_income),
-                value = insight.highestIncome?.amount?.formatThousand() ?: "-",
-                label = insight.highestIncome?.category?.name ?: "No Data",
-                color = financeColors.income
+                title = stringResource(R.string.frequent_income),
+                value = mostFreqIncomeCategory?.category?.name ?: "-",
+                label = "${mostFreqIncomeCategory?.transactionCount ?: 0} times",
+                color = financeColors.income,
+                iconName = mostFreqIncomeCategory?.category?.icon,
+                iconColor = mostFreqIncomeCategory?.category?.color,
             )
             InsightItem(
                 modifier = Modifier.weight(1f),
-                title = stringResource(R.string.frequent_income),
-                value = insight.mostFrequentIncomeCategory?.category?.name ?: "-",
-                label = "${insight.mostFrequentIncomeCategory?.transactionCount ?: 0} times",
-                color = financeColors.income
+                title = stringResource(R.string.frequent_expense),
+                value = mostFreqExpenseCategory?.category?.name ?: "-",
+                label = "${mostFreqExpenseCategory?.transactionCount ?: 0} times",
+                color = financeColors.expense,
+                iconName = mostFreqExpenseCategory?.category?.icon,
+                iconColor = mostFreqExpenseCategory?.category?.color,
             )
         }
     }

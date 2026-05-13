@@ -54,7 +54,7 @@ fun StatisticOverviewSection(
                 StatisticOverviewRow(
                     label = stringResource(R.string.net),
                     amount = total.formatThousand(),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
         }

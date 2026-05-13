@@ -40,7 +40,7 @@ fun CategoryDistributionSection(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(12.dp)
+                    .padding(vertical = 12.dp)
             ) {
                 IncomeExpenseTabs(
                     pagerState = pagerState,
