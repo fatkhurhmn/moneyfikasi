@@ -19,6 +19,7 @@ fun CommonAddButton(
 ) {
     FloatingActionButton(
         onClick = onClick,
+        containerColor = MaterialTheme.colorScheme.primary,
         modifier = modifier
     ) {
         Icon(

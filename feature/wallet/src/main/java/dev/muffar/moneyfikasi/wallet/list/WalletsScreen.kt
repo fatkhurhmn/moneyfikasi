@@ -2,28 +2,23 @@ package dev.muffar.moneyfikasi.wallet.list
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
 import dev.muffar.moneyfikasi.common_ui.component.button.CommonAddButton
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
+import dev.muffar.moneyfikasi.wallet.list.component.TotalBalance
 import dev.muffar.moneyfikasi.wallet.list.component.WalletItem
 import java.util.UUID
 
@@ -39,6 +34,7 @@ fun WalletsScreen(
         topBar = {
             CommonTopAppBar(
                 title = stringResource(R.string.wallets),
+                containerColor = MaterialTheme.colorScheme.background,
                 onBackClick = onBackClick
             )
         },
@@ -55,21 +51,7 @@ fun WalletsScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 item {
-                    val total = state.wallets.sumOf { i -> i.balance }
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = stringResource(R.string.total_n_balance),
-                            style = MaterialTheme.typography.bodyMedium,
-                        )
-                        Text(
-                            text = total.formatThousand(),
-                            style = MaterialTheme.typography.headlineSmall.copy(fontSize = 20.sp),
-                        )
-                    }
+                    TotalBalance(total = state.balance)
                     Spacer(modifier = Modifier.size(16.dp))
                 }
 

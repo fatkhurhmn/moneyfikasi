@@ -28,7 +28,10 @@ class WalletsViewModel @Inject constructor(
             walletUseCases.getAllWallets()
                 .collectLatest {
                     _state.update { state ->
-                        state.copy(wallets = it)
+                        state.copy(
+                            wallets = it,
+                            balance = it.sumOf { i -> i.balance }
+                        )
                     }
                 }
         }
