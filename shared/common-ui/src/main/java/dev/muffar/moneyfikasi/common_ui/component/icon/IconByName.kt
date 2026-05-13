@@ -1,6 +1,8 @@
 package dev.muffar.moneyfikasi.common_ui.component.icon
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.TrendingDown
+import androidx.compose.material.icons.automirrored.rounded.TrendingUp
 import androidx.compose.material.icons.filled.QuestionMark
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -16,7 +18,11 @@ fun IconByName(
     tint: Color,
 ) {
     val icon = if (!name.isNullOrEmpty()) {
-        AppIcon.fromName(name).toImageVector()
+        when (name) {
+            Icons.AutoMirrored.Rounded.TrendingDown.name -> Icons.AutoMirrored.Rounded.TrendingDown
+            Icons.AutoMirrored.Rounded.TrendingUp.name -> Icons.AutoMirrored.Rounded.TrendingUp
+            else -> AppIcon.fromName(name).toImageVector()
+        }
     } else {
         Icons.Default.QuestionMark
     }
