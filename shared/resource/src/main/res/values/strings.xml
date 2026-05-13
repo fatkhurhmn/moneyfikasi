@@ -199,6 +199,7 @@
     <string name="overview">Overview</string>
     <string name="summary">Summary</string>
     <string name="trend">Trend</string>
+    <string name="both">Both</string>
     <string name="insights">Insights</string>
     <string name="highest_expense">Highest Expense</string>
     <string name="highest_income">Highest Income</string>

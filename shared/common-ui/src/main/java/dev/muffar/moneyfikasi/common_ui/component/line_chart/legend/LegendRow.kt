@@ -12,20 +12,26 @@ import dev.muffar.moneyfikasi.resource.R
 
 @Composable
 fun LegendRow(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    showIncome: Boolean = true,
+    showExpense: Boolean = true,
 ) {
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        LegendItem(
-            color = MoneyfikasiTheme.financeColors.income,
-            label = stringResource(R.string.income),
-        )
-        LegendItem(
-            color = MoneyfikasiTheme.financeColors.expense,
-            label = stringResource(R.string.expense),
-        )
+        if (showIncome) {
+            LegendItem(
+                color = MoneyfikasiTheme.financeColors.income,
+                label = stringResource(R.string.income),
+            )
+        }
+        if (showExpense) {
+            LegendItem(
+                color = MoneyfikasiTheme.financeColors.expense,
+                label = stringResource(R.string.expense),
+            )
+        }
     }
 }

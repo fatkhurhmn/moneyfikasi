@@ -24,7 +24,7 @@ fun StatisticSummarySection(
     expense: Double,
 ) {
     val financeColors = MoneyfikasiTheme.financeColors
-    val netSum = net.formatThousand().let { if (net > 0) it else "-$it" }
+    val netSum = net.formatThousand()
     val incomeSum = income.formatThousand().let { if (income > 0) "+$it" else it }
     val expenseSum = expense.formatThousand().let { if (expense > 0) "-$it" else it }
 

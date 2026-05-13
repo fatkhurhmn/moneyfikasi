@@ -1,6 +1,5 @@
 package dev.muffar.moneyfikasi.statistic.main.component
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,6 +12,6 @@ fun StatisticSectionLabel(label: String, modifier: Modifier = Modifier) {
         text = label,
         style = MaterialTheme.typography.titleMedium,
         fontSize = 14.sp,
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
     )
 }

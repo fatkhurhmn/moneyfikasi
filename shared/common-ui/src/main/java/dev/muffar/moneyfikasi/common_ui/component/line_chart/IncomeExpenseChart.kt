@@ -28,6 +28,8 @@ fun IncomeExpenseChart(
     textColor: Int,
     surfaceColor: Int,
     modifier: Modifier = Modifier,
+    showIncome: Boolean = true,
+    showExpense: Boolean = true,
     onSliding: (Boolean) -> Unit = {},
 ) {
     val currentOnSliding by rememberUpdatedState(onSliding)
@@ -62,18 +64,26 @@ fun IncomeExpenseChart(
             ).also { it.chartView = chart }
 
             // Build datasets
-            chart.data = LineData(
-                createDataSet(
-                    values = chartData.expenseValues,
-                    label = expenseLabel,
-                    color = expenseColor
-                ),
-                createDataSet(
-                    values = chartData.incomeValues,
-                    label = incomeLabel,
-                    color = incomeColor
-                ),
-            )
+            val dataSets = mutableListOf<LineDataSet>()
+            if (showExpense) {
+                dataSets.add(
+                    createDataSet(
+                        values = chartData.expenseValues,
+                        label = expenseLabel,
+                        color = expenseColor
+                    )
+                )
+            }
+            if (showIncome) {
+                dataSets.add(
+                    createDataSet(
+                        values = chartData.incomeValues,
+                        label = incomeLabel,
+                        color = incomeColor
+                    )
+                )
+            }
+            chart.data = LineData(dataSets.toList())
 
             // X labels
             chart.xAxis.valueFormatter = object : ValueFormatter() {
