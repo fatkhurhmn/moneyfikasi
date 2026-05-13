@@ -116,7 +116,8 @@ fun MainNavigation(
             navigateToBudgets = { navController.toBudgetsScreen() },
             navigateToBackupRestore = { navController.toBackupRestoreScreen() },
             navigateToExport = { navController.toExportScreen() },
-            navigateToAppLock = { navController.toAppLockScreen() }
+            navigateToAppLock = { navController.toAppLockScreen() },
+            navigateToSettings = { /* TODO */ }
         )
 
         categoriesNavGraph(

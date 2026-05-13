@@ -1,9 +1,13 @@
 package dev.muffar.moneyfikasi.more.navigation
 
+import androidx.compose.runtime.getValue
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.more.MoreScreen
+import dev.muffar.moneyfikasi.more.MoreViewModel
 
 fun NavGraphBuilder.moreNavGraph(
     navigateToWallets: () -> Unit,
@@ -13,16 +17,20 @@ fun NavGraphBuilder.moreNavGraph(
     navigateToBackupRestore: () -> Unit,
     navigateToExport: () -> Unit,
     navigateToAppLock: () -> Unit,
+    navigateToSettings: () -> Unit,
 ) {
     composable(route = Screen.More.route) {
+
+        val viewModel = hiltViewModel<MoreViewModel>()
+        val state by viewModel.state.collectAsStateWithLifecycle()
+
         MoreScreen(
+            state = state,
             onWalletsClick = navigateToWallets,
             onCategoriesClick = navigateToCategories,
-            onPresetClick = navigateToPreset,
             onBudgetsClick = navigateToBudgets,
-            onBackupRestoreClick = navigateToBackupRestore,
-            onExportClick = navigateToExport,
-            onAppLockClick = navigateToAppLock
+            onPresetsClick = navigateToPreset,
+            onSettingsClick = navigateToSettings
         )
     }
 }
