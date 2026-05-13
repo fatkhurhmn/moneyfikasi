@@ -25,13 +25,6 @@ fun AddEditWalletForm(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        WalletCard(
-            name = state.name,
-            color = state.color,
-            icon = state.icon,
-            balance = state.balance,
-        )
-
         WalletNameInput(
             name = state.name,
             onNameChange = onNameChange,

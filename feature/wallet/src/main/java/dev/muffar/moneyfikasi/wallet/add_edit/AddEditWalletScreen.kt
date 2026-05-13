@@ -1,26 +1,20 @@
 package dev.muffar.moneyfikasi.wallet.add_edit
 
-import androidx.compose.foundation.layout.consumeWindowInsets
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.component.dialog.CommonAlertDialog
 import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
 import dev.muffar.moneyfikasi.common_ui.component.button.BottomBarAddEditButton
+import dev.muffar.moneyfikasi.common_ui.component.dialog.CommonAlertDialog
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.wallet.add_edit.component.AddEditWalletForm
+import dev.muffar.moneyfikasi.wallet.add_edit.component.AddEditWalletContent
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
 
@@ -41,12 +35,16 @@ fun AddEditWalletScreen(
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
-    val scrollState = rememberScrollState()
+    val isEditMode = state.id != null
+    val title = "${stringResource(if (isEditMode) R.string.edit else R.string.create)} " +
+            stringResource(R.string.wallet)
 
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             CommonTopAppBar(
-                title = stringResource(R.string.wallet),
+                title = title,
+                containerColor = MaterialTheme.colorScheme.background,
                 onBackClick = onBackClick
             )
         },
@@ -58,15 +56,11 @@ fun AddEditWalletScreen(
             )
         },
         snackbarHost = { SnackbarMessage(snackbarHostState) }
-    ) {
-        AddEditWalletForm(
-            modifier = Modifier
-                .padding(it)
-                .consumeWindowInsets(it)
-                .imePadding()
-                .verticalScroll(scrollState)
-                .padding(16.dp),
+    ) { paddingValues ->
+        AddEditWalletContent(
+            paddingValues = paddingValues,
             state = state,
+            isEditMode = isEditMode,
             onNameChange = onNameChange,
             onBalanceChange = onBalanceChange,
             onIconSelect = onIconSelect,
