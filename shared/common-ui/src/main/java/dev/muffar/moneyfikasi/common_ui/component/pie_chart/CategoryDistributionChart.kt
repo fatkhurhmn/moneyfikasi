@@ -62,6 +62,7 @@ fun CategoryDistributionChart(
                 }
 
                 val data = PieData(dataset)
+                pieChart.centerText = "Tap to view"
 
                 pieChart.setCenterTextColor(onSurfaceColor.toArgb())
                 pieChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
@@ -75,7 +76,7 @@ fun CategoryDistributionChart(
                     }
 
                     override fun onNothingSelected() {
-                        pieChart.centerText = ""
+                        pieChart.centerText = "Tap to view"
                     }
                 })
 
