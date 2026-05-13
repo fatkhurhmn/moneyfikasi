@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -42,7 +43,8 @@ fun SearchScreen(
                 modifier = Modifier
                     .background(MaterialTheme.colorScheme.surface)
                     .fillMaxWidth()
-                    .padding(16.dp),
+                    .padding(16.dp)
+                    .statusBarsPadding(),
                 searchQuery = state.searchQuery ?: "",
                 onBackClick = onBackClick,
                 onQueryChange = onQueryChange,

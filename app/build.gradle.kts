@@ -78,6 +78,7 @@ dependencies {
     implementation(projects.feature.budget)
     implementation(projects.feature.export)
     implementation(projects.feature.applock)
+    implementation(projects.feature.settings)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

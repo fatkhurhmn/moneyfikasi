@@ -14,9 +14,6 @@ fun NavGraphBuilder.moreNavGraph(
     navigateToCategories: () -> Unit,
     navigateToPreset: () -> Unit,
     navigateToBudgets: () -> Unit,
-    navigateToBackupRestore: () -> Unit,
-    navigateToExport: () -> Unit,
-    navigateToAppLock: () -> Unit,
     navigateToSettings: () -> Unit,
 ) {
     composable(route = Screen.More.route) {

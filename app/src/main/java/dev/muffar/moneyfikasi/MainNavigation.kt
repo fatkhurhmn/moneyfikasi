@@ -25,6 +25,8 @@ import dev.muffar.moneyfikasi.preset.presetGraph
 import dev.muffar.moneyfikasi.search.navigation.searchNavigation
 import dev.muffar.moneyfikasi.search.navigation.toSearchScreen
 import dev.muffar.moneyfikasi.more.navigation.moreNavGraph
+import dev.muffar.moneyfikasi.settings.navigation.settingsNavGraph
+import dev.muffar.moneyfikasi.settings.navigation.navigateToSettings
 import dev.muffar.moneyfikasi.statistic.detail.navigation.toStatisticDetailScreen
 import dev.muffar.moneyfikasi.statistic.category_distribution.navigation.toCategoryDistributionScreen
 import dev.muffar.moneyfikasi.statistic.statisticNavGraph
@@ -114,10 +116,14 @@ fun MainNavigation(
             navigateToCategories = { navController.toCategoriesScreen() },
             navigateToPreset = { navController.toPresetListScreen() },
             navigateToBudgets = { navController.toBudgetsScreen() },
-            navigateToBackupRestore = { navController.toBackupRestoreScreen() },
-            navigateToExport = { navController.toExportScreen() },
-            navigateToAppLock = { navController.toAppLockScreen() },
-            navigateToSettings = { /* TODO */ }
+            navigateToSettings = { navController.navigateToSettings() },
+        )
+
+        settingsNavGraph(
+            onBackupRestoreClick = { navController.toBackupRestoreScreen() },
+            onExportClick = { navController.toExportScreen() },
+            onAppLockClick = { navController.toAppLockScreen() },
+            onBackClick = { navController.navigateUp() }
         )
 
         categoriesNavGraph(
