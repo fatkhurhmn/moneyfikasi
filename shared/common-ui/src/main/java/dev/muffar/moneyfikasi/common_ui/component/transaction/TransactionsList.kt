@@ -35,7 +35,7 @@ fun TransactionsList(
 ) {
     LazyColumn(
         modifier = modifier,
-        contentPadding = PaddingValues(bottom = 54.dp),
+        contentPadding = PaddingValues(bottom = 100.dp),
     ) {
         item {
             header()

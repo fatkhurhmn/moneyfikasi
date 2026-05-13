@@ -32,6 +32,7 @@ fun MoreScreen(
             modifier = modifier
                 .padding(it)
                 .padding(vertical = 4.dp)
+                .padding(bottom = 80.dp)
         ) {
             MoreItem(
                 title = stringResource(R.string.wallets),

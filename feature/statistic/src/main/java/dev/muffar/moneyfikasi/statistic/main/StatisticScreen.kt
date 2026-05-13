@@ -49,6 +49,7 @@ fun StatisticScreen(
         Column(
             modifier
                 .padding(it)
+                .padding(bottom = 80.dp)
         ) {
             DateRangeSwitcher(
                 timeReference = state.timeReference,
