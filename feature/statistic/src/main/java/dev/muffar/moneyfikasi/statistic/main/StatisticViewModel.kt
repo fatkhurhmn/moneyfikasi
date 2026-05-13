@@ -65,9 +65,9 @@ class StatisticViewModel @Inject constructor(
                     ) { incomeSum, expenseSum, trend, categoryStats, insights ->
                         _state.update { state ->
                             state.copy(
-                                overviewIncome = incomeSum,
-                                overviewExpense = expenseSum,
-                                overviewNet = incomeSum - expenseSum,
+                                incomeSum = incomeSum,
+                                expenseSum = expenseSum,
+                                netSum = incomeSum - expenseSum,
                                 trend = trend,
                                 categoryStatistics = categoryStats,
                                 statisticInsight = insights

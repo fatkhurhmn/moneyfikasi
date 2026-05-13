@@ -25,7 +25,7 @@ fun CategoryIconAndColorInput(
     error: ErrorMessage
 ) {
     val iconOption = if (type == CategoryType.EXPENSE) {
-        AppIcon.expenseCategoryIcons.dropLast(1) //drop TrendingDown
+        AppIcon.expenseCategoryIcons
     } else {
         AppIcon.incomeCategoryIcons
     }

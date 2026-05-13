@@ -7,12 +7,15 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.TrendingDown
+import androidx.compose.material.icons.automirrored.rounded.TrendingUp
+import androidx.compose.material.icons.rounded.TrendingUp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.component.icon.BoxedIcon
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.domain.model.AppIcon
 import dev.muffar.moneyfikasi.domain.model.CategoryStatistic
@@ -51,7 +54,7 @@ fun StatisticInsightsSection(
                 value = highestIncome?.amount?.formatThousand() ?: "-",
                 label = highestIncome?.category?.name ?: "No Data",
                 color = financeColors.income,
-                iconName = AppIcon.TrendingUp.name,
+                iconName = Icons.AutoMirrored.Rounded.TrendingUp.name,
                 iconColor = financeColors.income.toArgb().toLong(),
             )
             InsightItem(
@@ -60,7 +63,7 @@ fun StatisticInsightsSection(
                 value = highestExpense?.amount?.formatThousand() ?: "-",
                 label = highestExpense?.category?.name ?: "No Data",
                 color = financeColors.expense,
-                iconName = AppIcon.TrendingDown.name,
+                iconName = Icons.AutoMirrored.Rounded.TrendingDown.name,
                 iconColor = financeColors.expense.toArgb().toLong(),
             )
         }

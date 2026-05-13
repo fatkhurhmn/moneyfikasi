@@ -3,7 +3,6 @@ package dev.muffar.moneyfikasi.common_ui.utils
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.MenuBook
 import androidx.compose.material.icons.automirrored.rounded.ReceiptLong
-import androidx.compose.material.icons.automirrored.rounded.TrendingDown
 import androidx.compose.material.icons.automirrored.rounded.TrendingUp
 import androidx.compose.material.icons.rounded.AccountBalance
 import androidx.compose.material.icons.rounded.AccountBalanceWallet
@@ -142,7 +141,6 @@ object IconMapper {
             AppIcon.SyncAlt -> Icons.Rounded.SyncAlt
             AppIcon.Train -> Icons.Rounded.Train
             AppIcon.TrendingUp -> Icons.AutoMirrored.Rounded.TrendingUp
-            AppIcon.TrendingDown -> Icons.AutoMirrored.Rounded.TrendingDown
             AppIcon.TwoWheeler -> Icons.Rounded.TwoWheeler
             AppIcon.Verified -> Icons.Rounded.Verified
             AppIcon.VideoCameraBack -> Icons.Rounded.VideoCameraBack

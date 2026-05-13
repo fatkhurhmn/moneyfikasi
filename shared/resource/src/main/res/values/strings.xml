@@ -197,6 +197,7 @@
     <string name="biometric_reason">Unlock Moneyfikasi</string>
     <string name="use_pin">Use PIN</string>
     <string name="overview">Overview</string>
+    <string name="summary">Summary</string>
     <string name="trend">Trend</string>
     <string name="insights">Insights</string>
     <string name="highest_expense">Highest Expense</string>

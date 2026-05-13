@@ -22,7 +22,7 @@ import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.statistic.main.component.CategoryDistributionSection
 import dev.muffar.moneyfikasi.statistic.main.component.IncomeExpenseTrendSection
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticInsightsSection
-import dev.muffar.moneyfikasi.statistic.main.component.StatisticOverviewSection
+import dev.muffar.moneyfikasi.statistic.main.component.StatisticSummarySection
 import dev.muffar.moneyfikasi.statistic.main.component.StatisticTopBar
 import org.threeten.bp.LocalDateTime
 import java.util.UUID
@@ -58,17 +58,10 @@ fun StatisticScreen(
             Column(
                 modifier = Modifier.verticalScroll(scrollState, enabled = !isChartSliding)
             ) {
-                StatisticOverviewSection(
-                    income = state.overviewIncome,
-                    expense = state.overviewExpense,
-                    total = state.overviewNet
-                )
-
-                StatisticInsightsSection(
-                    highestExpense = state.statisticInsight.highestExpense,
-                    highestIncome = state.statisticInsight.highestIncome,
-                    mostFreqExpenseCategory = state.statisticInsight.mostFrequentExpenseCategory,
-                    mostFreqIncomeCategory = state.statisticInsight.mostFrequentIncomeCategory,
+                StatisticSummarySection(
+                    income = state.incomeSum,
+                    expense = state.expenseSum,
+                    net = state.netSum
                 )
 
                 IncomeExpenseTrendSection(
@@ -88,6 +81,13 @@ fun StatisticScreen(
                         )
                     },
                     onShowAllClick = onShowAllClick
+                )
+
+                StatisticInsightsSection(
+                    highestExpense = state.statisticInsight.highestExpense,
+                    highestIncome = state.statisticInsight.highestIncome,
+                    mostFreqExpenseCategory = state.statisticInsight.mostFrequentExpenseCategory,
+                    mostFreqIncomeCategory = state.statisticInsight.mostFrequentIncomeCategory,
                 )
             }
         }
