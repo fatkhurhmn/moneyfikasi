@@ -40,11 +40,10 @@ fun AddEditWalletScreen(
             stringResource(R.string.wallet)
 
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             CommonTopAppBar(
                 title = title,
-                containerColor = MaterialTheme.colorScheme.background,
                 onBackClick = onBackClick
             )
         },
