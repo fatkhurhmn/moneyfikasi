@@ -58,7 +58,7 @@ fun CommonTopAppBar(
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
-                fontSize = 18.sp,
+                fontSize = 20.sp,
                 modifier = Modifier.padding(vertical = 8.dp)
             )
         }
