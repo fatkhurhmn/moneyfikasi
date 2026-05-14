@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.statistic.main.component
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -19,6 +20,7 @@ fun StatisticTopBar(
                 painter = painterResource(R.drawable.ic_date),
                 onClick = onFilterClick
             )
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.surface
     )
 }

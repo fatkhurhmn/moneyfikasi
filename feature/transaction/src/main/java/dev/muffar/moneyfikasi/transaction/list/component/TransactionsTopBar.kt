@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.transaction.list.component
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -30,6 +31,7 @@ fun TransactionsTopBar(
                 isFilterApplied = showFilterBadge,
                 onClick = onFilterClick,
             )
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.surface
     )
 }

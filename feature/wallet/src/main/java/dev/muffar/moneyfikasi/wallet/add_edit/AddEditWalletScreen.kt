@@ -44,6 +44,7 @@ fun AddEditWalletScreen(
         topBar = {
             CommonTopAppBar(
                 title = title,
+                containerColor = MaterialTheme.colorScheme.surface,
                 onBackClick = onBackClick
             )
         },

@@ -34,6 +34,7 @@ fun CategoryDistributionScreen(
         topBar = {
             CommonTopAppBar(
                 title = stringResource(R.string.category_distribution),
+                containerColor = MaterialTheme.colorScheme.surface,
                 onBackClick = onBackClick
             )
         },

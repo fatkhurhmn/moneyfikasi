@@ -28,7 +28,7 @@ import dev.muffar.moneyfikasi.resource.R
 @Composable
 fun CommonTopAppBar(
     modifier: Modifier = Modifier,
-    containerColor: Color = MaterialTheme.colorScheme.surface,
+    containerColor: Color = MaterialTheme.colorScheme.background,
     title: String,
     showBackButton: Boolean = true,
     onBackClick: () -> Unit = {},

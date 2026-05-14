@@ -37,7 +37,7 @@ fun TotalBalance(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(MaterialTheme.shapes.small)
+            .clip(MaterialTheme.shapes.medium)
             .background(
                 brush = Brush.horizontalGradient(
                     colors = listOf(
