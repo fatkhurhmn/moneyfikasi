@@ -86,7 +86,7 @@ sealed class Screen(val route: String) {
 
     data object BackupRestore : Screen("backup_restore")
 
-    data object PresetList : Screen("preset_list")
+    data object Presets : Screen("presets")
     data object AddEditPreset : Screen("add_edit_preset/{type}?preset_id={preset_id}") {
         const val TYPE = "type"
         const val PRESET_ID = "preset_id"

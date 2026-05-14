@@ -12,11 +12,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PresetListViewModel @Inject constructor(
+class PresetsViewModel @Inject constructor(
     private val presetUseCases: PresetUseCases,
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(PresetListState())
+    private val _state = MutableStateFlow(PresetsState())
     val state = _state.asStateFlow()
 
     init {

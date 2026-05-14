@@ -20,7 +20,7 @@ import dev.muffar.moneyfikasi.feature.applock.main.navigation.toAppLockScreen
 import dev.muffar.moneyfikasi.feature.home.navigation.homeNavigation
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.preset.add_edit.navigation.toAddEditPresetScreen
-import dev.muffar.moneyfikasi.preset.list.navigation.toPresetListScreen
+import dev.muffar.moneyfikasi.preset.list.navigation.toPresetsScreen
 import dev.muffar.moneyfikasi.preset.presetGraph
 import dev.muffar.moneyfikasi.search.navigation.searchNavigation
 import dev.muffar.moneyfikasi.search.navigation.toSearchScreen
@@ -66,7 +66,7 @@ fun MainNavigation(
             },
             onSeeAllBudgetsClick = { navController.toBudgetsScreen() },
             navigateToAddPreset = { navController.toAddEditPresetScreen(TransactionType.INCOME) },
-            navigateToPresets = { navController.toPresetListScreen() },
+            navigateToPresets = { navController.toPresetsScreen() },
             navigateToAddBudget = { navController.toAddEditBudgetScreen() }
         )
 
@@ -114,7 +114,7 @@ fun MainNavigation(
         moreNavGraph(
             navigateToWallets = { navController.toWalletsScreen() },
             navigateToCategories = { navController.toCategoriesScreen() },
-            navigateToPreset = { navController.toPresetListScreen() },
+            navigateToPreset = { navController.toPresetsScreen() },
             navigateToBudgets = { navController.toBudgetsScreen() },
             navigateToSettings = { navController.navigateToSettings() },
         )

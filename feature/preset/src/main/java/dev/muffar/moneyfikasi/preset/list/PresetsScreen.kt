@@ -17,9 +17,9 @@ import java.util.UUID
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun PresetListScreen(
+fun PresetsScreen(
     modifier: Modifier = Modifier,
-    state: PresetListState,
+    state: PresetsState,
     onAddPresetClick: (TransactionType) -> Unit,
     onPresetClick: (TransactionType, UUID) -> Unit,
     onBackClick: () -> Unit,

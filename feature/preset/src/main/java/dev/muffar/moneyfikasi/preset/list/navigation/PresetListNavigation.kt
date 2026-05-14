@@ -8,20 +8,20 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.navigation.Screen
-import dev.muffar.moneyfikasi.preset.list.PresetListScreen
-import dev.muffar.moneyfikasi.preset.list.PresetListViewModel
+import dev.muffar.moneyfikasi.preset.list.PresetsScreen
+import dev.muffar.moneyfikasi.preset.list.PresetsViewModel
 import java.util.UUID
 
-fun NavGraphBuilder.presetListNavigation(
+fun NavGraphBuilder.presetsNavigation(
     navigateToAddPreset: (TransactionType) -> Unit,
     navigateToEditPreset: (TransactionType, UUID) -> Unit,
     navigateBack: () -> Unit,
 ) {
-    composable(route = Screen.PresetList.route) {
-        val viewModel = hiltViewModel<PresetListViewModel>()
+    composable(route = Screen.Presets.route) {
+        val viewModel = hiltViewModel<PresetsViewModel>()
         val state by viewModel.state.collectAsStateWithLifecycle()
 
-        PresetListScreen(
+        PresetsScreen(
             state = state,
             onAddPresetClick = navigateToAddPreset,
             onPresetClick = navigateToEditPreset,
@@ -30,6 +30,6 @@ fun NavGraphBuilder.presetListNavigation(
     }
 }
 
-fun NavController.toPresetListScreen() {
-    navigate(Screen.PresetList.route)
+fun NavController.toPresetsScreen() {
+    navigate(Screen.Presets.route)
 }
