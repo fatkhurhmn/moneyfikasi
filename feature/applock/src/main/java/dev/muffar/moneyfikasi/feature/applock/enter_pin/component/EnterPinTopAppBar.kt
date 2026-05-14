@@ -2,7 +2,7 @@ package dev.muffar.moneyfikasi.feature.applock.enter_pin.component
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import dev.muffar.moneyfikasi.common_ui.component.CommonTopAppBar
+import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
 import dev.muffar.moneyfikasi.domain.model.EnterPinType
 import dev.muffar.moneyfikasi.resource.R
 

@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.top_bar.TopBarButton
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
@@ -19,7 +20,7 @@ fun FilterIcon(
     onClick: () -> Unit,
 ) {
     Box {
-        TransactionsTopBarButton(
+        TopBarButton(
             painter = painterResource(R.drawable.ic_filter),
             onClick = onClick
         )
