@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.budget.list.component
 
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -23,10 +24,11 @@ fun BudgetsContent(
     if (budgets.isNotEmpty()) {
         LazyColumn(
             modifier = modifier,
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(budgets, key = { it.id }) { budget ->
                 BudgetItem(
-                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
                     budget = budget,
                     spentAmount = budget.spentAmount,
                     onClick = { onClick(budget.id) }

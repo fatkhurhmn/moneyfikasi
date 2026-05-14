@@ -39,7 +39,8 @@ fun PresetItem(
         ) {
             BoxedIcon(
                 icon = preset.category?.icon,
-                color = preset.category?.color
+                color = preset.category?.color,
+                containerSize = 44.dp
             )
             Spacer(modifier = Modifier.width(16.dp))
             Column(

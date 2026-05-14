@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -17,9 +18,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
 import dev.muffar.moneyfikasi.common_ui.component.icon.BoxedIcon
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.domain.model.Budget
@@ -34,7 +37,7 @@ fun BudgetItem(
 ) {
     val progress = if (budget.amount > 0) (spentAmount / budget.amount).toFloat() else 0f
     val financeColors = MoneyfikasiTheme.financeColors
-    val color = when(progress){
+    val color = when (progress) {
         in 0f..0.75f -> financeColors.info
         in 0.75f..0.90f -> financeColors.warning
         else -> financeColors.expenseContainer
@@ -42,66 +45,72 @@ fun BudgetItem(
     val remainingAmount = (budget.amount - spentAmount).let {
         if (it < 0) 0.0 else it
     }
-
-    Row(
+    PrimaryCard(
         modifier = Modifier
+            .clip(MaterialTheme.shapes.medium)
             .clickable { onClick() }
-            .fillMaxWidth()
-            .height(70.dp)
-            .then(modifier)
     ) {
-        BoxedIcon(
-            icon = budget.category.icon,
-            color = budget.category.color,
+        Row(
             modifier = Modifier
-                .fillMaxHeight()
-                .aspectRatio(1f)
-        )
-        Spacer(modifier = Modifier.width(16.dp))
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceBetween
+                .padding(vertical = 12.dp, horizontal = 16.dp)
+                .fillMaxWidth()
+                .height(50.dp)
+                .then(modifier),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = budget.category.name,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontSize = 15.sp
-                )
-                Text(
-                    text = budget.amount.formatThousand(),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontSize = 15.sp
-                )
-            }
-            LinearProgressIndicator(
-                progress = { progress.coerceAtMost(1f) },
+            BoxedIcon(
+                icon = budget.category.icon,
+                color = budget.category.color,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(6.dp),
-                trackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f),
-                strokeCap = StrokeCap.Round,
-                gapSize = (-15).dp,
-                drawStopIndicator = {},
-                color = color
+                    .fillMaxHeight()
+                    .aspectRatio(1f)
             )
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+            Spacer(modifier = Modifier.width(16.dp))
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    text = spentAmount.formatThousand() + " spent",
-                    style = MaterialTheme.typography.bodySmall
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = budget.category.name,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontSize = 15.sp
+                    )
+                    Text(
+                        text = budget.amount.formatThousand(),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontSize = 15.sp
+                    )
+                }
+                LinearProgressIndicator(
+                    progress = { progress.coerceAtMost(1f) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(6.dp),
+                    trackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f),
+                    strokeCap = StrokeCap.Round,
+                    gapSize = (-15).dp,
+                    drawStopIndicator = {},
+                    color = color
                 )
-                Text(
-                    text = remainingAmount.formatThousand() + " left",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = spentAmount.formatThousand() + " spent",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                    Text(
+                        text = remainingAmount.formatThousand() + " left",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
         }
     }
