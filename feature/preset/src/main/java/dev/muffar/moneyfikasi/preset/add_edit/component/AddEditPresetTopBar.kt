@@ -19,6 +19,7 @@ fun AddEditPresetTopBar(
     CommonTopAppBar(
         title = "Preset ${type.name.lowercase().capitalize()}",
         onBackClick = onBackClick,
+        containerColor = MaterialTheme.colorScheme.surface,
         action = {
             if (isEditMode) {
                 TopBarIconButton(
