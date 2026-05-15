@@ -28,7 +28,7 @@ fun WalletInput(
     walletOptions: List<Wallet>,
     onWalletSelect: (Wallet) -> Unit,
     onAddNewWalletClick: () -> Unit,
-    onClear: () -> Unit = {}
+    onClear: (() -> Unit)? = null
 ) {
 
     var showWalletPicker by remember { mutableStateOf(false) }

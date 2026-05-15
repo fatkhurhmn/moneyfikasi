@@ -57,7 +57,6 @@ fun AddEditTransactionScreen(
             )
         },
         bottomBar = { BottomBarSaveButton(onSaveClick) },
-        containerColor = MaterialTheme.colorScheme.surface
     ) {
         AddEditTransactionForm(
             modifier = Modifier

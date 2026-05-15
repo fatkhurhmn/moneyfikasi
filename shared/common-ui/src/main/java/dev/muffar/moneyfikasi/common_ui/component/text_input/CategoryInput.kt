@@ -27,7 +27,7 @@ fun CategoryInput(
     categoryOptions: List<Category>,
     onCategorySelect: (Category) -> Unit,
     onAddNewCategoryClick: () -> Unit,
-    onClear: () -> Unit = {}
+    onClear: (() -> Unit)? = null
 ) {
 
     var showCategoryPicker by remember { mutableStateOf(false) }
@@ -40,7 +40,7 @@ fun CategoryInput(
                 modifier = Modifier.weight(1f),
                 value = category.name,
                 onValueChange = {},
-                onClear = { onClear() },
+                onClear = onClear,
                 label = stringResource(R.string.category),
                 placeholder = stringResource(R.string.select_category),
                 isClickable = true,
