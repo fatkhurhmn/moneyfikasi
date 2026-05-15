@@ -31,7 +31,7 @@ fun CommonFilterChip(
             selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
             containerColor = Color.Transparent,
             labelColor = MaterialTheme.colorScheme.onSurface,
-            selectedLabelColor = MaterialTheme.colorScheme.onSurface,
+            selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
         ),
         shape = CircleShape,
         border = BorderStroke(

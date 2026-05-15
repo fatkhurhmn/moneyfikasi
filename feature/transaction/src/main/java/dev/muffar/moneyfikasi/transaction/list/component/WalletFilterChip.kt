@@ -22,9 +22,9 @@ fun WalletFilterChip(
             IconByName(
                 name = wallet.icon,
                 tint = if (isSelect) {
-                    MaterialTheme.colorScheme.onSurface
+                    MaterialTheme.colorScheme.onPrimaryContainer
                 } else {
-                    MaterialTheme.colorScheme.onSurfaceVariant
+                    MaterialTheme.colorScheme.onSurface
                 },
                 modifier = Modifier.size(16.dp)
             )

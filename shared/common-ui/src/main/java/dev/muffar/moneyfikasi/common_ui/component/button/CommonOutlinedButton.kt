@@ -28,7 +28,7 @@ fun CommonOutlinedButton(
         colors = ButtonDefaults.outlinedButtonColors(
             contentColor = color
         ),
-        border = BorderStroke(1.5.dp, color)
+        border = BorderStroke(1.dp, color)
     ) {
         Text(text, style = style)
     }
