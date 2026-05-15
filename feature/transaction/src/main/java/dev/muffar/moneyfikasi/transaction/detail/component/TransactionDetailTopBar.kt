@@ -1,11 +1,17 @@
 package dev.muffar.moneyfikasi.transaction.detail.component
 
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
-import dev.muffar.moneyfikasi.common_ui.component.button.TopBarIconButton
+import dev.muffar.moneyfikasi.common_ui.component.top_bar.TopBarButton
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
@@ -18,14 +24,14 @@ fun TransactionDetailTopBar(
         title = stringResource(R.string.transaction),
         onBackClick = onBackClick,
         action = {
-            TopBarIconButton(
-                painter = painterResource(R.drawable.ic_delete),
+            TopBarButton(
+                imageVector = Icons.Rounded.Delete,
                 color = MaterialTheme.colorScheme.error,
                 onClick = { onDeleteClick(true) }
             )
-
-            TopBarIconButton(
-                painter = painterResource(R.drawable.ic_edit),
+            Spacer(modifier = Modifier.width(8.dp))
+            TopBarButton(
+                imageVector = Icons.Rounded.Edit,
                 onClick = onEditClick
             )
         }

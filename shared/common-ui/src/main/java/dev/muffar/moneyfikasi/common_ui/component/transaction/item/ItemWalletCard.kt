@@ -23,7 +23,7 @@ fun ItemWalletCard(
         colors = CardDefaults.cardColors(
             containerColor = Color(wallet.color).copy(alpha = 0.1f),
         ),
-        shape = RoundedCornerShape(4.dp),
+        shape = MaterialTheme.shapes.extraSmall,
     ) {
         Text(
             text = wallet.name,

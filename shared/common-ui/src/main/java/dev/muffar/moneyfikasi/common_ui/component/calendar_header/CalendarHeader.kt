@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ChevronLeft
 import androidx.compose.material.icons.rounded.ChevronRight
@@ -34,11 +33,11 @@ fun CalendarHeader(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(16.dp))
+                .clip(MaterialTheme.shapes.medium)
                 .border(
                     width = 1.dp,
                     color = MaterialTheme.colorScheme.primary,
-                    shape = RoundedCornerShape(16.dp)
+                    shape = MaterialTheme.shapes.medium
                 )
                 .background(MaterialTheme.colorScheme.primaryContainer),
             horizontalArrangement = Arrangement.SpaceBetween,

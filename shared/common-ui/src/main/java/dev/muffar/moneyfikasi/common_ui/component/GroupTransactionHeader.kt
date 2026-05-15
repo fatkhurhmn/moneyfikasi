@@ -48,7 +48,7 @@ fun GroupTransactionHeader(
                 modifier = Modifier
                     .width(3.dp)
                     .height(32.dp)
-                    .clip(RoundedCornerShape(4.dp))
+                    .clip(MaterialTheme.shapes.extraSmall)
                     .background(MaterialTheme.colorScheme.primary)
             )
             Spacer(modifier = Modifier.width(12.dp))
