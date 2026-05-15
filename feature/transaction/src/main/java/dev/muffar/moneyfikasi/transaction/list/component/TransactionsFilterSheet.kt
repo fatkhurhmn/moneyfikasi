@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.transaction.list.component
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -57,11 +58,9 @@ fun TransactionsFilterSheet(
         modifier = Modifier.statusBarsPadding(),
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surfaceVariant,
         sheetGesturesEnabled = false
     ) {
         Scaffold(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
             topBar = {
                 BottomSheetTitle(stringResource(R.string.filter))
             },
@@ -85,6 +84,7 @@ fun TransactionsFilterSheet(
         ) { innerPadding ->
             Column(
                 modifier = Modifier
+                    .background(MaterialTheme.colorScheme.surfaceContainerLow)
                     .padding(innerPadding)
                     .verticalScroll(rememberScrollState())
                     .padding(16.dp)

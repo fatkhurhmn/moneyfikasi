@@ -57,7 +57,6 @@ fun ReportDateSheet(
         modifier = Modifier.statusBarsPadding(),
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surface
     ) {
         val options = mapOf(
             TimePeriod.DAILY to stringResource(R.string.today),

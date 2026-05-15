@@ -4,15 +4,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Circle
+import androidx.compose.material.icons.rounded.Tune
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.top_bar.TopBarButton
-import dev.muffar.moneyfikasi.resource.R
 
 @Composable
 fun FilterIcon(
@@ -21,7 +20,7 @@ fun FilterIcon(
 ) {
     Box {
         TopBarButton(
-            painter = painterResource(R.drawable.ic_filter),
+            imageVector = Icons.Rounded.Tune,
             onClick = onClick
         )
 

@@ -2,6 +2,9 @@ package dev.muffar.moneyfikasi.transaction.list.component
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.CalendarToday
+import androidx.compose.material.icons.rounded.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -23,12 +26,12 @@ fun TransactionsTopBar(
         showBackButton = false,
         action = {
             TopBarButton(
-                painter = painterResource(R.drawable.ic_search),
+                imageVector = Icons.Rounded.Search,
                 onClick = onSearchClick
             )
             Spacer(modifier = Modifier.width(8.dp))
             TopBarButton(
-                painter = painterResource(R.drawable.ic_date),
+                imageVector = Icons.Rounded.CalendarToday,
                 onClick = onChooseDateClick
             )
             Spacer(modifier = Modifier.width(8.dp))

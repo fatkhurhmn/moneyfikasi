@@ -70,7 +70,6 @@ fun CustomDateSheet(
         modifier = Modifier.statusBarsPadding(),
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surfaceVariant
     ) {
 
         val pickerState = rememberDateRangePickerState(

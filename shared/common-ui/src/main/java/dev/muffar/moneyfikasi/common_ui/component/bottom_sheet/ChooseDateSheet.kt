@@ -1,16 +1,15 @@
 package dev.muffar.moneyfikasi.common_ui.component.bottom_sheet
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -18,7 +17,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.button.DoubleOutlinedButton
@@ -27,7 +25,6 @@ import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.utils.extension.toDateRange
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
-import dev.muffar.moneyfikasi.utils.extensions.StringExt.capitalize
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,7 +59,6 @@ fun ChooseDateSheet(
         modifier = Modifier.statusBarsPadding(),
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surfaceVariant
     ) {
         val options = TimePeriod.entries
         Column(
@@ -71,31 +67,27 @@ fun ChooseDateSheet(
             modifier = Modifier.fillMaxWidth()
         ) {
             BottomSheetTitle(stringResource(R.string.choose_date))
-            options.forEach { option ->
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { onClick(option) }
-                        .padding(horizontal = 16.dp)
-                ) {
-                    DateOptionItem(
-                        option = option.name,
-                        selected = option == dateRange.timePeriod,
-                        onClick = { onClick(option) }
-                    )
 
-                    if (dateRange.timePeriod == TimePeriod.CUSTOM && option == TimePeriod.CUSTOM) {
-                        val start = dateRange.start.toFormattedDateTime("MMM, dd yyyy")
-                        val end = dateRange.end.toFormattedDateTime("MMM, dd yyyy")
-                        Text(
-                            text = "$start - $end",
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.padding(bottom = 16.dp, start = 16.dp)
-                        )
-                    }
+            Spacer(Modifier.height(8.dp))
+            options.forEach { option ->
+                DateOptionItem(
+                    option = option,
+                    selected = option == dateRange.timePeriod,
+                    onClick = { onClick(option) }
+                )
+
+                if (dateRange.timePeriod == TimePeriod.CUSTOM && option == TimePeriod.CUSTOM) {
+                    val start = dateRange.start.toFormattedDateTime("MMM, dd yyyy")
+                    val end = dateRange.end.toFormattedDateTime("MMM, dd yyyy")
+                    Text(
+                        text = "$start - $end",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(bottom = 16.dp, start = 72.dp)
+                    )
                 }
             }
+            Spacer(Modifier.height(8.dp))
 
             CommonHorizontalDivider()
             DoubleOutlinedButton(
@@ -114,28 +106,3 @@ fun ChooseDateSheet(
     }
 }
 
-@Composable
-private fun DateOptionItem(
-    option: String,
-    selected: Boolean,
-    onClick: () -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            text = option.capitalize(),
-            style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.W400,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-        RadioButton(
-            selected = selected,
-            onClick = onClick
-        )
-    }
-}

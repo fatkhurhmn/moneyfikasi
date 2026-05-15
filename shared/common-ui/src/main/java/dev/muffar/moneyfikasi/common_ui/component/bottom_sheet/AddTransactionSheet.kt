@@ -48,7 +48,6 @@ fun AddTransactionSheet(
         modifier = Modifier.statusBarsPadding(),
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surfaceVariant,
         sheetGesturesEnabled = false
     ) {
         BottomSheetTitle(stringResource(R.string.create_transaction))

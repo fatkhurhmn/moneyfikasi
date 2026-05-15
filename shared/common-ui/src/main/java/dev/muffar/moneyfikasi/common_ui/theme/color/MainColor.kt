@@ -31,6 +31,18 @@ object MainColor {
     val DarkTextPrimary = Color(0xFFF7F8FA)
     val DarkTextSecondary = Color(0xFFC9D1DA)
 
+    // Light Surface Containers
+    val LightSurfaceContainerLowest = Color(0xFFFFFFFF)
+    val LightSurfaceContainerLow = Color(0xFFF5F7FA)
+    val LightSurfaceContainer = Color(0xFFEFF2F5)
+    val LightSurfaceContainerHigh = Color(0xFFE8ECF0)
+
+    // Dark Surface Containers
+    val DarkSurfaceContainerLowest = Color(0xFF181B1E)
+    val DarkSurfaceContainerLow = Color(0xFF1E2226)
+    val DarkSurfaceContainer = Color(0xFF25292D)
+    val DarkSurfaceContainerHigh = Color(0xFF2C3136)
+
     // Semantic Colors
     val Success = Color(0xFF2DC46D)
     val SuccessContainer = Color(0xFFE8F8EF)

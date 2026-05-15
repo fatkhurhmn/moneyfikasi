@@ -48,7 +48,6 @@ fun ColorPickerSheet(
         modifier = Modifier.statusBarsPadding(),
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
-        containerColor = MaterialTheme.colorScheme.surfaceVariant,
     ) {
         BottomSheetTitle(stringResource(R.string.select_color))
         LazyVerticalGrid(

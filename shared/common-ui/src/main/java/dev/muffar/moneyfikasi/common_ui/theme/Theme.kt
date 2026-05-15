@@ -42,6 +42,11 @@ val MoneyfikasiLightColorScheme = lightColorScheme(
     surfaceVariant = MainColor.LightSurface2,
     onSurfaceVariant = MainColor.LightTextSecondary,
 
+    surfaceContainerLowest = MainColor.LightSurfaceContainerLowest,
+    surfaceContainerLow = MainColor.LightSurfaceContainerLow,
+    surfaceContainer = MainColor.LightSurfaceContainer,
+    surfaceContainerHigh = MainColor.LightSurfaceContainerHigh,
+
     outline = MainColor.LightOutline,
     outlineVariant = MainColor.LightSurface3,
 
@@ -80,6 +85,11 @@ val MoneyfikasiDarkColorScheme = darkColorScheme(
     onSurface = MainColor.DarkTextPrimary,
     surfaceVariant = MainColor.DarkSurface2,
     onSurfaceVariant = MainColor.DarkTextSecondary,
+
+    surfaceContainerLowest = MainColor.DarkSurfaceContainerLowest,
+    surfaceContainerLow = MainColor.DarkSurfaceContainerLow,
+    surfaceContainer = MainColor.DarkSurfaceContainer,
+    surfaceContainerHigh = MainColor.DarkSurfaceContainerHigh,
 
     outline = MainColor.DarkOutline,
     outlineVariant = MainColor.DarkSurface3,
