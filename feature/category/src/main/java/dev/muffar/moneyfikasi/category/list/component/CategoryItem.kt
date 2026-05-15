@@ -3,9 +3,6 @@ package dev.muffar.moneyfikasi.category.list.component
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ChevronRight
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,6 +12,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
+import dev.muffar.moneyfikasi.common_ui.component.icon.ArrowRight
 import dev.muffar.moneyfikasi.common_ui.component.icon.BoxedIcon
 import dev.muffar.moneyfikasi.domain.model.Category
 
@@ -51,11 +49,7 @@ fun CategoryItem(
                     .padding(horizontal = 16.dp),
             )
 
-            Icon(
-                imageVector = Icons.Rounded.ChevronRight,
-                contentDescription = category.name,
-                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = contentAlpha)
-            )
+            ArrowRight()
         }
     }
 }

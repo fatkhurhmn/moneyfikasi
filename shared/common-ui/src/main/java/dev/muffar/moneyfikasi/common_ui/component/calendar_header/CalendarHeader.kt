@@ -7,10 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ChevronLeft
-import androidx.compose.material.icons.rounded.ChevronRight
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,6 +15,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.icon.ArrowLeft
+import dev.muffar.moneyfikasi.common_ui.component.icon.ArrowRight
 
 @Composable
 fun CalendarHeader(
@@ -47,10 +45,7 @@ fun CalendarHeader(
                 onClick = onPreviousClick,
                 enabled = enableButton
             ) {
-                Icon(
-                    imageVector = Icons.Rounded.ChevronLeft,
-                    contentDescription = null
-                )
+                ArrowLeft()
             }
 
             Text(
@@ -62,10 +57,7 @@ fun CalendarHeader(
                 onClick = onNextClick,
                 enabled = enableButton
             ) {
-                Icon(
-                    imageVector = Icons.Rounded.ChevronRight,
-                    contentDescription = null,
-                )
+                ArrowRight()
             }
         }
     }
