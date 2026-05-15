@@ -1,30 +1,24 @@
 package dev.muffar.moneyfikasi.common_ui.component.bottom_sheet
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
-import dev.muffar.moneyfikasi.common_ui.component.button.DoubleOutlinedButton
-import dev.muffar.moneyfikasi.common_ui.component.icon.BoxedIcon
+import dev.muffar.moneyfikasi.common_ui.component.button.RowNegativePositiveButton
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.launch
@@ -32,6 +26,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryPickerSheet(
+    selectedCategory: Category?,
     categoryOptions: List<Category>,
     onCategorySelect: (Category) -> Unit,
     onAddNewCategoryClick: () -> Unit,
@@ -57,11 +52,16 @@ fun CategoryPickerSheet(
         BottomSheetTitle(stringResource(R.string.select_category))
         if (categoryOptions.isNotEmpty()) {
             LazyColumn(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(categoryOptions) { category ->
-                    CategoryOptionItem(
-                        category = category,
+                    PickerOptionItem(
+                        isSelected = selectedCategory == category,
+                        icon = category.icon,
+                        color = category.color,
+                        title = category.name,
                         onClick = {
                             hideSheet()
                             onCategorySelect(category)
@@ -79,39 +79,17 @@ fun CategoryPickerSheet(
         }
 
         CommonHorizontalDivider()
-        DoubleOutlinedButton(
+        RowNegativePositiveButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp),
-            leftText = stringResource(R.string.cancel),
-            rightText = stringResource(R.string.create),
-            onLeftClick = { hideSheet() },
-            onRightClick = {
+            negativeText = stringResource(R.string.cancel),
+            positiveText = stringResource(R.string.create),
+            onNegativeClick = { hideSheet() },
+            onPositiveClick = {
                 hideSheet()
                 onAddNewCategoryClick()
             }
         )
-    }
-}
-
-@Composable
-private fun CategoryOptionItem(
-    category: Category,
-    onClick: () -> Unit,
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick() }
-            .padding(16.dp)
-            .padding(horizontal = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        BoxedIcon(
-            icon = category.icon,
-            color = category.color
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(text = category.name, color = MaterialTheme.colorScheme.onSurface)
     }
 }

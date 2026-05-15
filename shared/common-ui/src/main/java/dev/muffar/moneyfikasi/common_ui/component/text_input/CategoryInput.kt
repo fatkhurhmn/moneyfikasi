@@ -57,6 +57,7 @@ fun CategoryInput(
         TextInputError(error)
         AnimatedVisibility(showCategoryPicker) {
             CategoryPickerSheet(
+                selectedCategory = category,
                 categoryOptions = categoryOptions,
                 onAddNewCategoryClick = onAddNewCategoryClick,
                 onCategorySelect = onCategorySelect,

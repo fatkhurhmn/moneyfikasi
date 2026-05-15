@@ -22,7 +22,7 @@ fun BoxedIcon(
     modifier: Modifier = Modifier,
     containerSize: Dp? = null,
     iconSize: Dp = 26.dp,
-    onClick: () -> Unit = {}
+    onClick: (() -> Unit)? = null
 ) {
     val containerColor = if (color == 0L || color == null) {
         MaterialTheme.colorScheme.surfaceVariant
@@ -41,7 +41,7 @@ fun BoxedIcon(
             .then(if (containerSize != null) Modifier.size(containerSize) else Modifier)
             .clip(CardDefaults.shape)
             .background(containerColor)
-            .clickable(onClick = onClick),
+            .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier),
         contentAlignment = Alignment.Center
     ) {
         IconByName(

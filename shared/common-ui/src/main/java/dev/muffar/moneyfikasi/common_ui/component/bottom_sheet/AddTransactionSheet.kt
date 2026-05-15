@@ -71,7 +71,7 @@ fun AddTransactionSheet(
                 onAddIncome()
             }
         )
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         AddTransactionItem(
             imageVector = Icons.Rounded.KeyboardDoubleArrowUp,
             title = stringResource(id = R.string.expense),
@@ -81,7 +81,7 @@ fun AddTransactionSheet(
                 onAddExpense()
             }
         )
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         AddTransactionItem(
             imageVector = Icons.Rounded.SwapHoriz,
             title = stringResource(id = R.string.transfer),

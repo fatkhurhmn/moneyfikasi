@@ -58,6 +58,7 @@ fun WalletInput(
         TextInputError(error)
         AnimatedVisibility(showWalletPicker) {
             WalletPickerSheet(
+                selectedWallet = wallet,
                 walletOptions = walletOptions,
                 onWalletSelect = onWalletSelect,
                 onAddNewWalletClick = onAddNewWalletClick,

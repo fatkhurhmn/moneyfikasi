@@ -8,17 +8,17 @@ import androidx.compose.ui.graphics.Color
 
 @Composable
 fun textInputColor(isClickable: Boolean, isFocus: Boolean): TextFieldColors {
-    val containerColor = MaterialTheme.colorScheme.surfaceVariant
-    val placeholderColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+    val containerColor = MaterialTheme.colorScheme.surfaceContainer
+    val placeholderColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
     val onFieldColor = if (isClickable) {
         MaterialTheme.colorScheme.onSurface
     } else {
-        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
     }
     val borderColor = if (isClickable) {
         Color.Transparent
     } else {
-        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
     }
 
     return OutlinedTextFieldDefaults.colors(
