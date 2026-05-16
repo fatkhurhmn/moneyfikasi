@@ -34,9 +34,7 @@ fun CategoryDistributionSection(
                 .fillMaxWidth()
                 .padding(bottom = 8.dp)
         )
-        PrimaryCard(
-            modifier = Modifier.fillMaxWidth()
-        ) {
+        PrimaryCard {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()

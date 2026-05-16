@@ -1,6 +1,5 @@
 package dev.muffar.moneyfikasi.category.list.component
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -8,7 +7,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
@@ -24,9 +22,7 @@ fun CategoryItem(
     val contentAlpha = if (category.isActive) 1f else 0.4f
 
     PrimaryCard(
-        modifier = Modifier
-            .clip(MaterialTheme.shapes.medium)
-            .clickable { onClick() }
+        onClick = onClick,
     ) {
         Row(
             modifier = Modifier.padding(vertical = 12.dp, horizontal = 16.dp),

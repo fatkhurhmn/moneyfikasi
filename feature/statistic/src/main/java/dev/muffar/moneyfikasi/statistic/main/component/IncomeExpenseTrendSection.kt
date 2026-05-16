@@ -71,9 +71,7 @@ fun IncomeExpenseTrendSection(
                 onTypeSelected = { selectedTrendType = it },
             )
         }
-        PrimaryCard(
-            modifier = Modifier.fillMaxWidth(),
-        ) {
+        PrimaryCard {
             Column(
                 modifier = modifier
                     .fillMaxWidth()

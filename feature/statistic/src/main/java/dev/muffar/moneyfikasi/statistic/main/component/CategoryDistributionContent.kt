@@ -43,6 +43,7 @@ fun CategoryDistributionContent(
                         amount = stat.amount,
                         percentage = stat.percentage,
                         quantity = stat.transactionCount,
+                        rounded = false,
                         onClick = onItemClick
                     )
                 }

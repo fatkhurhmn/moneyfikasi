@@ -1,6 +1,5 @@
 package dev.muffar.moneyfikasi.more.component
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,7 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -24,7 +22,6 @@ import dev.muffar.moneyfikasi.common_ui.component.icon.ArrowRight
 
 @Composable
 fun MoreItem(
-    modifier: Modifier = Modifier,
     label: String,
     title: String,
     description: String,
@@ -32,11 +29,7 @@ fun MoreItem(
     icon: Painter,
     onClick: () -> Unit,
 ) {
-    PrimaryCard(
-        modifier = modifier
-            .clip(MaterialTheme.shapes.medium)
-            .clickable { onClick() }
-    ) {
+    PrimaryCard(onClick = onClick) {
         Column {
             Column(
                 modifier = Modifier.padding(16.dp),
