@@ -22,7 +22,7 @@ fun AutoBackupSection(
 ) {
     PrimaryCard {
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
         ) {
             AutoBackupSwitch(
                 isEnabled = isEnabled,

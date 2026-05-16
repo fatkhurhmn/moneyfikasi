@@ -6,7 +6,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -44,7 +43,6 @@ fun AutoBackupSwitch(
     }
 
     Row(
-        modifier = Modifier.padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(

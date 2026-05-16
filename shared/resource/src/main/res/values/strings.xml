@@ -190,6 +190,9 @@
     <string name="export">Export</string>
     <string name="export_data">Export Data</string>
     <string name="export_format">Export Format</string>
+    <string name="date_range">Date Range</string>
+    <string name="csv_description">Comma separated values</string>
+    <string name="xlsx_description">Excel spreadsheet format</string>
     <string name="export_successful">Export successful</string>
     <string name="export_failed">Export failed: %s</string>
     <string name="export_note">Select the date range and format to export your transaction history.</string>

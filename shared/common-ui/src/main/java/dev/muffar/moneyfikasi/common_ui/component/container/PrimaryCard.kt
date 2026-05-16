@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.common_ui.component.container
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.CornerBasedShape
@@ -14,12 +15,14 @@ fun PrimaryCard(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
     shape: CornerBasedShape = MaterialTheme.shapes.medium,
+    border: BorderStroke? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
         onClick = onClick,
         shape = shape,
+        border = border,
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surface)
     ) {
         content()

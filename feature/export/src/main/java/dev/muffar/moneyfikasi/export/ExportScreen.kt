@@ -67,7 +67,7 @@ fun ExportScreen(
         Column(
             modifier = Modifier
                 .padding(padding)
-                .padding(16.dp)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
             ExportDateRangeInput(
                 startDate = state.startDate,
