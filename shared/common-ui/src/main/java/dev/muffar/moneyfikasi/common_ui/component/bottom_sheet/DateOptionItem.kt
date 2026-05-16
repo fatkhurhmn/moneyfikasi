@@ -3,6 +3,7 @@ package dev.muffar.moneyfikasi.common_ui.component.bottom_sheet
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -36,6 +37,7 @@ import dev.muffar.moneyfikasi.utils.extensions.StringExt.capitalize
 fun DateOptionItem(
     option: TimePeriod,
     selected: Boolean,
+    dateRange: String? = null,
     onClick: () -> Unit
 ) {
     val icon = when (option) {
@@ -74,13 +76,23 @@ fun DateOptionItem(
             )
         }
         Spacer(modifier = Modifier.width(16.dp))
-        Text(
-            text = option.name.lowercase().capitalize(),
-            style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.Medium,
-            color = MaterialTheme.colorScheme.onSurface,
+        Column(
             modifier = Modifier.weight(1f)
-        )
+        ) {
+            Text(
+                text = option.name.lowercase().capitalize(),
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+            if (dateRange != null) {
+                Text(
+                    text = dateRange,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        }
         RadioButton(
             selected = selected,
             onClick = onClick,

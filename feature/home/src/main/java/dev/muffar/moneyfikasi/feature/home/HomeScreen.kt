@@ -59,8 +59,8 @@ fun HomeScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(bottom = 80.dp)
-                .verticalScroll(rememberScrollState()),
+                .verticalScroll(rememberScrollState())
+                .padding(bottom = 100.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
             ReportSection(

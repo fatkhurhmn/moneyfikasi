@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.common_ui.component.bottom_sheet
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -85,7 +86,9 @@ fun CustomDateSheet(
                 ?: stringResource(R.string.end_date)
 
         DateRangePicker(
-            modifier = if (pickerState.displayMode == DisplayMode.Picker) Modifier.weight(1f) else Modifier,
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.background)
+                .then(if (pickerState.displayMode == DisplayMode.Picker) Modifier.weight(1f) else Modifier),
             state = pickerState,
             title = {
                 BottomSheetTitle(
@@ -114,7 +117,7 @@ fun CustomDateSheet(
                 dividerColor = MaterialTheme.colorScheme.outlineVariant,
                 dayInSelectionRangeContainerColor = MaterialTheme.colorScheme.primaryContainer,
                 dayInSelectionRangeContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                containerColor = MaterialTheme.colorScheme.background,
                 headlineContentColor = MaterialTheme.colorScheme.onSurface,
                 titleContentColor = MaterialTheme.colorScheme.onSurface,
             )

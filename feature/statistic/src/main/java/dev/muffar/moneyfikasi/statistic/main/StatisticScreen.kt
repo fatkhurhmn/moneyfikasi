@@ -42,7 +42,11 @@ fun StatisticScreen(
     var isChartSliding by remember { mutableStateOf(false) }
 
     Scaffold(
-        topBar = { StatisticTopBar(onFilterClick = { onShowChooseDateSheet(true) }) },
+        topBar = {
+            StatisticTopBar {
+                onShowChooseDateSheet(true)
+            }
+        },
         contentWindowInsets = WindowInsets(0.dp),
     ) {
         val scrollState = rememberScrollState()
@@ -57,7 +61,9 @@ fun StatisticScreen(
                 onTimeReferenceChange = onTimeReferenceChange,
             )
             Column(
-                modifier = Modifier.verticalScroll(scrollState, enabled = !isChartSliding)
+                modifier = Modifier
+                    .verticalScroll(scrollState, enabled = !isChartSliding)
+                    .padding(bottom = 20.dp)
             ) {
                 StatisticSummarySection(
                     income = state.incomeSum,

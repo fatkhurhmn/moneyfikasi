@@ -8,9 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -70,22 +68,17 @@ fun ChooseDateSheet(
 
             Spacer(Modifier.height(8.dp))
             options.forEach { option ->
+                val showDateRate =
+                    dateRange.timePeriod == TimePeriod.CUSTOM && option == TimePeriod.CUSTOM
+                val start = dateRange.start.toFormattedDateTime("MMM, dd yyyy")
+                val end = dateRange.end.toFormattedDateTime("MMM, dd yyyy")
+
                 DateOptionItem(
                     option = option,
                     selected = option == dateRange.timePeriod,
+                    dateRange = if (showDateRate) "$start - $end" else null,
                     onClick = { onClick(option) }
                 )
-
-                if (dateRange.timePeriod == TimePeriod.CUSTOM && option == TimePeriod.CUSTOM) {
-                    val start = dateRange.start.toFormattedDateTime("MMM, dd yyyy")
-                    val end = dateRange.end.toFormattedDateTime("MMM, dd yyyy")
-                    Text(
-                        text = "$start - $end",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(bottom = 16.dp, start = 72.dp)
-                    )
-                }
             }
             Spacer(Modifier.height(8.dp))
 
