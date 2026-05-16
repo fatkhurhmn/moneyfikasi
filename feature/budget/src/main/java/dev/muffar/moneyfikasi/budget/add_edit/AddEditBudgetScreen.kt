@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -15,11 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.budget.add_edit.component.AddEditBudgetForm
-import dev.muffar.moneyfikasi.common_ui.component.dialog.CommonAlertDialog
-import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
 import dev.muffar.moneyfikasi.common_ui.component.button.BottomBarAddEditButton
+import dev.muffar.moneyfikasi.common_ui.component.dialog.CommonAlertDialog
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
+import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.flow.SharedFlow
@@ -41,11 +40,9 @@ fun AddEditBudgetScreen(
     val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
             CommonTopAppBar(
                 title = stringResource(R.string.budget),
-                containerColor = MaterialTheme.colorScheme.surface,
                 onBackClick = onBackClick
             )
         },

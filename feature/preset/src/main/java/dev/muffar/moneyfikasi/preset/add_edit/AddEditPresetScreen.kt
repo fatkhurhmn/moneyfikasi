@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -16,16 +15,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.button.BottomBarAddEditButton
 import dev.muffar.moneyfikasi.common_ui.component.dialog.CommonAlertDialog
-import dev.muffar.moneyfikasi.common_ui.component.button.BottomBarSaveButton
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
+import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.preset.add_edit.component.AddEditPresetForm
-import dev.muffar.moneyfikasi.preset.add_edit.component.AddEditPresetTopBar
 import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.utils.extensions.StringExt.capitalize
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
 
@@ -51,17 +51,20 @@ fun AddEditPresetScreen(
     val scrollState = rememberScrollState()
 
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.surface,
         snackbarHost = { SnackbarMessage(state = snackbarHostState) },
         topBar = {
-            AddEditPresetTopBar(
-                isEditMode = state.id != null,
-                type = state.type,
+            CommonTopAppBar(
+                title = "Preset ${state.type.name.lowercase().capitalize()}",
                 onBackClick = onBackClick,
-                onDeleteClick = { onShowDeleteAlert(true) }
             )
         },
-        bottomBar = { BottomBarSaveButton(onSaveClick) }
+        bottomBar = {
+            BottomBarAddEditButton(
+                isEdit = state.id != null,
+                onSave = onSaveClick,
+                onDelete = { onShowDeleteAlert(true) }
+            )
+        }
     ) {
         AddEditPresetForm(
             modifier = Modifier
