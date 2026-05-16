@@ -141,6 +141,7 @@ class CalculatorState(initialInput: String) {
                 error = null
             }
         } catch (e: Exception) {
+            e.printStackTrace()
             error = CalculatorError.InvalidExpression
             input = "Error"
         }

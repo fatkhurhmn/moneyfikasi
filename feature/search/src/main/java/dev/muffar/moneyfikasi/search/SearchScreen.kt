@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
 import dev.muffar.moneyfikasi.common_ui.component.text_input.SearchBar
+import dev.muffar.moneyfikasi.common_ui.component.transaction.TransactionsList
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.search.component.TransactionsList
 import kotlinx.coroutines.flow.Flow
 import org.threeten.bp.LocalDateTime
 import java.util.UUID
@@ -40,7 +40,6 @@ fun SearchScreen(
         topBar = {
             SearchBar(
                 modifier = Modifier
-                    .background(MaterialTheme.colorScheme.surface)
                     .fillMaxWidth()
                     .padding(16.dp)
                     .statusBarsPadding(),

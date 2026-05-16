@@ -8,9 +8,11 @@ import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfDay
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.startOfDay
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -37,21 +39,24 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
+    @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     private fun observeSearch() {
         val transactions = state
-            .map { it.searchQuery }
+            .map { it.searchQuery.orEmpty().trim() }
+            .debounce(300L)
             .distinctUntilChanged()
             .flatMapLatest { query ->
-                if (!query.isNullOrEmpty()) {
-                    transactionUseCases.getTransactionsPaged(query)
-                } else {
+                if (query.isBlank()) {
                     emptyFlow()
+                } else {
+                    transactionUseCases.getTransactionsPaged(query)
                 }
             }
             .cachedIn(viewModelScope)
 
-        _state.update { it.copy(transactions = transactions) }
+        _state.update {
+            it.copy(transactions = transactions)
+        }
     }
 
     fun getDailyBalance(date: LocalDateTime): Flow<Double> {
