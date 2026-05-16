@@ -14,7 +14,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -79,7 +78,6 @@ fun SearchScreen(
                     )
                 } else {
                     EmptyDataList(
-                        painter = painterResource(id = R.drawable.ic_search_not_found),
                         title = stringResource(id = R.string.no_search_results),
                         description = stringResource(id = R.string.no_search_results_message)
                     )

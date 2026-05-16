@@ -10,12 +10,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
 import dev.muffar.moneyfikasi.common_ui.component.button.CommonAddButton
+import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.wallet.list.component.TotalBalance
 import dev.muffar.moneyfikasi.wallet.list.component.WalletItem
@@ -65,7 +64,6 @@ fun WalletsScreen(
             }
         } else {
             EmptyDataList(
-                painter = painterResource(id = R.drawable.ic_empty_wallet),
                 title = stringResource(id = R.string.no_wallets),
                 description = stringResource(id = R.string.no_wallets_message)
             )

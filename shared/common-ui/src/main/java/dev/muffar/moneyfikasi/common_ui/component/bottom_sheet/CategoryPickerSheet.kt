@@ -13,7 +13,6 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
@@ -71,7 +70,6 @@ fun CategoryPickerSheet(
             }
         } else {
             EmptyDataList(
-                painter = painterResource(id = R.drawable.ic_no_category),
                 title = stringResource(id = R.string.no_categories),
                 description = stringResource(id = R.string.no_categories_message),
                 modifier = Modifier.weight(1f)

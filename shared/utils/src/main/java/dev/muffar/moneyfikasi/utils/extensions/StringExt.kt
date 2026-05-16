@@ -28,12 +28,6 @@ object StringExt {
         }
     }
 
-    fun String.onlyDigitsMax(maxLength: Int = 15): String {
-        return this
-            .filter { it.isDigit() }
-            .take(maxLength)
-    }
-
     fun String.capitalize(): String {
         return lowercase().replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
     }

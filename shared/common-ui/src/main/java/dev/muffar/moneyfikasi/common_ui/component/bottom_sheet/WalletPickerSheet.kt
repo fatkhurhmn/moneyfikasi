@@ -13,7 +13,6 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
@@ -73,7 +72,6 @@ fun WalletPickerSheet(
             }
         } else {
             EmptyDataList(
-                painter = painterResource(id = R.drawable.ic_empty_wallet),
                 title = stringResource(id = R.string.no_wallets),
                 description = stringResource(id = R.string.no_wallets_message),
                 modifier = Modifier.weight(1f)
