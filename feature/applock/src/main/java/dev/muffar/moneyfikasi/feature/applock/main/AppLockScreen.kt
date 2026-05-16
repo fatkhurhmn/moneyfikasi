@@ -1,6 +1,8 @@
 package dev.muffar.moneyfikasi.feature.applock.main
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -12,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
 import dev.muffar.moneyfikasi.domain.model.EnterPinType
 import dev.muffar.moneyfikasi.feature.applock.main.component.EnterPinSection
+import dev.muffar.moneyfikasi.feature.applock.main.component.ResetPinSection
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -37,7 +40,7 @@ fun AppLockScreen(
         Column(
             modifier = Modifier
                 .padding(padding)
-                .padding(16.dp)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
             EnterPinSection(
                 isAppLockEnabled = state.isAppLockEnabled,
@@ -45,8 +48,11 @@ fun AppLockScreen(
                 isBiometricSupported = state.isBiometricSupported,
                 onPinEnabled = onAppLockEnabledChanged,
                 onBiometricEnabled = onBiometricEnabledChanged,
-                onChangePinClick = { onNavigateToEnterPin(EnterPinType.RESET_PIN) }
             )
+            if (state.isAppLockEnabled) {
+                Spacer(modifier = Modifier.height(16.dp))
+                ResetPinSection { onNavigateToEnterPin(EnterPinType.RESET_PIN) }
+            }
         }
     }
 
