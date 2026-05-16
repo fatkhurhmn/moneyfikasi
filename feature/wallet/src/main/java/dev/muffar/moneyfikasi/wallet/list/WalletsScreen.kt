@@ -49,7 +49,7 @@ fun WalletsScreen(
             ) {
                 item {
                     TotalBalance(total = state.balance)
-                    Spacer(modifier = Modifier.size(16.dp))
+                    Spacer(modifier = Modifier.size(8.dp))
                 }
 
                 items(
