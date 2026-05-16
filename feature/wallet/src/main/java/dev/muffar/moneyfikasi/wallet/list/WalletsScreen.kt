@@ -44,7 +44,12 @@ fun WalletsScreen(
         if (state.wallets.isNotEmpty()) {
             LazyColumn(
                 modifier = modifier.padding(it),
-                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                contentPadding = PaddingValues(
+                    top = 8.dp,
+                    bottom = 80.dp,
+                    start = 16.dp,
+                    end = 16.dp
+                ),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 item {

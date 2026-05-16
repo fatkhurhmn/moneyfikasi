@@ -2,9 +2,7 @@ package dev.muffar.moneyfikasi.category.list.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -21,32 +19,24 @@ import java.util.UUID
 fun CategoriesContent(
     modifier: Modifier = Modifier,
     categories: List<Category>,
-    categoryType: CategoryType,
     onClick: (CategoryType, UUID) -> Unit
 ) {
     if (categories.isNotEmpty()) {
         LazyColumn(
             modifier = modifier.fillMaxSize(),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+            contentPadding = PaddingValues(
+                top = 8.dp,
+                bottom = 80.dp,
+                start = 16.dp,
+                end = 16.dp
+            ),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            item {
-                CategorySummaryCard(
-                    categoryType = categoryType,
-                    totalCategories = categories.size,
-                    activeCategories = categories.count { it.isActive }
-                )
-            }
-
             items(categories, key = { it.id }) { category ->
                 CategoryItem(
                     category = category,
                     onClick = { onClick(category.type, category.id) }
                 )
-            }
-
-            item {
-                Spacer(modifier = Modifier.size(72.dp))
             }
         }
     } else {

@@ -57,13 +57,11 @@ fun CategoriesScreen(
             when (index) {
                 0 -> CategoriesContent(
                     categories = incomeCategories,
-                    categoryType = CategoryType.INCOME,
                     onClick = onCategoryItemClick
                 )
 
                 1 -> CategoriesContent(
                     categories = expenseCategories,
-                    categoryType = CategoryType.EXPENSE,
                     onClick = onCategoryItemClick
                 )
             }
