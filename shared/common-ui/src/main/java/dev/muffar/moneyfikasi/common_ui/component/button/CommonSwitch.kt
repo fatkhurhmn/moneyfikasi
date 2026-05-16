@@ -16,14 +16,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun CommonSwitch(
     isEnabled: Boolean,
     onEnabledChange: (Boolean) -> Unit,
     title: String,
+    titleStyle: TextStyle = MaterialTheme.typography.labelLarge.copy(
+        fontSize = 14.sp,
+        fontWeight = FontWeight.SemiBold
+    ),
     description: String = ""
 ) {
     Row(
@@ -39,7 +45,7 @@ fun CommonSwitch(
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Medium)
+                style = titleStyle
             )
             Spacer(modifier = Modifier.height(2.dp))
             Text(

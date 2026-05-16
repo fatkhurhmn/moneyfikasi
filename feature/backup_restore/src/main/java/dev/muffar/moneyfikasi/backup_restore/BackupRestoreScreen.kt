@@ -3,7 +3,9 @@ package dev.muffar.moneyfikasi.backup_restore
 import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -12,18 +14,20 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.backup_restore.component.AutoBackupSection
 import dev.muffar.moneyfikasi.backup_restore.component.BackupLatestInfo
 import dev.muffar.moneyfikasi.backup_restore.component.BackupRestoreButton
-import dev.muffar.moneyfikasi.backup_restore.component.BackupRestoreImage
+import dev.muffar.moneyfikasi.backup_restore.component.BackupRestoreText
 import dev.muffar.moneyfikasi.backup_restore.component.DeletePreviousBackupSwitch
-import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
+import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
 import dev.muffar.moneyfikasi.common_ui.component.dialog.LoadingDialog
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
+import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.flow.SharedFlow
@@ -59,25 +63,26 @@ fun BackupRestoreScreen(
                 .padding(it)
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
-            BackupRestoreImage()
-
-            BackupRestoreButton(
-                state = state,
-                onBackupClick = onBackupClick,
-                onRestoreClick = onRestoreClick
-            )
+            PrimaryCard {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    BackupRestoreText()
+                    Spacer(modifier = Modifier.height(24.dp))
+                    BackupRestoreButton(
+                        state = state,
+                        onBackupClick = onBackupClick,
+                        onRestoreClick = onRestoreClick
+                    )
+                }
+            }
 
             DeletePreviousBackupSwitch(
                 isEnabled = state.isDeletePreviousBackup,
                 onEnabledChange = onDeletePreviousBackupChange
-            )
-
-            BackupLatestInfo(
-                fileName = state.latestBackup.name,
-                date = state.latestBackup.date,
-                folder = state.latestBackup.folder
             )
 
             AutoBackupSection(
@@ -87,6 +92,11 @@ fun BackupRestoreScreen(
                 onFolderSelected = onAutoBackupFolderSelected,
                 period = TimePeriod.valueOf(state.autoBackup.period),
                 onPeriodSelected = onAutoBackupPeriodSelected,
+            )
+
+            BackupLatestInfo(
+                fileName = state.latestBackup.name,
+                date = state.latestBackup.date,
             )
         }
     }

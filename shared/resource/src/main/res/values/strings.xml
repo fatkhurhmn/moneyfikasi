@@ -119,7 +119,10 @@
     <string name="restore_message">Are you sure you want to restore your data? This will overwrite any previous data.</string>
     <string name="notes">Notes:</string>
     <string name="backup_restore_note">Backup your data into a ZIP file to easily restore your transaction history later.</string>
-    <string name="latest_backup">Latest Backup:</string>
+    <string name="data_security">Data &amp; Security</string>
+    <string name="keep_your_data_safe">Keep your data safe</string>
+    <string name="keep_your_data_safe_description">Back up your important data securely or restore from a previous backup.</string>
+    <string name="latest_backup">Latest backup</string>
     <string name="no_backup_yet">No backup yet</string>
     <string name="location">Location</string>
     <string name="automatic_backup">Automatic Backup</string>

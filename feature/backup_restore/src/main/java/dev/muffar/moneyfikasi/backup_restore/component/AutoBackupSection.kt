@@ -3,8 +3,11 @@ package dev.muffar.moneyfikasi.backup_restore.component
 import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 
@@ -28,8 +31,9 @@ fun AutoBackupSection(
                 onFolderSelected = onFolderSelected
             )
             if (isEnabled) {
+                CommonHorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().padding(start = 64.dp),
                 ) {
                     AutoBackupFolder(
                         folderUri = folderUri,
