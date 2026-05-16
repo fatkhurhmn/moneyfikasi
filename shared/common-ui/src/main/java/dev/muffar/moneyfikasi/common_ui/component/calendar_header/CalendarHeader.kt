@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -28,14 +29,19 @@ fun CalendarHeader(
     Box(
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
+        val arrowColor = if (enableButton) {
+            MaterialTheme.colorScheme.onSurfaceVariant
+        } else {
+            MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+        }
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(MaterialTheme.shapes.medium)
+                .clip(CircleShape)
                 .border(
                     width = 1.dp,
                     color = MaterialTheme.colorScheme.primary,
-                    shape = MaterialTheme.shapes.medium
+                    shape = CircleShape
                 )
                 .background(MaterialTheme.colorScheme.primaryContainer),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -45,7 +51,7 @@ fun CalendarHeader(
                 onClick = onPreviousClick,
                 enabled = enableButton
             ) {
-                ArrowLeft()
+                ArrowLeft(color = arrowColor)
             }
 
             Text(
@@ -57,7 +63,7 @@ fun CalendarHeader(
                 onClick = onNextClick,
                 enabled = enableButton
             ) {
-                ArrowRight()
+                ArrowRight(color = arrowColor)
             }
         }
     }

@@ -7,15 +7,19 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ArrowRight(size: Dp = 24.dp) {
+fun ArrowRight(
+    size: Dp = 24.dp,
+    color: Color = MaterialTheme.colorScheme.onSurfaceVariant
+) {
     Icon(
         imageVector = Icons.Rounded.ChevronRight,
         contentDescription = null,
         modifier = Modifier.size(size),
-        tint = MaterialTheme.colorScheme.onSurfaceVariant
+        tint = color
     )
 }
