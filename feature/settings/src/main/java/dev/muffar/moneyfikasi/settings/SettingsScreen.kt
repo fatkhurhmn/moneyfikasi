@@ -1,15 +1,17 @@
 package dev.muffar.moneyfikasi.settings
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
-import dev.muffar.moneyfikasi.settings.component.SettingsItem
 import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.settings.component.DataSection
+import dev.muffar.moneyfikasi.settings.component.SecuritySection
 
 @Composable
 fun SettingsScreen(
@@ -28,22 +30,18 @@ fun SettingsScreen(
         }
     ) {
         Column(
-            modifier = modifier.padding(it)
+            modifier = modifier
+                .padding(it)
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            SettingsItem(
-                title = stringResource(R.string.backup_restore),
-                icon = painterResource(id = R.drawable.ic_restore_backup),
-                onClick = onBackupRestoreClick
+            DataSection(
+                onBackupRestoreClick = onBackupRestoreClick,
+                onExportClick = onExportClick
             )
-            SettingsItem(
-                title = stringResource(R.string.export),
-                icon = painterResource(id = R.drawable.ic_export),
-                onClick = onExportClick
-            )
-            SettingsItem(
-                title = stringResource(R.string.app_lock),
-                icon = painterResource(id = R.drawable.ic_applock),
-                onClick = onAppLockClick
+
+            SecuritySection(
+                onAppLockClick = onAppLockClick
             )
         }
     }

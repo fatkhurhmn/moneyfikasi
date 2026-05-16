@@ -192,6 +192,10 @@
     <string name="export_note">Select the date range and format to export your transaction history.</string>
     <string name="csv">.csv</string>
     <string name="xlsx">.xlsx</string>
+    <string name="data_section">Data</string>
+    <string name="security_section">Security</string>
+    <string name="backup_restore_description">Manage local backups and restore data</string>
+    <string name="export_data_description">Export transactions as CSV or XLSX</string>
     <string name="app_lock">App Lock</string>
     <string name="app_lock_description">Secure your app with a PIN code</string>
     <string name="pin">PIN</string>
