@@ -11,18 +11,27 @@ object StringExt {
         return this.replace(",", "")
     }
 
-    fun String.filterAmount(): String? {
-        return if (length < 20) {
-            val filtered = filter { it.isDigit() }
-            val parsedValue = if (filtered.isNotBlank()) {
-                filtered.clearThousandFormat().toDouble().formatThousand()
+    fun String.filterAmount(maxDigits: Int = 15): String? {
+        val filtered = filter { it.isDigit() }
+
+        return if (filtered.length <= maxDigits) {
+            if (filtered.isNotBlank()) {
+                filtered
+                    .clearThousandFormat()
+                    .toDouble()
+                    .formatThousand()
             } else {
                 "0"
             }
-            parsedValue
         } else {
             null
         }
+    }
+
+    fun String.onlyDigitsMax(maxLength: Int = 15): String {
+        return this
+            .filter { it.isDigit() }
+            .take(maxLength)
     }
 
     fun String.capitalize(): String {

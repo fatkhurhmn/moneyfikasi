@@ -88,7 +88,6 @@ class AddEditBudgetViewModel @Inject constructor(
     }
 
     private fun onAmountChange(amount: String) {
-        if (amount.length > 17) return
         _state.update { it.copy(amount = amount) }
         updateAmountError()
     }

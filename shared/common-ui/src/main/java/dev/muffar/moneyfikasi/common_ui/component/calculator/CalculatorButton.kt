@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
+import dev.muffar.moneyfikasi.common_ui.theme.color.FinanceColors
 import dev.muffar.moneyfikasi.common_ui.theme.color.MainColor
 
 @Composable
@@ -21,8 +23,9 @@ fun CalculatorButton(
     key: CalculatorKey,
     onClick: () -> Unit
 ) {
+    val materialColor = MaterialTheme.colorScheme
     val financeColors = MoneyfikasiTheme.financeColors
-    val (bgColor, textColor) = getButtonColors(key, financeColors)
+    val (bgColor, textColor) = getButtonColors(key, materialColor, financeColors)
 
     Box(
         contentAlignment = Alignment.Center,
@@ -43,7 +46,8 @@ fun CalculatorButton(
 
 fun getButtonColors(
     action: CalculatorKey,
-    financeColors: dev.muffar.moneyfikasi.common_ui.theme.color.FinanceColors,
+    materialColor: ColorScheme,
+    financeColors: FinanceColors,
 ): Pair<Color, Color> {
     return when (action) {
         is CalculatorKey.Operation, CalculatorKey.ToggleSign -> Pair(
@@ -51,10 +55,10 @@ fun getButtonColors(
             MainColor.White
         )
 
-        is CalculatorKey.Clear -> Pair(financeColors.expenseContainer, Color.White)
+        is CalculatorKey.Clear -> Pair(materialColor.error, materialColor.onError)
         is CalculatorKey.Calculate -> Pair(financeColors.income, Color.White)
         is CalculatorKey.Delete -> Pair(financeColors.info, Color.White)
-        else -> Pair(MainColor.ExtraLightGray, Color.Black)
+        else -> Pair(materialColor.surfaceContainerHigh, materialColor.onSurface)
     }
 }
 

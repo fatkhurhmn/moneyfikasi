@@ -96,7 +96,6 @@ class TransferTransactionViewModel @Inject constructor(
     }
 
     private fun onAmountChange(amount: String) {
-        if (amount.length > 17) return
         _state.update { it.copy(amount = amount) }
         updateAmountError()
     }
@@ -112,7 +111,6 @@ class TransferTransactionViewModel @Inject constructor(
     }
 
     private fun onFeeChange(fee: String) {
-        if (fee.length > 17) return
         _state.update { it.copy(fee = fee) }
     }
 
