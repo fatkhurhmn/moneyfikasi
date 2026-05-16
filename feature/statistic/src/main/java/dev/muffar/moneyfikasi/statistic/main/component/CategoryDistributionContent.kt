@@ -17,11 +17,13 @@ import dev.muffar.moneyfikasi.common_ui.component.pie_chart.CategoryDistribution
 import dev.muffar.moneyfikasi.common_ui.component.statistic.CategoryDistributionItem
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.CategoryStatistic
+import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
 fun CategoryDistributionContent(
     categoryStatistics: List<CategoryStatistic>,
+    categoryType: CategoryType,
     onItemClick: (Category) -> Unit,
     onShowAllClick: () -> Unit
 ) {
@@ -30,7 +32,10 @@ fun CategoryDistributionContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (categoryStatistics.isNotEmpty()) {
-            CategoryDistributionChart(categoryStatistics)
+            CategoryDistributionChart(
+                categoryStatistics = categoryStatistics,
+                categoryType = categoryType
+            )
             Column {
                 categoryStatistics.take(3).forEach { stat ->
                     CategoryDistributionItem(

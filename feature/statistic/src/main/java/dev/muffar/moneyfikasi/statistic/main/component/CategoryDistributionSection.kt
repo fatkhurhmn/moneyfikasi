@@ -51,6 +51,7 @@ fun CategoryDistributionSection(
                         0 -> CategoryDistributionContent(
                             categoryStatistics = categoryStatistics[CategoryType.INCOME]
                                 ?: emptyList(),
+                            categoryType = CategoryType.INCOME,
                             onItemClick = onItemClick,
                             onShowAllClick = onShowAllClick
                         )
@@ -58,6 +59,7 @@ fun CategoryDistributionSection(
                         1 -> CategoryDistributionContent(
                             categoryStatistics = categoryStatistics[CategoryType.EXPENSE]
                                 ?: emptyList(),
+                            categoryType = CategoryType.EXPENSE,
                             onItemClick = onItemClick,
                             onShowAllClick = onShowAllClick
                         )

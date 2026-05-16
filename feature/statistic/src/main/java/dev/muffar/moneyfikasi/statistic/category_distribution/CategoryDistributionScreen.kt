@@ -19,6 +19,7 @@ import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
 import dev.muffar.moneyfikasi.common_ui.component.pie_chart.CategoryDistributionChart
 import dev.muffar.moneyfikasi.common_ui.component.statistic.CategoryDistributionItem
 import dev.muffar.moneyfikasi.common_ui.component.tabs.IncomeExpenseTabs
+import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.resource.R
 import java.util.UUID
@@ -63,6 +64,7 @@ fun CategoryDistributionScreen(
                         CategoryDistributionChart(
                             categoryStatistics = categoryStatistics,
                             size = 200.dp,
+                            categoryType = categoryType
                         )
                     }
                 }

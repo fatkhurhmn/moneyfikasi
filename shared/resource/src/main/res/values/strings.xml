@@ -93,6 +93,8 @@
     <string name="income_summary">Income Summary</string>
     <string name="expense_summary">Expense Summary</string>
     <string name="total">Total</string>
+    <string name="total_income">Total Income</string>
+    <string name="total_expense">Total Expense</string>
     <string name="net">Net</string>
     <string name="category_distribution">Category Distribution</string>
     <string name="total_balance">Total Balance</string>
@@ -141,6 +143,12 @@
     <string name="transfer">Transfer</string>
     <string name="transfer_summary">Transfer Summary</string>
     <string name="choose_date">Choose Date</string>
+    <string name="daily_description">View transactions per day</string>
+    <string name="weekly_description">View transactions per week</string>
+    <string name="monthly_description">View transactions per month</string>
+    <string name="yearly_description">View transactions per year</string>
+    <string name="all_description">View all transactions</string>
+    <string name="custom_description">Choose custom date range</string>
     <string name="choose_period">Choose Period</string>
     <string name="reset">Reset</string>
     <string name="custom_date">Custom Date</string>
