@@ -30,14 +30,20 @@ fun CommonSwitch(
         fontSize = 14.sp,
         fontWeight = FontWeight.SemiBold
     ),
-    description: String = ""
+    description: String = "",
+    clickableText: Boolean = true
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .selectable(
-                selected = isEnabled,
-                onClick = { onEnabledChange(!isEnabled) }
+            .then(
+                if (clickableText)
+                    Modifier.selectable(
+                        selected = isEnabled,
+                        onClick = { onEnabledChange(!isEnabled) }
+                    )
+                else
+                    Modifier
             ),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically

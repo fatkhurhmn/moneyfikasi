@@ -68,10 +68,10 @@ fun BackupRestoreScreen(
             PrimaryCard {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(16.dp)
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
                 ) {
                     BackupRestoreText()
-                    Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
                     BackupRestoreButton(
                         state = state,
                         onBackupClick = onBackupClick,

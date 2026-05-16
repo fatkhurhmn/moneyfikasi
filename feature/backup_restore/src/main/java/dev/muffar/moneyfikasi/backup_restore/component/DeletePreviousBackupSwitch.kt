@@ -26,7 +26,9 @@ fun DeletePreviousBackupSwitch(
     isEnabled: Boolean,
     onEnabledChange: (Boolean) -> Unit,
 ) {
-    PrimaryCard {
+    PrimaryCard(
+        onClick = { onEnabledChange(!isEnabled) }
+    ) {
         Row(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -50,7 +52,8 @@ fun DeletePreviousBackupSwitch(
                 isEnabled = isEnabled,
                 onEnabledChange = onEnabledChange,
                 title = stringResource(R.string.delete_previous_backup),
-                description = stringResource(R.string.delete_previous_backup_description)
+                description = stringResource(R.string.delete_previous_backup_description),
+                clickableText = false
             )
         }
     }

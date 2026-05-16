@@ -64,7 +64,8 @@ fun AutoBackupSwitch(
             isEnabled = isEnabled,
             onEnabledChange = onEnabledChange,
             title = stringResource(R.string.automatic_backup),
-            description = stringResource(R.string.auto_backup_description)
+            description = stringResource(R.string.auto_backup_description),
+            clickableText = false
         )
     }
 }

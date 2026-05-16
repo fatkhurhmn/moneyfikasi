@@ -13,18 +13,33 @@ import androidx.compose.ui.Modifier
 @Composable
 fun PrimaryCard(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
+    onClick: (() -> Unit)? = null,
     shape: CornerBasedShape = MaterialTheme.shapes.medium,
     border: BorderStroke? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    Card(
-        modifier = modifier.fillMaxWidth(),
-        onClick = onClick,
-        shape = shape,
-        border = border,
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.surface)
-    ) {
-        content()
+    if (onClick != null) {
+        Card(
+            modifier = modifier.fillMaxWidth(),
+            onClick = onClick,
+            shape = shape,
+            border = border,
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surface
+            )
+        ) {
+            content()
+        }
+    } else {
+        Card(
+            modifier = modifier.fillMaxWidth(),
+            shape = shape,
+            border = border,
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surface
+            )
+        ) {
+            content()
+        }
     }
 }
