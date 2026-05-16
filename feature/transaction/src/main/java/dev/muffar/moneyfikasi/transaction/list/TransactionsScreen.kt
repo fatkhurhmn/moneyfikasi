@@ -75,7 +75,8 @@ fun TransactionsScreen(
                 TransactionsList(
                     transactions = transactions,
                     onItemClick = onTransactionItemClick,
-                    onGetDailyBalance = onGetDailyBalance
+                    onGetDailyBalance = onGetDailyBalance,
+                    extraBottomSpace = true
                 )
             }
         }

@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.resource.R
@@ -30,6 +31,7 @@ fun CommonTopAppBar(
     modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.background,
     title: String,
+    titleSize: TextUnit = 18.sp,
     showBackButton: Boolean = true,
     onBackClick: () -> Unit = {},
     action: @Composable RowScope.() -> Unit = {}
@@ -58,7 +60,7 @@ fun CommonTopAppBar(
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
-                fontSize = 20.sp,
+                fontSize = titleSize,
                 modifier = Modifier.padding(vertical = 8.dp)
             )
         }

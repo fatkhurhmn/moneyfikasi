@@ -36,14 +36,21 @@ fun TransactionsList(
     transactions: LazyPagingItems<Transaction>,
     onItemClick: (UUID, Boolean) -> Unit,
     onGetDailyBalance: (LocalDateTime) -> Flow<Double>,
+    extraBottomSpace: Boolean = false,
     header: @Composable () -> Unit = {}
 ) {
     LazyColumn(
         modifier = modifier,
-        contentPadding = PaddingValues(bottom = 100.dp, top = 8.dp),
+        contentPadding = PaddingValues(
+            bottom = if (extraBottomSpace) 100.dp else 16.dp,
+            top = 8.dp,
+            start = 16.dp,
+            end = 16.dp
+        ),
     ) {
         item {
             header()
+            Spacer(modifier = Modifier.height(8.dp))
         }
         items(
             count = transactions.itemCount,
@@ -51,7 +58,8 @@ fun TransactionsList(
         ) { index ->
             val transaction = transactions[index] ?: return@items
             val prevTransaction = if (index > 0) transactions[index - 1] else null
-            val nextTransaction = if (index < transactions.itemCount - 1) transactions[index + 1] else null
+            val nextTransaction =
+                if (index < transactions.itemCount - 1) transactions[index + 1] else null
 
             val isNewDay = prevTransaction == null ||
                     transaction.date.format("yyyy-MM-dd") != prevTransaction.date.format("yyyy-MM-dd")
@@ -61,7 +69,6 @@ fun TransactionsList(
 
             Column(
                 modifier = Modifier
-                    .padding(horizontal = 16.dp)
                     .clip(
                         RoundedCornerShape(
                             topStart = if (isNewDay) 16.dp else 0.dp,
@@ -87,7 +94,10 @@ fun TransactionsList(
                 TransactionItem(
                     transaction = transaction,
                     onClick = { id ->
-                        onItemClick(id, transaction.isTransfer || transaction.category.isFeeTransfer)
+                        onItemClick(
+                            id,
+                            transaction.isTransfer || transaction.category.isFeeTransfer
+                        )
                     }
                 )
 
@@ -100,7 +110,7 @@ fun TransactionsList(
             }
 
             if (isEndOfDay) {
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(8.dp))
             }
         }
 

@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
 import dev.muffar.moneyfikasi.common_ui.component.top_bar.TopBarButton
 import dev.muffar.moneyfikasi.resource.R
@@ -23,6 +24,7 @@ fun TransactionsTopBar(
     CommonTopAppBar(
         title = stringResource(R.string.transactions),
         showBackButton = false,
+        titleSize = 20.sp,
         action = {
             TopBarButton(
                 imageVector = Icons.Rounded.Search,

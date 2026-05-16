@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
 import dev.muffar.moneyfikasi.resource.R
 
@@ -18,6 +19,7 @@ fun MoreTopBar(
     CommonTopAppBar(
         title = stringResource(R.string.more_menu),
         showBackButton = false,
+        titleSize = 20.sp,
         action = {
             IconButton(onClick = onSettingsClick) {
                 Icon(
