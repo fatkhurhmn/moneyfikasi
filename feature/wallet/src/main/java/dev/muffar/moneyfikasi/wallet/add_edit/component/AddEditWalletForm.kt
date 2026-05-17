@@ -35,7 +35,6 @@ fun AddEditWalletForm(
             amount = state.balance,
             onAmountChange = onBalanceChange,
             label = stringResource(R.string.balance),
-            placeholder = stringResource(R.string.enter_wallet_balance),
             enabled = state.id == null,
         )
 

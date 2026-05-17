@@ -2,7 +2,6 @@ package dev.muffar.moneyfikasi.feature.applock.main.component
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Refresh
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard

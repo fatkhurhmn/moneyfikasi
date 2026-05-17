@@ -16,7 +16,6 @@ fun DescriptionInput(
         value = description,
         onValueChange = onDescriptionChange,
         label = stringResource(R.string.description),
-        placeholder = stringResource(R.string.enter_description),
         onClear = { onDescriptionChange("") }
     )
 }

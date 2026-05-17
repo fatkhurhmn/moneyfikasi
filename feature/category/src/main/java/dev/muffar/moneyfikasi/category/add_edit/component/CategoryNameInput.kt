@@ -22,7 +22,6 @@ fun CategoryNameInput(
         onValueChange = onNameChange,
         label = stringResource(R.string.name),
         error = error,
-        placeholder = stringResource(R.string.enter_category_name),
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Done
         )

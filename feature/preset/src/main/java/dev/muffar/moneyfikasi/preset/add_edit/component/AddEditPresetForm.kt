@@ -43,24 +43,17 @@ fun AddEditPresetForm(
                 onTypeChange(type)
             }
         )
+
         CommonTextInput(
             value = state.name,
             onValueChange = onNameChange,
             label = stringResource(R.string.preset_name),
-            placeholder = stringResource(R.string.enter_preset_name),
             error = state.nameError
         )
-
-        DescriptionInput(
-            description = state.description,
-            onDescriptionChange = onDescriptionChange
-        )
-
         BasicAmountInput(
             amount = state.amount,
             onAmountChange = onAmountChange,
         )
-
         CategoryInput(
             category = state.category ?: Category(),
             categoryOptions = state.categories,
@@ -68,13 +61,17 @@ fun AddEditPresetForm(
             onAddNewCategoryClick = onAddNewCategoryClick,
             onClear = { onCategoryChange(null) }
         )
-
         WalletInput(
             wallet = state.wallet ?: Wallet(),
             walletOptions = state.wallets,
             onWalletSelect = onWalletChange,
             onAddNewWalletClick = onAddNewWalletClick,
             onClear = { onWalletChange(null) }
+        )
+
+        DescriptionInput(
+            description = state.description,
+            onDescriptionChange = onDescriptionChange
         )
     }
 }

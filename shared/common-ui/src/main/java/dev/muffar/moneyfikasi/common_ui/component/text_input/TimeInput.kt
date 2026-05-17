@@ -31,7 +31,6 @@ fun TimeInput(
         value = String.format(Locale.getDefault(), "%02d:%02d", time.first, time.second),
         onValueChange = {},
         label = stringResource(R.string.time),
-        placeholder = stringResource(R.string.select_time),
         isClickable = true,
         leadingIcon = {
             Icon(

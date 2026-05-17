@@ -18,7 +18,6 @@ fun NoteInput(
         value = note,
         onValueChange = onNoteChange,
         label = stringResource(R.string.note),
-        placeholder = stringResource(R.string.enter_note),
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Done,
         ),

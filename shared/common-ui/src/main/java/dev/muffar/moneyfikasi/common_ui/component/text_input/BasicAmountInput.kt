@@ -18,7 +18,6 @@ fun BasicAmountInput(
     amount: String,
     onAmountChange: (String) -> Unit,
     label: String = stringResource(R.string.amount),
-    placeholder: String = stringResource(R.string.enter_amount),
     error: ErrorMessage = ErrorMessage(),
     imeAction: ImeAction = ImeAction.Done,
     enabled: Boolean = true
@@ -28,7 +27,6 @@ fun BasicAmountInput(
         value = TextFieldValue(amount, TextRange(amount.length)),
         onValueChange = { it.text.filterAmount()?.let(onAmountChange) },
         label = label,
-        placeholder = placeholder,
         keyboardOptions = KeyboardOptions(
             imeAction = imeAction,
             keyboardType = KeyboardType.Number

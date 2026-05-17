@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -35,12 +36,12 @@ fun TransferTransactionForm(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+
         AmountInput(
             amount = state.amount,
             error = state.amountError,
             onAmountChange = onAmountChange
         )
-
         WalletInput(
             wallet = state.sourceWallet,
             error = state.sourceWalletError,
@@ -49,7 +50,6 @@ fun TransferTransactionForm(
             onWalletSelect = onSourceWalletSelect,
             onAddNewWalletClick = onAddNewWalletClick
         )
-
         WalletInput(
             wallet = state.targetWallet,
             error = state.targetWalletError,
@@ -58,23 +58,20 @@ fun TransferTransactionForm(
             onWalletSelect = onTargetWalletSelect,
             onAddNewWalletClick = onAddNewWalletClick
         )
-
         BasicAmountInput(
             amount = state.fee,
             label = stringResource(R.string.admin_fee),
-            placeholder = stringResource(R.string.enter_admin_fee),
             onAmountChange = onAdminFeeChange,
         )
-
         Row {
             DateInput(
-                modifier = Modifier.weight(0.6f),
+                modifier = Modifier.weight(0.5f),
                 date = state.date,
                 onDateSelect = onDateSelect
             )
             Spacer(modifier = Modifier.width(16.dp))
             TimeInput(
-                modifier = Modifier.weight(0.4f),
+                modifier = Modifier.weight(0.5f),
                 time = state.hour to state.minute,
                 onTimeSelect = onTimeSelect
             )

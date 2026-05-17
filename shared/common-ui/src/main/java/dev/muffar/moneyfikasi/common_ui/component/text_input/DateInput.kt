@@ -32,7 +32,6 @@ fun DateInput(
         value = date.toFormattedDateTime("MMM, dd yyyy"),
         onValueChange = {},
         label = label,
-        placeholder = stringResource(R.string.select_date),
         isClickable = true,
         leadingIcon = {
             Icon(

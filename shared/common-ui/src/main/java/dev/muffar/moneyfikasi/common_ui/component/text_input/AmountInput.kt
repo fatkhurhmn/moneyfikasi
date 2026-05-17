@@ -33,7 +33,6 @@ fun AmountInput(
             value = amount,
             onValueChange = { },
             label = stringResource(R.string.amount),
-            placeholder = stringResource(R.string.enter_amount),
             error = error,
             isClickable = true,
             keyboardOptions = KeyboardOptions(
