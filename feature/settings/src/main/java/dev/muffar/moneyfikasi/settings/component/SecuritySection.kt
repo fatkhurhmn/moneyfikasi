@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Lock
+import androidx.compose.material.icons.rounded.Security
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
+import dev.muffar.moneyfikasi.common_ui.component.item.SettingItem
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
@@ -28,10 +29,10 @@ fun SecuritySection(
         PrimaryCard(
             modifier = Modifier.fillMaxWidth()
         ) {
-            SettingsItem(
+            SettingItem(
                 title = stringResource(R.string.app_lock),
                 subtitle = stringResource(R.string.app_lock_description),
-                icon = Icons.Rounded.Lock,
+                icon = Icons.Rounded.Security,
                 onClick = onAppLockClick
             )
         }

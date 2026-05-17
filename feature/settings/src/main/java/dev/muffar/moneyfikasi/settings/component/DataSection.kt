@@ -4,8 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.IosShare
-import androidx.compose.material.icons.rounded.Restore
+import androidx.compose.material.icons.rounded.FileDownload
+import androidx.compose.material.icons.rounded.History
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
+import dev.muffar.moneyfikasi.common_ui.component.item.SettingItem
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
@@ -32,17 +33,17 @@ fun DataSection(
             modifier = Modifier.fillMaxWidth()
         ) {
             Column {
-                SettingsItem(
+                SettingItem(
                     title = stringResource(R.string.backup_restore),
                     subtitle = stringResource(R.string.backup_restore_description),
-                    icon = Icons.Rounded.Restore,
+                    icon = Icons.Rounded.History,
                     onClick = onBackupRestoreClick
                 )
                 CommonHorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
-                SettingsItem(
+                SettingItem(
                     title = stringResource(R.string.export_data),
                     subtitle = stringResource(R.string.export_data_description),
-                    icon = Icons.Rounded.IosShare,
+                    icon = Icons.Rounded.FileDownload,
                     onClick = onExportClick
                 )
             }
