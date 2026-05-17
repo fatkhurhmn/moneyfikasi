@@ -4,7 +4,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import dev.muffar.moneyfikasi.common_ui.component.button.CommonSwitch
+import dev.muffar.moneyfikasi.common_ui.component.button.common.CommonSwitch
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable

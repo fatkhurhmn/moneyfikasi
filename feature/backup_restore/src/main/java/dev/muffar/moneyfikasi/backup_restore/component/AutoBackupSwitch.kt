@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.component.button.CommonSwitch
+import dev.muffar.moneyfikasi.common_ui.component.button.common.CommonSwitch
 import dev.muffar.moneyfikasi.resource.R
 import java.io.File
 

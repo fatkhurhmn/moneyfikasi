@@ -5,8 +5,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import dev.muffar.moneyfikasi.common_ui.component.button.CommonButton
-import dev.muffar.moneyfikasi.common_ui.component.button.CommonOutlinedButton
+import dev.muffar.moneyfikasi.common_ui.component.button.common.CommonButton
+import dev.muffar.moneyfikasi.common_ui.component.button.common.CommonOutlinedButton
 
 @Composable
 fun CommonAlertDialog(

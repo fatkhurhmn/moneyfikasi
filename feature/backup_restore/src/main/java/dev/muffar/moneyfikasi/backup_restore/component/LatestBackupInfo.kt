@@ -28,7 +28,7 @@ import java.util.Date
 import java.util.Locale
 
 @Composable
-fun BackupLatestInfo(
+fun LatestBackupInfo(
     fileName: String,
     date: Long,
 ) {

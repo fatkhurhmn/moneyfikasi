@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.budget.add_edit.component.AddEditBudgetForm
-import dev.muffar.moneyfikasi.common_ui.component.button.BottomBarAddEditButton
+import dev.muffar.moneyfikasi.common_ui.component.button.bottom_bar.BottomBarAddEditButton
 import dev.muffar.moneyfikasi.common_ui.component.dialog.CommonAlertDialog
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage

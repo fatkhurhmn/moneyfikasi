@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.common_ui.component.button
+package dev.muffar.moneyfikasi.common_ui.component.button.bottom_bar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
+import dev.muffar.moneyfikasi.common_ui.component.button.common.CommonButton
 import dev.muffar.moneyfikasi.common_ui.component.keyboardAsState
 
 @Composable

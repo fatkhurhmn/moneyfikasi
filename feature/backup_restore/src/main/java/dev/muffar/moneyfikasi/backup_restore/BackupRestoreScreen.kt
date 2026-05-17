@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.backup_restore.component.AutoBackupSection
-import dev.muffar.moneyfikasi.backup_restore.component.BackupLatestInfo
+import dev.muffar.moneyfikasi.backup_restore.component.LatestBackupInfo
 import dev.muffar.moneyfikasi.backup_restore.component.BackupRestoreButton
 import dev.muffar.moneyfikasi.backup_restore.component.BackupRestoreText
 import dev.muffar.moneyfikasi.backup_restore.component.DeletePreviousBackupSwitch
@@ -94,7 +94,7 @@ fun BackupRestoreScreen(
                 onPeriodSelected = onAutoBackupPeriodSelected,
             )
 
-            BackupLatestInfo(
+            LatestBackupInfo(
                 fileName = state.latestBackup.name,
                 date = state.latestBackup.date,
             )

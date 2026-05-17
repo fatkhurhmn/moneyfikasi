@@ -17,7 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
-import dev.muffar.moneyfikasi.common_ui.component.button.RowNegativePositiveButton
+import dev.muffar.moneyfikasi.common_ui.component.button.row.RowNegativePositiveButton
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand

@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
-import dev.muffar.moneyfikasi.common_ui.component.button.RowNegativePositiveButton
+import dev.muffar.moneyfikasi.common_ui.component.button.row.RowNegativePositiveButton
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
 import kotlinx.coroutines.launch

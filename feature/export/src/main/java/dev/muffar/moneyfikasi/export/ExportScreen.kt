@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
-import dev.muffar.moneyfikasi.common_ui.component.button.BottomBarButton
+import dev.muffar.moneyfikasi.common_ui.component.button.bottom_bar.BottomBarButton
 import dev.muffar.moneyfikasi.common_ui.component.dialog.LoadingDialog
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage

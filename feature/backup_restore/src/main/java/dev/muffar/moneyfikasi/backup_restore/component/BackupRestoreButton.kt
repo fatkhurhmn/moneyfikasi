@@ -16,8 +16,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.backup_restore.BackupRestoreState
 import dev.muffar.moneyfikasi.common_ui.component.dialog.CommonAlertDialog
-import dev.muffar.moneyfikasi.common_ui.component.button.CommonButton
-import dev.muffar.moneyfikasi.common_ui.component.button.CommonOutlinedButton
+import dev.muffar.moneyfikasi.common_ui.component.button.common.CommonButton
+import dev.muffar.moneyfikasi.common_ui.component.button.common.CommonOutlinedButton
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable

@@ -47,7 +47,7 @@ fun SnackbarMessage(
         Card(
             elevation = CardDefaults.cardElevation(4.dp),
             shape = MaterialTheme.shapes.medium,
-            colors = CardDefaults.cardColors(containerColor = Color.White),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
             modifier = Modifier.padding(16.dp)
         ) {
             Row(

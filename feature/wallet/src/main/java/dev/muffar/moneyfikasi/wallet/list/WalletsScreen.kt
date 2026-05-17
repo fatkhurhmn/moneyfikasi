@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
-import dev.muffar.moneyfikasi.common_ui.component.button.CommonAddButton
+import dev.muffar.moneyfikasi.common_ui.component.button.common.CommonAddButton
 import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.wallet.list.component.TotalBalance

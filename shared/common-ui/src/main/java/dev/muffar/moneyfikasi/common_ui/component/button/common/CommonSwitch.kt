@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.common_ui.component.button
+package dev.muffar.moneyfikasi.common_ui.component.button.common
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

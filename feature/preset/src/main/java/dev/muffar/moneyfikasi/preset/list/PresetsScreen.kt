@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
 import dev.muffar.moneyfikasi.common_ui.component.tabs.IncomeExpenseTabs
-import dev.muffar.moneyfikasi.common_ui.component.button.CommonAddButton
+import dev.muffar.moneyfikasi.common_ui.component.button.common.CommonAddButton
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.preset.list.component.PresetsContent
 import dev.muffar.moneyfikasi.resource.R

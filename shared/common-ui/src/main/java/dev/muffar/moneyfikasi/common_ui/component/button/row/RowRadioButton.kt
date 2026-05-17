@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.common_ui.component.button
+package dev.muffar.moneyfikasi.common_ui.component.button.row
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
