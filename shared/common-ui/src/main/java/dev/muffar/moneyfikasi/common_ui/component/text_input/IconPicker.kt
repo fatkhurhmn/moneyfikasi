@@ -6,11 +6,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.IconPickerSheet
 import dev.muffar.moneyfikasi.common_ui.component.button.IconFieldButton
 
 @Composable
 fun IconPicker(
+    modifier: Modifier = Modifier,
     icon: String,
     color: Long,
     options: List<String>,
@@ -19,6 +21,7 @@ fun IconPicker(
     var showIconPicker by remember { mutableStateOf(false) }
 
     IconFieldButton(
+        modifier = modifier,
         icon = icon,
         color = color,
         onIconClick = { showIconPicker = true }

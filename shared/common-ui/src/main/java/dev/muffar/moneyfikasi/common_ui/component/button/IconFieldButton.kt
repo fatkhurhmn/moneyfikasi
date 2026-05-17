@@ -1,15 +1,23 @@
 package dev.muffar.moneyfikasi.common_ui.component.button
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.component.icon.BoxedIcon
+import dev.muffar.moneyfikasi.common_ui.component.icon.IconByName
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
@@ -20,19 +28,52 @@ fun IconFieldButton(
     showLabel: Boolean = true,
     onIconClick: () -> Unit,
 ) {
+    val containerColor = if (color == 0L) {
+        MaterialTheme.colorScheme.surface
+    } else {
+        Color(color).copy(alpha = 0.2f)
+    }
+
+    val borderColor = if (color == 0L) {
+        MaterialTheme.colorScheme.outline
+    } else {
+        Color.Transparent
+    }
+
+    val iconColor = if (color == 0L) {
+        MaterialTheme.colorScheme.onSurfaceVariant
+    } else {
+        Color(color)
+    }
     Column(
         modifier = modifier
     ) {
-        Text(
-            text = if (showLabel) stringResource(R.string.icon) else "",
-            style = MaterialTheme.typography.labelLarge
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        BoxedIcon(
-            icon = icon,
-            color = color,
-            containerSize = 50.dp,
-            onClick = onIconClick
-        )
+        if (showLabel) {
+            Text(
+                text = stringResource(R.string.icon),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+        }
+        Box(
+            modifier = Modifier
+                .size(56.dp)
+                .clip(MaterialTheme.shapes.medium)
+                .background(containerColor)
+                .border(
+                    width = 1.dp,
+                    color = borderColor,
+                    shape = MaterialTheme.shapes.medium
+                )
+                .clickable { onIconClick() },
+            contentAlignment = Alignment.Center
+        ) {
+            IconByName(
+                name = icon,
+                tint = iconColor,
+                modifier = Modifier.size(24.dp)
+            )
+        }
     }
 }

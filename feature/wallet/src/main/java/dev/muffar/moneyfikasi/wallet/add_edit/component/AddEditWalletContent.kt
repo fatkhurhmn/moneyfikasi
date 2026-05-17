@@ -20,7 +20,6 @@ import dev.muffar.moneyfikasi.wallet.add_edit.AddEditWalletState
 fun AddEditWalletContent(
     paddingValues: PaddingValues,
     state: AddEditWalletState,
-    isEditMode: Boolean,
     onNameChange: (String) -> Unit,
     onBalanceChange: (String) -> Unit,
     onIconSelect: (String) -> Unit,

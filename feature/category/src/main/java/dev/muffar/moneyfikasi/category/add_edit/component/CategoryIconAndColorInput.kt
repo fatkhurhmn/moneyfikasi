@@ -42,6 +42,7 @@ fun CategoryIconAndColorInput(
             )
             Spacer(modifier = Modifier.width(16.dp))
             ColorPicker(
+                modifier = Modifier.weight(1f),
                 color = color,
                 onColorSelect = onColorSelect
             )

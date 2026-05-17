@@ -1,7 +1,6 @@
 package dev.muffar.moneyfikasi.common_ui.component.text_input
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -13,15 +12,16 @@ import dev.muffar.moneyfikasi.common_ui.component.button.ColorFieldButton
 
 @Composable
 fun ColorPicker(
+    modifier: Modifier = Modifier,
     color: Long,
     onColorSelect: (Long) -> Unit
 ) {
     var showColorPicker by remember { mutableStateOf(false) }
 
     ColorFieldButton(
+        modifier = modifier,
         color = color,
-        onColorClick = { showColorPicker = true },
-        modifier = Modifier.fillMaxWidth()
+        onColorClick = { showColorPicker = true }
     )
 
     AnimatedVisibility(showColorPicker) {

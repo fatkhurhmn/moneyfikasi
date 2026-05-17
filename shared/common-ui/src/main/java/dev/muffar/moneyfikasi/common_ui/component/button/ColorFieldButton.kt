@@ -22,7 +22,8 @@ fun ColorFieldButton(
     ) {
         Text(
             text = stringResource(R.string.color),
-            style = MaterialTheme.typography.labelLarge
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Spacer(modifier = Modifier.height(4.dp))
         ColorPickerButton(

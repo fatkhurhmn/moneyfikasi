@@ -25,7 +25,7 @@ fun WalletIconAndColorInput(
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
-        Row{
+        Row {
             IconPicker(
                 options = AppIcon.walletIcons,
                 icon = icon,
@@ -34,6 +34,7 @@ fun WalletIconAndColorInput(
             )
             Spacer(modifier = Modifier.width(16.dp))
             ColorPicker(
+                modifier = Modifier.weight(1f),
                 color = color,
                 onColorSelect = onColorSelect
             )
