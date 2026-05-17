@@ -37,6 +37,7 @@ fun WalletInput(
             onClear = onClear,
             label = label,
             isClickable = true,
+            error = error,
             onClick = { showWalletPicker = true },
             leadingIcon = {
                 BoxedIcon(
@@ -45,7 +46,6 @@ fun WalletInput(
                 )
             }
         )
-        TextInputError(error)
         AnimatedVisibility(showWalletPicker) {
             WalletPickerSheet(
                 selectedWallet = wallet,

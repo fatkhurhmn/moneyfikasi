@@ -36,7 +36,7 @@ fun TimeInput(
             Icon(
                 imageVector = Icons.Rounded.Schedule,
                 contentDescription = stringResource(R.string.select_time),
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(24.dp)
             )
         },
         onClick = { showTimeSheet = true }

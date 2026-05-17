@@ -37,7 +37,7 @@ fun DateInput(
             Icon(
                 imageVector = Icons.Rounded.CalendarToday,
                 contentDescription = stringResource(R.string.select_date),
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(24.dp)
             )
         },
         onClick = { showDatePicker = true }

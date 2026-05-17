@@ -36,6 +36,7 @@ fun CategoryInput(
             onClear = onClear,
             label = stringResource(R.string.category),
             isClickable = true,
+            error = error,
             onClick = { showCategoryPicker = true },
             leadingIcon = {
                 BoxedIcon(
@@ -44,7 +45,6 @@ fun CategoryInput(
                 )
             }
         )
-        TextInputError(error)
         AnimatedVisibility(showCategoryPicker) {
             CategoryPickerSheet(
                 selectedCategory = category,

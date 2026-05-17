@@ -21,6 +21,7 @@ fun NoteInput(
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Done,
         ),
+        maxLines = 3,
         onClear = { onNoteChange("") }
     )
 }
