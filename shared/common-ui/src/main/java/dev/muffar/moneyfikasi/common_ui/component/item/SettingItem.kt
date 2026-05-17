@@ -17,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -30,7 +29,6 @@ fun SettingItem(
     title: String,
     subtitle: String,
     icon: ImageVector,
-    titleColor: Color = MaterialTheme.colorScheme.onSurface,
     onClick: (() -> Unit)? = null,
     trailing: @Composable () -> Unit = { ArrowRight() },
 ) {
@@ -65,7 +63,7 @@ fun SettingItem(
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold
                 ),
-                color = titleColor
+                color = MaterialTheme.colorScheme.onSurface
             )
             Text(
                 text = subtitle,

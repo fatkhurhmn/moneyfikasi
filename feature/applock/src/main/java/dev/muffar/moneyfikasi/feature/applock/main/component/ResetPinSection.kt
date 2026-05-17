@@ -16,7 +16,6 @@ fun ResetPinSection(onChangePinClick: () -> Unit) {
             title = stringResource(R.string.reset_pin),
             subtitle = stringResource(R.string.reset_pin_description),
             icon = Icons.Rounded.Refresh,
-            titleColor = MaterialTheme.colorScheme.primary,
             onClick = onChangePinClick
         )
     }

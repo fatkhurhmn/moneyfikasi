@@ -56,7 +56,7 @@ fun DatePickerSheet(
         DatePicker(
             state = pickerState,
             colors = DatePickerDefaults.colors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
                 titleContentColor = MaterialTheme.colorScheme.onSurface,
                 headlineContentColor = MaterialTheme.colorScheme.onSurface,
                 dividerColor = MaterialTheme.colorScheme.outline

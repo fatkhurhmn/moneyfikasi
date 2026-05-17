@@ -35,7 +35,7 @@ fun ExportDateRangeInput(
             onDateSelect = onStartDateChanged
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         ExportDateItem(
             label = stringResource(R.string.end_date),

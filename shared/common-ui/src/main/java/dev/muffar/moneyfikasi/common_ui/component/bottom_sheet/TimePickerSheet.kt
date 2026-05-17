@@ -10,8 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.twotone.AccessTimeFilled
-import androidx.compose.material.icons.twotone.Edit
+import androidx.compose.material.icons.rounded.AccessTimeFilled
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -73,9 +73,9 @@ fun TimePickerSheet(
             )
 
             val colors = TimePickerDefaults.colors(
-                containerColor = MaterialTheme.colorScheme.surface,
-                clockDialColor = MaterialTheme.colorScheme.surfaceVariant.copy(0.8f),
-                timeSelectorUnselectedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(0.8f),
+                containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                clockDialColor = MaterialTheme.colorScheme.surfaceVariant,
+                timeSelectorUnselectedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
                 timeSelectorSelectedContainerColor = MaterialTheme.colorScheme.primary,
                 timeSelectorUnselectedContentColor = MaterialTheme.colorScheme.onSurface,
                 timeSelectorSelectedContentColor = MaterialTheme.colorScheme.onPrimary,
@@ -140,7 +140,7 @@ private fun TimePickerModeButton(
             onClick
         ) {
             Icon(
-                imageVector = if (!isDialMode) Icons.TwoTone.AccessTimeFilled else Icons.TwoTone.Edit,
+                imageVector = if (!isDialMode) Icons.Rounded.AccessTimeFilled else Icons.Rounded.Edit,
                 contentDescription = null,
                 modifier = Modifier.size(28.dp)
             )
