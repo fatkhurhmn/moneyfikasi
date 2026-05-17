@@ -8,6 +8,7 @@ import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.utils.constants.ValidationConst
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -68,6 +69,7 @@ class AddEditWalletViewModel @Inject constructor(
     }
 
     private fun onNameChange(name: String) {
+        if (name.length > ValidationConst.MAX_NAME_LENGTH) return
         _state.update { it.copy(name = name) }
     }
 
@@ -78,6 +80,7 @@ class AddEditWalletViewModel @Inject constructor(
     }
 
     private fun onBalanceChange(balance: String) {
+        if (balance.length > ValidationConst.MAX_AMOUNT_LENGTH) return
         _state.update { it.copy(balance = balance) }
     }
 

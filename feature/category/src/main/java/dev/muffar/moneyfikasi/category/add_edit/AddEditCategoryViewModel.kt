@@ -9,6 +9,7 @@ import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.utils.constants.ValidationConst
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -73,6 +74,7 @@ class AddEditCategoryViewModel @Inject constructor(
     }
 
     private fun onNameChange(name: String) {
+        if (name.length > ValidationConst.MAX_NAME_LENGTH) return
         _state.update { it.copy(name = name) }
         updateNameError()
     }

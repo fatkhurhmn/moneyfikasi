@@ -13,6 +13,7 @@ import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preset.PresetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.utils.constants.ValidationConst
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -104,7 +105,7 @@ class AddEditPresetViewModel @Inject constructor(
     }
 
     private fun onNameChange(name: String) {
-        if (name.length > 50) return
+        if (name.length > ValidationConst.MAX_NAME_LENGTH) return
         _state.update { it.copy(name = name) }
         updateNameError()
     }
@@ -115,11 +116,12 @@ class AddEditPresetViewModel @Inject constructor(
     }
 
     private fun onAmountChange(amount: String) {
+        if (amount.length > ValidationConst.MAX_AMOUNT_LENGTH) return
         _state.update { it.copy(amount = amount) }
     }
 
     private fun onDescriptionChange(description: String) {
-        if (description.length > 255) return
+        if (description.length > ValidationConst.MAX_NOTE_LENGTH) return
         _state.update { it.copy(description = description) }
     }
 

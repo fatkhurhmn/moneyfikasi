@@ -15,6 +15,7 @@ import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.utils.constants.UUIDConst
+import dev.muffar.moneyfikasi.utils.constants.ValidationConst
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
@@ -148,6 +149,7 @@ class AddEditTransactionViewModel @Inject constructor(
     }
 
     private fun onAmountChange(amount: String) {
+        if (amount.length > ValidationConst.MAX_AMOUNT_LENGTH) return
         _state.update { it.copy(amount = amount) }
         updateAmountError()
     }
@@ -163,7 +165,7 @@ class AddEditTransactionViewModel @Inject constructor(
     }
 
     private fun onNoteChange(note: String) {
-        if (note.length > 255) return
+        if (note.length > ValidationConst.MAX_NOTE_LENGTH) return
         _state.update { it.copy(note = note) }
     }
 
