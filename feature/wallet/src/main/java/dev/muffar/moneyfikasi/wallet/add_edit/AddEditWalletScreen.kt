@@ -47,7 +47,7 @@ fun AddEditWalletScreen(
         },
         bottomBar = {
             BottomBarAddEditButton(
-                isEdit = state.id != null,
+                isEdit = isEditMode,
                 onSave = onSubmit,
                 onDelete = { onShowAlert(true) }
             )
@@ -57,7 +57,6 @@ fun AddEditWalletScreen(
         AddEditWalletContent(
             paddingValues = paddingValues,
             state = state,
-            isEditMode = isEditMode,
             onNameChange = onNameChange,
             onBalanceChange = onBalanceChange,
             onIconSelect = onIconSelect,

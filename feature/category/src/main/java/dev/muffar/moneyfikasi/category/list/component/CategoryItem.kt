@@ -45,7 +45,7 @@ fun CategoryItem(
                     .padding(horizontal = 16.dp),
             )
 
-            ArrowRight()
+            ArrowRight(20.dp)
         }
     }
 }

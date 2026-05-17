@@ -38,8 +38,6 @@ fun AddEditWalletContent(
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        WalletScreenHeader(state = state)
-
         AddEditWalletForm(
             state = state,
             onNameChange = onNameChange,
