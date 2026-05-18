@@ -4,6 +4,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.BookmarkAdded
+import androidx.compose.material.icons.rounded.DataUsage
+import androidx.compose.material.icons.rounded.Insights
+import androidx.compose.material.icons.rounded.PostAdd
+import androidx.compose.material.icons.rounded.TrackChanges
+import androidx.compose.material.icons.rounded.Wallet
+import androidx.compose.material.icons.rounded.Widgets
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -44,7 +52,7 @@ fun MoreScreen(
                     title = stringResource(R.string.my_wallet),
                     description = stringResource(R.string.wallet_description),
                     status = stringResource(R.string.wallets_active, state.activeWalletsCount),
-                    icon = painterResource(id = R.drawable.ic_wallet),
+                    icon = Icons.Rounded.Wallet,
                     onClick = onWalletsClick
                 )
             }
@@ -54,7 +62,7 @@ fun MoreScreen(
                     title = stringResource(R.string.manage_categories),
                     description = stringResource(R.string.category_description),
                     status = stringResource(R.string.categories_count, state.categoriesCount),
-                    icon = painterResource(id = R.drawable.ic_category),
+                    icon = Icons.Rounded.Widgets,
                     onClick = onCategoriesClick
                 )
             }
@@ -64,7 +72,7 @@ fun MoreScreen(
                     title = stringResource(R.string.transaction_preset),
                     description = stringResource(R.string.preset_description),
                     status = stringResource(R.string.presets_saved, state.presetsCount),
-                    icon = painterResource(id = R.drawable.ic_ink),
+                    icon = Icons.Rounded.BookmarkAdded,
                     onClick = onPresetsClick
                 )
             }
@@ -74,7 +82,7 @@ fun MoreScreen(
                     title = stringResource(R.string.financial_goals),
                     description = stringResource(R.string.financial_goals_description),
                     status = stringResource(R.string.budgets_set, state.budgetsCount),
-                    icon = painterResource(id = R.drawable.ic_budget),
+                    icon = Icons.Rounded.DataUsage,
                     onClick = onBudgetsClick
                 )
             }

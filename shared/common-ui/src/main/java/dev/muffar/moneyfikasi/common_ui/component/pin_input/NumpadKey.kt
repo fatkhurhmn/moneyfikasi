@@ -26,7 +26,7 @@ fun NumpadKey(
         onClick = onClick,
         modifier = modifier,
         shape = RoundedCornerShape(16.dp),
-        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+        color = MaterialTheme.colorScheme.surfaceContainer
     ) {
         Box(
             modifier = Modifier.padding(vertical = 20.dp),

@@ -1,6 +1,5 @@
 package dev.muffar.moneyfikasi.feature.home.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -8,13 +7,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.KeyboardDoubleArrowDown
+import androidx.compose.material.icons.rounded.KeyboardDoubleArrowUp
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -36,20 +38,21 @@ fun OverviewIncomeExpense(
     val financeColors = MoneyfikasiTheme.financeColors
     val containerColor = if (isIncome) financeColors.incomeContainer else financeColors.expenseContainer
     val textColor = if (isIncome) financeColors.income else financeColors.expense
-    val icon = if (isIncome) R.drawable.ic_income else R.drawable.ic_expense
+    val icon = if (isIncome) Icons.Rounded.KeyboardDoubleArrowDown else Icons.Rounded.KeyboardDoubleArrowUp
 
     Box(
         modifier = modifier
             .clip(MaterialTheme.shapes.medium)
             .background(containerColor.copy(alpha = 0.5f))
     ) {
-        Image(
+        Icon(
             modifier = Modifier
                 .size(50.dp)
                 .padding(8.dp)
                 .align(Alignment.TopEnd),
-            painter = painterResource(id = icon),
+            imageVector = icon,
             contentDescription = null,
+            tint = textColor
         )
         Column(
             modifier = Modifier
