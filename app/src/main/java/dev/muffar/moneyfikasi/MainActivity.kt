@@ -5,6 +5,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -14,6 +15,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
+import dev.muffar.moneyfikasi.domain.model.AppTheme
 import dev.muffar.moneyfikasi.domain.model.EnterPinType
 import dev.muffar.moneyfikasi.navigation.Screen
 
@@ -27,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContent {
             val isAppLockEnabled by viewModel.isAppLockEnabled.collectAsStateWithLifecycle()
+            val uiSettings by viewModel.uiSettings.collectAsStateWithLifecycle()
 
             if (isAppLockEnabled != null) {
                 val startDestination = if (isAppLockEnabled == true) {
@@ -35,7 +38,15 @@ class MainActivity : AppCompatActivity() {
                     Screen.Home.route
                 }
 
-                MoneyfikasiTheme {
+                val darkTheme = when (uiSettings.appTheme) {
+                    AppTheme.LIGHT -> false
+                    AppTheme.DARK -> true
+                    AppTheme.SYSTEM -> isSystemInDarkTheme()
+                }
+
+                MoneyfikasiTheme(
+                    darkTheme = darkTheme
+                ) {
                     Surface(
                         modifier = Modifier.fillMaxSize(),
                         color = MaterialTheme.colorScheme.surface

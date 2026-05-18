@@ -151,6 +151,13 @@
     <string name="xlsx">.xlsx</string>
     <string name="data_section">Data</string>
     <string name="security_section">Security</string>
+    <string name="appearance_section">Appearance</string>
+    <string name="theme">Theme</string>
+    <string name="select_theme">Select theme</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="system_default">System Default</string>
+    <string name="dark_mode_description">Toggle between dark and light theme</string>
     <string name="backup_restore_description">Manage local backups and restore data</string>
     <string name="export_data_description">Export transactions as CSV or XLSX</string>
     <string name="app_lock">App Lock</string>

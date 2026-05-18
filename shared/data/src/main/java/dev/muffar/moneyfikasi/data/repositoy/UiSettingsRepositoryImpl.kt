@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.data.repositoy
 
 import dev.muffar.moneyfikasi.data.preferences.UiPreferences
+import dev.muffar.moneyfikasi.domain.model.AppTheme
 import dev.muffar.moneyfikasi.domain.model.UiSettings
 import dev.muffar.moneyfikasi.domain.repository.UiSettingsRepository
 import kotlinx.coroutines.flow.Flow
@@ -17,5 +18,9 @@ class UiSettingsRepositoryImpl @Inject constructor(
 
     override suspend fun setReportVisibility(isVisible: Boolean) {
         uiPreferences.setReportVisibility(isVisible)
+    }
+
+    override suspend fun setAppTheme(theme: AppTheme) {
+        uiPreferences.setAppTheme(theme)
     }
 }

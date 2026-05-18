@@ -10,12 +10,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
 import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.settings.component.AppearanceSection
 import dev.muffar.moneyfikasi.settings.component.DataSection
 import dev.muffar.moneyfikasi.settings.component.SecuritySection
 
 @Composable
 fun SettingsScreen(
     modifier: Modifier = Modifier,
+    state: SettingsState,
+    onEvent: (SettingsEvent) -> Unit,
     onBackupRestoreClick: () -> Unit,
     onExportClick: () -> Unit,
     onAppLockClick: () -> Unit,
@@ -35,6 +38,13 @@ fun SettingsScreen(
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            AppearanceSection(
+                appTheme = state.appTheme,
+                onAppThemeChanged = { theme ->
+                    onEvent(SettingsEvent.OnAppThemeChanged(theme))
+                }
+            )
+
             DataSection(
                 onBackupRestoreClick = onBackupRestoreClick,
                 onExportClick = onExportClick

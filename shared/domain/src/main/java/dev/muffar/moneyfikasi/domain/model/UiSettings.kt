@@ -5,5 +5,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class UiSettings(
     val isBalanceVisible: Boolean = false,
-    val isReportVisible: Boolean = false
+    val isReportVisible: Boolean = false,
+    val appTheme: AppTheme = AppTheme.SYSTEM
 )
