@@ -19,6 +19,6 @@ fun WalletActivationButton(
         },
         title = stringResource(R.string.activation),
         titleStyle = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Medium),
-        description = stringResource(R.string.disable_category)
+        description = stringResource(R.string.disable_wallet)
     )
 }

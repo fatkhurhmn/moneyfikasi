@@ -10,14 +10,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.TrendingDown
 import androidx.compose.material.icons.automirrored.rounded.TrendingUp
-import androidx.compose.material.icons.rounded.TrendingUp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
-import dev.muffar.moneyfikasi.domain.model.AppIcon
 import dev.muffar.moneyfikasi.domain.model.CategoryStatistic
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.resource.R

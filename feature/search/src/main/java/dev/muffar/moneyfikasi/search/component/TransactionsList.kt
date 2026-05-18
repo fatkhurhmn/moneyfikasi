@@ -69,7 +69,7 @@ fun TransactionsList(
             val isEndOfDay = nextTransaction == null ||
                     transaction.date.format("yyyy-MM-dd") != nextTransaction.date.format("yyyy-MM-dd")
 
-            CommonHorizontalDivider(if (isEndOfDay) 8.dp else 0.dp)
+            CommonHorizontalDivider(thickness = if (isEndOfDay) 8.dp else 0.dp)
         }
 
         when (transactions.loadState.append) {

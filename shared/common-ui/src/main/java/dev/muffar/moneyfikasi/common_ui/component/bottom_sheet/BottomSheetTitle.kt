@@ -15,8 +15,8 @@ import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 @Composable
 fun BottomSheetTitle(
     title: String,
-    showDivider: Boolean = true,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    showDivider: Boolean = true
 ) {
     Column(
         modifier = modifier

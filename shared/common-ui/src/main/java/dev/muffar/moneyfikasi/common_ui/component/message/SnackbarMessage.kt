@@ -1,10 +1,16 @@
 package dev.muffar.moneyfikasi.common_ui.component.message
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -16,10 +22,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
-import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.withTimeoutOrNull
 
 @Composable
@@ -31,8 +36,8 @@ fun SnackbarMessage(
         val visuals = snackbarData.visuals as? MessageSnackbarVisuals
         val type = visuals?.type ?: SnackbarType.PLAIN
         val icon = when (type) {
-            SnackbarType.SUCCESS -> painterResource(R.drawable.ic_check)
-            SnackbarType.ERROR -> painterResource(R.drawable.ic_cross)
+            SnackbarType.SUCCESS -> Icons.Rounded.Check
+            SnackbarType.ERROR -> Icons.Rounded.Close
             SnackbarType.PLAIN -> null
         }
 
@@ -54,12 +59,20 @@ fun SnackbarMessage(
                 modifier = Modifier.padding(16.dp)
             ) {
                 if (icon != null) {
-                    Icon(
-                        painter = icon,
-                        contentDescription = null,
-                        modifier = Modifier.size(24.dp),
-                        tint = tint
-                    )
+                    Box(
+                        modifier = Modifier
+                            .size(30.dp)
+                            .clip(CircleShape)
+                            .background(tint),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = icon,
+                            contentDescription = null,
+                            modifier = Modifier.size(20.dp),
+                            tint = MaterialTheme.colorScheme.surface
+                        )
+                    }
                     Spacer(Modifier.width(16.dp))
                 }
                 Text(

@@ -52,7 +52,10 @@ fun DatePickerSheet(
             pickerState.selectedDateMillis?.toFormattedDateTime("MMM, dd yyyy")
                 ?: stringResource(R.string.start_date)
 
-        BottomSheetTitle(stringResource(R.string.select_date), false)
+        BottomSheetTitle(
+            title = stringResource(R.string.select_date),
+            showDivider = false
+        )
         DatePicker(
             state = pickerState,
             colors = DatePickerDefaults.colors(
