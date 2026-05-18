@@ -19,10 +19,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.backup_restore.component.AutoBackupSection
-import dev.muffar.moneyfikasi.backup_restore.component.LatestBackupInfo
 import dev.muffar.moneyfikasi.backup_restore.component.BackupRestoreButton
 import dev.muffar.moneyfikasi.backup_restore.component.BackupRestoreText
 import dev.muffar.moneyfikasi.backup_restore.component.DeletePreviousBackupSwitch
+import dev.muffar.moneyfikasi.backup_restore.component.LatestBackupInfo
 import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
 import dev.muffar.moneyfikasi.common_ui.component.dialog.LoadingDialog
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage

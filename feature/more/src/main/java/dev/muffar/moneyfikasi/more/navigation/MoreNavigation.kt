@@ -5,9 +5,9 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.more.MoreScreen
 import dev.muffar.moneyfikasi.more.MoreViewModel
+import dev.muffar.moneyfikasi.navigation.Screen
 
 fun NavGraphBuilder.moreNavGraph(
     navigateToWallets: () -> Unit,

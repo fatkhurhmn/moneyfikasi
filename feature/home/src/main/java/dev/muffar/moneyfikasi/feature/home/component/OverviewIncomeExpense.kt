@@ -22,8 +22,8 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.StringExt.capitalize
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
+import dev.muffar.moneyfikasi.utils.extensions.StringExt.capitalize
 
 @Composable
 fun OverviewIncomeExpense(
