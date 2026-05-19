@@ -8,6 +8,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.recurring_transaction.add_edit.AddEditRecurringTransactionScreen
+import dev.muffar.moneyfikasi.recurring_transaction.add_edit.AddEditRecurringTransactionViewModel
 import dev.muffar.moneyfikasi.recurring_transaction.list.RecurringTransactionsScreen
 import dev.muffar.moneyfikasi.recurring_transaction.list.RecurringTransactionsViewModel
 import java.util.UUID
@@ -38,7 +39,13 @@ fun NavGraphBuilder.recurringTransactionNavGraph(
     }
 
     composable(route = Screen.AddEditRecurringTransaction.route) {
+        val viewModel = hiltViewModel<AddEditRecurringTransactionViewModel>()
+        val state by viewModel.state.collectAsStateWithLifecycle()
+
         AddEditRecurringTransactionScreen(
+            state = state,
+            eventFlow = viewModel.eventFlow,
+            onEvent = viewModel::onEvent,
             onBackClick = navigateBack
         )
     }

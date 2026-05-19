@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.common_ui.component.text_input
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -25,33 +26,33 @@ fun DateInput(
     label: String = stringResource(R.string.date),
     onDateSelect: (Long) -> Unit
 ) {
-
-    var showDatePicker by remember { mutableStateOf(false) }
-    CommonTextInput(
-        modifier = modifier.fillMaxWidth(),
-        value = date.toFormattedDateTime("MMM, dd yyyy"),
-        onValueChange = {},
-        label = label,
-        isClickable = true,
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Rounded.CalendarToday,
-                contentDescription = stringResource(R.string.select_date),
-                modifier = Modifier.size(24.dp)
-            )
-        },
-        onClick = { showDatePicker = true }
-    )
-
-
-    AnimatedVisibility(showDatePicker) {
-        DatePickerSheet(
-            date = date,
-            onDismissRequest = { showDatePicker = false },
-            onDateSelect = {
-                onDateSelect(it)
-                showDatePicker = false
-            }
+    Column {
+        var showDatePicker by remember { mutableStateOf(false) }
+        CommonTextInput(
+            modifier = modifier.fillMaxWidth(),
+            value = date.toFormattedDateTime("MMM, dd yyyy"),
+            onValueChange = {},
+            label = label,
+            isClickable = true,
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Rounded.CalendarToday,
+                    contentDescription = stringResource(R.string.select_date),
+                    modifier = Modifier.size(24.dp)
+                )
+            },
+            onClick = { showDatePicker = true }
         )
+
+        AnimatedVisibility(showDatePicker) {
+            DatePickerSheet(
+                date = date,
+                onDismissRequest = { showDatePicker = false },
+                onDateSelect = {
+                    onDateSelect(it)
+                    showDatePicker = false
+                }
+            )
+        }
     }
 }

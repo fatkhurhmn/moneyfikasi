@@ -189,4 +189,7 @@
     <string name="highest_income">Highest Income</string>
     <string name="frequent_expense">Frequent Expense</string>
     <string name="frequent_income">Frequent Income</string>
+    <string name="frequency">Frequency</string>
+    <string name="add_recurring">Add Recurring</string>
+    <string name="edit_recurring">Edit Recurring</string>
 </resources>

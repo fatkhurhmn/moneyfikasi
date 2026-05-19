@@ -15,6 +15,7 @@ fun DescriptionInput(
         modifier = Modifier.fillMaxWidth(),
         value = description,
         onValueChange = onDescriptionChange,
+        maxLines = 3,
         label = stringResource(R.string.description),
         onClear = { onDescriptionChange("") }
     )
