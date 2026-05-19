@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.usecase.budget.BudgetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preset.PresetUseCases
+import dev.muffar.moneyfikasi.domain.usecase.recurring_transaction.RecurringTransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,6 +22,7 @@ class MoreViewModel @Inject constructor(
     private val categoryUseCases: CategoryUseCases,
     private val budgetUseCases: BudgetUseCases,
     private val presetUseCases: PresetUseCases,
+    private val recurringTransactionUseCases: RecurringTransactionUseCases,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(MoreState())
@@ -36,14 +38,16 @@ class MoreViewModel @Inject constructor(
                 walletUseCases.getAllWallets(),
                 categoryUseCases.getAllCategories(),
                 budgetUseCases.getAllBudgets(),
-                presetUseCases.getAllPresets()
-            ) { wallets, categories, budgets, presets ->
+                presetUseCases.getAllPresets(),
+                recurringTransactionUseCases.getAllRecurringTransactions()
+            ) { wallets, categories, budgets, presets, recurringTransactions ->
                 MoreState(
                     walletsCount = wallets.size,
                     activeWalletsCount = wallets.count { it.isActive },
                     categoriesCount = categories.size,
                     budgetsCount = budgets.size,
-                    presetsCount = presets.size
+                    presetsCount = presets.size,
+                    recurringTransactionsCount = recurringTransactions.size
                 )
             }.collectLatest { newState ->
                 _state.update { newState }

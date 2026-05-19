@@ -30,6 +30,7 @@ fun MoreScreen(
     onCategoriesClick: () -> Unit,
     onBudgetsClick: () -> Unit,
     onPresetsClick: () -> Unit,
+    onRecurringTransactionsClick: () -> Unit,
     onSettingsClick: () -> Unit,
 ) {
 
@@ -84,6 +85,16 @@ fun MoreScreen(
                     status = stringResource(R.string.budgets_set, state.budgetsCount),
                     icon = Icons.Rounded.DataUsage,
                     onClick = onBudgetsClick
+                )
+            }
+            item {
+                MoreItem(
+                    label = stringResource(R.string.recurring_transactions),
+                    title = stringResource(R.string.scheduled_transactions),
+                    description = stringResource(R.string.recurring_transactions_description),
+                    status = stringResource(R.string.recurring_transactions_active, state.recurringTransactionsCount),
+                    icon = Icons.Rounded.TrackChanges,
+                    onClick = onRecurringTransactionsClick
                 )
             }
         }

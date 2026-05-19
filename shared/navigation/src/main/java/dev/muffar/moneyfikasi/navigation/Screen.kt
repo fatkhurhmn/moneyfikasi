@@ -105,6 +105,15 @@ sealed class Screen(val route: String) {
         }
     }
 
+    data object RecurringTransactions : Screen("recurring_transactions")
+    data object AddEditRecurringTransaction : Screen("add_edit_recurring_transaction?recurring_transaction_id={recurring_transaction_id}") {
+        const val RECURRING_TRANSACTION_ID = "recurring_transaction_id"
+        fun routeWithArg(id: UUID? = null): String {
+            val recurringTransactionId = id?.toString() ?: ""
+            return "add_edit_recurring_transaction?$RECURRING_TRANSACTION_ID=$recurringTransactionId"
+        }
+    }
+
     data object Export : Screen("export")
 
     data object AppLock : Screen("app_lock")

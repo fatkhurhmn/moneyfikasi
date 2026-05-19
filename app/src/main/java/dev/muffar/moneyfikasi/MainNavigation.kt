@@ -23,6 +23,8 @@ import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.preset.add_edit.navigation.toAddEditPresetScreen
 import dev.muffar.moneyfikasi.preset.list.navigation.toPresetsScreen
 import dev.muffar.moneyfikasi.preset.presetGraph
+import dev.muffar.moneyfikasi.recurring_transaction.navigation.recurringTransactionNavGraph
+import dev.muffar.moneyfikasi.recurring_transaction.navigation.toRecurringTransactionsScreen
 import dev.muffar.moneyfikasi.search.navigation.searchNavigation
 import dev.muffar.moneyfikasi.search.navigation.toSearchScreen
 import dev.muffar.moneyfikasi.settings.navigation.navigateToSettings
@@ -116,6 +118,7 @@ fun MainNavigation(
             navigateToCategories = { navController.toCategoriesScreen() },
             navigateToPreset = { navController.toPresetsScreen() },
             navigateToBudgets = { navController.toBudgetsScreen() },
+            navigateToRecurringTransactions = { navController.toRecurringTransactionsScreen() },
             navigateToSettings = { navController.navigateToSettings() },
         )
 
@@ -124,6 +127,10 @@ fun MainNavigation(
             onExportClick = { navController.toExportScreen() },
             onAppLockClick = { navController.toAppLockScreen() },
             onBackClick = { navController.navigateUp() }
+        )
+
+        recurringTransactionNavGraph(
+            navigateBack = { navController.navigateUp() }
         )
 
         categoriesNavGraph(

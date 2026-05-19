@@ -4,6 +4,8 @@ import dev.muffar.moneyfikasi.data.db.entity.CategoryEntity
 import dev.muffar.moneyfikasi.data.db.entity.CategoryStatisticEntity
 import dev.muffar.moneyfikasi.data.db.entity.PresetEntity
 import dev.muffar.moneyfikasi.data.db.entity.PresetWithDetails
+import dev.muffar.moneyfikasi.data.db.entity.RecurringTransactionEntity
+import dev.muffar.moneyfikasi.data.db.entity.RecurringTransactionWithDetails
 import dev.muffar.moneyfikasi.data.db.entity.TransactionEntity
 import dev.muffar.moneyfikasi.data.db.entity.TransactionTrendEntity
 import dev.muffar.moneyfikasi.data.db.entity.TransactionWithDetails
@@ -137,5 +139,41 @@ fun Preset.toEntity(): PresetEntity {
         walletId = this.wallet?.id,
         categoryId = this.category?.id,
         description = this.description
+    )
+}
+
+// --- Recurring Transaction Mappers ---
+
+fun RecurringTransactionWithDetails.toDomain(): dev.muffar.moneyfikasi.domain.model.RecurringTransaction {
+    return dev.muffar.moneyfikasi.domain.model.RecurringTransaction(
+        id = this.recurringTransaction.id,
+        name = this.recurringTransaction.name,
+        amount = this.recurringTransaction.amount,
+        type = this.recurringTransaction.type,
+        wallet = this.wallet?.toDomain(),
+        category = this.category?.toDomain(),
+        note = this.recurringTransaction.note,
+        frequency = this.recurringTransaction.frequency,
+        startDate = this.recurringTransaction.startDate,
+        lastRun = this.recurringTransaction.lastRun,
+        nextRun = this.recurringTransaction.nextRun,
+        isActive = this.recurringTransaction.isActive
+    )
+}
+
+fun dev.muffar.moneyfikasi.domain.model.RecurringTransaction.toEntity(): RecurringTransactionEntity {
+    return RecurringTransactionEntity(
+        id = this.id,
+        name = this.name,
+        amount = this.amount,
+        type = this.type,
+        walletId = this.wallet?.id,
+        categoryId = this.category?.id,
+        note = this.note,
+        frequency = this.frequency,
+        startDate = this.startDate,
+        lastRun = this.lastRun,
+        nextRun = this.nextRun,
+        isActive = this.isActive
     )
 }

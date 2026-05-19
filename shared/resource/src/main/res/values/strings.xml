@@ -140,6 +140,10 @@
     <string name="no_budget">No Budgets Yet</string>
     <string name="no_budget_message">Create one to track your expenses.</string>
     <string name="add_budget">Add Budget</string>
+    <string name="recurring_transactions">Recurring</string>
+    <string name="scheduled_transactions">Scheduled Transactions</string>
+    <string name="recurring_transactions_description">Set up transactions to repeat automatically.</string>
+    <string name="recurring_transactions_active">%d Recurring Active</string>
     <string name="loading">Loading…</string>
     <string name="export">Export</string>
     <string name="export_data">Export Data</string>

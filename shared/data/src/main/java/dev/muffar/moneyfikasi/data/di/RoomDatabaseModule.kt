@@ -40,4 +40,8 @@ object RoomDatabaseModule {
     @Provides
     @Singleton
     fun provideBudgetDao(db: MoneyfikasiDatabase) = db.budgetDao()
+
+    @Provides
+    @Singleton
+    fun provideRecurringTransactionDao(db: MoneyfikasiDatabase) = db.recurringTransactionDao()
 }

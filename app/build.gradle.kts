@@ -79,6 +79,7 @@ dependencies {
     implementation(projects.feature.export)
     implementation(projects.feature.applock)
     implementation(projects.feature.settings)
+    implementation(projects.feature.recurringTransaction)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
