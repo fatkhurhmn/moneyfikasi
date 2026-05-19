@@ -133,6 +133,8 @@ fun MainNavigation(
         recurringTransactionNavGraph(
             navigateToAddRecurringTransaction = { navController.toAddEditRecurringTransactionScreen() },
             navigateToEditRecurringTransaction = { navController.toAddEditRecurringTransactionScreen(it) },
+            navigateToAddCategory = { navController.toAddEditCategoryScreen(it) },
+            navigateToAddWallet = { navController.toAddEditWalletScreen() },
             navigateBack = { navController.navigateUp() }
         )
 

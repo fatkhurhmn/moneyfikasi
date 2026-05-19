@@ -29,7 +29,9 @@ fun AddEditRecurringTransactionForm(
     onNameChange: (String) -> Unit,
     onAmountChange: (String) -> Unit,
     onCategoryChange: (Category) -> Unit,
+    onAddNewCategoryClick: () -> Unit,
     onWalletChange: (Wallet) -> Unit,
+    onAddNewWalletClick: () -> Unit,
     onNoteChange: (String) -> Unit,
     onFrequencyChange: (TimePeriod) -> Unit,
     onStartDateChange: (Long) -> Unit,
@@ -62,7 +64,7 @@ fun AddEditRecurringTransactionForm(
             category = state.category ?: Category(),
             categoryOptions = state.categories,
             onCategorySelect = onCategoryChange,
-            onAddNewCategoryClick = { /* TODO */ },
+            onAddNewCategoryClick = onAddNewCategoryClick,
             error = state.categoryError
         )
 
@@ -70,7 +72,7 @@ fun AddEditRecurringTransactionForm(
             wallet = state.wallet ?: Wallet(),
             walletOptions = state.wallets,
             onWalletSelect = onWalletChange,
-            onAddNewWalletClick = { /* TODO */ },
+            onAddNewWalletClick = onAddNewWalletClick,
             error = state.walletError
         )
 

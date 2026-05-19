@@ -29,6 +29,8 @@ fun AddEditRecurringTransactionScreen(
     state: AddEditRecurringTransactionState,
     eventFlow: Flow<AddEditRecurringTransactionViewModel.UiEvent>,
     onEvent: (AddEditRecurringTransactionEvent) -> Unit,
+    onAddNewCategoryClick: () -> Unit,
+    onAddNewWalletClick: () -> Unit,
     onBackClick: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -76,7 +78,9 @@ fun AddEditRecurringTransactionScreen(
             onNameChange = { onEvent(AddEditRecurringTransactionEvent.OnNameChanged(it)) },
             onAmountChange = { onEvent(AddEditRecurringTransactionEvent.OnAmountChanged(it)) },
             onCategoryChange = { onEvent(AddEditRecurringTransactionEvent.OnCategoryChanged(it)) },
+            onAddNewCategoryClick = onAddNewCategoryClick,
             onWalletChange = { onEvent(AddEditRecurringTransactionEvent.OnWalletChanged(it)) },
+            onAddNewWalletClick = onAddNewWalletClick,
             onNoteChange = { onEvent(AddEditRecurringTransactionEvent.OnNoteChanged(it)) },
             onFrequencyChange = { onEvent(AddEditRecurringTransactionEvent.OnFrequencyChanged(it)) },
             onStartDateChange = { onEvent(AddEditRecurringTransactionEvent.OnStartDateChanged(it)) }

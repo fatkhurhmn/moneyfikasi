@@ -24,6 +24,8 @@ fun NavController.toAddEditRecurringTransactionScreen(id: UUID? = null) {
 fun NavGraphBuilder.recurringTransactionNavGraph(
     navigateToAddRecurringTransaction: () -> Unit,
     navigateToEditRecurringTransaction: (UUID) -> Unit,
+    navigateToAddCategory: (dev.muffar.moneyfikasi.domain.model.CategoryType) -> Unit,
+    navigateToAddWallet: () -> Unit,
     navigateBack: () -> Unit
 ) {
     composable(route = Screen.RecurringTransactions.route) {
@@ -46,6 +48,8 @@ fun NavGraphBuilder.recurringTransactionNavGraph(
             state = state,
             eventFlow = viewModel.eventFlow,
             onEvent = viewModel::onEvent,
+            onAddNewCategoryClick = { navigateToAddCategory(state.recurringTransaction.type.toCategoryType()) },
+            onAddNewWalletClick = navigateToAddWallet,
             onBackClick = navigateBack
         )
     }
