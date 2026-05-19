@@ -155,6 +155,9 @@ fun RecurringTransactionWithDetails.toDomain(): dev.muffar.moneyfikasi.domain.mo
         note = this.recurringTransaction.note,
         frequency = this.recurringTransaction.frequency,
         startDate = this.recurringTransaction.startDate,
+        endType = this.recurringTransaction.endType,
+        endDate = this.recurringTransaction.endDate,
+        occurrenceCount = this.recurringTransaction.occurrenceCount,
         lastRun = this.recurringTransaction.lastRun,
         nextRun = this.recurringTransaction.nextRun,
         isActive = this.recurringTransaction.isActive
@@ -172,6 +175,9 @@ fun dev.muffar.moneyfikasi.domain.model.RecurringTransaction.toEntity(): Recurri
         note = this.note,
         frequency = this.frequency,
         startDate = this.startDate,
+        endType = this.endType,
+        endDate = this.endDate,
+        occurrenceCount = this.occurrenceCount,
         lastRun = this.lastRun,
         nextRun = this.nextRun,
         isActive = this.isActive

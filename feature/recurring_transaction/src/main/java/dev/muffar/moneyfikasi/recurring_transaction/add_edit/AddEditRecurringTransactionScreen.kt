@@ -83,7 +83,10 @@ fun AddEditRecurringTransactionScreen(
             onAddNewWalletClick = onAddNewWalletClick,
             onNoteChange = { onEvent(AddEditRecurringTransactionEvent.OnNoteChanged(it)) },
             onFrequencyChange = { onEvent(AddEditRecurringTransactionEvent.OnFrequencyChanged(it)) },
-            onStartDateChange = { onEvent(AddEditRecurringTransactionEvent.OnStartDateChanged(it)) }
+            onStartDateChange = { onEvent(AddEditRecurringTransactionEvent.OnStartDateChanged(it)) },
+            onEndTypeChange = { onEvent(AddEditRecurringTransactionEvent.OnEndTypeChanged(it)) },
+            onEndDateChange = { onEvent(AddEditRecurringTransactionEvent.OnEndDateChanged(it)) },
+            onOccurrenceCountChange = { onEvent(AddEditRecurringTransactionEvent.OnOccurrenceCountChanged(it)) }
         )
     }
 }

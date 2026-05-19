@@ -2,6 +2,7 @@ package dev.muffar.moneyfikasi.data.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import dev.muffar.moneyfikasi.domain.model.RecurringEndType
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import java.util.UUID
@@ -17,6 +18,9 @@ data class RecurringTransactionEntity(
     val note: String?,
     val frequency: TimePeriod,
     val startDate: Long,
+    val endType: RecurringEndType,
+    val endDate: Long?,
+    val occurrenceCount: Int?,
     val lastRun: Long?,
     val nextRun: Long?,
     val isActive: Boolean

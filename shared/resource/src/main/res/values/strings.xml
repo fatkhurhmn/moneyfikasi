@@ -192,4 +192,9 @@
     <string name="frequency">Frequency</string>
     <string name="add_recurring">Add Recurring</string>
     <string name="edit_recurring">Edit Recurring</string>
+    <string name="never">Never</string>
+    <string name="on_date">On Date</string>
+    <string name="after_occurrences">After Occurrences</string>
+    <string name="end_recurring">End Recurring</string>
+    <string name="times">Times</string>
 </resources>

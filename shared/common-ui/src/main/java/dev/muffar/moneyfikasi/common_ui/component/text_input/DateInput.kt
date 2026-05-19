@@ -26,10 +26,11 @@ fun DateInput(
     label: String = stringResource(R.string.date),
     onDateSelect: (Long) -> Unit
 ) {
-    Column {
+    Column(
+        modifier = modifier.fillMaxWidth()
+    ) {
         var showDatePicker by remember { mutableStateOf(false) }
         CommonTextInput(
-            modifier = modifier.fillMaxWidth(),
             value = date.toFormattedDateTime("MMM, dd yyyy"),
             onValueChange = {},
             label = label,

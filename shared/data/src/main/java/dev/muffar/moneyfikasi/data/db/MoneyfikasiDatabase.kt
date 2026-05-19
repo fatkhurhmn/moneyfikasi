@@ -20,7 +20,7 @@ import dev.muffar.moneyfikasi.data.db.entity.WalletEntity
 import dev.muffar.moneyfikasi.data.utils.PrepopulateDbCallback
 
 @Database(
-    version = 2,
+    version = 3,
     entities = [
         CategoryEntity::class,
         TransactionEntity::class,

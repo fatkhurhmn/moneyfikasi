@@ -53,6 +53,9 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
             is AddEditRecurringTransactionEvent.OnNoteChanged -> _state.update { it.copy(note = event.note) }
             is AddEditRecurringTransactionEvent.OnFrequencyChanged -> _state.update { it.copy(frequency = event.frequency) }
             is AddEditRecurringTransactionEvent.OnStartDateChanged -> _state.update { it.copy(startDate = event.startDate) }
+            is AddEditRecurringTransactionEvent.OnEndTypeChanged -> _state.update { it.copy(endType = event.endType) }
+            is AddEditRecurringTransactionEvent.OnEndDateChanged -> _state.update { it.copy(endDate = event.endDate) }
+            is AddEditRecurringTransactionEvent.OnOccurrenceCountChanged -> _state.update { it.copy(occurrenceCount = event.count) }
             is AddEditRecurringTransactionEvent.OnIsActiveChanged -> _state.update { it.copy(isActive = event.isActive) }
             is AddEditRecurringTransactionEvent.OnSaveRecurringTransaction -> saveRecurringTransaction()
         }
@@ -72,6 +75,9 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
                         note = recurringTransaction.note ?: "",
                         frequency = recurringTransaction.frequency,
                         startDate = recurringTransaction.startDate,
+                        endType = recurringTransaction.endType,
+                        endDate = recurringTransaction.endDate ?: it.endDate,
+                        occurrenceCount = recurringTransaction.occurrenceCount?.toString() ?: it.occurrenceCount,
                         isActive = recurringTransaction.isActive
                     )
                 }

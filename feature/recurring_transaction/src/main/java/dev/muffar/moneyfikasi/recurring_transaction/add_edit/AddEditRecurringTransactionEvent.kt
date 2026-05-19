@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.recurring_transaction.add_edit
 
 import dev.muffar.moneyfikasi.domain.model.Category
+import dev.muffar.moneyfikasi.domain.model.RecurringEndType
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
@@ -14,6 +15,9 @@ sealed class AddEditRecurringTransactionEvent {
     data class OnNoteChanged(val note: String) : AddEditRecurringTransactionEvent()
     data class OnFrequencyChanged(val frequency: TimePeriod) : AddEditRecurringTransactionEvent()
     data class OnStartDateChanged(val startDate: Long) : AddEditRecurringTransactionEvent()
+    data class OnEndTypeChanged(val endType: RecurringEndType) : AddEditRecurringTransactionEvent()
+    data class OnEndDateChanged(val endDate: Long) : AddEditRecurringTransactionEvent()
+    data class OnOccurrenceCountChanged(val count: String) : AddEditRecurringTransactionEvent()
     data class OnIsActiveChanged(val isActive: Boolean) : AddEditRecurringTransactionEvent()
     data object OnSaveRecurringTransaction : AddEditRecurringTransactionEvent()
 }

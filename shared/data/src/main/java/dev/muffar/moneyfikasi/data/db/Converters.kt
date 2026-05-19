@@ -2,6 +2,8 @@ package dev.muffar.moneyfikasi.data.db
 
 import androidx.room.TypeConverter
 import dev.muffar.moneyfikasi.domain.model.CategoryType
+import dev.muffar.moneyfikasi.domain.model.RecurringEndType
+import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDateTime
@@ -50,5 +52,25 @@ class Converters {
     @TypeConverter
     fun toCategoryType(value: String): CategoryType {
         return CategoryType.valueOf(value)
+    }
+
+    @TypeConverter
+    fun fromTimePeriod(timePeriod: TimePeriod): String {
+        return timePeriod.name
+    }
+
+    @TypeConverter
+    fun toTimePeriod(value: String): TimePeriod {
+        return TimePeriod.valueOf(value)
+    }
+
+    @TypeConverter
+    fun fromRecurringEndType(recurringEndType: RecurringEndType): String {
+        return recurringEndType.name
+    }
+
+    @TypeConverter
+    fun toRecurringEndType(value: String): RecurringEndType {
+        return RecurringEndType.valueOf(value)
     }
 }

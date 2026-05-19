@@ -2,6 +2,7 @@ package dev.muffar.moneyfikasi.recurring_transaction.add_edit
 
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
+import dev.muffar.moneyfikasi.domain.model.RecurringEndType
 import dev.muffar.moneyfikasi.domain.model.RecurringTransaction
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.model.TransactionType
@@ -21,6 +22,9 @@ data class AddEditRecurringTransactionState(
     val note: String = "",
     val frequency: TimePeriod = TimePeriod.MONTHLY,
     val startDate: Long = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli(),
+    val endType: RecurringEndType = RecurringEndType.NEVER,
+    val endDate: Long = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli(),
+    val occurrenceCount: String = "1",
     val isActive: Boolean = true,
     val nameError: ErrorMessage = ErrorMessage(),
     val amountError: ErrorMessage = ErrorMessage(),
@@ -41,6 +45,9 @@ data class AddEditRecurringTransactionState(
             note = note.trim(),
             frequency = frequency,
             startDate = startDate,
+            endType = endType,
+            endDate = if (endType == RecurringEndType.ON_DATE) endDate else null,
+            occurrenceCount = if (endType == RecurringEndType.AFTER_OCCURRENCES) occurrenceCount.toIntOrNull() else null,
             isActive = isActive
         )
 }
