@@ -24,6 +24,7 @@ import dev.muffar.moneyfikasi.preset.add_edit.navigation.toAddEditPresetScreen
 import dev.muffar.moneyfikasi.preset.list.navigation.toPresetsScreen
 import dev.muffar.moneyfikasi.preset.presetGraph
 import dev.muffar.moneyfikasi.recurring_transaction.navigation.recurringTransactionNavGraph
+import dev.muffar.moneyfikasi.recurring_transaction.navigation.toAddEditRecurringTransactionScreen
 import dev.muffar.moneyfikasi.recurring_transaction.navigation.toRecurringTransactionsScreen
 import dev.muffar.moneyfikasi.search.navigation.searchNavigation
 import dev.muffar.moneyfikasi.search.navigation.toSearchScreen
@@ -130,6 +131,8 @@ fun MainNavigation(
         )
 
         recurringTransactionNavGraph(
+            navigateToAddRecurringTransaction = { navController.toAddEditRecurringTransactionScreen() },
+            navigateToEditRecurringTransaction = { navController.toAddEditRecurringTransactionScreen(it) },
             navigateBack = { navController.navigateUp() }
         )
 
