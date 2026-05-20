@@ -20,4 +20,5 @@ sealed class AddEditRecurringTransactionEvent {
     data class OnOccurrenceCountChanged(val count: String) : AddEditRecurringTransactionEvent()
     data class OnIsActiveChanged(val isActive: Boolean) : AddEditRecurringTransactionEvent()
     data object OnSaveRecurringTransaction : AddEditRecurringTransactionEvent()
+    data object OnDeleteRecurringTransaction : AddEditRecurringTransactionEvent()
 }

@@ -4,18 +4,25 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
+import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.CategoryType
+import dev.muffar.moneyfikasi.domain.model.ErrorMessage
+import dev.muffar.moneyfikasi.domain.model.TransactionType
+import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.recurring_transaction.RecurringTransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.utils.constants.ValidationConst
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
-import kotlinx.coroutines.channels.Channel
+import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -26,17 +33,17 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
     private val recurringTransactionUseCases: RecurringTransactionUseCases,
     private val categoryUseCases: CategoryUseCases,
     private val walletUseCases: WalletUseCases,
-    savedStateHandle: SavedStateHandle,
+    private val handle: SavedStateHandle,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(AddEditRecurringTransactionState())
     val state = _state.asStateFlow()
 
-    private val _eventFlow = Channel<UiEvent>()
-    val eventFlow = _eventFlow.receiveAsFlow()
+    private val _eventFlow = MutableSharedFlow<UiEvent>()
+    val eventFlow = _eventFlow.asSharedFlow()
 
     init {
-        val recurringTransactionId = savedStateHandle.get<String>(Screen.AddEditRecurringTransaction.RECURRING_TRANSACTION_ID)
+        val recurringTransactionId = handle.get<String>(Screen.AddEditRecurringTransaction.RECURRING_TRANSACTION_ID)
         if (recurringTransactionId != null && recurringTransactionId.isNotEmpty()) {
             loadRecurringTransaction(UUID.fromString(recurringTransactionId))
         }
@@ -45,11 +52,11 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
 
     fun onEvent(event: AddEditRecurringTransactionEvent) {
         when (event) {
-            is AddEditRecurringTransactionEvent.OnNameChanged -> _state.update { it.copy(name = event.name) }
-            is AddEditRecurringTransactionEvent.OnAmountChanged -> _state.update { it.copy(amount = event.amount) }
-            is AddEditRecurringTransactionEvent.OnTypeChanged -> _state.update { it.copy(type = event.type) }
-            is AddEditRecurringTransactionEvent.OnCategoryChanged -> _state.update { it.copy(category = event.category) }
-            is AddEditRecurringTransactionEvent.OnWalletChanged -> _state.update { it.copy(wallet = event.wallet) }
+            is AddEditRecurringTransactionEvent.OnNameChanged -> onNameChanged(event.name)
+            is AddEditRecurringTransactionEvent.OnAmountChanged -> onAmountChanged(event.amount)
+            is AddEditRecurringTransactionEvent.OnTypeChanged -> onTypeChanged(event.type)
+            is AddEditRecurringTransactionEvent.OnCategoryChanged -> onCategoryChanged(event.category)
+            is AddEditRecurringTransactionEvent.OnWalletChanged -> onWalletChanged(event.wallet)
             is AddEditRecurringTransactionEvent.OnNoteChanged -> _state.update { it.copy(note = event.note) }
             is AddEditRecurringTransactionEvent.OnFrequencyChanged -> _state.update { it.copy(frequency = event.frequency) }
             is AddEditRecurringTransactionEvent.OnStartDateChanged -> _state.update { it.copy(startDate = event.startDate) }
@@ -58,7 +65,68 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
             is AddEditRecurringTransactionEvent.OnOccurrenceCountChanged -> _state.update { it.copy(occurrenceCount = event.count) }
             is AddEditRecurringTransactionEvent.OnIsActiveChanged -> _state.update { it.copy(isActive = event.isActive) }
             is AddEditRecurringTransactionEvent.OnSaveRecurringTransaction -> saveRecurringTransaction()
+            is AddEditRecurringTransactionEvent.OnDeleteRecurringTransaction -> deleteRecurringTransaction()
         }
+    }
+
+    private fun onNameChanged(name: String) {
+        if (name.length > ValidationConst.MAX_NAME_LENGTH) return
+        _state.update { it.copy(name = name) }
+        updateNameError()
+    }
+
+    private fun onAmountChanged(amount: String) {
+        if (amount.length > ValidationConst.MAX_AMOUNT_LENGTH) return
+        _state.update { it.copy(amount = amount) }
+        updateAmountError()
+    }
+
+    private fun onTypeChanged(type: TransactionType) {
+        _state.update { it.copy(type = type, category = null) }
+        updateCategoryError()
+    }
+
+    private fun onCategoryChanged(category: Category) {
+        _state.update { it.copy(category = category) }
+        updateCategoryError()
+    }
+
+    private fun onWalletChanged(wallet: Wallet) {
+        _state.update { it.copy(wallet = wallet) }
+        updateWalletError()
+    }
+
+    private fun updateNameError() {
+        val error = if (_state.value.name.isBlank()) "Name cannot be empty" else null
+        _state.update { it.copy(nameError = ErrorMessage(error)) }
+    }
+
+    private fun updateAmountError() {
+        val amount = _state.value.amount.clearThousandFormat().toDoubleOrNull() ?: 0.0
+        val error = if (amount <= 0) "Amount must be greater than 0" else null
+        _state.update { it.copy(amountError = ErrorMessage(error)) }
+    }
+
+    private fun updateCategoryError() {
+        val error = if (_state.value.category == null) "Please select a category" else null
+        _state.update { it.copy(categoryError = ErrorMessage(error)) }
+    }
+
+    private fun updateWalletError() {
+        val error = if (_state.value.wallet == null) "Please select a wallet" else null
+        _state.update { it.copy(walletError = ErrorMessage(error)) }
+    }
+
+    private fun isFormValid(): Boolean {
+        updateNameError()
+        updateAmountError()
+        updateCategoryError()
+        updateWalletError()
+
+        return _state.value.nameError.isNull &&
+                _state.value.amountError.isNull &&
+                _state.value.categoryError.isNull &&
+                _state.value.walletError.isNull
     }
 
     private fun loadRecurringTransaction(id: UUID) {
@@ -94,7 +162,7 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
                 _state.update { state ->
                     val filteredCategories = categories.filter {
                         it.type == when (state.type) {
-                            dev.muffar.moneyfikasi.domain.model.TransactionType.INCOME -> CategoryType.INCOME
+                            TransactionType.INCOME -> CategoryType.INCOME
                             else -> CategoryType.EXPENSE
                         }
                     }
@@ -108,13 +176,32 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
     }
 
     private fun saveRecurringTransaction() {
+        if (!isFormValid()) return
         viewModelScope.launch {
-            recurringTransactionUseCases.saveRecurringTransaction(_state.value.recurringTransaction)
-            _eventFlow.send(UiEvent.SaveRecurringTransaction)
+            try {
+                recurringTransactionUseCases.saveRecurringTransaction(_state.value.recurringTransaction)
+                _eventFlow.emit(UiEvent.SaveRecurringTransaction)
+            } catch (e: Exception) {
+                _eventFlow.emit(UiEvent.ShowMessage("Failed to save recurring transaction", SnackbarType.ERROR))
+            }
+        }
+    }
+
+    private fun deleteRecurringTransaction() {
+        val id = _state.value.id ?: return
+        viewModelScope.launch {
+            try {
+                recurringTransactionUseCases.deleteRecurringTransaction(id)
+                _eventFlow.emit(UiEvent.DeleteRecurringTransaction)
+            } catch (e: Exception) {
+                _eventFlow.emit(UiEvent.ShowMessage("Failed to delete recurring transaction", SnackbarType.ERROR))
+            }
         }
     }
 
     sealed class UiEvent {
-        object SaveRecurringTransaction : UiEvent()
+        data object SaveRecurringTransaction : UiEvent()
+        data object DeleteRecurringTransaction : UiEvent()
+        data class ShowMessage(val message: String, val type: SnackbarType) : UiEvent()
     }
 }

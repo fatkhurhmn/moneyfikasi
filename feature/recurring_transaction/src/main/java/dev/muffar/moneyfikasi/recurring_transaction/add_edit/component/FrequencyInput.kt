@@ -40,7 +40,7 @@ fun FrequencyInput(
                 Icon(
                     imageVector = Icons.Rounded.Repeat,
                     contentDescription = null,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(20.dp)
                 )
             }
         )

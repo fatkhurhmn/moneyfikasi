@@ -192,6 +192,8 @@
     <string name="frequency">Frequency</string>
     <string name="add_recurring">Add Recurring</string>
     <string name="edit_recurring">Edit Recurring</string>
+    <string name="delete_recurring">Delete Recurring</string>
+    <string name="delete_recurring_message">Are you sure you want to delete this recurring transaction?</string>
     <string name="never">Never</string>
     <string name="on_date">On Date</string>
     <string name="after_occurrences">After Occurrences</string>

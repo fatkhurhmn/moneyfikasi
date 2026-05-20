@@ -4,11 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.TrackChanges
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -50,14 +46,7 @@ fun EndRecurringInput(
                 onValueChange = {},
                 label = stringResource(R.string.end_recurring),
                 isClickable = true,
-                onClick = { showEndTypePicker = true },
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Rounded.TrackChanges,
-                        contentDescription = null,
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
+                onClick = { showEndTypePicker = true }
             )
 
             if (endType == RecurringEndType.ON_DATE) {

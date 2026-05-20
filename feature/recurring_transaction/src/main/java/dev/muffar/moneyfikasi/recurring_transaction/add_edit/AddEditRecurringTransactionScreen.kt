@@ -11,15 +11,21 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.button.bottom_bar.BottomBarAddEditButton
+import dev.muffar.moneyfikasi.common_ui.component.dialog.CommonAlertDialog
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
+import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
 import dev.muffar.moneyfikasi.recurring_transaction.add_edit.component.AddEditRecurringTransactionForm
 import dev.muffar.moneyfikasi.resource.R
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -27,7 +33,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun AddEditRecurringTransactionScreen(
     modifier: Modifier = Modifier,
     state: AddEditRecurringTransactionState,
-    eventFlow: Flow<AddEditRecurringTransactionViewModel.UiEvent>,
+    eventFlow: SharedFlow<AddEditRecurringTransactionViewModel.UiEvent>,
     onEvent: (AddEditRecurringTransactionEvent) -> Unit,
     onAddNewCategoryClick: () -> Unit,
     onAddNewWalletClick: () -> Unit,
@@ -35,12 +41,21 @@ fun AddEditRecurringTransactionScreen(
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollState = rememberScrollState()
+    var showDeleteAlert by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = true) {
         eventFlow.collectLatest { event ->
             when (event) {
                 is AddEditRecurringTransactionViewModel.UiEvent.SaveRecurringTransaction -> {
                     onBackClick()
+                }
+
+                is AddEditRecurringTransactionViewModel.UiEvent.DeleteRecurringTransaction -> {
+                    onBackClick()
+                }
+
+                is AddEditRecurringTransactionViewModel.UiEvent.ShowMessage -> {
+                    snackbarHostState.showMessage(event.message, event.type)
                 }
             }
         }
@@ -62,7 +77,7 @@ fun AddEditRecurringTransactionScreen(
             BottomBarAddEditButton(
                 isEdit = state.id != null,
                 onSave = { onEvent(AddEditRecurringTransactionEvent.OnSaveRecurringTransaction) },
-                onDelete = { /* TODO */ }
+                onDelete = { showDeleteAlert = true }
             )
         }
     ) { paddingValues ->
@@ -87,6 +102,20 @@ fun AddEditRecurringTransactionScreen(
             onEndTypeChange = { onEvent(AddEditRecurringTransactionEvent.OnEndTypeChanged(it)) },
             onEndDateChange = { onEvent(AddEditRecurringTransactionEvent.OnEndDateChanged(it)) },
             onOccurrenceCountChange = { onEvent(AddEditRecurringTransactionEvent.OnOccurrenceCountChanged(it)) }
+        )
+    }
+
+    if (showDeleteAlert) {
+        CommonAlertDialog(
+            title = stringResource(R.string.delete_recurring),
+            message = stringResource(R.string.delete_recurring_message),
+            onConfirm = {
+                onEvent(AddEditRecurringTransactionEvent.OnDeleteRecurringTransaction)
+                showDeleteAlert = false
+            },
+            onDismiss = { showDeleteAlert = false },
+            positiveText = stringResource(R.string.delete),
+            negativeText = stringResource(R.string.cancel)
         )
     }
 }
