@@ -15,7 +15,6 @@ data class RecurringTransactionEntity(
     val type: TransactionType,
     val categoryId: UUID?,
     val walletId: UUID?,
-    val note: String?,
     val frequency: TimePeriod,
     val startDate: Long,
     val endType: RecurringEndType,

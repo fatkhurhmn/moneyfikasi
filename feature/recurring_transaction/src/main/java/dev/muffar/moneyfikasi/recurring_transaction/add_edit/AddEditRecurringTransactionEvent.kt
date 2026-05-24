@@ -12,7 +12,6 @@ sealed class AddEditRecurringTransactionEvent {
     data class OnTypeChanged(val type: TransactionType) : AddEditRecurringTransactionEvent()
     data class OnCategoryChanged(val category: Category) : AddEditRecurringTransactionEvent()
     data class OnWalletChanged(val wallet: Wallet) : AddEditRecurringTransactionEvent()
-    data class OnNoteChanged(val note: String) : AddEditRecurringTransactionEvent()
     data class OnFrequencyChanged(val frequency: TimePeriod) : AddEditRecurringTransactionEvent()
     data class OnStartDateChanged(val startDate: Long) : AddEditRecurringTransactionEvent()
     data class OnEndTypeChanged(val endType: RecurringEndType) : AddEditRecurringTransactionEvent()

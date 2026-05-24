@@ -12,7 +12,6 @@ import dev.muffar.moneyfikasi.common_ui.component.text_input.BasicAmountInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CategoryInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.DateInput
-import dev.muffar.moneyfikasi.common_ui.component.text_input.DescriptionInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.WalletInput
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.RecurringEndType
@@ -33,7 +32,6 @@ fun AddEditRecurringTransactionForm(
     onAddNewCategoryClick: () -> Unit,
     onWalletChange: (Wallet) -> Unit,
     onAddNewWalletClick: () -> Unit,
-    onNoteChange: (String) -> Unit,
     onFrequencyChange: (TimePeriod) -> Unit,
     onStartDateChange: (Long) -> Unit,
     onEndTypeChange: (RecurringEndType) -> Unit,
@@ -100,11 +98,6 @@ fun AddEditRecurringTransactionForm(
             onEndTypeChange = onEndTypeChange,
             onEndDateChange = onEndDateChange,
             onOccurrenceCountChange = onOccurrenceCountChange
-        )
-
-        DescriptionInput(
-            description = state.note,
-            onDescriptionChange = onNoteChange
         )
 
         RecurringSummary(state = state)

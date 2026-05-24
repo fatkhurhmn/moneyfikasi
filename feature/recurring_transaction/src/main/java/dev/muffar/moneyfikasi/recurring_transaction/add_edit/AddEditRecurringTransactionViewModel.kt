@@ -66,7 +66,6 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
             is AddEditRecurringTransactionEvent.OnTypeChanged -> onTypeChanged(event.type)
             is AddEditRecurringTransactionEvent.OnCategoryChanged -> onCategoryChanged(event.category)
             is AddEditRecurringTransactionEvent.OnWalletChanged -> onWalletChanged(event.wallet)
-            is AddEditRecurringTransactionEvent.OnNoteChanged -> _state.update { it.copy(note = event.note) }
             is AddEditRecurringTransactionEvent.OnFrequencyChanged -> _state.update {
                 it.copy(
                     frequency = event.frequency
@@ -185,9 +184,8 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
                             amount = recurringTransaction.amount.formatThousand(),
                             type = recurringTransaction.type,
                             category = recurringTransaction.category,
-                            wallet = recurringTransaction.wallet,
-                            note = recurringTransaction.note ?: "",
-                            frequency = recurringTransaction.frequency,
+                        wallet = recurringTransaction.wallet,
+                        frequency = recurringTransaction.frequency,
                             startDate = recurringTransaction.startDate,
                             endType = recurringTransaction.endType,
                             endDate = recurringTransaction.endDate ?: it.endDate,
