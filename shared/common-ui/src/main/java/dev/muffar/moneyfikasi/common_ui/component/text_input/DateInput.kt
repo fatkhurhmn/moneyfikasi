@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.DatePickerSheet
+import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
 
@@ -24,6 +25,7 @@ fun DateInput(
     date: Long,
     modifier: Modifier = Modifier,
     label: String = stringResource(R.string.date),
+    error: ErrorMessage = ErrorMessage(),
     onDateSelect: (Long) -> Unit
 ) {
     Column(
@@ -34,6 +36,7 @@ fun DateInput(
             value = date.toFormattedDateTime("MMM, dd yyyy"),
             onValueChange = {},
             label = label,
+            error = error,
             isClickable = true,
             leadingIcon = {
                 Icon(

@@ -16,6 +16,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.DateInput
+import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.model.RecurringEndType
 import dev.muffar.moneyfikasi.resource.R
 
@@ -25,6 +26,7 @@ fun EndRecurringInput(
     endType: RecurringEndType,
     endDate: Long,
     occurrenceCount: String,
+    endDateError: ErrorMessage = ErrorMessage(),
     onEndTypeChange: (RecurringEndType) -> Unit,
     onEndDateChange: (Long) -> Unit,
     onOccurrenceCountChange: (String) -> Unit,
@@ -51,10 +53,11 @@ fun EndRecurringInput(
 
             if (endType == RecurringEndType.ON_DATE) {
                 DateInput(
-                    modifier = Modifier.weight(1.5f),
+                    modifier = Modifier.weight(1.4f),
                     date = endDate,
                     onDateSelect = onEndDateChange,
-                    label = stringResource(R.string.end_date)
+                    label = stringResource(R.string.end_date),
+                    error = endDateError
                 )
             } else if (endType == RecurringEndType.AFTER_OCCURRENCES) {
                 CommonTextInput(

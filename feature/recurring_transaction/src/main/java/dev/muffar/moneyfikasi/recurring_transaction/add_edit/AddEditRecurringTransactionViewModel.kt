@@ -73,14 +73,20 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
                 )
             }
 
-            is AddEditRecurringTransactionEvent.OnStartDateChanged -> _state.update {
-                it.copy(
-                    startDate = event.startDate
-                )
+            is AddEditRecurringTransactionEvent.OnStartDateChanged -> {
+                _state.update { it.copy(startDate = event.startDate) }
+                updateEndDateError()
             }
 
-            is AddEditRecurringTransactionEvent.OnEndTypeChanged -> _state.update { it.copy(endType = event.endType) }
-            is AddEditRecurringTransactionEvent.OnEndDateChanged -> _state.update { it.copy(endDate = event.endDate) }
+            is AddEditRecurringTransactionEvent.OnEndTypeChanged -> {
+                _state.update { it.copy(endType = event.endType) }
+                updateEndDateError()
+            }
+
+            is AddEditRecurringTransactionEvent.OnEndDateChanged -> {
+                _state.update { it.copy(endDate = event.endDate) }
+                updateEndDateError()
+            }
             is AddEditRecurringTransactionEvent.OnOccurrenceCountChanged -> _state.update {
                 it.copy(
                     occurrenceCount = event.count
@@ -146,16 +152,26 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
         _state.update { it.copy(walletError = ErrorMessage(error)) }
     }
 
+    private fun updateEndDateError() {
+        val state = _state.value
+        val error = if (state.endType == dev.muffar.moneyfikasi.domain.model.RecurringEndType.ON_DATE && state.endDate < state.startDate) {
+            "End date must be after start date"
+        } else null
+        _state.update { it.copy(endDateError = ErrorMessage(error)) }
+    }
+
     private fun isFormValid(): Boolean {
         updateNameError()
         updateAmountError()
         updateCategoryError()
         updateWalletError()
+        updateEndDateError()
 
         return _state.value.nameError.isNull &&
                 _state.value.amountError.isNull &&
                 _state.value.categoryError.isNull &&
-                _state.value.walletError.isNull
+                _state.value.walletError.isNull &&
+                _state.value.endDateError.isNull
     }
 
     private fun loadRecurringTransaction(id: UUID) {
