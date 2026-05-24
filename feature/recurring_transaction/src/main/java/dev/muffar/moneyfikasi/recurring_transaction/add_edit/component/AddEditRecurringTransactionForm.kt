@@ -62,6 +62,7 @@ fun AddEditRecurringTransactionForm(
         BasicAmountInput(
             amount = state.amount,
             onAmountChange = onAmountChange,
+            error = state.amountError
         )
 
         CategoryInput(
@@ -104,5 +105,7 @@ fun AddEditRecurringTransactionForm(
             description = state.note,
             onDescriptionChange = onNoteChange
         )
+
+        RecurringSummary(state = state)
     }
 }

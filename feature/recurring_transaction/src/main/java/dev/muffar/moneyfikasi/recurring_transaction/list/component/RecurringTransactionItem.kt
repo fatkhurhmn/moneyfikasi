@@ -10,12 +10,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,12 +34,14 @@ fun RecurringTransactionItem(
     modifier: Modifier = Modifier,
     recurringTransaction: RecurringTransaction,
     onClick: (UUID) -> Unit,
+    onToggleActive: (RecurringTransaction) -> Unit,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .clickable { onClick(recurringTransaction.id) }
-            .padding(horizontal = 16.dp, vertical = 10.dp),
+            .padding(horizontal = 16.dp, vertical = 10.dp)
+            .alpha(if (recurringTransaction.isActive) 1f else 0.5f),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -56,7 +61,8 @@ fun RecurringTransactionItem(
                     text = recurringTransaction.name,
                     style = MaterialTheme.typography.titleMedium.copy(fontSize = 14.sp),
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    textDecoration = if (recurringTransaction.isActive) null else TextDecoration.LineThrough
                 )
 
                 Spacer(modifier = Modifier.height(2.dp))
@@ -77,15 +83,24 @@ fun RecurringTransactionItem(
 
         val amountPrefix = if (recurringTransaction.type == TransactionType.INCOME) "+" else "-"
 
-        Text(
-            text = "$amountPrefix ${recurringTransaction.amount.formatThousand()}",
-            style = MaterialTheme.typography.titleMedium.copy(
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                color = amountColor
-            ),
-            textAlign = TextAlign.End,
+        Column(
+            horizontalAlignment = Alignment.End,
             modifier = Modifier.padding(start = 16.dp)
-        )
+        ) {
+            Text(
+                text = "$amountPrefix ${recurringTransaction.amount.formatThousand()}",
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = amountColor
+                ),
+                textAlign = TextAlign.End,
+            )
+            Switch(
+                checked = recurringTransaction.isActive,
+                onCheckedChange = { onToggleActive(recurringTransaction) },
+                modifier = Modifier.padding(top = 4.dp)
+            )
+        }
     }
 }

@@ -3,6 +3,7 @@ package dev.muffar.moneyfikasi.recurring_transaction.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.muffar.moneyfikasi.domain.model.RecurringTransaction
 import dev.muffar.moneyfikasi.domain.usecase.recurring_transaction.RecurringTransactionUseCases
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,6 +24,12 @@ class RecurringTransactionsViewModel @Inject constructor(
         loadAllRecurringTransactions()
     }
 
+    fun onEvent(event: RecurringTransactionsEvent) {
+        when (event) {
+            is RecurringTransactionsEvent.OnToggleRecurringTransaction -> onToggleRecurringTransaction(event.recurringTransaction)
+        }
+    }
+
     private fun loadAllRecurringTransactions() {
         viewModelScope.launch {
             recurringTransactionUseCases.getAllRecurringTransactions()
@@ -31,6 +38,15 @@ class RecurringTransactionsViewModel @Inject constructor(
                         state.copy(recurringTransactions = recurringTransactions)
                     }
                 }
+        }
+    }
+
+    private fun onToggleRecurringTransaction(recurringTransaction: RecurringTransaction) {
+        viewModelScope.launch {
+            val updatedRecurringTransaction = recurringTransaction.copy(
+                isActive = !recurringTransaction.isActive
+            )
+            recurringTransactionUseCases.saveRecurringTransaction(updatedRecurringTransaction)
         }
     }
 }

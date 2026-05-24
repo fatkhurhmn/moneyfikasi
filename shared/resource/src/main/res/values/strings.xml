@@ -199,4 +199,11 @@
     <string name="after_occurrences">After Occurrences</string>
     <string name="end_recurring">End Recurring</string>
     <string name="times">Times</string>
+    <string name="amount_greater_than_zero">Amount must be greater than 0</string>
+    <string name="name_cannot_be_empty">Name cannot be empty</string>
+    <string name="please_select_category">Please select a category</string>
+    <string name="please_select_wallet">Please select a wallet</string>
+    <string name="until">" until %1$s"</string>
+    <string name="for_times">" for %1$s times"</string>
+    <string name="repeats_from">Repeats %1$s from %2$s%3$s</string>
 </resources>
