@@ -19,6 +19,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.DateInput
+import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.model.RecurringEndType
 import dev.muffar.moneyfikasi.resource.R
 
@@ -29,6 +30,7 @@ fun EndRecurringInput(
     endType: RecurringEndType,
     endDate: Long,
     occurrenceCount: String,
+    occurrenceCountError: ErrorMessage = ErrorMessage(),
     selectableDates: SelectableDates = DatePickerDefaults.AllDates,
     initialDisplayedMonthMillis: Long? = null,
     onEndTypeChange: (RecurringEndType) -> Unit,
@@ -70,7 +72,8 @@ fun EndRecurringInput(
                     value = occurrenceCount,
                     onValueChange = onOccurrenceCountChange,
                     label = stringResource(R.string.times),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    error = occurrenceCountError
                 )
             }
         }

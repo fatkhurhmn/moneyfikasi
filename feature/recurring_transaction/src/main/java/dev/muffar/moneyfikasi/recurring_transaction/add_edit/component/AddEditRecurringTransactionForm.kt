@@ -155,6 +155,7 @@ fun AddEditRecurringTransactionForm(
                 endType = state.endType,
                 endDate = state.endDate,
                 occurrenceCount = state.occurrenceCount,
+                occurrenceCountError = state.occurrenceCountError,
                 selectableDates = selectableEndDate,
                 initialDisplayedMonthMillis = state.startDate,
                 onEndTypeChange = onEndTypeChange,

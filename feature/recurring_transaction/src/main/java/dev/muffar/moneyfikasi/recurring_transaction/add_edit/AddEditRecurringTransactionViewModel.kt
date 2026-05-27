@@ -8,6 +8,7 @@ import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
+import dev.muffar.moneyfikasi.domain.model.RecurringEndType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
@@ -90,22 +91,31 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
             is AddEditRecurringTransactionEvent.OnEndDateChanged -> {
                 _state.update { it.copy(endDate = event.endDate) }
             }
-            is AddEditRecurringTransactionEvent.OnOccurrenceCountChanged -> _state.update {
-                it.copy(
-                    occurrenceCount = event.count
-                )
+            is AddEditRecurringTransactionEvent.OnOccurrenceCountChanged -> {
+                if (event.count.all { it.isDigit() }) {
+                    _state.update {
+                        it.copy(
+                            occurrenceCount = event.count
+                        )
+                    }
+                    updateOccurrenceCountError()
+                }
             }
 
-            is AddEditRecurringTransactionEvent.OnIsSkipFirstChanged -> _state.update {
-                it.copy(
-                    isSkipFirst = event.isSkipFirst
-                )
+            is AddEditRecurringTransactionEvent.OnIsSkipFirstChanged -> {
+                _state.update {
+                    it.copy(
+                        isSkipFirst = event.isSkipFirst
+                    )
+                }
             }
 
-            is AddEditRecurringTransactionEvent.OnIsActiveChanged -> _state.update {
-                it.copy(
-                    isActive = event.isActive
-                )
+            is AddEditRecurringTransactionEvent.OnIsActiveChanged -> {
+                _state.update {
+                    it.copy(
+                        isActive = event.isActive
+                    )
+                }
             }
 
             is AddEditRecurringTransactionEvent.OnSaveRecurringTransaction -> saveRecurringTransaction()
@@ -161,16 +171,24 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
         _state.update { it.copy(walletError = ErrorMessage(error)) }
     }
 
+    private fun updateOccurrenceCountError() {
+        val count = _state.value.occurrenceCount.toIntOrNull() ?: 0
+        val error = if (count <= 0) "Count must be greater than 0" else null
+        _state.update { it.copy(occurrenceCountError = ErrorMessage(error)) }
+    }
+
     private fun isFormValid(): Boolean {
         updateNameError()
         updateAmountError()
         updateCategoryError()
         updateWalletError()
+        updateOccurrenceCountError()
 
         return _state.value.nameError.isNull &&
                 _state.value.amountError.isNull &&
                 _state.value.categoryError.isNull &&
-                _state.value.walletError.isNull
+                _state.value.walletError.isNull &&
+                (_state.value.endType != RecurringEndType.AFTER_OCCURRENCES || _state.value.occurrenceCountError.isNull)
     }
 
     private fun loadRecurringTransaction(id: UUID) {

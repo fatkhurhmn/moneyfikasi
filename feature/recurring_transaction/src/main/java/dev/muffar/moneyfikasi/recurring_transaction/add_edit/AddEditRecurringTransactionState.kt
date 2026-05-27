@@ -31,6 +31,7 @@ data class AddEditRecurringTransactionState(
     val amountError: ErrorMessage = ErrorMessage(),
     val categoryError: ErrorMessage = ErrorMessage(),
     val walletError: ErrorMessage = ErrorMessage(),
+    val occurrenceCountError: ErrorMessage = ErrorMessage(),
     val categories: List<Category> = emptyList(),
     val wallets: List<Wallet> = emptyList(),
     val isLoading: Boolean = false,

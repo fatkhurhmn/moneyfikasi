@@ -29,8 +29,4 @@ class RecurringTransactionWorker @AssistedInject constructor(
             Result.failure()
         }
     }
-
-    companion object {
-        const val NAME = "recurring_transaction_worker"
-    }
 }
