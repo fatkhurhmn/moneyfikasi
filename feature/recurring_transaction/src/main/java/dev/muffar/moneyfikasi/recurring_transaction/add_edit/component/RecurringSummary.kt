@@ -1,8 +1,10 @@
 package dev.muffar.moneyfikasi.recurring_transaction.add_edit.component
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -18,9 +20,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.RecurringEndType
+import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.recurring_transaction.add_edit.AddEditRecurringTransactionState
 import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
+import org.threeten.bp.Instant
+import org.threeten.bp.ZoneOffset
 
 @Composable
 fun RecurringSummary(
@@ -51,26 +56,53 @@ fun RecurringSummary(
         endStr
     )
 
+    val nextRunMillis = if (state.isSkipFirst) {
+        val startDateTime =
+            Instant.ofEpochMilli(state.startDate).atZone(ZoneOffset.UTC).toLocalDateTime()
+        val nextRun = when (state.frequency) {
+            TimePeriod.DAILY -> startDateTime.plusDays(1)
+            TimePeriod.WEEKLY -> startDateTime.plusWeeks(1)
+            TimePeriod.MONTHLY -> startDateTime.plusMonths(1)
+            TimePeriod.YEARLY -> startDateTime.plusYears(1)
+            else -> startDateTime
+        }
+        nextRun.atZone(ZoneOffset.UTC).toInstant().toEpochMilli()
+    } else {
+        state.startDate
+    }
+
+    val nextRunStr = nextRunMillis.toFormattedDateTime("MMM dd, yyyy")
+
     Surface(
         modifier = modifier.fillMaxWidth(),
         color = MaterialTheme.colorScheme.surface,
         shape = MaterialTheme.shapes.medium
     ) {
-        Row(
+        Column(
             modifier = Modifier.padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                imageVector = Icons.Rounded.Repeat,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(20.dp)
-            )
-            Spacer(modifier = Modifier.width(12.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Repeat,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(20.dp)
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Text(
+                    text = summary,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = summary,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurface
+                text = stringResource(R.string.next_run, nextRunStr),
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(start = 32.dp)
             )
         }
     }
