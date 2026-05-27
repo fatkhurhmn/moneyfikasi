@@ -26,12 +26,6 @@ class ProcessRecurringTransactions(
             var nextRun = currentRecurring.nextRun ?: currentRecurring.startDate
 
             while (nextRun <= today) {
-                // Check end condition
-                if (isCompleted(currentRecurring, nextRun)) {
-                    recurringTransactionRepository.save(currentRecurring.copy(isActive = false))
-                    break
-                }
-
                 // Create transaction
                 val transactionId = transactionRepository.addIncomeOrExpense(
                     amount = currentRecurring.amount,
@@ -42,8 +36,6 @@ class ProcessRecurringTransactions(
                     categoryId = currentRecurring.category?.id,
                     recurringTransactionId = currentRecurring.id
                 )
-                
-                processedList.add(ProcessedRecurring(currentRecurring.name, currentRecurring.amount, transactionId))
 
                 // Update next run
                 val currentNextRunDate = Instant.ofEpochMilli(nextRun).atZone(ZoneOffset.UTC).toLocalDateTime()
@@ -55,13 +47,28 @@ class ProcessRecurringTransactions(
                     else -> currentNextRunDate
                 }.atZone(ZoneOffset.UTC).toInstant().toEpochMilli()
 
+                // Check end condition after transaction created
+                val isEndedNow = isCompleted(currentRecurring, updatedNextRun)
+
+                processedList.add(
+                    ProcessedRecurring(
+                        name = currentRecurring.name,
+                        amount = currentRecurring.amount,
+                        transactionId = transactionId,
+                        isEnded = isEndedNow
+                    )
+                )
+
                 currentRecurring = currentRecurring.copy(
                     lastRun = nextRun,
-                    nextRun = updatedNextRun
+                    nextRun = updatedNextRun,
+                    isActive = !isEndedNow
                 )
-                
+
                 nextRun = updatedNextRun
                 recurringTransactionRepository.save(currentRecurring)
+
+                if (isEndedNow) break
             }
         }
         return processedList
@@ -79,4 +86,9 @@ class ProcessRecurringTransactions(
     }
 }
 
-data class ProcessedRecurring(val name: String, val amount: Double, val transactionId: java.util.UUID)
+data class ProcessedRecurring(
+    val name: String,
+    val amount: Double,
+    val transactionId: java.util.UUID,
+    val isEnded: Boolean = false
+)

@@ -219,4 +219,6 @@
     <string name="recurring_notification_channel_name">Recurring Transactions</string>
     <string name="recurring_transaction_processed">Recurring Transaction Processed</string>
     <string name="recurring_transaction_processed_message">%1$s transaction for %2$s has been created.</string>
+    <string name="recurring_transaction_ended">Recurring Transaction Ended</string>
+    <string name="recurring_transaction_ended_message">The recurring transaction \"%s\" has reached its end condition and is now inactive.</string>
 </resources>
