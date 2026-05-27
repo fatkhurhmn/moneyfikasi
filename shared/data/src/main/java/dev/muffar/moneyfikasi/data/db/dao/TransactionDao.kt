@@ -397,6 +397,9 @@ abstract class TransactionDao {
     @Query("SELECT * FROM transactions WHERE transaction_reference = :refId")
     abstract suspend fun getTransactionsByReference(refId: UUID): List<TransactionEntity>
 
+    @Query("SELECT COUNT(*) FROM transactions WHERE recurring_transaction_id = :recurringId")
+    abstract suspend fun getTransactionCountByRecurringId(recurringId: UUID): Int
+
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     protected abstract suspend fun insertTransactionRaw(transaction: TransactionEntity)

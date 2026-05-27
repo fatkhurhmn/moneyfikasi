@@ -49,5 +49,8 @@ data class TransactionEntity(
     val note: String? = null,
 
     @ColumnInfo(name = "transaction_reference")
-    val transactionReference: UUID? = null
+    val transactionReference: UUID? = null,
+
+    @ColumnInfo(name = "recurring_transaction_id")
+    val recurringTransactionId: UUID? = null
 )

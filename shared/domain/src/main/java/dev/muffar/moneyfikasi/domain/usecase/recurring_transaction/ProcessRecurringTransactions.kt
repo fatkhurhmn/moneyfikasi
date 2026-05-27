@@ -39,7 +39,8 @@ class ProcessRecurringTransactions(
                     date = Instant.ofEpochMilli(nextRun).atZone(ZoneOffset.UTC).toLocalDateTime(),
                     note = currentRecurring.name,
                     walletId = currentRecurring.wallet?.id ?: continue,
-                    categoryId = currentRecurring.category?.id
+                    categoryId = currentRecurring.category?.id,
+                    recurringTransactionId = currentRecurring.id
                 )
                 
                 processedList.add(ProcessedRecurring(currentRecurring.name, currentRecurring.amount, transactionId))
@@ -66,12 +67,13 @@ class ProcessRecurringTransactions(
         return processedList
     }
 
-    private fun isCompleted(recurring: RecurringTransaction, nextRun: Long): Boolean {
+    private suspend fun isCompleted(recurring: RecurringTransaction, nextRun: Long): Boolean {
         return when (recurring.endType) {
             RecurringEndType.NEVER -> false
             RecurringEndType.ON_DATE -> recurring.endDate?.let { nextRun > it } ?: false
             RecurringEndType.AFTER_OCCURRENCES -> {
-                false 
+                val occurrences = transactionRepository.getTransactionCountByRecurringId(recurring.id)
+                recurring.occurrenceCount?.let { occurrences >= it } ?: false
             }
         }
     }

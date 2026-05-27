@@ -54,13 +54,16 @@ interface TransactionRepository {
 
     suspend fun getTransactionById(id: UUID): Transaction?
 
+    suspend fun getTransactionCountByRecurringId(recurringId: UUID): Int
+
     suspend fun addIncomeOrExpense(
         amount: Double,
         type: TransactionType, // INCOME or EXPENSE
         date: LocalDateTime,
         note: String?,
         walletId: UUID,
-        categoryId: UUID?
+        categoryId: UUID?,
+        recurringTransactionId: UUID? = null
     ): UUID
 
     suspend fun updateIncomeOrExpense(

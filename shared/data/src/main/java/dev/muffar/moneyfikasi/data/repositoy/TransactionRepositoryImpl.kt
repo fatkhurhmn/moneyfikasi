@@ -122,13 +122,18 @@ class TransactionRepositoryImpl(
         return transactionDao.getTransactionWithDetailsById(id)?.toDomain()
     }
 
+    override suspend fun getTransactionCountByRecurringId(recurringId: UUID): Int {
+        return transactionDao.getTransactionCountByRecurringId(recurringId)
+    }
+
     override suspend fun addIncomeOrExpense(
         amount: Double,
         type: TransactionType,
         date: LocalDateTime,
         note: String?,
         walletId: UUID,
-        categoryId: UUID?
+        categoryId: UUID?,
+        recurringTransactionId: UUID?
     ): UUID {
         val id = UUID.randomUUID()
         val entity = TransactionEntity(
@@ -139,7 +144,8 @@ class TransactionRepositoryImpl(
             amount = amount,
             date = date,
             note = note,
-            transactionReference = null
+            transactionReference = null,
+            recurringTransactionId = recurringTransactionId
         )
 
         transactionDao.insertIncomeOrExpense(entity)
