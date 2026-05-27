@@ -61,7 +61,7 @@ interface TransactionRepository {
         note: String?,
         walletId: UUID,
         categoryId: UUID?
-    )
+    ): UUID
 
     suspend fun updateIncomeOrExpense(
         id: UUID,

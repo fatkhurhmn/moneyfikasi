@@ -9,6 +9,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.transaction.detail.TransactionDetailEvent
@@ -27,6 +28,11 @@ fun NavGraphBuilder.transactionDetailNavigation(
                 name = Screen.TransactionDetail.IS_TRANSFER
             ) {
                 type = NavType.BoolType
+            }
+        ),
+        deepLinks = listOf(
+            navDeepLink {
+                uriPattern = "moneyfikasi://transaction_detail/{transaction_id}/{is_transfer}"
             }
         )
     ) {

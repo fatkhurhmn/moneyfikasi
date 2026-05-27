@@ -33,7 +33,7 @@ class ProcessRecurringTransactions(
                 }
 
                 // Create transaction
-                transactionRepository.addIncomeOrExpense(
+                val transactionId = transactionRepository.addIncomeOrExpense(
                     amount = currentRecurring.amount,
                     type = currentRecurring.type,
                     date = Instant.ofEpochMilli(nextRun).atZone(ZoneOffset.UTC).toLocalDateTime(),
@@ -42,7 +42,7 @@ class ProcessRecurringTransactions(
                     categoryId = currentRecurring.category?.id
                 )
                 
-                processedList.add(ProcessedRecurring(currentRecurring.name, currentRecurring.amount))
+                processedList.add(ProcessedRecurring(currentRecurring.name, currentRecurring.amount, transactionId))
 
                 // Update next run
                 val currentNextRunDate = Instant.ofEpochMilli(nextRun).atZone(ZoneOffset.UTC).toLocalDateTime()
@@ -77,4 +77,4 @@ class ProcessRecurringTransactions(
     }
 }
 
-data class ProcessedRecurring(val name: String, val amount: Double)
+data class ProcessedRecurring(val name: String, val amount: Double, val transactionId: java.util.UUID)

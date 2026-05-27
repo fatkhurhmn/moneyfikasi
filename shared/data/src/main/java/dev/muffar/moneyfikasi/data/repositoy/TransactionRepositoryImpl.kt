@@ -129,10 +129,10 @@ class TransactionRepositoryImpl(
         note: String?,
         walletId: UUID,
         categoryId: UUID?
-    ) {
-
+    ): UUID {
+        val id = UUID.randomUUID()
         val entity = TransactionEntity(
-            id = UUID.randomUUID(),
+            id = id,
             walletId = walletId,
             categoryId = categoryId,
             type = type,
@@ -143,6 +143,7 @@ class TransactionRepositoryImpl(
         )
 
         transactionDao.insertIncomeOrExpense(entity)
+        return id
     }
 
     override suspend fun updateIncomeOrExpense(

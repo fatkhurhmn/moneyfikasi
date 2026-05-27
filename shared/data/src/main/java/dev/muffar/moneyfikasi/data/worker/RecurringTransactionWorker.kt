@@ -22,7 +22,7 @@ class RecurringTransactionWorker @AssistedInject constructor(
             val processed = recurringTransactionUseCases.processRecurringTransactions()
             val notificationHelper = NotificationHelper(applicationContext)
             processed.forEach {
-                notificationHelper.showRecurringNotification(it.name, it.amount.formatThousand())
+                notificationHelper.showRecurringNotification(it.name, it.amount.formatThousand(), it.transactionId)
             }
             Result.success()
         } catch (e: Exception) {
