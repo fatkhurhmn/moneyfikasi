@@ -51,9 +51,7 @@ fun AddEditRecurringTransactionScreen(
                 is AddEditRecurringTransactionViewModel.UiEvent.SaveRecurringTransaction -> {
                     RecurringTransactionScheduler(context).apply {
                         scheduleRecurringTransaction()
-                        if (!event.isEdit) {
-                            runRecurringTransactionWorker()
-                        }
+                        runRecurringTransactionWorker()
                     }
                     onBackClick()
                 }
@@ -108,7 +106,13 @@ fun AddEditRecurringTransactionScreen(
             onStartDateChange = { onEvent(AddEditRecurringTransactionEvent.OnStartDateChanged(it)) },
             onEndTypeChange = { onEvent(AddEditRecurringTransactionEvent.OnEndTypeChanged(it)) },
             onEndDateChange = { onEvent(AddEditRecurringTransactionEvent.OnEndDateChanged(it)) },
-            onOccurrenceCountChange = { onEvent(AddEditRecurringTransactionEvent.OnOccurrenceCountChanged(it)) },
+            onOccurrenceCountChange = {
+                onEvent(
+                    AddEditRecurringTransactionEvent.OnOccurrenceCountChanged(
+                        it
+                    )
+                )
+            },
             onIsSkipFirstChange = { onEvent(AddEditRecurringTransactionEvent.OnIsSkipFirstChanged(it)) }
         )
     }

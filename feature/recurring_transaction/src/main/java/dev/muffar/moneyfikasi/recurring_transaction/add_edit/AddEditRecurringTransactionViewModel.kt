@@ -1,6 +1,5 @@
 package dev.muffar.moneyfikasi.recurring_transaction.add_edit
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -221,12 +220,10 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
 
     private fun saveRecurringTransaction() {
         if (!isFormValid()) return
-        val isEdit = _state.value.id != null
         viewModelScope.launch {
             try {
-                Log.d("TAG", "saveRecurringTransaction: ")
                 recurringTransactionUseCases.saveRecurringTransaction(_state.value.recurringTransaction)
-                _eventFlow.emit(UiEvent.SaveRecurringTransaction(isEdit))
+                _eventFlow.emit(UiEvent.SaveRecurringTransaction)
             } catch (e: Exception) {
                 _eventFlow.emit(
                     UiEvent.ShowMessage(
@@ -256,7 +253,7 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
     }
 
     sealed class UiEvent {
-        data class SaveRecurringTransaction(val isEdit: Boolean) : UiEvent()
+        data object SaveRecurringTransaction : UiEvent()
         data object DeleteRecurringTransaction : UiEvent()
         data class ShowMessage(val message: String, val type: SnackbarType) : UiEvent()
     }
