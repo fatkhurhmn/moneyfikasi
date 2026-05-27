@@ -23,10 +23,12 @@ class RecurringTransactionWorker @AssistedInject constructor(
             val notificationHelper = NotificationHelper(applicationContext)
             processed.forEach {
                 notificationHelper.showRecurringNotification(
-                    it.name,
-                    it.amount.formatThousand(),
-                    it.transactionId,
-                    it.isEnded
+                    name = it.name,
+                    amount = it.amount.formatThousand(),
+                    transactionId = it.transactionId,
+                    recurringId = it.recurringId,
+                    type = it.type,
+                    isEnded = it.isEnded
                 )
             }
             Result.success()

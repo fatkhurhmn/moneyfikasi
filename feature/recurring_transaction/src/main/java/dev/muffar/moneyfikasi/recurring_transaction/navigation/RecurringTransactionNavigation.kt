@@ -8,6 +8,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
+import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.recurring_transaction.add_edit.AddEditRecurringTransactionScreen
@@ -58,6 +60,11 @@ fun NavGraphBuilder.recurringTransactionNavGraph(
                 type = NavType.StringType
                 nullable = true
                 defaultValue = null
+            }
+        ),
+        deepLinks = listOf(
+            navDeepLink {
+                uriPattern = "moneyfikasi://add_edit_recurring_transaction/{type}?recurring_transaction_id={recurring_transaction_id}"
             }
         )
     ) {

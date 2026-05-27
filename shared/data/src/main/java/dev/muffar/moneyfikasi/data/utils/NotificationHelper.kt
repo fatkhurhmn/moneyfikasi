@@ -8,11 +8,19 @@ import android.content.Intent
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.net.toUri
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.resource.R
 import java.util.UUID
 
 class NotificationHelper(private val context: Context) {
-    fun showRecurringNotification(name: String, amount: String, transactionId: UUID, isEnded: Boolean = false) {
+    fun showRecurringNotification(
+        name: String,
+        amount: String,
+        transactionId: UUID,
+        recurringId: UUID? = null,
+        type: TransactionType = TransactionType.EXPENSE,
+        isEnded: Boolean = false
+    ) {
         val channelId = "recurring_transactions"
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -46,13 +54,28 @@ class NotificationHelper(private val context: Context) {
             .setAutoCancel(true)
 
         notificationManager.notify(name.hashCode(), builder.build())
-        Log.d("TAG", "showRecurringNotification:$isEnded ")
-        if (isEnded) {
+
+        if (isEnded && recurringId != null) {
+            val recurringDeepLinkIntent = Intent(
+                Intent.ACTION_VIEW,
+                "moneyfikasi://add_edit_recurring_transaction/${type.name.lowercase()}?recurring_transaction_id=$recurringId".toUri(),
+                context,
+                Class.forName("dev.muffar.moneyfikasi.MainActivity")
+            )
+
+            val recurringPendingIntent = PendingIntent.getActivity(
+                context,
+                recurringId.hashCode(),
+                recurringDeepLinkIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
             val endedBuilder = NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(context.getString(R.string.recurring_transaction_ended))
                 .setContentText(context.getString(R.string.recurring_transaction_ended_message, name))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(recurringPendingIntent)
                 .setAutoCancel(true)
 
             notificationManager.notify(name.hashCode() + 1, endedBuilder.build())

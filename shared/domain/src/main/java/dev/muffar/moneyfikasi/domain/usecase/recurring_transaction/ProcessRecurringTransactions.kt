@@ -1,14 +1,17 @@
 package dev.muffar.moneyfikasi.domain.usecase.recurring_transaction
 
+import dev.muffar.moneyfikasi.domain.model.ProcessedRecurring
 import dev.muffar.moneyfikasi.domain.model.RecurringEndType
 import dev.muffar.moneyfikasi.domain.model.RecurringTransaction
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.repository.RecurringTransactionRepository
 import dev.muffar.moneyfikasi.domain.repository.TransactionRepository
 import kotlinx.coroutines.flow.first
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneOffset
+import java.util.UUID
 
 class ProcessRecurringTransactions(
     private val recurringTransactionRepository: RecurringTransactionRepository,
@@ -55,6 +58,8 @@ class ProcessRecurringTransactions(
                         name = currentRecurring.name,
                         amount = currentRecurring.amount,
                         transactionId = transactionId,
+                        recurringId = currentRecurring.id,
+                        type = currentRecurring.type,
                         isEnded = isEndedNow
                     )
                 )
@@ -85,10 +90,3 @@ class ProcessRecurringTransactions(
         }
     }
 }
-
-data class ProcessedRecurring(
-    val name: String,
-    val amount: Double,
-    val transactionId: java.util.UUID,
-    val isEnded: Boolean = false
-)
