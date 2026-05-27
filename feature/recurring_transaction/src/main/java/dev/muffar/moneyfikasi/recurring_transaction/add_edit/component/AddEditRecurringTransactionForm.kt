@@ -3,6 +3,8 @@ package dev.muffar.moneyfikasi.recurring_transaction.add_edit.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -50,56 +52,81 @@ fun AddEditRecurringTransactionForm(
             }
         )
 
-        CommonTextInput(
-            value = state.name,
-            onValueChange = onNameChange,
-            label = stringResource(R.string.name),
-            error = state.nameError
-        )
+        FormSection(label = stringResource(R.string.transaction)) {
+            CommonTextInput(
+                value = state.name,
+                onValueChange = onNameChange,
+                label = stringResource(R.string.name),
+                error = state.nameError
+            )
 
-        BasicAmountInput(
-            amount = state.amount,
-            onAmountChange = onAmountChange,
-            error = state.amountError
-        )
+            BasicAmountInput(
+                amount = state.amount,
+                onAmountChange = onAmountChange,
+                error = state.amountError
+            )
 
-        CategoryInput(
-            category = state.category ?: Category(),
-            categoryOptions = state.categories,
-            onCategorySelect = onCategoryChange,
-            onAddNewCategoryClick = onAddNewCategoryClick,
-            error = state.categoryError
-        )
+            CategoryInput(
+                category = state.category ?: Category(),
+                categoryOptions = state.categories,
+                onCategorySelect = onCategoryChange,
+                onAddNewCategoryClick = onAddNewCategoryClick,
+                error = state.categoryError
+            )
 
-        WalletInput(
-            wallet = state.wallet ?: Wallet(),
-            walletOptions = state.wallets,
-            onWalletSelect = onWalletChange,
-            onAddNewWalletClick = onAddNewWalletClick,
-            error = state.walletError
-        )
+            WalletInput(
+                wallet = state.wallet ?: Wallet(),
+                walletOptions = state.wallets,
+                onWalletSelect = onWalletChange,
+                onAddNewWalletClick = onAddNewWalletClick,
+                error = state.walletError
+            )
+        }
 
-        FrequencyInput(
-            frequency = state.frequency,
-            onFrequencySelect = onFrequencyChange
-        )
+        FormSection(label = stringResource(R.string.schedule)) {
+            FrequencyInput(
+                frequency = state.frequency,
+                onFrequencySelect = onFrequencyChange
+            )
 
-        DateInput(
-            date = state.startDate,
-            onDateSelect = onStartDateChange,
-            label = stringResource(R.string.start_date)
-        )
+            DateInput(
+                date = state.startDate,
+                onDateSelect = onStartDateChange,
+                label = stringResource(R.string.start_date)
+            )
 
-        EndRecurringInput(
-            endType = state.endType,
-            endDate = state.endDate,
-            occurrenceCount = state.occurrenceCount,
-            endDateError = state.endDateError,
-            onEndTypeChange = onEndTypeChange,
-            onEndDateChange = onEndDateChange,
-            onOccurrenceCountChange = onOccurrenceCountChange
-        )
+            EndRecurringInput(
+                endType = state.endType,
+                endDate = state.endDate,
+                occurrenceCount = state.occurrenceCount,
+                endDateError = state.endDateError,
+                onEndTypeChange = onEndTypeChange,
+                onEndDateChange = onEndDateChange,
+                onOccurrenceCountChange = onOccurrenceCountChange
+            )
+        }
 
-        RecurringSummary(state = state)
+        FormSection(label = stringResource(R.string.preview)) {
+            RecurringSummary(state = state)
+        }
+    }
+}
+
+@Composable
+private fun FormSection(
+    label: String,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        content()
     }
 }

@@ -77,8 +77,8 @@ private fun RecurringTransactionsContent(
     if (recurringTransactions.isNotEmpty()) {
         LazyColumn(
             modifier = modifier,
-            contentPadding = PaddingValues(bottom = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(recurringTransactions, key = { it.id }) { recurringTransaction ->
                 RecurringTransactionItem(
