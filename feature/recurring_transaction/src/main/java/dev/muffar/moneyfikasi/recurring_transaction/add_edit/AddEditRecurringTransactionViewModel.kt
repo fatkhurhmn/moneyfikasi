@@ -221,11 +221,12 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
 
     private fun saveRecurringTransaction() {
         if (!isFormValid()) return
+        val isEdit = _state.value.id != null
         viewModelScope.launch {
             try {
                 Log.d("TAG", "saveRecurringTransaction: ")
                 recurringTransactionUseCases.saveRecurringTransaction(_state.value.recurringTransaction)
-                _eventFlow.emit(UiEvent.SaveRecurringTransaction)
+                _eventFlow.emit(UiEvent.SaveRecurringTransaction(isEdit))
             } catch (e: Exception) {
                 _eventFlow.emit(
                     UiEvent.ShowMessage(
@@ -255,7 +256,7 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
     }
 
     sealed class UiEvent {
-        data object SaveRecurringTransaction : UiEvent()
+        data class SaveRecurringTransaction(val isEdit: Boolean) : UiEvent()
         data object DeleteRecurringTransaction : UiEvent()
         data class ShowMessage(val message: String, val type: SnackbarType) : UiEvent()
     }
