@@ -209,4 +209,5 @@
     <string name="for_times">" for %1$s times"</string>
     <string name="repeats_from">Repeats %1$s from %2$s%3$s</string>
     <string name="end_date_invalid">End date invalid</string>
+    <string name="skip_today">Skip today</string>
 </resources>

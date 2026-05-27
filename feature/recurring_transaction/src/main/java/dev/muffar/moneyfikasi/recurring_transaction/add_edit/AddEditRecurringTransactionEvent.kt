@@ -17,6 +17,7 @@ sealed class AddEditRecurringTransactionEvent {
     data class OnEndTypeChanged(val endType: RecurringEndType) : AddEditRecurringTransactionEvent()
     data class OnEndDateChanged(val endDate: Long) : AddEditRecurringTransactionEvent()
     data class OnOccurrenceCountChanged(val count: String) : AddEditRecurringTransactionEvent()
+    data class OnIsSkipFirstChanged(val isSkipFirst: Boolean) : AddEditRecurringTransactionEvent()
     data class OnIsActiveChanged(val isActive: Boolean) : AddEditRecurringTransactionEvent()
     data object OnSaveRecurringTransaction : AddEditRecurringTransactionEvent()
     data object OnDeleteRecurringTransaction : AddEditRecurringTransactionEvent()

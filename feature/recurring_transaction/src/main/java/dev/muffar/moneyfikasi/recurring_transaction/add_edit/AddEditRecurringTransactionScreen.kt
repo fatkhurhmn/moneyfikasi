@@ -99,7 +99,8 @@ fun AddEditRecurringTransactionScreen(
             onStartDateChange = { onEvent(AddEditRecurringTransactionEvent.OnStartDateChanged(it)) },
             onEndTypeChange = { onEvent(AddEditRecurringTransactionEvent.OnEndTypeChanged(it)) },
             onEndDateChange = { onEvent(AddEditRecurringTransactionEvent.OnEndDateChanged(it)) },
-            onOccurrenceCountChange = { onEvent(AddEditRecurringTransactionEvent.OnOccurrenceCountChanged(it)) }
+            onOccurrenceCountChange = { onEvent(AddEditRecurringTransactionEvent.OnOccurrenceCountChanged(it)) },
+            onIsSkipFirstChange = { onEvent(AddEditRecurringTransactionEvent.OnIsSkipFirstChanged(it)) }
         )
     }
 

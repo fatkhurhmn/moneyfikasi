@@ -28,6 +28,8 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.threeten.bp.LocalDate
+import org.threeten.bp.ZoneOffset
 import java.util.UUID
 import javax.inject.Inject
 
@@ -76,7 +78,8 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
                 _state.update {
                     it.copy(
                         startDate = event.startDate,
-                        endDate = if (it.endDate < event.startDate) event.startDate else it.endDate
+                        endDate = if (it.endDate < event.startDate) event.startDate else it.endDate,
+                        isSkipFirst = if (event.startDate != LocalDate.now().atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli()) false else it.isSkipFirst
                     )
                 }
             }
@@ -91,6 +94,12 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
             is AddEditRecurringTransactionEvent.OnOccurrenceCountChanged -> _state.update {
                 it.copy(
                     occurrenceCount = event.count
+                )
+            }
+
+            is AddEditRecurringTransactionEvent.OnIsSkipFirstChanged -> _state.update {
+                it.copy(
+                    isSkipFirst = event.isSkipFirst
                 )
             }
 

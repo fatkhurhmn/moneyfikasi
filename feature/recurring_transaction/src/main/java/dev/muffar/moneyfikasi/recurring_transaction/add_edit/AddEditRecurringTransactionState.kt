@@ -24,6 +24,7 @@ data class AddEditRecurringTransactionState(
     val endType: RecurringEndType = RecurringEndType.NEVER,
     val endDate: Long = LocalDate.now().atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli(),
     val occurrenceCount: String = "1",
+    val isSkipFirst: Boolean = false,
     val isActive: Boolean = true,
     val nameError: ErrorMessage = ErrorMessage(),
     val amountError: ErrorMessage = ErrorMessage(),
