@@ -1,6 +1,5 @@
 package dev.muffar.moneyfikasi.recurring_transaction.list.component
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,21 +16,26 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.icon.BoxedIcon
+import dev.muffar.moneyfikasi.common_ui.component.transaction.item.ItemWalletCard
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
+import dev.muffar.moneyfikasi.domain.model.RecurringEndType
 import dev.muffar.moneyfikasi.domain.model.RecurringTransaction
 import dev.muffar.moneyfikasi.domain.model.TransactionType
+import dev.muffar.moneyfikasi.domain.model.Wallet
+import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.capitalize
@@ -50,17 +54,14 @@ fun RecurringTransactionItem(
             .clip(MaterialTheme.shapes.medium)
             .clickable { onClick(recurringTransaction.id) },
         color = MaterialTheme.colorScheme.surface,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
         shape = MaterialTheme.shapes.medium
     ) {
         Column(
-            modifier = Modifier
-                .padding(16.dp)
-                .alpha(if (recurringTransaction.isActive) 1f else 0.6f)
+            modifier = Modifier.padding(16.dp)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.Top,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Row(
@@ -68,45 +69,44 @@ fun RecurringTransactionItem(
                     modifier = Modifier.weight(1f)
                 ) {
                     BoxedIcon(
-                        icon = recurringTransaction.category?.icon ?: "",
-                        color = recurringTransaction.category?.color ?: 0xFFb8b4aa
+                        icon = recurringTransaction.category?.icon,
+                        color = recurringTransaction.category?.color
                     )
-                    Spacer(modifier = Modifier.width(12.dp))
+                    Spacer(modifier = Modifier.width(16.dp))
                     Column {
                         Text(
                             text = recurringTransaction.name,
-                            style = MaterialTheme.typography.titleMedium.copy(fontSize = 16.sp),
+                            style = MaterialTheme.typography.titleMedium,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
-                        Text(
-                            text = recurringTransaction.wallet?.name ?: "",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        ItemWalletCard(recurringTransaction.wallet ?: Wallet())
                     }
                 }
 
-                val amountColor = if (recurringTransaction.type == TransactionType.INCOME) {
-                    MoneyfikasiTheme.financeColors.income
-                } else {
-                    MoneyfikasiTheme.financeColors.expense
-                }
-                val amountPrefix = if (recurringTransaction.type == TransactionType.INCOME) "+" else "-"
+                Column(horizontalAlignment = Alignment.End) {
+                    val amountColor = if (recurringTransaction.type == TransactionType.INCOME) {
+                        MoneyfikasiTheme.financeColors.income
+                    } else {
+                        MoneyfikasiTheme.financeColors.expense
+                    }
+                    val amountPrefix =
+                        if (recurringTransaction.type == TransactionType.INCOME) "+" else "-"
 
-                Text(
-                    text = "$amountPrefix ${recurringTransaction.amount.formatThousand()}",
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
-                    ),
-                    color = amountColor
-                )
+                    Text(
+                        text = "$amountPrefix ${recurringTransaction.amount.formatThousand()}",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = amountColor
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    StatusTag(isActive = recurringTransaction.isActive)
+                }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
             CommonHorizontalDivider()
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -118,19 +118,41 @@ fun RecurringTransactionItem(
                         Icon(
                             imageVector = Icons.Rounded.Repeat,
                             contentDescription = null,
-                            modifier = Modifier.size(16.dp),
+                            modifier = Modifier.size(18.dp),
                             tint = MaterialTheme.colorScheme.primary
                         )
-                        Spacer(modifier = Modifier.width(4.dp))
+                        Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             text = recurringTransaction.frequency.name.lowercase().capitalize(),
-                            style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = FontWeight.Medium
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 14.sp
+                            ),
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                     }
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Next: ${recurringTransaction.nextRun?.toFormattedDateTime("dd MMM yyyy") ?: "-"}",
+                        text = "${stringResource(R.string.next)}: ${
+                            recurringTransaction.nextRun?.toFormattedDateTime("MMM dd, yyyy") ?: "-"
+                        }",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    val endStr = when (recurringTransaction.endType) {
+                        RecurringEndType.NEVER -> stringResource(R.string.never)
+                        RecurringEndType.ON_DATE -> recurringTransaction.endDate?.toFormattedDateTime(
+                            "MMM dd, yyyy"
+                        ) ?: "-"
+
+                        RecurringEndType.AFTER_OCCURRENCES -> stringResource(
+                            R.string.qty_transactions,
+                            recurringTransaction.occurrenceCount ?: 0
+                        )
+                    }
+                    Text(
+                        text = "${stringResource(R.string.ends)}: $endStr",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -138,7 +160,13 @@ fun RecurringTransactionItem(
 
                 Switch(
                     checked = recurringTransaction.isActive,
-                    onCheckedChange = { onToggleActive(recurringTransaction) }
+                    onCheckedChange = { onToggleActive(recurringTransaction) },
+                    colors = SwitchDefaults.colors(
+                        checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                        checkedTrackColor = MaterialTheme.colorScheme.primary,
+                        uncheckedThumbColor = MaterialTheme.colorScheme.surface,
+                        uncheckedTrackColor = MaterialTheme.colorScheme.outlineVariant
+                    )
                 )
             }
         }

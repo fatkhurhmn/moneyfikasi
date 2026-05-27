@@ -1,17 +1,21 @@
 package dev.muffar.moneyfikasi.recurring_transaction.list
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
 import dev.muffar.moneyfikasi.common_ui.component.button.common.CommonAddButton
 import dev.muffar.moneyfikasi.common_ui.component.tabs.IncomeExpenseTabs
@@ -40,7 +44,8 @@ fun RecurringTransactionsScreen(
         topBar = {
             CommonTopAppBar(
                 title = stringResource(R.string.recurring_transactions),
-                onBackClick = onBackClick
+                onBackClick = onBackClick,
+                titleSize = 20.sp
             )
         },
         floatingActionButton = {
@@ -51,7 +56,8 @@ fun RecurringTransactionsScreen(
                     onAddRecurringTransactionClick(type)
                 }
             )
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
         IncomeExpenseTabs(
             modifier = modifier.padding(paddingValues),
@@ -59,6 +65,7 @@ fun RecurringTransactionsScreen(
         ) { index ->
             val list = if (index == 0) incomeRecurring else expenseRecurring
             RecurringTransactionsContent(
+                modifier = Modifier.fillMaxSize(),
                 recurringTransactions = list,
                 onClick = onRecurringTransactionClick,
                 onToggleActive = onToggleActive
@@ -76,7 +83,7 @@ private fun RecurringTransactionsContent(
 ) {
     if (recurringTransactions.isNotEmpty()) {
         LazyColumn(
-            modifier = modifier,
+            modifier = modifier.background(MaterialTheme.colorScheme.background),
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
