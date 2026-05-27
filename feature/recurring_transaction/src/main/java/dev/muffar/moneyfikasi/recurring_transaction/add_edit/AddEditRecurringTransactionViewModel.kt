@@ -184,13 +184,16 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
                             amount = recurringTransaction.amount.formatThousand(),
                             type = recurringTransaction.type,
                             category = recurringTransaction.category,
-                        wallet = recurringTransaction.wallet,
-                        frequency = recurringTransaction.frequency,
+                            wallet = recurringTransaction.wallet,
+                            frequency = recurringTransaction.frequency,
                             startDate = recurringTransaction.startDate,
+                            initialStartDate = recurringTransaction.startDate,
                             endType = recurringTransaction.endType,
                             endDate = recurringTransaction.endDate ?: it.endDate,
                             occurrenceCount = recurringTransaction.occurrenceCount?.toString()
                                 ?: it.occurrenceCount,
+                            lastRun = recurringTransaction.lastRun,
+                            nextRun = recurringTransaction.nextRun,
                             isActive = recurringTransaction.isActive
                         )
                     }
@@ -220,6 +223,7 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
 
     private fun saveRecurringTransaction() {
         if (!isFormValid()) return
+        val isEdit = _state.value.id != null
         viewModelScope.launch {
             try {
                 recurringTransactionUseCases.saveRecurringTransaction(_state.value.recurringTransaction)

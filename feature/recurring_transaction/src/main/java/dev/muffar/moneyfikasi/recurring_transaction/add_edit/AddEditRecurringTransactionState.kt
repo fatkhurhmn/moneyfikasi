@@ -34,20 +34,27 @@ data class AddEditRecurringTransactionState(
     val categories: List<Category> = emptyList(),
     val wallets: List<Wallet> = emptyList(),
     val isLoading: Boolean = false,
+    val lastRun: Long? = null,
+    val nextRun: Long? = null,
+    val initialStartDate: Long? = null,
 ) {
     val recurringTransaction: RecurringTransaction
         get() {
-            val calculatedNextRun = if (isSkipFirst) {
-                val startDateTime = Instant.ofEpochMilli(startDate).atZone(ZoneOffset.UTC).toLocalDateTime()
-                when (frequency) {
-                    TimePeriod.DAILY -> startDateTime.plusDays(1)
-                    TimePeriod.WEEKLY -> startDateTime.plusWeeks(1)
-                    TimePeriod.MONTHLY -> startDateTime.plusMonths(1)
-                    TimePeriod.YEARLY -> startDateTime.plusYears(1)
-                    else -> startDateTime
-                }.atZone(ZoneOffset.UTC).toInstant().toEpochMilli()
+            val calculatedNextRun = if (id == null || startDate != initialStartDate) {
+                if (isSkipFirst) {
+                    val startDateTime = Instant.ofEpochMilli(startDate).atZone(ZoneOffset.UTC).toLocalDateTime()
+                    when (frequency) {
+                        TimePeriod.DAILY -> startDateTime.plusDays(1)
+                        TimePeriod.WEEKLY -> startDateTime.plusWeeks(1)
+                        TimePeriod.MONTHLY -> startDateTime.plusMonths(1)
+                        TimePeriod.YEARLY -> startDateTime.plusYears(1)
+                        else -> startDateTime
+                    }.atZone(ZoneOffset.UTC).toInstant().toEpochMilli()
+                } else {
+                    startDate
+                }
             } else {
-                startDate
+                nextRun ?: startDate
             }
 
             return RecurringTransaction(
@@ -62,6 +69,7 @@ data class AddEditRecurringTransactionState(
                 endType = endType,
                 endDate = if (endType == RecurringEndType.ON_DATE) endDate else null,
                 occurrenceCount = if (endType == RecurringEndType.AFTER_OCCURRENCES) occurrenceCount.toIntOrNull() else null,
+                lastRun = if (startDate != initialStartDate) null else lastRun,
                 nextRun = calculatedNextRun,
                 isActive = isActive
             )

@@ -16,5 +16,6 @@ data class RecurringTransaction(
     val occurrenceCount: Int? = null,
     val lastRun: Long? = null,
     val nextRun: Long? = null,
-    val isActive: Boolean = true
+    val isActive: Boolean = true,
+    val isEnded: Boolean = false
 )

@@ -6,4 +6,5 @@ data class RecurringTransactionUseCases(
     val saveRecurringTransaction: SaveRecurringTransaction,
     val deleteRecurringTransaction: DeleteRecurringTransaction,
     val processRecurringTransactions: ProcessRecurringTransactions,
+    val getTransactionCountByRecurringId: GetTransactionCountByRecurringId,
 )

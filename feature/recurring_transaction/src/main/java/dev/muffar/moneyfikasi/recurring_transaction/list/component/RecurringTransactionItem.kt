@@ -100,7 +100,10 @@ fun RecurringTransactionItem(
                         color = amountColor
                     )
                     Spacer(modifier = Modifier.height(4.dp))
-                    StatusTag(isActive = recurringTransaction.isActive)
+                    StatusTag(
+                        isActive = recurringTransaction.isActive,
+                        isEnded = recurringTransaction.isEnded
+                    )
                 }
             }
 
@@ -132,14 +135,16 @@ fun RecurringTransactionItem(
                         )
                     }
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "${stringResource(R.string.next)}: ${
-                            recurringTransaction.nextRun?.toFormattedDateTime("MMM dd, yyyy") ?: "-"
-                        }",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
+                    if (!recurringTransaction.isEnded) {
+                        Text(
+                            text = "${stringResource(R.string.next)}: ${
+                                recurringTransaction.nextRun?.toFormattedDateTime("MMM dd, yyyy") ?: "-"
+                            }",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                    }
                     val endStr = when (recurringTransaction.endType) {
                         RecurringEndType.NEVER -> stringResource(R.string.never)
                         RecurringEndType.ON_DATE -> recurringTransaction.endDate?.toFormattedDateTime(
@@ -158,16 +163,18 @@ fun RecurringTransactionItem(
                     )
                 }
 
-                Switch(
-                    checked = recurringTransaction.isActive,
-                    onCheckedChange = { onToggleActive(recurringTransaction) },
-                    colors = SwitchDefaults.colors(
-                        checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
-                        checkedTrackColor = MaterialTheme.colorScheme.primary,
-                        uncheckedThumbColor = MaterialTheme.colorScheme.surface,
-                        uncheckedTrackColor = MaterialTheme.colorScheme.outlineVariant
+                if (!recurringTransaction.isEnded) {
+                    Switch(
+                        checked = recurringTransaction.isActive,
+                        onCheckedChange = { onToggleActive(recurringTransaction) },
+                        colors = SwitchDefaults.colors(
+                            checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                            checkedTrackColor = MaterialTheme.colorScheme.primary,
+                            uncheckedThumbColor = MaterialTheme.colorScheme.surface,
+                            uncheckedTrackColor = MaterialTheme.colorScheme.outlineVariant
+                        )
                     )
-                )
+                }
             }
         }
     }

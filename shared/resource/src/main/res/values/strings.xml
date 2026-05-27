@@ -213,6 +213,7 @@
     <string name="next_run">Next run: %s</string>
     <string name="active">Active</string>
     <string name="inactive">Inactive</string>
+    <string name="ended">Ended</string>
     <string name="next">Next</string>
     <string name="ends">Ends</string>
     <string name="recurring_notification_channel_name">Recurring Transactions</string>

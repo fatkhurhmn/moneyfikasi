@@ -20,12 +20,30 @@ import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
-fun StatusTag(isActive: Boolean) {
+fun StatusTag(isActive: Boolean, isEnded: Boolean = false) {
+    val backgroundColor = when {
+        isEnded -> MaterialTheme.colorScheme.errorContainer
+        isActive -> MoneyfikasiTheme.financeColors.incomeContainer
+        else -> MaterialTheme.colorScheme.surfaceVariant
+    }
+
+    val contentColor = when {
+        isEnded -> MaterialTheme.colorScheme.error
+        isActive -> MoneyfikasiTheme.financeColors.income
+        else -> MaterialTheme.colorScheme.onSurfaceVariant
+    }
+
+    val text = when {
+        isEnded -> stringResource(R.string.ended)
+        isActive -> stringResource(R.string.active)
+        else -> stringResource(R.string.inactive)
+    }
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .background(
-                color = if (isActive) MoneyfikasiTheme.financeColors.incomeContainer else MaterialTheme.colorScheme.surfaceVariant,
+                color = backgroundColor,
                 shape = MaterialTheme.shapes.extraSmall
             )
             .padding(horizontal = 8.dp, vertical = 2.dp)
@@ -34,15 +52,15 @@ fun StatusTag(isActive: Boolean) {
             modifier = Modifier
                 .size(6.dp)
                 .background(
-                    color = if (isActive) MoneyfikasiTheme.financeColors.income else MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = contentColor,
                     shape = CircleShape
                 )
         )
         Spacer(modifier = Modifier.width(6.dp))
         Text(
-            text = if (isActive) stringResource(R.string.active) else stringResource(R.string.inactive),
+            text = text,
             style = MaterialTheme.typography.bodySmall.copy(fontSize = 10.sp),
-            color = if (isActive) MoneyfikasiTheme.financeColors.income else MaterialTheme.colorScheme.onSurfaceVariant,
+            color = contentColor,
         )
     }
 }
