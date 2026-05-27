@@ -6,7 +6,9 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import dev.muffar.moneyfikasi.data.utils.NotificationHelper
 import dev.muffar.moneyfikasi.domain.usecase.recurring_transaction.RecurringTransactionUseCases
+import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 
 @HiltWorker
 class RecurringTransactionWorker @AssistedInject constructor(
@@ -17,7 +19,11 @@ class RecurringTransactionWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         return try {
-            recurringTransactionUseCases.processRecurringTransactions()
+            val processed = recurringTransactionUseCases.processRecurringTransactions()
+            val notificationHelper = NotificationHelper(applicationContext)
+            processed.forEach {
+                notificationHelper.showRecurringNotification(it.name, it.amount.formatThousand())
+            }
             Result.success()
         } catch (e: Exception) {
             Result.failure()

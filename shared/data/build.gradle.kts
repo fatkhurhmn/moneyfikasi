@@ -31,6 +31,7 @@ kotlin {
 dependencies {
 
     implementation(projects.shared.domain)
+    implementation(projects.shared.resource)
     implementation(projects.shared.utils)
 
     implementation(libs.bundles.room)

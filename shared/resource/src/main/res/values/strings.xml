@@ -215,4 +215,7 @@
     <string name="inactive">Inactive</string>
     <string name="next">Next</string>
     <string name="ends">Ends</string>
+    <string name="recurring_notification_channel_name">Recurring Transactions</string>
+    <string name="recurring_transaction_processed">Recurring Transaction Processed</string>
+    <string name="recurring_transaction_processed_message">%1$s transaction for %2$s has been created.</string>
 </resources>

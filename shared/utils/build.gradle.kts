@@ -29,4 +29,6 @@ dependencies {
     implementation(libs.androidx.core.ktx)
 
     implementation(libs.threetenabp)
+
+    implementation(projects.shared.resource)
 }

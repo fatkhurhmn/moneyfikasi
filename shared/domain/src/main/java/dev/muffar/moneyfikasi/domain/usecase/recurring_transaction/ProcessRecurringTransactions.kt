@@ -14,9 +14,10 @@ class ProcessRecurringTransactions(
     private val recurringTransactionRepository: RecurringTransactionRepository,
     private val transactionRepository: TransactionRepository
 ) {
-    suspend operator fun invoke() {
+    suspend operator fun invoke(): List<ProcessedRecurring> {
         val recurringTransactions = recurringTransactionRepository.getAll().first()
         val today = LocalDate.now().atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli()
+        val processedList = mutableListOf<ProcessedRecurring>()
 
         for (recurring in recurringTransactions) {
             if (!recurring.isActive) continue
@@ -40,6 +41,8 @@ class ProcessRecurringTransactions(
                     walletId = currentRecurring.wallet?.id ?: continue,
                     categoryId = currentRecurring.category?.id
                 )
+                
+                processedList.add(ProcessedRecurring(currentRecurring.name, currentRecurring.amount))
 
                 // Update next run
                 val currentNextRunDate = Instant.ofEpochMilli(nextRun).atZone(ZoneOffset.UTC).toLocalDateTime()
@@ -60,6 +63,7 @@ class ProcessRecurringTransactions(
                 recurringTransactionRepository.save(currentRecurring)
             }
         }
+        return processedList
     }
 
     private fun isCompleted(recurring: RecurringTransaction, nextRun: Long): Boolean {
@@ -67,10 +71,10 @@ class ProcessRecurringTransactions(
             RecurringEndType.NEVER -> false
             RecurringEndType.ON_DATE -> recurring.endDate?.let { nextRun > it } ?: false
             RecurringEndType.AFTER_OCCURRENCES -> {
-                // Implementation for occurrences could be more complex without an "occurredCount" field.
-                // Assuming occurrenceCount is the total number of times it should run.
                 false 
             }
         }
     }
 }
+
+data class ProcessedRecurring(val name: String, val amount: Double)
