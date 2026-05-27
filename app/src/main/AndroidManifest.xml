@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:name=".MoneyfikasiApplication"
         android:allowBackup="false"
@@ -35,6 +37,20 @@
                 android:value="androidx.startup"
                 tools:node="remove" />
         </provider>
+
+        <receiver
+            android:name="dev.muffar.moneyfikasi.data.receiver.RecurringTransactionReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+        <receiver
+            android:name="dev.muffar.moneyfikasi.data.receiver.BootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
+import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneOffset
 import java.util.UUID
@@ -35,18 +36,34 @@ data class AddEditRecurringTransactionState(
     val isLoading: Boolean = false,
 ) {
     val recurringTransaction: RecurringTransaction
-        get() = RecurringTransaction(
-            id = id ?: UUID.randomUUID(),
-            name = name.trim(),
-            amount = amount.clearThousandFormat().toDoubleOrNull() ?: 0.0,
-            type = type,
-            category = category,
-            wallet = wallet,
-            frequency = frequency,
-            startDate = startDate,
-            endType = endType,
-            endDate = if (endType == RecurringEndType.ON_DATE) endDate else null,
-            occurrenceCount = if (endType == RecurringEndType.AFTER_OCCURRENCES) occurrenceCount.toIntOrNull() else null,
-            isActive = isActive
-        )
+        get() {
+            val calculatedNextRun = if (isSkipFirst) {
+                val startDateTime = Instant.ofEpochMilli(startDate).atZone(ZoneOffset.UTC).toLocalDateTime()
+                when (frequency) {
+                    TimePeriod.DAILY -> startDateTime.plusDays(1)
+                    TimePeriod.WEEKLY -> startDateTime.plusWeeks(1)
+                    TimePeriod.MONTHLY -> startDateTime.plusMonths(1)
+                    TimePeriod.YEARLY -> startDateTime.plusYears(1)
+                    else -> startDateTime
+                }.atZone(ZoneOffset.UTC).toInstant().toEpochMilli()
+            } else {
+                startDate
+            }
+
+            return RecurringTransaction(
+                id = id ?: UUID.randomUUID(),
+                name = name.trim(),
+                amount = amount.clearThousandFormat().toDoubleOrNull() ?: 0.0,
+                type = type,
+                category = category,
+                wallet = wallet,
+                frequency = frequency,
+                startDate = startDate,
+                endType = endType,
+                endDate = if (endType == RecurringEndType.ON_DATE) endDate else null,
+                occurrenceCount = if (endType == RecurringEndType.AFTER_OCCURRENCES) occurrenceCount.toIntOrNull() else null,
+                nextRun = calculatedNextRun,
+                isActive = isActive
+            )
+        }
 }
