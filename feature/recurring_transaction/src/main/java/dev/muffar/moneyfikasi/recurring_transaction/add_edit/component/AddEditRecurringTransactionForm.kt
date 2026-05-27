@@ -3,9 +3,12 @@ package dev.muffar.moneyfikasi.recurring_transaction.add_edit.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -22,7 +25,10 @@ import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.recurring_transaction.add_edit.AddEditRecurringTransactionState
 import dev.muffar.moneyfikasi.resource.R
+import org.threeten.bp.LocalDate
+import org.threeten.bp.ZoneOffset
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditRecurringTransactionForm(
     modifier: Modifier = Modifier,
@@ -40,6 +46,26 @@ fun AddEditRecurringTransactionForm(
     onEndDateChange: (Long) -> Unit,
     onOccurrenceCountChange: (String) -> Unit,
 ) {
+    val today = remember {
+        LocalDate.now().atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli()
+    }
+
+    val selectableDates = remember(today) {
+        object : SelectableDates {
+            override fun isSelectableDate(utcTimeMillis: Long): Boolean {
+                return utcTimeMillis >= today
+            }
+        }
+    }
+
+    val selectableEndDate = remember(state.startDate) {
+        object : SelectableDates {
+            override fun isSelectableDate(utcTimeMillis: Long): Boolean {
+                return utcTimeMillis >= state.startDate
+            }
+        }
+    }
+
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -92,14 +118,16 @@ fun AddEditRecurringTransactionForm(
             DateInput(
                 date = state.startDate,
                 onDateSelect = onStartDateChange,
-                label = stringResource(R.string.start_date)
+                label = stringResource(R.string.start_date),
+                selectableDates = selectableDates
             )
 
             EndRecurringInput(
                 endType = state.endType,
                 endDate = state.endDate,
                 occurrenceCount = state.occurrenceCount,
-                endDateError = state.endDateError,
+                selectableDates = selectableEndDate,
+                initialDisplayedMonthMillis = state.startDate,
                 onEndTypeChange = onEndTypeChange,
                 onEndDateChange = onEndDateChange,
                 onOccurrenceCountChange = onOccurrenceCountChange

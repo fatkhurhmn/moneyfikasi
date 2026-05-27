@@ -5,6 +5,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.DatePickerDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SelectableDates
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -16,17 +19,18 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.DateInput
-import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.model.RecurringEndType
 import dev.muffar.moneyfikasi.resource.R
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EndRecurringInput(
     modifier: Modifier = Modifier,
     endType: RecurringEndType,
     endDate: Long,
     occurrenceCount: String,
-    endDateError: ErrorMessage = ErrorMessage(),
+    selectableDates: SelectableDates = DatePickerDefaults.AllDates,
+    initialDisplayedMonthMillis: Long? = null,
     onEndTypeChange: (RecurringEndType) -> Unit,
     onEndDateChange: (Long) -> Unit,
     onOccurrenceCountChange: (String) -> Unit,
@@ -57,7 +61,8 @@ fun EndRecurringInput(
                     date = endDate,
                     onDateSelect = onEndDateChange,
                     label = stringResource(R.string.end_date),
-                    error = endDateError
+                    selectableDates = selectableDates,
+                    initialDisplayedMonthMillis = initialDisplayedMonthMillis
                 )
             } else if (endType == RecurringEndType.AFTER_OCCURRENCES) {
                 CommonTextInput(

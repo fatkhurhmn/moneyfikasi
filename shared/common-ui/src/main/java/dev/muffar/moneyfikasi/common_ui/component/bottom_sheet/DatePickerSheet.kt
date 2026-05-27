@@ -8,6 +8,7 @@ import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -27,6 +28,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun DatePickerSheet(
     date: Long,
+    selectableDates: SelectableDates = DatePickerDefaults.AllDates,
+    initialDisplayedMonthMillis: Long? = date,
     onDismissRequest: () -> Unit,
     onDateSelect: (Long) -> Unit
 ) {
@@ -47,7 +50,11 @@ fun DatePickerSheet(
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
     ) {
-        val pickerState = rememberDatePickerState(initialSelectedDateMillis = date)
+        val pickerState = rememberDatePickerState(
+            initialSelectedDateMillis = date,
+            initialDisplayedMonthMillis = initialDisplayedMonthMillis,
+            selectableDates = selectableDates
+        )
         val formattedStartDate =
             pickerState.selectedDateMillis?.toFormattedDateTime("MMM, dd yyyy")
                 ?: stringResource(R.string.start_date)

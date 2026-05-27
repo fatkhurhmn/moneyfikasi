@@ -8,7 +8,7 @@ import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
-import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneOffset
 import java.util.UUID
 
@@ -20,16 +20,15 @@ data class AddEditRecurringTransactionState(
     val category: Category? = null,
     val wallet: Wallet? = null,
     val frequency: TimePeriod = TimePeriod.MONTHLY,
-    val startDate: Long = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli(),
+    val startDate: Long = LocalDate.now().atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli(),
     val endType: RecurringEndType = RecurringEndType.NEVER,
-    val endDate: Long = LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli(),
+    val endDate: Long = LocalDate.now().atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli(),
     val occurrenceCount: String = "1",
     val isActive: Boolean = true,
     val nameError: ErrorMessage = ErrorMessage(),
     val amountError: ErrorMessage = ErrorMessage(),
     val categoryError: ErrorMessage = ErrorMessage(),
     val walletError: ErrorMessage = ErrorMessage(),
-    val endDateError: ErrorMessage = ErrorMessage(),
     val categories: List<Category> = emptyList(),
     val wallets: List<Wallet> = emptyList(),
     val isLoading: Boolean = false,

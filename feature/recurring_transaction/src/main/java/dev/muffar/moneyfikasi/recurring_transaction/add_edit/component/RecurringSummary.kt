@@ -51,12 +51,6 @@ fun RecurringSummary(
         endStr
     )
 
-    val color = if (state.endDateError.isNull) {
-        MaterialTheme.colorScheme.onSurfaceVariant
-    } else {
-        MaterialTheme.colorScheme.error
-    }
-
     Surface(
         modifier = modifier.fillMaxWidth(),
         color = MaterialTheme.colorScheme.surface,
@@ -69,14 +63,14 @@ fun RecurringSummary(
             Icon(
                 imageVector = Icons.Rounded.Repeat,
                 contentDescription = null,
-                tint = if (state.endDateError.isNull) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error,
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.size(20.dp)
             )
             Spacer(modifier = Modifier.width(12.dp))
             Text(
                 text = summary,
                 style = MaterialTheme.typography.bodySmall,
-                color = color
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
     }

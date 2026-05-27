@@ -6,7 +6,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.CalendarToday
+import androidx.compose.material3.DatePickerDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.SelectableDates
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,12 +23,15 @@ import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DateInput(
     date: Long,
     modifier: Modifier = Modifier,
     label: String = stringResource(R.string.date),
     error: ErrorMessage = ErrorMessage(),
+    selectableDates: SelectableDates = DatePickerDefaults.AllDates,
+    initialDisplayedMonthMillis: Long? = date,
     onDateSelect: (Long) -> Unit
 ) {
     Column(
@@ -51,6 +57,8 @@ fun DateInput(
         AnimatedVisibility(showDatePicker) {
             DatePickerSheet(
                 date = date,
+                selectableDates = selectableDates,
+                initialDisplayedMonthMillis = initialDisplayedMonthMillis,
                 onDismissRequest = { showDatePicker = false },
                 onDateSelect = {
                     onDateSelect(it)
