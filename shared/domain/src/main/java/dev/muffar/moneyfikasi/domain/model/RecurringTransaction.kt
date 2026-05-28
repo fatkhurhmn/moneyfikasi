@@ -11,6 +11,7 @@ data class RecurringTransaction(
     val wallet: Wallet? = null,
     val frequency: TimePeriod = TimePeriod.MONTHLY,
     val startDate: Long,
+    val startTime: Long = 0,
     val endType: RecurringEndType = RecurringEndType.NEVER,
     val endDate: Long? = null,
     val occurrenceCount: Int? = null,

@@ -8,8 +8,8 @@ import dev.muffar.moneyfikasi.domain.repository.TransactionRepository
 import dev.muffar.moneyfikasi.domain.utils.RecurringScheduleCalculator
 import kotlinx.coroutines.flow.first
 import org.threeten.bp.Instant
-import org.threeten.bp.LocalDate
-import org.threeten.bp.ZoneOffset
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneId
 
 class ProcessRecurringTransactions(
     private val recurringTransactionRepository: RecurringTransactionRepository,
@@ -17,7 +17,9 @@ class ProcessRecurringTransactions(
 ) {
     suspend operator fun invoke(): List<ProcessedRecurring> {
         val recurringTransactions = recurringTransactionRepository.getAll().first()
-        val today = LocalDate.now().atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli()
+        val now = LocalDateTime.now(ZoneId.systemDefault()).atZone(ZoneId.systemDefault())
+            .toInstant()
+            .toEpochMilli()
         val processedList = mutableListOf<ProcessedRecurring>()
 
         for (recurring in recurringTransactions) {
@@ -26,7 +28,7 @@ class ProcessRecurringTransactions(
             var currentRecurring = recurring
             var nextRun = currentRecurring.nextRun ?: currentRecurring.startDate
 
-            while (nextRun <= today) {
+            while (nextRun <= now) {
                 val updatedNextRun = RecurringScheduleCalculator.nextRunAfter(
                     nextRun,
                     currentRecurring.frequency
@@ -47,7 +49,7 @@ class ProcessRecurringTransactions(
                 val transactionId = transactionRepository.addIncomeOrExpense(
                     amount = currentRecurring.amount,
                     type = currentRecurring.type,
-                    date = Instant.ofEpochMilli(nextRun).atZone(ZoneOffset.UTC).toLocalDateTime(),
+                    date = Instant.ofEpochMilli(nextRun).atZone(ZoneId.systemDefault()).toLocalDateTime(),
                     note = currentRecurring.name,
                     walletId = walletId,
                     categoryId = currentRecurring.category?.id,

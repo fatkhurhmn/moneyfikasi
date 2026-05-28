@@ -42,7 +42,7 @@ class RecurringTransactionScheduler(private val context: Context) {
         alarmManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
-            AlarmManager.INTERVAL_DAY,
+            AlarmManager.INTERVAL_HOUR,
             pendingIntent
         )
     }
