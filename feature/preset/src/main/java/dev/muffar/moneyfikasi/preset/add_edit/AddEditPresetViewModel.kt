@@ -13,6 +13,7 @@ import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preset.PresetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.utils.constants.UUIDConst
 import dev.muffar.moneyfikasi.utils.constants.ValidationConst
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
@@ -69,8 +70,8 @@ class AddEditPresetViewModel @Inject constructor(
                             name = it.name,
                             amount = it.amount?.formatThousand() ?: "0",
                             type = it.type,
-                            category = it.category,
-                            wallet = it.wallet
+                            category = it.category ?: Category(),
+                            wallet = it.wallet ?: Wallet()
                         )
                     }
                     loadCategories()
@@ -97,7 +98,7 @@ class AddEditPresetViewModel @Inject constructor(
     }
 
     private fun onTypeChange(type: TransactionType, isInit: Boolean) {
-        val category = if (isInit) _state.value.category else null
+        val category = if (isInit) _state.value.category else Category()
         _state.update { it.copy(type = type, category = category) }
         loadCategories()
     }
@@ -119,11 +120,11 @@ class AddEditPresetViewModel @Inject constructor(
     }
 
     private fun onCategorySelect(category: Category?) {
-        _state.update { it.copy(category = category) }
+        _state.update { it.copy(category = category ?: Category()) }
     }
 
     private fun onWalletSelect(wallet: Wallet?) {
-        _state.update { it.copy(wallet = wallet) }
+        _state.update { it.copy(wallet = wallet ?: Wallet()) }
     }
 
     private fun onShowDeleteAlert(show: Boolean) {
@@ -163,7 +164,9 @@ class AddEditPresetViewModel @Inject constructor(
         val isNameValid = state.nameError.isNull
 
         val amount = state.amount.clearThousandFormat().toDoubleOrNull() ?: 0.0
-        val isAtLeastOneFilled = amount > 0 || state.category != null || state.wallet != null
+        val isAtLeastOneFilled = amount > 0 ||
+                state.category.id != UUIDConst.empty ||
+                state.wallet.id != UUIDConst.empty
 
         if (isNameValid && !isAtLeastOneFilled) {
             viewModelScope.launch {

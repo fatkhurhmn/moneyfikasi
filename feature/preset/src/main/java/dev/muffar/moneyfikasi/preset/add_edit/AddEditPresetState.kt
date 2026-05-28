@@ -14,8 +14,8 @@ data class AddEditPresetState(
     val name: String = "",
     val amount: String = "0",
     val type: TransactionType = TransactionType.EXPENSE,
-    val category: Category? = null,
-    val wallet: Wallet? = null,
+    val category: Category = Category(),
+    val wallet: Wallet = Wallet(),
     val nameError: ErrorMessage = ErrorMessage(),
     val categories: List<Category> = emptyList(),
     val wallets: List<Wallet> = emptyList(),
@@ -34,7 +34,7 @@ data class AddEditPresetState(
             name = name.trim(),
             amount = amount.clearThousandFormat().toDoubleOrNull(),
             type = type,
-            category = category,
-            wallet = wallet
+            category = if (category.id == dev.muffar.moneyfikasi.utils.constants.UUIDConst.empty) null else category,
+            wallet = if (wallet.id == dev.muffar.moneyfikasi.utils.constants.UUIDConst.empty) null else wallet
         )
 }

@@ -15,6 +15,7 @@ import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.recurring_transaction.RecurringTransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.utils.constants.UUIDConst
 import dev.muffar.moneyfikasi.utils.constants.ValidationConst
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
@@ -48,11 +49,6 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
     val eventFlow = _eventFlow.asSharedFlow()
 
     init {
-        val type = handle.get<String>(Screen.AddEditRecurringTransaction.TYPE)
-        if (type != null) {
-            _state.update { it.copy(type = TransactionType.fromString(type)) }
-        }
-
         val recurringTransactionId =
             handle.get<String?>(Screen.AddEditRecurringTransaction.RECURRING_TRANSACTION_ID)
         if (!recurringTransactionId.isNullOrEmpty()) {
@@ -65,7 +61,7 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
         when (event) {
             is AddEditRecurringTransactionEvent.OnNameChanged -> onNameChanged(event.name)
             is AddEditRecurringTransactionEvent.OnAmountChanged -> onAmountChanged(event.amount)
-            is AddEditRecurringTransactionEvent.OnTypeChanged -> onTypeChanged(event.type)
+            is AddEditRecurringTransactionEvent.OnTypeChanged -> onTypeChanged(event.type, event.isInit)
             is AddEditRecurringTransactionEvent.OnCategoryChanged -> onCategoryChanged(event.category)
             is AddEditRecurringTransactionEvent.OnWalletChanged -> onWalletChanged(event.wallet)
             is AddEditRecurringTransactionEvent.OnFrequencyChanged -> _state.update {
@@ -138,9 +134,9 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
         updateAmountError()
     }
 
-    private fun onTypeChanged(type: TransactionType) {
-        _state.update { it.copy(type = type, category = null) }
-        updateCategoryError()
+    private fun onTypeChanged(type: TransactionType, isInit: Boolean) {
+        val category = if (isInit) _state.value.category else Category()
+        _state.update { it.copy(type = type, category = category) }
     }
 
     private fun onCategoryChanged(category: Category) {
@@ -165,12 +161,14 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
     }
 
     private fun updateCategoryError() {
-        val error = if (_state.value.category == null) "Please select a category" else null
+        val category = _state.value.category
+        val error = if (category.id == UUIDConst.empty) "Please select a category" else null
         _state.update { it.copy(categoryError = ErrorMessage(error)) }
     }
 
     private fun updateWalletError() {
-        val error = if (_state.value.wallet == null) "Please select a wallet" else null
+        val wallet = _state.value.wallet
+        val error = if (wallet.id == UUIDConst.empty) "Please select a wallet" else null
         _state.update { it.copy(walletError = ErrorMessage(error)) }
     }
 
@@ -204,8 +202,8 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
                             name = recurringTransaction.name,
                             amount = recurringTransaction.amount.formatThousand(),
                             type = recurringTransaction.type,
-                            category = recurringTransaction.category,
-                            wallet = recurringTransaction.wallet,
+                            category = recurringTransaction.category ?: Category(),
+                            wallet = recurringTransaction.wallet ?: Wallet(),
                             frequency = recurringTransaction.frequency,
                             startDate = recurringTransaction.startDate,
                             initialStartDate = recurringTransaction.startDate,

@@ -9,7 +9,7 @@ import dev.muffar.moneyfikasi.domain.model.Wallet
 sealed class AddEditRecurringTransactionEvent {
     data class OnNameChanged(val name: String) : AddEditRecurringTransactionEvent()
     data class OnAmountChanged(val amount: String) : AddEditRecurringTransactionEvent()
-    data class OnTypeChanged(val type: TransactionType) : AddEditRecurringTransactionEvent()
+    data class OnTypeChanged(val type: TransactionType, val isInit: Boolean = false) : AddEditRecurringTransactionEvent()
     data class OnCategoryChanged(val category: Category) : AddEditRecurringTransactionEvent()
     data class OnWalletChanged(val wallet: Wallet) : AddEditRecurringTransactionEvent()
     data class OnFrequencyChanged(val frequency: TimePeriod) : AddEditRecurringTransactionEvent()

@@ -95,7 +95,7 @@ fun AddEditRecurringTransactionScreen(
                 .verticalScroll(scrollState)
                 .padding(16.dp),
             state = state,
-            onTypeChange = { onEvent(AddEditRecurringTransactionEvent.OnTypeChanged(it)) },
+            onTypeChange = { onEvent(AddEditRecurringTransactionEvent.OnTypeChanged(it, false)) },
             onNameChange = { onEvent(AddEditRecurringTransactionEvent.OnNameChanged(it)) },
             onAmountChange = { onEvent(AddEditRecurringTransactionEvent.OnAmountChanged(it)) },
             onCategoryChange = { onEvent(AddEditRecurringTransactionEvent.OnCategoryChanged(it)) },

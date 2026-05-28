@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.recurring_transaction.navigation
 
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -11,6 +12,7 @@ import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.recurring_transaction.add_edit.AddEditRecurringTransactionEvent
 import dev.muffar.moneyfikasi.recurring_transaction.add_edit.AddEditRecurringTransactionScreen
 import dev.muffar.moneyfikasi.recurring_transaction.add_edit.AddEditRecurringTransactionViewModel
 import dev.muffar.moneyfikasi.recurring_transaction.list.RecurringTransactionsEvent
@@ -76,11 +78,20 @@ fun NavGraphBuilder.recurringTransactionNavGraph(
     ) {
         val viewModel = hiltViewModel<AddEditRecurringTransactionViewModel>()
         val state by viewModel.state.collectAsStateWithLifecycle()
+        val event = viewModel::onEvent
+
+        val type = it.arguments?.getString(Screen.AddEditRecurringTransaction.TYPE)?.let { value ->
+            TransactionType.fromString(value)
+        }
+
+        LaunchedEffect(Unit) {
+            event(AddEditRecurringTransactionEvent.OnTypeChanged(type ?: TransactionType.EXPENSE, true))
+        }
 
         AddEditRecurringTransactionScreen(
             state = state,
             eventFlow = viewModel.eventFlow,
-            onEvent = viewModel::onEvent,
+            onEvent = event,
             onAddNewCategoryClick = { navigateToAddCategory(state.recurringTransaction.type.toCategoryType()) },
             onAddNewWalletClick = navigateToAddWallet,
             onBackClick = navigateBack
