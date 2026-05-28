@@ -9,10 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Sync
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -68,17 +65,7 @@ fun RecurringTransactionsScreen(
             CommonTopAppBar(
                 title = stringResource(R.string.recurring_transactions),
                 onBackClick = onBackClick,
-                titleSize = 20.sp,
-                action = {
-                    IconButton(
-                        onClick = { RecurringTransactionScheduler(context).runRecurringTransactionWorker() }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.Sync,
-                            contentDescription = stringResource(R.string.sync)
-                        )
-                    }
-                }
+                titleSize = 20.sp
             )
         },
         floatingActionButton = {
