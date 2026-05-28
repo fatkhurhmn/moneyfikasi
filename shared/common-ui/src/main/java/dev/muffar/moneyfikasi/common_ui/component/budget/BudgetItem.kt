@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.common_ui.component.budget
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,6 +33,7 @@ fun BudgetItem(
     modifier: Modifier = Modifier,
     budget: Budget,
     spentAmount: Double,
+    showCard: Boolean = true,
     onClick: () -> Unit,
 ) {
     val progress = if (budget.amount > 0) (spentAmount / budget.amount).toFloat() else 0f
@@ -43,70 +46,102 @@ fun BudgetItem(
     val remainingAmount = (budget.amount - spentAmount).let {
         if (it < 0) 0.0 else it
     }
-    PrimaryCard(
-        onClick = onClick
-    ) {
-        Row(
-            modifier = Modifier
-                .padding(vertical = 12.dp, horizontal = 16.dp)
-                .fillMaxWidth()
-                .height(50.dp)
-                .then(modifier),
-            verticalAlignment = Alignment.CenterVertically
+
+    if (showCard) {
+        PrimaryCard(
+            onClick = onClick,
         ) {
-            BoxedIcon(
-                icon = budget.category.icon,
-                color = budget.category.color,
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .aspectRatio(1f)
+            BudgetItemContent(
+                modifier = modifier.padding(vertical = 12.dp, horizontal = 16.dp),
+                budget = budget,
+                spentAmount = spentAmount,
+                progress = progress,
+                remainingAmount = remainingAmount,
+                color = color
             )
-            Spacer(modifier = Modifier.width(16.dp))
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.SpaceBetween
+        }
+    } else {
+        BudgetItemContent(
+            modifier = modifier
+                .clickable { onClick() }
+                .padding(vertical = 12.dp, horizontal = 16.dp),
+            budget = budget,
+            spentAmount = spentAmount,
+            progress = progress,
+            remainingAmount = remainingAmount,
+            color = color
+        )
+    }
+}
+
+@Composable
+private fun BudgetItemContent(
+    modifier: Modifier = Modifier,
+    budget: Budget,
+    spentAmount: Double,
+    progress: Float,
+    remainingAmount: Double,
+    color: Color
+) {
+    Row(
+        modifier = Modifier
+            .then(modifier)
+            .fillMaxWidth()
+            .height(50.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        BoxedIcon(
+            icon = budget.category.icon,
+            color = budget.category.color,
+            modifier = Modifier
+                .fillMaxHeight()
+                .aspectRatio(1f)
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = budget.category.name,
-                        style = MaterialTheme.typography.titleMedium,
-                        fontSize = 15.sp
-                    )
-                    Text(
-                        text = budget.amount.formatThousand(),
-                        style = MaterialTheme.typography.titleMedium,
-                        fontSize = 15.sp
-                    )
-                }
-                LinearProgressIndicator(
-                    progress = { progress.coerceAtMost(1f) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(6.dp),
-                    trackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f),
-                    strokeCap = StrokeCap.Round,
-                    gapSize = (-15).dp,
-                    drawStopIndicator = {},
-                    color = color
+                Text(
+                    text = budget.category.name,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontSize = 15.sp
                 )
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = spentAmount.formatThousand() + " spent",
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                    Text(
-                        text = remainingAmount.formatThousand() + " left",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
+                Text(
+                    text = budget.amount.formatThousand(),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontSize = 15.sp
+                )
+            }
+            LinearProgressIndicator(
+                progress = { progress.coerceAtMost(1f) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(6.dp),
+                trackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f),
+                strokeCap = StrokeCap.Round,
+                gapSize = (-15).dp,
+                drawStopIndicator = {},
+                color = color
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = spentAmount.formatThousand() + " spent",
+                    style = MaterialTheme.typography.bodySmall
+                )
+                Text(
+                    text = remainingAmount.formatThousand() + " left",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
         }
     }

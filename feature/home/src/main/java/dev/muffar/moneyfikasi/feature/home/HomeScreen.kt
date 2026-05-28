@@ -25,6 +25,9 @@ import dev.muffar.moneyfikasi.feature.home.component.QuickTransactionSection
 import dev.muffar.moneyfikasi.feature.home.component.RecentTransactionsSection
 import dev.muffar.moneyfikasi.feature.home.component.ReportSection
 import dev.muffar.moneyfikasi.feature.home.component.TotalBalance
+import androidx.compose.ui.draw.clip
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.background
 import java.util.UUID
 
 @Composable

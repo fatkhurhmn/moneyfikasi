@@ -1,7 +1,6 @@
 package dev.muffar.moneyfikasi.feature.home.component
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -12,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.transaction.item.TransactionItem
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.resource.R
@@ -31,14 +31,14 @@ fun RecentTransactionsSection(
         )
         Spacer(modifier = Modifier.height(8.dp))
         Column(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .clip(MaterialTheme.shapes.medium)
+                .background(MaterialTheme.colorScheme.surface)
+                .padding(vertical = 4.dp)
         ) {
-            transactions.forEach {
+            transactions.forEachIndexed { index, it ->
                 TransactionItem(
-                    modifier = Modifier
-                        .clip(MaterialTheme.shapes.medium)
-                        .background(MaterialTheme.colorScheme.surface),
                     transaction = it,
                     onClick = { id ->
                         onTransactionClick(
@@ -48,6 +48,12 @@ fun RecentTransactionsSection(
                     },
                     showDate = true
                 )
+                if (index < transactions.size - 1) {
+                    CommonHorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                    )
+                }
             }
         }
     }
