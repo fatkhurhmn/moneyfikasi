@@ -129,6 +129,7 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
     }
 
     private fun onOccurrenceCountChange(count: String) {
+        if (count.length > ValidationConst.MAX_OCCURRENCE_LENGTH) return
         if (count.all { it.isDigit() }) {
             _state.update { it.copy(occurrenceCount = count) }
             updateOccurrenceCountError()

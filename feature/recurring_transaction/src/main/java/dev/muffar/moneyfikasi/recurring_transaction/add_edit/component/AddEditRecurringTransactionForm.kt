@@ -30,6 +30,7 @@ import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.recurring_transaction.add_edit.AddEditRecurringTransactionState
 import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.utils.constants.ValidationConst
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneOffset
 
@@ -160,7 +161,11 @@ fun AddEditRecurringTransactionForm(
                 initialDisplayedMonthMillis = state.startDate,
                 onEndTypeChange = onEndTypeChange,
                 onEndDateChange = onEndDateChange,
-                onOccurrenceCountChange = onOccurrenceCountChange
+                onOccurrenceCountChange = {
+                    if (it.length <= ValidationConst.MAX_OCCURRENCE_LENGTH) {
+                        onOccurrenceCountChange(it)
+                    }
+                }
             )
         }
 
