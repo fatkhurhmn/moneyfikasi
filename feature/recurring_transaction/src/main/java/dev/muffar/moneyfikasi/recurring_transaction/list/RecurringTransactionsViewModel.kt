@@ -6,7 +6,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.model.RecurringEndType
 import dev.muffar.moneyfikasi.domain.model.RecurringTransaction
 import dev.muffar.moneyfikasi.domain.usecase.recurring_transaction.RecurringTransactionUseCases
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
@@ -20,6 +22,9 @@ class RecurringTransactionsViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(RecurringTransactionsState())
     val state = _state.asStateFlow()
+
+    private val _eventFlow = MutableSharedFlow<UiEvent>()
+    val eventFlow = _eventFlow.asSharedFlow()
 
     init {
         loadAllRecurringTransactions()
@@ -65,6 +70,12 @@ class RecurringTransactionsViewModel @Inject constructor(
                 isActive = !recurringTransaction.isActive
             )
             recurringTransactionUseCases.saveRecurringTransaction(updatedRecurringTransaction)
+            val hasActive = recurringTransactionUseCases.checkActiveRecurringTransactions()
+            _eventFlow.emit(UiEvent.UpdateSchedule(hasActive))
         }
+    }
+
+    sealed class UiEvent {
+        data class UpdateSchedule(val hasActive: Boolean) : UiEvent()
     }
 }

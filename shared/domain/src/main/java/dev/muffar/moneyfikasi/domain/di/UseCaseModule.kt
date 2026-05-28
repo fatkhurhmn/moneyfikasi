@@ -53,6 +53,7 @@ import dev.muffar.moneyfikasi.domain.usecase.preset.GetAllPresets
 import dev.muffar.moneyfikasi.domain.usecase.preset.GetPresetById
 import dev.muffar.moneyfikasi.domain.usecase.preset.PresetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preset.UpsertPreset
+import dev.muffar.moneyfikasi.domain.usecase.recurring_transaction.CheckActiveRecurringTransactions
 import dev.muffar.moneyfikasi.domain.usecase.recurring_transaction.DeleteRecurringTransaction
 import dev.muffar.moneyfikasi.domain.usecase.recurring_transaction.GetAllRecurringTransactions
 import dev.muffar.moneyfikasi.domain.usecase.recurring_transaction.GetRecurringTransactionById
@@ -210,7 +211,8 @@ object UseCaseModule {
             recurringTransactionRepository,
             transactionRepository
         ),
-        getTransactionCountByRecurringId = GetTransactionCountByRecurringId(transactionRepository)
+        getTransactionCountByRecurringId = GetTransactionCountByRecurringId(transactionRepository),
+        checkActiveRecurringTransactions = CheckActiveRecurringTransactions(recurringTransactionRepository)
     )
 
     @Provides

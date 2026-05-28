@@ -41,6 +41,7 @@ fun NavGraphBuilder.recurringTransactionNavGraph(
 
         RecurringTransactionsScreen(
             state = state,
+            eventFlow = viewModel.eventFlow,
             onAddRecurringTransactionClick = navigateToAddRecurringTransaction,
             onRecurringTransactionClick = { id ->
                 val recurringTransaction = state.recurringTransactions.find { it.id == id }

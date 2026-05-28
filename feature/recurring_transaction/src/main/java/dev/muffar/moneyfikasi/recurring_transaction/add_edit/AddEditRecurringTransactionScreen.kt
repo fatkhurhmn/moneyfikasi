@@ -50,13 +50,14 @@ fun AddEditRecurringTransactionScreen(
             when (event) {
                 is AddEditRecurringTransactionViewModel.UiEvent.SaveRecurringTransaction -> {
                     RecurringTransactionScheduler(context).apply {
-                        scheduleRecurringTransaction()
-                        runRecurringTransactionWorker()
+                        updateRecurringTransactionSchedule(event.hasActive)
+                        if (event.hasActive) runRecurringTransactionWorker()
                     }
                     onBackClick()
                 }
 
                 is AddEditRecurringTransactionViewModel.UiEvent.DeleteRecurringTransaction -> {
+                    RecurringTransactionScheduler(context).updateRecurringTransactionSchedule(event.hasActive)
                     onBackClick()
                 }
 

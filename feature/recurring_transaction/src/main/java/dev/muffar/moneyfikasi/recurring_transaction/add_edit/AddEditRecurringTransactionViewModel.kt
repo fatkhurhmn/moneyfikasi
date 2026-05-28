@@ -243,7 +243,8 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 recurringTransactionUseCases.saveRecurringTransaction(_state.value.recurringTransaction)
-                _eventFlow.emit(UiEvent.SaveRecurringTransaction)
+                val hasActive = recurringTransactionUseCases.checkActiveRecurringTransactions()
+                _eventFlow.emit(UiEvent.SaveRecurringTransaction(hasActive))
             } catch (e: Exception) {
                 _eventFlow.emit(
                     UiEvent.ShowMessage(
@@ -260,7 +261,8 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 recurringTransactionUseCases.deleteRecurringTransaction(id)
-                _eventFlow.emit(UiEvent.DeleteRecurringTransaction)
+                val hasActive = recurringTransactionUseCases.checkActiveRecurringTransactions()
+                _eventFlow.emit(UiEvent.DeleteRecurringTransaction(hasActive))
             } catch (e: Exception) {
                 _eventFlow.emit(
                     UiEvent.ShowMessage(
@@ -273,8 +275,8 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
     }
 
     sealed class UiEvent {
-        data object SaveRecurringTransaction : UiEvent()
-        data object DeleteRecurringTransaction : UiEvent()
+        data class SaveRecurringTransaction(val hasActive: Boolean) : UiEvent()
+        data class DeleteRecurringTransaction(val hasActive: Boolean) : UiEvent()
         data class ShowMessage(val message: String, val type: SnackbarType) : UiEvent()
     }
 }

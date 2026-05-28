@@ -11,6 +11,14 @@ import dev.muffar.moneyfikasi.data.worker.RecurringTransactionWorker
 import java.util.Calendar
 
 class RecurringTransactionScheduler(private val context: Context) {
+    fun updateRecurringTransactionSchedule(hasActiveRecurring: Boolean) {
+        if (hasActiveRecurring) {
+            scheduleRecurringTransaction()
+        } else {
+            cancelRecurringTransaction()
+        }
+    }
+
     fun scheduleRecurringTransaction() {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, RecurringTransactionReceiver::class.java)
