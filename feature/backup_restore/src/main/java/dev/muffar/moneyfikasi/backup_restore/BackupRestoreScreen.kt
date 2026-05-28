@@ -112,8 +112,8 @@ fun BackupRestoreScreen(
             when (it) {
                 is BackupRestoreViewModel.UiEvent.ShowMessage -> {
                     val message = it.formatArg?.let { formatArg ->
-                        context.getString(it.messageResId, formatArg)
-                    } ?: context.getString(it.messageResId)
+                        context.applicationContext.getString(it.messageResId, formatArg)
+                    } ?: context.applicationContext.getString(it.messageResId)
                     snackbarHostState.showMessage(message, it.type)
                 }
             }

@@ -94,8 +94,8 @@ fun ExportScreen(
             when (event) {
                 is ExportViewModel.UiEvent.ShowMessage -> {
                     val message = event.formatArg?.let {
-                        context.getString(event.messageResId, it)
-                    } ?: context.getString(event.messageResId)
+                        context.applicationContext.getString(event.messageResId, it)
+                    } ?: context.applicationContext.getString(event.messageResId)
                     snackbarHostState.showMessage(message, event.type)
                 }
             }

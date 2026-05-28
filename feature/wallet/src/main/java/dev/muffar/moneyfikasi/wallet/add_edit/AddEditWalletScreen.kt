@@ -87,7 +87,7 @@ fun AddEditWalletScreen(
                 is AddEditWalletViewModel.UiEvent.SaveWallet -> onBackClick()
                 is AddEditWalletViewModel.UiEvent.DeleteWallet -> onBackClick()
                 is AddEditWalletViewModel.UiEvent.ShowMessage -> snackbarHostState.showMessage(
-                    context.getString(it.messageResId),
+                    context.applicationContext.getString(it.messageResId),
                     it.type
                 )
             }

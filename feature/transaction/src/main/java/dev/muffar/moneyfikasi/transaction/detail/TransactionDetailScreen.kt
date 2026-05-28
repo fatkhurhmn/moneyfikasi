@@ -119,7 +119,7 @@ fun TransactionDetailScreen(
             when (it) {
                 is TransactionDetailViewModel.UiEvent.DeleteTransaction -> onBackClick()
                 is TransactionDetailViewModel.UiEvent.ShowMessage -> snackbarHostState.showMessage(
-                    context.getString(it.messageResId),
+                    context.applicationContext.getString(it.messageResId),
                     it.type
                 )
 

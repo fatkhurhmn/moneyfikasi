@@ -91,7 +91,10 @@ fun AddEditBudgetScreen(
                 is AddEditBudgetViewModel.UiEvent.SaveBudget -> onBackClick()
                 is AddEditBudgetViewModel.UiEvent.DeleteBudget -> onBackClick()
                 is AddEditBudgetViewModel.UiEvent.ShowMessage -> {
-                    snackbarHostState.showMessage(context.getString(it.messageResId), it.type)
+                    snackbarHostState.showMessage(
+                        context.applicationContext.getString(it.messageResId),
+                        it.type
+                    )
                 }
             }
         }

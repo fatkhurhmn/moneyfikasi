@@ -100,7 +100,7 @@ fun AddEditCategoryScreen(
                 is AddEditCategoryViewModel.UiEvent.SaveCategory -> onBackClick()
                 is AddEditCategoryViewModel.UiEvent.DeleteCategory -> onBackClick()
                 is AddEditCategoryViewModel.UiEvent.ShowMessage -> snackbarHostState.showMessage(
-                    context.getString(it.messageResId),
+                    context.applicationContext.getString(it.messageResId),
                     it.type
                 )
             }

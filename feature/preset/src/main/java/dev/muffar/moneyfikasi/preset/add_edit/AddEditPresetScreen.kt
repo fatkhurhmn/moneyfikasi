@@ -108,7 +108,7 @@ fun AddEditPresetScreen(
                 is AddEditPresetViewModel.UiEvent.SavePreset -> onBackClick()
                 is AddEditPresetViewModel.UiEvent.DeletePreset -> onBackClick()
                 is AddEditPresetViewModel.UiEvent.ShowMessage -> snackbarHostState.showMessage(
-                    context.getString(it.messageResId),
+                    context.applicationContext.getString(it.messageResId),
                     it.type
                 )
             }
