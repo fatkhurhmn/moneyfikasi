@@ -57,8 +57,18 @@ class StatisticViewModel @Inject constructor(
                 .distinctUntilChanged()
                 .flatMapLatest { (dateRange, categories, wallets) ->
                     combine(
-                        transactionUseCases.getIncomeSum(dateRange.start, dateRange.end, categories, wallets),
-                        transactionUseCases.getExpenseSum(dateRange.start, dateRange.end, categories, wallets),
+                        transactionUseCases.getIncomeSum(
+                            dateRange.start,
+                            dateRange.end,
+                            categories,
+                            wallets
+                        ),
+                        transactionUseCases.getExpenseSum(
+                            dateRange.start,
+                            dateRange.end,
+                            categories,
+                            wallets
+                        ),
                         statisticUseCases.getTransactionTrend(dateRange, categories, wallets),
                         statisticUseCases.getCategoryStatistics(dateRange, categories, wallets),
                         statisticUseCases.getStatisticInsights(dateRange, categories, wallets)

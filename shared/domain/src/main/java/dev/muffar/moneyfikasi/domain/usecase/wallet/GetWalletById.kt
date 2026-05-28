@@ -6,7 +6,7 @@ import java.util.UUID
 
 class GetWalletById(
     private val repository: WalletRepository
-){
+) {
 
     suspend operator fun invoke(id: UUID): Wallet? {
         return repository.getWalletById(id)

@@ -67,7 +67,8 @@ class BackupRestoreRepositoryImpl(
                 db.close()
 
                 val dbFile = context.getDatabasePath(MoneyfikasiDatabase.DATABASE_NAME)
-                val dbDir = dbFile.parentFile ?: return@withContext Result.failure(IOException("Database directory not found"))
+                val dbDir = dbFile.parentFile
+                    ?: return@withContext Result.failure(IOException("Database directory not found"))
 
                 context.contentResolver.openInputStream(uri)?.use { inputStream ->
                     ZipInputStream(inputStream).use { zipIn ->

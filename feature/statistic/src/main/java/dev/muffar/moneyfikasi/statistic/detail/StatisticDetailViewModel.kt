@@ -48,7 +48,8 @@ class StatisticDetailViewModel @Inject constructor(
         val endDate = handle.get<String>(Screen.StatisticDetail.END_DATE)?.toLong() ?: return
         val categoryId = handle.get<String>(Screen.StatisticDetail.CATEGORY_ID) ?: return
         viewModelScope.launch {
-            category = categoryUseCases.getCategoryById(UUID.fromString(categoryId)) ?: return@launch
+            category =
+                categoryUseCases.getCategoryById(UUID.fromString(categoryId)) ?: return@launch
             wallets = walletUseCases.getAllWallets().first().toSet()
 
             _state.update {

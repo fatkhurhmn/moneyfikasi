@@ -5,7 +5,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.net.toUri
 import dev.muffar.moneyfikasi.domain.model.TransactionType
@@ -22,7 +21,8 @@ class NotificationHelper(private val context: Context) {
         isEnded: Boolean = false
     ) {
         val channelId = "recurring_transactions"
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val channel = NotificationChannel(
             channelId,
@@ -48,7 +48,13 @@ class NotificationHelper(private val context: Context) {
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentTitle(context.getString(R.string.recurring_transaction_processed))
-            .setContentText(context.getString(R.string.recurring_transaction_processed_message, amount, name))
+            .setContentText(
+                context.getString(
+                    R.string.recurring_transaction_processed_message,
+                    amount,
+                    name
+                )
+            )
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
@@ -73,7 +79,12 @@ class NotificationHelper(private val context: Context) {
             val endedBuilder = NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(context.getString(R.string.recurring_transaction_ended))
-                .setContentText(context.getString(R.string.recurring_transaction_ended_message, name))
+                .setContentText(
+                    context.getString(
+                        R.string.recurring_transaction_ended_message,
+                        name
+                    )
+                )
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(recurringPendingIntent)
                 .setAutoCancel(true)

@@ -9,17 +9,22 @@
 </p>
 
 ## Screenshots
+
 |                      |                      |                      |                      |
 |----------------------|----------------------|----------------------|----------------------|
 | ![](images/img1.png) | ![](images/img2.png) | ![](images/img3.png) | ![](images/img4.png) |
 
 ## Key Features
 
-- **Recording Transactions.** Easily record all your financial transactions, both income and expenses.
-- **Financial Report.** Access financial reports according to the time period you want to see a summary of your expenses and income.
-- **Analysis Graph.** View graphs that show your financial trends, helping you understand spending and income patterns.
+- **Recording Transactions.** Easily record all your financial transactions, both income and
+  expenses.
+- **Financial Report.** Access financial reports according to the time period you want to see a
+  summary of your expenses and income.
+- **Analysis Graph.** View graphs that show your financial trends, helping you understand spending
+  and income patterns.
 - **Multiple Wallet.** Manage finances from multiple wallets.
-- **Customize Category.** Organize your transactions in various customizable categories, such as food, transportation, entertainment, etc.
+- **Customize Category.** Organize your transactions in various customizable categories, such as
+  food, transportation, entertainment, etc.
 - **Backup Restore.** You can backup and restore at anytime to save your record.
 
 ## Tech Stack
@@ -38,7 +43,8 @@
 
 To get started with Moneyfikasi, follow these steps:
 
-1. Clone this repository to your local machine using `git clone https://github.com/fatkhurhmn/moneyfikasi.git`
+1. Clone this repository to your local machine using
+   `git clone https://github.com/fatkhurhmn/moneyfikasi.git`
 2. Open the project in Android Studio.
 3. Build and run the app on an Android device or emulator.
 

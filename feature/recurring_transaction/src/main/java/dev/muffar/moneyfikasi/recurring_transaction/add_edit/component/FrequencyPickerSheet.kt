@@ -20,9 +20,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
-import dev.muffar.moneyfikasi.common_ui.component.button.DoubleOutlinedButton
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.BottomSheetTitle
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.PickerOptionItem
+import dev.muffar.moneyfikasi.common_ui.component.button.DoubleOutlinedButton
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.capitalize
@@ -38,7 +38,8 @@ fun FrequencyPickerSheet(
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
-    val frequencies = listOf(TimePeriod.DAILY, TimePeriod.WEEKLY, TimePeriod.MONTHLY, TimePeriod.YEARLY)
+    val frequencies =
+        listOf(TimePeriod.DAILY, TimePeriod.WEEKLY, TimePeriod.MONTHLY, TimePeriod.YEARLY)
 
     val hideSheet = {
         scope.launch { sheetState.hide() }.invokeOnCompletion {

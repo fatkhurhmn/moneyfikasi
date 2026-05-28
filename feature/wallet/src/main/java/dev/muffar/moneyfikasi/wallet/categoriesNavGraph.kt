@@ -6,8 +6,8 @@ import dev.muffar.moneyfikasi.wallet.list.navigation.walletsNavigation
 import java.util.UUID
 
 fun NavGraphBuilder.walletsNavGraph(
-    navigateToAddWallet : () -> Unit,
-    navigateToEditWallet : (UUID) -> Unit,
+    navigateToAddWallet: () -> Unit,
+    navigateToEditWallet: (UUID) -> Unit,
     navigateBack: () -> Unit,
 ) {
     walletsNavigation(
@@ -16,7 +16,7 @@ fun NavGraphBuilder.walletsNavGraph(
         navigateBack = navigateBack,
     )
 
-    addEditWalletNavigation (
+    addEditWalletNavigation(
         navigateBack = navigateBack,
     )
 }

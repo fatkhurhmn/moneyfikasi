@@ -4,14 +4,12 @@ import dev.muffar.moneyfikasi.domain.model.ProcessedRecurring
 import dev.muffar.moneyfikasi.domain.model.RecurringEndType
 import dev.muffar.moneyfikasi.domain.model.RecurringTransaction
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
-import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.repository.RecurringTransactionRepository
 import dev.muffar.moneyfikasi.domain.repository.TransactionRepository
 import kotlinx.coroutines.flow.first
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneOffset
-import java.util.UUID
 
 class ProcessRecurringTransactions(
     private val recurringTransactionRepository: RecurringTransactionRepository,
@@ -41,7 +39,8 @@ class ProcessRecurringTransactions(
                 )
 
                 // Update next run
-                val currentNextRunDate = Instant.ofEpochMilli(nextRun).atZone(ZoneOffset.UTC).toLocalDateTime()
+                val currentNextRunDate =
+                    Instant.ofEpochMilli(nextRun).atZone(ZoneOffset.UTC).toLocalDateTime()
                 val updatedNextRun = when (currentRecurring.frequency) {
                     TimePeriod.DAILY -> currentNextRunDate.plusDays(1)
                     TimePeriod.WEEKLY -> currentNextRunDate.plusWeeks(1)
@@ -84,7 +83,8 @@ class ProcessRecurringTransactions(
             RecurringEndType.NEVER -> false
             RecurringEndType.ON_DATE -> recurring.endDate?.let { nextRun > it } ?: false
             RecurringEndType.AFTER_OCCURRENCES -> {
-                val occurrences = transactionRepository.getTransactionCountByRecurringId(recurring.id)
+                val occurrences =
+                    transactionRepository.getTransactionCountByRecurringId(recurring.id)
                 recurring.occurrenceCount?.let { occurrences >= it } ?: false
             }
         }

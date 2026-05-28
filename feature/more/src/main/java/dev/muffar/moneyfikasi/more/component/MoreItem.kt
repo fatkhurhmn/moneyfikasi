@@ -15,7 +15,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -39,12 +38,14 @@ fun MoreItem(
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Box(
-                    modifier = Modifier.size(50.dp).background(
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
-                        shape = MaterialTheme.shapes.small
-                    ),
+                    modifier = Modifier
+                        .size(50.dp)
+                        .background(
+                            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+                            shape = MaterialTheme.shapes.small
+                        ),
                     contentAlignment = Alignment.Center
-                ){
+                ) {
                     Icon(
                         imageVector = icon,
                         contentDescription = title,

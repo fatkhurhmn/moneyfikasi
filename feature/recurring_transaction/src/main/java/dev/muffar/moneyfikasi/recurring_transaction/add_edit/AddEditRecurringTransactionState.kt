@@ -43,7 +43,8 @@ data class AddEditRecurringTransactionState(
         get() {
             val calculatedNextRun = if (id == null || startDate != initialStartDate) {
                 if (isSkipFirst) {
-                    val startDateTime = Instant.ofEpochMilli(startDate).atZone(ZoneOffset.UTC).toLocalDateTime()
+                    val startDateTime =
+                        Instant.ofEpochMilli(startDate).atZone(ZoneOffset.UTC).toLocalDateTime()
                     when (frequency) {
                         TimePeriod.DAILY -> startDateTime.plusDays(1)
                         TimePeriod.WEEKLY -> startDateTime.plusWeeks(1)

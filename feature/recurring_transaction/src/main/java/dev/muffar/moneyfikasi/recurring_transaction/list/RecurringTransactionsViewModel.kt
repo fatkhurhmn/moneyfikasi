@@ -29,7 +29,9 @@ class RecurringTransactionsViewModel @Inject constructor(
 
     fun onEvent(event: RecurringTransactionsEvent) {
         when (event) {
-            is RecurringTransactionsEvent.OnToggleRecurringTransaction -> onToggleRecurringTransaction(event.recurringTransaction)
+            is RecurringTransactionsEvent.OnToggleRecurringTransaction -> onToggleRecurringTransaction(
+                event.recurringTransaction
+            )
         }
     }
 
@@ -41,11 +43,16 @@ class RecurringTransactionsViewModel @Inject constructor(
                         val isEnded = when (recurring.endType) {
                             RecurringEndType.NEVER -> false
                             RecurringEndType.ON_DATE -> {
-                                val today = LocalDate.now().atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli()
+                                val today = LocalDate.now().atStartOfDay(ZoneOffset.UTC).toInstant()
+                                    .toEpochMilli()
                                 recurring.endDate?.let { it < today } ?: false
                             }
+
                             RecurringEndType.AFTER_OCCURRENCES -> {
-                                val count = recurringTransactionUseCases.getTransactionCountByRecurringId(recurring.id)
+                                val count =
+                                    recurringTransactionUseCases.getTransactionCountByRecurringId(
+                                        recurring.id
+                                    )
                                 recurring.occurrenceCount?.let { count >= it } ?: false
                             }
                         }

@@ -155,7 +155,8 @@ class HomeViewModel @Inject constructor(
                             _state.update { state ->
                                 val updatedBudgets = state.budgets.map {
                                     if (it.id == budget.id) it.copy(spentAmount = spent) else it
-                                }.sortedByDescending { if (it.amount > 0) it.spentAmount / it.amount else 0.0 }
+                                }
+                                    .sortedByDescending { if (it.amount > 0) it.spentAmount / it.amount else 0.0 }
                                 state.copy(budgets = updatedBudgets)
                             }
                         }

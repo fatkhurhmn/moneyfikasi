@@ -79,7 +79,9 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
                     it.copy(
                         startDate = event.startDate,
                         endDate = if (it.endDate < event.startDate) event.startDate else it.endDate,
-                        isSkipFirst = if (event.startDate != LocalDate.now().atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli()) false else it.isSkipFirst
+                        isSkipFirst = if (event.startDate != LocalDate.now()
+                                .atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli()
+                        ) false else it.isSkipFirst
                     )
                 }
             }
@@ -91,6 +93,7 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
             is AddEditRecurringTransactionEvent.OnEndDateChanged -> {
                 _state.update { it.copy(endDate = event.endDate) }
             }
+
             is AddEditRecurringTransactionEvent.OnOccurrenceCountChanged -> {
                 if (event.count.all { it.isDigit() }) {
                     _state.update {

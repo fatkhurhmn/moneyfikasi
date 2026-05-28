@@ -26,7 +26,10 @@ class CategoryRepositoryImpl @Inject constructor(
         return categoryDao.getCategoryById(id)?.toDomain()
     }
 
-    override fun getCategoriesByType(type: CategoryType, includeTransfer: Boolean): Flow<List<Category>> {
+    override fun getCategoriesByType(
+        type: CategoryType,
+        includeTransfer: Boolean
+    ): Flow<List<Category>> {
         return categoryDao.getCategoriesByType(type).map { entities ->
             entities.filter { includeTransfer || !it.isTransferCategory }.map { it.toDomain() }
         }

@@ -14,8 +14,8 @@ import java.util.UUID
 
 fun NavGraphBuilder.addEditWalletNavigation(
     navigateBack: () -> Unit
-){
-    composable(Screen.AddEditWallet.route){
+) {
+    composable(Screen.AddEditWallet.route) {
         val viewModel = hiltViewModel<AddEditWalletViewModel>()
         val state by viewModel.state.collectAsState()
         val event = viewModel::onEvent

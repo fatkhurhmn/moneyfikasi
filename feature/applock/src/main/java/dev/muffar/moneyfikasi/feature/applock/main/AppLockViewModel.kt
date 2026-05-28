@@ -46,10 +46,11 @@ class AppLockViewModel @Inject constructor(
 
     private fun checkBiometricSupport() {
         val biometricManager = BiometricManager.from(context)
-        val isSupported = when (biometricManager.canAuthenticate(BIOMETRIC_STRONG or DEVICE_CREDENTIAL)) {
-            BiometricManager.BIOMETRIC_SUCCESS -> true
-            else -> false
-        }
+        val isSupported =
+            when (biometricManager.canAuthenticate(BIOMETRIC_STRONG or DEVICE_CREDENTIAL)) {
+                BiometricManager.BIOMETRIC_SUCCESS -> true
+                else -> false
+            }
         _state.update { it.copy(isBiometricSupported = isSupported) }
     }
 

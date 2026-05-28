@@ -125,6 +125,7 @@ fun EnterPinScreen(
                         onNavigateBack()
                     }
                 }
+
                 is EnterPinViewModel.UiEvent.NavigateBack -> onNavigateBack()
             }
         }

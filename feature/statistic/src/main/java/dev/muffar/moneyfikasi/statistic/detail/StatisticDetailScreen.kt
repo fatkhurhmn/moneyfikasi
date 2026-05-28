@@ -37,7 +37,7 @@ fun StatisticDetailScreen(
                     totalAmount = state.totalAmount
                 )
             },
-            modifier= Modifier.padding(it),
+            modifier = Modifier.padding(it),
             transactions = transactions,
             onItemClick = onClick,
             onGetDailyBalance = onGetDailySum

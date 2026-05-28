@@ -36,9 +36,11 @@ fun OverviewIncomeExpense(
 ) {
     val isIncome = categoryType == CategoryType.INCOME
     val financeColors = MoneyfikasiTheme.financeColors
-    val containerColor = if (isIncome) financeColors.incomeContainer else financeColors.expenseContainer
+    val containerColor =
+        if (isIncome) financeColors.incomeContainer else financeColors.expenseContainer
     val textColor = if (isIncome) financeColors.income else financeColors.expense
-    val icon = if (isIncome) Icons.Rounded.KeyboardDoubleArrowDown else Icons.Rounded.KeyboardDoubleArrowUp
+    val icon =
+        if (isIncome) Icons.Rounded.KeyboardDoubleArrowDown else Icons.Rounded.KeyboardDoubleArrowUp
 
     Box(
         modifier = modifier

@@ -44,7 +44,10 @@ class CategoryDistributionViewModel @Inject constructor(
                 categoryUseCases.getAllCategories(true),
                 walletUseCases.getAllWallets()
             ) { categories, wallets ->
-                DateRange(start = startDate, end = endDate) to (categories.toSet() to wallets.toSet())
+                DateRange(
+                    start = startDate,
+                    end = endDate
+                ) to (categories.toSet() to wallets.toSet())
             }.flatMapLatest { (dateRange, pair) ->
                 val (categories, wallets) = pair
                 statisticUseCases.getCategoryStatistics(dateRange, categories, wallets)

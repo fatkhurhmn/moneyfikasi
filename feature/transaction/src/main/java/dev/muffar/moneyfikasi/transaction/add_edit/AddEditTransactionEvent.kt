@@ -5,7 +5,9 @@ import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 
 sealed class AddEditTransactionEvent {
-    data class TypeChanged(val type: TransactionType, val isInit: Boolean) : AddEditTransactionEvent()
+    data class TypeChanged(val type: TransactionType, val isInit: Boolean) :
+        AddEditTransactionEvent()
+
     data class AmountChanged(val amount: String) : AddEditTransactionEvent()
     data class CategorySelected(val category: Category) : AddEditTransactionEvent()
     data class WalletSelected(val wallet: Wallet) : AddEditTransactionEvent()

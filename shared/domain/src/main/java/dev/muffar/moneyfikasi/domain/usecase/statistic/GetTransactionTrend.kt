@@ -36,7 +36,10 @@ class GetTransactionTrend(
             val labels = mutableListOf<String>()
             val incomeValues = mutableListOf<Double>()
             val expenseValues = mutableListOf<Double>()
-            val start = LocalDateTime.ofInstant(Instant.ofEpochMilli(dateRange.start), ZoneId.systemDefault())
+            val start = LocalDateTime.ofInstant(
+                Instant.ofEpochMilli(dateRange.start),
+                ZoneId.systemDefault()
+            )
 
             when (dateRange.timePeriod) {
                 TimePeriod.DAILY -> {

@@ -206,7 +206,10 @@ object UseCaseModule {
         getRecurringTransactionById = GetRecurringTransactionById(recurringTransactionRepository),
         saveRecurringTransaction = SaveRecurringTransaction(recurringTransactionRepository),
         deleteRecurringTransaction = DeleteRecurringTransaction(recurringTransactionRepository),
-        processRecurringTransactions = ProcessRecurringTransactions(recurringTransactionRepository, transactionRepository),
+        processRecurringTransactions = ProcessRecurringTransactions(
+            recurringTransactionRepository,
+            transactionRepository
+        ),
         getTransactionCountByRecurringId = GetTransactionCountByRecurringId(transactionRepository)
     )
 

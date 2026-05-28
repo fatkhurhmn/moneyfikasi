@@ -25,5 +25,5 @@ data class WalletEntity(
     val balance: Double,
 
     @ColumnInfo(name = "is_active")
-    val isActive : Boolean
+    val isActive: Boolean
 )

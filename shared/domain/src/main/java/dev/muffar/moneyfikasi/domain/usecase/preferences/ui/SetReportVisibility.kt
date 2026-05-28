@@ -5,5 +5,6 @@ import dev.muffar.moneyfikasi.domain.repository.UiSettingsRepository
 class SetReportVisibility(
     private val uiSettingsRepository: UiSettingsRepository
 ) {
-    suspend operator fun invoke(isVisible: Boolean) = uiSettingsRepository.setReportVisibility(isVisible)
+    suspend operator fun invoke(isVisible: Boolean) =
+        uiSettingsRepository.setReportVisibility(isVisible)
 }
