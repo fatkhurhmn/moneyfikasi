@@ -38,6 +38,7 @@ class RecurringTransactionsViewModel @Inject constructor(
             recurringTransactionUseCases.getAllRecurringTransactions()
                 .collectLatest { recurringTransactions ->
                     val updatedList = recurringTransactions.map { recurring ->
+                        val count = recurringTransactionUseCases.getTransactionCountByRecurringId(recurring.id)
                         val isEnded = when (recurring.endType) {
                             RecurringEndType.NEVER -> false
                             RecurringEndType.ON_DATE -> {
@@ -46,14 +47,10 @@ class RecurringTransactionsViewModel @Inject constructor(
                             }
 
                             RecurringEndType.AFTER_OCCURRENCES -> {
-                                val count =
-                                    recurringTransactionUseCases.getTransactionCountByRecurringId(
-                                        recurring.id
-                                    )
                                 recurring.occurrenceCount?.let { count >= it } ?: false
                             }
                         }
-                        recurring.copy(isEnded = isEnded)
+                        recurring.copy(isEnded = isEnded, executedCount = count)
                     }
                     _state.update { state ->
                         state.copy(recurringTransactions = updatedList)

@@ -161,6 +161,15 @@ fun RecurringTransactionItem(
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
+                    if (recurringTransaction.endType == RecurringEndType.AFTER_OCCURRENCES && !recurringTransaction.isEnded) {
+                        val remaining = (recurringTransaction.occurrenceCount ?: 0) - recurringTransaction.executedCount
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = stringResource(R.string.remaining, remaining),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
                 }
 
                 if (!recurringTransaction.isEnded) {
