@@ -244,7 +244,6 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
 
     private fun saveRecurringTransaction() {
         if (!isFormValid()) return
-        val isEdit = _state.value.id != null
         viewModelScope.launch {
             try {
                 recurringTransactionUseCases.saveRecurringTransaction(_state.value.recurringTransaction)

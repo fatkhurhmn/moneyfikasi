@@ -48,10 +48,22 @@ fun QuickTransactionItem(
         else -> null
     }
 
+    val containerColor = if (color==null){
+        MaterialTheme.colorScheme.surfaceVariant
+    } else {
+        Color(color).copy(alpha = 0.2f)
+    }
+
+    val contentColor = if (color == null) {
+        MaterialTheme.colorScheme.onSurfaceVariant
+    } else {
+        Color(color)
+    }
+
     Box(
         modifier = modifier
             .background(
-                if (color == null) MaterialTheme.colorScheme.outlineVariant else Color(color),
+                containerColor,
                 MaterialTheme.shapes.medium
             )
             .width(itemWidth)
@@ -68,7 +80,7 @@ fun QuickTransactionItem(
         ) {
             IconByName(
                 name = icon,
-                tint = Color.White,
+                tint = contentColor,
                 modifier = Modifier.size(28.dp)
             )
             Spacer(modifier = Modifier.height(2.dp))
@@ -78,7 +90,7 @@ fun QuickTransactionItem(
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 textAlign = TextAlign.Center,
-                color = Color.White,
+                color = contentColor,
                 lineHeight = 12.sp,
                 modifier = Modifier.fillMaxWidth()
             )
