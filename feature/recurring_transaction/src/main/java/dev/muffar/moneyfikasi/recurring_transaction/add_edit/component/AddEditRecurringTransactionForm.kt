@@ -1,15 +1,13 @@
 package dev.muffar.moneyfikasi.recurring_transaction.add_edit.component
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SelectableDates
-import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -22,6 +20,7 @@ import dev.muffar.moneyfikasi.common_ui.component.text_input.BasicAmountInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CategoryInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.DateInput
+import dev.muffar.moneyfikasi.common_ui.component.text_input.TimeInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.WalletInput
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.RecurringEndType
@@ -48,6 +47,7 @@ fun AddEditRecurringTransactionForm(
     onAddNewWalletClick: () -> Unit,
     onFrequencyChange: (TimePeriod) -> Unit,
     onStartDateChange: (Long) -> Unit,
+    onStartTimeChange: (Pair<Int, Int>) -> Unit,
     onEndTypeChange: (RecurringEndType) -> Unit,
     onEndDateChange: (Long) -> Unit,
     onOccurrenceCountChange: (String) -> Unit,
@@ -117,10 +117,30 @@ fun AddEditRecurringTransactionForm(
         }
 
         FormSection(label = stringResource(R.string.schedule)) {
-            FrequencyInput(
-                frequency = state.frequency,
-                onFrequencySelect = onFrequencyChange
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                FrequencyInput(
+                    modifier = Modifier.weight(0.6f),
+                    frequency = state.frequency,
+                    onFrequencySelect = onFrequencyChange
+                )
+
+                if (state.startDate == today) {
+                    Box(
+                        modifier = Modifier.weight(0.4f),
+                        contentAlignment = Alignment.CenterStart
+                    ) {
+                        SkipTodayInput(
+                            modifier = Modifier.align(Alignment.CenterEnd),
+                            isSkipFirst = state.isSkipFirst,
+                            onIsSkipFirstChange = onIsSkipFirstChange
+                        )
+                    }
+                }
+            }
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -128,28 +148,18 @@ fun AddEditRecurringTransactionForm(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 DateInput(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.weight(0.6f),
                     date = state.startDate,
                     onDateSelect = onStartDateChange,
                     label = stringResource(R.string.start_date),
                     selectableDates = selectableDates
                 )
 
-                if (state.startDate == today) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = stringResource(R.string.skip_today),
-                            style = MaterialTheme.typography.bodySmall
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Switch(
-                            checked = state.isSkipFirst,
-                            onCheckedChange = onIsSkipFirstChange
-                        )
-                    }
-                }
+                TimeInput(
+                    modifier = Modifier.weight(0.4f),
+                    time = state.startTime,
+                    onTimeSelect = onStartTimeChange
+                )
             }
 
             EndRecurringInput(

@@ -2,7 +2,6 @@ package dev.muffar.moneyfikasi.recurring_transaction.add_edit.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Repeat
@@ -28,9 +27,10 @@ fun FrequencyInput(
 ) {
     var showFrequencyPicker by remember { mutableStateOf(false) }
 
-    Column {
+    Column(
+        modifier = modifier
+    ) {
         CommonTextInput(
-            modifier = modifier.fillMaxWidth(),
             value = frequency.name.lowercase().capitalize(),
             onValueChange = {},
             label = stringResource(R.string.frequency),

@@ -44,8 +44,27 @@ fun EndRecurringInput(
             modifier = modifier,
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            if (endType == RecurringEndType.ON_DATE) {
+                DateInput(
+                    modifier = Modifier.weight(0.6f),
+                    date = endDate,
+                    onDateSelect = onEndDateChange,
+                    label = stringResource(R.string.end_date),
+                    selectableDates = selectableDates,
+                    initialDisplayedMonthMillis = initialDisplayedMonthMillis
+                )
+            } else if (endType == RecurringEndType.AFTER_OCCURRENCES) {
+                CommonTextInput(
+                    modifier = Modifier.weight(0.2f),
+                    value = occurrenceCount,
+                    onValueChange = onOccurrenceCountChange,
+                    label = stringResource(R.string.times),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    error = occurrenceCountError
+                )
+            }
             CommonTextInput(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(0.4f),
                 value = when (endType) {
                     RecurringEndType.NEVER -> stringResource(R.string.never)
                     RecurringEndType.ON_DATE -> stringResource(R.string.on_date)
@@ -56,26 +75,6 @@ fun EndRecurringInput(
                 isClickable = true,
                 onClick = { showEndTypePicker = true }
             )
-
-            if (endType == RecurringEndType.ON_DATE) {
-                DateInput(
-                    modifier = Modifier.weight(1.4f),
-                    date = endDate,
-                    onDateSelect = onEndDateChange,
-                    label = stringResource(R.string.end_date),
-                    selectableDates = selectableDates,
-                    initialDisplayedMonthMillis = initialDisplayedMonthMillis
-                )
-            } else if (endType == RecurringEndType.AFTER_OCCURRENCES) {
-                CommonTextInput(
-                    modifier = Modifier.weight(0.5f),
-                    value = occurrenceCount,
-                    onValueChange = onOccurrenceCountChange,
-                    label = stringResource(R.string.times),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    error = occurrenceCountError
-                )
-            }
         }
 
         AnimatedVisibility(visible = showEndTypePicker) {

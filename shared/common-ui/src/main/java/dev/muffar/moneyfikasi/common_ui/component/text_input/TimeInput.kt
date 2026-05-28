@@ -1,7 +1,7 @@
 package dev.muffar.moneyfikasi.common_ui.component.text_input
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Schedule
@@ -26,27 +26,30 @@ fun TimeInput(
 ) {
 
     var showTimeSheet by remember { mutableStateOf(false) }
-    CommonTextInput(
-        modifier = modifier.fillMaxWidth(),
-        value = String.format(Locale.getDefault(), "%02d:%02d", time.first, time.second),
-        onValueChange = {},
-        label = stringResource(R.string.time),
-        isClickable = true,
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Rounded.Schedule,
-                contentDescription = stringResource(R.string.select_time),
-                modifier = Modifier.size(20.dp)
-            )
-        },
-        onClick = { showTimeSheet = true }
-    )
-
-    AnimatedVisibility(showTimeSheet) {
-        TimePickerSheet(
-            time = time,
-            onDismissRequest = { showTimeSheet = false },
-            onTimeSelect = onTimeSelect
+    Column(
+        modifier = modifier
+    ) {
+        CommonTextInput(
+            value = String.format(Locale.getDefault(), "%02d:%02d", time.first, time.second),
+            onValueChange = {},
+            label = stringResource(R.string.time),
+            isClickable = true,
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Rounded.Schedule,
+                    contentDescription = stringResource(R.string.select_time),
+                    modifier = Modifier.size(20.dp)
+                )
+            },
+            onClick = { showTimeSheet = true }
         )
+
+        AnimatedVisibility(showTimeSheet) {
+            TimePickerSheet(
+                time = time,
+                onDismissRequest = { showTimeSheet = false },
+                onTimeSelect = onTimeSelect
+            )
+        }
     }
 }

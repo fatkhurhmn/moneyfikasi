@@ -9,7 +9,11 @@ import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.utils.RecurringScheduleCalculator
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
+import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalTime
+import org.threeten.bp.ZoneId
 import org.threeten.bp.ZoneOffset
 import java.util.UUID
 
@@ -22,6 +26,7 @@ data class AddEditRecurringTransactionState(
     val wallet: Wallet = Wallet(),
     val frequency: TimePeriod = TimePeriod.MONTHLY,
     val startDate: Long = LocalDate.now().atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli(),
+    val startTime: Pair<Int, Int> = 0 to 0,
     val endType: RecurringEndType = RecurringEndType.NEVER,
     val endDate: Long = LocalDate.now().atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli(),
     val occurrenceCount: String = "1",
@@ -59,20 +64,27 @@ data class AddEditRecurringTransactionState(
                     endType != initialEndType ||
                     currentEndDate != initialEndDate ||
                     currentOccurrenceCount != initialOccurrenceCount
+
+            val startDateTime = LocalDateTime.of(
+                Instant.ofEpochMilli(startDate).atZone(ZoneId.systemDefault()).toLocalDate(),
+                LocalTime.of(startTime.first, startTime.second)
+            ).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+
             val calculatedNextRun = when {
                 id == null -> RecurringScheduleCalculator.initialNextRun(
-                    startDate = startDate,
+                    startDate = startDateTime,
                     frequency = frequency,
                     skipFirstRun = isSkipFirst
                 )
 
                 isScheduleChanged -> {
                     val firstRun = RecurringScheduleCalculator.initialNextRun(
-                        startDate = startDate,
+                        startDate = startDateTime,
                         frequency = frequency,
                         skipFirstRun = isSkipFirst
                     )
-                    val today = LocalDate.now().atStartOfDay(ZoneOffset.UTC).toInstant()
+                    val today = LocalDateTime.now(ZoneId.systemDefault()).atZone(ZoneId.systemDefault())
+                        .toInstant()
                         .toEpochMilli()
                     RecurringScheduleCalculator.nextRunOnOrAfter(
                         startDate = firstRun,
@@ -81,7 +93,7 @@ data class AddEditRecurringTransactionState(
                     )
                 }
 
-                else -> nextRun ?: startDate
+                else -> nextRun ?: startDateTime
             }
 
             return RecurringTransaction(
@@ -92,7 +104,7 @@ data class AddEditRecurringTransactionState(
                 category = if (category.id == dev.muffar.moneyfikasi.utils.constants.UUIDConst.empty) null else category,
                 wallet = if (wallet.id == dev.muffar.moneyfikasi.utils.constants.UUIDConst.empty) null else wallet,
                 frequency = frequency,
-                startDate = startDate,
+                startDate = startDateTime,
                 endType = endType,
                 endDate = currentEndDate,
                 occurrenceCount = currentOccurrenceCount,

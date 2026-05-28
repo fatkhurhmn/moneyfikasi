@@ -30,7 +30,9 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
+import org.threeten.bp.ZoneId
 import org.threeten.bp.ZoneOffset
 import java.util.UUID
 import javax.inject.Inject
@@ -67,6 +69,7 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
             is AddEditRecurringTransactionEvent.WalletChanged -> onWalletChange(event.wallet)
             is AddEditRecurringTransactionEvent.FrequencyChanged -> onFrequencyChange(event.frequency)
             is AddEditRecurringTransactionEvent.StartDateChanged -> onStartDateChange(event.startDate)
+            is AddEditRecurringTransactionEvent.StartTimeChanged -> onStartTimeChange(event.startTime)
             is AddEditRecurringTransactionEvent.EndTypeChanged -> onEndTypeChange(event.endType)
             is AddEditRecurringTransactionEvent.EndDateChanged -> onEndDateChange(event.endDate)
             is AddEditRecurringTransactionEvent.OccurrenceCountChanged -> onOccurrenceCountChange(event.count)
@@ -118,6 +121,10 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
                 ) false else it.isSkipFirst
             )
         }
+    }
+
+    private fun onStartTimeChange(startTime: Pair<Int, Int>) {
+        _state.update { it.copy(startTime = startTime) }
     }
 
     private fun onEndTypeChange(endType: RecurringEndType) {
@@ -191,6 +198,11 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
         viewModelScope.launch {
             recurringTransactionUseCases.getRecurringTransactionById(id)
                 ?.let { recurringTransaction ->
+                    val nextRun = recurringTransaction.nextRun ?: recurringTransaction.startDate
+                    val localDateTime = Instant.ofEpochMilli(nextRun)
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDateTime()
+
                     _state.update {
                         it.copy(
                             id = recurringTransaction.id,
@@ -201,6 +213,7 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
                             wallet = recurringTransaction.wallet ?: Wallet(),
                             frequency = recurringTransaction.frequency,
                             startDate = recurringTransaction.startDate,
+                            startTime = localDateTime.hour to localDateTime.minute,
                             initialStartDate = recurringTransaction.startDate,
                             initialFrequency = recurringTransaction.frequency,
                             endType = recurringTransaction.endType,

@@ -2,7 +2,6 @@ package dev.muffar.moneyfikasi.common_ui.component.text_input
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.CalendarToday
@@ -35,7 +34,7 @@ fun DateInput(
     onDateSelect: (Long) -> Unit
 ) {
     Column(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
     ) {
         var showDatePicker by remember { mutableStateOf(false) }
         CommonTextInput(
