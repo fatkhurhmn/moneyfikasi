@@ -25,4 +25,5 @@ data class HomeState(
     val presets: List<Preset> = emptyList(),
     val budgets: List<Budget> = emptyList(),
     val showReportDateSheet: Boolean = false,
+    val showCustomDateSheet: Boolean = false,
 )

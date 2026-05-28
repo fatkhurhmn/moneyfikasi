@@ -68,6 +68,7 @@ class HomeViewModel @Inject constructor(
             is HomeEvent.ToggleReportVisibility -> toggleReportVisibility()
             is HomeEvent.DateRangeChanged -> onDateRangeChange(event.dateRange)
             is HomeEvent.ShowReportDateSheet -> onShowReportDateSheet(event.show)
+            is HomeEvent.ShowCustomDateSheet -> onShowCustomDateSheet(event.show)
         }
     }
 
@@ -323,6 +324,10 @@ class HomeViewModel @Inject constructor(
 
     private fun onShowReportDateSheet(show: Boolean) {
         _state.update { it.copy(showReportDateSheet = show) }
+    }
+
+    private fun onShowCustomDateSheet(show: Boolean) {
+        _state.update { it.copy(showCustomDateSheet = show) }
     }
 
     private fun onDateRangeChange(dateRange: DateRange) {

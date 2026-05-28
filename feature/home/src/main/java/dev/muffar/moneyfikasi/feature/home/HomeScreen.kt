@@ -15,11 +15,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.DateRange
+import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.model.TransactionType
+import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.ChooseDateSheet
+import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.CustomDateSheet
 import dev.muffar.moneyfikasi.feature.home.component.BudgetSection
 import dev.muffar.moneyfikasi.feature.home.component.QuickTransactionSection
 import dev.muffar.moneyfikasi.feature.home.component.RecentTransactionsSection
-import dev.muffar.moneyfikasi.feature.home.component.ReportDateSheet
 import dev.muffar.moneyfikasi.feature.home.component.ReportSection
 import dev.muffar.moneyfikasi.feature.home.component.TotalBalance
 import java.util.UUID
@@ -30,6 +32,7 @@ fun HomeScreen(
     onToggleBalanceVisibility: () -> Unit,
     onToggleReportVisibility: () -> Unit,
     onShowReportDateSheet: (Boolean) -> Unit,
+    onShowCustomDateSheet: (Boolean) -> Unit,
     onDateRangeChange: (DateRange) -> Unit,
     onSeeAllTransactionsClick: () -> Unit,
     onTransactionClick: (UUID, Boolean) -> Unit,
@@ -92,10 +95,23 @@ fun HomeScreen(
     }
 
     AnimatedVisibility(state.showReportDateSheet) {
-        ReportDateSheet(
+        ChooseDateSheet(
             dateRange = state.dateRange,
+            periods = listOf(TimePeriod.DAILY, TimePeriod.WEEKLY, TimePeriod.MONTHLY),
             onDismissRequest = { onShowReportDateSheet(false) },
-            onChoose = onDateRangeChange
+            onChoose = onDateRangeChange,
+            onCustomDateClick = {
+                onShowReportDateSheet(false)
+                onShowCustomDateSheet(true)
+            }
+        )
+    }
+
+    AnimatedVisibility(state.showCustomDateSheet) {
+        CustomDateSheet(
+            dateRange = state.dateRange,
+            onDateChange = onDateRangeChange,
+            onDismissRequest = { onShowCustomDateSheet(false) }
         )
     }
 }

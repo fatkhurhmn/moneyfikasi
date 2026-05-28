@@ -36,6 +36,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ChooseDateSheet(
     dateRange: DateRange,
+    periods: List<TimePeriod> = TimePeriod.entries,
     onDismissRequest: () -> Unit,
     onChoose: (DateRange) -> Unit,
     onCustomDateClick: () -> Unit,
@@ -65,7 +66,6 @@ fun ChooseDateSheet(
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
     ) {
-        val options = TimePeriod.entries
         BottomSheetTitle(stringResource(R.string.choose_date))
 
         LazyColumn(
@@ -73,7 +73,7 @@ fun ChooseDateSheet(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(options) { option ->
+            items(periods) { option ->
                 val icon = when (option) {
                     TimePeriod.DAILY -> Icons.Rounded.CalendarToday
                     TimePeriod.WEEKLY -> Icons.Rounded.DateRange

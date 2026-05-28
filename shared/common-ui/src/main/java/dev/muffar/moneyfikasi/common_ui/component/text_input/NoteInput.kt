@@ -17,7 +17,7 @@ fun NoteInput(
         modifier = Modifier.fillMaxWidth(),
         value = note,
         onValueChange = onNoteChange,
-        label = stringResource(R.string.note),
+        label = stringResource(R.string.note_optional),
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Done,
         ),

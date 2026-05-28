@@ -45,7 +45,8 @@
     <string name="create_transaction">Create Transaction</string>
     <string name="amount">Amount</string>
     <string name="enter_amount">Enter amount</string>
-    <string name="note">Note (optional)</string>
+    <string name="note">Note</string>
+    <string name="note_optional">Note (optional)</string>
     <string name="description">Description (optional)</string>
     <string name="category">Category</string>
     <string name="select_category">Select category</string>

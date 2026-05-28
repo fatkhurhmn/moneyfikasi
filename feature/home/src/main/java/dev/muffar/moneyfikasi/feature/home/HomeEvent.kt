@@ -8,5 +8,6 @@ sealed class HomeEvent {
     data object ToggleReportVisibility : HomeEvent()
     data class DateRangeChanged(val dateRange: DateRange) : HomeEvent()
     data class ShowReportDateSheet(val show: Boolean) : HomeEvent()
+    data class ShowCustomDateSheet(val show: Boolean) : HomeEvent()
 
 }
