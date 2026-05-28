@@ -48,12 +48,6 @@ fun QuickTransactionItem(
         else -> null
     }
 
-    val containerColor = if (color==null){
-        MaterialTheme.colorScheme.surfaceVariant
-    } else {
-        Color(color).copy(alpha = 0.2f)
-    }
-
     val contentColor = if (color == null) {
         MaterialTheme.colorScheme.onSurfaceVariant
     } else {
@@ -63,7 +57,7 @@ fun QuickTransactionItem(
     Box(
         modifier = modifier
             .background(
-                containerColor,
+                MaterialTheme.colorScheme.surface,
                 MaterialTheme.shapes.medium
             )
             .width(itemWidth)

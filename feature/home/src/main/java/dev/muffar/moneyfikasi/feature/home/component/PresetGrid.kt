@@ -1,6 +1,5 @@
 package dev.muffar.moneyfikasi.feature.home.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.FlowRow
@@ -11,11 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.Preset
 import dev.muffar.moneyfikasi.domain.model.TransactionType
@@ -38,11 +35,7 @@ fun PresetGrid(
 
     BoxWithConstraints(
         modifier = Modifier
-            .padding(horizontal = 16.dp)
             .fillMaxWidth()
-            .clip(MaterialTheme.shapes.medium)
-            .background(MaterialTheme.colorScheme.surface)
-            .padding(vertical = 16.dp)
     ) {
         val availableWidth = maxWidth - (horizontalPadding * 2)
         val itemsPerRow = remember(maxWidth) {

@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.feature.home.component
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -29,10 +30,12 @@ fun BudgetSection(
         )
         Spacer(modifier = Modifier.height(8.dp))
         if (budgets.isNotEmpty()) {
-            Column {
+            Column(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
                 budgets.take(3).forEach { budget ->
                     BudgetItem(
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                         budget = budget,
                         spentAmount = budget.spentAmount,
                         onClick = { onBudgetClick(budget.id) }
