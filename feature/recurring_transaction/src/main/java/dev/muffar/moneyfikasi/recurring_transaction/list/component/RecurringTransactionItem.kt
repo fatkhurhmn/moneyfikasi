@@ -133,6 +133,29 @@ fun RecurringTransactionItem(
                             ),
                             color = MaterialTheme.colorScheme.onSurface
                         )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = "•",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.outline
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        val endStr = when (recurringTransaction.endType) {
+                            RecurringEndType.NEVER -> stringResource(R.string.never)
+                            RecurringEndType.ON_DATE -> recurringTransaction.endDate?.toFormattedDateTime(
+                                "MMM dd, yyyy"
+                            ) ?: "-"
+
+                            RecurringEndType.AFTER_OCCURRENCES -> stringResource(
+                                R.string.qty_transactions,
+                                recurringTransaction.occurrenceCount ?: 0
+                            )
+                        }
+                        Text(
+                            text = "${stringResource(R.string.ends)}: $endStr",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
                     }
                     Spacer(modifier = Modifier.height(8.dp))
                     if (!recurringTransaction.isEnded) {
@@ -143,26 +166,10 @@ fun RecurringTransactionItem(
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
-                        Spacer(modifier = Modifier.height(4.dp))
                     }
-                    val endStr = when (recurringTransaction.endType) {
-                        RecurringEndType.NEVER -> stringResource(R.string.never)
-                        RecurringEndType.ON_DATE -> recurringTransaction.endDate?.toFormattedDateTime(
-                            "MMM dd, yyyy"
-                        ) ?: "-"
-
-                        RecurringEndType.AFTER_OCCURRENCES -> stringResource(
-                            R.string.qty_transactions,
-                            recurringTransaction.occurrenceCount ?: 0
-                        )
-                    }
-                    Text(
-                        text = "${stringResource(R.string.ends)}: $endStr",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
                     if (recurringTransaction.endType == RecurringEndType.AFTER_OCCURRENCES && !recurringTransaction.isEnded) {
-                        val remaining = (recurringTransaction.occurrenceCount ?: 0) - recurringTransaction.executedCount
+                        val remaining =
+                            (recurringTransaction.occurrenceCount ?: 0) - recurringTransaction.executedCount
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
                             text = stringResource(R.string.remaining, remaining),
