@@ -45,7 +45,7 @@ fun OverviewIncomeExpense(
     Box(
         modifier = modifier
             .clip(MaterialTheme.shapes.medium)
-            .background(containerColor.copy(alpha = 0.5f))
+            .background(containerColor)
     ) {
         Icon(
             modifier = Modifier
