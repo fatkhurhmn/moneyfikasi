@@ -8,6 +8,7 @@ import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.utils.RecurringScheduleCalculator
+import dev.muffar.moneyfikasi.utils.constants.UUIDConst
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
@@ -101,8 +102,8 @@ data class AddEditRecurringTransactionState(
                 name = name.trim(),
                 amount = amount.clearThousandFormat().toDoubleOrNull() ?: 0.0,
                 type = type,
-                category = if (category.id == dev.muffar.moneyfikasi.utils.constants.UUIDConst.empty) null else category,
-                wallet = if (wallet.id == dev.muffar.moneyfikasi.utils.constants.UUIDConst.empty) null else wallet,
+                category = if (category.id == UUIDConst.empty) null else category,
+                wallet = if (wallet.id == UUIDConst.empty) null else wallet,
                 frequency = frequency,
                 startDate = startDateTime,
                 endType = endType,

@@ -6,6 +6,7 @@ import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.model.Preset
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
+import dev.muffar.moneyfikasi.utils.constants.UUIDConst
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
 import java.util.UUID
 
@@ -34,7 +35,7 @@ data class AddEditPresetState(
             name = name.trim(),
             amount = amount.clearThousandFormat().toDoubleOrNull(),
             type = type,
-            category = if (category.id == dev.muffar.moneyfikasi.utils.constants.UUIDConst.empty) null else category,
-            wallet = if (wallet.id == dev.muffar.moneyfikasi.utils.constants.UUIDConst.empty) null else wallet
+            category = if (category.id == UUIDConst.empty) null else category,
+            wallet = if (wallet.id == UUIDConst.empty) null else wallet
         )
 }
