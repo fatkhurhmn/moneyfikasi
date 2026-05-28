@@ -11,10 +11,10 @@ import java.util.UUID
 
 @Dao
 interface CategoryDao {
-    @Query("SELECT * FROM categories WHERE type = :type")
+    @Query("SELECT * FROM categories WHERE type = :type ORDER BY LOWER(name) ASC")
     fun getCategoriesByType(type: CategoryType): Flow<List<CategoryEntity>>
 
-    @Query("SELECT * FROM categories")
+    @Query("SELECT * FROM categories ORDER BY LOWER(name) ASC")
     fun getAllCategories(): Flow<List<CategoryEntity>>
 
     @Query("SELECT * FROM categories WHERE id = :id")

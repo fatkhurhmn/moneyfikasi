@@ -10,7 +10,7 @@ import java.util.UUID
 
 @Dao
 interface WalletDao {
-    @Query("SELECT * FROM wallets")
+    @Query("SELECT * FROM wallets ORDER BY LOWER(name) ASC")
     fun getAllWallets(): Flow<List<WalletEntity>>
 
     @Query("SELECT * FROM wallets WHERE id = :id")
