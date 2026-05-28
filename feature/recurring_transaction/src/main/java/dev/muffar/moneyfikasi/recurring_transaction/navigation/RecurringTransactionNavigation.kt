@@ -50,7 +50,7 @@ fun NavGraphBuilder.recurringTransactionNavGraph(
             },
             onToggleActive = {
                 viewModel.onEvent(
-                    RecurringTransactionsEvent.OnToggleRecurringTransaction(
+                    RecurringTransactionsEvent.ToggleRecurringTransaction(
                         it
                     )
                 )
@@ -85,7 +85,7 @@ fun NavGraphBuilder.recurringTransactionNavGraph(
         }
 
         LaunchedEffect(Unit) {
-            event(AddEditRecurringTransactionEvent.OnTypeChanged(type ?: TransactionType.EXPENSE, true))
+            event(AddEditRecurringTransactionEvent.TypeChanged(type ?: TransactionType.EXPENSE, true))
         }
 
         AddEditRecurringTransactionScreen(

@@ -9,6 +9,7 @@ import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.model.RecurringEndType
+import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
@@ -59,94 +60,87 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
 
     fun onEvent(event: AddEditRecurringTransactionEvent) {
         when (event) {
-            is AddEditRecurringTransactionEvent.OnNameChanged -> onNameChanged(event.name)
-            is AddEditRecurringTransactionEvent.OnAmountChanged -> onAmountChanged(event.amount)
-            is AddEditRecurringTransactionEvent.OnTypeChanged -> onTypeChanged(event.type, event.isInit)
-            is AddEditRecurringTransactionEvent.OnCategoryChanged -> onCategoryChanged(event.category)
-            is AddEditRecurringTransactionEvent.OnWalletChanged -> onWalletChanged(event.wallet)
-            is AddEditRecurringTransactionEvent.OnFrequencyChanged -> _state.update {
-                it.copy(
-                    frequency = event.frequency
-                )
-            }
-
-            is AddEditRecurringTransactionEvent.OnStartDateChanged -> {
-                _state.update {
-                    it.copy(
-                        startDate = event.startDate,
-                        endDate = if (it.endDate < event.startDate) event.startDate else it.endDate,
-                        isSkipFirst = if (event.startDate != LocalDate.now()
-                                .atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli()
-                        ) false else it.isSkipFirst
-                    )
-                }
-            }
-
-            is AddEditRecurringTransactionEvent.OnEndTypeChanged -> {
-                _state.update { it.copy(endType = event.endType) }
-            }
-
-            is AddEditRecurringTransactionEvent.OnEndDateChanged -> {
-                _state.update { it.copy(endDate = event.endDate) }
-            }
-
-            is AddEditRecurringTransactionEvent.OnOccurrenceCountChanged -> {
-                if (event.count.all { it.isDigit() }) {
-                    _state.update {
-                        it.copy(
-                            occurrenceCount = event.count
-                        )
-                    }
-                    updateOccurrenceCountError()
-                }
-            }
-
-            is AddEditRecurringTransactionEvent.OnIsSkipFirstChanged -> {
-                _state.update {
-                    it.copy(
-                        isSkipFirst = event.isSkipFirst
-                    )
-                }
-            }
-
-            is AddEditRecurringTransactionEvent.OnIsActiveChanged -> {
-                _state.update {
-                    it.copy(
-                        isActive = event.isActive
-                    )
-                }
-            }
-
-            is AddEditRecurringTransactionEvent.OnSaveRecurringTransaction -> saveRecurringTransaction()
-            is AddEditRecurringTransactionEvent.OnDeleteRecurringTransaction -> deleteRecurringTransaction()
+            is AddEditRecurringTransactionEvent.NameChanged -> onNameChange(event.name)
+            is AddEditRecurringTransactionEvent.AmountChanged -> onAmountChange(event.amount)
+            is AddEditRecurringTransactionEvent.TypeChanged -> onTypeChange(event.type, event.isInit)
+            is AddEditRecurringTransactionEvent.CategoryChanged -> onCategoryChange(event.category)
+            is AddEditRecurringTransactionEvent.WalletChanged -> onWalletChange(event.wallet)
+            is AddEditRecurringTransactionEvent.FrequencyChanged -> onFrequencyChange(event.frequency)
+            is AddEditRecurringTransactionEvent.StartDateChanged -> onStartDateChange(event.startDate)
+            is AddEditRecurringTransactionEvent.EndTypeChanged -> onEndTypeChange(event.endType)
+            is AddEditRecurringTransactionEvent.EndDateChanged -> onEndDateChange(event.endDate)
+            is AddEditRecurringTransactionEvent.OccurrenceCountChanged -> onOccurrenceCountChange(event.count)
+            is AddEditRecurringTransactionEvent.IsSkipFirstChanged -> onIsSkipFirstChange(event.isSkipFirst)
+            is AddEditRecurringTransactionEvent.IsActiveChanged -> onIsActiveChange(event.isActive)
+            is AddEditRecurringTransactionEvent.SaveRecurringTransaction -> onSaveRecurringTransaction()
+            is AddEditRecurringTransactionEvent.DeleteRecurringTransaction -> onDeleteRecurringTransaction()
         }
     }
 
-    private fun onNameChanged(name: String) {
+    private fun onNameChange(name: String) {
         if (name.length > ValidationConst.MAX_NAME_LENGTH) return
         _state.update { it.copy(name = name) }
         updateNameError()
     }
 
-    private fun onAmountChanged(amount: String) {
+    private fun onAmountChange(amount: String) {
         if (amount.length > ValidationConst.MAX_AMOUNT_LENGTH) return
         _state.update { it.copy(amount = amount) }
         updateAmountError()
     }
 
-    private fun onTypeChanged(type: TransactionType, isInit: Boolean) {
+    private fun onTypeChange(type: TransactionType, isInit: Boolean) {
         val category = if (isInit) _state.value.category else Category()
         _state.update { it.copy(type = type, category = category) }
     }
 
-    private fun onCategoryChanged(category: Category) {
+    private fun onCategoryChange(category: Category) {
         _state.update { it.copy(category = category) }
         updateCategoryError()
     }
 
-    private fun onWalletChanged(wallet: Wallet) {
+    private fun onWalletChange(wallet: Wallet) {
         _state.update { it.copy(wallet = wallet) }
         updateWalletError()
+    }
+
+    private fun onFrequencyChange(frequency: TimePeriod) {
+        _state.update { it.copy(frequency = frequency) }
+    }
+
+    private fun onStartDateChange(startDate: Long) {
+        _state.update {
+            it.copy(
+                startDate = startDate,
+                endDate = if (it.endDate < startDate) startDate else it.endDate,
+                isSkipFirst = if (startDate != LocalDate.now()
+                        .atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli()
+                ) false else it.isSkipFirst
+            )
+        }
+    }
+
+    private fun onEndTypeChange(endType: RecurringEndType) {
+        _state.update { it.copy(endType = endType) }
+    }
+
+    private fun onEndDateChange(endDate: Long) {
+        _state.update { it.copy(endDate = endDate) }
+    }
+
+    private fun onOccurrenceCountChange(count: String) {
+        if (count.all { it.isDigit() }) {
+            _state.update { it.copy(occurrenceCount = count) }
+            updateOccurrenceCountError()
+        }
+    }
+
+    private fun onIsSkipFirstChange(isSkipFirst: Boolean) {
+        _state.update { it.copy(isSkipFirst = isSkipFirst) }
+    }
+
+    private fun onIsActiveChange(isActive: Boolean) {
+        _state.update { it.copy(isActive = isActive) }
     }
 
     private fun updateNameError() {
@@ -240,7 +234,7 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
         }
     }
 
-    private fun saveRecurringTransaction() {
+    private fun onSaveRecurringTransaction() {
         if (!isFormValid()) return
         viewModelScope.launch {
             try {
@@ -257,7 +251,7 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
         }
     }
 
-    private fun deleteRecurringTransaction() {
+    private fun onDeleteRecurringTransaction() {
         val id = _state.value.id ?: return
         viewModelScope.launch {
             try {

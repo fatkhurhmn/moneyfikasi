@@ -41,7 +41,7 @@ fun SettingsScreen(
             AppearanceSection(
                 appTheme = state.appTheme,
                 onAppThemeChanged = { theme ->
-                    onEvent(SettingsEvent.OnAppThemeChanged(theme))
+                    onEvent(SettingsEvent.AppThemeChanged(theme))
                 }
             )
 

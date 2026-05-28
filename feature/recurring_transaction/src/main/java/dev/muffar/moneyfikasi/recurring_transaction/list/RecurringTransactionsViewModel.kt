@@ -29,7 +29,7 @@ class RecurringTransactionsViewModel @Inject constructor(
 
     fun onEvent(event: RecurringTransactionsEvent) {
         when (event) {
-            is RecurringTransactionsEvent.OnToggleRecurringTransaction -> onToggleRecurringTransaction(
+            is RecurringTransactionsEvent.ToggleRecurringTransaction -> onToggleRecurringTransaction(
                 event.recurringTransaction
             )
         }

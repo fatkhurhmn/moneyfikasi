@@ -35,21 +35,21 @@ class ExportViewModel @Inject constructor(
 
     fun onEvent(event: ExportEvent) {
         when (event) {
-            is ExportEvent.StartDateChanged -> onStartDateChanged(event.date)
-            is ExportEvent.EndDateChanged -> onEndDateChanged(event.date)
-            is ExportEvent.FormatChanged -> onFormatChanged(event.format)
+            is ExportEvent.StartDateChanged -> onStartDateChange(event.date)
+            is ExportEvent.EndDateChanged -> onEndDateChange(event.date)
+            is ExportEvent.FormatChanged -> onFormatChange(event.format)
         }
     }
 
-    private fun onStartDateChanged(date: Long) {
+    private fun onStartDateChange(date: Long) {
         _state.update { it.copy(startDate = date.toLocalDateTime()) }
     }
 
-    private fun onEndDateChanged(date: Long) {
+    private fun onEndDateChange(date: Long) {
         _state.update { it.copy(endDate = date.toLocalDateTime()) }
     }
 
-    private fun onFormatChanged(format: ExportFormat) {
+    private fun onFormatChange(format: ExportFormat) {
         _state.update { it.copy(format = format) }
     }
 

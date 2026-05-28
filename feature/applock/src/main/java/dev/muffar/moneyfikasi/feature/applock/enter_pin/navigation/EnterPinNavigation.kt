@@ -34,7 +34,7 @@ fun NavGraphBuilder.enterPinNavigation(
         EnterPinScreen(
             state = state,
             eventFlow = eventFlow,
-            onPinChanged = { onEvent(EnterPinEvent.OnPinChanged(it)) },
+            onPinChanged = { onEvent(EnterPinEvent.PinChanged(it)) },
             onNavigateBack = navigateBack,
             onEnterPinSuccess = onEnterPinSuccess
         )

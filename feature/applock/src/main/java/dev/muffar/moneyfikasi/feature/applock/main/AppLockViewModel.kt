@@ -39,8 +39,8 @@ class AppLockViewModel @Inject constructor(
 
     fun onEvent(event: AppLockEvent) {
         when (event) {
-            is AppLockEvent.OnAppLockEnabledChanged -> onAppLockEnabledChanged(event.isEnabled)
-            is AppLockEvent.OnBiometricEnabledChanged -> onBiometricEnabledChanged(event.isEnabled)
+            is AppLockEvent.AppLockEnabledChanged -> onAppLockEnabledChange(event.isEnabled)
+            is AppLockEvent.BiometricEnabledChanged -> onBiometricEnabledChange(event.isEnabled)
         }
     }
 
@@ -67,7 +67,7 @@ class AppLockViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    private fun onAppLockEnabledChanged(isEnabled: Boolean) {
+    private fun onAppLockEnabledChange(isEnabled: Boolean) {
         viewModelScope.launch {
             if (isEnabled && state.value.pin.isEmpty()) {
                 _eventFlow.emit(UiEvent.NavigateToEnterPin(EnterPinType.SET_PIN))
@@ -87,7 +87,7 @@ class AppLockViewModel @Inject constructor(
         }
     }
 
-    private fun onBiometricEnabledChanged(isEnabled: Boolean) {
+    private fun onBiometricEnabledChange(isEnabled: Boolean) {
         viewModelScope.launch {
             securitySettingsUseCases.enableBiometric(isEnabled)
         }

@@ -53,11 +53,11 @@ class EnterPinViewModel @Inject constructor(
 
     fun onEvent(event: EnterPinEvent) {
         when (event) {
-            is EnterPinEvent.OnPinChanged -> onPinChanged(event.pin)
+            is EnterPinEvent.PinChanged -> onPinChange(event.pin)
         }
     }
 
-    private fun onPinChanged(input: String) {
+    private fun onPinChange(input: String) {
         _state.update { it.copy(currentInput = input, errorMessage = "") }
         if (input.length == 4) {
             handlePinComplete(input)

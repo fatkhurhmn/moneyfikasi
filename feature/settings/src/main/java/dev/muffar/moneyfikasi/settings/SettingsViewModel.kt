@@ -30,11 +30,11 @@ class SettingsViewModel @Inject constructor(
 
     fun onEvent(event: SettingsEvent) {
         when (event) {
-            is SettingsEvent.OnAppThemeChanged -> onAppThemeChanged(event.theme)
+            is SettingsEvent.AppThemeChanged -> onAppThemeChange(event.theme)
         }
     }
 
-    private fun onAppThemeChanged(theme: AppTheme) {
+    private fun onAppThemeChange(theme: AppTheme) {
         viewModelScope.launch {
             uiSettingsUseCases.setAppTheme(theme)
         }
