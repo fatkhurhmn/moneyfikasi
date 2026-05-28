@@ -52,7 +52,6 @@ class AddEditPresetViewModel @Inject constructor(
             is AddEditPresetEvent.AmountChanged -> onAmountChange(event.amount)
             is AddEditPresetEvent.CategoryChanged -> onCategorySelect(event.category)
             is AddEditPresetEvent.WalletChanged -> onWalletSelect(event.wallet)
-            is AddEditPresetEvent.DescriptionChanged -> onDescriptionChange(event.description)
             is AddEditPresetEvent.SavePreset -> onSavePreset()
             is AddEditPresetEvent.DeletePreset -> onDeletePreset()
             is AddEditPresetEvent.ShowDeleteAlert -> onShowDeleteAlert(event.show)
@@ -71,8 +70,7 @@ class AddEditPresetViewModel @Inject constructor(
                             amount = it.amount?.formatThousand() ?: "0",
                             type = it.type,
                             category = it.category,
-                            wallet = it.wallet,
-                            description = it.description ?: ""
+                            wallet = it.wallet
                         )
                     }
                     loadCategories()
@@ -118,11 +116,6 @@ class AddEditPresetViewModel @Inject constructor(
     private fun onAmountChange(amount: String) {
         if (amount.length > ValidationConst.MAX_AMOUNT_LENGTH) return
         _state.update { it.copy(amount = amount) }
-    }
-
-    private fun onDescriptionChange(description: String) {
-        if (description.length > ValidationConst.MAX_NOTE_LENGTH) return
-        _state.update { it.copy(description = description) }
     }
 
     private fun onCategorySelect(category: Category?) {

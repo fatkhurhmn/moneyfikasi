@@ -11,7 +11,6 @@ import dev.muffar.moneyfikasi.common_ui.component.tabs.IncomeExpenseTabHeader
 import dev.muffar.moneyfikasi.common_ui.component.text_input.BasicAmountInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CategoryInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
-import dev.muffar.moneyfikasi.common_ui.component.text_input.DescriptionInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.WalletInput
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.TransactionType
@@ -29,8 +28,7 @@ fun AddEditPresetForm(
     onCategoryChange: (Category?) -> Unit,
     onAddNewCategoryClick: () -> Unit,
     onWalletChange: (Wallet?) -> Unit,
-    onAddNewWalletClick: () -> Unit,
-    onDescriptionChange: (String) -> Unit
+    onAddNewWalletClick: () -> Unit
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -67,11 +65,6 @@ fun AddEditPresetForm(
             onWalletSelect = onWalletChange,
             onAddNewWalletClick = onAddNewWalletClick,
             onClear = { onWalletChange(null) }
-        )
-
-        DescriptionInput(
-            description = state.description,
-            onDescriptionChange = onDescriptionChange
         )
     }
 }

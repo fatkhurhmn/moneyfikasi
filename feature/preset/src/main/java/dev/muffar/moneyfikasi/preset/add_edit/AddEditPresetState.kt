@@ -16,7 +16,6 @@ data class AddEditPresetState(
     val type: TransactionType = TransactionType.EXPENSE,
     val category: Category? = null,
     val wallet: Wallet? = null,
-    val description: String = "",
     val nameError: ErrorMessage = ErrorMessage(),
     val categories: List<Category> = emptyList(),
     val wallets: List<Wallet> = emptyList(),
@@ -36,7 +35,6 @@ data class AddEditPresetState(
             amount = amount.clearThousandFormat().toDoubleOrNull(),
             type = type,
             category = category,
-            wallet = wallet,
-            description = description.trim()
+            wallet = wallet
         )
 }

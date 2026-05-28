@@ -8,6 +8,5 @@ data class Preset(
     val amount: Double? = null,
     val type: TransactionType,
     val category: Category? = null,
-    val wallet: Wallet? = null,
-    val description: String? = null
+    val wallet: Wallet? = null
 )

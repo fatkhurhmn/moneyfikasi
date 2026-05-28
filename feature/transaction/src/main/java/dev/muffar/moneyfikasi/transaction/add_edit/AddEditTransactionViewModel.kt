@@ -109,8 +109,7 @@ class AddEditTransactionViewModel @Inject constructor(
                         type = preset.type,
                         amount = preset.amount?.formatThousand() ?: "0",
                         category = preset.category ?: Category(),
-                        wallet = preset.wallet ?: Wallet(),
-                        note = preset.description ?: ""
+                        wallet = preset.wallet ?: Wallet()
                     )
                 }
                 loadCategories()

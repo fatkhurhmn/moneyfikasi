@@ -54,9 +54,6 @@ fun NavGraphBuilder.addEditPresetNavigation(
             onAddNewCategoryClick = { navigateToAddCategory(state.categoryType) },
             onAddNewWalletClick = navigateToAddWallet,
             onWalletChange = { wallet -> event(AddEditPresetEvent.WalletChanged(wallet)) },
-            onDescriptionChange = { description ->
-                event(AddEditPresetEvent.DescriptionChanged(description))
-            },
             onSaveClick = { event(AddEditPresetEvent.SavePreset) },
             onBackClick = navigateBack,
             onDeleteClick = { event(AddEditPresetEvent.DeletePreset) },

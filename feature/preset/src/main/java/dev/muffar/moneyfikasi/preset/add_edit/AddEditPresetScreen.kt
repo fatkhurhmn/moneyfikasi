@@ -41,7 +41,6 @@ fun AddEditPresetScreen(
     onAddNewCategoryClick: () -> Unit,
     onWalletChange: (Wallet?) -> Unit,
     onAddNewWalletClick: () -> Unit,
-    onDescriptionChange: (String) -> Unit,
     onSaveClick: () -> Unit,
     onDeleteClick: () -> Unit,
     onShowDeleteAlert: (Boolean) -> Unit,
@@ -80,8 +79,7 @@ fun AddEditPresetScreen(
             onCategoryChange = onCategoryChange,
             onAddNewCategoryClick = onAddNewCategoryClick,
             onWalletChange = onWalletChange,
-            onAddNewWalletClick = onAddNewWalletClick,
-            onDescriptionChange = onDescriptionChange
+            onAddNewWalletClick = onAddNewWalletClick
         )
     }
 

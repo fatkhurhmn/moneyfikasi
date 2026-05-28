@@ -48,15 +48,6 @@ fun PresetItem(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
-                if (preset.description?.isNotEmpty() == true) {
-                    Text(
-                        text = preset.description!!,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
             }
             Spacer(modifier = Modifier.width(8.dp))
             Column(

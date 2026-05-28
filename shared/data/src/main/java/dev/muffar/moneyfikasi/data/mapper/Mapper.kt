@@ -125,8 +125,7 @@ fun PresetWithDetails.toDomain(): Preset {
         amount = this.preset.amount,
         type = this.preset.type,
         wallet = this.wallet?.toDomain(),
-        category = this.category?.toDomain(),
-        description = this.preset.description
+        category = this.category?.toDomain()
     )
 }
 
@@ -137,8 +136,7 @@ fun Preset.toEntity(): PresetEntity {
         amount = this.amount,
         type = this.type,
         walletId = this.wallet?.id,
-        categoryId = this.category?.id,
-        description = this.description
+        categoryId = this.category?.id
     )
 }
 
