@@ -30,7 +30,9 @@ import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.recurring_transaction.add_edit.AddEditRecurringTransactionState
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.constants.ValidationConst
+import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
+import org.threeten.bp.ZoneId
 import org.threeten.bp.ZoneOffset
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -55,6 +57,15 @@ fun AddEditRecurringTransactionForm(
 ) {
     val today = remember {
         LocalDate.now().atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli()
+    }
+
+    val normalizedStartDate = remember(state.startDate) {
+        Instant.ofEpochMilli(state.startDate)
+            .atZone(ZoneId.systemDefault())
+            .toLocalDate()
+            .atStartOfDay(ZoneOffset.UTC)
+            .toInstant()
+            .toEpochMilli()
     }
 
     val selectableDates = remember(today) {
@@ -123,12 +134,12 @@ fun AddEditRecurringTransactionForm(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 FrequencyInput(
-                    modifier = Modifier.weight(0.6f),
+                    modifier = Modifier.weight(if (normalizedStartDate == today) 0.6f else 1f),
                     frequency = state.frequency,
                     onFrequencySelect = onFrequencyChange
                 )
 
-                if (state.startDate == today) {
+                if (normalizedStartDate == today) {
                     Box(
                         modifier = Modifier.weight(0.4f),
                         contentAlignment = Alignment.CenterStart
