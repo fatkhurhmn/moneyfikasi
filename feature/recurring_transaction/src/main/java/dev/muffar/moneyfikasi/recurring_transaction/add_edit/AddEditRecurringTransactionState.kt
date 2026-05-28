@@ -7,8 +7,8 @@ import dev.muffar.moneyfikasi.domain.model.RecurringTransaction
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
+import dev.muffar.moneyfikasi.domain.utils.RecurringScheduleCalculator
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
-import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneOffset
 import java.util.UUID
@@ -38,25 +38,50 @@ data class AddEditRecurringTransactionState(
     val lastRun: Long? = null,
     val nextRun: Long? = null,
     val initialStartDate: Long? = null,
+    val initialFrequency: TimePeriod? = null,
+    val initialEndType: RecurringEndType? = null,
+    val initialEndDate: Long? = null,
+    val initialOccurrenceCount: Int? = null,
 ) {
     val recurringTransaction: RecurringTransaction
         get() {
-            val calculatedNextRun = if (id == null || startDate != initialStartDate) {
-                if (isSkipFirst) {
-                    val startDateTime =
-                        Instant.ofEpochMilli(startDate).atZone(ZoneOffset.UTC).toLocalDateTime()
-                    when (frequency) {
-                        TimePeriod.DAILY -> startDateTime.plusDays(1)
-                        TimePeriod.WEEKLY -> startDateTime.plusWeeks(1)
-                        TimePeriod.MONTHLY -> startDateTime.plusMonths(1)
-                        TimePeriod.YEARLY -> startDateTime.plusYears(1)
-                        else -> startDateTime
-                    }.atZone(ZoneOffset.UTC).toInstant().toEpochMilli()
+            val currentEndDate = if (endType == RecurringEndType.ON_DATE) endDate else null
+            val currentOccurrenceCount =
+                if (endType == RecurringEndType.AFTER_OCCURRENCES) {
+                    occurrenceCount.toIntOrNull()
                 } else {
-                    startDate
+                    null
                 }
-            } else {
-                nextRun ?: startDate
+            val isScheduleChanged =
+                id == null ||
+                    startDate != initialStartDate ||
+                    frequency != initialFrequency ||
+                    endType != initialEndType ||
+                    currentEndDate != initialEndDate ||
+                    currentOccurrenceCount != initialOccurrenceCount
+            val calculatedNextRun = when {
+                id == null -> RecurringScheduleCalculator.initialNextRun(
+                    startDate = startDate,
+                    frequency = frequency,
+                    skipFirstRun = isSkipFirst
+                )
+
+                isScheduleChanged -> {
+                    val firstRun = RecurringScheduleCalculator.initialNextRun(
+                        startDate = startDate,
+                        frequency = frequency,
+                        skipFirstRun = isSkipFirst
+                    )
+                    val today = LocalDate.now().atStartOfDay(ZoneOffset.UTC).toInstant()
+                        .toEpochMilli()
+                    RecurringScheduleCalculator.nextRunOnOrAfter(
+                        startDate = firstRun,
+                        frequency = frequency,
+                        targetDate = today
+                    )
+                }
+
+                else -> nextRun ?: startDate
             }
 
             return RecurringTransaction(
@@ -69,11 +94,11 @@ data class AddEditRecurringTransactionState(
                 frequency = frequency,
                 startDate = startDate,
                 endType = endType,
-                endDate = if (endType == RecurringEndType.ON_DATE) endDate else null,
-                occurrenceCount = if (endType == RecurringEndType.AFTER_OCCURRENCES) occurrenceCount.toIntOrNull() else null,
+                endDate = currentEndDate,
+                occurrenceCount = currentOccurrenceCount,
                 lastRun = if (startDate != initialStartDate) null else lastRun,
                 nextRun = calculatedNextRun,
-                isActive = isActive
+                isActive = if (isScheduleChanged) true else isActive
             )
         }
 }

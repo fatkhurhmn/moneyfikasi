@@ -20,12 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.RecurringEndType
-import dev.muffar.moneyfikasi.domain.model.TimePeriod
+import dev.muffar.moneyfikasi.domain.utils.RecurringScheduleCalculator
 import dev.muffar.moneyfikasi.recurring_transaction.add_edit.AddEditRecurringTransactionState
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
-import org.threeten.bp.Instant
-import org.threeten.bp.ZoneOffset
 
 @Composable
 fun RecurringSummary(
@@ -56,20 +54,11 @@ fun RecurringSummary(
         endStr
     )
 
-    val nextRunMillis = if (state.isSkipFirst) {
-        val startDateTime =
-            Instant.ofEpochMilli(state.startDate).atZone(ZoneOffset.UTC).toLocalDateTime()
-        val nextRun = when (state.frequency) {
-            TimePeriod.DAILY -> startDateTime.plusDays(1)
-            TimePeriod.WEEKLY -> startDateTime.plusWeeks(1)
-            TimePeriod.MONTHLY -> startDateTime.plusMonths(1)
-            TimePeriod.YEARLY -> startDateTime.plusYears(1)
-            else -> startDateTime
-        }
-        nextRun.atZone(ZoneOffset.UTC).toInstant().toEpochMilli()
-    } else {
-        state.startDate
-    }
+    val nextRunMillis = RecurringScheduleCalculator.initialNextRun(
+        startDate = state.startDate,
+        frequency = state.frequency,
+        skipFirstRun = state.isSkipFirst
+    )
 
     val nextRunStr = nextRunMillis.toFormattedDateTime("MMM dd, yyyy")
 

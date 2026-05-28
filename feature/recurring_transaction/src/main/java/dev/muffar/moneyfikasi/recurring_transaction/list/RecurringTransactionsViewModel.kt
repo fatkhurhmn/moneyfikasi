@@ -11,8 +11,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.threeten.bp.LocalDate
-import org.threeten.bp.ZoneOffset
 import javax.inject.Inject
 
 @HiltViewModel
@@ -43,9 +41,8 @@ class RecurringTransactionsViewModel @Inject constructor(
                         val isEnded = when (recurring.endType) {
                             RecurringEndType.NEVER -> false
                             RecurringEndType.ON_DATE -> {
-                                val today = LocalDate.now().atStartOfDay(ZoneOffset.UTC).toInstant()
-                                    .toEpochMilli()
-                                recurring.endDate?.let { it < today } ?: false
+                                val nextRun = recurring.nextRun ?: recurring.startDate
+                                recurring.endDate?.let { nextRun > it } ?: false
                             }
 
                             RecurringEndType.AFTER_OCCURRENCES -> {

@@ -99,7 +99,7 @@ fun AddEditRecurringTransactionForm(
             )
 
             CategoryInput(
-                category = state.category ?: Category(),
+                category = state.category,
                 categoryOptions = state.categories,
                 onCategorySelect = onCategoryChange,
                 onAddNewCategoryClick = onAddNewCategoryClick,
@@ -107,7 +107,7 @@ fun AddEditRecurringTransactionForm(
             )
 
             WalletInput(
-                wallet = state.wallet ?: Wallet(),
+                wallet = state.wallet,
                 walletOptions = state.wallets,
                 onWalletSelect = onWalletChange,
                 onAddNewWalletClick = onAddNewWalletClick,

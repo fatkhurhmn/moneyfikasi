@@ -201,10 +201,14 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
                             frequency = recurringTransaction.frequency,
                             startDate = recurringTransaction.startDate,
                             initialStartDate = recurringTransaction.startDate,
+                            initialFrequency = recurringTransaction.frequency,
                             endType = recurringTransaction.endType,
+                            initialEndType = recurringTransaction.endType,
                             endDate = recurringTransaction.endDate ?: it.endDate,
+                            initialEndDate = recurringTransaction.endDate,
                             occurrenceCount = recurringTransaction.occurrenceCount?.toString()
                                 ?: it.occurrenceCount,
+                            initialOccurrenceCount = recurringTransaction.occurrenceCount,
                             lastRun = recurringTransaction.lastRun,
                             nextRun = recurringTransaction.nextRun,
                             isActive = recurringTransaction.isActive

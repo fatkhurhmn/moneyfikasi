@@ -25,10 +25,7 @@ fun EmptyBudgetSection(
             .fillMaxWidth()
             .height(100.dp)
             .padding(horizontal = 16.dp)
-            .dottedBorder(
-                color = MaterialTheme.colorScheme.outlineVariant,
-                cornerRadius = 12.dp
-            ),
+            .dottedBorder(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
