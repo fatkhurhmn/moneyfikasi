@@ -8,6 +8,7 @@ import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.constants.ValidationConst
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -75,8 +76,8 @@ class AddEditWalletViewModel @Inject constructor(
 
     private fun updateNameError() {
         val name = _state.value.name
-        val error = if (name.isEmpty()) "Name cannot be empty" else null
-        _state.update { it.copy(nameError = ErrorMessage(error)) }
+        val error = if (name.isEmpty()) R.string.name_cannot_be_empty else null
+        _state.update { it.copy(nameError = ErrorMessage(resId = error)) }
     }
 
     private fun onBalanceChange(balance: String) {
@@ -95,8 +96,8 @@ class AddEditWalletViewModel @Inject constructor(
     private fun updateIconAndColor() {
         val icon = _state.value.icon
         val color = _state.value.color
-        val error = if (icon.isEmpty() || color == 0L) "Please select an icon and color" else null
-        _state.update { it.copy(iconError = ErrorMessage(error)) }
+        val error = if (icon.isEmpty() || color == 0L) R.string.please_select_icon_and_color else null
+        _state.update { it.copy(iconError = ErrorMessage(resId = error)) }
     }
 
     private fun onWalletActive() {
@@ -121,7 +122,7 @@ class AddEditWalletViewModel @Inject constructor(
                 e.printStackTrace()
                 _eventFlow.emit(
                     UiEvent.ShowMessage(
-                        "Failed to save wallet",
+                        R.string.failed_to_save_wallet,
                         SnackbarType.ERROR
                     )
                 )
@@ -138,7 +139,7 @@ class AddEditWalletViewModel @Inject constructor(
                 e.printStackTrace()
                 _eventFlow.emit(
                     UiEvent.ShowMessage(
-                        "Failed to delete wallet",
+                        R.string.failed_to_delete_wallet,
                         SnackbarType.ERROR
                     )
                 )
@@ -155,7 +156,7 @@ class AddEditWalletViewModel @Inject constructor(
     }
 
     sealed class UiEvent {
-        data class ShowMessage(val message: String, val type: SnackbarType) : UiEvent()
+        data class ShowMessage(val messageResId: Int, val type: SnackbarType) : UiEvent()
         data object SaveWallet : UiEvent()
         data object DeleteWallet : UiEvent()
     }

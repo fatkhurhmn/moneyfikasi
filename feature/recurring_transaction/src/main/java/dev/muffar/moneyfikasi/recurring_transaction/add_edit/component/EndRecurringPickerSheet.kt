@@ -51,7 +51,7 @@ fun EndRecurringPickerSheet(
         onDismissRequest = onDismissRequest,
         sheetState = sheetState
     ) {
-        BottomSheetTitle(title = "End Recurring")
+        BottomSheetTitle(title = stringResource(R.string.end_recurring))
 
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),

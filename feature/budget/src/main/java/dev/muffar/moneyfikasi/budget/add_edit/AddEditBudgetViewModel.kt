@@ -11,6 +11,7 @@ import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.usecase.budget.BudgetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.constants.ValidationConst
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
@@ -96,8 +97,8 @@ class AddEditBudgetViewModel @Inject constructor(
 
     private fun updateAmountError() {
         val amount = _state.value.amount.clearThousandFormat().toDoubleOrNull() ?: 0.0
-        val error = if (amount <= 0) "Amount must be greater than 0" else null
-        _state.update { it.copy(amountError = ErrorMessage(error)) }
+        val error = if (amount <= 0) R.string.amount_greater_than_zero else null
+        _state.update { it.copy(amountError = ErrorMessage(resId = error)) }
     }
 
     private fun onCategorySelect(category: Category?) {
@@ -108,11 +109,11 @@ class AddEditBudgetViewModel @Inject constructor(
     private fun updateCategoryError() {
         val currentCategory = _state.value.category
         val error = when {
-            currentCategory.name.isEmpty() -> "Category must be selected"
-            _state.value.id == null && currentCategory.id in _state.value.budgets.map { it.category.id } -> "This category already has a budget"
+            currentCategory.name.isEmpty() -> R.string.category_must_be_selected
+            _state.value.id == null && currentCategory.id in _state.value.budgets.map { it.category.id } -> R.string.category_already_has_budget
             else -> null
         }
-        _state.update { it.copy(categoryError = ErrorMessage(error)) }
+        _state.update { it.copy(categoryError = ErrorMessage(resId = error)) }
     }
 
     private fun onShowDeleteAlert(show: Boolean) {
@@ -130,7 +131,7 @@ class AddEditBudgetViewModel @Inject constructor(
                 e.printStackTrace()
                 _eventFlow.emit(
                     UiEvent.ShowMessage(
-                        "Failed to save budget. Each category can only have one budget.",
+                        R.string.failed_to_save_budget,
                         SnackbarType.ERROR
                     )
                 )
@@ -147,7 +148,7 @@ class AddEditBudgetViewModel @Inject constructor(
                 _eventFlow.emit(UiEvent.DeleteBudget)
             } catch (e: Exception) {
                 e.printStackTrace()
-                _eventFlow.emit(UiEvent.ShowMessage("Failed to delete budget", SnackbarType.ERROR))
+                _eventFlow.emit(UiEvent.ShowMessage(R.string.failed_to_delete_budget, SnackbarType.ERROR))
             }
         }
     }
@@ -160,7 +161,7 @@ class AddEditBudgetViewModel @Inject constructor(
     }
 
     sealed class UiEvent {
-        data class ShowMessage(val message: String, val type: SnackbarType) : UiEvent()
+        data class ShowMessage(val messageResId: Int, val type: SnackbarType) : UiEvent()
         data object SaveBudget : UiEvent()
         data object DeleteBudget : UiEvent()
     }

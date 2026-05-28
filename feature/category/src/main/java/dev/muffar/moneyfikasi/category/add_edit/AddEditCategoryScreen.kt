@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.category.add_edit.component.AddEditCategoryForm
@@ -45,6 +46,7 @@ fun AddEditCategoryScreen(
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -98,7 +100,7 @@ fun AddEditCategoryScreen(
                 is AddEditCategoryViewModel.UiEvent.SaveCategory -> onBackClick()
                 is AddEditCategoryViewModel.UiEvent.DeleteCategory -> onBackClick()
                 is AddEditCategoryViewModel.UiEvent.ShowMessage -> snackbarHostState.showMessage(
-                    it.message,
+                    context.getString(it.messageResId),
                     it.type
                 )
             }

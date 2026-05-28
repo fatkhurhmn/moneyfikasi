@@ -9,6 +9,7 @@ import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.constants.ValidationConst
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -81,8 +82,8 @@ class AddEditCategoryViewModel @Inject constructor(
 
     private fun updateNameError() {
         val name = _state.value.name
-        val error = if (name.isEmpty()) "Name cannot be empty" else null
-        _state.update { it.copy(nameError = ErrorMessage(error)) }
+        val error = if (name.isEmpty()) R.string.name_cannot_be_empty else null
+        _state.update { it.copy(nameError = ErrorMessage(resId = error)) }
     }
 
     private fun onIconChange(icon: String) {
@@ -96,8 +97,8 @@ class AddEditCategoryViewModel @Inject constructor(
     private fun updateIconAndColor() {
         val icon = _state.value.icon
         val color = _state.value.color
-        val error = if (icon.isEmpty() || color == 0L) "Please select an icon and color" else null
-        _state.update { it.copy(iconError = ErrorMessage(error)) }
+        val error = if (icon.isEmpty() || color == 0L) R.string.please_select_icon_and_color else null
+        _state.update { it.copy(iconError = ErrorMessage(resId = error)) }
     }
 
     private fun onCategoryActive() {
@@ -122,7 +123,7 @@ class AddEditCategoryViewModel @Inject constructor(
                 e.printStackTrace()
                 _eventFlow.emit(
                     UiEvent.ShowMessage(
-                        "Failed to save category",
+                        R.string.failed_to_save_category,
                         SnackbarType.ERROR
                     )
                 )
@@ -139,7 +140,7 @@ class AddEditCategoryViewModel @Inject constructor(
                 e.printStackTrace()
                 _eventFlow.emit(
                     UiEvent.ShowMessage(
-                        "Failed to delete category",
+                        R.string.failed_to_delete_category,
                         SnackbarType.ERROR
                     )
                 )
@@ -156,7 +157,7 @@ class AddEditCategoryViewModel @Inject constructor(
     }
 
     sealed class UiEvent {
-        data class ShowMessage(val message: String, val type: SnackbarType) : UiEvent()
+        data class ShowMessage(val messageResId: Int, val type: SnackbarType) : UiEvent()
         data object SaveCategory : UiEvent()
         data object DeleteCategory : UiEvent()
     }

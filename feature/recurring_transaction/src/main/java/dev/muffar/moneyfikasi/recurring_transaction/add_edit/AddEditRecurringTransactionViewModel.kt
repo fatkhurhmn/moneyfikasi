@@ -16,6 +16,7 @@ import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.recurring_transaction.RecurringTransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.constants.UUIDConst
 import dev.muffar.moneyfikasi.utils.constants.ValidationConst
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
@@ -152,32 +153,32 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
     }
 
     private fun updateNameError() {
-        val error = if (_state.value.name.isBlank()) "Name cannot be empty" else null
-        _state.update { it.copy(nameError = ErrorMessage(error)) }
+        val error = if (_state.value.name.isBlank()) R.string.name_cannot_be_empty else null
+        _state.update { it.copy(nameError = ErrorMessage(resId = error)) }
     }
 
     private fun updateAmountError() {
         val amount = _state.value.amount.clearThousandFormat().toDoubleOrNull() ?: 0.0
-        val error = if (amount <= 0) "Amount must be greater than 0" else null
-        _state.update { it.copy(amountError = ErrorMessage(error)) }
+        val error = if (amount <= 0) R.string.amount_greater_than_zero else null
+        _state.update { it.copy(amountError = ErrorMessage(resId = error)) }
     }
 
     private fun updateCategoryError() {
         val category = _state.value.category
-        val error = if (category.id == UUIDConst.empty) "Please select a category" else null
-        _state.update { it.copy(categoryError = ErrorMessage(error)) }
+        val error = if (category.id == UUIDConst.empty) R.string.please_select_category else null
+        _state.update { it.copy(categoryError = ErrorMessage(resId = error)) }
     }
 
     private fun updateWalletError() {
         val wallet = _state.value.wallet
-        val error = if (wallet.id == UUIDConst.empty) "Please select a wallet" else null
-        _state.update { it.copy(walletError = ErrorMessage(error)) }
+        val error = if (wallet.id == UUIDConst.empty) R.string.please_select_wallet else null
+        _state.update { it.copy(walletError = ErrorMessage(resId = error)) }
     }
 
     private fun updateOccurrenceCountError() {
         val count = _state.value.occurrenceCount.toIntOrNull() ?: 0
-        val error = if (count <= 0) "Count must be greater than 0" else null
-        _state.update { it.copy(occurrenceCountError = ErrorMessage(error)) }
+        val error = if (count <= 0) R.string.count_greater_than_zero else null
+        _state.update { it.copy(occurrenceCountError = ErrorMessage(resId = error)) }
     }
 
     private fun isFormValid(): Boolean {
@@ -262,7 +263,7 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
             } catch (e: Exception) {
                 _eventFlow.emit(
                     UiEvent.ShowMessage(
-                        "Failed to save recurring transaction",
+                        R.string.failed_to_save_recurring_transaction,
                         SnackbarType.ERROR
                     )
                 )
@@ -280,7 +281,7 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
             } catch (e: Exception) {
                 _eventFlow.emit(
                     UiEvent.ShowMessage(
-                        "Failed to delete recurring transaction",
+                        R.string.failed_to_delete_recurring_transaction,
                         SnackbarType.ERROR
                     )
                 )
@@ -291,6 +292,6 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
     sealed class UiEvent {
         data class SaveRecurringTransaction(val hasActive: Boolean) : UiEvent()
         data class DeleteRecurringTransaction(val hasActive: Boolean) : UiEvent()
-        data class ShowMessage(val message: String, val type: SnackbarType) : UiEvent()
+        data class ShowMessage(val messageResId: Int, val type: SnackbarType) : UiEvent()
     }
 }

@@ -6,6 +6,7 @@ import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
 import dev.muffar.moneyfikasi.domain.model.ExportFormat
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.export.utils.ExportManager
+import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfDay
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.startOfDay
 import dev.muffar.moneyfikasi.utils.extensions.LongExt.toLocalDateTime
@@ -70,15 +71,25 @@ class ExportViewModel @Inject constructor(
                     exportManager.exportToExcel(transactions, outputStream)
                 }
             }
-            _eventFlow.send(UiEvent.ShowMessage("Export successful", SnackbarType.SUCCESS))
+            _eventFlow.send(UiEvent.ShowMessage(R.string.export_successful, SnackbarType.SUCCESS))
         } catch (e: Exception) {
-            _eventFlow.send(UiEvent.ShowMessage("Export failed: ${e.message}", SnackbarType.ERROR))
+            _eventFlow.send(
+                UiEvent.ShowMessage(
+                    R.string.export_failed,
+                    SnackbarType.ERROR,
+                    e.message.orEmpty()
+                )
+            )
         } finally {
             _state.update { it.copy(isLoading = false) }
         }
     }
 
     sealed class UiEvent {
-        data class ShowMessage(val message: String, val type: SnackbarType) : UiEvent()
+        data class ShowMessage(
+            val messageResId: Int,
+            val type: SnackbarType,
+            val formatArg: String? = null
+        ) : UiEvent()
     }
 }

@@ -11,6 +11,7 @@ import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.toMilliseconds
 import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
@@ -103,11 +104,11 @@ class TransferTransactionViewModel @Inject constructor(
     private fun updateAmountError() {
         val amount = state.value.amount
         val error = when {
-            amount.isEmpty() -> "Amount cannot be empty"
-            amount.clearThousandFormat().toDouble() == 0.0 -> "Minimum amount is 1"
+            amount.isEmpty() -> R.string.amount_cannot_be_empty
+            amount.clearThousandFormat().toDouble() == 0.0 -> R.string.minimum_amount_is_one
             else -> null
         }
-        _state.update { it.copy(amountError = ErrorMessage(error)) }
+        _state.update { it.copy(amountError = ErrorMessage(resId = error)) }
     }
 
     private fun onFeeChange(fee: String) {
@@ -128,8 +129,8 @@ class TransferTransactionViewModel @Inject constructor(
 
     private fun updateSourceWalletError() {
         val wallet = state.value.sourceWallet
-        val error = if (wallet.isNotSet) "Source wallet cannot be empty" else null
-        _state.update { it.copy(sourceWalletError = ErrorMessage(error)) }
+        val error = if (wallet.isNotSet) R.string.source_wallet_cannot_be_empty else null
+        _state.update { it.copy(sourceWalletError = ErrorMessage(resId = error)) }
     }
 
     private fun onTargetWalletSelect(wallet: Wallet) {
@@ -141,8 +142,8 @@ class TransferTransactionViewModel @Inject constructor(
 
     private fun updateTargetWalletError() {
         val wallet = state.value.targetWallet
-        val error = if (wallet.isNotSet) "Target wallet cannot be empty" else null
-        _state.update { it.copy(targetWalletError = ErrorMessage(error)) }
+        val error = if (wallet.isNotSet) R.string.target_wallet_cannot_be_empty else null
+        _state.update { it.copy(targetWalletError = ErrorMessage(resId = error)) }
     }
 
     private fun onDateSelect(date: Long) {

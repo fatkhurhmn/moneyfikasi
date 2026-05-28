@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -92,7 +93,7 @@ class TransactionDetailViewModel @Inject constructor(
                     e.printStackTrace()
                     _eventFlow.emit(
                         UiEvent.ShowMessage(
-                            "Failed to delete transaction",
+                            R.string.failed_to_delete_transaction,
                             SnackbarType.ERROR
                         )
                     )
@@ -105,17 +106,17 @@ class TransactionDetailViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 transactionUseCases.saveTransactionImage(application, bitmap)
-                _eventFlow.emit(UiEvent.ShowMessage("Image saved", SnackbarType.SUCCESS))
+                _eventFlow.emit(UiEvent.ShowMessage(R.string.image_saved, SnackbarType.SUCCESS))
             } catch (e: Exception) {
                 e.printStackTrace()
-                _eventFlow.emit(UiEvent.ShowMessage("Failed to save image", SnackbarType.ERROR))
+                _eventFlow.emit(UiEvent.ShowMessage(R.string.failed_to_save_image, SnackbarType.ERROR))
             }
         }
     }
 
     sealed class UiEvent {
         data object DeleteTransaction : UiEvent()
-        data class ShowMessage(val message: String, val type: SnackbarType) : UiEvent()
+        data class ShowMessage(val messageResId: Int, val type: SnackbarType) : UiEvent()
         data object NavigateBack : UiEvent()
     }
 }

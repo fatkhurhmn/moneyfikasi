@@ -13,13 +13,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 
 @Composable
 fun TextInputError(error: ErrorMessage) {
+    val message = error.message ?: error.resId?.let { stringResource(it) }
+
     AnimatedVisibility(
-        visible = error.message != null,
+        visible = message != null,
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 16.dp)
@@ -42,7 +45,7 @@ fun TextInputError(error: ErrorMessage) {
             )
         }
         Text(
-            text = error.message ?: "",
+            text = message.orEmpty(),
             color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.bodySmall,
             modifier = Modifier

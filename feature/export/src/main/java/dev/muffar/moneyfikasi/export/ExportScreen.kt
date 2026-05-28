@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.button.bottom_bar.BottomBarButton
@@ -40,6 +41,7 @@ fun ExportScreen(
     onBackClick: () -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
 
     val createDocumentLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CreateDocument("*/*")
@@ -91,7 +93,10 @@ fun ExportScreen(
         eventFlow.collectLatest { event ->
             when (event) {
                 is ExportViewModel.UiEvent.ShowMessage -> {
-                    snackbarHostState.showMessage(event.message, event.type)
+                    val message = event.formatArg?.let {
+                        context.getString(event.messageResId, it)
+                    } ?: context.getString(event.messageResId)
+                    snackbarHostState.showMessage(message, event.type)
                 }
             }
         }

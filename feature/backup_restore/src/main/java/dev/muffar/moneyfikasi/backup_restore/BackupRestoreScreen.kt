@@ -16,6 +16,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.backup_restore.component.AutoBackupSection
@@ -47,6 +48,7 @@ fun BackupRestoreScreen(
     onBackClick: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -109,7 +111,10 @@ fun BackupRestoreScreen(
         eventFlow.collectLatest {
             when (it) {
                 is BackupRestoreViewModel.UiEvent.ShowMessage -> {
-                    snackbarHostState.showMessage(it.message, it.type)
+                    val message = it.formatArg?.let { formatArg ->
+                        context.getString(it.messageResId, formatArg)
+                    } ?: context.getString(it.messageResId)
+                    snackbarHostState.showMessage(message, it.type)
                 }
             }
         }

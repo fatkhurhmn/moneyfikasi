@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.button.bottom_bar.BottomBarAddEditButton
@@ -48,12 +49,16 @@ fun AddEditPresetScreen(
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollState = rememberScrollState()
+    val context = LocalContext.current
 
     Scaffold(
         snackbarHost = { SnackbarMessage(state = snackbarHostState) },
         topBar = {
             CommonTopAppBar(
-                title = "Preset ${state.type.name.lowercase().capitalize()}",
+                title = stringResource(
+                    R.string.preset_type_title,
+                    state.type.name.lowercase().capitalize()
+                ),
                 onBackClick = onBackClick,
             )
         },
@@ -103,7 +108,7 @@ fun AddEditPresetScreen(
                 is AddEditPresetViewModel.UiEvent.SavePreset -> onBackClick()
                 is AddEditPresetViewModel.UiEvent.DeletePreset -> onBackClick()
                 is AddEditPresetViewModel.UiEvent.ShowMessage -> snackbarHostState.showMessage(
-                    it.message,
+                    context.getString(it.messageResId),
                     it.type
                 )
             }

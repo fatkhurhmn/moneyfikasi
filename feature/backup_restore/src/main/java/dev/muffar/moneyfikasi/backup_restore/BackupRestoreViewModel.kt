@@ -20,6 +20,7 @@ import dev.muffar.moneyfikasi.domain.model.LatestBackup
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupRestoreUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.BackupSettingsUseCases
+import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -82,13 +83,14 @@ class BackupRestoreViewModel @Inject constructor(
                         folder = uri.toString()
                     )
                     backupSettingsUseCases.setLatestBackup(latestBackup)
-                    _eventFlow.emit(UiEvent.ShowMessage("Backup success", SnackbarType.SUCCESS))
+                    _eventFlow.emit(UiEvent.ShowMessage(R.string.backup_success, SnackbarType.SUCCESS))
                 }
                 .onFailure {
                     _eventFlow.emit(
                         UiEvent.ShowMessage(
-                            "Backup failed: ${it.message}",
+                            R.string.backup_failed,
                             SnackbarType.ERROR,
+                            it.message.orEmpty()
                         )
                     )
                 }
@@ -102,13 +104,14 @@ class BackupRestoreViewModel @Inject constructor(
             delay(200)
             backupRestoreUseCases.restoreData(uri)
                 .onSuccess {
-                    _eventFlow.emit(UiEvent.ShowMessage("Restore success", SnackbarType.SUCCESS))
+                    _eventFlow.emit(UiEvent.ShowMessage(R.string.restore_success, SnackbarType.SUCCESS))
                 }
                 .onFailure {
                     _eventFlow.emit(
                         UiEvent.ShowMessage(
-                            "Restore failed: ${it.message}",
+                            R.string.restore_failed,
                             SnackbarType.ERROR,
+                            it.message.orEmpty()
                         )
                     )
                 }
@@ -199,7 +202,11 @@ class BackupRestoreViewModel @Inject constructor(
     }
 
     sealed class UiEvent {
-        data class ShowMessage(val message: String, val type: SnackbarType) : UiEvent()
+        data class ShowMessage(
+            val messageResId: Int,
+            val type: SnackbarType,
+            val formatArg: String? = null
+        ) : UiEvent()
     }
 
     companion object {

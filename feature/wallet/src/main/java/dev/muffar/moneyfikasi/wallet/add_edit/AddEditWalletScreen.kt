@@ -6,6 +6,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import dev.muffar.moneyfikasi.common_ui.component.button.bottom_bar.BottomBarAddEditButton
 import dev.muffar.moneyfikasi.common_ui.component.dialog.CommonAlertDialog
@@ -34,6 +35,7 @@ fun AddEditWalletScreen(
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
     val isEditMode = state.id != null
     val title = "${stringResource(if (isEditMode) R.string.edit else R.string.create)} " +
             stringResource(R.string.wallet)
@@ -85,7 +87,7 @@ fun AddEditWalletScreen(
                 is AddEditWalletViewModel.UiEvent.SaveWallet -> onBackClick()
                 is AddEditWalletViewModel.UiEvent.DeleteWallet -> onBackClick()
                 is AddEditWalletViewModel.UiEvent.ShowMessage -> snackbarHostState.showMessage(
-                    it.message,
+                    context.getString(it.messageResId),
                     it.type
                 )
             }

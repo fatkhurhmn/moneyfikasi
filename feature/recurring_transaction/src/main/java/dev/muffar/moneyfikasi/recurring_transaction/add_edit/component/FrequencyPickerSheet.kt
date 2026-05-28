@@ -54,7 +54,7 @@ fun FrequencyPickerSheet(
         onDismissRequest = onDismissRequest,
         sheetState = sheetState
     ) {
-        BottomSheetTitle(title = "Select Frequency")
+        BottomSheetTitle(title = stringResource(R.string.select_frequency))
 
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),

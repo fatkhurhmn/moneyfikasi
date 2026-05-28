@@ -17,6 +17,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.dialog.CommonAlertDialog
@@ -49,6 +50,7 @@ fun TransactionDetailScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val captureController = rememberCaptureController()
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     Scaffold(
         snackbarHost = { SnackbarMessage(snackbarHostState) },
@@ -117,7 +119,7 @@ fun TransactionDetailScreen(
             when (it) {
                 is TransactionDetailViewModel.UiEvent.DeleteTransaction -> onBackClick()
                 is TransactionDetailViewModel.UiEvent.ShowMessage -> snackbarHostState.showMessage(
-                    it.message,
+                    context.getString(it.messageResId),
                     it.type
                 )
 

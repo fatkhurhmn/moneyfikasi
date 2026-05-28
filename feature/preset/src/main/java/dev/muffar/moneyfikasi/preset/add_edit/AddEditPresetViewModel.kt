@@ -13,6 +13,7 @@ import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preset.PresetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.constants.UUIDConst
 import dev.muffar.moneyfikasi.utils.constants.ValidationConst
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
@@ -110,8 +111,8 @@ class AddEditPresetViewModel @Inject constructor(
     }
 
     private fun updateNameError() {
-        val error = if (_state.value.name.isEmpty()) "Name cannot be empty" else null
-        _state.update { it.copy(nameError = ErrorMessage(error)) }
+        val error = if (_state.value.name.isEmpty()) R.string.name_cannot_be_empty else null
+        _state.update { it.copy(nameError = ErrorMessage(resId = error)) }
     }
 
     private fun onAmountChange(amount: String) {
@@ -140,7 +141,7 @@ class AddEditPresetViewModel @Inject constructor(
                 _eventFlow.emit(UiEvent.SavePreset)
             } catch (e: Exception) {
                 e.printStackTrace()
-                _eventFlow.emit(UiEvent.ShowMessage("Failed to save preset", SnackbarType.ERROR))
+                _eventFlow.emit(UiEvent.ShowMessage(R.string.failed_to_save_preset, SnackbarType.ERROR))
             }
         }
     }
@@ -153,7 +154,7 @@ class AddEditPresetViewModel @Inject constructor(
                 _eventFlow.emit(UiEvent.DeletePreset)
             } catch (e: Exception) {
                 e.printStackTrace()
-                _eventFlow.emit(UiEvent.ShowMessage("Failed to delete preset", SnackbarType.ERROR))
+                _eventFlow.emit(UiEvent.ShowMessage(R.string.failed_to_delete_preset, SnackbarType.ERROR))
             }
         }
     }
@@ -172,7 +173,7 @@ class AddEditPresetViewModel @Inject constructor(
             viewModelScope.launch {
                 _eventFlow.emit(
                     UiEvent.ShowMessage(
-                        "Please provide at least an amount, category, or wallet",
+                        R.string.preset_requires_value,
                         SnackbarType.ERROR
                     )
                 )
@@ -183,7 +184,7 @@ class AddEditPresetViewModel @Inject constructor(
     }
 
     sealed class UiEvent {
-        data class ShowMessage(val message: String, val type: SnackbarType) : UiEvent()
+        data class ShowMessage(val messageResId: Int, val type: SnackbarType) : UiEvent()
         data object SavePreset : UiEvent()
         data object DeletePreset : UiEvent()
     }

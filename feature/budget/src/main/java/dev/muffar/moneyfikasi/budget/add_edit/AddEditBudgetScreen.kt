@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.budget.add_edit.component.AddEditBudgetForm
@@ -38,6 +39,7 @@ fun AddEditBudgetScreen(
 ) {
     val scrollState = rememberScrollState()
     val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -89,7 +91,7 @@ fun AddEditBudgetScreen(
                 is AddEditBudgetViewModel.UiEvent.SaveBudget -> onBackClick()
                 is AddEditBudgetViewModel.UiEvent.DeleteBudget -> onBackClick()
                 is AddEditBudgetViewModel.UiEvent.ShowMessage -> {
-                    snackbarHostState.showMessage(it.message, it.type)
+                    snackbarHostState.showMessage(context.getString(it.messageResId), it.type)
                 }
             }
         }

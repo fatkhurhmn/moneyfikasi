@@ -8,6 +8,7 @@ import dev.muffar.moneyfikasi.domain.model.EnterPinStep
 import dev.muffar.moneyfikasi.domain.model.EnterPinType
 import dev.muffar.moneyfikasi.domain.usecase.preferences.security.SecuritySettingsUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -58,7 +59,7 @@ class EnterPinViewModel @Inject constructor(
     }
 
     private fun onPinChange(input: String) {
-        _state.update { it.copy(currentInput = input, errorMessage = "") }
+        _state.update { it.copy(currentInput = input, errorMessageResId = null) }
         if (input.length == 4) {
             handlePinComplete(input)
         }
@@ -91,7 +92,7 @@ class EnterPinViewModel @Inject constructor(
                 } else {
                     onInputPinError(
                         step = EnterPinStep.ENTER_PIN,
-                        message = "PINs do not match. Please try again."
+                        messageResId = R.string.pins_do_not_match
                     )
                 }
             }
@@ -108,7 +109,7 @@ class EnterPinViewModel @Inject constructor(
         } else {
             onInputPinError(
                 step = EnterPinStep.ENTER_PIN,
-                message = "Incorrect PIN. Please try again."
+                messageResId = R.string.incorrect_pin
             )
         }
     }
@@ -126,7 +127,7 @@ class EnterPinViewModel @Inject constructor(
                 } else {
                     onInputPinError(
                         step = EnterPinStep.VERIFY_CURRENT_PIN,
-                        message = "Incorrect current PIN. Please try again."
+                        messageResId = R.string.incorrect_current_pin
                     )
                 }
             }
@@ -147,7 +148,7 @@ class EnterPinViewModel @Inject constructor(
                 } else {
                     onInputPinError(
                         step = EnterPinStep.ENTER_NEW_PIN,
-                        message = "PINs do not match. Please try again."
+                        messageResId = R.string.pins_do_not_match
                     )
                 }
             }
@@ -167,7 +168,7 @@ class EnterPinViewModel @Inject constructor(
         } else {
             onInputPinError(
                 step = EnterPinStep.ENTER_PIN,
-                message = "Incorrect PIN. Please try again."
+                messageResId = R.string.incorrect_pin
             )
         }
     }
@@ -180,12 +181,12 @@ class EnterPinViewModel @Inject constructor(
         }
     }
 
-    private fun onInputPinError(step: EnterPinStep, message: String) {
+    private fun onInputPinError(step: EnterPinStep, messageResId: Int) {
         _state.update {
             it.copy(
                 step = step,
                 currentInput = "",
-                errorMessage = message
+                errorMessageResId = messageResId
             )
         }
     }

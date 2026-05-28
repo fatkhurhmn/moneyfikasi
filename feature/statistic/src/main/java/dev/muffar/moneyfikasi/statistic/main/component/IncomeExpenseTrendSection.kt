@@ -89,7 +89,7 @@ fun IncomeExpenseTrendSection(
                             .height(200.dp)
                     ) {
                         Text(
-                            text = "Unavailable",
+                            text = stringResource(R.string.unavailable),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.align(Alignment.Center)
@@ -114,4 +114,3 @@ fun IncomeExpenseTrendSection(
         }
     }
 }
-

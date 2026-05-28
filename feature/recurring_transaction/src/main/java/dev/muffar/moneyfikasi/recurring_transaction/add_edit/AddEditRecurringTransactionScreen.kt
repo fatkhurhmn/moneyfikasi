@@ -62,7 +62,7 @@ fun AddEditRecurringTransactionScreen(
                 }
 
                 is AddEditRecurringTransactionViewModel.UiEvent.ShowMessage -> {
-                    snackbarHostState.showMessage(event.message, event.type)
+                    snackbarHostState.showMessage(context.getString(event.messageResId), event.type)
                 }
             }
         }

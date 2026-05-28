@@ -93,7 +93,10 @@ fun EnterPinScreen(
                 EnterPinStep.CONFIRM_NEW_PIN -> stringResource(R.string.confirm_your_PIN)
             }
 
-            PinHeader(title = title, errorMessage = state.errorMessage)
+            PinHeader(
+                title = title,
+                errorMessage = state.errorMessageResId?.let { stringResource(it) }.orEmpty()
+            )
 
             PinDots(filledCount = state.currentInput.length)
 

@@ -11,5 +11,5 @@ data class EnterPinState(
     val newPin: String = "",
     val currentInput: String = "",
     val isLoading: Boolean = false,
-    val errorMessage: String = "",
+    val errorMessageResId: Int? = null,
 )

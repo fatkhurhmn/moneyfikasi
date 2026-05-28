@@ -14,6 +14,7 @@ import dev.muffar.moneyfikasi.domain.usecase.preset.PresetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.constants.UUIDConst
 import dev.muffar.moneyfikasi.utils.constants.ValidationConst
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
@@ -157,11 +158,11 @@ class AddEditTransactionViewModel @Inject constructor(
     private fun updateAmountError() {
         val amount = state.value.amount
         val error = when {
-            amount.isEmpty() -> "Amount cannot be empty"
-            amount.clearThousandFormat().toDouble() == 0.0 -> "Minimum amount is 1"
+            amount.isEmpty() -> R.string.amount_cannot_be_empty
+            amount.clearThousandFormat().toDouble() == 0.0 -> R.string.minimum_amount_is_one
             else -> null
         }
-        _state.update { it.copy(amountError = ErrorMessage(error)) }
+        _state.update { it.copy(amountError = ErrorMessage(resId = error)) }
     }
 
     private fun onNoteChange(note: String) {
@@ -176,8 +177,8 @@ class AddEditTransactionViewModel @Inject constructor(
 
     private fun updateCategoryError() {
         val category = state.value.category
-        val error = if (category.id == UUIDConst.empty) "Category cannot be empty" else null
-        _state.update { it.copy(categoryError = ErrorMessage(error)) }
+        val error = if (category.id == UUIDConst.empty) R.string.please_select_category else null
+        _state.update { it.copy(categoryError = ErrorMessage(resId = error)) }
     }
 
     private fun onWalletSelect(wallet: Wallet) {
@@ -187,8 +188,8 @@ class AddEditTransactionViewModel @Inject constructor(
 
     private fun updateWalletError() {
         val wallet = state.value.wallet
-        val error = if (wallet.isNotSet) "Wallet cannot be empty" else null
-        _state.update { it.copy(walletError = ErrorMessage(error)) }
+        val error = if (wallet.isNotSet) R.string.please_select_wallet else null
+        _state.update { it.copy(walletError = ErrorMessage(resId = error)) }
     }
 
     private fun onDateSelect(date: Long) {
