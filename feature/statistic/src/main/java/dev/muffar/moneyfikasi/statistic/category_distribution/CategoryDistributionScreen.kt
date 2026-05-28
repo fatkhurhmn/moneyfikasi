@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
 import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
 import dev.muffar.moneyfikasi.common_ui.component.pie_chart.CategoryDistributionChart
 import dev.muffar.moneyfikasi.common_ui.component.statistic.CategoryDistributionItem
@@ -48,33 +49,40 @@ fun CategoryDistributionScreen(
         ) { index ->
             val categoryType = if (index == 0) CategoryType.INCOME else CategoryType.EXPENSE
             val categoryStatistics = state.categoryStatistics[categoryType] ?: emptyList()
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                item {
-                    PrimaryCard {
-                        Box(
-                            modifier = Modifier.fillMaxWidth(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            CategoryDistributionChart(
-                                categoryStatistics = categoryStatistics,
-                                categoryType = categoryType
-                            )
+            if (categoryStatistics.isNotEmpty()) {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    item {
+                        PrimaryCard {
+                            Box(
+                                modifier = Modifier.fillMaxWidth(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                CategoryDistributionChart(
+                                    categoryStatistics = categoryStatistics,
+                                    categoryType = categoryType
+                                )
+                            }
                         }
                     }
+                    items(categoryStatistics, key = { it.category.id }) { stat ->
+                        CategoryDistributionItem(
+                            category = stat.category,
+                            amount = stat.amount,
+                            percentage = stat.percentage,
+                            quantity = stat.transactionCount,
+                            onClick = { category -> onItemClick(category.id, category.name) }
+                        )
+                    }
                 }
-                items(categoryStatistics, key = { it.category.id }) { stat ->
-                    CategoryDistributionItem(
-                        category = stat.category,
-                        amount = stat.amount,
-                        percentage = stat.percentage,
-                        quantity = stat.transactionCount,
-                        onClick = { category -> onItemClick(category.id, category.name) }
-                    )
-                }
+            } else {
+                EmptyDataList(
+                    title = stringResource(R.string.no_transactions),
+                    description = stringResource(R.string.no_transactions_message)
+                )
             }
         }
     }

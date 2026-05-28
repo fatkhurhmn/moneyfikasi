@@ -59,6 +59,7 @@ fun CategoryDistributionContent(
             )
         } else {
             EmptyDataList(
+                modifier = Modifier.padding(vertical = 16.dp),
                 title = stringResource(R.string.no_transactions),
                 description = stringResource(R.string.no_transactions_message)
             )
