@@ -62,7 +62,7 @@ fun RecurringTransactionsScreen(
     Scaffold(
         topBar = {
             CommonTopAppBar(
-                title = stringResource(R.string.recurring_transactions),
+                title = stringResource(R.string.label_recurring),
                 onBackClick = onBackClick,
                 titleSize = 20.sp
             )
@@ -116,8 +116,8 @@ private fun RecurringTransactionsContent(
         }
     } else {
         EmptyDataList(
-            title = stringResource(R.string.no_recurring),
-            description = stringResource(R.string.no_recurring_message)
+            title = stringResource(R.string.empty_recurring_title),
+            description = stringResource(R.string.empty_recurring_msg)
         )
     }
 }

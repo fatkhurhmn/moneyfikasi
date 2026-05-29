@@ -59,14 +59,14 @@ fun OverviewBalance(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text = stringResource(R.string.balance),
+                text = stringResource(R.string.label_balance),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onPrimary,
             )
 
             val balanceValue =
                 if (isBalanceVisible) balance.formatThousand()
-                else stringResource(R.string.invisible_balance)
+                else stringResource(R.string.label_invisible_balance)
 
             Text(
                 text = balanceValue,

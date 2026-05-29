@@ -53,7 +53,7 @@ fun BackupRestoreScreen(
     Scaffold(
         topBar = {
             CommonTopAppBar(
-                title = stringResource(R.string.backup_restore),
+                title = stringResource(R.string.title_backup_restore),
                 onBackClick = onBackClick
             )
         },

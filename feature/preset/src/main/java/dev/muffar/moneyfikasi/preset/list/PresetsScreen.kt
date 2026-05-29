@@ -31,7 +31,7 @@ fun PresetsScreen(
     Scaffold(
         topBar = {
             CommonTopAppBar(
-                title = stringResource(R.string.presets),
+                title = stringResource(R.string.label_presets),
                 onBackClick = onBackClick
             )
         },

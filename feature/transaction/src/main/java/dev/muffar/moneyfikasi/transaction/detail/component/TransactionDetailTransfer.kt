@@ -80,7 +80,7 @@ fun TransactionDetailTransfer(
         }
         Spacer(Modifier.height(16.dp))
         Text(
-            text = stringResource(R.string.amount),
+            text = stringResource(R.string.label_amount),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )

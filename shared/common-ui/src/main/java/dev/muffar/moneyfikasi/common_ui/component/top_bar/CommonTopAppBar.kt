@@ -50,7 +50,7 @@ fun CommonTopAppBar(
             if (showBackButton) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                    contentDescription = stringResource(R.string.back),
+                    contentDescription = stringResource(R.string.action_back),
                     modifier = Modifier
                         .clip(CircleShape)
                         .clickable { onBackClick() }

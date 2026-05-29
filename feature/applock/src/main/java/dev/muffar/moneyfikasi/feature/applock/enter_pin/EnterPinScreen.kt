@@ -57,9 +57,9 @@ fun EnterPinScreen(
     }
 
     val promptInfo = BiometricPrompt.PromptInfo.Builder()
-        .setTitle(stringResource(R.string.biometric_unlock))
-        .setSubtitle(stringResource(R.string.biometric_reason))
-        .setNegativeButtonText(stringResource(R.string.use_pin))
+        .setTitle(stringResource(R.string.title_biometric_unlock))
+        .setSubtitle(stringResource(R.string.msg_biometric_reason))
+        .setNegativeButtonText(stringResource(R.string.label_use_pin))
         .build()
 
     LaunchedEffect(state.isBiometricEnabled) {
@@ -86,11 +86,11 @@ fun EnterPinScreen(
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             val title = when (state.step) {
-                EnterPinStep.ENTER_PIN -> stringResource(R.string.enter_your_PIN)
-                EnterPinStep.CONFIRM_PIN -> stringResource(R.string.confirm_your_PIN)
-                EnterPinStep.VERIFY_CURRENT_PIN -> stringResource(R.string.enter_your_current_PIN)
-                EnterPinStep.ENTER_NEW_PIN -> stringResource(R.string.enter_your_new_PIN)
-                EnterPinStep.CONFIRM_NEW_PIN -> stringResource(R.string.confirm_your_PIN)
+                EnterPinStep.ENTER_PIN -> stringResource(R.string.title_enter_pin)
+                EnterPinStep.CONFIRM_PIN -> stringResource(R.string.title_confirm_pin)
+                EnterPinStep.VERIFY_CURRENT_PIN -> stringResource(R.string.title_enter_current_pin)
+                EnterPinStep.ENTER_NEW_PIN -> stringResource(R.string.title_enter_new_pin)
+                EnterPinStep.CONFIRM_NEW_PIN -> stringResource(R.string.title_confirm_pin)
             }
 
             PinHeader(

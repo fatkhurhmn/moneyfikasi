@@ -36,8 +36,8 @@ fun IncomeExpenseChart(
     val listener = remember { SlideGestureListener(currentOnSliding) }
     listener.onSliding = currentOnSliding
 
-    val incomeLabel = stringResource(R.string.income)
-    val expenseLabel = stringResource(R.string.expense)
+    val incomeLabel = stringResource(R.string.label_income)
+    val expenseLabel = stringResource(R.string.label_expense)
     AndroidView(
         modifier = modifier,
         factory = { context ->

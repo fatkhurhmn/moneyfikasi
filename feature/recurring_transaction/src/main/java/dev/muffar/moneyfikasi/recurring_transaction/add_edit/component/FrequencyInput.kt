@@ -33,7 +33,7 @@ fun FrequencyInput(
         CommonTextInput(
             value = frequency.name.lowercase().capitalize(),
             onValueChange = {},
-            label = stringResource(R.string.frequency),
+            label = stringResource(R.string.label_frequency),
             isClickable = true,
             onClick = { showFrequencyPicker = true },
             leadingIcon = {

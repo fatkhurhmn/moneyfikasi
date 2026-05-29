@@ -48,7 +48,7 @@ fun CategoryPickerSheet(
         sheetState = sheetState,
         sheetGesturesEnabled = false
     ) {
-        BottomSheetTitle(stringResource(R.string.select_category))
+        BottomSheetTitle(stringResource(R.string.label_select_category_hint))
         if (categoryOptions.isNotEmpty()) {
             LazyColumn(
                 modifier = Modifier.weight(1f),
@@ -70,8 +70,8 @@ fun CategoryPickerSheet(
             }
         } else {
             EmptyDataList(
-                title = stringResource(id = R.string.no_categories),
-                description = stringResource(id = R.string.no_categories_message),
+                title = stringResource(id = R.string.empty_categories_title),
+                description = stringResource(id = R.string.empty_categories_msg),
                 modifier = Modifier.weight(1f)
             )
         }
@@ -81,8 +81,8 @@ fun CategoryPickerSheet(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp),
-            negativeText = stringResource(R.string.cancel),
-            positiveText = stringResource(R.string.create),
+            negativeText = stringResource(R.string.action_cancel),
+            positiveText = stringResource(R.string.action_create),
             onNegativeClick = { hideSheet() },
             onPositiveClick = {
                 hideSheet()

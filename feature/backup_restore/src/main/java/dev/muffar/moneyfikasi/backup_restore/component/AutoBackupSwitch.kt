@@ -33,8 +33,8 @@ fun AutoBackupSwitch(
     SettingSwitchItem(
         isEnabled = isEnabled,
         onEnabledChange = onEnabledChange,
-        title = stringResource(R.string.automatic_backup),
-        subtitle = stringResource(R.string.auto_backup_description),
+        title = stringResource(R.string.msg_automatic_backup),
+        subtitle = stringResource(R.string.msg_auto_backup_description),
         icon = Icons.Rounded.Update
     )
 }

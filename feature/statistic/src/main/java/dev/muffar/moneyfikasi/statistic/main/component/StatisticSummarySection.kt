@@ -32,13 +32,13 @@ fun StatisticSummarySection(
             .padding(horizontal = 12.dp, vertical = 8.dp)
     ) {
         StatisticSectionLabel(
-            label = stringResource(R.string.summary),
+            label = stringResource(R.string.label_summary),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 8.dp)
         )
         SummaryItem(
-            label = stringResource(R.string.net),
+            label = stringResource(R.string.label_net),
             amount = netSum,
         )
         Spacer(Modifier.height(8.dp))
@@ -46,14 +46,14 @@ fun StatisticSummarySection(
             modifier = Modifier.fillMaxWidth()
         ) {
             SummaryItem(
-                label = stringResource(R.string.income),
+                label = stringResource(R.string.label_income),
                 amount = incomeSum,
                 color = financeColors.income,
                 modifier = Modifier.weight(1f)
             )
             Spacer(Modifier.width(8.dp))
             SummaryItem(
-                label = stringResource(R.string.expense),
+                label = stringResource(R.string.label_expense),
                 amount = expenseSum,
                 color = financeColors.expense,
                 modifier = Modifier.weight(1f)

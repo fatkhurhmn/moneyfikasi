@@ -52,13 +52,13 @@ fun ExportScreen(
     Scaffold(
         topBar = {
             CommonTopAppBar(
-                title = stringResource(R.string.export),
+                title = stringResource(R.string.action_export),
                 onBackClick = onBackClick
             )
         },
         bottomBar = {
             BottomBarButton(
-                title = stringResource(R.string.export),
+                title = stringResource(R.string.action_export),
                 onClick = {
                     createDocumentLauncher.launch(state.fileName)
                 }

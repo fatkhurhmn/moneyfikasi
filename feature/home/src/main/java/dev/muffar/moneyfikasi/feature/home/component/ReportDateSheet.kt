@@ -59,16 +59,16 @@ fun ReportDateSheet(
         sheetState = sheetState,
     ) {
         val options = mapOf(
-            TimePeriod.DAILY to stringResource(R.string.today),
-            TimePeriod.WEEKLY to stringResource(R.string.this_week),
-            TimePeriod.MONTHLY to stringResource(R.string.this_month)
+            TimePeriod.DAILY to stringResource(R.string.label_today),
+            TimePeriod.WEEKLY to stringResource(R.string.label_this_week),
+            TimePeriod.MONTHLY to stringResource(R.string.label_this_month)
         )
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth()
         ) {
-            BottomSheetTitle(stringResource(R.string.choose_period))
+            BottomSheetTitle(stringResource(R.string.title_choose_period))
             options.forEach { option ->
                 Column(
                     modifier = Modifier
@@ -89,8 +89,8 @@ fun ReportDateSheet(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
-                leftText = stringResource(R.string.cancel),
-                rightText = stringResource(R.string.reset),
+                leftText = stringResource(R.string.action_cancel),
+                rightText = stringResource(R.string.action_reset),
                 onLeftClick = { hideSheet() },
                 onRightClick = {
                     hideSheet()

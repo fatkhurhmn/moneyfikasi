@@ -34,7 +34,7 @@ fun AddEditWalletForm(
         BasicAmountInput(
             amount = state.balance,
             onAmountChange = onBalanceChange,
-            label = stringResource(R.string.balance),
+            label = stringResource(R.string.label_balance),
             enabled = state.id == null,
         )
 

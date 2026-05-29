@@ -76,9 +76,9 @@ fun AddEditRecurringTransactionScreen(
         topBar = {
             CommonTopAppBar(
                 title = if (state.id == null) {
-                    stringResource(R.string.add_recurring)
+                    stringResource(R.string.action_add_recurring)
                 } else {
-                    stringResource(R.string.edit_recurring)
+                    stringResource(R.string.action_edit_recurring)
                 },
                 onBackClick = onBackClick
             )
@@ -124,15 +124,15 @@ fun AddEditRecurringTransactionScreen(
 
     if (showDeleteAlert) {
         CommonAlertDialog(
-            title = stringResource(R.string.delete_recurring),
-            message = stringResource(R.string.delete_recurring_message),
+            title = stringResource(R.string.title_delete_recurring),
+            message = stringResource(R.string.msg_delete_recurring_confirmation),
             onConfirm = {
                 onEvent(AddEditRecurringTransactionEvent.DeleteRecurringTransaction)
                 showDeleteAlert = false
             },
             onDismiss = { showDeleteAlert = false },
-            positiveText = stringResource(R.string.delete),
-            negativeText = stringResource(R.string.cancel)
+            positiveText = stringResource(R.string.action_delete),
+            negativeText = stringResource(R.string.action_cancel)
         )
     }
 }

@@ -36,7 +36,7 @@ fun TransactionDetailAdmin(
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = stringResource(R.string.admin_fee),
+                text = stringResource(R.string.label_admin_fee),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

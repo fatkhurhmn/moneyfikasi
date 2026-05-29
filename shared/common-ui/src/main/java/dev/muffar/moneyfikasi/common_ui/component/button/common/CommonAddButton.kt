@@ -15,7 +15,7 @@ import dev.muffar.moneyfikasi.resource.R
 @Composable
 fun CommonAddButton(
     modifier: Modifier = Modifier,
-    contentDescription: String = stringResource(R.string.add),
+    contentDescription: String = stringResource(R.string.action_add),
     onClick: () -> Unit,
 ) {
     FloatingActionButton(

@@ -97,7 +97,7 @@ class AddEditBudgetViewModel @Inject constructor(
 
     private fun updateAmountError() {
         val amount = _state.value.amount.clearThousandFormat().toDoubleOrNull() ?: 0.0
-        val error = if (amount <= 0) R.string.amount_greater_than_zero else null
+        val error = if (amount <= 0) R.string.error_amount_greater_than_zero else null
         _state.update { it.copy(amountError = ErrorMessage(resId = error)) }
     }
 
@@ -109,8 +109,8 @@ class AddEditBudgetViewModel @Inject constructor(
     private fun updateCategoryError() {
         val currentCategory = _state.value.category
         val error = when {
-            currentCategory.name.isEmpty() -> R.string.category_must_be_selected
-            _state.value.id == null && currentCategory.id in _state.value.budgets.map { it.category.id } -> R.string.category_already_has_budget
+            currentCategory.name.isEmpty() -> R.string.error_select_category
+            _state.value.id == null && currentCategory.id in _state.value.budgets.map { it.category.id } -> R.string.error_category_has_budget
             else -> null
         }
         _state.update { it.copy(categoryError = ErrorMessage(resId = error)) }
@@ -131,7 +131,7 @@ class AddEditBudgetViewModel @Inject constructor(
                 e.printStackTrace()
                 _eventFlow.emit(
                     UiEvent.ShowMessage(
-                        R.string.failed_to_save_budget,
+                        R.string.error_save_budget_failed,
                         SnackbarType.ERROR
                     )
                 )
@@ -148,7 +148,7 @@ class AddEditBudgetViewModel @Inject constructor(
                 _eventFlow.emit(UiEvent.DeleteBudget)
             } catch (e: Exception) {
                 e.printStackTrace()
-                _eventFlow.emit(UiEvent.ShowMessage(R.string.failed_to_delete_budget, SnackbarType.ERROR))
+                _eventFlow.emit(UiEvent.ShowMessage(R.string.error_delete_budget_failed, SnackbarType.ERROR))
             }
         }
     }

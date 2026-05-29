@@ -7,7 +7,7 @@ import dev.muffar.moneyfikasi.resource.R
 @Composable
 fun BottomBarSaveButton(onSave: () -> Unit) {
     BottomBarButton(
-        title = stringResource(R.string.save),
+        title = stringResource(R.string.action_save),
         onClick = onSave
     )
 }

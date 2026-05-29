@@ -32,7 +32,7 @@ fun AmountInput(
             modifier = Modifier.fillMaxWidth(),
             value = amount,
             onValueChange = { },
-            label = stringResource(R.string.amount),
+            label = stringResource(R.string.label_amount),
             error = error,
             isClickable = true,
             keyboardOptions = KeyboardOptions(

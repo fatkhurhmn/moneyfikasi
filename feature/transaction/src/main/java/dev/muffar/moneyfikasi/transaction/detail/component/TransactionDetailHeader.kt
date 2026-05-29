@@ -21,9 +21,9 @@ fun TransactionDetailHeader(
 ) {
 
     val title = when (type) {
-        TransactionType.INCOME -> stringResource(R.string.income_summary)
-        TransactionType.EXPENSE -> stringResource(R.string.expense_summary)
-        else -> stringResource(R.string.transfer_summary)
+        TransactionType.INCOME -> stringResource(R.string.title_income_summary)
+        TransactionType.EXPENSE -> stringResource(R.string.title_expense_summary)
+        else -> stringResource(R.string.title_transfer_summary)
     }
 
     Column(

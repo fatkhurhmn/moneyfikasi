@@ -12,8 +12,8 @@ import dev.muffar.moneyfikasi.resource.R
 fun ResetPinSection(onChangePinClick: () -> Unit) {
     PrimaryCard {
         SettingItem(
-            title = stringResource(R.string.reset_pin),
-            subtitle = stringResource(R.string.reset_pin_description),
+            title = stringResource(R.string.action_reset_pin),
+            subtitle = stringResource(R.string.msg_reset_pin_description),
             icon = Icons.Rounded.Refresh,
             onClick = onChangePinClick
         )

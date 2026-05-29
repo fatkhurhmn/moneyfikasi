@@ -26,7 +26,7 @@ class NotificationHelper(private val context: Context) {
 
         val channel = NotificationChannel(
             channelId,
-            context.getString(R.string.recurring_notification_channel_name),
+            context.getString(R.string.label_recurring),
             NotificationManager.IMPORTANCE_DEFAULT
         )
         notificationManager.createNotificationChannel(channel)
@@ -47,10 +47,10 @@ class NotificationHelper(private val context: Context) {
 
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentTitle(context.getString(R.string.recurring_transaction_processed))
+            .setContentTitle(context.getString(R.string.title_recurring_transaction_processed))
             .setContentText(
                 context.getString(
-                    R.string.recurring_transaction_processed_message,
+                    R.string.msg_recurring_transaction_processed,
                     amount,
                     name
                 )
@@ -78,10 +78,10 @@ class NotificationHelper(private val context: Context) {
 
             val endedBuilder = NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setContentTitle(context.getString(R.string.recurring_transaction_ended))
+                .setContentTitle(context.getString(R.string.title_recurring_transaction_ended))
                 .setContentText(
                     context.getString(
-                        R.string.recurring_transaction_ended_message,
+                        R.string.msg_recurring_transaction_ended,
                         name
                     )
                 )

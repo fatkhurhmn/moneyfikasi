@@ -49,7 +49,7 @@ fun WalletPickerSheet(
         sheetState = sheetState,
         sheetGesturesEnabled = false
     ) {
-        BottomSheetTitle(stringResource(R.string.select_wallet))
+        BottomSheetTitle(stringResource(R.string.label_select_wallet_hint))
         if (walletOptions.isNotEmpty()) {
             LazyColumn(
                 modifier = Modifier.weight(1f),
@@ -72,8 +72,8 @@ fun WalletPickerSheet(
             }
         } else {
             EmptyDataList(
-                title = stringResource(id = R.string.no_wallets),
-                description = stringResource(id = R.string.no_wallets_message),
+                title = stringResource(id = R.string.empty_wallets_title),
+                description = stringResource(id = R.string.empty_wallets_msg),
                 modifier = Modifier.weight(1f)
             )
         }
@@ -83,8 +83,8 @@ fun WalletPickerSheet(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp),
-            negativeText = stringResource(R.string.cancel),
-            positiveText = stringResource(R.string.create),
+            negativeText = stringResource(R.string.action_cancel),
+            positiveText = stringResource(R.string.action_create),
             onNegativeClick = { hideSheet() },
             onPositiveClick = {
                 hideSheet()

@@ -57,10 +57,10 @@ fun DatePickerSheet(
         )
         val formattedStartDate =
             pickerState.selectedDateMillis?.toFormattedDateTime("MMM, dd yyyy")
-                ?: stringResource(R.string.start_date)
+                ?: stringResource(R.string.label_start_date)
 
         BottomSheetTitle(
-            title = stringResource(R.string.select_date),
+            title = stringResource(R.string.label_select_date),
             showDivider = false
         )
         DatePicker(
@@ -85,8 +85,8 @@ fun DatePickerSheet(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp),
-            negativeText = stringResource(R.string.cancel),
-            positiveText = stringResource(R.string.select),
+            negativeText = stringResource(R.string.action_cancel),
+            positiveText = stringResource(R.string.action_select),
             onNegativeClick = {
                 hideSheet()
                 onDismissRequest()

@@ -42,7 +42,7 @@ fun AddEditCategoryScreen(
     onDelete: () -> Unit,
     onBackClick: () -> Unit,
 ) {
-    val title = "${stringResource(R.string.category)} ${state.type.name.lowercase().capitalize()}"
+    val title = "${stringResource(R.string.label_category)} ${state.type.name.lowercase().capitalize()}"
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollState = rememberScrollState()
@@ -82,10 +82,10 @@ fun AddEditCategoryScreen(
 
     if (state.showAlert) {
         CommonAlertDialog(
-            title = stringResource(R.string.delete_category),
-            message = stringResource(R.string.delete_category_confirmation),
-            positiveText = stringResource(R.string.delete),
-            negativeText = stringResource(R.string.cancel),
+            title = stringResource(R.string.title_delete_category),
+            message = stringResource(R.string.msg_delete_category_confirmation),
+            positiveText = stringResource(R.string.action_delete),
+            negativeText = stringResource(R.string.action_cancel),
             onDismiss = { onShowAlert(false) },
             onConfirm = {
                 onDelete()

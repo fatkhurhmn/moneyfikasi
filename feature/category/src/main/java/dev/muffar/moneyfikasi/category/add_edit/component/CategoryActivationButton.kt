@@ -17,8 +17,8 @@ fun CategoryActivationButton(
         onEnabledChange = {
             onIsActiveChange()
         },
-        title = stringResource(R.string.activation),
+        title = stringResource(R.string.label_activation),
         titleStyle = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Medium),
-        description = stringResource(R.string.disable_category)
+        description = stringResource(R.string.msg_disable_category_description)
     )
 }

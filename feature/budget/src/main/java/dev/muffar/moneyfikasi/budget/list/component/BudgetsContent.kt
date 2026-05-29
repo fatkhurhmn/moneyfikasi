@@ -36,8 +36,8 @@ fun BudgetsContent(
         }
     } else {
         EmptyDataList(
-            title = stringResource(R.string.no_budget),
-            description = stringResource(R.string.no_budget_message)
+            title = stringResource(R.string.empty_budgets_title),
+            description = stringResource(R.string.empty_budgets_msg)
         )
     }
 }

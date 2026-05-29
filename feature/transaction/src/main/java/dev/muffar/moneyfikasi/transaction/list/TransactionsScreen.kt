@@ -68,8 +68,8 @@ fun TransactionsScreen(
                 TransactionsLoading()
             } else if (transactions.itemCount == 0) {
                 EmptyDataList(
-                    title = stringResource(id = R.string.no_transactions),
-                    description = stringResource(id = R.string.no_transactions_message)
+                    title = stringResource(id = R.string.empty_transactions_title),
+                    description = stringResource(id = R.string.empty_transactions_msg)
                 )
             } else {
                 TransactionsList(

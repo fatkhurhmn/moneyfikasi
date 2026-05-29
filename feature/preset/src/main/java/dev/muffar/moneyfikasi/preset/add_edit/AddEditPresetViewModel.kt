@@ -111,7 +111,7 @@ class AddEditPresetViewModel @Inject constructor(
     }
 
     private fun updateNameError() {
-        val error = if (_state.value.name.isEmpty()) R.string.name_cannot_be_empty else null
+        val error = if (_state.value.name.isEmpty()) R.string.error_name_empty else null
         _state.update { it.copy(nameError = ErrorMessage(resId = error)) }
     }
 
@@ -141,7 +141,7 @@ class AddEditPresetViewModel @Inject constructor(
                 _eventFlow.emit(UiEvent.SavePreset)
             } catch (e: Exception) {
                 e.printStackTrace()
-                _eventFlow.emit(UiEvent.ShowMessage(R.string.failed_to_save_preset, SnackbarType.ERROR))
+                _eventFlow.emit(UiEvent.ShowMessage(R.string.error_save_preset_failed, SnackbarType.ERROR))
             }
         }
     }
@@ -154,7 +154,7 @@ class AddEditPresetViewModel @Inject constructor(
                 _eventFlow.emit(UiEvent.DeletePreset)
             } catch (e: Exception) {
                 e.printStackTrace()
-                _eventFlow.emit(UiEvent.ShowMessage(R.string.failed_to_delete_preset, SnackbarType.ERROR))
+                _eventFlow.emit(UiEvent.ShowMessage(R.string.error_delete_preset_failed, SnackbarType.ERROR))
             }
         }
     }
@@ -173,7 +173,7 @@ class AddEditPresetViewModel @Inject constructor(
             viewModelScope.launch {
                 _eventFlow.emit(
                     UiEvent.ShowMessage(
-                        R.string.preset_requires_value,
+                        R.string.error_preset_requires_value,
                         SnackbarType.ERROR
                     )
                 )

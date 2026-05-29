@@ -32,7 +32,7 @@ fun AppLockScreen(
     Scaffold(
         topBar = {
             CommonTopAppBar(
-                title = stringResource(R.string.app_lock),
+                title = stringResource(R.string.label_app_lock),
                 onBackClick = onBackClick
             )
         }

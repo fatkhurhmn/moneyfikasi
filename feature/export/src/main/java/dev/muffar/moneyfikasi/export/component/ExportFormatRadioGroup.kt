@@ -22,7 +22,7 @@ fun ExportFormatRadioGroup(
 ) {
     Column {
         Text(
-            text = stringResource(R.string.export_format),
+            text = stringResource(R.string.label_export_format),
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(bottom = 8.dp)
@@ -31,16 +31,16 @@ fun ExportFormatRadioGroup(
             modifier = Modifier.fillMaxWidth()
         ) {
             ExportFormatItem(
-                title = stringResource(R.string.csv),
-                description = stringResource(R.string.csv_description),
+                title = stringResource(R.string.label_csv),
+                description = stringResource(R.string.msg_csv_description),
                 selected = selected == ExportFormat.CSV,
                 onClick = { onFormatChanged(ExportFormat.CSV) },
                 modifier = Modifier.weight(1f)
             )
             Spacer(modifier = Modifier.width(16.dp))
             ExportFormatItem(
-                title = stringResource(R.string.xlsx),
-                description = stringResource(R.string.xlsx_description),
+                title = stringResource(R.string.label_xlsx),
+                description = stringResource(R.string.msg_xlsx_description),
                 selected = selected == ExportFormat.XLSX,
                 onClick = { onFormatChanged(ExportFormat.XLSX) },
                 modifier = Modifier.weight(1f)

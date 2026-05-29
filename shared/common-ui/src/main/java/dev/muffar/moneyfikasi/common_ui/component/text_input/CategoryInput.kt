@@ -34,7 +34,7 @@ fun CategoryInput(
             value = category.name,
             onValueChange = {},
             onClear = onClear,
-            label = stringResource(R.string.category),
+            label = stringResource(R.string.label_category),
             isClickable = true,
             error = error,
             onClick = { showCategoryPicker = true },

@@ -30,7 +30,7 @@ fun EmptyBudgetSection(
         horizontalArrangement = Arrangement.Center
     ) {
         Text(
-            text = stringResource(R.string.add_budget),
+            text = stringResource(R.string.action_add_budget),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier

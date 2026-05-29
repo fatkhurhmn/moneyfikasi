@@ -104,8 +104,8 @@ class TransferTransactionViewModel @Inject constructor(
     private fun updateAmountError() {
         val amount = state.value.amount
         val error = when {
-            amount.isEmpty() -> R.string.amount_cannot_be_empty
-            amount.clearThousandFormat().toDouble() == 0.0 -> R.string.minimum_amount_is_one
+            amount.isEmpty() -> R.string.error_amount_empty
+            amount.clearThousandFormat().toDouble() == 0.0 -> R.string.error_amount_greater_than_zero
             else -> null
         }
         _state.update { it.copy(amountError = ErrorMessage(resId = error)) }
@@ -129,7 +129,7 @@ class TransferTransactionViewModel @Inject constructor(
 
     private fun updateSourceWalletError() {
         val wallet = state.value.sourceWallet
-        val error = if (wallet.isNotSet) R.string.source_wallet_cannot_be_empty else null
+        val error = if (wallet.isNotSet) R.string.error_source_wallet_empty else null
         _state.update { it.copy(sourceWalletError = ErrorMessage(resId = error)) }
     }
 
@@ -142,7 +142,7 @@ class TransferTransactionViewModel @Inject constructor(
 
     private fun updateTargetWalletError() {
         val wallet = state.value.targetWallet
-        val error = if (wallet.isNotSet) R.string.target_wallet_cannot_be_empty else null
+        val error = if (wallet.isNotSet) R.string.error_target_wallet_empty else null
         _state.update { it.copy(targetWalletError = ErrorMessage(resId = error)) }
     }
 

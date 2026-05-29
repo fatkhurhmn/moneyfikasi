@@ -20,7 +20,7 @@ import dev.muffar.moneyfikasi.resource.R
 fun WalletInput(
     wallet: Wallet,
     error: ErrorMessage = ErrorMessage(),
-    label: String = stringResource(R.string.wallet),
+    label: String = stringResource(R.string.label_wallet),
     walletOptions: List<Wallet>,
     onWalletSelect: (Wallet) -> Unit,
     onAddNewWalletClick: () -> Unit,

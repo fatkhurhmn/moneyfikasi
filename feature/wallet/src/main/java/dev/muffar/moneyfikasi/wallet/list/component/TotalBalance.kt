@@ -76,7 +76,7 @@ fun TotalBalance(
                 horizontalAlignment = Alignment.End
             ) {
                 Text(
-                    text = stringResource(R.string.total_balance),
+                    text = stringResource(R.string.label_total_balance),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onPrimary,
                 )

@@ -71,11 +71,11 @@ class ExportViewModel @Inject constructor(
                     exportManager.exportToExcel(transactions, outputStream)
                 }
             }
-            _eventFlow.send(UiEvent.ShowMessage(R.string.export_successful, SnackbarType.SUCCESS))
+            _eventFlow.send(UiEvent.ShowMessage(R.string.msg_export_success, SnackbarType.SUCCESS))
         } catch (e: Exception) {
             _eventFlow.send(
                 UiEvent.ShowMessage(
-                    R.string.export_failed,
+                    R.string.error_export_failed,
                     SnackbarType.ERROR,
                     e.message.orEmpty()
                 )

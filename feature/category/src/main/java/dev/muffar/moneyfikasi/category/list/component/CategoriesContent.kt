@@ -41,8 +41,8 @@ fun CategoriesContent(
         }
     } else {
         EmptyDataList(
-            title = stringResource(id = R.string.no_categories),
-            description = stringResource(id = R.string.no_categories_message)
+            title = stringResource(id = R.string.empty_categories_title),
+            description = stringResource(id = R.string.empty_categories_msg)
         )
     }
 }

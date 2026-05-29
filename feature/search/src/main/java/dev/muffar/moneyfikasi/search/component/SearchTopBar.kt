@@ -8,7 +8,7 @@ import dev.muffar.moneyfikasi.resource.R
 @Composable
 fun SearchTopBar() {
     CommonTopAppBar(
-        title = stringResource(R.string.search_menu),
+        title = stringResource(R.string.menu_search),
         showBackButton = false,
     )
 }

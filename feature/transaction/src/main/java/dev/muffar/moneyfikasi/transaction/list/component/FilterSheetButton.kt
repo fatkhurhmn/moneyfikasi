@@ -27,14 +27,14 @@ fun FilterSheetButton(
         ) {
             DoubleOutlinedButton(
                 modifier = Modifier.fillMaxWidth(),
-                leftText = stringResource(R.string.cancel),
-                rightText = stringResource(R.string.reset),
+                leftText = stringResource(R.string.action_cancel),
+                rightText = stringResource(R.string.action_reset),
                 onLeftClick = onCancelClick,
                 onRightClick = onResetClick
             )
             CommonButton(
                 modifier = Modifier.fillMaxWidth(),
-                text = stringResource(R.string.apply),
+                text = stringResource(R.string.action_apply),
                 onClick = onApplyClick
             )
         }

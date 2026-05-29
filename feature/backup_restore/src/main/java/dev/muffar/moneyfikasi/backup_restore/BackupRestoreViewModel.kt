@@ -83,12 +83,12 @@ class BackupRestoreViewModel @Inject constructor(
                         folder = uri.toString()
                     )
                     backupSettingsUseCases.setLatestBackup(latestBackup)
-                    _eventFlow.emit(UiEvent.ShowMessage(R.string.backup_success, SnackbarType.SUCCESS))
+                    _eventFlow.emit(UiEvent.ShowMessage(R.string.msg_backup_success, SnackbarType.SUCCESS))
                 }
                 .onFailure {
                     _eventFlow.emit(
                         UiEvent.ShowMessage(
-                            R.string.backup_failed,
+                            R.string.error_backup_failed,
                             SnackbarType.ERROR,
                             it.message.orEmpty()
                         )
@@ -104,12 +104,12 @@ class BackupRestoreViewModel @Inject constructor(
             delay(200)
             backupRestoreUseCases.restoreData(uri)
                 .onSuccess {
-                    _eventFlow.emit(UiEvent.ShowMessage(R.string.restore_success, SnackbarType.SUCCESS))
+                    _eventFlow.emit(UiEvent.ShowMessage(R.string.msg_restore_success, SnackbarType.SUCCESS))
                 }
                 .onFailure {
                     _eventFlow.emit(
                         UiEvent.ShowMessage(
-                            R.string.restore_failed,
+                            R.string.error_restore_failed,
                             SnackbarType.ERROR,
                             it.message.orEmpty()
                         )

@@ -16,7 +16,7 @@ import dev.muffar.moneyfikasi.resource.R
 fun TransactionDetailNote(note: String) {
     Column {
         Text(
-            text = stringResource(R.string.note),
+            text = stringResource(R.string.label_note),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )

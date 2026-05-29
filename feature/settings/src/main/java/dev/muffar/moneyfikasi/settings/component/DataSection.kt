@@ -24,7 +24,7 @@ fun DataSection(
 ) {
     Column {
         Text(
-            text = stringResource(R.string.data_section),
+            text = stringResource(R.string.label_data_section),
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(bottom = 8.dp)
@@ -34,15 +34,15 @@ fun DataSection(
         ) {
             Column {
                 SettingItem(
-                    title = stringResource(R.string.backup_restore),
-                    subtitle = stringResource(R.string.backup_restore_description),
+                    title = stringResource(R.string.title_backup_restore),
+                    subtitle = stringResource(R.string.msg_backup_restore_description),
                     icon = Icons.Rounded.History,
                     onClick = onBackupRestoreClick
                 )
                 CommonHorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
                 SettingItem(
-                    title = stringResource(R.string.export_data),
-                    subtitle = stringResource(R.string.export_data_description),
+                    title = stringResource(R.string.title_export_data),
+                    subtitle = stringResource(R.string.msg_export_data_description),
                     icon = Icons.Rounded.FileDownload,
                     onClick = onExportClick
                 )

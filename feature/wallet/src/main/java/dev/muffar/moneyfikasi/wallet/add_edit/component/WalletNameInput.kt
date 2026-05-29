@@ -20,7 +20,7 @@ fun WalletNameInput(
         modifier = Modifier.fillMaxWidth(),
         value = name,
         onValueChange = onNameChange,
-        label = stringResource(R.string.name),
+        label = stringResource(R.string.label_name),
         error = error,
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Done

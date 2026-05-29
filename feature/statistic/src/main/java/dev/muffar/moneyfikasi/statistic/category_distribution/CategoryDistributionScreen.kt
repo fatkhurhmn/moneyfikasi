@@ -35,7 +35,7 @@ fun CategoryDistributionScreen(
     Scaffold(
         topBar = {
             CommonTopAppBar(
-                title = stringResource(R.string.category_distribution),
+                title = stringResource(R.string.title_category_distribution),
                 onBackClick = onBackClick
             )
         },
@@ -80,8 +80,8 @@ fun CategoryDistributionScreen(
                 }
             } else {
                 EmptyDataList(
-                    title = stringResource(R.string.no_transactions),
-                    description = stringResource(R.string.no_transactions_message)
+                    title = stringResource(R.string.empty_transactions_title),
+                    description = stringResource(R.string.empty_transactions_msg)
                 )
             }
         }

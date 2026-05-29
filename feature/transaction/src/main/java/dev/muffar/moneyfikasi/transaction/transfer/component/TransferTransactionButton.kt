@@ -10,7 +10,7 @@ fun TransferTransactionButton(
     onTransfer: () -> Unit,
 ) {
     BottomBarButton(
-        title = stringResource(R.string.transfer),
+        title = stringResource(R.string.label_transfer),
         onClick = onTransfer
     )
 }

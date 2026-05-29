@@ -37,7 +37,7 @@ fun StatisticInsightsSection(
             .padding(horizontal = 12.dp, vertical = 8.dp)
     ) {
         StatisticSectionLabel(
-            label = stringResource(R.string.insights),
+            label = stringResource(R.string.label_insights),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 8.dp)
@@ -48,18 +48,18 @@ fun StatisticInsightsSection(
         ) {
             InsightItem(
                 modifier = Modifier.weight(1f),
-                title = stringResource(R.string.highest_income),
+                title = stringResource(R.string.label_highest_income),
                 value = highestIncome?.amount?.formatThousand() ?: "-",
-                label = highestIncome?.category?.name ?: stringResource(R.string.no_data),
+                label = highestIncome?.category?.name ?: stringResource(R.string.label_no_data),
                 color = financeColors.income,
                 iconName = Icons.AutoMirrored.Rounded.TrendingUp.name,
                 iconColor = financeColors.income.toArgb().toLong(),
             )
             InsightItem(
                 modifier = Modifier.weight(1f),
-                title = stringResource(R.string.highest_expense),
+                title = stringResource(R.string.label_highest_expense),
                 value = highestExpense?.amount?.formatThousand() ?: "-",
-                label = highestExpense?.category?.name ?: stringResource(R.string.no_data),
+                label = highestExpense?.category?.name ?: stringResource(R.string.label_no_data),
                 color = financeColors.expense,
                 iconName = Icons.AutoMirrored.Rounded.TrendingDown.name,
                 iconColor = financeColors.expense.toArgb().toLong(),
@@ -72,7 +72,7 @@ fun StatisticInsightsSection(
         ) {
             InsightItem(
                 modifier = Modifier.weight(1f),
-                title = stringResource(R.string.frequent_income),
+                title = stringResource(R.string.label_frequent_income),
                 value = mostFreqIncomeCategory?.category?.name ?: "-",
                 label = "${mostFreqIncomeCategory?.transactionCount ?: 0} times",
                 color = financeColors.income,
@@ -81,7 +81,7 @@ fun StatisticInsightsSection(
             )
             InsightItem(
                 modifier = Modifier.weight(1f),
-                title = stringResource(R.string.frequent_expense),
+                title = stringResource(R.string.label_frequent_expense),
                 value = mostFreqExpenseCategory?.category?.name ?: "-",
                 label = "${mostFreqExpenseCategory?.transactionCount ?: 0} times",
                 color = financeColors.expense,

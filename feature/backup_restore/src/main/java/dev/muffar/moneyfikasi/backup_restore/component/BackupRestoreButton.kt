@@ -49,13 +49,13 @@ fun BackupRestoreButton(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         CommonButton(
-            text = stringResource(R.string.backup),
+            text = stringResource(R.string.action_backup),
             onClick = { dirBackupLauncher.launch(null) },
             modifier = Modifier.weight(1f),
             enabled = !state.isLoading
         )
         CommonOutlinedButton(
-            text = stringResource(R.string.restore),
+            text = stringResource(R.string.action_restore),
             onClick = { dirRestoreLauncher.launch(arrayOf("application/zip")) },
             modifier = Modifier.weight(1f),
             enabled = !state.isLoading
@@ -64,10 +64,10 @@ fun BackupRestoreButton(
 
     if (showRestoreDialog) {
         CommonAlertDialog(
-            title = stringResource(R.string.restore_confirmation_title),
-            message = stringResource(R.string.restore_confirmation_message),
-            positiveText = stringResource(R.string.restore),
-            negativeText = stringResource(R.string.cancel),
+            title = stringResource(R.string.title_restore_confirmation),
+            message = stringResource(R.string.msg_restore_confirmation),
+            positiveText = stringResource(R.string.action_restore),
+            negativeText = stringResource(R.string.action_cancel),
             onDismiss = {
                 showRestoreDialog = false
                 selectedRestoreUri = null

@@ -14,7 +14,7 @@ fun StatisticTopBar(
     onFilterClick: () -> Unit,
 ) {
     CommonTopAppBar(
-        title = stringResource(R.string.statistic_menu),
+        title = stringResource(R.string.menu_statistic),
         showBackButton = false,
         titleSize = 20.sp,
         action = {

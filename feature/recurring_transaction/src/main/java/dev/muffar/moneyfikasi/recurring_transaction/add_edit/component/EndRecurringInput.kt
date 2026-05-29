@@ -49,7 +49,7 @@ fun EndRecurringInput(
                     modifier = Modifier.weight(0.6f),
                     date = endDate,
                     onDateSelect = onEndDateChange,
-                    label = stringResource(R.string.end_date),
+                    label = stringResource(R.string.label_end_date),
                     selectableDates = selectableDates,
                     initialDisplayedMonthMillis = initialDisplayedMonthMillis
                 )
@@ -58,7 +58,7 @@ fun EndRecurringInput(
                     modifier = Modifier.weight(0.2f),
                     value = occurrenceCount,
                     onValueChange = onOccurrenceCountChange,
-                    label = stringResource(R.string.times),
+                    label = stringResource(R.string.label_times),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     error = occurrenceCountError
                 )
@@ -66,12 +66,12 @@ fun EndRecurringInput(
             CommonTextInput(
                 modifier = Modifier.weight(0.4f),
                 value = when (endType) {
-                    RecurringEndType.NEVER -> stringResource(R.string.never)
-                    RecurringEndType.ON_DATE -> stringResource(R.string.on_date)
-                    RecurringEndType.AFTER_OCCURRENCES -> stringResource(R.string.after_occurrences)
+                    RecurringEndType.NEVER -> stringResource(R.string.label_never)
+                    RecurringEndType.ON_DATE -> stringResource(R.string.label_on_date)
+                    RecurringEndType.AFTER_OCCURRENCES -> stringResource(R.string.label_after_occurrences)
                 },
                 onValueChange = {},
-                label = stringResource(R.string.end_recurring),
+                label = stringResource(R.string.label_end_recurring),
                 isClickable = true,
                 onClick = { showEndTypePicker = true }
             )

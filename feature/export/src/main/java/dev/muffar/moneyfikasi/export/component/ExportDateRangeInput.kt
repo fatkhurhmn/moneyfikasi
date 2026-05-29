@@ -23,14 +23,14 @@ fun ExportDateRangeInput(
 ) {
     Column {
         Text(
-            text = stringResource(R.string.date_range),
+            text = stringResource(R.string.label_date_range),
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
         ExportDateItem(
-            label = stringResource(R.string.start_date),
+            label = stringResource(R.string.label_start_date),
             date = startDate.toMilliseconds(),
             onDateSelect = onStartDateChanged
         )
@@ -38,7 +38,7 @@ fun ExportDateRangeInput(
         Spacer(modifier = Modifier.height(8.dp))
 
         ExportDateItem(
-            label = stringResource(R.string.end_date),
+            label = stringResource(R.string.label_end_date),
             date = endDate.toMilliseconds(),
             onDateSelect = onEndDateChanged
         )

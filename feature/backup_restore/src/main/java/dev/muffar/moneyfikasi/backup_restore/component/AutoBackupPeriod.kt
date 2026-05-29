@@ -33,9 +33,9 @@ fun AutoBackupPeriod(
 
     var showPeriodMenu by remember { mutableStateOf(false) }
     val periods = listOf(
-        stringResource(R.string.daily) to TimePeriod.DAILY,
-        stringResource(R.string.weekly) to TimePeriod.WEEKLY,
-        stringResource(R.string.monthly) to TimePeriod.MONTHLY
+        stringResource(R.string.label_daily) to TimePeriod.DAILY,
+        stringResource(R.string.label_weekly) to TimePeriod.WEEKLY,
+        stringResource(R.string.label_monthly) to TimePeriod.MONTHLY
     )
 
     Column(
@@ -45,7 +45,7 @@ fun AutoBackupPeriod(
             .padding(horizontal = 16.dp, vertical = 12.dp)
     ) {
         Text(
-            text = stringResource(R.string.backup_period),
+            text = stringResource(R.string.label_backup_period),
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.primary
         )

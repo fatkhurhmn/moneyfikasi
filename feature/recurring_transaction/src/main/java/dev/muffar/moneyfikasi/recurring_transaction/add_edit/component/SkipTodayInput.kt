@@ -24,7 +24,7 @@ fun SkipTodayInput(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = stringResource(R.string.skip_today),
+            text = stringResource(R.string.label_skip_today),
             style = MaterialTheme.typography.bodySmall
         )
         Spacer(modifier = Modifier.width(8.dp))

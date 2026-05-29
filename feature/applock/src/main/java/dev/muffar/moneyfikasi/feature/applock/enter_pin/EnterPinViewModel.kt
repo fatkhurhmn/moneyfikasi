@@ -92,7 +92,7 @@ class EnterPinViewModel @Inject constructor(
                 } else {
                     onInputPinError(
                         step = EnterPinStep.ENTER_PIN,
-                        messageResId = R.string.pins_do_not_match
+                        messageResId = R.string.error_pins_do_not_match
                     )
                 }
             }
@@ -109,7 +109,7 @@ class EnterPinViewModel @Inject constructor(
         } else {
             onInputPinError(
                 step = EnterPinStep.ENTER_PIN,
-                messageResId = R.string.incorrect_pin
+                messageResId = R.string.error_incorrect_pin
             )
         }
     }
@@ -127,7 +127,7 @@ class EnterPinViewModel @Inject constructor(
                 } else {
                     onInputPinError(
                         step = EnterPinStep.VERIFY_CURRENT_PIN,
-                        messageResId = R.string.incorrect_current_pin
+                        messageResId = R.string.error_incorrect_current_pin
                     )
                 }
             }
@@ -148,7 +148,7 @@ class EnterPinViewModel @Inject constructor(
                 } else {
                     onInputPinError(
                         step = EnterPinStep.ENTER_NEW_PIN,
-                        messageResId = R.string.pins_do_not_match
+                        messageResId = R.string.error_pins_do_not_match
                     )
                 }
             }
@@ -168,7 +168,7 @@ class EnterPinViewModel @Inject constructor(
         } else {
             onInputPinError(
                 step = EnterPinStep.ENTER_PIN,
-                messageResId = R.string.incorrect_pin
+                messageResId = R.string.error_incorrect_pin
             )
         }
     }

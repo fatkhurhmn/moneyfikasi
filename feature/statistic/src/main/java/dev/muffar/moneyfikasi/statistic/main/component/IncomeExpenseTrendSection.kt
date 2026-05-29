@@ -64,7 +64,7 @@ fun IncomeExpenseTrendSection(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             StatisticSectionLabel(
-                label = stringResource(R.string.trend),
+                label = stringResource(R.string.label_trend),
             )
             TrendGraphToggle(
                 selectedType = selectedTrendType,
@@ -89,7 +89,7 @@ fun IncomeExpenseTrendSection(
                             .height(200.dp)
                     ) {
                         Text(
-                            text = stringResource(R.string.unavailable),
+                            text = stringResource(R.string.label_unavailable),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.align(Alignment.Center)

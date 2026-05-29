@@ -71,7 +71,7 @@ fun OverviewIncomeExpense(
 
             val amountValue =
                 if (isAmountVisible) amount.formatThousand()
-                else stringResource(R.string.invisible_balance)
+                else stringResource(R.string.label_invisible_balance)
 
             Text(
                 text = amountValue,

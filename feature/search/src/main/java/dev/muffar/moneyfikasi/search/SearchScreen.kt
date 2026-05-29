@@ -58,7 +58,7 @@ fun SearchScreen(
         ) {
             if (state.searchQuery.isNullOrEmpty()) {
                 Text(
-                    text = stringResource(R.string.type_to_search),
+                    text = stringResource(R.string.label_type_to_search),
                     color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
                 )
             } else {
@@ -76,8 +76,8 @@ fun SearchScreen(
                     )
                 } else {
                     EmptyDataList(
-                        title = stringResource(id = R.string.no_search_results),
-                        description = stringResource(id = R.string.no_search_results_message)
+                        title = stringResource(id = R.string.empty_search_results_title),
+                        description = stringResource(id = R.string.empty_search_results_msg)
                     )
                 }
             }

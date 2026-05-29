@@ -14,7 +14,7 @@ fun MoreTopBar(
     onSettingsClick: () -> Unit
 ) {
     CommonTopAppBar(
-        title = stringResource(R.string.more_menu),
+        title = stringResource(R.string.menu_more),
         showBackButton = false,
         titleSize = 20.sp,
         action = {

@@ -82,7 +82,7 @@ class AddEditCategoryViewModel @Inject constructor(
 
     private fun updateNameError() {
         val name = _state.value.name
-        val error = if (name.isEmpty()) R.string.name_cannot_be_empty else null
+        val error = if (name.isEmpty()) R.string.error_name_empty else null
         _state.update { it.copy(nameError = ErrorMessage(resId = error)) }
     }
 
@@ -97,7 +97,7 @@ class AddEditCategoryViewModel @Inject constructor(
     private fun updateIconAndColor() {
         val icon = _state.value.icon
         val color = _state.value.color
-        val error = if (icon.isEmpty() || color == 0L) R.string.please_select_icon_and_color else null
+        val error = if (icon.isEmpty() || color == 0L) R.string.error_select_icon_color else null
         _state.update { it.copy(iconError = ErrorMessage(resId = error)) }
     }
 
@@ -123,7 +123,7 @@ class AddEditCategoryViewModel @Inject constructor(
                 e.printStackTrace()
                 _eventFlow.emit(
                     UiEvent.ShowMessage(
-                        R.string.failed_to_save_category,
+                        R.string.error_save_category_failed,
                         SnackbarType.ERROR
                     )
                 )
@@ -140,7 +140,7 @@ class AddEditCategoryViewModel @Inject constructor(
                 e.printStackTrace()
                 _eventFlow.emit(
                     UiEvent.ShowMessage(
-                        R.string.failed_to_delete_category,
+                        R.string.error_delete_category_failed,
                         SnackbarType.ERROR
                     )
                 )

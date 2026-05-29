@@ -14,10 +14,10 @@ fun EnterPinTopAppBar(
     if (type == EnterPinType.ENTER_PIN) return
     CommonTopAppBar(
         title = when (type) {
-            EnterPinType.SET_PIN -> stringResource(R.string.set_pin)
-            EnterPinType.RESET_PIN -> stringResource(R.string.reset_pin)
-            EnterPinType.DISABLE_PIN -> stringResource(R.string.disable_app_lock)
-            else -> stringResource(R.string.app_lock)
+            EnterPinType.SET_PIN -> stringResource(R.string.action_set_pin)
+            EnterPinType.RESET_PIN -> stringResource(R.string.action_reset_pin)
+            EnterPinType.DISABLE_PIN -> stringResource(R.string.action_disable_app_lock)
+            else -> stringResource(R.string.label_app_lock)
         },
         onBackClick = onBackClick
     )

@@ -36,19 +36,19 @@ fun RecurringSummary(
     val endStr = when (state.endType) {
         RecurringEndType.NEVER -> ""
         RecurringEndType.ON_DATE -> stringResource(
-            R.string.until,
+            R.string.msg_until,
             state.endDate.toFormattedDateTime("MMM dd, yyyy")
         )
 
         RecurringEndType.AFTER_OCCURRENCES -> if (state.occurrenceCount.isNotEmpty()) {
-            stringResource(R.string.for_times, state.occurrenceCount)
+            stringResource(R.string.msg_for_times, state.occurrenceCount)
         } else {
             ""
         }
     }
 
     val summary = stringResource(
-        R.string.repeats_from,
+        R.string.msg_repeats_from,
         freqStr,
         startStr,
         endStr
@@ -88,7 +88,7 @@ fun RecurringSummary(
             }
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = stringResource(R.string.next_run, nextRunStr),
+                text = stringResource(R.string.msg_next_run, nextRunStr),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(start = 32.dp)

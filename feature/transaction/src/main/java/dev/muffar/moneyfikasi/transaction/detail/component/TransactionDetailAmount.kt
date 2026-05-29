@@ -50,7 +50,7 @@ fun TransactionDetailAmount(
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = stringResource(R.string.amount),
+                text = stringResource(R.string.label_amount),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

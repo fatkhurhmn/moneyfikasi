@@ -57,7 +57,7 @@ fun MainBottomNav(
             navController = navController,
             selectedIcon = painterResource(R.drawable.ic_home_fill),
             unselectedIcon = painterResource(R.drawable.ic_home_outline),
-            label = stringResource(R.string.home_menu),
+            label = stringResource(R.string.menu_home),
             route = Screen.Home.route,
             modifier = Modifier
                 .padding(2.dp)
@@ -68,7 +68,7 @@ fun MainBottomNav(
             navController = navController,
             selectedIcon = painterResource(R.drawable.ic_transaction_fill),
             unselectedIcon = painterResource(R.drawable.ic_transaction_outline),
-            label = stringResource(R.string.transaction_menu),
+            label = stringResource(R.string.menu_transactions),
             route = Screen.Transactions.route,
             modifier = Modifier
                 .padding(2.dp)
@@ -86,7 +86,7 @@ fun MainBottomNav(
             navController = navController,
             selectedIcon = painterResource(R.drawable.ic_statistic_fill),
             unselectedIcon = painterResource(R.drawable.ic_statistic_outline),
-            label = stringResource(R.string.statistic_menu),
+            label = stringResource(R.string.menu_statistic),
             route = Screen.Statistic.route,
             modifier = Modifier
                 .padding(2.dp)
@@ -97,7 +97,7 @@ fun MainBottomNav(
             navController = navController,
             selectedIcon = painterResource(R.drawable.ic_more_fill),
             unselectedIcon = painterResource(R.drawable.ic_more_outline),
-            label = stringResource(R.string.more_menu),
+            label = stringResource(R.string.menu_more),
             route = Screen.More.route,
             modifier = Modifier
                 .padding(2.dp)

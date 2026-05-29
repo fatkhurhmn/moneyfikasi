@@ -26,9 +26,9 @@ fun TrendGraphToggle(
     modifier: Modifier = Modifier,
 ) {
     val items = listOf(
-        TrendGraphType.BOTH to stringResource(R.string.both),
-        TrendGraphType.INCOME to stringResource(R.string.income),
-        TrendGraphType.EXPENSE to stringResource(R.string.expense)
+        TrendGraphType.BOTH to stringResource(R.string.label_both),
+        TrendGraphType.INCOME to stringResource(R.string.label_income),
+        TrendGraphType.EXPENSE to stringResource(R.string.label_expense)
     )
 
     Row(

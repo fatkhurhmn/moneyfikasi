@@ -21,7 +21,7 @@ fun SecuritySection(
 ) {
     Column {
         Text(
-            text = stringResource(R.string.security_section),
+            text = stringResource(R.string.label_security_section),
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(bottom = 8.dp)
@@ -30,8 +30,8 @@ fun SecuritySection(
             modifier = Modifier.fillMaxWidth()
         ) {
             SettingItem(
-                title = stringResource(R.string.app_lock),
-                subtitle = stringResource(R.string.app_lock_description),
+                title = stringResource(R.string.label_app_lock),
+                subtitle = stringResource(R.string.msg_app_lock_description),
                 icon = Icons.Rounded.Security,
                 onClick = onAppLockClick
             )

@@ -33,7 +33,7 @@ import dev.muffar.moneyfikasi.resource.R
 @Composable
 fun LoadingDialog(
     modifier: Modifier = Modifier,
-    message: String? = stringResource(id = R.string.loading),
+    message: String? = stringResource(id = R.string.msg_loading),
     onDismissRequest: () -> Unit = {}
 ) {
     Dialog(

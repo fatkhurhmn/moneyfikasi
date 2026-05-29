@@ -34,7 +34,7 @@ fun CategoriesScreen(
     Scaffold(
         topBar = {
             CommonTopAppBar(
-                title = stringResource(R.string.categories),
+                title = stringResource(R.string.title_categories),
                 onBackClick = onBackClick,
             )
         },

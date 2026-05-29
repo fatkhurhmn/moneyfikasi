@@ -99,7 +99,7 @@ fun CalculatorResultDisplay(
                 modifier = Modifier.padding(vertical = 16.dp)
             ) {
                 Text(
-                    text = stringResource(R.string.number_too_large),
+                    text = stringResource(R.string.error_number_too_large),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.error,
                     textAlign = TextAlign.End,

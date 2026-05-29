@@ -17,7 +17,7 @@ import dev.muffar.moneyfikasi.utils.extensions.StringExt.filterAmount
 fun BasicAmountInput(
     amount: String,
     onAmountChange: (String) -> Unit,
-    label: String = stringResource(R.string.amount),
+    label: String = stringResource(R.string.label_amount),
     error: ErrorMessage = ErrorMessage(),
     imeAction: ImeAction = ImeAction.Done,
     enabled: Boolean = true

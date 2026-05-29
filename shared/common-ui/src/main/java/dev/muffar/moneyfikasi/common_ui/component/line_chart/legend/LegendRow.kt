@@ -24,13 +24,13 @@ fun LegendRow(
         if (showIncome) {
             LegendItem(
                 color = MoneyfikasiTheme.financeColors.income,
-                label = stringResource(R.string.income),
+                label = stringResource(R.string.label_income),
             )
         }
         if (showExpense) {
             LegendItem(
                 color = MoneyfikasiTheme.financeColors.expense,
-                label = stringResource(R.string.expense),
+                label = stringResource(R.string.label_expense),
             )
         }
     }

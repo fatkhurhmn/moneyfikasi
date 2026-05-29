@@ -102,10 +102,10 @@ fun TransactionDetailScreen(
 
     if (state.showAlert) {
         CommonAlertDialog(
-            title = stringResource(R.string.delete_transaction),
-            message = stringResource(R.string.delete_transaction_confirmation),
-            positiveText = stringResource(R.string.delete),
-            negativeText = stringResource(R.string.cancel),
+            title = stringResource(R.string.title_delete_transaction),
+            message = stringResource(R.string.msg_delete_transaction_confirmation),
+            positiveText = stringResource(R.string.action_delete),
+            negativeText = stringResource(R.string.action_cancel),
             onDismiss = { onShowAlert(false) },
             onConfirm = {
                 onDelete()

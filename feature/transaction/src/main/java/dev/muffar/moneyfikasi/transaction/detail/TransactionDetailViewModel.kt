@@ -93,7 +93,7 @@ class TransactionDetailViewModel @Inject constructor(
                     e.printStackTrace()
                     _eventFlow.emit(
                         UiEvent.ShowMessage(
-                            R.string.failed_to_delete_transaction,
+                            R.string.error_delete_transaction_failed,
                             SnackbarType.ERROR
                         )
                     )
@@ -106,10 +106,10 @@ class TransactionDetailViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 transactionUseCases.saveTransactionImage(application, bitmap)
-                _eventFlow.emit(UiEvent.ShowMessage(R.string.image_saved, SnackbarType.SUCCESS))
+                _eventFlow.emit(UiEvent.ShowMessage(R.string.msg_image_saved, SnackbarType.SUCCESS))
             } catch (e: Exception) {
                 e.printStackTrace()
-                _eventFlow.emit(UiEvent.ShowMessage(R.string.failed_to_save_image, SnackbarType.ERROR))
+                _eventFlow.emit(UiEvent.ShowMessage(R.string.error_save_image_failed, SnackbarType.ERROR))
             }
         }
     }

@@ -35,14 +35,14 @@ fun FilterCategorySection(
         modifier = modifier.fillMaxWidth()
     ) {
         FilterSheetLabel(
-            label = stringResource(R.string.category),
+            label = stringResource(R.string.label_category),
             modifier = Modifier.padding(top = 8.dp)
         )
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             CommonFilterChip(
-                label = stringResource(R.string.all),
+                label = stringResource(R.string.label_all),
                 selected = allCategoriesSelected,
                 onSelect = {
                     val categories = if (allCategoriesSelected) emptySet() else categories.toSet()
@@ -51,7 +51,7 @@ fun FilterCategorySection(
             )
 
             CommonFilterChip(
-                label = stringResource(R.string.income),
+                label = stringResource(R.string.label_income),
                 selected = allIncomeSelected,
                 onSelect = {
                     val categories = if (allIncomeSelected) {
@@ -64,7 +64,7 @@ fun FilterCategorySection(
             )
 
             CommonFilterChip(
-                label = stringResource(R.string.expense),
+                label = stringResource(R.string.label_expense),
                 selected = allExpenseSelected,
                 onSelect = {
                     val categories = if (allExpenseSelected) {
@@ -78,7 +78,7 @@ fun FilterCategorySection(
         }
 
         FilterSheetLabel(
-            label = stringResource(R.string.income),
+            label = stringResource(R.string.label_income),
             modifier = Modifier.padding(top = 8.dp)
         )
         FlowRow(
@@ -94,7 +94,7 @@ fun FilterCategorySection(
         }
 
         FilterSheetLabel(
-            label = stringResource(R.string.expense),
+            label = stringResource(R.string.label_expense),
             modifier = Modifier.padding(top = 8.dp)
         )
         FlowRow(

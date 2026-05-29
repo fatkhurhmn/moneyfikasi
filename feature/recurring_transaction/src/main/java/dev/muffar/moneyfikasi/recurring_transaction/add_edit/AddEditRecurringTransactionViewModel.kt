@@ -153,31 +153,31 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
     }
 
     private fun updateNameError() {
-        val error = if (_state.value.name.isBlank()) R.string.name_cannot_be_empty else null
+        val error = if (_state.value.name.isBlank()) R.string.error_name_empty else null
         _state.update { it.copy(nameError = ErrorMessage(resId = error)) }
     }
 
     private fun updateAmountError() {
         val amount = _state.value.amount.clearThousandFormat().toDoubleOrNull() ?: 0.0
-        val error = if (amount <= 0) R.string.amount_greater_than_zero else null
+        val error = if (amount <= 0) R.string.error_amount_greater_than_zero else null
         _state.update { it.copy(amountError = ErrorMessage(resId = error)) }
     }
 
     private fun updateCategoryError() {
         val category = _state.value.category
-        val error = if (category.id == UUIDConst.empty) R.string.please_select_category else null
+        val error = if (category.id == UUIDConst.empty) R.string.error_select_category else null
         _state.update { it.copy(categoryError = ErrorMessage(resId = error)) }
     }
 
     private fun updateWalletError() {
         val wallet = _state.value.wallet
-        val error = if (wallet.id == UUIDConst.empty) R.string.please_select_wallet else null
+        val error = if (wallet.id == UUIDConst.empty) R.string.error_select_wallet else null
         _state.update { it.copy(walletError = ErrorMessage(resId = error)) }
     }
 
     private fun updateOccurrenceCountError() {
         val count = _state.value.occurrenceCount.toIntOrNull() ?: 0
-        val error = if (count <= 0) R.string.count_greater_than_zero else null
+        val error = if (count <= 0) R.string.error_count_greater_than_zero else null
         _state.update { it.copy(occurrenceCountError = ErrorMessage(resId = error)) }
     }
 
@@ -263,7 +263,7 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
             } catch (e: Exception) {
                 _eventFlow.emit(
                     UiEvent.ShowMessage(
-                        R.string.failed_to_save_recurring_transaction,
+                        R.string.error_save_recurring_transaction_failed,
                         SnackbarType.ERROR
                     )
                 )
@@ -281,7 +281,7 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
             } catch (e: Exception) {
                 _eventFlow.emit(
                     UiEvent.ShowMessage(
-                        R.string.failed_to_delete_recurring_transaction,
+                        R.string.error_delete_recurring_transaction_failed,
                         SnackbarType.ERROR
                     )
                 )

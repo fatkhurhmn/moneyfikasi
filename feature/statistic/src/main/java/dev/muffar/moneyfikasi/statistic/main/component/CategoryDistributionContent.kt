@@ -49,7 +49,7 @@ fun CategoryDistributionContent(
                 }
             }
             Text(
-                text = stringResource(R.string.see_all),
+                text = stringResource(R.string.action_see_all),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier
@@ -60,8 +60,8 @@ fun CategoryDistributionContent(
         } else {
             EmptyDataList(
                 modifier = Modifier.padding(vertical = 16.dp),
-                title = stringResource(R.string.no_transactions),
-                description = stringResource(R.string.no_transactions_message)
+                title = stringResource(R.string.empty_transactions_title),
+                description = stringResource(R.string.empty_transactions_msg)
             )
         }
     }

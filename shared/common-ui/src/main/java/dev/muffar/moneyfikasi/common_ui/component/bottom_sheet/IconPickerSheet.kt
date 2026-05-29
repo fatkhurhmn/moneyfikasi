@@ -46,7 +46,7 @@ fun IconPickerSheet(
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
     ) {
-        BottomSheetTitle(stringResource(R.string.select_icon))
+        BottomSheetTitle(stringResource(R.string.label_select_icon))
         LazyVerticalGrid(
             columns = GridCells.Fixed(5),
             contentPadding = PaddingValues(8.dp),

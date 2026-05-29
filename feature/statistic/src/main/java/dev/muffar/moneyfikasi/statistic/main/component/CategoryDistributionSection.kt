@@ -29,7 +29,7 @@ fun CategoryDistributionSection(
             .padding(horizontal = 12.dp, vertical = 8.dp)
     ) {
         StatisticSectionLabel(
-            label = stringResource(R.string.category_distribution),
+            label = stringResource(R.string.title_category_distribution),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 8.dp)

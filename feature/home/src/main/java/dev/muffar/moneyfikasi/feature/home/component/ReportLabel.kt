@@ -30,9 +30,9 @@ fun ReportLabel(
 ) {
 
     val reportDateName = when (dateRange.timePeriod) {
-        TimePeriod.DAILY -> stringResource(R.string.today)
-        TimePeriod.WEEKLY -> stringResource(R.string.this_week)
-        TimePeriod.MONTHLY -> stringResource(R.string.this_month)
+        TimePeriod.DAILY -> stringResource(R.string.label_today)
+        TimePeriod.WEEKLY -> stringResource(R.string.label_this_week)
+        TimePeriod.MONTHLY -> stringResource(R.string.label_this_month)
         else -> ""
     }
     Row(
@@ -41,7 +41,7 @@ fun ReportLabel(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = stringResource(R.string.report),
+            text = stringResource(R.string.title_report),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurface
         )

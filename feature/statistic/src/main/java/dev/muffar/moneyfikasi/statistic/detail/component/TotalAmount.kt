@@ -51,7 +51,7 @@ fun TotalAmount(totalAmount: Double, type: TransactionType) {
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Text(
-                    text = stringResource(R.string.total),
+                    text = stringResource(R.string.label_total),
                     style = MaterialTheme.typography.titleMedium,
                 )
             }

@@ -31,7 +31,7 @@ fun BottomBarAddEditButton(
         CommonHorizontalDivider()
         if (!isEdit) {
             CommonButton(
-                text = stringResource(R.string.save),
+                text = stringResource(R.string.action_save),
                 onClick = onSave,
                 modifier = Modifier
                     .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -39,8 +39,8 @@ fun BottomBarAddEditButton(
             )
         } else {
             RowNegativePositiveButton(
-                negativeText = stringResource(R.string.delete),
-                positiveText = stringResource(R.string.save),
+                negativeText = stringResource(R.string.action_delete),
+                positiveText = stringResource(R.string.action_save),
                 onNegativeClick = onDelete,
                 onPositiveClick = onSave,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)

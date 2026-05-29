@@ -82,7 +82,7 @@ fun TimePickerSheet(
             )
             var showDial by remember { mutableStateOf(true) }
 
-            BottomSheetTitle(stringResource(R.string.select_time))
+            BottomSheetTitle(stringResource(R.string.label_select_time))
             Spacer(Modifier.height(16.dp))
 
             if (showDial) {
@@ -110,8 +110,8 @@ fun TimePickerSheet(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp),
-                negativeText = stringResource(R.string.cancel),
-                positiveText = stringResource(R.string.select),
+                negativeText = stringResource(R.string.action_cancel),
+                positiveText = stringResource(R.string.action_select),
                 onNegativeClick = {
                     hideSheet()
                     onDismissRequest()

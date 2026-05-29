@@ -21,7 +21,7 @@ fun ColorFieldButton(
         modifier = modifier
     ) {
         Text(
-            text = stringResource(R.string.color),
+            text = stringResource(R.string.label_color),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )

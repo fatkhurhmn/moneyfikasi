@@ -27,8 +27,8 @@ fun EnterPinSection(
             SettingSwitchItem(
                 isEnabled = isAppLockEnabled,
                 onEnabledChange = onPinEnabled,
-                title = stringResource(R.string.app_lock),
-                subtitle = stringResource(R.string.app_lock_description),
+                title = stringResource(R.string.label_app_lock),
+                subtitle = stringResource(R.string.msg_app_lock_description),
                 icon = Icons.Rounded.Lock
             )
 
@@ -37,8 +37,8 @@ fun EnterPinSection(
                 SettingSwitchItem(
                     isEnabled = isBiometricEnabled,
                     onEnabledChange = onBiometricEnabled,
-                    title = stringResource(R.string.biometric),
-                    subtitle = stringResource(R.string.biometric_description),
+                    title = stringResource(R.string.label_biometric),
+                    subtitle = stringResource(R.string.msg_biometric_description),
                     icon = Icons.Rounded.Fingerprint
                 )
             }

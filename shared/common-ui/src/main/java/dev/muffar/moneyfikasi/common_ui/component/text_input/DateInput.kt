@@ -27,7 +27,7 @@ import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
 fun DateInput(
     date: Long,
     modifier: Modifier = Modifier,
-    label: String = stringResource(R.string.date),
+    label: String = stringResource(R.string.label_date),
     error: ErrorMessage = ErrorMessage(),
     selectableDates: SelectableDates = DatePickerDefaults.AllDates,
     initialDisplayedMonthMillis: Long? = date,
@@ -46,7 +46,7 @@ fun DateInput(
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Rounded.CalendarToday,
-                    contentDescription = stringResource(R.string.select_date),
+                    contentDescription = stringResource(R.string.label_select_date),
                     modifier = Modifier.size(20.dp)
                 )
             },

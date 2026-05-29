@@ -31,7 +31,7 @@ fun WalletsScreen(
     Scaffold(
         topBar = {
             CommonTopAppBar(
-                title = stringResource(R.string.wallets),
+                title = stringResource(R.string.title_wallets),
                 onBackClick = onBackClick
             )
         },
@@ -69,8 +69,8 @@ fun WalletsScreen(
             }
         } else {
             EmptyDataList(
-                title = stringResource(id = R.string.no_wallets),
-                description = stringResource(id = R.string.no_wallets_message)
+                title = stringResource(id = R.string.empty_wallets_title),
+                description = stringResource(id = R.string.empty_wallets_msg)
             )
         }
     }

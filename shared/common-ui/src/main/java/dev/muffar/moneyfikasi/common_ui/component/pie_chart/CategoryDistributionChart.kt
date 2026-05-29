@@ -39,9 +39,9 @@ fun CategoryDistributionChart(
     categoryType: CategoryType
 ) {
     val title = if (categoryType == CategoryType.INCOME) {
-        stringResource(R.string.total_income)
+        stringResource(R.string.label_total_income)
     } else {
-        stringResource(R.string.total_expense)
+        stringResource(R.string.label_total_expense)
     }
 
     val color = if (categoryType == CategoryType.INCOME) {

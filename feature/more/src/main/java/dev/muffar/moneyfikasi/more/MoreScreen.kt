@@ -51,41 +51,41 @@ fun MoreScreen(
         ) {
             item {
                 MoreItem(
-                    label = stringResource(R.string.wallets),
-                    title = stringResource(R.string.my_wallet),
-                    description = stringResource(R.string.wallet_description),
-                    status = stringResource(R.string.wallets_count, state.activeWalletsCount),
+                    label = stringResource(R.string.title_wallets),
+                    title = stringResource(R.string.label_my_wallet),
+                    description = stringResource(R.string.msg_wallet_description),
+                    status = stringResource(R.string.msg_wallets_count, state.activeWalletsCount),
                     icon = Icons.Rounded.Wallet,
                     onClick = onWalletsClick
                 )
             }
             item {
                 MoreItem(
-                    label = stringResource(R.string.categories),
-                    title = stringResource(R.string.manage_categories),
-                    description = stringResource(R.string.category_description),
-                    status = stringResource(R.string.categories_count, state.categoriesCount),
+                    label = stringResource(R.string.title_categories),
+                    title = stringResource(R.string.action_manage_categories),
+                    description = stringResource(R.string.msg_category_description),
+                    status = stringResource(R.string.msg_categories_count, state.categoriesCount),
                     icon = Icons.Rounded.Widgets,
                     onClick = onCategoriesClick
                 )
             }
             item {
                 MoreItem(
-                    label = stringResource(R.string.presets),
-                    title = stringResource(R.string.transaction_preset),
-                    description = stringResource(R.string.preset_description),
-                    status = stringResource(R.string.presets_count, state.presetsCount),
+                    label = stringResource(R.string.label_presets),
+                    title = stringResource(R.string.title_transaction_presets),
+                    description = stringResource(R.string.msg_preset_description),
+                    status = stringResource(R.string.msg_presets_count, state.presetsCount),
                     icon = Icons.Rounded.PostAdd,
                     onClick = onPresetsClick
                 )
             }
             item {
                 MoreItem(
-                    label = stringResource(R.string.recurring_transactions),
-                    title = stringResource(R.string.scheduled_transactions),
-                    description = stringResource(R.string.recurring_transactions_description),
+                    label = stringResource(R.string.label_recurring),
+                    title = stringResource(R.string.title_scheduled_transactions),
+                    description = stringResource(R.string.msg_recurring_description),
                     status = stringResource(
-                        R.string.recurring_transactions_count,
+                        R.string.msg_recurring_count,
                         state.recurringTransactionsCount
                     ),
                     icon = Icons.Rounded.Repeat,
@@ -94,10 +94,10 @@ fun MoreScreen(
             }
             item {
                 MoreItem(
-                    label = stringResource(R.string.budgets),
-                    title = stringResource(R.string.financial_goals),
-                    description = stringResource(R.string.financial_goals_description),
-                    status = stringResource(R.string.budgets_count, state.budgetsCount),
+                    label = stringResource(R.string.label_budgets),
+                    title = stringResource(R.string.title_financial_goals),
+                    description = stringResource(R.string.msg_financial_goals_description),
+                    status = stringResource(R.string.msg_budgets_count, state.budgetsCount),
                     icon = Icons.Rounded.DataUsage,
                     onClick = onBudgetsClick
                 )

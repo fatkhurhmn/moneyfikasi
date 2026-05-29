@@ -49,7 +49,7 @@ fun ThemePickerSheet(
         sheetState = sheetState,
         sheetGesturesEnabled = false
     ) {
-        BottomSheetTitle(stringResource(R.string.select_theme))
+        BottomSheetTitle(stringResource(R.string.label_select_theme))
         val options = AppTheme.entries
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
@@ -64,9 +64,9 @@ fun ThemePickerSheet(
                 }
 
                 val title = when (option) {
-                    AppTheme.LIGHT -> stringResource(R.string.light)
-                    AppTheme.DARK -> stringResource(R.string.dark)
-                    AppTheme.SYSTEM -> stringResource(R.string.system_default)
+                    AppTheme.LIGHT -> stringResource(R.string.label_light)
+                    AppTheme.DARK -> stringResource(R.string.label_dark)
+                    AppTheme.SYSTEM -> stringResource(R.string.label_system_default)
                 }
 
                 PickerOptionItem(
@@ -86,8 +86,8 @@ fun ThemePickerSheet(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp),
-            leftText = stringResource(R.string.cancel),
-            rightText = stringResource(R.string.reset),
+            leftText = stringResource(R.string.action_cancel),
+            rightText = stringResource(R.string.action_reset),
             onLeftClick = { hideSheet() },
             onRightClick = {
                 hideSheet()

@@ -34,9 +34,9 @@ fun StatusTag(isActive: Boolean, isEnded: Boolean = false) {
     }
 
     val text = when {
-        isEnded -> stringResource(R.string.ended)
-        isActive -> stringResource(R.string.active)
-        else -> stringResource(R.string.inactive)
+        isEnded -> stringResource(R.string.label_ended)
+        isActive -> stringResource(R.string.label_active)
+        else -> stringResource(R.string.label_inactive)
     }
 
     Row(

@@ -27,8 +27,8 @@ fun BudgetSection(
 ) {
     Column(modifier = modifier) {
         DashboardLabel(
-            label = stringResource(R.string.budgets),
-            moreText = stringResource(R.string.see_all),
+            label = stringResource(R.string.label_budgets),
+            moreText = stringResource(R.string.action_see_all),
             onMoreClick = onSeeAllBudgetsClick
         )
         Spacer(modifier = Modifier.height(8.dp))

@@ -96,11 +96,11 @@ fun AddEditRecurringTransactionForm(
             }
         )
 
-        FormSection(label = stringResource(R.string.transaction)) {
+        FormSection(label = stringResource(R.string.label_transaction)) {
             CommonTextInput(
                 value = state.name,
                 onValueChange = onNameChange,
-                label = stringResource(R.string.name),
+                label = stringResource(R.string.label_name),
                 error = state.nameError
             )
 
@@ -127,7 +127,7 @@ fun AddEditRecurringTransactionForm(
             )
         }
 
-        FormSection(label = stringResource(R.string.schedule)) {
+        FormSection(label = stringResource(R.string.label_schedule)) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
@@ -162,7 +162,7 @@ fun AddEditRecurringTransactionForm(
                     modifier = Modifier.weight(0.6f),
                     date = state.startDate,
                     onDateSelect = onStartDateChange,
-                    label = stringResource(R.string.start_date),
+                    label = stringResource(R.string.label_start_date),
                     selectableDates = selectableDates
                 )
 
@@ -190,7 +190,7 @@ fun AddEditRecurringTransactionForm(
             )
         }
 
-        FormSection(label = stringResource(R.string.preview)) {
+        FormSection(label = stringResource(R.string.label_preview)) {
             RecurringSummary(state = state)
         }
     }

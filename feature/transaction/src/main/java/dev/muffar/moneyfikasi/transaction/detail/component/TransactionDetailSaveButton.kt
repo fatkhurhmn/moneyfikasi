@@ -10,7 +10,7 @@ fun TransactionDetailSaveButton(
     onClick: () -> Unit
 ) {
     BottomBarButton(
-        title = stringResource(R.string.save_to_gallery),
+        title = stringResource(R.string.action_save_to_gallery),
         onClick = onClick
     )
 }

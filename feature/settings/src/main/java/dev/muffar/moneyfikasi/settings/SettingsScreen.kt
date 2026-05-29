@@ -27,7 +27,7 @@ fun SettingsScreen(
     Scaffold(
         topBar = {
             CommonTopAppBar(
-                title = stringResource(R.string.settings_menu),
+                title = stringResource(R.string.menu_settings),
                 onBackClick = onBackClick
             )
         }

@@ -25,12 +25,12 @@ fun FilterWalletSection(
     Column(
         modifier = modifier.fillMaxWidth()
     ) {
-        FilterSheetLabel(label = stringResource(R.string.wallet))
+        FilterSheetLabel(label = stringResource(R.string.label_wallet))
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             CommonFilterChip(
-                label = stringResource(R.string.all),
+                label = stringResource(R.string.label_all),
                 selected = allWalletsSelected,
                 onSelect = {
                     val wallets = if (allWalletsSelected) emptySet() else wallets.toSet()

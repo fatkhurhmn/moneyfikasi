@@ -39,12 +39,12 @@ fun AutoBackupFolder(
             .padding(horizontal = 16.dp, vertical = 12.dp)
     ) {
         Text(
-            text = stringResource(R.string.select_backup_folder),
+            text = stringResource(R.string.msg_select_backup_folder),
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.primary
         )
         Text(
-            text = formattedFolderUri.ifEmpty { stringResource(R.string.select_backup_folder) },
+            text = formattedFolderUri.ifEmpty { stringResource(R.string.msg_select_backup_folder) },
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )

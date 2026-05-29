@@ -45,7 +45,7 @@ fun AddEditPresetForm(
         CommonTextInput(
             value = state.name,
             onValueChange = onNameChange,
-            label = stringResource(R.string.preset_name),
+            label = stringResource(R.string.label_preset_name),
             error = state.nameError
         )
         BasicAmountInput(

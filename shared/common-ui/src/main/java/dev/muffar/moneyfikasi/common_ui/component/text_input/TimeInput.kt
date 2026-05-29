@@ -32,12 +32,12 @@ fun TimeInput(
         CommonTextInput(
             value = String.format(Locale.getDefault(), "%02d:%02d", time.first, time.second),
             onValueChange = {},
-            label = stringResource(R.string.time),
+            label = stringResource(R.string.label_time),
             isClickable = true,
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Rounded.Schedule,
-                    contentDescription = stringResource(R.string.select_time),
+                    contentDescription = stringResource(R.string.label_select_time),
                     modifier = Modifier.size(20.dp)
                 )
             },

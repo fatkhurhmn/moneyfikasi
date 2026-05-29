@@ -56,7 +56,7 @@ fun AddEditPresetScreen(
         topBar = {
             CommonTopAppBar(
                 title = stringResource(
-                    R.string.preset_type_title,
+                    R.string.title_preset_type,
                     state.type.name.lowercase().capitalize()
                 ),
                 onBackClick = onBackClick,
@@ -90,15 +90,15 @@ fun AddEditPresetScreen(
 
     if (state.showAlert) {
         CommonAlertDialog(
-            title = stringResource(R.string.delete_preset),
-            message = stringResource(R.string.delete_preset_message),
+            title = stringResource(R.string.title_delete_preset),
+            message = stringResource(R.string.msg_delete_preset_confirmation),
             onConfirm = {
                 onDeleteClick()
                 onShowDeleteAlert(false)
             },
             onDismiss = { onShowDeleteAlert(false) },
-            positiveText = stringResource(R.string.delete),
-            negativeText = stringResource(R.string.cancel)
+            positiveText = stringResource(R.string.action_delete),
+            negativeText = stringResource(R.string.action_cancel)
         )
     }
 

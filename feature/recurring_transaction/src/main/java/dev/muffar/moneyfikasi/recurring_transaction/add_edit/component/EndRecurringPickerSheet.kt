@@ -51,7 +51,7 @@ fun EndRecurringPickerSheet(
         onDismissRequest = onDismissRequest,
         sheetState = sheetState
     ) {
-        BottomSheetTitle(title = stringResource(R.string.end_recurring))
+        BottomSheetTitle(title = stringResource(R.string.label_end_recurring))
 
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
@@ -66,9 +66,9 @@ fun EndRecurringPickerSheet(
                 }
 
                 val title = when (endType) {
-                    RecurringEndType.NEVER -> stringResource(R.string.never)
-                    RecurringEndType.ON_DATE -> stringResource(R.string.on_date)
-                    RecurringEndType.AFTER_OCCURRENCES -> stringResource(R.string.after_occurrences)
+                    RecurringEndType.NEVER -> stringResource(R.string.label_never)
+                    RecurringEndType.ON_DATE -> stringResource(R.string.label_on_date)
+                    RecurringEndType.AFTER_OCCURRENCES -> stringResource(R.string.label_after_occurrences)
                 }
 
                 PickerOptionItem(
@@ -88,8 +88,8 @@ fun EndRecurringPickerSheet(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp),
-            leftText = stringResource(R.string.cancel),
-            rightText = stringResource(R.string.reset),
+            leftText = stringResource(R.string.action_cancel),
+            rightText = stringResource(R.string.action_reset),
             onLeftClick = { hideSheet() },
             onRightClick = {
                 onEndTypeSelect(RecurringEndType.NEVER)

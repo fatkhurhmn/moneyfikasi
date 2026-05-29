@@ -20,7 +20,7 @@ import dev.muffar.moneyfikasi.resource.R
 fun DashboardLabel(
     label: String,
     moreButton: Boolean = true,
-    moreText: String = stringResource(R.string.see_all),
+    moreText: String = stringResource(R.string.action_see_all),
     onMoreClick: () -> Unit = {}
 ) {
     Row(

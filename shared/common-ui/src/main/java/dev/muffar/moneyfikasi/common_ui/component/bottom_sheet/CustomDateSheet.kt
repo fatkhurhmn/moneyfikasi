@@ -80,10 +80,10 @@ fun CustomDateSheet(
 
         val formattedStartDate =
             pickerState.selectedStartDateMillis?.toFormattedDateTime("MMM, dd yyyy")
-                ?: stringResource(R.string.start_date)
+                ?: stringResource(R.string.label_start_date)
         val formattedEndDate =
             pickerState.selectedEndDateMillis?.toFormattedDateTime("MMM, dd yyyy")
-                ?: stringResource(R.string.end_date)
+                ?: stringResource(R.string.label_end_date)
 
         DateRangePicker(
             modifier = Modifier
@@ -92,7 +92,7 @@ fun CustomDateSheet(
             state = pickerState,
             title = {
                 BottomSheetTitle(
-                    title = stringResource(R.string.custom_date),
+                    title = stringResource(R.string.label_custom_date),
                     showDivider = false
                 )
             },
@@ -106,7 +106,7 @@ fun CustomDateSheet(
                     )
                     AnimatedVisibility(showSelectDateError) {
                         Text(
-                            text = stringResource(R.string.please_select_date_range),
+                            text = stringResource(R.string.error_select_date_range),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.error,
                         )
@@ -127,8 +127,8 @@ fun CustomDateSheet(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp),
-            negativeText = stringResource(R.string.cancel),
-            positiveText = stringResource(R.string.apply),
+            negativeText = stringResource(R.string.action_cancel),
+            positiveText = stringResource(R.string.action_apply),
             onNegativeClick = { hideSheet() },
             onPositiveClick = {
                 val selectedStartDate = pickerState.selectedStartDateMillis

@@ -17,8 +17,8 @@ fun DeletePreviousBackupSwitch(
         SettingSwitchItem(
             isEnabled = isEnabled,
             onEnabledChange = onEnabledChange,
-            title = stringResource(R.string.delete_previous_backup),
-            subtitle = stringResource(R.string.delete_previous_backup_description),
+            title = stringResource(R.string.msg_delete_previous_backup),
+            subtitle = stringResource(R.string.msg_delete_previous_backup_description),
             icon = Icons.Rounded.DeleteOutline
         )
     }

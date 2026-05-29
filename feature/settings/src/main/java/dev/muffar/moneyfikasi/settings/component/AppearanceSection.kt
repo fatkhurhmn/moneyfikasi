@@ -30,14 +30,14 @@ fun AppearanceSection(
     var showThemePicker by remember { mutableStateOf(false) }
 
     val themeSubtitle = when (appTheme) {
-        AppTheme.LIGHT -> stringResource(R.string.light)
-        AppTheme.DARK -> stringResource(R.string.dark)
-        AppTheme.SYSTEM -> stringResource(R.string.system_default)
+        AppTheme.LIGHT -> stringResource(R.string.label_light)
+        AppTheme.DARK -> stringResource(R.string.label_dark)
+        AppTheme.SYSTEM -> stringResource(R.string.label_system_default)
     }
 
     Column {
         Text(
-            text = stringResource(R.string.appearance_section),
+            text = stringResource(R.string.label_appearance_section),
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(bottom = 8.dp)
@@ -46,7 +46,7 @@ fun AppearanceSection(
             modifier = Modifier.fillMaxWidth()
         ) {
             SettingItem(
-                title = stringResource(R.string.theme),
+                title = stringResource(R.string.label_theme),
                 subtitle = themeSubtitle,
                 icon = Icons.Rounded.Palette,
                 onClick = { showThemePicker = true }

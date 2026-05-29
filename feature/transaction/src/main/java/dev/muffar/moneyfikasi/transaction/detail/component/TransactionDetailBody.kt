@@ -25,18 +25,18 @@ fun TransactionDetailBody(
         verticalArrangement = Arrangement.spacedBy(24.dp),
     ) {
         RowDetailBody(
-            label = stringResource(R.string.date),
+            label = stringResource(R.string.label_date),
             value = date?.format("dd MMM, yyyy") ?: ""
         )
 
         RowDetailBody(
-            label = stringResource(R.string.time),
+            label = stringResource(R.string.label_time),
             value = date?.format("H:mm") ?: ""
         )
 
         if (category != null) {
             RowDetailBodyWithIcon(
-                label = stringResource(R.string.category),
+                label = stringResource(R.string.label_category),
                 icon = category.icon,
                 value = category.name,
                 color = category.color
@@ -45,7 +45,7 @@ fun TransactionDetailBody(
 
         if (wallet != null) {
             RowDetailBodyWithIcon(
-                label = stringResource(R.string.wallet),
+                label = stringResource(R.string.label_wallet),
                 icon = wallet.icon,
                 value = wallet.name,
                 color = wallet.color

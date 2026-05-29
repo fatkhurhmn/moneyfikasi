@@ -50,7 +50,7 @@ fun IconFieldButton(
     ) {
         if (showLabel) {
             Text(
-                text = stringResource(R.string.icon),
+                text = stringResource(R.string.label_icon),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
             )

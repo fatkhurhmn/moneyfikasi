@@ -44,7 +44,7 @@ fun AddEditBudgetScreen(
     Scaffold(
         topBar = {
             CommonTopAppBar(
-                title = stringResource(R.string.budget),
+                title = stringResource(R.string.label_budget),
                 onBackClick = onBackClick
             )
         },
@@ -73,10 +73,10 @@ fun AddEditBudgetScreen(
 
     if (state.showAlert) {
         CommonAlertDialog(
-            title = stringResource(R.string.delete_budget),
-            message = stringResource(R.string.delete_budget_message),
-            positiveText = stringResource(R.string.delete),
-            negativeText = stringResource(R.string.cancel),
+            title = stringResource(R.string.title_delete_budget),
+            message = stringResource(R.string.msg_delete_budget_confirmation),
+            positiveText = stringResource(R.string.action_delete),
+            negativeText = stringResource(R.string.action_cancel),
             onDismiss = { onShowAlert(false) },
             onConfirm = {
                 onDelete()

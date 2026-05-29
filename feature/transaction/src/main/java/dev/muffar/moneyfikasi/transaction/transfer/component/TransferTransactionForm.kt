@@ -44,7 +44,7 @@ fun TransferTransactionForm(
         WalletInput(
             wallet = state.sourceWallet,
             error = state.sourceWalletError,
-            label = stringResource(R.string.from),
+            label = stringResource(R.string.label_from),
             walletOptions = state.walletOptions,
             onWalletSelect = onSourceWalletSelect,
             onAddNewWalletClick = onAddNewWalletClick
@@ -52,14 +52,14 @@ fun TransferTransactionForm(
         WalletInput(
             wallet = state.targetWallet,
             error = state.targetWalletError,
-            label = stringResource(R.string.to),
+            label = stringResource(R.string.label_to),
             walletOptions = state.walletOptions,
             onWalletSelect = onTargetWalletSelect,
             onAddNewWalletClick = onAddNewWalletClick
         )
         BasicAmountInput(
             amount = state.fee,
-            label = stringResource(R.string.admin_fee),
+            label = stringResource(R.string.label_admin_fee),
             onAmountChange = onAdminFeeChange,
         )
         Row {

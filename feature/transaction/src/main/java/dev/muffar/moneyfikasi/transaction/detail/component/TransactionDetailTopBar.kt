@@ -21,7 +21,7 @@ fun TransactionDetailTopBar(
     onEditClick: () -> Unit
 ) {
     CommonTopAppBar(
-        title = stringResource(R.string.transaction),
+        title = stringResource(R.string.label_transaction),
         onBackClick = onBackClick,
         action = {
             TopBarButton(

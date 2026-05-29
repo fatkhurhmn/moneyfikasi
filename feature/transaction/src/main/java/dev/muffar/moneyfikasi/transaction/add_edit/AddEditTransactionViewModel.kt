@@ -158,8 +158,8 @@ class AddEditTransactionViewModel @Inject constructor(
     private fun updateAmountError() {
         val amount = state.value.amount
         val error = when {
-            amount.isEmpty() -> R.string.amount_cannot_be_empty
-            amount.clearThousandFormat().toDouble() == 0.0 -> R.string.minimum_amount_is_one
+            amount.isEmpty() -> R.string.error_amount_empty
+            amount.clearThousandFormat().toDouble() == 0.0 -> R.string.error_amount_greater_than_zero
             else -> null
         }
         _state.update { it.copy(amountError = ErrorMessage(resId = error)) }
@@ -177,7 +177,7 @@ class AddEditTransactionViewModel @Inject constructor(
 
     private fun updateCategoryError() {
         val category = state.value.category
-        val error = if (category.id == UUIDConst.empty) R.string.please_select_category else null
+        val error = if (category.id == UUIDConst.empty) R.string.error_select_category else null
         _state.update { it.copy(categoryError = ErrorMessage(resId = error)) }
     }
 
@@ -188,7 +188,7 @@ class AddEditTransactionViewModel @Inject constructor(
 
     private fun updateWalletError() {
         val wallet = state.value.wallet
-        val error = if (wallet.isNotSet) R.string.please_select_wallet else null
+        val error = if (wallet.isNotSet) R.string.error_select_wallet else null
         _state.update { it.copy(walletError = ErrorMessage(resId = error)) }
     }
 

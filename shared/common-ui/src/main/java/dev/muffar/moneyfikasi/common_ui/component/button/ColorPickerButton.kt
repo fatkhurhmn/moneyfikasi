@@ -55,7 +55,7 @@ fun ColorPickerButton(
         if (color == 0L) {
             Icon(
                 imageVector = Icons.Rounded.QuestionMark,
-                contentDescription = stringResource(R.string.color),
+                contentDescription = stringResource(R.string.label_color),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }

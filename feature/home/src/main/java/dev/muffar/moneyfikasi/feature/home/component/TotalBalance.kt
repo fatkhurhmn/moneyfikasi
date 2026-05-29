@@ -35,7 +35,7 @@ fun TotalBalance(
         modifier = modifier
     ) {
         Text(
-            text = stringResource(R.string.total_balance),
+            text = stringResource(R.string.label_total_balance),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -45,7 +45,7 @@ fun TotalBalance(
         ) {
             val balanceValue =
                 if (isBalanceVisible) totalBalance.formatThousand()
-                else stringResource(R.string.invisible_balance)
+                else stringResource(R.string.label_invisible_balance)
 
             Text(
                 text = balanceValue,

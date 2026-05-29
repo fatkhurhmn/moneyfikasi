@@ -30,7 +30,7 @@ fun EmptyPresetSection(
         horizontalArrangement = Arrangement.Center
     ) {
         Text(
-            text = stringResource(R.string.add_preset),
+            text = stringResource(R.string.action_add_preset),
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier

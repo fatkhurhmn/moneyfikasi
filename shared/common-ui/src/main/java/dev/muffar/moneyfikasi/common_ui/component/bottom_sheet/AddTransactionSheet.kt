@@ -60,11 +60,11 @@ fun AddTransactionSheet(
         sheetState = sheetState,
         sheetGesturesEnabled = false
     ) {
-        BottomSheetTitle(stringResource(R.string.create_transaction))
+        BottomSheetTitle(stringResource(R.string.title_create_transaction))
         Spacer(Modifier.height(16.dp))
         AddTransactionItem(
             imageVector = Icons.Rounded.KeyboardDoubleArrowDown,
-            title = stringResource(id = R.string.income),
+            title = stringResource(id = R.string.label_income),
             color = MoneyfikasiTheme.financeColors.income,
             onClick = {
                 hideSheet()
@@ -74,7 +74,7 @@ fun AddTransactionSheet(
         Spacer(modifier = Modifier.height(8.dp))
         AddTransactionItem(
             imageVector = Icons.Rounded.KeyboardDoubleArrowUp,
-            title = stringResource(id = R.string.expense),
+            title = stringResource(id = R.string.label_expense),
             color = MoneyfikasiTheme.financeColors.expense,
             onClick = {
                 hideSheet()
@@ -84,7 +84,7 @@ fun AddTransactionSheet(
         Spacer(modifier = Modifier.height(8.dp))
         AddTransactionItem(
             imageVector = Icons.Rounded.SwapHoriz,
-            title = stringResource(id = R.string.transfer),
+            title = stringResource(id = R.string.label_transfer),
             color = MoneyfikasiTheme.financeColors.info,
             onClick = {
                 hideSheet()

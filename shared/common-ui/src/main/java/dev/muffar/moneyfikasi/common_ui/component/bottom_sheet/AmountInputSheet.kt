@@ -44,7 +44,7 @@ fun AmountInputSheet(
         sheetGesturesEnabled = false
     ) {
         val calcState = rememberCalculatorState(amount)
-        BottomSheetTitle(stringResource(R.string.enter_amount))
+        BottomSheetTitle(stringResource(R.string.label_enter_amount))
         CalculatorScreen(
             state = calcState,
             modifier = Modifier.weight(1f)
@@ -54,8 +54,8 @@ fun AmountInputSheet(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp),
-            negativeText = stringResource(R.string.cancel),
-            positiveText = stringResource(R.string.ok),
+            negativeText = stringResource(R.string.action_cancel),
+            positiveText = stringResource(R.string.action_ok),
             positiveEnabled = calcState.error == null,
             onNegativeClick = {
                 hideSheet()

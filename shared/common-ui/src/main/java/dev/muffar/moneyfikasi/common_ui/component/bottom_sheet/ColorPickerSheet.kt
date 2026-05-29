@@ -49,7 +49,7 @@ fun ColorPickerSheet(
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
     ) {
-        BottomSheetTitle(stringResource(R.string.select_color))
+        BottomSheetTitle(stringResource(R.string.label_select_color))
         LazyVerticalGrid(
             columns = GridCells.Fixed(4),
             verticalArrangement = Arrangement.spacedBy(4.dp),

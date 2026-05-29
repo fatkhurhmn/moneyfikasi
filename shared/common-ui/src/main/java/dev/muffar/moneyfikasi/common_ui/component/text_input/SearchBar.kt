@@ -50,14 +50,14 @@ fun SearchBar(
             .focusRequester(focusRequester),
         value = searchQuery,
         onValueChange = onQueryChange,
-        placeholder = { Text(text = stringResource(R.string.search)) },
+        placeholder = { Text(text = stringResource(R.string.label_search_hint)) },
         textStyle = MaterialTheme.typography.bodyLarge,
         singleLine = true,
         shape = MaterialTheme.shapes.medium,
         leadingIcon = {
             Icon(
                 imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                contentDescription = stringResource(R.string.back),
+                contentDescription = stringResource(R.string.action_back),
                 modifier = Modifier
                     .clip(CircleShape)
                     .clickable { onBackClick() }
@@ -68,7 +68,7 @@ fun SearchBar(
                 IconButton(onClick = { onQueryChange("") }) {
                     Icon(
                         imageVector = Icons.Rounded.Close,
-                        contentDescription = stringResource(R.string.search)
+                        contentDescription = stringResource(R.string.label_search_hint)
                     )
                 }
             }

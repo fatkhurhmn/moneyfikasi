@@ -34,8 +34,8 @@ fun PresetsContent(
         }
     } else {
         EmptyDataList(
-            title = stringResource(R.string.no_preset),
-            description = stringResource(R.string.no_preset_message)
+            title = stringResource(R.string.empty_presets_title),
+            description = stringResource(R.string.empty_presets_msg)
         )
     }
 }

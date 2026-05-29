@@ -37,7 +37,7 @@ fun AddTransactionButton(
         ) {
             Icon(
                 imageVector = Icons.Rounded.Add,
-                contentDescription = stringResource(id = R.string.create_transaction),
+                contentDescription = stringResource(id = R.string.title_create_transaction),
                 modifier = Modifier.size(24.dp)
             )
         }

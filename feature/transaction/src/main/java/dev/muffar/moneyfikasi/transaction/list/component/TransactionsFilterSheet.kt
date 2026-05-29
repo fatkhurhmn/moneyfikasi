@@ -62,7 +62,7 @@ fun TransactionsFilterSheet(
     ) {
         Scaffold(
             topBar = {
-                BottomSheetTitle(stringResource(R.string.filter))
+                BottomSheetTitle(stringResource(R.string.action_filter))
             },
             bottomBar = {
                 FilterSheetButton(

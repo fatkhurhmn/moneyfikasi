@@ -16,7 +16,7 @@ fun DescriptionInput(
         value = description,
         onValueChange = onDescriptionChange,
         maxLines = 3,
-        label = stringResource(R.string.description),
+        label = stringResource(R.string.label_description_optional),
         onClear = { onDescriptionChange("") }
     )
 }

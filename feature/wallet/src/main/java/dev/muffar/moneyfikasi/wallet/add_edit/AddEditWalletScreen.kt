@@ -37,8 +37,8 @@ fun AddEditWalletScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
     val isEditMode = state.id != null
-    val title = "${stringResource(if (isEditMode) R.string.edit else R.string.create)} " +
-            stringResource(R.string.wallet)
+    val title = "${stringResource(if (isEditMode) R.string.action_edit else R.string.action_create)} " +
+            stringResource(R.string.label_wallet)
 
     Scaffold(
         topBar = {
@@ -69,10 +69,10 @@ fun AddEditWalletScreen(
 
     if (state.showAlert) {
         CommonAlertDialog(
-            title = stringResource(R.string.delete_wallet),
-            message = stringResource(R.string.delete_wallet_confirmation),
-            positiveText = stringResource(R.string.delete),
-            negativeText = stringResource(R.string.cancel),
+            title = stringResource(R.string.title_delete_wallet),
+            message = stringResource(R.string.msg_delete_wallet_confirmation),
+            positiveText = stringResource(R.string.action_delete),
+            negativeText = stringResource(R.string.action_cancel),
             onDismiss = { onShowAlert(false) },
             onConfirm = {
                 onDelete()

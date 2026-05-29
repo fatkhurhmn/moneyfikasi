@@ -48,7 +48,7 @@ fun TransferTransactionScreen(
         },
         topBar = {
             CommonTopAppBar(
-                title = stringResource(R.string.transfer),
+                title = stringResource(R.string.label_transfer),
                 onBackClick = onBackClick
             )
         },

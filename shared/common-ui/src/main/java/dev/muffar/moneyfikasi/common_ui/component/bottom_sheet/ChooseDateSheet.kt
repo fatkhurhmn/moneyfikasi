@@ -66,7 +66,7 @@ fun ChooseDateSheet(
         onDismissRequest = onDismissRequest,
         sheetState = sheetState,
     ) {
-        BottomSheetTitle(stringResource(R.string.choose_date))
+        BottomSheetTitle(stringResource(R.string.title_choose_date))
 
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
@@ -103,8 +103,8 @@ fun ChooseDateSheet(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp),
-            leftText = stringResource(R.string.cancel),
-            rightText = stringResource(R.string.reset),
+            leftText = stringResource(R.string.action_cancel),
+            rightText = stringResource(R.string.action_reset),
             onLeftClick = { hideSheet() },
             onRightClick = {
                 hideSheet()

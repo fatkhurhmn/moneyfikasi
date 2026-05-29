@@ -23,14 +23,14 @@ fun BackupRestoreText() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = stringResource(R.string.keep_your_data_safe),
+            text = stringResource(R.string.msg_keep_your_data_safe),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onSurface
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = stringResource(R.string.keep_your_data_safe_description),
+            text = stringResource(R.string.msg_keep_your_data_safe_description),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,

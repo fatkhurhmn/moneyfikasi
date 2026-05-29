@@ -22,12 +22,12 @@ fun LatestBackupInfo(
             Locale.getDefault()
         ).format(Date(date))
     } else {
-        stringResource(R.string.no_backup_yet)
+        stringResource(R.string.msg_no_backup_yet)
     }
 
     PrimaryCard {
         SettingItem(
-            title = stringResource(R.string.latest_backup),
+            title = stringResource(R.string.msg_latest_backup),
             subtitle = subtitle,
             icon = Icons.Rounded.Schedule,
             trailing = {}

@@ -141,18 +141,18 @@ fun RecurringTransactionItem(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         val endStr = when (recurringTransaction.endType) {
-                            RecurringEndType.NEVER -> stringResource(R.string.never)
+                            RecurringEndType.NEVER -> stringResource(R.string.label_never)
                             RecurringEndType.ON_DATE -> recurringTransaction.endDate?.toFormattedDateTime(
                                 "MMM dd, yyyy"
                             ) ?: "-"
 
                             RecurringEndType.AFTER_OCCURRENCES -> stringResource(
-                                R.string.qty_transactions,
+                                R.string.msg_qty_transactions,
                                 recurringTransaction.occurrenceCount ?: 0
                             )
                         }
                         Text(
-                            text = "${stringResource(R.string.ends)}: $endStr",
+                            text = "${stringResource(R.string.label_ends)}: $endStr",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -160,7 +160,7 @@ fun RecurringTransactionItem(
                     Spacer(modifier = Modifier.height(8.dp))
                     if (!recurringTransaction.isEnded) {
                         Text(
-                            text = "${stringResource(R.string.next)}: ${
+                            text = "${stringResource(R.string.label_next)}: ${
                                 recurringTransaction.nextRun?.toFormattedDateTime("MMM dd, yyyy") ?: "-"
                             }",
                             style = MaterialTheme.typography.bodySmall,
@@ -172,7 +172,7 @@ fun RecurringTransactionItem(
                             (recurringTransaction.occurrenceCount ?: 0) - recurringTransaction.executedCount
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = stringResource(R.string.remaining, remaining),
+                            text = stringResource(R.string.msg_remaining, remaining),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )

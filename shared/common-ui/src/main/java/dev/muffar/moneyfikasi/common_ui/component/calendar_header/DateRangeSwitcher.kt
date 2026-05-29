@@ -48,7 +48,7 @@ fun DateRangeSwitcher(
         )
 
         TimePeriod.ALL -> CalendarHeader(
-            title = stringResource(R.string.all),
+            title = stringResource(R.string.label_all),
             enableButton = false,
         )
 
