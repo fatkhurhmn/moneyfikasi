@@ -43,7 +43,7 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
     private val recurringTransactionUseCases: RecurringTransactionUseCases,
     private val categoryUseCases: CategoryUseCases,
     private val walletUseCases: WalletUseCases,
-    private val handle: SavedStateHandle,
+    handle: SavedStateHandle,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(AddEditRecurringTransactionState())
@@ -260,7 +260,7 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
                 recurringTransactionUseCases.saveRecurringTransaction(_state.value.recurringTransaction)
                 val hasActive = recurringTransactionUseCases.checkActiveRecurringTransactions()
                 _eventFlow.emit(UiEvent.SaveRecurringTransaction(hasActive))
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 _eventFlow.emit(
                     UiEvent.ShowMessage(
                         R.string.error_save_recurring_transaction_failed,
@@ -278,7 +278,7 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
                 recurringTransactionUseCases.deleteRecurringTransaction(id)
                 val hasActive = recurringTransactionUseCases.checkActiveRecurringTransactions()
                 _eventFlow.emit(UiEvent.DeleteRecurringTransaction(hasActive))
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 _eventFlow.emit(
                     UiEvent.ShowMessage(
                         R.string.error_delete_recurring_transaction_failed,
