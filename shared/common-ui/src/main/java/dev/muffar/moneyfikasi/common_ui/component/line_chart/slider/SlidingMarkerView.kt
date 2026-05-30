@@ -12,6 +12,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.utils.MPPointF
 import dev.muffar.moneyfikasi.common_ui.component.line_chart.ChartData
+import dev.muffar.moneyfikasi.resource.R
 import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -57,8 +58,8 @@ class SlidingMarkerView(
 
         rows = listOf(
             chartData.labels[idx] to ColorUtils.setAlphaComponent(textColor, 160),
-            "Income   ${formatAmount(chartData.incomeValues[idx])}" to incomeColor,
-            "Expense  ${formatAmount(chartData.expenseValues[idx])}" to expenseColor,
+            "${context.getString(R.string.label_income)}   ${formatAmount(chartData.incomeValues[idx])}" to incomeColor,
+            "${context.getString(R.string.label_expense)}  ${formatAmount(chartData.expenseValues[idx])}" to expenseColor,
         )
         super.refreshContent(e, highlight)
     }

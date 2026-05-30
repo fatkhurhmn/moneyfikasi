@@ -1,6 +1,8 @@
 package dev.muffar.moneyfikasi.export
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
 import dev.muffar.moneyfikasi.domain.model.ExportFormat
@@ -24,7 +26,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ExportViewModel @Inject constructor(
     private val transactionUseCases: TransactionUseCases,
-) : ViewModel() {
+    application: Application
+) : AndroidViewModel(application) {
 
     private val _state = MutableStateFlow(ExportState())
     val state = _state.asStateFlow()
@@ -32,7 +35,7 @@ class ExportViewModel @Inject constructor(
     private val _eventFlow = Channel<UiEvent>()
     val eventFlow = _eventFlow.receiveAsFlow()
 
-    private val exportManager = ExportManager()
+    private val exportManager = ExportManager(application)
 
     fun onEvent(event: ExportEvent) {
         when (event) {

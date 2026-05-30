@@ -1,16 +1,27 @@
 package dev.muffar.moneyfikasi.export.utils
 
+import android.content.Context
 import dev.muffar.moneyfikasi.domain.model.Transaction
+import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.format
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.io.OutputStream
 import java.io.OutputStreamWriter
 
-class ExportManager {
+class ExportManager(private val context: Context) {
+
+    private val headers = listOf(
+        context.getString(R.string.label_date_header),
+        context.getString(R.string.label_type_header),
+        context.getString(R.string.label_category_header),
+        context.getString(R.string.label_wallet_header),
+        context.getString(R.string.label_amount_header),
+        context.getString(R.string.label_note_header)
+    )
 
     fun exportToCsv(transactions: List<Transaction>, outputStream: OutputStream) {
         val writer = OutputStreamWriter(outputStream)
-        writer.write("Date,Type,Category,Wallet,Amount,Note\n")
+        writer.write(headers.joinToString(",") + "\n")
         transactions.forEach { transaction ->
             val line = "${transaction.date.format("yyyy-MM-dd HH:mm")}," +
                     "${transaction.type.value}," +
@@ -26,10 +37,9 @@ class ExportManager {
 
     fun exportToExcel(transactions: List<Transaction>, outputStream: OutputStream) {
         val workbook = XSSFWorkbook()
-        val sheet = workbook.createSheet("Transactions")
+        val sheet = workbook.createSheet(context.getString(R.string.menu_transactions))
 
         val headerRow = sheet.createRow(0)
-        val headers = listOf("Date", "Type", "Category", "Wallet", "Amount", "Note")
         headers.forEachIndexed { index, header ->
             headerRow.createCell(index).setCellValue(header)
         }

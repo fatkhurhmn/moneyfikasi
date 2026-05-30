@@ -19,6 +19,7 @@ import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.model.TrendResult
 import dev.muffar.moneyfikasi.domain.model.TrendType
 import dev.muffar.moneyfikasi.resource.R
+import kotlin.math.absoluteValue
 
 @Composable
 fun BalanceTrendIndicator(
@@ -32,20 +33,24 @@ fun BalanceTrendIndicator(
         else -> null
     }
 
+    val resultMessage = when (trendResult.type) {
+        TrendType.UP, TrendType.DOWN -> stringResource(
+            R.string.msg_trend_percentage,
+            trendResult.percentage.absoluteValue.toInt()
+        )
+
+        TrendType.NEW_GROWTH -> stringResource(R.string.label_new_growth)
+        TrendType.NEW_LOSS -> stringResource(R.string.label_new_loss)
+        TrendType.NEUTRAL -> stringResource(R.string.label_no_change)
+    }
+
     val trendMessage = when (timePeriod) {
-        TimePeriod.DAILY -> stringResource(R.string.msg_trend_vs_yesterday, trendResult.message)
-        TimePeriod.WEEKLY -> stringResource(
-            R.string.msg_trend_vs_last_week,
-            trendResult.message
-        )
-
-        TimePeriod.MONTHLY -> stringResource(
-            R.string.msg_trend_vs_last_month,
-            trendResult.message
-        )
-
+        TimePeriod.DAILY -> stringResource(R.string.msg_trend_vs_yesterday, resultMessage)
+        TimePeriod.WEEKLY -> stringResource(R.string.msg_trend_vs_last_week, resultMessage)
+        TimePeriod.MONTHLY -> stringResource(R.string.msg_trend_vs_last_month, resultMessage)
         else -> ""
     }
+
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,

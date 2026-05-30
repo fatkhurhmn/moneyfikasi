@@ -14,7 +14,4 @@ data class Wallet(
 ) {
     val isNotSet: Boolean
         get() = id == UUIDConst.empty
-
-    val displayAvailableBalance: String
-        get() = "Available balance: " + if (isNotSet) "-" else balance.formatThousand()
 }

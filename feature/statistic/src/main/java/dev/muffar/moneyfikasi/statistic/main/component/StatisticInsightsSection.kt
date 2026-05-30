@@ -30,6 +30,7 @@ fun StatisticInsightsSection(
     mostFreqIncomeCategory: CategoryStatistic?,
 ) {
     val financeColors = MoneyfikasiTheme.financeColors
+    val unavailable = stringResource(R.string.label_unavailable_short)
 
     Column(
         modifier = modifier
@@ -49,7 +50,7 @@ fun StatisticInsightsSection(
             InsightItem(
                 modifier = Modifier.weight(1f),
                 title = stringResource(R.string.label_highest_income),
-                value = highestIncome?.amount?.formatThousand() ?: "-",
+                value = highestIncome?.amount?.formatThousand() ?: unavailable,
                 label = highestIncome?.category?.name ?: stringResource(R.string.label_no_data),
                 color = financeColors.income,
                 iconName = Icons.AutoMirrored.Rounded.TrendingUp.name,
@@ -58,7 +59,7 @@ fun StatisticInsightsSection(
             InsightItem(
                 modifier = Modifier.weight(1f),
                 title = stringResource(R.string.label_highest_expense),
-                value = highestExpense?.amount?.formatThousand() ?: "-",
+                value = highestExpense?.amount?.formatThousand() ?: unavailable,
                 label = highestExpense?.category?.name ?: stringResource(R.string.label_no_data),
                 color = financeColors.expense,
                 iconName = Icons.AutoMirrored.Rounded.TrendingDown.name,
@@ -73,8 +74,8 @@ fun StatisticInsightsSection(
             InsightItem(
                 modifier = Modifier.weight(1f),
                 title = stringResource(R.string.label_frequent_income),
-                value = mostFreqIncomeCategory?.category?.name ?: "-",
-                label = "${mostFreqIncomeCategory?.transactionCount ?: 0} times",
+                value = mostFreqIncomeCategory?.category?.name ?: unavailable,
+                label = stringResource(R.string.label_times_qty, mostFreqIncomeCategory?.transactionCount ?: 0),
                 color = financeColors.income,
                 iconName = mostFreqIncomeCategory?.category?.icon,
                 iconColor = mostFreqIncomeCategory?.category?.color,
@@ -82,8 +83,8 @@ fun StatisticInsightsSection(
             InsightItem(
                 modifier = Modifier.weight(1f),
                 title = stringResource(R.string.label_frequent_expense),
-                value = mostFreqExpenseCategory?.category?.name ?: "-",
-                label = "${mostFreqExpenseCategory?.transactionCount ?: 0} times",
+                value = mostFreqExpenseCategory?.category?.name ?: unavailable,
+                label = stringResource(R.string.label_times_qty, mostFreqExpenseCategory?.transactionCount ?: 0),
                 color = financeColors.expense,
                 iconName = mostFreqExpenseCategory?.category?.icon,
                 iconColor = mostFreqExpenseCategory?.category?.color,

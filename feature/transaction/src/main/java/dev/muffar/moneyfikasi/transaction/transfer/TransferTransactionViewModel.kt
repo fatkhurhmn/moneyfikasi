@@ -182,7 +182,6 @@ class TransferTransactionViewModel @Inject constructor(
                 }
                 _eventFlow.emit(UiEvent.SaveTransaction)
             } catch (e: Exception) {
-                Log.e("TransferTransactionViewModel", "Error saving transaction: ${e.message}")
                 _eventFlow.emit(UiEvent.ShowMessage(e.message ?: "", SnackbarType.ERROR))
             }
         }

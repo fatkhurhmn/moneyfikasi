@@ -14,6 +14,7 @@ import dev.muffar.moneyfikasi.data.db.entity.TransactionTrendEntity
 import dev.muffar.moneyfikasi.data.db.entity.TransactionWithDetails
 import dev.muffar.moneyfikasi.data.utils.InitDataSource
 import dev.muffar.moneyfikasi.domain.model.TransactionType
+import dev.muffar.moneyfikasi.utils.constants.UUIDConst
 import kotlinx.coroutines.flow.Flow
 import org.threeten.bp.LocalDateTime
 import java.util.UUID
@@ -465,7 +466,7 @@ abstract class TransactionDao {
         // 1. Source (Out)
         val sourceTx = TransactionEntity(
             walletId = sourceWalletId,
-            categoryId = InitDataSource.TRANSFER_OUT_CATEGORY.id,
+            categoryId = UUIDConst.TransferOutCategoryId,
             type = TransactionType.TRANSFER_OUT,
             amount = amount,
             date = date,
@@ -478,7 +479,7 @@ abstract class TransactionDao {
         // 2. Target (In)
         val targetTx = TransactionEntity(
             walletId = targetWalletId,
-            categoryId = InitDataSource.TRANSFER_IN_CATEGORY.id,
+            categoryId = UUIDConst.TransferInCategoryId,
             type = TransactionType.TRANSFER_IN,
             amount = amount,
             date = date,
@@ -492,7 +493,7 @@ abstract class TransactionDao {
         if (fee > 0.0) {
             val feeTx = TransactionEntity(
                 walletId = sourceWalletId,
-                categoryId = InitDataSource.TRANSFER_FEE_CATEGORY.id,
+                categoryId = UUIDConst.TransferFeeCategoryId,
                 type = TransactionType.EXPENSE,
                 amount = fee,
                 date = date,
@@ -562,7 +563,7 @@ abstract class TransactionDao {
                 val newFeeTx = TransactionEntity(
                     id = UUID.randomUUID(),
                     walletId = sourceWalletId,
-                    categoryId = InitDataSource.TRANSFER_FEE_CATEGORY.id,
+                    categoryId = UUIDConst.TransferFeeCategoryId,
                     type = TransactionType.EXPENSE,
                     amount = fee,
                     date = date,

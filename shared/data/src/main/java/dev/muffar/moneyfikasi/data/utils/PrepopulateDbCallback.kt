@@ -16,8 +16,8 @@ class PrepopulateDbCallback(private val context: Context) : RoomDatabase.Callbac
         val categoryDao = moneyfikasiDb.categoryDao()
         val walletDao = moneyfikasiDb.walletDao()
         scope.launch {
-            InitDataSource.getCategories().forEach { categoryDao.upsertCategory(it) }
-            InitDataSource.getWallets().forEach { walletDao.upsertWallet(it) }
+            InitDataSource.getCategories(context).forEach { categoryDao.upsertCategory(it) }
+            InitDataSource.getWallets(context).forEach { walletDao.upsertWallet(it) }
         }
     }
 }
