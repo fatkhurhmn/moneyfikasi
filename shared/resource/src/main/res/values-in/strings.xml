@@ -249,6 +249,7 @@
     <string name="msg_dark_mode_description">Beralih antara tema gelap dan terang</string>
     <string name="msg_backup_restore_description">Kelola cadangan lokal dan pulihkan data</string>
     <string name="msg_export_data_description">Ekspor transaksi sebagai CSV atau XLSX</string>
+    <string name="msg_notification_description">Atur notifikasi aplikasi Anda</string>
     <string name="msg_app_lock_description">Amankan aplikasi Anda dengan kode PIN</string>
     <string name="msg_reset_pin_description">Ubah PIN kunci aplikasi Anda</string>
     <string name="msg_biometric_description">Gunakan sidik jari atau wajah untuk membuka kunci</string>

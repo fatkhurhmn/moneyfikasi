@@ -3,13 +3,18 @@ package dev.muffar.moneyfikasi.settings
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Notifications
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
+import dev.muffar.moneyfikasi.common_ui.component.item.SettingItem
 import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
-import dev.muffar.moneyfikasi.notification.component.NotificationSection
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.settings.component.AppearanceSection
 import dev.muffar.moneyfikasi.settings.component.DataSection
@@ -20,6 +25,7 @@ fun SettingsScreen(
     modifier: Modifier = Modifier,
     state: SettingsState,
     onEvent: (SettingsEvent) -> Unit,
+    onNotificationClick: () -> Unit,
     onBackupRestoreClick: () -> Unit,
     onExportClick: () -> Unit,
     onAppLockClick: () -> Unit,
@@ -55,12 +61,22 @@ fun SettingsScreen(
                 onExportClick = onExportClick
             )
 
-            NotificationSection(
-                state = state.notification,
-                onEvent = { notificationEvent ->
-                    onEvent(SettingsEvent.Notification(notificationEvent))
+            Column {
+                Text(
+                    text = stringResource(R.string.label_notification_section),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+                PrimaryCard {
+                    SettingItem(
+                        title = stringResource(R.string.label_notification_section),
+                        subtitle = stringResource(R.string.msg_notification_description),
+                        icon = Icons.Rounded.Notifications,
+                        onClick = onNotificationClick
+                    )
                 }
-            )
+            }
 
             SecuritySection(
                 onAppLockClick = onAppLockClick

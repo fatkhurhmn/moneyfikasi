@@ -249,6 +249,7 @@
     <string name="msg_dark_mode_description">Toggle between dark and light theme</string>
     <string name="msg_backup_restore_description">Manage local backups and restore data</string>
     <string name="msg_export_data_description">Export transactions as CSV or XLSX</string>
+    <string name="msg_notification_description">Manage your app notifications</string>
     <string name="msg_app_lock_description">Secure your app with a PIN code</string>
     <string name="msg_reset_pin_description">Change your app lock PIN</string>
     <string name="msg_biometric_description">Use fingerprint or face to unlock</string>

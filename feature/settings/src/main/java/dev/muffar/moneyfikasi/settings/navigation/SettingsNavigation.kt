@@ -15,6 +15,7 @@ fun NavController.navigateToSettings() {
 }
 
 fun NavGraphBuilder.settingsNavGraph(
+    onNotificationClick: () -> Unit,
     onBackupRestoreClick: () -> Unit,
     onExportClick: () -> Unit,
     onAppLockClick: () -> Unit,
@@ -27,6 +28,7 @@ fun NavGraphBuilder.settingsNavGraph(
         SettingsScreen(
             state = state,
             onEvent = viewModel::onEvent,
+            onNotificationClick = onNotificationClick,
             onBackupRestoreClick = onBackupRestoreClick,
             onExportClick = onExportClick,
             onAppLockClick = onAppLockClick,
