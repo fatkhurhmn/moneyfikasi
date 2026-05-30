@@ -41,16 +41,16 @@ fun NotificationSection(
                 onEnabledChange = onAllowNotificationChanged
             )
 
-            if (isAllowNotification) {
-                CommonHorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
-                SettingSwitchItem(
-                    title = stringResource(R.string.label_recurring_transaction_notifications),
-                    subtitle = stringResource(R.string.msg_recurring_transaction_notifications_description),
-                    icon = Icons.Rounded.Notifications,
-                    isEnabled = isRecurringTransactionNotificationEnabled,
-                    onEnabledChange = onRecurringTransactionNotificationChanged
-                )
-            }
+            CommonHorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+
+            SettingSwitchItem(
+                title = stringResource(R.string.label_recurring_transaction_notifications),
+                subtitle = stringResource(R.string.msg_recurring_transaction_notifications_description),
+                icon = Icons.Rounded.Notifications,
+                isEnabled = isRecurringTransactionNotificationEnabled,
+                enabled = isAllowNotification,
+                onEnabledChange = onRecurringTransactionNotificationChanged
+            )
         }
     }
 }

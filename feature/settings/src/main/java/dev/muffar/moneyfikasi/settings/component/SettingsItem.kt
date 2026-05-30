@@ -29,12 +29,13 @@ fun SettingsItem(
     title: String,
     subtitle: String,
     icon: ImageVector,
+    enabled: Boolean = true,
     onClick: () -> Unit,
     trailing: @Composable () -> Unit = { ArrowRight() },
 ) {
     Row(
         modifier = modifier
-            .clickable { onClick() }
+            .clickable(enabled = enabled) { onClick() }
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -43,13 +44,18 @@ fun SettingsItem(
             modifier = Modifier
                 .size(48.dp)
                 .clip(MaterialTheme.shapes.medium)
-                .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)),
+                .background(
+                    if (enabled) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
+                    else MaterialTheme.colorScheme.surfaceVariant
+                ),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = title,
-                tint = MaterialTheme.colorScheme.primary,
+                tint = if (enabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                    alpha = 0.38f
+                ),
                 modifier = Modifier.size(28.dp)
             )
         }
@@ -63,12 +69,16 @@ fun SettingsItem(
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold
                 ),
-                color = MaterialTheme.colorScheme.onSurface
+                color = if (enabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(
+                    alpha = 0.38f
+                )
             )
             Text(
                 text = subtitle,
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = if (enabled) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                    alpha = 0.38f
+                )
             )
         }
         trailing()

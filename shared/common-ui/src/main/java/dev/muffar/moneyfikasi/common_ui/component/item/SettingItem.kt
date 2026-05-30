@@ -29,12 +29,16 @@ fun SettingItem(
     title: String,
     subtitle: String,
     icon: ImageVector,
+    enabled: Boolean = true,
     onClick: (() -> Unit)? = null,
     trailing: @Composable () -> Unit = { ArrowRight() },
 ) {
     Row(
         modifier = modifier
-            .then(if (onClick != null) Modifier.clickable { onClick() } else Modifier)
+            .then(
+                if (onClick != null) Modifier.clickable(enabled = enabled) { onClick() }
+                else Modifier
+            )
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -43,13 +47,18 @@ fun SettingItem(
             modifier = Modifier
                 .size(48.dp)
                 .clip(MaterialTheme.shapes.medium)
-                .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)),
+                .background(
+                    if (enabled) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
+                    else MaterialTheme.colorScheme.surfaceVariant
+                ),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = title,
-                tint = MaterialTheme.colorScheme.primary,
+                tint = if (enabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                    alpha = 0.38f
+                ),
                 modifier = Modifier.size(28.dp)
             )
         }
@@ -64,12 +73,16 @@ fun SettingItem(
                     fontWeight = FontWeight.SemiBold,
                     lineHeight = 18.sp
                 ),
-                color = MaterialTheme.colorScheme.onSurface
+                color = if (enabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface.copy(
+                    alpha = 0.38f
+                )
             )
             Text(
                 text = subtitle,
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = if (enabled) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurfaceVariant.copy(
+                    alpha = 0.38f
+                )
             )
         }
         Spacer(modifier = Modifier.width(16.dp))

@@ -15,6 +15,7 @@ fun SettingSwitchItem(
     subtitle: String,
     icon: ImageVector,
     isEnabled: Boolean,
+    enabled: Boolean = true,
     onEnabledChange: (Boolean) -> Unit,
 ) {
     SettingItem(
@@ -22,11 +23,13 @@ fun SettingSwitchItem(
         title = title,
         subtitle = subtitle,
         icon = icon,
+        enabled = enabled,
         onClick = { onEnabledChange(!isEnabled) },
         trailing = {
             Switch(
                 checked = isEnabled,
                 onCheckedChange = onEnabledChange,
+                enabled = enabled,
                 colors = SwitchDefaults.colors(
                     checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
                     checkedTrackColor = MaterialTheme.colorScheme.primary,

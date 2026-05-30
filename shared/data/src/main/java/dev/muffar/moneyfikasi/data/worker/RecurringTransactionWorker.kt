@@ -42,7 +42,7 @@ class RecurringTransactionWorker @AssistedInject constructor(
             }
             RecurringTransactionScheduler(applicationContext).scheduleRecurringTransaction()
             Result.success()
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             Result.failure()
         }
     }
