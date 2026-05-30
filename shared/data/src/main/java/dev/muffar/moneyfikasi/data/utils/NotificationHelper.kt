@@ -45,16 +45,17 @@ class NotificationHelper(private val context: Context) {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
+        val contentText = context.getString(
+            R.string.msg_recurring_transaction_processed,
+            amount,
+            name
+        )
+
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentTitle(context.getString(R.string.title_recurring_transaction_processed))
-            .setContentText(
-                context.getString(
-                    R.string.msg_recurring_transaction_processed,
-                    amount,
-                    name
-                )
-            )
+            .setContentText(contentText)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(contentText))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
@@ -76,15 +77,16 @@ class NotificationHelper(private val context: Context) {
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
 
+            val endedContentText = context.getString(
+                R.string.msg_recurring_transaction_ended,
+                name
+            )
+
             val endedBuilder = NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(context.getString(R.string.title_recurring_transaction_ended))
-                .setContentText(
-                    context.getString(
-                        R.string.msg_recurring_transaction_ended,
-                        name
-                    )
-                )
+                .setContentText(endedContentText)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(endedContentText))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(recurringPendingIntent)
                 .setAutoCancel(true)
