@@ -90,6 +90,7 @@
     <string name="label_this_month">this month</string>
     <string name="label_custom_date">Custom Date</string>
     <string name="label_all">All</string>
+    <string name="label_custom">Custom</string>
     <string name="label_daily">Daily</string>
     <string name="label_weekly">Weekly</string>
     <string name="label_monthly">Monthly</string>

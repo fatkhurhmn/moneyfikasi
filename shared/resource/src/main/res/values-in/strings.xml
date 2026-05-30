@@ -90,6 +90,7 @@
     <string name="label_this_month">bulan ini</string>
     <string name="label_custom_date">Tanggal Kustom</string>
     <string name="label_all">Semua</string>
+    <string name="label_custom">Custom</string>
     <string name="label_daily">Harian</string>
     <string name="label_weekly">Mingguan</string>
     <string name="label_monthly">Bulanan</string>

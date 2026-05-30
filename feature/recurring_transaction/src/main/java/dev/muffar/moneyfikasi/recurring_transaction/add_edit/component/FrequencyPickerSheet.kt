@@ -24,8 +24,8 @@ import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.BottomSheetTitle
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.PickerOptionItem
 import dev.muffar.moneyfikasi.common_ui.component.button.DoubleOutlinedButton
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
+import dev.muffar.moneyfikasi.domain.utils.extension.labelRes
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.StringExt.capitalize
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -73,7 +73,7 @@ fun FrequencyPickerSheet(
                 PickerOptionItem(
                     isSelected = frequency == selectedFrequency,
                     icon = icon,
-                    title = frequency.name.lowercase().capitalize(),
+                    title = stringResource(frequency.labelRes()),
                     onClick = {
                         onFrequencySelect(frequency)
                         hideSheet()

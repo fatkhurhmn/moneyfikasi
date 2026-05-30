@@ -26,10 +26,10 @@ import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.button.DoubleOutlinedButton
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
+import dev.muffar.moneyfikasi.domain.utils.extension.labelRes
 import dev.muffar.moneyfikasi.domain.utils.extension.toDateRange
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
-import dev.muffar.moneyfikasi.utils.extensions.StringExt.capitalize
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -91,7 +91,7 @@ fun ChooseDateSheet(
                 PickerOptionItem(
                     isSelected = option == dateRange.timePeriod,
                     icon = icon,
-                    title = option.name.lowercase().capitalize(),
+                    title = stringResource(option.labelRes()),
                     subtitle = if (showDateRate) "$start - $end" else null,
                     onClick = { onClick(option) }
                 )

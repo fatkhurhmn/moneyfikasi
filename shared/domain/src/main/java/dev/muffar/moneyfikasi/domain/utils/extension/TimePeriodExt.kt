@@ -1,7 +1,9 @@
 package dev.muffar.moneyfikasi.domain.utils.extension
 
+import androidx.annotation.StringRes
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
+import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfDay
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfMonth
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfWeek
@@ -47,5 +49,17 @@ fun TimePeriod.toDateRange(localDateTime: LocalDateTime? = null): DateRange {
         )
 
         TimePeriod.CUSTOM -> DateRange(timePeriod = TimePeriod.CUSTOM)
+    }
+}
+
+@StringRes
+fun TimePeriod.labelRes(): Int {
+    return when (this) {
+        TimePeriod.DAILY -> R.string.label_daily
+        TimePeriod.WEEKLY -> R.string.label_weekly
+        TimePeriod.MONTHLY -> R.string.label_monthly
+        TimePeriod.YEARLY -> R.string.label_yearly
+        TimePeriod.ALL -> R.string.label_all
+        TimePeriod.CUSTOM -> R.string.label_custom
     }
 }

@@ -16,8 +16,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
+import dev.muffar.moneyfikasi.domain.utils.extension.labelRes
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.StringExt.capitalize
 
 @Composable
 fun FrequencyInput(
@@ -31,7 +31,7 @@ fun FrequencyInput(
         modifier = modifier
     ) {
         CommonTextInput(
-            value = frequency.name.lowercase().capitalize(),
+            value = stringResource(frequency.labelRes()),
             onValueChange = {},
             label = stringResource(R.string.label_frequency),
             isClickable = true,
