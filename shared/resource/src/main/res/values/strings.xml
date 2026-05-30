@@ -124,6 +124,7 @@
     <string name="label_csv">.csv</string>
     <string name="label_xlsx">.xlsx</string>
     <string name="label_data_section">Data</string>
+    <string name="label_notification_section">Notifications</string>
     <string name="label_security_section">Security</string>
     <string name="label_appearance_section">Appearance</string>
     <string name="label_select_icon">Select Icon</string>
@@ -143,6 +144,7 @@
     <string name="label_type_to_search">Type something to search by note</string>
     <string name="label_invisible_balance">• • • • • • •</string>
     <string name="label_use_pin">Use PIN</string>
+    <string name="label_recurring_transaction_notifications">Recurring transactions</string>
     <string name="label_backup_period">Backup Period</string>
     <string name="label_export_format">Export Format</string>
     <string name="label_date_header">Date</string>
@@ -258,6 +260,7 @@
     <string name="msg_remaining">Remaining: %d</string>
     <string name="msg_recurring_transaction_processed">%1$s transaction for %2$s has been created.</string>
     <string name="msg_recurring_transaction_ended">The recurring transaction \"%s\" has reached its end condition and is now inactive.</string>
+    <string name="msg_recurring_transaction_notifications_description">Notify when scheduled transactions are created or ended.</string>
     <string name="msg_backup_success">Backup success</string>
     <string name="msg_restore_success">Restore success</string>
     <string name="msg_export_success">Export successful</string>

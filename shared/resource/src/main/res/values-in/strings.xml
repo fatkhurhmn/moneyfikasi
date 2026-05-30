@@ -124,6 +124,7 @@
     <string name="label_csv">.csv</string>
     <string name="label_xlsx">.xlsx</string>
     <string name="label_data_section">Data</string>
+    <string name="label_notification_section">Notifikasi</string>
     <string name="label_security_section">Keamanan</string>
     <string name="label_appearance_section">Tampilan</string>
     <string name="label_select_icon">Pilih Ikon</string>
@@ -143,6 +144,7 @@
     <string name="label_type_to_search">Ketik sesuatu untuk mencari berdasarkan catatan</string>
     <string name="label_invisible_balance">• • • • • • •</string>
     <string name="label_use_pin">Gunakan PIN</string>
+    <string name="label_recurring_transaction_notifications">Transaksi berulang</string>
     <string name="label_backup_period">Periode Cadangan</string>
     <string name="label_export_format">Format Ekspor</string>
     <string name="label_date_header">Tanggal</string>
@@ -258,6 +260,7 @@
     <string name="msg_remaining">Tersisa: %d</string>
     <string name="msg_recurring_transaction_processed">Transaksi %1$s untuk %2$s telah dibuat.</string>
     <string name="msg_recurring_transaction_ended">Transaksi berulang \"%s\" telah mencapai kondisi akhir dan sekarang tidak aktif.</string>
+    <string name="msg_recurring_transaction_notifications_description">Kirim notifikasi saat transaksi terjadwal dibuat atau berakhir.</string>
     <string name="msg_backup_success">Pencadangan berhasil</string>
     <string name="msg_restore_success">Pemulihan berhasil</string>
     <string name="msg_export_success">Ekspor berhasil</string>

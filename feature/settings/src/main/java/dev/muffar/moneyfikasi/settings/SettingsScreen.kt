@@ -12,6 +12,7 @@ import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.settings.component.AppearanceSection
 import dev.muffar.moneyfikasi.settings.component.DataSection
+import dev.muffar.moneyfikasi.settings.component.NotificationSection
 import dev.muffar.moneyfikasi.settings.component.SecuritySection
 
 @Composable
@@ -52,6 +53,14 @@ fun SettingsScreen(
             DataSection(
                 onBackupRestoreClick = onBackupRestoreClick,
                 onExportClick = onExportClick
+            )
+
+            NotificationSection(
+                isRecurringTransactionNotificationEnabled =
+                    state.isRecurringTransactionNotificationEnabled,
+                onRecurringTransactionNotificationChanged = { isEnabled ->
+                    onEvent(SettingsEvent.RecurringTransactionNotificationChanged(isEnabled))
+                }
             )
 
             SecuritySection(

@@ -6,4 +6,5 @@ import dev.muffar.moneyfikasi.domain.model.AppTheme
 sealed class SettingsEvent {
     data class AppThemeChanged(val theme: AppTheme) : SettingsEvent()
     data class AppLanguageChanged(val language: AppLanguage) : SettingsEvent()
+    data class RecurringTransactionNotificationChanged(val isEnabled: Boolean) : SettingsEvent()
 }

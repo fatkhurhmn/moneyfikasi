@@ -21,6 +21,10 @@ class UiSettingsRepositoryImpl @Inject constructor(
         uiPreferences.setReportVisibility(isVisible)
     }
 
+    override suspend fun setRecurringTransactionNotification(isEnabled: Boolean) {
+        uiPreferences.setRecurringTransactionNotification(isEnabled)
+    }
+
     override suspend fun setAppTheme(theme: AppTheme) {
         uiPreferences.setAppTheme(theme)
     }

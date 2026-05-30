@@ -9,6 +9,7 @@ interface UiSettingsRepository {
     fun getUiSettings(): Flow<UiSettings>
     suspend fun setBalanceVisibility(isVisible: Boolean)
     suspend fun setReportVisibility(isVisible: Boolean)
+    suspend fun setRecurringTransactionNotification(isEnabled: Boolean)
     suspend fun setAppTheme(theme: AppTheme)
     suspend fun setAppLanguage(language: AppLanguage)
 }

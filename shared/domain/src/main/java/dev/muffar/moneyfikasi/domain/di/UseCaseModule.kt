@@ -47,6 +47,7 @@ import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.GetUiSettings
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetAppLanguage
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetAppTheme
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetBalanceVisibility
+import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetRecurringTransactionNotification
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetReportVisibility
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.UiSettingsUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preset.DeletePreset
@@ -96,7 +97,7 @@ object UseCaseModule {
     @Provides
     fun provideCategoryUseCases(
         categoryRepository: CategoryRepository,
-    ) = CategoryUseCases(
+    ): CategoryUseCases = CategoryUseCases(
         upsertCategory = UpsertCategory(categoryRepository),
         deleteCategory = DeleteCategory(categoryRepository),
         getAllCategories = GetAllCategories(categoryRepository),
@@ -107,7 +108,7 @@ object UseCaseModule {
     @Provides
     fun provideWalletUseCases(
         walletRepository: WalletRepository,
-    ) = WalletUseCases(
+    ): WalletUseCases = WalletUseCases(
         upsertWallet = UpsertWallet(walletRepository),
         deleteWallet = DeleteWallet(walletRepository),
         getAllWallets = GetAllWallets(walletRepository),
@@ -117,7 +118,7 @@ object UseCaseModule {
     @Provides
     fun provideTransactionUseCases(
         transactionRepository: TransactionRepository,
-    ) = TransactionUseCases(
+    ): TransactionUseCases = TransactionUseCases(
         addTransaction = AddTransaction(transactionRepository),
         updateTransaction = UpdateTransaction(transactionRepository),
         deleteTransaction = DeleteTransaction(transactionRepository),
@@ -140,7 +141,7 @@ object UseCaseModule {
     fun provideBackupRestoreUseCases(
         backupRestoreRepository: BackupRestoreRepository,
         backupSettingsRepository: BackupSettingsRepository,
-    ) = BackupRestoreUseCases(
+    ): BackupRestoreUseCases = BackupRestoreUseCases(
         backupData = BackupData(backupRestoreRepository),
         restoreData = RestoreData(backupRestoreRepository),
         deleteBackup = DeleteBackup(backupRestoreRepository),
@@ -150,10 +151,11 @@ object UseCaseModule {
     @Provides
     fun provideUiSettingsUseCases(
         uiSettingsRepository: UiSettingsRepository,
-    ) = UiSettingsUseCases(
+    ): UiSettingsUseCases = UiSettingsUseCases(
         getUiSettings = GetUiSettings(uiSettingsRepository),
         setBalanceVisibility = SetBalanceVisibility(uiSettingsRepository),
         setReportVisibility = SetReportVisibility(uiSettingsRepository),
+        setRecurringTransactionNotification = SetRecurringTransactionNotification(uiSettingsRepository),
         setAppTheme = SetAppTheme(uiSettingsRepository),
         setAppLanguage = SetAppLanguage(uiSettingsRepository)
     )
@@ -161,7 +163,7 @@ object UseCaseModule {
     @Provides
     fun provideBackupSettingsUseCases(
         backupSettingsRepository: BackupSettingsRepository,
-    ) = BackupSettingsUseCases(
+    ): BackupSettingsUseCases = BackupSettingsUseCases(
         getBackupSettings = GetBackupSettings(backupSettingsRepository),
         setLatestBackup = SetLatestBackup(backupSettingsRepository),
         setAutoBackupEnabled = SetAutoBackupEnabled(backupSettingsRepository),
@@ -173,7 +175,7 @@ object UseCaseModule {
     @Provides
     fun provideSecuritySettingsUseCases(
         securitySettingsRepository: SecuritySettingsRepository,
-    ) = SecuritySettingsUseCases(
+    ): SecuritySettingsUseCases = SecuritySettingsUseCases(
         getSecuritySettings = GetSecuritySettings(securitySettingsRepository),
         enableAppLock = EnableAppLock(securitySettingsRepository),
         setAppLockPin = SetAppLockPin(securitySettingsRepository),
@@ -183,7 +185,7 @@ object UseCaseModule {
     @Provides
     fun providePresetUseCases(
         presetRepository: PresetRepository,
-    ) = PresetUseCases(
+    ): PresetUseCases = PresetUseCases(
         getAllPresets = GetAllPresets(presetRepository),
         getPresetById = GetPresetById(presetRepository),
         upsertPreset = UpsertPreset(presetRepository),
@@ -193,7 +195,7 @@ object UseCaseModule {
     @Provides
     fun provideBudgetUseCases(
         budgetRepository: BudgetRepository,
-    ) = BudgetUseCases(
+    ): BudgetUseCases = BudgetUseCases(
         getAllBudgets = GetAllBudgets(budgetRepository),
         getBudgetById = GetBudgetById(budgetRepository),
         upsertBudget = UpsertBudget(budgetRepository),
@@ -204,7 +206,7 @@ object UseCaseModule {
     fun provideRecurringTransactionUseCases(
         recurringTransactionRepository: RecurringTransactionRepository,
         transactionRepository: TransactionRepository
-    ) = RecurringTransactionUseCases(
+    ): RecurringTransactionUseCases = RecurringTransactionUseCases(
         getAllRecurringTransactions = GetAllRecurringTransactions(recurringTransactionRepository),
         getRecurringTransactionById = GetRecurringTransactionById(recurringTransactionRepository),
         saveRecurringTransaction = SaveRecurringTransaction(recurringTransactionRepository),
@@ -220,7 +222,7 @@ object UseCaseModule {
     @Provides
     fun provideStatisticUseCases(
         statisticRepository: StatisticRepository,
-    ) = StatisticUseCases(
+    ): StatisticUseCases = StatisticUseCases(
         getTransactionTrend = GetTransactionTrend(statisticRepository),
         getCategoryStatistics = GetCategoryStatistics(statisticRepository),
         getStatisticInsights = GetStatisticInsights(statisticRepository)
