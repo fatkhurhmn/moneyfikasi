@@ -262,8 +262,8 @@
     <string name="msg_remaining">Remaining: %d</string>
     <string name="msg_recurring_transaction_processed">%1$s transaction for %2$s has been created.</string>
     <string name="msg_recurring_transaction_ended">The recurring transaction \"%s\" has reached its end condition and is now inactive.</string>
-    <string name="msg_allow_notifications_description">Master switch for all app notifications.</string>
-    <string name="msg_recurring_transaction_notifications_description">Notify when scheduled transactions are created or ended.</string>
+    <string name="msg_allow_notifications_description">Turn on to receive app notifications.</string>
+    <string name="msg_recurring_transaction_notifications_description">Get notified when scheduled transactions are created or ended.</string>
     <string name="msg_backup_success">Backup success</string>
     <string name="msg_restore_success">Restore success</string>
     <string name="msg_export_success">Export successful</string>

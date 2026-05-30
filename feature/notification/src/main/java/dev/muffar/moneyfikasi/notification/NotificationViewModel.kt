@@ -55,12 +55,4 @@ class NotificationViewModel @Inject constructor(
             uiSettingsUseCases.setRecurringTransactionNotification(isEnabled)
         }
     }
-
-    fun syncNotificationPermission(isEnabled: Boolean) {
-        viewModelScope.launch {
-            if (state.value.isAllowNotification != isEnabled) {
-                uiSettingsUseCases.setAllowNotification(isEnabled)
-            }
-        }
-    }
 }

@@ -69,19 +69,19 @@ fun NotificationSection(
                 icon = Icons.Rounded.Notifications,
                 isEnabled = state.isAllowNotification,
                 onEnabledChange = { isEnabled ->
-                    val isGranted = NotificationManagerCompat.from(context).areNotificationsEnabled()
+                    val isGranted =
+                        NotificationManagerCompat.from(context).areNotificationsEnabled()
                     if (isEnabled) {
                         if (!isGranted) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                                 permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                             } else {
-                                val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
-                                    putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
-                                }
+                                val intent =
+                                    Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+                                        putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+                                    }
                                 context.startActivity(intent)
                             }
-                        } else {
-                            onEvent(NotificationEvent.AllowNotificationChanged(true))
                         }
                     } else {
                         if (isGranted) {
@@ -90,7 +90,6 @@ fun NotificationSection(
                             }
                             context.startActivity(intent)
                         }
-                        onEvent(NotificationEvent.AllowNotificationChanged(false))
                     }
                 }
             )

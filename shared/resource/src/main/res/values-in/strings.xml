@@ -262,8 +262,8 @@
     <string name="msg_remaining">Tersisa: %d</string>
     <string name="msg_recurring_transaction_processed">Transaksi %1$s untuk %2$s telah dibuat.</string>
     <string name="msg_recurring_transaction_ended">Transaksi berulang \"%s\" telah mencapai kondisi akhir dan sekarang tidak aktif.</string>
-    <string name="msg_allow_notifications_description">Sakelar utama untuk semua notifikasi aplikasi.</string>
-    <string name="msg_recurring_transaction_notifications_description">Kirim notifikasi saat transaksi terjadwal dibuat atau berakhir.</string>
+    <string name="msg_allow_notifications_description">Aktifkan untuk menerima notifikasi aplikasi.</string>
+    <string name="msg_recurring_transaction_notifications_description">Dapatkan notifikasi saat transaksi terjadwal dibuat atau berakhir.</string>
     <string name="msg_backup_success">Pencadangan berhasil</string>
     <string name="msg_restore_success">Pemulihan berhasil</string>
     <string name="msg_export_success">Ekspor berhasil</string>
