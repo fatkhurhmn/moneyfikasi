@@ -1,6 +1,6 @@
 plugins {
     id("moneyfikasi.android.library")
-    alias(libs.plugins.kotlinKapt)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.daggerHilt)
     id("moneyfikasi.android.compose")
 }
@@ -24,13 +24,9 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
 
     implementation(libs.dagger.hilt.android)
-    kapt(libs.dagger.hilt.compiler)
+    ksp(libs.dagger.hilt.compiler)
 
     implementation(libs.threetenabp)
 
     implementation(libs.capturable)
-}
-
-kapt {
-    correctErrorTypes = true
 }

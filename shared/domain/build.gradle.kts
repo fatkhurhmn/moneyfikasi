@@ -1,6 +1,6 @@
 plugins {
     id("moneyfikasi.android.library")
-    alias(libs.plugins.kotlinKapt)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.daggerHilt)
     alias(libs.plugins.kotlinSerialization)
 }
@@ -15,15 +15,11 @@ dependencies {
     implementation(projects.shared.resource)
 
     implementation(libs.dagger.hilt.android)
-    kapt(libs.dagger.hilt.compiler)
+    ksp(libs.dagger.hilt.compiler)
 
     implementation(libs.threetenabp)
 
     implementation(libs.androidx.paging.common)
 
     implementation(libs.kotlinx.serialization.json)
-}
-
-kapt {
-    correctErrorTypes = true
 }
