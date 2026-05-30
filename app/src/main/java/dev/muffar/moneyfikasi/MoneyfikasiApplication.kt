@@ -20,8 +20,8 @@ class MoneyfikasiApplication : Application(), Configuration.Provider {
         RecurringTransactionScheduler(this).scheduleRecurringTransaction()
     }
 
-    override val workManagerConfiguration: Configuration
-        get() = Configuration.Builder()
+    override fun getWorkManagerConfiguration(): Configuration =
+        Configuration.Builder()
             .setWorkerFactory(workerFactory)
             .build()
 }
