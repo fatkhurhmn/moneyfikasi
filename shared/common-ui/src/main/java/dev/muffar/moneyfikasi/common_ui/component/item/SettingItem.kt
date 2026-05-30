@@ -61,7 +61,8 @@ fun SettingItem(
                 text = title,
                 style = MaterialTheme.typography.labelLarge.copy(
                     fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.SemiBold,
+                    lineHeight = 18.sp
                 ),
                 color = MaterialTheme.colorScheme.onSurface
             )
