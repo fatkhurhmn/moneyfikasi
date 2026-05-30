@@ -8,6 +8,7 @@ import dev.muffar.moneyfikasi.domain.repository.BackupRestoreRepository
 import dev.muffar.moneyfikasi.domain.repository.BackupSettingsRepository
 import dev.muffar.moneyfikasi.domain.repository.BudgetRepository
 import dev.muffar.moneyfikasi.domain.repository.CategoryRepository
+import dev.muffar.moneyfikasi.domain.repository.NotificationSettingsRepository
 import dev.muffar.moneyfikasi.domain.repository.PresetRepository
 import dev.muffar.moneyfikasi.domain.repository.RecurringTransactionRepository
 import dev.muffar.moneyfikasi.domain.repository.SecuritySettingsRepository
@@ -43,12 +44,14 @@ import dev.muffar.moneyfikasi.domain.usecase.preferences.security.EnableBiometri
 import dev.muffar.moneyfikasi.domain.usecase.preferences.security.GetSecuritySettings
 import dev.muffar.moneyfikasi.domain.usecase.preferences.security.SecuritySettingsUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.security.SetAppLockPin
+import dev.muffar.moneyfikasi.domain.usecase.notification.GetNotificationSettings
+import dev.muffar.moneyfikasi.domain.usecase.notification.NotificationUseCases
+import dev.muffar.moneyfikasi.domain.usecase.notification.SetAllowNotification
+import dev.muffar.moneyfikasi.domain.usecase.notification.SetRecurringTransactionNotification
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.GetUiSettings
-import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetAllowNotification
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetAppLanguage
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetAppTheme
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetBalanceVisibility
-import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetRecurringTransactionNotification
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetReportVisibility
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.UiSettingsUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preset.DeletePreset
@@ -156,10 +159,17 @@ object UseCaseModule {
         getUiSettings = GetUiSettings(uiSettingsRepository),
         setBalanceVisibility = SetBalanceVisibility(uiSettingsRepository),
         setReportVisibility = SetReportVisibility(uiSettingsRepository),
-        setAllowNotification = SetAllowNotification(uiSettingsRepository),
-        setRecurringTransactionNotification = SetRecurringTransactionNotification(uiSettingsRepository),
         setAppTheme = SetAppTheme(uiSettingsRepository),
         setAppLanguage = SetAppLanguage(uiSettingsRepository)
+    )
+
+    @Provides
+    fun provideNotificationUseCases(
+        notificationSettingsRepository: NotificationSettingsRepository,
+    ): NotificationUseCases = NotificationUseCases(
+        getNotificationSettings = GetNotificationSettings(notificationSettingsRepository),
+        setAllowNotification = SetAllowNotification(notificationSettingsRepository),
+        setRecurringTransactionNotification = SetRecurringTransactionNotification(notificationSettingsRepository)
     )
 
     @Provides

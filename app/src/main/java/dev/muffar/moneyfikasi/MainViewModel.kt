@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.model.UiSettings
+import dev.muffar.moneyfikasi.domain.usecase.notification.NotificationUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.security.SecuritySettingsUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.UiSettingsUseCases
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val securitySettingsUseCases: SecuritySettingsUseCases,
-    private val uiSettingsUseCases: UiSettingsUseCases
+    private val uiSettingsUseCases: UiSettingsUseCases,
+    private val notificationUseCases: NotificationUseCases,
 ) : ViewModel() {
 
     private val _isAppLockEnabled = MutableStateFlow<Boolean?>(null)
@@ -48,10 +50,10 @@ class MainViewModel @Inject constructor(
 
     fun syncNotificationPermission(isEnabled: Boolean) {
         viewModelScope.launch {
-            if (uiSettings.value.isAllowNotification != isEnabled) {
-                uiSettingsUseCases.setAllowNotification(isEnabled)
+            if (uiSettings.value.notification.isAllowNotification != isEnabled) {
+                notificationUseCases.setAllowNotification(isEnabled)
                 if (!isEnabled) {
-                    uiSettingsUseCases.setRecurringTransactionNotification(false)
+                    notificationUseCases.setRecurringTransactionNotification(false)
                 }
             }
         }

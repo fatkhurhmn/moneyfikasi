@@ -20,6 +20,7 @@ import dev.muffar.moneyfikasi.data.repositoy.BackupRestoreRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.BackupSettingsRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.BudgetRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.CategoryRepositoryImpl
+import dev.muffar.moneyfikasi.data.repositoy.NotificationSettingsRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.PresetRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.RecurringTransactionRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.SecuritySettingsRepositoryImpl
@@ -31,6 +32,7 @@ import dev.muffar.moneyfikasi.domain.repository.BackupRestoreRepository
 import dev.muffar.moneyfikasi.domain.repository.BackupSettingsRepository
 import dev.muffar.moneyfikasi.domain.repository.BudgetRepository
 import dev.muffar.moneyfikasi.domain.repository.CategoryRepository
+import dev.muffar.moneyfikasi.domain.repository.NotificationSettingsRepository
 import dev.muffar.moneyfikasi.domain.repository.PresetRepository
 import dev.muffar.moneyfikasi.domain.repository.RecurringTransactionRepository
 import dev.muffar.moneyfikasi.domain.repository.SecuritySettingsRepository
@@ -80,6 +82,14 @@ object RepositoryModule {
         uiPreferences: UiPreferences,
     ): UiSettingsRepository {
         return UiSettingsRepositoryImpl(uiPreferences)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNotificationSettingsRepository(
+        uiPreferences: UiPreferences,
+    ): NotificationSettingsRepository {
+        return NotificationSettingsRepositoryImpl(uiPreferences)
     }
 
     @Provides

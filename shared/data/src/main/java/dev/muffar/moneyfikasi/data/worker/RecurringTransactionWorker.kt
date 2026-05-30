@@ -8,7 +8,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dev.muffar.moneyfikasi.data.utils.NotificationHelper
 import dev.muffar.moneyfikasi.data.utils.RecurringTransactionScheduler
-import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.UiSettingsUseCases
+import dev.muffar.moneyfikasi.domain.usecase.notification.NotificationUseCases
 import dev.muffar.moneyfikasi.domain.usecase.recurring_transaction.RecurringTransactionUseCases
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import kotlinx.coroutines.flow.first
@@ -18,15 +18,15 @@ class RecurringTransactionWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted workerParams: WorkerParameters,
     private val recurringTransactionUseCases: RecurringTransactionUseCases,
-    private val uiSettingsUseCases: UiSettingsUseCases,
+    private val notificationUseCases: NotificationUseCases,
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
         return try {
             val processed = recurringTransactionUseCases.processRecurringTransactions()
-            val uiSettings = uiSettingsUseCases.getUiSettings().first()
-            val notificationsEnabled = uiSettings.isAllowNotification &&
-                    uiSettings.isRecurringTransactionNotificationEnabled
+            val notificationSettings = notificationUseCases.getNotificationSettings().first()
+            val notificationsEnabled = notificationSettings.isAllowNotification &&
+                    notificationSettings.isRecurringTransactionNotificationEnabled
             if (notificationsEnabled) {
                 val notificationHelper = NotificationHelper(applicationContext)
                 processed.forEach {

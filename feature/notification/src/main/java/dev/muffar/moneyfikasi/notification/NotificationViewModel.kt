@@ -3,7 +3,7 @@ package dev.muffar.moneyfikasi.notification
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.UiSettingsUseCases
+import dev.muffar.moneyfikasi.domain.usecase.notification.NotificationUseCases
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotificationViewModel @Inject constructor(
-    private val uiSettingsUseCases: UiSettingsUseCases,
+    private val notificationUseCases: NotificationUseCases,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(NotificationState())
@@ -21,12 +21,12 @@ class NotificationViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            uiSettingsUseCases.getUiSettings().collectLatest { uiSettings ->
+            notificationUseCases.getNotificationSettings().collectLatest { notificationSettings ->
                 _state.update {
                     it.copy(
-                        isAllowNotification = uiSettings.isAllowNotification,
+                        isAllowNotification = notificationSettings.isAllowNotification,
                         isRecurringTransactionNotificationEnabled =
-                        uiSettings.isRecurringTransactionNotificationEnabled
+                        notificationSettings.isRecurringTransactionNotificationEnabled
                     )
                 }
             }
@@ -43,16 +43,16 @@ class NotificationViewModel @Inject constructor(
 
     private fun onAllowNotificationChange(isEnabled: Boolean) {
         viewModelScope.launch {
-            uiSettingsUseCases.setAllowNotification(isEnabled)
+            notificationUseCases.setAllowNotification(isEnabled)
             if (!isEnabled) {
-                uiSettingsUseCases.setRecurringTransactionNotification(false)
+                notificationUseCases.setRecurringTransactionNotification(false)
             }
         }
     }
 
     private fun onRecurringTransactionNotificationChange(isEnabled: Boolean) {
         viewModelScope.launch {
-            uiSettingsUseCases.setRecurringTransactionNotification(isEnabled)
+            notificationUseCases.setRecurringTransactionNotification(isEnabled)
         }
     }
 }
