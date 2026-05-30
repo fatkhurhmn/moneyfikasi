@@ -11,9 +11,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.muffar.moneyfikasi.data.preferences.serializer.BackupSettingsSerializer
+import dev.muffar.moneyfikasi.data.preferences.serializer.NotificationSettingsSerializer
 import dev.muffar.moneyfikasi.data.preferences.serializer.SecuritySettingsSerializer
 import dev.muffar.moneyfikasi.data.preferences.serializer.UiSettingsSerializer
 import dev.muffar.moneyfikasi.domain.model.BackupSettings
+import dev.muffar.moneyfikasi.domain.model.NotificationSettings
 import dev.muffar.moneyfikasi.domain.model.SecuritySettings
 import dev.muffar.moneyfikasi.domain.model.UiSettings
 import javax.inject.Singleton
@@ -47,6 +49,20 @@ object DataStoreModule {
                 context.dataStoreFile("backup_settings.json")
             },
             corruptionHandler = ReplaceFileCorruptionHandler { BackupSettings() }
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideNotificationDataStore(
+        @ApplicationContext context: Context,
+    ): DataStore<NotificationSettings> {
+        return DataStoreFactory.create(
+            serializer = NotificationSettingsSerializer,
+            produceFile = {
+                context.dataStoreFile("notification_settings.json")
+            },
+            corruptionHandler = ReplaceFileCorruptionHandler { NotificationSettings() }
         )
     }
 

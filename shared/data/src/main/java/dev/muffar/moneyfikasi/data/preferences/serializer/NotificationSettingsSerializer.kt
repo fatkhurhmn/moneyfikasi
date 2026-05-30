@@ -1,7 +1,7 @@
 package dev.muffar.moneyfikasi.data.preferences.serializer
 
 import androidx.datastore.core.Serializer
-import dev.muffar.moneyfikasi.domain.model.UiSettings
+import dev.muffar.moneyfikasi.domain.model.NotificationSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.SerializationException
@@ -9,16 +9,14 @@ import kotlinx.serialization.json.Json
 import java.io.InputStream
 import java.io.OutputStream
 
-object UiSettingsSerializer : Serializer<UiSettings> {
-    private val json = Json { ignoreUnknownKeys = true }
+object NotificationSettingsSerializer : Serializer<NotificationSettings> {
+    override val defaultValue: NotificationSettings
+        get() = NotificationSettings()
 
-    override val defaultValue: UiSettings
-        get() = UiSettings()
-
-    override suspend fun readFrom(input: InputStream): UiSettings {
+    override suspend fun readFrom(input: InputStream): NotificationSettings {
         return try {
-            json.decodeFromString(
-                deserializer = UiSettings.serializer(),
+            Json.decodeFromString(
+                deserializer = NotificationSettings.serializer(),
                 string = input.readBytes().decodeToString()
             )
         } catch (_: SerializationException) {
@@ -26,11 +24,11 @@ object UiSettingsSerializer : Serializer<UiSettings> {
         }
     }
 
-    override suspend fun writeTo(t: UiSettings, output: OutputStream) {
+    override suspend fun writeTo(t: NotificationSettings, output: OutputStream) {
         withContext(Dispatchers.IO) {
             output.write(
-                json.encodeToString(
-                    serializer = UiSettings.serializer(),
+                Json.encodeToString(
+                    serializer = NotificationSettings.serializer(),
                     value = t
                 ).encodeToByteArray()
             )

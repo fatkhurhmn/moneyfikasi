@@ -24,22 +24,6 @@ class UiPreferences @Inject constructor(
         }
     }
 
-    suspend fun setAllowNotification(isEnabled: Boolean) {
-        dataStore.updateData {
-            it.copy(
-                notification = it.notification.copy(isAllowNotification = isEnabled)
-            )
-        }
-    }
-
-    suspend fun setRecurringTransactionNotification(isEnabled: Boolean) {
-        dataStore.updateData {
-            it.copy(
-                notification = it.notification.copy(isRecurringTransactionNotificationEnabled = isEnabled)
-            )
-        }
-    }
-
     suspend fun setAppTheme(theme: AppTheme) {
         dataStore.updateData {
             it.copy(appTheme = theme)

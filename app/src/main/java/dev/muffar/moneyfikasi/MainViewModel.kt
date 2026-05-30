@@ -50,7 +50,8 @@ class MainViewModel @Inject constructor(
 
     fun syncNotificationPermission(isEnabled: Boolean) {
         viewModelScope.launch {
-            if (uiSettings.value.notification.isAllowNotification != isEnabled) {
+            val notificationSettings = notificationUseCases.getNotificationSettings().first()
+            if (notificationSettings.isAllowNotification != isEnabled) {
                 notificationUseCases.setAllowNotification(isEnabled)
                 if (!isEnabled) {
                     notificationUseCases.setRecurringTransactionNotification(false)

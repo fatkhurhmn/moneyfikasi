@@ -14,6 +14,7 @@ import dev.muffar.moneyfikasi.data.db.dao.RecurringTransactionDao
 import dev.muffar.moneyfikasi.data.db.dao.TransactionDao
 import dev.muffar.moneyfikasi.data.db.dao.WalletDao
 import dev.muffar.moneyfikasi.data.preferences.BackupPreferences
+import dev.muffar.moneyfikasi.data.preferences.NotificationPreferences
 import dev.muffar.moneyfikasi.data.preferences.SecurityPreferences
 import dev.muffar.moneyfikasi.data.preferences.UiPreferences
 import dev.muffar.moneyfikasi.data.repositoy.BackupRestoreRepositoryImpl
@@ -87,9 +88,9 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideNotificationSettingsRepository(
-        uiPreferences: UiPreferences,
+        notificationPreferences: NotificationPreferences,
     ): NotificationSettingsRepository {
-        return NotificationSettingsRepositoryImpl(uiPreferences)
+        return NotificationSettingsRepositoryImpl(notificationPreferences)
     }
 
     @Provides
