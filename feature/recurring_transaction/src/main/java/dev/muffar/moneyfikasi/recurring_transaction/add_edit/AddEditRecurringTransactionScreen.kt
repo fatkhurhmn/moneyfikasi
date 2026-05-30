@@ -20,6 +20,11 @@ import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
 import dev.muffar.moneyfikasi.data.utils.RecurringTransactionScheduler
+import dev.muffar.moneyfikasi.domain.model.Category
+import dev.muffar.moneyfikasi.domain.model.RecurringEndType
+import dev.muffar.moneyfikasi.domain.model.TimePeriod
+import dev.muffar.moneyfikasi.domain.model.TransactionType
+import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.recurring_transaction.add_edit.component.AddEditRecurringTransactionForm
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.flow.SharedFlow
@@ -30,9 +35,22 @@ import kotlinx.coroutines.flow.collectLatest
 fun AddEditRecurringTransactionScreen(
     state: AddEditRecurringTransactionState,
     eventFlow: SharedFlow<AddEditRecurringTransactionViewModel.UiEvent>,
-    onEvent: (AddEditRecurringTransactionEvent) -> Unit,
+    onTypeChange: (TransactionType) -> Unit,
+    onNameChange: (String) -> Unit,
+    onAmountChange: (String) -> Unit,
+    onCategoryChange: (Category) -> Unit,
     onAddNewCategoryClick: () -> Unit,
+    onWalletChange: (Wallet) -> Unit,
     onAddNewWalletClick: () -> Unit,
+    onFrequencyChange: (TimePeriod) -> Unit,
+    onStartDateChange: (Long) -> Unit,
+    onStartTimeChange: (Pair<Int, Int>) -> Unit,
+    onEndTypeChange: (RecurringEndType) -> Unit,
+    onEndDateChange: (Long) -> Unit,
+    onOccurrenceCountChange: (String) -> Unit,
+    onIsSkipFirstChange: (Boolean) -> Unit,
+    onSaveClick: () -> Unit,
+    onDeleteClick: () -> Unit,
     onBackClick: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -81,7 +99,7 @@ fun AddEditRecurringTransactionScreen(
         bottomBar = {
             BottomBarAddEditButton(
                 isEdit = state.id != null,
-                onSave = { onEvent(AddEditRecurringTransactionEvent.SaveRecurringTransaction) },
+                onSave = onSaveClick,
                 onDelete = { showDeleteAlert = true }
             )
         }
@@ -89,26 +107,20 @@ fun AddEditRecurringTransactionScreen(
         AddEditRecurringTransactionForm(
             modifier = Modifier.formModifier(innerPadding, scrollState),
             state = state,
-            onTypeChange = { onEvent(AddEditRecurringTransactionEvent.TypeChanged(it, false)) },
-            onNameChange = { onEvent(AddEditRecurringTransactionEvent.NameChanged(it)) },
-            onAmountChange = { onEvent(AddEditRecurringTransactionEvent.AmountChanged(it)) },
-            onCategoryChange = { onEvent(AddEditRecurringTransactionEvent.CategoryChanged(it)) },
+            onTypeChange = onTypeChange,
+            onNameChange = onNameChange,
+            onAmountChange = onAmountChange,
+            onCategoryChange = onCategoryChange,
             onAddNewCategoryClick = onAddNewCategoryClick,
-            onWalletChange = { onEvent(AddEditRecurringTransactionEvent.WalletChanged(it)) },
+            onWalletChange = onWalletChange,
             onAddNewWalletClick = onAddNewWalletClick,
-            onFrequencyChange = { onEvent(AddEditRecurringTransactionEvent.FrequencyChanged(it)) },
-            onStartDateChange = { onEvent(AddEditRecurringTransactionEvent.StartDateChanged(it)) },
-            onStartTimeChange = { onEvent(AddEditRecurringTransactionEvent.StartTimeChanged(it)) },
-            onEndTypeChange = { onEvent(AddEditRecurringTransactionEvent.EndTypeChanged(it)) },
-            onEndDateChange = { onEvent(AddEditRecurringTransactionEvent.EndDateChanged(it)) },
-            onOccurrenceCountChange = {
-                onEvent(
-                    AddEditRecurringTransactionEvent.OccurrenceCountChanged(
-                        it
-                    )
-                )
-            },
-            onIsSkipFirstChange = { onEvent(AddEditRecurringTransactionEvent.IsSkipFirstChanged(it)) }
+            onFrequencyChange = onFrequencyChange,
+            onStartDateChange = onStartDateChange,
+            onStartTimeChange = onStartTimeChange,
+            onEndTypeChange = onEndTypeChange,
+            onEndDateChange = onEndDateChange,
+            onOccurrenceCountChange = onOccurrenceCountChange,
+            onIsSkipFirstChange = onIsSkipFirstChange
         )
     }
 
@@ -117,7 +129,7 @@ fun AddEditRecurringTransactionScreen(
             title = stringResource(R.string.title_delete_recurring),
             message = stringResource(R.string.msg_delete_recurring_confirmation),
             onConfirm = {
-                onEvent(AddEditRecurringTransactionEvent.DeleteRecurringTransaction)
+                onDeleteClick()
                 showDeleteAlert = false
             },
             onDismiss = { showDeleteAlert = false },

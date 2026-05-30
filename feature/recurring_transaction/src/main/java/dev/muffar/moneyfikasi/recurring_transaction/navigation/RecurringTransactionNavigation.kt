@@ -92,9 +92,46 @@ fun NavGraphBuilder.recurringTransactionNavGraph(
         AddEditRecurringTransactionScreen(
             state = state,
             eventFlow = viewModel.eventFlow,
-            onEvent = event,
+            onTypeChange = { type ->
+                event(AddEditRecurringTransactionEvent.TypeChanged(type, false))
+            },
+            onNameChange = { name ->
+                event(AddEditRecurringTransactionEvent.NameChanged(name))
+            },
+            onAmountChange = { amount ->
+                event(AddEditRecurringTransactionEvent.AmountChanged(amount))
+            },
+            onCategoryChange = { category ->
+                event(AddEditRecurringTransactionEvent.CategoryChanged(category))
+            },
             onAddNewCategoryClick = { navigateToAddCategory(state.recurringTransaction.type.toCategoryType()) },
+            onWalletChange = { wallet ->
+                event(AddEditRecurringTransactionEvent.WalletChanged(wallet))
+            },
             onAddNewWalletClick = navigateToAddWallet,
+            onFrequencyChange = { frequency ->
+                event(AddEditRecurringTransactionEvent.FrequencyChanged(frequency))
+            },
+            onStartDateChange = { startDate ->
+                event(AddEditRecurringTransactionEvent.StartDateChanged(startDate))
+            },
+            onStartTimeChange = { startTime ->
+                event(AddEditRecurringTransactionEvent.StartTimeChanged(startTime))
+            },
+            onEndTypeChange = { endType ->
+                event(AddEditRecurringTransactionEvent.EndTypeChanged(endType))
+            },
+            onEndDateChange = { endDate ->
+                event(AddEditRecurringTransactionEvent.EndDateChanged(endDate))
+            },
+            onOccurrenceCountChange = { count ->
+                event(AddEditRecurringTransactionEvent.OccurrenceCountChanged(count))
+            },
+            onIsSkipFirstChange = { isSkipFirst ->
+                event(AddEditRecurringTransactionEvent.IsSkipFirstChanged(isSkipFirst))
+            },
+            onSaveClick = { event(AddEditRecurringTransactionEvent.SaveRecurringTransaction) },
+            onDeleteClick = { event(AddEditRecurringTransactionEvent.DeleteRecurringTransaction) },
             onBackClick = navigateBack
         )
     }
