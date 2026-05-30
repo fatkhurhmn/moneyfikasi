@@ -23,7 +23,6 @@ import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.StringExt.capitalize
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
 
@@ -42,7 +41,6 @@ fun AddEditCategoryScreen(
     onDelete: () -> Unit,
     onBackClick: () -> Unit,
 ) {
-    val title = "${stringResource(R.string.label_category)} ${state.type.name.lowercase().capitalize()}"
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollState = rememberScrollState()
@@ -51,7 +49,7 @@ fun AddEditCategoryScreen(
     Scaffold(
         topBar = {
             CommonTopAppBar(
-                title = title,
+                title = stringResource(R.string.label_category),
                 onBackClick = onBackClick
             )
         },

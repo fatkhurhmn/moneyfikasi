@@ -22,7 +22,7 @@ fun QuickTransactionSection(
     Column {
         DashboardLabel(
             label = stringResource(R.string.title_quick_transactions),
-            moreText = stringResource(R.string.label_presets),
+            moreText = stringResource(R.string.title_presets),
             onMoreClick = onPresetsClick
         )
         Spacer(modifier = Modifier.height(8.dp))

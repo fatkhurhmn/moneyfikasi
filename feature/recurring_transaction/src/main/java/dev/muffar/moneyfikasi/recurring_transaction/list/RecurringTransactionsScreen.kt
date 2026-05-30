@@ -62,7 +62,7 @@ fun RecurringTransactionsScreen(
     Scaffold(
         topBar = {
             CommonTopAppBar(
-                title = stringResource(R.string.label_recurring),
+                title = stringResource(R.string.title_recurring),
                 onBackClick = onBackClick,
                 titleSize = 20.sp
             )

@@ -26,7 +26,6 @@ import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.preset.add_edit.component.AddEditPresetForm
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.StringExt.capitalize
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
 
@@ -55,10 +54,7 @@ fun AddEditPresetScreen(
         snackbarHost = { SnackbarMessage(state = snackbarHostState) },
         topBar = {
             CommonTopAppBar(
-                title = stringResource(
-                    R.string.title_preset_type,
-                    state.type.name.lowercase().capitalize()
-                ),
+                title = stringResource(R.string.title_preset),
                 onBackClick = onBackClick,
             )
         },

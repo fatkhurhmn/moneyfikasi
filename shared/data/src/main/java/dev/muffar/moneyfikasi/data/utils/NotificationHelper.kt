@@ -26,7 +26,7 @@ class NotificationHelper(private val context: Context) {
 
         val channel = NotificationChannel(
             channelId,
-            context.getString(R.string.label_recurring),
+            context.getString(R.string.title_recurring),
             NotificationManager.IMPORTANCE_DEFAULT
         )
         notificationManager.createNotificationChannel(channel)

@@ -44,7 +44,7 @@ fun AddEditBudgetScreen(
     Scaffold(
         topBar = {
             CommonTopAppBar(
-                title = stringResource(R.string.label_budget),
+                title = stringResource(R.string.title_budget),
                 onBackClick = onBackClick
             )
         },

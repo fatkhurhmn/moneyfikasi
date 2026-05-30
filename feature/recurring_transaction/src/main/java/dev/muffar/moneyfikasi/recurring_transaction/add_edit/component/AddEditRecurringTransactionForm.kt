@@ -96,7 +96,7 @@ fun AddEditRecurringTransactionForm(
             }
         )
 
-        FormSection(label = stringResource(R.string.label_transaction)) {
+        FormSection(label = stringResource(R.string.title_transaction)) {
             CommonTextInput(
                 value = state.name,
                 onValueChange = onNameChange,

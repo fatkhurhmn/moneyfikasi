@@ -10,11 +10,15 @@
     <string name="menu_more">Lainnya</string>
 
     <!-- Titles & Headers -->
+    <string name="title_presets">Preset</string>
+    <string name="title_preset">Preset</string>
+    <string name="title_budgets">Anggaran</string>
+    <string name="title_budget">Anggaran</string>
+    <string name="title_recurring">Berulang</string>
+    <string name="title_transaction">Transaksi</string>
+    <string name="title_transactions">Transaksi</string>
     <string name="title_wallets">Dompet</string>
     <string name="title_categories">Kategori</string>
-    <string name="title_transaction_presets">Preset Transaksi</string>
-    <string name="title_financial_goals">Tujuan Keuangan</string>
-    <string name="title_scheduled_transactions">Transaksi Terjadwal</string>
     <string name="title_backup_restore">Cadangkan &amp; Pulihkan</string>
     <string name="title_income_summary">Ringkasan Pemasukan</string>
     <string name="title_expense_summary">Ringkasan Pengeluaran</string>
@@ -45,14 +49,12 @@
 
     <!-- Labels -->
     <string name="label_my_wallet">Dompet Saya</string>
+    <string name="label_manage_categories">Kelola Kategori</string>
+    <string name="label_transaction_presets">Preset Transaksi</string>
+    <string name="label_financial_goals">Tujuan Keuangan</string>
+    <string name="label_scheduled_transactions">Transaksi Terjadwal</string>
     <string name="label_wallet">Dompet</string>
     <string name="label_category">Kategori</string>
-    <string name="label_presets">Preset</string>
-    <string name="label_budgets">Anggaran</string>
-    <string name="label_budget">Anggaran</string>
-    <string name="label_recurring">Berulang</string>
-    <string name="label_transaction">Transaksi</string>
-    <string name="label_transactions">Transaksi</string>
     <string name="label_income">Pemasukan</string>
     <string name="label_expense">Pengeluaran</string>
     <string name="label_transfer">Transfer</string>
@@ -186,7 +188,6 @@
     <string name="action_edit">Edit</string>
     <string name="action_delete">Hapus</string>
     <string name="action_cancel">Batal</string>
-    <string name="action_manage_categories">Kelola Kategori</string>
     <string name="action_select">Pilih</string>
     <string name="action_filter">Filter</string>
     <string name="action_ok">OK</string>

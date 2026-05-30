@@ -22,7 +22,7 @@ fun TransactionsTopBar(
     onFilterClick: () -> Unit,
 ) {
     CommonTopAppBar(
-        title = stringResource(R.string.label_transactions),
+        title = stringResource(R.string.title_transactions),
         showBackButton = false,
         titleSize = 20.sp,
         action = {

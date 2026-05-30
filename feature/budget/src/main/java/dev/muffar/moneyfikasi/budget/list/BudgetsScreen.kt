@@ -22,7 +22,7 @@ fun BudgetsScreen(
     Scaffold(
         topBar = {
             CommonTopAppBar(
-                title = stringResource(R.string.label_budgets),
+                title = stringResource(R.string.title_budgets),
                 onBackClick = onBackClick
             )
         },

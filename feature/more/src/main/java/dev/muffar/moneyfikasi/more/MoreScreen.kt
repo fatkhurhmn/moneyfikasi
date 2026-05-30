@@ -62,7 +62,7 @@ fun MoreScreen(
             item {
                 MoreItem(
                     label = stringResource(R.string.title_categories),
-                    title = stringResource(R.string.action_manage_categories),
+                    title = stringResource(R.string.label_manage_categories),
                     description = stringResource(R.string.msg_category_description),
                     status = stringResource(R.string.msg_categories_count, state.categoriesCount),
                     icon = Icons.Rounded.Widgets,
@@ -71,8 +71,8 @@ fun MoreScreen(
             }
             item {
                 MoreItem(
-                    label = stringResource(R.string.label_presets),
-                    title = stringResource(R.string.title_transaction_presets),
+                    label = stringResource(R.string.title_presets),
+                    title = stringResource(R.string.label_transaction_presets),
                     description = stringResource(R.string.msg_preset_description),
                     status = stringResource(R.string.msg_presets_count, state.presetsCount),
                     icon = Icons.Rounded.PostAdd,
@@ -81,8 +81,8 @@ fun MoreScreen(
             }
             item {
                 MoreItem(
-                    label = stringResource(R.string.label_recurring),
-                    title = stringResource(R.string.title_scheduled_transactions),
+                    label = stringResource(R.string.title_recurring),
+                    title = stringResource(R.string.label_scheduled_transactions),
                     description = stringResource(R.string.msg_recurring_description),
                     status = stringResource(
                         R.string.msg_recurring_count,
@@ -94,8 +94,8 @@ fun MoreScreen(
             }
             item {
                 MoreItem(
-                    label = stringResource(R.string.label_budgets),
-                    title = stringResource(R.string.title_financial_goals),
+                    label = stringResource(R.string.title_budgets),
+                    title = stringResource(R.string.label_financial_goals),
                     description = stringResource(R.string.msg_financial_goals_description),
                     status = stringResource(R.string.msg_budgets_count, state.budgetsCount),
                     icon = Icons.Rounded.DataUsage,

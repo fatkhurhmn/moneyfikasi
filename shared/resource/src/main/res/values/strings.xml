@@ -10,11 +10,15 @@
     <string name="menu_more">More</string>
 
     <!-- Titles & Headers -->
+    <string name="title_presets">Presets</string>
+    <string name="title_preset">Preset</string>
+    <string name="title_budgets">Budgets</string>
+    <string name="title_budget">Budget</string>
+    <string name="title_recurring">Recurring</string>
+    <string name="title_transaction">Transaction</string>
+    <string name="title_transactions">Transactions</string>
     <string name="title_wallets">Wallets</string>
     <string name="title_categories">Categories</string>
-    <string name="title_transaction_presets">Transaction Presets</string>
-    <string name="title_financial_goals">Financial Goals</string>
-    <string name="title_scheduled_transactions">Scheduled Transactions</string>
     <string name="title_backup_restore">Backup &amp; Restore</string>
     <string name="title_income_summary">Income Summary</string>
     <string name="title_expense_summary">Expense Summary</string>
@@ -45,14 +49,12 @@
 
     <!-- Labels -->
     <string name="label_my_wallet">My Wallet</string>
+    <string name="label_manage_categories">Manage Categories</string>
+    <string name="label_transaction_presets">Transaction Presets</string>
+    <string name="label_financial_goals">Financial Goals</string>
+    <string name="label_scheduled_transactions">Scheduled Transactions</string>
     <string name="label_wallet">Wallet</string>
     <string name="label_category">Category</string>
-    <string name="label_presets">Presets</string>
-    <string name="label_budgets">Budgets</string>
-    <string name="label_budget">Budget</string>
-    <string name="label_recurring">Recurring</string>
-    <string name="label_transaction">Transaction</string>
-    <string name="label_transactions">Transactions</string>
     <string name="label_income">Income</string>
     <string name="label_expense">Expense</string>
     <string name="label_transfer">Transfer</string>
@@ -186,7 +188,6 @@
     <string name="action_edit">Edit</string>
     <string name="action_delete">Delete</string>
     <string name="action_cancel">Cancel</string>
-    <string name="action_manage_categories">Manage Categories</string>
     <string name="action_select">Select</string>
     <string name="action_filter">Filter</string>
     <string name="action_ok">OK</string>

@@ -25,7 +25,8 @@ fun SkipTodayInput(
     ) {
         Text(
             text = stringResource(R.string.label_skip_today),
-            style = MaterialTheme.typography.bodySmall
+            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.weight(1f)
         )
         Spacer(modifier = Modifier.width(8.dp))
         Switch(
