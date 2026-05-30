@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.icon.BoxedIcon
 
 @Composable
@@ -49,17 +50,22 @@ fun PickerOptionItem(
             .border(1.dp, borderColor, MaterialTheme.shapes.medium)
             .clip(MaterialTheme.shapes.medium)
             .clickable { onClick() }
-            .padding(horizontal = 16.dp, vertical = 12.dp),
+            .padding(horizontal = 16.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         icon()
-        Spacer(modifier = Modifier.width(16.dp))
+        Spacer(modifier = Modifier.width(8.dp))
         Column {
-            Text(text = title, color = MaterialTheme.colorScheme.onSurface)
+            Text(
+                text = title,
+                style = MaterialTheme.typography.labelMedium,
+                fontSize = 14.sp,
+                color = MaterialTheme.colorScheme.onSurface
+            )
             subtitle?.let {
                 Text(
                     text = subtitle,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
@@ -103,7 +109,7 @@ fun PickerOptionItem(
         icon = {
             Box(
                 modifier = Modifier
-                    .size(48.dp)
+                    .size(40.dp)
                     .clip(MaterialTheme.shapes.medium)
                     .background(MaterialTheme.colorScheme.primaryContainer),
                 contentAlignment = Alignment.Center
@@ -112,7 +118,7 @@ fun PickerOptionItem(
                     imageVector = icon,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                    modifier = Modifier.size(28.dp)
+                    modifier = Modifier.size(24.dp)
                 )
             }
         },
