@@ -3,12 +3,18 @@ package dev.muffar.moneyfikasi.utils.extensions
 import android.net.Uri
 import androidx.core.net.toUri
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
+import java.text.DecimalFormatSymbols
 import java.util.Locale
 
 
 object StringExt {
     fun String.clearThousandFormat(): String {
-        return this.replace(",", "")
+        val symbols = DecimalFormatSymbols.getInstance()
+        val groupingSeparator = symbols.groupingSeparator
+        val decimalSeparator = symbols.decimalSeparator
+
+        return this.replace(groupingSeparator.toString(), "")
+            .replace(decimalSeparator.toString(), ".")
     }
 
     fun String.filterAmount(maxDigits: Int = 15): String? {

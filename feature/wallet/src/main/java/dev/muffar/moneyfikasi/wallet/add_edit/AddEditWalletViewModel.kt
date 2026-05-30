@@ -72,6 +72,7 @@ class AddEditWalletViewModel @Inject constructor(
     private fun onNameChange(name: String) {
         if (name.length > ValidationConst.MAX_NAME_LENGTH) return
         _state.update { it.copy(name = name) }
+        updateNameError()
     }
 
     private fun updateNameError() {
