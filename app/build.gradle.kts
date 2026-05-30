@@ -39,6 +39,7 @@ dependencies {
     implementation(projects.feature.settings)
     implementation(projects.feature.recurringTransaction)
     implementation(projects.feature.notification)
+    implementation(projects.feature.about)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

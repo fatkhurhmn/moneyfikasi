@@ -19,6 +19,7 @@ fun NavGraphBuilder.settingsNavGraph(
     onBackupRestoreClick: () -> Unit,
     onExportClick: () -> Unit,
     onAppLockClick: () -> Unit,
+    onAboutClick: () -> Unit,
     onBackClick: () -> Unit,
 ) {
     composable(route = Screen.Settings.route) {
@@ -32,6 +33,7 @@ fun NavGraphBuilder.settingsNavGraph(
             onBackupRestoreClick = onBackupRestoreClick,
             onExportClick = onExportClick,
             onAppLockClick = onAppLockClick,
+            onAboutClick = onAboutClick,
             onBackClick = onBackClick
         )
     }

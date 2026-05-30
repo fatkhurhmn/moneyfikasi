@@ -29,6 +29,10 @@
     <string name="title_quick_transactions">Transaksi Cepat</string>
     <string name="title_create_transaction">Buat Transaksi</string>
     <string name="title_export_data">Ekspor Data</string>
+    <string name="title_about">Tentang</string>
+    <string name="title_privacy_policy">Kebijakan Privasi</string>
+    <string name="title_terms_of_service">Ketentuan Layanan</string>
+    <string name="title_open_source_licenses">Lisensi Open Source</string>
     <string name="title_biometric_unlock">Buka Kunci Biometrik</string>
     <string name="title_choose_date">Pilih Tanggal</string>
     <string name="title_choose_period">Pilih Periode</string>
@@ -146,6 +150,7 @@
     <string name="label_use_pin">Gunakan PIN</string>
     <string name="label_allow_notifications">Izinkan Notifikasi</string>
     <string name="label_recurring_transaction_notifications">Transaksi berulang</string>
+    <string name="label_app_version">Versi Aplikasi</string>
     <string name="label_backup_period">Periode Cadangan</string>
     <string name="label_export_format">Format Ekspor</string>
     <string name="label_date_header">Tanggal</string>
@@ -251,6 +256,10 @@
     <string name="msg_export_data_description">Ekspor transaksi sebagai CSV atau XLSX</string>
     <string name="msg_notification_description">Atur notifikasi aplikasi Anda</string>
     <string name="msg_app_lock_description">Amankan aplikasi Anda dengan kode PIN</string>
+    <string name="msg_about_description">Versi aplikasi, kebijakan, ketentuan, dan lisensi</string>
+    <string name="msg_privacy_policy_description">Cara data aplikasi ditangani</string>
+    <string name="msg_terms_of_service_description">Ketentuan penggunaan Moneyfikasi</string>
+    <string name="msg_open_source_licenses_description">Library dan informasi lisensi</string>
     <string name="msg_reset_pin_description">Ubah PIN kunci aplikasi Anda</string>
     <string name="msg_biometric_description">Gunakan sidik jari atau wajah untuk membuka kunci</string>
     <string name="msg_biometric_reason">Buka kunci Moneyfikasi</string>

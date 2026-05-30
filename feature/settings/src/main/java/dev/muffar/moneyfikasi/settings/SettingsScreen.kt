@@ -18,19 +18,20 @@ import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
 import dev.muffar.moneyfikasi.common_ui.component.item.SettingItem
 import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
 import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.settings.component.AboutSection
 import dev.muffar.moneyfikasi.settings.component.AppearanceSection
 import dev.muffar.moneyfikasi.settings.component.DataSection
 import dev.muffar.moneyfikasi.settings.component.SecuritySection
 
 @Composable
 fun SettingsScreen(
-    modifier: Modifier = Modifier,
     state: SettingsState,
     onEvent: (SettingsEvent) -> Unit,
     onNotificationClick: () -> Unit,
     onBackupRestoreClick: () -> Unit,
     onExportClick: () -> Unit,
     onAppLockClick: () -> Unit,
+    onAboutClick: () -> Unit,
     onBackClick: () -> Unit,
 ) {
     Scaffold(
@@ -42,10 +43,15 @@ fun SettingsScreen(
         }
     ) {
         Column(
-            modifier = modifier
+            modifier = Modifier
                 .padding(it)
-                .padding(horizontal = 16.dp, vertical = 8.dp)
-                .verticalScroll(rememberScrollState()),
+                .verticalScroll(rememberScrollState())
+                .padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    top = 8.dp,
+                    bottom = 16.dp
+                ),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             AppearanceSection(
@@ -83,6 +89,10 @@ fun SettingsScreen(
 
             SecuritySection(
                 onAppLockClick = onAppLockClick
+            )
+
+            AboutSection(
+                onAboutClick = onAboutClick
             )
         }
     }
