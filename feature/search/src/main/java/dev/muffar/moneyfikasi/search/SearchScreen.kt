@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
@@ -59,7 +60,10 @@ fun SearchScreen(
             if (state.searchQuery.isNullOrEmpty()) {
                 Text(
                     text = stringResource(R.string.label_type_to_search),
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+                    style = MaterialTheme.typography.bodyMedium,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f),
+                    modifier = Modifier.padding(16.dp)
                 )
             } else {
                 if (transactions.itemCount > 0) {
