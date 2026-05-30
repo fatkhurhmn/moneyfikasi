@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
@@ -35,6 +36,7 @@ fun CommonTextInput(
     readOnly: Boolean = false,
     isClickable: Boolean = false,
     maxLines: Int = 1,
+    textStyle: TextStyle = MaterialTheme.typography.bodyMedium,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
@@ -57,7 +59,7 @@ fun CommonTextInput(
             keyboardActions = keyboardActions,
             keyboardOptions = keyboardOptions,
             visualTransformation = visualTransformation,
-            textStyle = MaterialTheme.typography.bodyLarge.copy(
+            textStyle = textStyle.copy(
                 color = MaterialTheme.colorScheme.onSurface,
             ),
             decorationBox = { innerTextField ->

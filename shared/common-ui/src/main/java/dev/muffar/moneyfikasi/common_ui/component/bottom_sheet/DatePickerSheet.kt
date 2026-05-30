@@ -16,8 +16,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.button.row.RowNegativePositiveButton
 import dev.muffar.moneyfikasi.resource.R
@@ -75,7 +75,8 @@ fun DatePickerSheet(
             headline = {
                 Text(
                     text = formattedStartDate,
-                    style = MaterialTheme.typography.titleLarge.copy(fontSize = 18.sp),
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.SemiBold,
                     modifier = Modifier.padding(horizontal = 24.dp)
                 )
             }

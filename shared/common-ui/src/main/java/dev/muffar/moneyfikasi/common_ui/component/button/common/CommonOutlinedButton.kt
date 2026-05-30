@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun CommonOutlinedButton(
@@ -17,7 +18,7 @@ fun CommonOutlinedButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     color: Color = MaterialTheme.colorScheme.onSurface,
-    style: TextStyle = MaterialTheme.typography.titleMedium,
+    style: TextStyle = MaterialTheme.typography.titleMedium.copy(fontSize = 15.sp),
     onClick: () -> Unit
 ) {
     OutlinedButton(
@@ -30,6 +31,9 @@ fun CommonOutlinedButton(
         ),
         border = BorderStroke(1.dp, color)
     ) {
-        Text(text, style = style)
+        Text(
+            text = text,
+            style = style
+        )
     }
 }

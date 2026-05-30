@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.icon.BoxedIcon
@@ -29,7 +30,9 @@ fun PickerOptionItem(
     isSelected: Boolean,
     icon: @Composable () -> Unit,
     title: String,
+    titleStyle: TextStyle = MaterialTheme.typography.labelMedium.copy(fontSize = 14.sp),
     subtitle: String? = null,
+    subtitleStyle: TextStyle = MaterialTheme.typography.bodySmall,
     onClick: () -> Unit,
 ) {
     val background = if (isSelected) {
@@ -54,18 +57,17 @@ fun PickerOptionItem(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         icon()
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.width(10.dp))
         Column {
             Text(
                 text = title,
-                style = MaterialTheme.typography.labelMedium,
-                fontSize = 14.sp,
+                style = titleStyle,
                 color = MaterialTheme.colorScheme.onSurface
             )
             subtitle?.let {
                 Text(
                     text = subtitle,
-                    style = MaterialTheme.typography.bodySmall,
+                    style = subtitleStyle,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
@@ -91,7 +93,9 @@ fun PickerOptionItem(
             )
         },
         title = title,
+        titleStyle = MaterialTheme.typography.labelLarge.copy(fontSize = 15.sp),
         subtitle = subtitle,
+        subtitleStyle = MaterialTheme.typography.bodyMedium,
         onClick = onClick
     )
 }

@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun CommonButton(
@@ -15,7 +16,7 @@ fun CommonButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     color: Color = MaterialTheme.colorScheme.primary,
-    style: TextStyle = MaterialTheme.typography.titleMedium,
+    style: TextStyle = MaterialTheme.typography.titleMedium.copy(fontSize = 15.sp),
     onClick: () -> Unit
 ) {
     Button(
@@ -28,6 +29,9 @@ fun CommonButton(
             contentColor = MaterialTheme.colorScheme.onPrimary
         )
     ) {
-        Text(text, style = style)
+        Text(
+            text = text,
+            style = style
+        )
     }
 }
