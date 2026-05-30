@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.icon.ArrowLeft
 import dev.muffar.moneyfikasi.common_ui.component.icon.ArrowRight
 
@@ -56,6 +57,8 @@ fun CalendarHeader(
 
             Text(
                 text = title,
+                style = MaterialTheme.typography.bodyMedium,
+                fontSize = 15.sp,
                 modifier = Modifier.padding(4.dp)
             )
 
