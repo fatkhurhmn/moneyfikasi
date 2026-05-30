@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Language
 import androidx.compose.material.icons.rounded.Palette
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -48,47 +46,40 @@ fun AppearanceSection(
         AppLanguage.SYSTEM -> stringResource(R.string.label_system_default)
     }
 
-    Column {
-        Text(
-            text = stringResource(R.string.label_appearance_section),
-            style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(bottom = 8.dp)
+
+    PrimaryCard(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column {
+            SettingItem(
+                title = stringResource(R.string.label_theme),
+                subtitle = themeSubtitle,
+                icon = Icons.Rounded.Palette,
+                onClick = { showThemePicker = true }
+            )
+            CommonHorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+            SettingItem(
+                title = stringResource(R.string.label_language),
+                subtitle = languageSubtitle,
+                icon = Icons.Rounded.Language,
+                onClick = { showLanguagePicker = true }
+            )
+        }
+    }
+
+    AnimatedVisibility(showThemePicker) {
+        ThemePickerSheet(
+            selectedTheme = appTheme,
+            onThemeSelect = onAppThemeChanged,
+            onDismissRequest = { showThemePicker = false }
         )
-        PrimaryCard(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Column {
-                SettingItem(
-                    title = stringResource(R.string.label_theme),
-                    subtitle = themeSubtitle,
-                    icon = Icons.Rounded.Palette,
-                    onClick = { showThemePicker = true }
-                )
-                CommonHorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
-                SettingItem(
-                    title = stringResource(R.string.label_language),
-                    subtitle = languageSubtitle,
-                    icon = Icons.Rounded.Language,
-                    onClick = { showLanguagePicker = true }
-                )
-            }
-        }
+    }
 
-        AnimatedVisibility(showThemePicker) {
-            ThemePickerSheet(
-                selectedTheme = appTheme,
-                onThemeSelect = onAppThemeChanged,
-                onDismissRequest = { showThemePicker = false }
-            )
-        }
-
-        AnimatedVisibility(showLanguagePicker) {
-            LanguagePickerSheet(
-                selectedLanguage = appLanguage,
-                onLanguageSelect = onAppLanguageChanged,
-                onDismissRequest = { showLanguagePicker = false }
-            )
-        }
+    AnimatedVisibility(showLanguagePicker) {
+        LanguagePickerSheet(
+            selectedLanguage = appLanguage,
+            onLanguageSelect = onAppLanguageChanged,
+            onDismissRequest = { showLanguagePicker = false }
+        )
     }
 }

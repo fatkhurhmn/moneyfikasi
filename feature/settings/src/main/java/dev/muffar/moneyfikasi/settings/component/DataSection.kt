@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.FileDownload
 import androidx.compose.material.icons.rounded.History
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -22,31 +20,23 @@ fun DataSection(
     onBackupRestoreClick: () -> Unit,
     onExportClick: () -> Unit,
 ) {
-    Column {
-        Text(
-            text = stringResource(R.string.label_data_section),
-            style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-        PrimaryCard(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Column {
-                SettingItem(
-                    title = stringResource(R.string.title_backup_restore),
-                    subtitle = stringResource(R.string.msg_backup_restore_description),
-                    icon = Icons.Rounded.History,
-                    onClick = onBackupRestoreClick
-                )
-                CommonHorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
-                SettingItem(
-                    title = stringResource(R.string.title_export_data),
-                    subtitle = stringResource(R.string.msg_export_data_description),
-                    icon = Icons.Rounded.FileDownload,
-                    onClick = onExportClick
-                )
-            }
+    PrimaryCard(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column {
+            SettingItem(
+                title = stringResource(R.string.title_backup_restore),
+                subtitle = stringResource(R.string.msg_backup_restore_description),
+                icon = Icons.Rounded.History,
+                onClick = onBackupRestoreClick
+            )
+            CommonHorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+            SettingItem(
+                title = stringResource(R.string.title_export_data),
+                subtitle = stringResource(R.string.msg_export_data_description),
+                icon = Icons.Rounded.FileDownload,
+                onClick = onExportClick
+            )
         }
     }
 }
