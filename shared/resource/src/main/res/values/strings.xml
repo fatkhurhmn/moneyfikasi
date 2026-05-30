@@ -129,6 +129,10 @@
     <string name="label_select_date">Select date</string>
     <string name="label_select_time">Select time</string>
     <string name="label_select_theme">Select theme</string>
+    <string name="label_language">Language</string>
+    <string name="label_english">English</string>
+    <string name="label_indonesian">Indonesia</string>
+    <string name="label_select_language">Select language</string>
     <string name="label_select_category_hint">Select category</string>
     <string name="label_select_wallet_hint">Select wallet</string>
     <string name="label_select_frequency">Select Frequency</string>

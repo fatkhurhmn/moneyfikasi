@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.data.repositoy
 
 import dev.muffar.moneyfikasi.data.preferences.UiPreferences
+import dev.muffar.moneyfikasi.domain.model.AppLanguage
 import dev.muffar.moneyfikasi.domain.model.AppTheme
 import dev.muffar.moneyfikasi.domain.model.UiSettings
 import dev.muffar.moneyfikasi.domain.repository.UiSettingsRepository
@@ -22,5 +23,9 @@ class UiSettingsRepositoryImpl @Inject constructor(
 
     override suspend fun setAppTheme(theme: AppTheme) {
         uiPreferences.setAppTheme(theme)
+    }
+
+    override suspend fun setAppLanguage(language: AppLanguage) {
+        uiPreferences.setAppLanguage(language)
     }
 }

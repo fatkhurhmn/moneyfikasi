@@ -4,5 +4,6 @@ data class UiSettingsUseCases(
     val getUiSettings: GetUiSettings,
     val setBalanceVisibility: SetBalanceVisibility,
     val setReportVisibility: SetReportVisibility,
-    val setAppTheme: SetAppTheme
+    val setAppTheme: SetAppTheme,
+    val setAppLanguage: SetAppLanguage
 )

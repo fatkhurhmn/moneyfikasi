@@ -40,8 +40,12 @@ fun SettingsScreen(
         ) {
             AppearanceSection(
                 appTheme = state.appTheme,
+                appLanguage = state.appLanguage,
                 onAppThemeChanged = { theme ->
                     onEvent(SettingsEvent.AppThemeChanged(theme))
+                },
+                onAppLanguageChanged = { language ->
+                    onEvent(SettingsEvent.AppLanguageChanged(language))
                 }
             )
 

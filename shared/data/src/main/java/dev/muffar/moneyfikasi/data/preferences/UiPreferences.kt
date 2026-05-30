@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.data.preferences
 
 import androidx.datastore.core.DataStore
+import dev.muffar.moneyfikasi.domain.model.AppLanguage
 import dev.muffar.moneyfikasi.domain.model.AppTheme
 import dev.muffar.moneyfikasi.domain.model.UiSettings
 import kotlinx.coroutines.flow.Flow
@@ -26,6 +27,12 @@ class UiPreferences @Inject constructor(
     suspend fun setAppTheme(theme: AppTheme) {
         dataStore.updateData {
             it.copy(appTheme = theme)
+        }
+    }
+
+    suspend fun setAppLanguage(language: AppLanguage) {
+        dataStore.updateData {
+            it.copy(appLanguage = language)
         }
     }
 }

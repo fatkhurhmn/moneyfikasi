@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -16,10 +17,12 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
+import dev.muffar.moneyfikasi.domain.model.AppLanguage
 import dev.muffar.moneyfikasi.domain.model.AppTheme
 import dev.muffar.moneyfikasi.domain.model.EnterPinType
 import dev.muffar.moneyfikasi.navigation.Screen
@@ -57,6 +60,21 @@ class MainActivity : AppCompatActivity() {
                     AppTheme.LIGHT -> false
                     AppTheme.DARK -> true
                     AppTheme.SYSTEM -> isSystemInDarkTheme()
+                }
+
+                val language = when (uiSettings.appLanguage) {
+                    AppLanguage.ENGLISH -> "en"
+                    AppLanguage.INDONESIAN -> "in"
+                    AppLanguage.SYSTEM -> ""
+                }
+
+                LaunchedEffect(language) {
+                    val appLocale: LocaleListCompat = if (language.isNotEmpty()) {
+                        LocaleListCompat.forLanguageTags(language)
+                    } else {
+                        LocaleListCompat.getEmptyLocaleList()
+                    }
+                    AppCompatDelegate.setApplicationLocales(appLocale)
                 }
 
                 MoneyfikasiTheme(

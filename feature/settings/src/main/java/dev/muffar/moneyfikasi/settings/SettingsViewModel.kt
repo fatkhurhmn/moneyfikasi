@@ -3,6 +3,7 @@ package dev.muffar.moneyfikasi.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.muffar.moneyfikasi.domain.model.AppLanguage
 import dev.muffar.moneyfikasi.domain.model.AppTheme
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.UiSettingsUseCases
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +24,12 @@ class SettingsViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             uiSettingsUseCases.getUiSettings().collectLatest { uiSettings ->
-                _state.update { it.copy(appTheme = uiSettings.appTheme) }
+                _state.update {
+                    it.copy(
+                        appTheme = uiSettings.appTheme,
+                        appLanguage = uiSettings.appLanguage
+                    )
+                }
             }
         }
     }
@@ -31,12 +37,19 @@ class SettingsViewModel @Inject constructor(
     fun onEvent(event: SettingsEvent) {
         when (event) {
             is SettingsEvent.AppThemeChanged -> onAppThemeChange(event.theme)
+            is SettingsEvent.AppLanguageChanged -> onAppLanguageChange(event.language)
         }
     }
 
     private fun onAppThemeChange(theme: AppTheme) {
         viewModelScope.launch {
             uiSettingsUseCases.setAppTheme(theme)
+        }
+    }
+
+    private fun onAppLanguageChange(language: AppLanguage) {
+        viewModelScope.launch {
+            uiSettingsUseCases.setAppLanguage(language)
         }
     }
 }

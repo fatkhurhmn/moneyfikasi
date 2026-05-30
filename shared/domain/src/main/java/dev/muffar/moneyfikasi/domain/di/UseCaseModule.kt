@@ -44,6 +44,7 @@ import dev.muffar.moneyfikasi.domain.usecase.preferences.security.GetSecuritySet
 import dev.muffar.moneyfikasi.domain.usecase.preferences.security.SecuritySettingsUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.security.SetAppLockPin
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.GetUiSettings
+import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetAppLanguage
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetAppTheme
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetBalanceVisibility
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetReportVisibility
@@ -153,7 +154,8 @@ object UseCaseModule {
         getUiSettings = GetUiSettings(uiSettingsRepository),
         setBalanceVisibility = SetBalanceVisibility(uiSettingsRepository),
         setReportVisibility = SetReportVisibility(uiSettingsRepository),
-        setAppTheme = SetAppTheme(uiSettingsRepository)
+        setAppTheme = SetAppTheme(uiSettingsRepository),
+        setAppLanguage = SetAppLanguage(uiSettingsRepository)
     )
 
     @Provides
