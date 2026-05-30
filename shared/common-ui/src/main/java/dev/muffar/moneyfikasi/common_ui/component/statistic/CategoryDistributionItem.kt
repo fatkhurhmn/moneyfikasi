@@ -66,7 +66,7 @@ fun CategoryDistributionItem(
                     Text(
                         text = category.name,
                         style = MaterialTheme.typography.labelMedium,
-                        fontSize = 14.sp
+                        fontSize = 14.sp,
                     )
                     Text(
                         text = formattedAmount,

@@ -41,7 +41,7 @@ fun IncomeExpenseTrendSection(
     val textColor = MaterialTheme.colorScheme.onSurfaceVariant.toArgb()
     val surfaceColor = MaterialTheme.colorScheme.surface.toArgb()
 
-    var selectedTrendType by remember { mutableStateOf(TrendGraphType.BOTH) }
+    var selectedTrendType by remember { mutableStateOf(TrendGraphType.ALL) }
 
     val chartData = remember(trend) {
         ChartData(

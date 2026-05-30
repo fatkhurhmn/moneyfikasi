@@ -12,7 +12,6 @@ import dev.muffar.moneyfikasi.data.db.entity.CategoryStatisticEntity
 import dev.muffar.moneyfikasi.data.db.entity.TransactionEntity
 import dev.muffar.moneyfikasi.data.db.entity.TransactionTrendEntity
 import dev.muffar.moneyfikasi.data.db.entity.TransactionWithDetails
-import dev.muffar.moneyfikasi.data.utils.InitDataSource
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.utils.constants.UUIDConst
 import kotlinx.coroutines.flow.Flow

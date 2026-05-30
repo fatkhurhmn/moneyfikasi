@@ -26,7 +26,7 @@ fun TrendGraphToggle(
     modifier: Modifier = Modifier,
 ) {
     val items = listOf(
-        TrendGraphType.BOTH to stringResource(R.string.label_both),
+        TrendGraphType.ALL to stringResource(R.string.label_all),
         TrendGraphType.INCOME to stringResource(R.string.label_income),
         TrendGraphType.EXPENSE to stringResource(R.string.label_expense)
     )
@@ -50,7 +50,7 @@ fun TrendGraphToggle(
             ) {
                 Text(
                     text = label,
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MaterialTheme.typography.labelSmall,
                     color = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
@@ -59,5 +59,5 @@ fun TrendGraphToggle(
 }
 
 enum class TrendGraphType {
-    BOTH, INCOME, EXPENSE
+    ALL, INCOME, EXPENSE
 }
