@@ -54,17 +54,11 @@ fun CategoriesScreen(
                 .padding(it),
             pagerState = pagerState
         ) { index ->
-            when (index) {
-                0 -> CategoriesContent(
-                    categories = incomeCategories,
-                    onClick = onCategoryItemClick
-                )
-
-                1 -> CategoriesContent(
-                    categories = expenseCategories,
-                    onClick = onCategoryItemClick
-                )
-            }
+            val list = if (index == 0) incomeCategories else expenseCategories
+            CategoriesContent(
+                categories = list,
+                onClick = onCategoryItemClick
+            )
         }
     }
 }

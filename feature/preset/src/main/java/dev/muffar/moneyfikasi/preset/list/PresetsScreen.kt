@@ -48,17 +48,13 @@ fun PresetsScreen(
             modifier = modifier.padding(paddingValues),
             pagerState = pagerState
         ) { index ->
-            when (index) {
-                0 -> PresetsContent(
-                    presets = incomePresets,
-                    onClick = { onPresetClick(TransactionType.INCOME, it) }
-                )
-
-                1 -> PresetsContent(
-                    presets = expensePresets,
-                    onClick = { onPresetClick(TransactionType.EXPENSE, it) }
-                )
-            }
+            val presets = if (index == 0) incomePresets else expensePresets
+            PresetsContent(
+                presets = presets,
+                onClick = {
+                    onPresetClick(TransactionType.valueOf(state.tabs[index]), it)
+                }
+            )
         }
     }
 }

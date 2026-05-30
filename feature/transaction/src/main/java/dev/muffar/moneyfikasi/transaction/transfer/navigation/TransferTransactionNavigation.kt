@@ -24,7 +24,6 @@ fun NavGraphBuilder.transferTransactionNavigation(
         val eventFlow = viewModel.eventFlow
 
         TransferTransactionScreen(
-            modifier = Modifier,
             state = state,
             eventFlow = eventFlow,
             onAmountChange = { amount ->

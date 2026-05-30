@@ -1,11 +1,7 @@
 package dev.muffar.moneyfikasi.transaction.add_edit
 
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.consumeWindowInsets
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
@@ -13,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.ModifierExt.formModifier
 import dev.muffar.moneyfikasi.common_ui.component.button.bottom_bar.BottomBarSaveButton
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
@@ -58,12 +54,7 @@ fun AddEditTransactionScreen(
         bottomBar = { BottomBarSaveButton(onSaveClick) },
     ) {
         AddEditTransactionForm(
-            modifier = Modifier
-                .padding(it)
-                .consumeWindowInsets(it)
-                .imePadding()
-                .verticalScroll(scrollState)
-                .padding(16.dp),
+            modifier = Modifier.formModifier(it, scrollState),
             state = state,
             onTypeChange = onTypeChange,
             onAmountChange = onAmountChange,
@@ -73,7 +64,7 @@ fun AddEditTransactionScreen(
             onWalletSelect = onWalletSelect,
             onAddNewWalletClick = onAddNewWalletClick,
             onDateSelect = onDateSelect,
-            onTimeSelect = onTimeSelect
+            onTimeSelect = onTimeSelect,
         )
     }
 

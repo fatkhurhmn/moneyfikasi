@@ -45,23 +45,14 @@ fun CategoryDistributionSection(
                     fillMaxSize = false,
                     tabPadding = PaddingValues(horizontal = 12.dp, vertical = 2.dp)
                 ) { index ->
-                    when (index) {
-                        0 -> CategoryDistributionContent(
-                            categoryStatistics = categoryStatistics[CategoryType.INCOME]
-                                ?: emptyList(),
-                            categoryType = CategoryType.INCOME,
-                            onItemClick = onItemClick,
-                            onShowAllClick = onShowAllClick
-                        )
-
-                        1 -> CategoryDistributionContent(
-                            categoryStatistics = categoryStatistics[CategoryType.EXPENSE]
-                                ?: emptyList(),
-                            categoryType = CategoryType.EXPENSE,
-                            onItemClick = onItemClick,
-                            onShowAllClick = onShowAllClick
-                        )
-                    }
+                    val list =
+                        if (index == 0) categoryStatistics[CategoryType.INCOME] else categoryStatistics[CategoryType.EXPENSE]
+                    CategoryDistributionContent(
+                        categoryStatistics = list ?: emptyList(),
+                        categoryType = if (index == 0) CategoryType.INCOME else CategoryType.EXPENSE,
+                        onItemClick = onItemClick,
+                        onShowAllClick = onShowAllClick
+                    )
                 }
             }
         }
