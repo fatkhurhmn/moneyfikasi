@@ -8,6 +8,27 @@ import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 
 object LocalDateTimeExt {
+
+    fun LocalDateTime.format(pattern: String): String {
+        val formatter = DateTimeFormatter.ofPattern(pattern)
+        return this.format(formatter)
+    }
+
+    fun LocalDateTime.formattedDate(): String {
+        val formatter = DateTimeFormatter.ofPattern("dd MMM yyyy")
+        return this.format(formatter)
+    }
+
+    fun LocalDateTime.formattedTime(): String {
+        val formatter = DateTimeFormatter.ofPattern("HH:mm")
+        return this.format(formatter)
+    }
+
+    fun LocalDateTime.formattedDateTime(): String {
+        val formatter = DateTimeFormatter.ofPattern("dd MMM yyyy, HH:mm")
+        return this.format(formatter)
+    }
+
     fun LocalDateTime.startOfYear(): Long {
         return this.withMonth(1).withDayOfMonth(1).toMilliseconds()
     }
@@ -56,11 +77,6 @@ object LocalDateTimeExt {
 
     fun LocalDateTime.startOfDay(): Long {
         return this.withHour(0).withMinute(0).withSecond(0).withNano(0).toMilliseconds()
-    }
-
-    fun LocalDateTime.format(pattern: String): String {
-        val formatter = DateTimeFormatter.ofPattern(pattern)
-        return this.format(formatter)
     }
 
     fun LocalDateTime.toMilliseconds(): Long {

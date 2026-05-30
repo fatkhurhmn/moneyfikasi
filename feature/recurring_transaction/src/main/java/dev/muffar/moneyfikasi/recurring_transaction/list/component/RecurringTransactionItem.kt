@@ -37,7 +37,7 @@ import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
-import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
+import dev.muffar.moneyfikasi.utils.extensions.LongExt.formattedDate
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.capitalize
 import java.util.UUID
 
@@ -142,9 +142,8 @@ fun RecurringTransactionItem(
                         Spacer(modifier = Modifier.width(8.dp))
                         val endStr = when (recurringTransaction.endType) {
                             RecurringEndType.NEVER -> stringResource(R.string.label_never)
-                            RecurringEndType.ON_DATE -> recurringTransaction.endDate?.toFormattedDateTime(
-                                "MMM dd, yyyy"
-                            ) ?: "-"
+                            RecurringEndType.ON_DATE -> recurringTransaction.endDate?.formattedDate()
+                                ?: "-"
 
                             RecurringEndType.AFTER_OCCURRENCES -> stringResource(
                                 R.string.msg_qty_transactions,
@@ -161,7 +160,7 @@ fun RecurringTransactionItem(
                     if (!recurringTransaction.isEnded) {
                         Text(
                             text = "${stringResource(R.string.label_next)}: ${
-                                recurringTransaction.nextRun?.toFormattedDateTime("MMM dd, yyyy") ?: "-"
+                                recurringTransaction.nextRun?.formattedDate() ?: "-"
                             }",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -169,7 +168,8 @@ fun RecurringTransactionItem(
                     }
                     if (recurringTransaction.endType == RecurringEndType.AFTER_OCCURRENCES && !recurringTransaction.isEnded) {
                         val remaining =
-                            (recurringTransaction.occurrenceCount ?: 0) - recurringTransaction.executedCount
+                            (recurringTransaction.occurrenceCount
+                                ?: 0) - recurringTransaction.executedCount
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
                             text = stringResource(R.string.msg_remaining, remaining),

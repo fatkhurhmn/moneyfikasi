@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.DatePickerSheet
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
+import dev.muffar.moneyfikasi.utils.extensions.LongExt.formattedDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,7 +38,7 @@ fun DateInput(
     ) {
         var showDatePicker by remember { mutableStateOf(false) }
         CommonTextInput(
-            value = date.toFormattedDateTime("MMM, dd yyyy"),
+            value = date.formattedDate(),
             onValueChange = {},
             label = label,
             error = error,

@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.button.row.RowNegativePositiveButton
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
+import dev.muffar.moneyfikasi.utils.extensions.LongExt.formattedDate
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,7 +56,7 @@ fun DatePickerSheet(
             selectableDates = selectableDates
         )
         val formattedStartDate =
-            pickerState.selectedDateMillis?.toFormattedDateTime("MMM, dd yyyy")
+            pickerState.selectedDateMillis?.formattedDate()
                 ?: stringResource(R.string.label_start_date)
 
         BottomSheetTitle(

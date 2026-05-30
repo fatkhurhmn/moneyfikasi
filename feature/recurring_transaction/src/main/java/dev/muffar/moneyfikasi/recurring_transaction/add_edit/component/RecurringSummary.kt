@@ -21,23 +21,24 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.RecurringEndType
 import dev.muffar.moneyfikasi.domain.utils.RecurringScheduleCalculator
+import dev.muffar.moneyfikasi.domain.utils.extension.labelRes
 import dev.muffar.moneyfikasi.recurring_transaction.add_edit.AddEditRecurringTransactionState
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
+import dev.muffar.moneyfikasi.utils.extensions.LongExt.formattedDate
 
 @Composable
 fun RecurringSummary(
     modifier: Modifier = Modifier,
     state: AddEditRecurringTransactionState
 ) {
-    val startStr = state.startDate.toFormattedDateTime("MMM dd, yyyy")
-    val freqStr = state.frequency.name.lowercase()
+    val startStr = state.startDate.formattedDate()
+    val freqStr = stringResource(state.frequency.labelRes()).lowercase()
 
     val endStr = when (state.endType) {
         RecurringEndType.NEVER -> ""
         RecurringEndType.ON_DATE -> stringResource(
             R.string.msg_until,
-            state.endDate.toFormattedDateTime("MMM dd, yyyy")
+            state.endDate.formattedDate()
         )
 
         RecurringEndType.AFTER_OCCURRENCES -> if (state.occurrenceCount.isNotEmpty()) {
@@ -60,7 +61,7 @@ fun RecurringSummary(
         skipFirstRun = state.isSkipFirst
     )
 
-    val nextRunStr = nextRunMillis.toFormattedDateTime("MMM dd, yyyy")
+    val nextRunStr = nextRunMillis.formattedDate()
 
     Surface(
         modifier = modifier.fillMaxWidth(),

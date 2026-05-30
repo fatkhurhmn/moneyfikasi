@@ -10,7 +10,8 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.format
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.formattedDateTime
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.formattedTime
 import org.threeten.bp.LocalDateTime
 
 @Composable
@@ -26,12 +27,12 @@ fun TransactionDetailBody(
     ) {
         RowDetailBody(
             label = stringResource(R.string.label_date),
-            value = date?.format("dd MMM, yyyy") ?: ""
+            value = date?.formattedDateTime() ?: ""
         )
 
         RowDetailBody(
             label = stringResource(R.string.label_time),
-            value = date?.format("H:mm") ?: ""
+            value = date?.formattedTime() ?: ""
         )
 
         if (category != null) {

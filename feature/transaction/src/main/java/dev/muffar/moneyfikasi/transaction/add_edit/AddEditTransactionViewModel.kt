@@ -19,7 +19,8 @@ import dev.muffar.moneyfikasi.utils.constants.UUIDConst
 import dev.muffar.moneyfikasi.utils.constants.ValidationConst
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.toMilliseconds
-import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
+import dev.muffar.moneyfikasi.utils.extensions.LongExt.format
+import dev.muffar.moneyfikasi.utils.extensions.LongExt.formattedDate
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -93,8 +94,8 @@ class AddEditTransactionViewModel @Inject constructor(
                         wallet = transaction.wallet,
                         note = transaction.note ?: "",
                         date = date,
-                        hour = date.toFormattedDateTime("H").toInt(),
-                        minute = date.toFormattedDateTime("mm").toInt()
+                        hour = date.format("H").toInt(),
+                        minute = date.format("mm").toInt()
                     )
                 }
                 loadCategories()

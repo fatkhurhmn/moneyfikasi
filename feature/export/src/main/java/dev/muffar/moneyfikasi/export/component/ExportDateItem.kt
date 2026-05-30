@@ -11,7 +11,7 @@ import androidx.compose.runtime.setValue
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.DatePickerSheet
 import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
 import dev.muffar.moneyfikasi.common_ui.component.item.SettingItem
-import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
+import dev.muffar.moneyfikasi.utils.extensions.LongExt.formattedDate
 
 @Composable
 fun ExportDateItem(
@@ -26,7 +26,7 @@ fun ExportDateItem(
     ) {
         SettingItem(
             title = label,
-            subtitle = date.toFormattedDateTime("MMM, dd yyyy"),
+            subtitle = date.formattedDate(),
             icon = Icons.Rounded.CalendarToday,
             onClick = { showDatePicker = true }
         )

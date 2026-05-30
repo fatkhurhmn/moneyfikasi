@@ -7,9 +7,7 @@ import androidx.compose.ui.res.stringResource
 import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
 import dev.muffar.moneyfikasi.common_ui.component.item.SettingItem
 import dev.muffar.moneyfikasi.resource.R
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import dev.muffar.moneyfikasi.utils.extensions.LongExt.formattedDateTime
 
 @Composable
 fun LatestBackupInfo(
@@ -17,10 +15,7 @@ fun LatestBackupInfo(
     date: Long,
 ) {
     val subtitle = if (fileName.isNotEmpty()) {
-        SimpleDateFormat(
-            "dd MMM yyyy, HH:mm",
-            Locale.getDefault()
-        ).format(Date(date))
+        date.formattedDateTime()
     } else {
         stringResource(R.string.msg_no_backup_yet)
     }

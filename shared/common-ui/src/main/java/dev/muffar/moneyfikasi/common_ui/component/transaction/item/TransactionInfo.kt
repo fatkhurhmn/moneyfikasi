@@ -15,7 +15,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.icon.BoxedIcon
 import dev.muffar.moneyfikasi.domain.model.Transaction
-import org.threeten.bp.format.DateTimeFormatter
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.formattedDateTime
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.formattedTime
 
 @Composable
 fun TransactionInfo(
@@ -24,9 +25,9 @@ fun TransactionInfo(
     modifier: Modifier = Modifier
 ) {
     val date = if (showDate) {
-        transaction.date.format(DateTimeFormatter.ofPattern("dd MMM, H:mm"))
+        transaction.date.formattedDateTime()
     } else {
-        transaction.date.format(DateTimeFormatter.ofPattern("H:mm"))
+        transaction.date.formattedTime()
     }
 
     Row(

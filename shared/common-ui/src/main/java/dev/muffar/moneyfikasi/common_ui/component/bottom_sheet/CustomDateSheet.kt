@@ -32,7 +32,7 @@ import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfMonth
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.startOfMonth
-import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
+import dev.muffar.moneyfikasi.utils.extensions.LongExt.formattedDate
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDateTime
 
@@ -79,10 +79,10 @@ fun CustomDateSheet(
         )
 
         val formattedStartDate =
-            pickerState.selectedStartDateMillis?.toFormattedDateTime("MMM, dd yyyy")
+            pickerState.selectedStartDateMillis?.formattedDate()
                 ?: stringResource(R.string.label_start_date)
         val formattedEndDate =
-            pickerState.selectedEndDateMillis?.toFormattedDateTime("MMM, dd yyyy")
+            pickerState.selectedEndDateMillis?.formattedDate()
                 ?: stringResource(R.string.label_end_date)
 
         DateRangePicker(

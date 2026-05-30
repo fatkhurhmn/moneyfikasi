@@ -31,8 +31,8 @@ import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 
 @Composable
-fun OverviewBalance(
-    balance: Double,
+fun OverviewNet(
+    net: Double,
     trendResult: TrendResult,
     timePeriod: TimePeriod,
     isBalanceVisible: Boolean,
@@ -59,13 +59,13 @@ fun OverviewBalance(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text = stringResource(R.string.label_balance),
+                text = stringResource(R.string.label_net_balance),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onPrimary,
             )
 
             val balanceValue =
-                if (isBalanceVisible) balance.formatThousand()
+                if (isBalanceVisible) net.formatThousand()
                 else stringResource(R.string.label_invisible_balance)
 
             Text(

@@ -8,9 +8,28 @@ import java.util.Date
 import java.util.Locale
 
 object LongExt {
-    fun Long.toFormattedDateTime(pattern: String): String {
+
+    fun Long.format(pattern: String): String {
         val date = Date(this)
         val sdf = SimpleDateFormat(pattern, Locale.getDefault())
+        return sdf.format(date)
+    }
+
+    fun Long.formattedDate(): String {
+        val date = Date(this)
+        val sdf = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+        return sdf.format(date)
+    }
+
+    fun Long.formattedTime(): String {
+        val date = Date(this)
+        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+        return sdf.format(date)
+    }
+
+    fun Long.formattedDateTime(): String {
+        val date = Date(this)
+        val sdf = SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault())
         return sdf.format(date)
     }
 

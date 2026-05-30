@@ -62,7 +62,7 @@
     <string name="label_total_income">Total Pemasukan</string>
     <string name="label_total_expense">Total Pengeluaran</string>
     <string name="label_total">Total</string>
-    <string name="label_net">Bersih</string>
+    <string name="label_net_balance">Saldo Bersih</string>
     <string name="label_note">Catatan</string>
     <string name="label_note_optional">Catatan (opsional)</string>
     <string name="label_description_optional">Deskripsi (opsional)</string>

@@ -29,7 +29,7 @@ import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.utils.extension.labelRes
 import dev.muffar.moneyfikasi.domain.utils.extension.toDateRange
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
+import dev.muffar.moneyfikasi.utils.extensions.LongExt.formattedDate
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -85,8 +85,8 @@ fun ChooseDateSheet(
 
                 val showDateRate =
                     dateRange.timePeriod == TimePeriod.CUSTOM && option == TimePeriod.CUSTOM
-                val start = dateRange.start.toFormattedDateTime("MMM, dd yyyy")
-                val end = dateRange.end.toFormattedDateTime("MMM, dd yyyy")
+                val start = dateRange.start.formattedDate()
+                val end = dateRange.end.formattedDate()
 
                 PickerOptionItem(
                     isSelected = option == dateRange.timePeriod,

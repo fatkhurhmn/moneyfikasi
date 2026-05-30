@@ -110,7 +110,7 @@ class HomeViewModel @Inject constructor(
                             state.copy(
                                 reportIncome = currentIncome,
                                 reportExpense = currentExpense,
-                                reportBalance = currentBalance,
+                                reportNet = currentBalance,
                                 balanceTrend = calculateTrend(currentBalance, prevBalance)
                             )
                         }

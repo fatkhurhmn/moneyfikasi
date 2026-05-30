@@ -31,8 +31,8 @@ fun ReportSection(
             dateRange = state.dateRange,
             onDateRangeClick = onDateRangeClick,
         )
-        OverviewBalance(
-            balance = state.reportBalance,
+        OverviewNet(
+            net = state.reportNet,
             trendResult = state.balanceTrend,
             timePeriod = state.dateRange.timePeriod,
             isBalanceVisible = state.isReportVisible,

@@ -38,7 +38,7 @@ fun StatisticSummarySection(
                 .padding(bottom = 8.dp)
         )
         SummaryItem(
-            label = stringResource(R.string.label_net),
+            label = stringResource(R.string.label_net_balance),
             amount = netSum,
         )
         Spacer(Modifier.height(8.dp))

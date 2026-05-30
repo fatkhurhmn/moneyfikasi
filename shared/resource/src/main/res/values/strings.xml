@@ -62,7 +62,7 @@
     <string name="label_total_income">Total Income</string>
     <string name="label_total_expense">Total Expense</string>
     <string name="label_total">Total</string>
-    <string name="label_net">Net</string>
+    <string name="label_net_balance">Net Balance</string>
     <string name="label_note">Note</string>
     <string name="label_note_optional">Note (optional)</string>
     <string name="label_description_optional">Description (optional)</string>

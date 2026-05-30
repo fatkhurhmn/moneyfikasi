@@ -1,6 +1,5 @@
 package dev.muffar.moneyfikasi.transaction.transfer
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,7 +13,8 @@ import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.toMilliseconds
-import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
+import dev.muffar.moneyfikasi.utils.extensions.LongExt.format
+import dev.muffar.moneyfikasi.utils.extensions.LongExt.formattedDate
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -77,8 +77,8 @@ class TransferTransactionViewModel @Inject constructor(
                                 fee = fee.formatThousand(),
                                 note = note ?: "",
                                 date = date,
-                                hour = date.toFormattedDateTime("H").toInt(),
-                                minute = date.toFormattedDateTime("mm").toInt()
+                                hour = date.format("H").toInt(),
+                                minute = date.format("mm").toInt()
                             )
                         }
                     }

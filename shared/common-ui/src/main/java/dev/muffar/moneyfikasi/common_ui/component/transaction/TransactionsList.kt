@@ -25,7 +25,7 @@ import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.GroupTransactionHeader
 import dev.muffar.moneyfikasi.common_ui.component.transaction.item.TransactionItem
 import dev.muffar.moneyfikasi.domain.model.Transaction
-import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.format
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.formattedDate
 import kotlinx.coroutines.flow.Flow
 import org.threeten.bp.LocalDateTime
 import java.util.UUID
@@ -62,10 +62,10 @@ fun TransactionsList(
                 if (index < transactions.itemCount - 1) transactions[index + 1] else null
 
             val isNewDay = prevTransaction == null ||
-                    transaction.date.format("yyyy-MM-dd") != prevTransaction.date.format("yyyy-MM-dd")
+                    transaction.date.formattedDate() != prevTransaction.date.formattedDate()
 
             val isEndOfDay = nextTransaction == null ||
-                    transaction.date.format("yyyy-MM-dd") != nextTransaction.date.format("yyyy-MM-dd")
+                    transaction.date.formattedDate() != nextTransaction.date.formattedDate()
 
             Column(
                 modifier = Modifier

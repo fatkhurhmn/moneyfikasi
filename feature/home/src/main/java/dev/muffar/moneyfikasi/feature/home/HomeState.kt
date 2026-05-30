@@ -10,7 +10,7 @@ import dev.muffar.moneyfikasi.domain.model.Wallet
 
 data class HomeState(
     val totalBalance: Double = 0.0,
-    val reportBalance: Double = 0.0,
+    val reportNet: Double = 0.0,
     val reportIncome: Double = 0.0,
     val reportExpense: Double = 0.0,
     val balanceTrend: TrendResult = TrendResult(),

@@ -2,7 +2,8 @@ package dev.muffar.moneyfikasi.transaction.transfer
 
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.model.Wallet
-import dev.muffar.moneyfikasi.utils.extensions.LongExt.toFormattedDateTime
+import dev.muffar.moneyfikasi.utils.extensions.LongExt.format
+import dev.muffar.moneyfikasi.utils.extensions.LongExt.formattedDate
 import java.util.UUID
 
 data class TransferTransactionState(
@@ -22,8 +23,8 @@ data class TransferTransactionState(
 
     val date: Long = System.currentTimeMillis(),
     val time: Long = System.currentTimeMillis(),
-    val hour: Int = time.toFormattedDateTime("H").toInt(),
-    val minute: Int = time.toFormattedDateTime("mm").toInt(),
+    val hour: Int = time.format("H").toInt(),
+    val minute: Int = time.format("mm").toInt(),
     val walletOptions: List<Wallet> = emptyList(),
 ) {
     val isEditMode: Boolean
