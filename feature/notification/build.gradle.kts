@@ -1,34 +1,12 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
-    alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("moneyfikasi.android.library")
     alias(libs.plugins.kotlinKapt)
     alias(libs.plugins.daggerHilt)
-    alias(libs.plugins.composeCompiler)
+    id("moneyfikasi.android.compose")
 }
 
 android {
     namespace = "dev.muffar.moneyfikasi.notification"
-    compileSdk = 37
-
-    defaultConfig {
-        minSdk = 26
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    buildFeatures {
-        compose = true
-    }
-}
-
-kotlin {
-    compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_17)
-    }
 }
 
 dependencies {

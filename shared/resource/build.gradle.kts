@@ -1,15 +1,9 @@
 plugins {
-    alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("moneyfikasi.android.library")
 }
 
 android {
     namespace = "dev.muffar.moneyfikasi.resource"
-    compileSdk = 37
-
-    defaultConfig {
-        minSdk = 26
-    }
 }
 
 dependencies {
