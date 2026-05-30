@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "dev.muffar.moneyfikasi.settings"
+    namespace = "dev.muffar.moneyfikasi.notification"
     compileSdk = 37
 
     defaultConfig {
@@ -33,10 +33,8 @@ kotlin {
 
 dependencies {
     implementation(projects.shared.domain)
-    implementation(projects.shared.navigation)
     implementation(projects.shared.commonUi)
     implementation(projects.shared.resource)
-    implementation(projects.feature.notification)
 
     implementation(libs.androidx.core.ktx)
 
