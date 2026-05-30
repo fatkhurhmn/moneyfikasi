@@ -7,6 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.settings.SettingsEvent
 import dev.muffar.moneyfikasi.settings.SettingsScreen
 import dev.muffar.moneyfikasi.settings.SettingsViewModel
 
@@ -25,10 +26,12 @@ fun NavGraphBuilder.settingsNavGraph(
     composable(route = Screen.Settings.route) {
         val viewModel: SettingsViewModel = hiltViewModel()
         val state by viewModel.state.collectAsStateWithLifecycle()
+        val onEvent = viewModel::onEvent
 
         SettingsScreen(
             state = state,
-            onEvent = viewModel::onEvent,
+            onAppThemeChanged = { onEvent(SettingsEvent.AppThemeChanged(it)) },
+            onAppLanguageChanged = { onEvent(SettingsEvent.AppLanguageChanged(it)) },
             onNotificationClick = onNotificationClick,
             onBackupRestoreClick = onBackupRestoreClick,
             onExportClick = onExportClick,
