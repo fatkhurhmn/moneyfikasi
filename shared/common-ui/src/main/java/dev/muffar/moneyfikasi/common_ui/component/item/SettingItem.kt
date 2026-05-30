@@ -71,6 +71,7 @@ fun SettingItem(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
+        Spacer(modifier = Modifier.width(16.dp))
         trailing()
     }
 }

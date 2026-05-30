@@ -21,11 +21,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
-import dev.muffar.moneyfikasi.domain.model.CategoryType
-import dev.muffar.moneyfikasi.utils.extensions.StringExt.capitalize
+import dev.muffar.moneyfikasi.resource.R
 
 @Composable
 fun IncomeExpenseTabHeader(
@@ -37,8 +37,8 @@ fun IncomeExpenseTabHeader(
 ) {
     val financeColors = MoneyfikasiTheme.financeColors
     val tabs = mapOf(
-        CategoryType.INCOME.name to financeColors.income,
-        CategoryType.EXPENSE.name to financeColors.expense,
+        R.string.label_income to financeColors.income,
+        R.string.label_expense to financeColors.expense,
     )
 
     var border by remember { mutableStateOf(Color.White) }
@@ -71,7 +71,7 @@ fun IncomeExpenseTabHeader(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = title.capitalize(),
+                        text = stringResource(title),
                         color = textColor,
                         style = labelStyle
                     )

@@ -25,7 +25,6 @@ import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
-import dev.muffar.moneyfikasi.utils.extensions.StringExt.capitalize
 
 @Composable
 fun OverviewIncomeExpense(
@@ -41,6 +40,8 @@ fun OverviewIncomeExpense(
     val textColor = if (isIncome) financeColors.income else financeColors.expense
     val icon =
         if (isIncome) Icons.Rounded.KeyboardDoubleArrowDown else Icons.Rounded.KeyboardDoubleArrowUp
+    val label =
+        if (isIncome) R.string.label_income else R.string.label_expense
 
     Box(
         modifier = modifier
@@ -64,7 +65,7 @@ fun OverviewIncomeExpense(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = categoryType.name.lowercase().capitalize(),
+                text = stringResource(label),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface
             )
