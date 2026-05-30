@@ -28,6 +28,7 @@ fun AboutScreen(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
     onPrivacyPolicyClick: () -> Unit,
+    onTermsOfServiceClick: () -> Unit,
 ) {
     val context = LocalContext.current
     val versionName = remember(context) {
@@ -77,8 +78,7 @@ fun AboutScreen(
                         title = stringResource(R.string.title_terms_of_service),
                         subtitle = stringResource(R.string.msg_terms_of_service_description),
                         icon = Icons.Rounded.Description,
-                        onClick = null,
-                        trailing = {}
+                        onClick = onTermsOfServiceClick,
                     )
                     CommonHorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
                     SettingItem(

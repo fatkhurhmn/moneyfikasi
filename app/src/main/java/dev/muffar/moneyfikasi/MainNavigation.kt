@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import dev.muffar.moneyfikasi.about.main.navigation.aboutNavGraph
 import dev.muffar.moneyfikasi.about.main.navigation.navigateToAbout
 import dev.muffar.moneyfikasi.about.main.navigation.navigateToPrivacyPolicy
+import dev.muffar.moneyfikasi.about.main.navigation.navigateToTermsOfService
 import dev.muffar.moneyfikasi.backup_restore.navigation.backupRestoreNavGraph
 import dev.muffar.moneyfikasi.backup_restore.navigation.toBackupRestoreScreen
 import dev.muffar.moneyfikasi.budget.add_edit.navigation.toAddEditBudgetScreen
@@ -139,7 +140,8 @@ fun MainNavigation(
 
         aboutNavGraph(
             onBackClick = { navController.navigateUp() },
-            onPrivacyPolicyClick = { navController.navigateToPrivacyPolicy() }
+            onPrivacyPolicyClick = { navController.navigateToPrivacyPolicy() },
+            onTermsOfServiceClick = { navController.navigateToTermsOfService() }
         )
 
         notificationNavGraph(
