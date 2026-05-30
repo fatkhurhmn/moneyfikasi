@@ -17,15 +17,14 @@ fun TransactionDetailNote(note: String) {
     Column {
         Text(
             text = stringResource(R.string.label_note),
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = note,
-            style = MaterialTheme.typography.labelLarge.copy(
-                lineHeight = 20.sp,
-            )
+            style = MaterialTheme.typography.labelLarge,
+            fontSize = 15.sp,
         )
     }
 }

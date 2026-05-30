@@ -81,7 +81,7 @@ fun TransactionDetailTransfer(
         Spacer(Modifier.height(16.dp))
         Text(
             text = stringResource(R.string.label_amount),
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Text(

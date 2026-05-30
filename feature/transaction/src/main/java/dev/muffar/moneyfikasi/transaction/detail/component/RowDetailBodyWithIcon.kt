@@ -27,7 +27,7 @@ fun RowDetailBodyWithIcon(
     ) {
         Text(
             text = label,
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Spacer(modifier = Modifier.width(16.dp))

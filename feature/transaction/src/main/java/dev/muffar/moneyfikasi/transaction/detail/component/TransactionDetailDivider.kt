@@ -16,7 +16,7 @@ fun TransactionDetailDivider() {
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 24.dp)
+            .padding(vertical = 16.dp)
     ) {
         val dividerHeight = 1.dp.toPx()
         drawRoundRect(

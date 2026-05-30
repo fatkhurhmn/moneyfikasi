@@ -23,7 +23,7 @@ fun TransactionDetailBody(
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(24.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         RowDetailBody(
             label = stringResource(R.string.label_date),
