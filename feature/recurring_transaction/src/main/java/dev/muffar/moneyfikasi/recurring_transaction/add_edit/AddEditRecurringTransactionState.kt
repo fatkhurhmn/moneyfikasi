@@ -44,6 +44,7 @@ data class AddEditRecurringTransactionState(
     val lastRun: Long? = null,
     val nextRun: Long? = null,
     val initialStartDate: Long? = null,
+    val initialStartTime: Pair<Int, Int>? = null,
     val initialFrequency: TimePeriod? = null,
     val initialEndType: RecurringEndType? = null,
     val initialEndDate: Long? = null,
@@ -61,6 +62,7 @@ data class AddEditRecurringTransactionState(
             val isScheduleChanged =
                 id == null ||
                     startDate != initialStartDate ||
+                    startTime != initialStartTime ||
                     frequency != initialFrequency ||
                     endType != initialEndType ||
                     currentEndDate != initialEndDate ||

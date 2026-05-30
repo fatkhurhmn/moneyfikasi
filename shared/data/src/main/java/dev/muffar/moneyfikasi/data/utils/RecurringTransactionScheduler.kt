@@ -7,9 +7,10 @@ import android.content.Intent
 import android.os.Build
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import dev.muffar.moneyfikasi.data.db.MoneyfikasiDatabase
 import dev.muffar.moneyfikasi.data.receiver.RecurringTransactionReceiver
 import dev.muffar.moneyfikasi.data.worker.RecurringTransactionWorker
-import java.util.Calendar
+import kotlinx.coroutines.runBlocking
 
 class RecurringTransactionScheduler(private val context: Context) {
     fun updateRecurringTransactionSchedule(hasActiveRecurring: Boolean) {
@@ -21,6 +22,12 @@ class RecurringTransactionScheduler(private val context: Context) {
     }
 
     fun scheduleRecurringTransaction() {
+        val nextRun = runBlocking {
+            MoneyfikasiDatabase.create(context).recurringTransactionDao().getMinNextRun()
+        }
+
+        if (nextRun == null) return
+
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, RecurringTransactionReceiver::class.java)
         val pendingIntent = PendingIntent.getBroadcast(
@@ -30,35 +37,30 @@ class RecurringTransactionScheduler(private val context: Context) {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        val calendar = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-            if (timeInMillis <= System.currentTimeMillis()) {
-                add(Calendar.DAY_OF_YEAR, 1)
-            }
+        val triggerAt = if (nextRun <= System.currentTimeMillis()) {
+            System.currentTimeMillis() + 1000 // Run almost immediately if in the past
+        } else {
+            nextRun
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (alarmManager.canScheduleExactAlarms()) {
                 alarmManager.setExactAndAllowWhileIdle(
                     AlarmManager.RTC_WAKEUP,
-                    calendar.timeInMillis,
+                    triggerAt,
                     pendingIntent
                 )
             } else {
-                alarmManager.setInexactRepeating(
+                alarmManager.setAndAllowWhileIdle(
                     AlarmManager.RTC_WAKEUP,
-                    calendar.timeInMillis,
-                    AlarmManager.INTERVAL_DAY,
+                    triggerAt,
                     pendingIntent
                 )
             }
         } else {
             alarmManager.setExactAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis,
+                triggerAt,
                 pendingIntent
             )
         }
@@ -74,15 +76,6 @@ class RecurringTransactionScheduler(private val context: Context) {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
         alarmManager.cancel(pendingIntent)
-    }
-
-    fun canScheduleExactAlarm(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            alarmManager.canScheduleExactAlarms()
-        } else {
-            true
-        }
     }
 
     fun runRecurringTransactionWorker() {

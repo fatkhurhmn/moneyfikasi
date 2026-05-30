@@ -24,4 +24,7 @@ interface RecurringTransactionDao {
 
     @Query("DELETE FROM recurring_transactions WHERE id = :id")
     suspend fun delete(id: UUID)
+
+    @Query("SELECT MIN(nextRun) FROM recurring_transactions WHERE isActive = 1")
+    suspend fun getMinNextRun(): Long?
 }

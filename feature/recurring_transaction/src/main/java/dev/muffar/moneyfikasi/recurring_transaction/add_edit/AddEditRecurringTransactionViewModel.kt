@@ -216,6 +216,7 @@ class AddEditRecurringTransactionViewModel @Inject constructor(
                             startDate = recurringTransaction.startDate,
                             startTime = localDateTime.hour to localDateTime.minute,
                             initialStartDate = recurringTransaction.startDate,
+                            initialStartTime = localDateTime.hour to localDateTime.minute,
                             initialFrequency = recurringTransaction.frequency,
                             endType = recurringTransaction.endType,
                             initialEndType = recurringTransaction.endType,

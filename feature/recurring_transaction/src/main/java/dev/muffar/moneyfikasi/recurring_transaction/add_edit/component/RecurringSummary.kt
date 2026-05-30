@@ -55,11 +55,7 @@ fun RecurringSummary(
         endStr
     )
 
-    val nextRunMillis = RecurringScheduleCalculator.initialNextRun(
-        startDate = state.startDate,
-        frequency = state.frequency,
-        skipFirstRun = state.isSkipFirst
-    )
+    val nextRunMillis = state.recurringTransaction.nextRun ?: state.startDate
 
     val nextRunStr = nextRunMillis.formattedDate()
 

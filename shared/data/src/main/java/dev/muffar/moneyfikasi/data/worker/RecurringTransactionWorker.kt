@@ -7,6 +7,7 @@ import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dev.muffar.moneyfikasi.data.utils.NotificationHelper
+import dev.muffar.moneyfikasi.data.utils.RecurringTransactionScheduler
 import dev.muffar.moneyfikasi.domain.usecase.recurring_transaction.RecurringTransactionUseCases
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 
@@ -31,6 +32,7 @@ class RecurringTransactionWorker @AssistedInject constructor(
                     isEnded = it.isEnded
                 )
             }
+            RecurringTransactionScheduler(applicationContext).scheduleRecurringTransaction()
             Result.success()
         } catch (e: Exception) {
             Result.failure()
