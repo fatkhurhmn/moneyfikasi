@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.about
+package dev.muffar.moneyfikasi.about.main
 
 import android.content.pm.PackageManager
 import android.os.Build
@@ -27,6 +27,7 @@ import dev.muffar.moneyfikasi.resource.R
 fun AboutScreen(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
+    onPrivacyPolicyClick: () -> Unit,
 ) {
     val context = LocalContext.current
     val versionName = remember(context) {
@@ -69,8 +70,7 @@ fun AboutScreen(
                         title = stringResource(R.string.title_privacy_policy),
                         subtitle = stringResource(R.string.msg_privacy_policy_description),
                         icon = Icons.AutoMirrored.Rounded.Article,
-                        onClick = null,
-                        trailing = {}
+                        onClick = onPrivacyPolicyClick,
                     )
                     CommonHorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
                     SettingItem(
