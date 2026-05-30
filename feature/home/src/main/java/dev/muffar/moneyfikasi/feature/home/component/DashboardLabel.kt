@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.resource.R
@@ -32,13 +33,15 @@ fun DashboardLabel(
     ) {
         Text(
             text = label,
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 14.sp
         )
         if (moreButton) {
             Text(
                 text = moreText,
-                style = MaterialTheme.typography.labelLarge,
-                fontSize = 14.sp,
+                style = MaterialTheme.typography.labelSmall,
+                fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
                     .clip(MaterialTheme.shapes.small)

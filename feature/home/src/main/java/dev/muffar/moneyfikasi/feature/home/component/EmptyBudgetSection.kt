@@ -31,7 +31,7 @@ fun EmptyBudgetSection(
     ) {
         Text(
             text = stringResource(R.string.action_add_budget),
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier
                 .clickable(

@@ -31,7 +31,7 @@ fun EmptyPresetSection(
     ) {
         Text(
             text = stringResource(R.string.action_add_preset),
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier
                 .clickable(
