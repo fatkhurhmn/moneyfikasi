@@ -71,13 +71,13 @@ fun AddEditTransactionForm(
 
         Row {
             DateInput(
-                modifier = Modifier.weight(0.6f),
+                modifier = Modifier.weight(0.55f),
                 date = state.date,
                 onDateSelect = onDateSelect
             )
             Spacer(modifier = Modifier.width(16.dp))
             TimeInput(
-                modifier = Modifier.weight(0.4f),
+                modifier = Modifier.weight(0.45f),
                 time = state.hour to state.minute,
                 onTimeSelect = onTimeSelect
             )

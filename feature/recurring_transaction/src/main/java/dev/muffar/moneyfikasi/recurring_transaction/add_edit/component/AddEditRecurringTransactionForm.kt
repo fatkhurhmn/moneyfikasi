@@ -134,14 +134,14 @@ fun AddEditRecurringTransactionForm(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 FrequencyInput(
-                    modifier = Modifier.weight(if (normalizedStartDate == today) 0.6f else 1f),
+                    modifier = Modifier.weight(if (normalizedStartDate == today) 0.55f else 1f),
                     frequency = state.frequency,
                     onFrequencySelect = onFrequencyChange
                 )
 
                 if (normalizedStartDate == today) {
                     Box(
-                        modifier = Modifier.weight(0.4f),
+                        modifier = Modifier.weight(0.45f),
                         contentAlignment = Alignment.CenterStart
                     ) {
                         SkipTodayInput(
@@ -159,7 +159,7 @@ fun AddEditRecurringTransactionForm(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 DateInput(
-                    modifier = Modifier.weight(0.6f),
+                    modifier = Modifier.weight(0.55f),
                     date = state.startDate,
                     onDateSelect = onStartDateChange,
                     label = stringResource(R.string.label_start_date),
@@ -167,7 +167,7 @@ fun AddEditRecurringTransactionForm(
                 )
 
                 TimeInput(
-                    modifier = Modifier.weight(0.4f),
+                    modifier = Modifier.weight(0.45f),
                     time = state.startTime,
                     onTimeSelect = onStartTimeChange
                 )

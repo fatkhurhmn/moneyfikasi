@@ -22,6 +22,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.keyboardAsState
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 
@@ -36,7 +37,7 @@ fun CommonTextInput(
     readOnly: Boolean = false,
     isClickable: Boolean = false,
     maxLines: Int = 1,
-    textStyle: TextStyle = MaterialTheme.typography.bodyMedium,
+    textStyle: TextStyle = MaterialTheme.typography.bodyMedium.copy(fontSize = 15.sp),
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,

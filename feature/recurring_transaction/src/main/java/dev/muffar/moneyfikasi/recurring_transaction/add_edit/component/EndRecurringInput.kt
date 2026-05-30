@@ -46,7 +46,7 @@ fun EndRecurringInput(
         ) {
             if (endType == RecurringEndType.ON_DATE) {
                 DateInput(
-                    modifier = Modifier.weight(0.6f),
+                    modifier = Modifier.weight(0.55f),
                     date = endDate,
                     onDateSelect = onEndDateChange,
                     label = stringResource(R.string.label_end_date),
@@ -64,7 +64,7 @@ fun EndRecurringInput(
                 )
             }
             CommonTextInput(
-                modifier = Modifier.weight(0.4f),
+                modifier = Modifier.weight(0.45f),
                 value = when (endType) {
                     RecurringEndType.NEVER -> stringResource(R.string.label_never)
                     RecurringEndType.ON_DATE -> stringResource(R.string.label_on_date)
