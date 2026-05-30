@@ -30,13 +30,13 @@ fun TransactionItem(
         TransactionInfo(
             transaction = transaction,
             showDate = showDate,
+            modifier = Modifier
+                .weight(1f)
+                .padding(end = 16.dp),
         )
 
         TransactionAmount(
             transaction = transaction,
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = 16.dp)
         )
     }
 }
