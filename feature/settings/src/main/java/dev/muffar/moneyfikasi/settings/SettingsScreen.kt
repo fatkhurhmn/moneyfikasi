@@ -56,8 +56,12 @@ fun SettingsScreen(
             )
 
             NotificationSection(
+                isAllowNotification = state.isAllowNotification,
                 isRecurringTransactionNotificationEnabled =
                     state.isRecurringTransactionNotificationEnabled,
+                onAllowNotificationChanged = { isEnabled ->
+                    onEvent(SettingsEvent.AllowNotificationChanged(isEnabled))
+                },
                 onRecurringTransactionNotificationChanged = { isEnabled ->
                     onEvent(SettingsEvent.RecurringTransactionNotificationChanged(isEnabled))
                 }

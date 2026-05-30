@@ -44,6 +44,7 @@ import dev.muffar.moneyfikasi.domain.usecase.preferences.security.GetSecuritySet
 import dev.muffar.moneyfikasi.domain.usecase.preferences.security.SecuritySettingsUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.security.SetAppLockPin
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.GetUiSettings
+import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetAllowNotification
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetAppLanguage
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetAppTheme
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetBalanceVisibility
@@ -155,6 +156,7 @@ object UseCaseModule {
         getUiSettings = GetUiSettings(uiSettingsRepository),
         setBalanceVisibility = SetBalanceVisibility(uiSettingsRepository),
         setReportVisibility = SetReportVisibility(uiSettingsRepository),
+        setAllowNotification = SetAllowNotification(uiSettingsRepository),
         setRecurringTransactionNotification = SetRecurringTransactionNotification(uiSettingsRepository),
         setAppTheme = SetAppTheme(uiSettingsRepository),
         setAppLanguage = SetAppLanguage(uiSettingsRepository)

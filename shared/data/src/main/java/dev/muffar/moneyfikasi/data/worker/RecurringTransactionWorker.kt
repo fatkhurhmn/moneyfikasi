@@ -24,9 +24,9 @@ class RecurringTransactionWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
         return try {
             val processed = recurringTransactionUseCases.processRecurringTransactions()
-            val notificationsEnabled = uiSettingsUseCases.getUiSettings()
-                .first()
-                .isRecurringTransactionNotificationEnabled
+            val uiSettings = uiSettingsUseCases.getUiSettings().first()
+            val notificationsEnabled = uiSettings.isAllowNotification &&
+                    uiSettings.isRecurringTransactionNotificationEnabled
             if (notificationsEnabled) {
                 val notificationHelper = NotificationHelper(applicationContext)
                 processed.forEach {

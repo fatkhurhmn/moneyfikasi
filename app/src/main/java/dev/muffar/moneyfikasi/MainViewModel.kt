@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val securitySettingsUseCases: SecuritySettingsUseCases,
-    private val uiSettingsUseCases: UiSettingsUseCases,
+    private val uiSettingsUseCases: UiSettingsUseCases
 ) : ViewModel() {
 
     private val _isAppLockEnabled = MutableStateFlow<Boolean?>(null)
@@ -42,6 +42,14 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             uiSettingsUseCases.getUiSettings().collect { uiSettings ->
                 _uiSettings.update { uiSettings }
+            }
+        }
+    }
+
+    fun syncNotificationPermission(isEnabled: Boolean) {
+        viewModelScope.launch {
+            if (uiSettings.value.isAllowNotification != isEnabled) {
+                uiSettingsUseCases.setAllowNotification(isEnabled)
             }
         }
     }

@@ -24,6 +24,12 @@ class UiPreferences @Inject constructor(
         }
     }
 
+    suspend fun setAllowNotification(isEnabled: Boolean) {
+        dataStore.updateData {
+            it.copy(isAllowNotification = isEnabled)
+        }
+    }
+
     suspend fun setRecurringTransactionNotification(isEnabled: Boolean) {
         dataStore.updateData {
             it.copy(isRecurringTransactionNotificationEnabled = isEnabled)

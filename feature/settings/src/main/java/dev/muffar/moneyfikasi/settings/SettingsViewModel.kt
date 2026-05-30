@@ -28,6 +28,7 @@ class SettingsViewModel @Inject constructor(
                     it.copy(
                         appTheme = uiSettings.appTheme,
                         appLanguage = uiSettings.appLanguage,
+                        isAllowNotification = uiSettings.isAllowNotification,
                         isRecurringTransactionNotificationEnabled =
                             uiSettings.isRecurringTransactionNotificationEnabled
                     )
@@ -40,6 +41,7 @@ class SettingsViewModel @Inject constructor(
         when (event) {
             is SettingsEvent.AppThemeChanged -> onAppThemeChange(event.theme)
             is SettingsEvent.AppLanguageChanged -> onAppLanguageChange(event.language)
+            is SettingsEvent.AllowNotificationChanged -> onAllowNotificationChange(event.isEnabled)
             is SettingsEvent.RecurringTransactionNotificationChanged ->
                 onRecurringTransactionNotificationChange(event.isEnabled)
         }
@@ -54,6 +56,12 @@ class SettingsViewModel @Inject constructor(
     private fun onAppLanguageChange(language: AppLanguage) {
         viewModelScope.launch {
             uiSettingsUseCases.setAppLanguage(language)
+        }
+    }
+
+    private fun onAllowNotificationChange(isEnabled: Boolean) {
+        viewModelScope.launch {
+            uiSettingsUseCases.setAllowNotification(isEnabled)
         }
     }
 
