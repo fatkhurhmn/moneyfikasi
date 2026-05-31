@@ -78,22 +78,10 @@ fun OverviewNet(
             BalanceTrendIndicator(trendResult = trendResult, timePeriod = timePeriod)
         }
 
-        val visibilityIcon =
-            if (isBalanceVisible) Icons.Rounded.Visibility
-            else Icons.Rounded.VisibilityOff
-
-        Icon(
-            imageVector = visibilityIcon,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.onPrimary,
-            modifier = Modifier
-                .size(20.dp)
-                .clickable(
-                    indication = null,
-                    interactionSource = remember { MutableInteractionSource() },
-                    onClick = onVisibilityClick
-                )
-                .align(Alignment.TopEnd)
+        VisibilityButton(
+            visibility = isBalanceVisible,
+            onVisibilityClick = onVisibilityClick,
+            modifier = Modifier.align(Alignment.TopEnd)
         )
     }
 }

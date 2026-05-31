@@ -3,16 +3,13 @@ package dev.muffar.moneyfikasi.feature.home
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.ChooseDateSheet
@@ -24,7 +21,6 @@ import dev.muffar.moneyfikasi.feature.home.component.BudgetSection
 import dev.muffar.moneyfikasi.feature.home.component.QuickTransactionSection
 import dev.muffar.moneyfikasi.feature.home.component.RecentTransactionsSection
 import dev.muffar.moneyfikasi.feature.home.component.ReportSection
-import dev.muffar.moneyfikasi.feature.home.component.TotalBalance
 import dev.muffar.moneyfikasi.feature.home.component.WalletSection
 import java.util.UUID
 
@@ -45,27 +41,12 @@ fun HomeScreen(
     onAddBudgetClick: () -> Unit,
     onAddWalletClick: () -> Unit
 ) {
-    Scaffold(
-        topBar = {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 12.dp, horizontal = 16.dp)
-                    .statusBarsPadding(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                TotalBalance(
-                    totalBalance = state.totalBalance,
-                    isBalanceVisible = state.isBalanceVisible,
-                    onVisibilityClick = onToggleBalanceVisibility
-                )
-            }
-        }
-    ) { paddingValues ->
+    Scaffold { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
+                .statusBarsPadding()
                 .verticalScroll(rememberScrollState())
                 .padding(bottom = 100.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp),
@@ -80,6 +61,7 @@ fun HomeScreen(
                 wallets = state.wallets.toList(),
                 totalBalance = state.totalBalance,
                 isBalanceVisible = state.isBalanceVisible,
+                onVisibilityClick = onToggleBalanceVisibility,
                 onAddWalletClick = onAddWalletClick
             )
 

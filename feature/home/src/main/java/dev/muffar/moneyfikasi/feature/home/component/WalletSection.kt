@@ -24,7 +24,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -43,6 +42,7 @@ fun WalletSection(
     wallets: List<Wallet>,
     totalBalance: Double,
     isBalanceVisible: Boolean,
+    onVisibilityClick: () -> Unit,
     onAddWalletClick: () -> Unit,
 ) {
     Column {
@@ -57,13 +57,10 @@ fun WalletSection(
             contentPadding = PaddingValues(horizontal = 16.dp)
         ) {
             item(key = "total_wallet") {
-                WalletCard(
-                    iconName = AppIcon.Wallet.name,
-                    iconColor = MaterialTheme.colorScheme.onPrimaryContainer.toArgb().toLong(),
-                    walletName = stringResource(R.string.label_total_balance),
+                TotalBalanceCard(
                     balance = totalBalance,
                     isBalanceVisible = isBalanceVisible,
-                    containerColor = MaterialTheme.colorScheme.primaryContainer
+                    onVisibilityClick = onVisibilityClick
                 )
             }
 
@@ -72,10 +69,7 @@ fun WalletSection(
                 key = { wallet -> wallet.id }
             ) { wallet ->
                 WalletCard(
-                    iconName = wallet.icon,
-                    iconColor = wallet.color,
-                    walletName = wallet.name,
-                    balance = wallet.balance,
+                    wallet = wallet,
                     isBalanceVisible = isBalanceVisible
                 )
             }
@@ -92,25 +86,20 @@ fun WalletSection(
 
 @Composable
 private fun WalletCard(
-    iconName: String,
-    iconColor: Long,
-    walletName: String,
-    balance: Double,
+    wallet: Wallet,
     isBalanceVisible: Boolean,
-    containerColor: Color = MaterialTheme.colorScheme.surface
 ) {
     PrimaryCard {
         Column(
             modifier = Modifier
-                .background(containerColor)
                 .width(160.dp)
                 .defaultMinSize(minHeight = 110.dp)
                 .padding(horizontal = 16.dp, vertical = 10.dp),
             verticalArrangement = Arrangement.Center
         ) {
             BoxedIcon(
-                icon = iconName,
-                color = iconColor,
+                icon = wallet.icon,
+                color = wallet.color,
                 containerSize = 40.dp,
                 iconSize = 24.dp
             )
@@ -118,7 +107,7 @@ private fun WalletCard(
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                text = walletName,
+                text = wallet.name,
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Medium,
                 maxLines = 1,
@@ -128,7 +117,7 @@ private fun WalletCard(
 
             Text(
                 text = if (isBalanceVisible) {
-                    balance.formatThousand()
+                    wallet.balance.formatThousand()
                 } else {
                     stringResource(R.string.label_invisible_balance)
                 },
@@ -138,6 +127,65 @@ private fun WalletCard(
                 overflow = TextOverflow.Ellipsis
             )
         }
+    }
+}
+
+@Composable
+private fun TotalBalanceCard(
+    balance: Double,
+    onVisibilityClick: () -> Unit,
+    isBalanceVisible: Boolean,
+) {
+    Box {
+        PrimaryCard {
+            Column(
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.primaryContainer)
+                    .width(160.dp)
+                    .defaultMinSize(minHeight = 110.dp)
+                    .padding(horizontal = 16.dp, vertical = 10.dp),
+                verticalArrangement = Arrangement.Center
+            ) {
+                BoxedIcon(
+                    icon = AppIcon.Wallet.name,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer.toArgb().toLong(),
+                    containerSize = 40.dp,
+                    iconSize = 24.dp
+                )
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Text(
+                    text = stringResource(R.string.label_total_balance),
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.Medium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+
+                Text(
+                    text = if (isBalanceVisible) {
+                        balance.formatThousand()
+                    } else {
+                        stringResource(R.string.label_invisible_balance)
+                    },
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+        }
+        VisibilityButton(
+            visibility = isBalanceVisible,
+            color = MaterialTheme.colorScheme.onSurface,
+            onVisibilityClick = onVisibilityClick,
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(top = 12.dp, end = 16.dp)
+        )
     }
 }
 
