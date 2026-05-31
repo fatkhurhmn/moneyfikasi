@@ -30,6 +30,15 @@ fun NavGraphBuilder.homeNavigation(
             state = state,
             onShowReportDateSheet = { viewModel.onEvent(HomeEvent.ShowReportDateSheet(it)) },
             onShowCustomDateSheet = { viewModel.onEvent(HomeEvent.ShowCustomDateSheet(it)) },
+            onShowDashboardSettingsSheet = {
+                viewModel.onEvent(HomeEvent.ShowDashboardSettingsSheet(it))
+            },
+            onQuickTransactionVisibilityChange = {
+                viewModel.onEvent(HomeEvent.QuickTransactionVisibilityChanged(it))
+            },
+            onBudgetVisibilityChange = {
+                viewModel.onEvent(HomeEvent.BudgetVisibilityChanged(it))
+            },
             onDateRangeChange = { viewModel.onEvent(HomeEvent.DateRangeChanged(it)) },
             onToggleBalanceVisibility = { viewModel.onEvent(HomeEvent.ToggleBalanceVisibility) },
             onToggleReportVisibility = { viewModel.onEvent(HomeEvent.ToggleReportVisibility) },

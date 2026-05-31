@@ -21,6 +21,14 @@ class UiSettingsRepositoryImpl @Inject constructor(
         uiPreferences.setReportVisibility(isVisible)
     }
 
+    override suspend fun setQuickTransactionVisibility(isVisible: Boolean) {
+        uiPreferences.setQuickTransactionVisibility(isVisible)
+    }
+
+    override suspend fun setBudgetVisibility(isVisible: Boolean) {
+        uiPreferences.setBudgetVisibility(isVisible)
+    }
+
     override suspend fun setAppTheme(theme: AppTheme) {
         uiPreferences.setAppTheme(theme)
     }

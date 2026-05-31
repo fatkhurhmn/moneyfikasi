@@ -9,5 +9,8 @@ sealed class HomeEvent {
     data class DateRangeChanged(val dateRange: DateRange) : HomeEvent()
     data class ShowReportDateSheet(val show: Boolean) : HomeEvent()
     data class ShowCustomDateSheet(val show: Boolean) : HomeEvent()
+    data class ShowDashboardSettingsSheet(val show: Boolean) : HomeEvent()
+    data class QuickTransactionVisibilityChanged(val isVisible: Boolean) : HomeEvent()
+    data class BudgetVisibilityChanged(val isVisible: Boolean) : HomeEvent()
 
 }

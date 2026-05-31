@@ -24,6 +24,18 @@ class UiPreferences @Inject constructor(
         }
     }
 
+    suspend fun setQuickTransactionVisibility(isVisible: Boolean) {
+        dataStore.updateData {
+            it.copy(isQuickTransactionVisible = isVisible)
+        }
+    }
+
+    suspend fun setBudgetVisibility(isVisible: Boolean) {
+        dataStore.updateData {
+            it.copy(isBudgetVisible = isVisible)
+        }
+    }
+
     suspend fun setAppTheme(theme: AppTheme) {
         dataStore.updateData {
             it.copy(appTheme = theme)

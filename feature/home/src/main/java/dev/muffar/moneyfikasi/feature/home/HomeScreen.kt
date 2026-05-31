@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.feature.home
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.feature.home.component.BudgetSection
+import dev.muffar.moneyfikasi.feature.home.component.DashboardSettingsSheet
 import dev.muffar.moneyfikasi.feature.home.component.MoneyfikasiLogo
 import dev.muffar.moneyfikasi.feature.home.component.QuickTransactionSection
 import dev.muffar.moneyfikasi.feature.home.component.RecentTransactionsSection
@@ -32,6 +34,9 @@ fun HomeScreen(
     onToggleReportVisibility: () -> Unit,
     onShowReportDateSheet: (Boolean) -> Unit,
     onShowCustomDateSheet: (Boolean) -> Unit,
+    onShowDashboardSettingsSheet: (Boolean) -> Unit,
+    onQuickTransactionVisibilityChange: (Boolean) -> Unit,
+    onBudgetVisibilityChange: (Boolean) -> Unit,
     onDateRangeChange: (DateRange) -> Unit,
     onSeeAllTransactionsClick: () -> Unit,
     onTransactionClick: (UUID, Boolean) -> Unit,
@@ -42,16 +47,19 @@ fun HomeScreen(
     onAddBudgetClick: () -> Unit,
     onAddWalletClick: () -> Unit
 ) {
-    Scaffold { paddingValues ->
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+    Scaffold { _ ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .statusBarsPadding()
                 .verticalScroll(rememberScrollState())
                 .padding(bottom = 100.dp),
-            verticalArrangement = Arrangement.spacedBy(24.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            MoneyfikasiLogo()
+            MoneyfikasiLogo(
+                onDashboardSettingsClick = { onShowDashboardSettingsSheet(true) }
+            )
 
             ReportSection(
                 state = state,
@@ -67,19 +75,23 @@ fun HomeScreen(
                 onAddWalletClick = onAddWalletClick
             )
 
-            QuickTransactionSection(
-                presets = state.presets,
-                onPresetClick = onPresetClick,
-                onAddPresetClick = onAddPresetClick,
-                onPresetsClick = onPresetsClick
-            )
+            if (state.isQuickTransactionVisible) {
+                QuickTransactionSection(
+                    presets = state.presets,
+                    onPresetClick = onPresetClick,
+                    onAddPresetClick = onAddPresetClick,
+                    onPresetsClick = onPresetsClick
+                )
+            }
 
-            BudgetSection(
-                budgets = state.budgets,
-                onBudgetClick = {},
-                onSeeAllBudgetsClick = onSeeAllBudgetsClick,
-                onAddBudgetClick = onAddBudgetClick
-            )
+            if (state.isBudgetVisible) {
+                BudgetSection(
+                    budgets = state.budgets,
+                    onBudgetClick = {},
+                    onSeeAllBudgetsClick = onSeeAllBudgetsClick,
+                    onAddBudgetClick = onAddBudgetClick
+                )
+            }
 
             RecentTransactionsSection(
                 transactions = state.recentTransactions,
@@ -107,6 +119,16 @@ fun HomeScreen(
             dateRange = state.dateRange,
             onDateChange = onDateRangeChange,
             onDismissRequest = { onShowCustomDateSheet(false) }
+        )
+    }
+
+    AnimatedVisibility(state.showDashboardSettingsSheet) {
+        DashboardSettingsSheet(
+            isQuickTransactionVisible = state.isQuickTransactionVisible,
+            isBudgetVisible = state.isBudgetVisible,
+            onQuickTransactionVisibilityChange = onQuickTransactionVisibilityChange,
+            onBudgetVisibilityChange = onBudgetVisibilityChange,
+            onDismissRequest = { onShowDashboardSettingsSheet(false) }
         )
     }
 }

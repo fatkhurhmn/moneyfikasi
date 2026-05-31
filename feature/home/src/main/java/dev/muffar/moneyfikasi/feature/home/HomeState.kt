@@ -17,6 +17,8 @@ data class HomeState(
     val savingPercentage: Double = 0.0,
     val isBalanceVisible: Boolean = true,
     val isReportVisible: Boolean = true,
+    val isQuickTransactionVisible: Boolean = true,
+    val isBudgetVisible: Boolean = true,
     val isLoading: Boolean = false,
     val dateRange: DateRange = DateRange(),
     val categories: Set<Category> = emptySet(),
@@ -26,4 +28,5 @@ data class HomeState(
     val budgets: List<Budget> = emptyList(),
     val showReportDateSheet: Boolean = false,
     val showCustomDateSheet: Boolean = false,
+    val showDashboardSettingsSheet: Boolean = false,
 )

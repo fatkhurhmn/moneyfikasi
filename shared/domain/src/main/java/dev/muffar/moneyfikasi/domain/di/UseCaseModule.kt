@@ -53,6 +53,8 @@ import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.GetUiSettings
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetAppLanguage
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetAppTheme
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetBalanceVisibility
+import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetBudgetVisibility
+import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetQuickTransactionVisibility
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetReportVisibility
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.UiSettingsUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preset.DeletePreset
@@ -161,6 +163,8 @@ object UseCaseModule {
         getUiSettings = GetUiSettings(uiSettingsRepository),
         setBalanceVisibility = SetBalanceVisibility(uiSettingsRepository),
         setReportVisibility = SetReportVisibility(uiSettingsRepository),
+        setQuickTransactionVisibility = SetQuickTransactionVisibility(uiSettingsRepository),
+        setBudgetVisibility = SetBudgetVisibility(uiSettingsRepository),
         setAppTheme = SetAppTheme(uiSettingsRepository),
         setAppLanguage = SetAppLanguage(uiSettingsRepository)
     )

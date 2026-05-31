@@ -25,6 +25,7 @@
     <string name="title_transfer_summary">Transfer Summary</string>
     <string name="title_category_distribution">Category Distribution</string>
     <string name="title_report">Report</string>
+    <string name="title_dashboard_settings">Dashboard Settings</string>
     <string name="title_recent_transactions">Recent Transactions</string>
     <string name="title_quick_transactions">Quick Transactions</string>
     <string name="title_create_transaction">Create Transaction</string>
@@ -91,6 +92,9 @@
     <string name="greeting_good_morning">Hi, good morning</string>
     <string name="greeting_good_afternoon">Hi, good afternoon</string>
     <string name="greeting_good_evening">Hi, good evening</string>
+    <string name="msg_dashboard_settings_description">Choose which sections appear on your dashboard.</string>
+    <string name="msg_quick_transactions_dashboard_description">Show quick transaction presets</string>
+    <string name="msg_budget_dashboard_description">Show budget progress</string>
     <string name="label_admin_fee">Admin fee</string>
     <string name="label_from">From</string>
     <string name="label_to">To</string>

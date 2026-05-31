@@ -69,6 +69,9 @@ class HomeViewModel @Inject constructor(
             is HomeEvent.DateRangeChanged -> onDateRangeChange(event.dateRange)
             is HomeEvent.ShowReportDateSheet -> onShowReportDateSheet(event.show)
             is HomeEvent.ShowCustomDateSheet -> onShowCustomDateSheet(event.show)
+            is HomeEvent.ShowDashboardSettingsSheet -> onShowDashboardSettingsSheet(event.show)
+            is HomeEvent.QuickTransactionVisibilityChanged -> onQuickTransactionVisibilityChange(event.isVisible)
+            is HomeEvent.BudgetVisibilityChanged -> onBudgetVisibilityChange(event.isVisible)
         }
     }
 
@@ -304,7 +307,9 @@ class HomeViewModel @Inject constructor(
                 _state.update {
                     it.copy(
                         isBalanceVisible = settings.isBalanceVisible,
-                        isReportVisible = settings.isReportVisible
+                        isReportVisible = settings.isReportVisible,
+                        isQuickTransactionVisible = settings.isQuickTransactionVisible,
+                        isBudgetVisible = settings.isBudgetVisible
                     )
                 }
             }.launchIn(viewModelScope)
@@ -328,6 +333,22 @@ class HomeViewModel @Inject constructor(
 
     private fun onShowCustomDateSheet(show: Boolean) {
         _state.update { it.copy(showCustomDateSheet = show) }
+    }
+
+    private fun onShowDashboardSettingsSheet(show: Boolean) {
+        _state.update { it.copy(showDashboardSettingsSheet = show) }
+    }
+
+    private fun onQuickTransactionVisibilityChange(isVisible: Boolean) {
+        viewModelScope.launch {
+            uiSettingsUseCases.setQuickTransactionVisibility(isVisible)
+        }
+    }
+
+    private fun onBudgetVisibilityChange(isVisible: Boolean) {
+        viewModelScope.launch {
+            uiSettingsUseCases.setBudgetVisibility(isVisible)
+        }
     }
 
     private fun onDateRangeChange(dateRange: DateRange) {

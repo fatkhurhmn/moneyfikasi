@@ -25,6 +25,7 @@
     <string name="title_transfer_summary">Ringkasan Transfer</string>
     <string name="title_category_distribution">Distribusi Kategori</string>
     <string name="title_report">Laporan</string>
+    <string name="title_dashboard_settings">Pengaturan Dashboard</string>
     <string name="title_recent_transactions">Transaksi Terbaru</string>
     <string name="title_quick_transactions">Transaksi Cepat</string>
     <string name="title_create_transaction">Buat Transaksi</string>
@@ -91,6 +92,9 @@
     <string name="greeting_good_morning">Hai, selamat pagi</string>
     <string name="greeting_good_afternoon">Hai, selamat siang</string>
     <string name="greeting_good_evening">Hai, selamat malam</string>
+    <string name="msg_dashboard_settings_description">Pilih bagian yang muncul di dashboard Anda.</string>
+    <string name="msg_quick_transactions_dashboard_description">Tampilkan preset transaksi cepat</string>
+    <string name="msg_budget_dashboard_description">Tampilkan progres anggaran</string>
     <string name="label_admin_fee">Biaya admin</string>
     <string name="label_from">Dari</string>
     <string name="label_to">Ke</string>
