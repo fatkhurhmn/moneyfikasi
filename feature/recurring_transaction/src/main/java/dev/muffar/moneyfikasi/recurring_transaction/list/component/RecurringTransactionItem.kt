@@ -150,7 +150,7 @@ fun RecurringTransactionItem(
                             ?: "-"
 
                         RecurringEndType.AFTER_OCCURRENCES -> stringResource(
-                            R.string.msg_qty_transactions,
+                            R.string.format_transaction_count,
                             recurringTransaction.occurrenceCount ?: 0
                         )
                     }

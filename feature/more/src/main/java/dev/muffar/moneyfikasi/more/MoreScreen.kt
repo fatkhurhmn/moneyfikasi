@@ -81,7 +81,7 @@ fun MoreScreen(
             }
             item {
                 MoreItem(
-                    label = stringResource(R.string.title_recurring),
+                    label = stringResource(R.string.title_recurring_transaction),
                     title = stringResource(R.string.label_scheduled_transactions),
                     description = stringResource(R.string.msg_recurring_description),
                     status = stringResource(

@@ -119,7 +119,7 @@ private fun WalletCard(
                 text = if (isBalanceVisible) {
                     wallet.balance.formatThousand()
                 } else {
-                    stringResource(R.string.label_invisible_balance)
+                    stringResource(R.string.placeholder_hidden_balance)
                 },
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold,
@@ -168,7 +168,7 @@ private fun TotalBalanceCard(
                     text = if (isBalanceVisible) {
                         balance.formatThousand()
                     } else {
-                        stringResource(R.string.label_invisible_balance)
+                        stringResource(R.string.placeholder_hidden_balance)
                     },
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold,

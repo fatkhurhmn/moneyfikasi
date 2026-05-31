@@ -14,7 +14,7 @@
     <string name="title_preset">Preset</string>
     <string name="title_budgets">Anggaran</string>
     <string name="title_budget">Anggaran</string>
-    <string name="title_recurring">Berulang</string>
+    <string name="title_recurring_transaction">Transaksi Berulang</string>
     <string name="title_transaction">Transaksi</string>
     <string name="title_transactions">Transaksi</string>
     <string name="title_wallets">Dompet</string>
@@ -46,7 +46,7 @@
     <string name="title_delete_wallet">Hapus Dompet</string>
     <string name="title_delete_preset">Hapus Preset</string>
     <string name="title_delete_budget">Hapus Anggaran</string>
-    <string name="title_delete_recurring">Hapus Berulang</string>
+    <string name="title_delete_recurring">Hapus Transaksi Berulang</string>
     <string name="title_restore_confirmation">Pulihkan Data</string>
     <string name="title_recurring_transaction_processed">Transaksi Berulang Diproses</string>
     <string name="title_recurring_transaction_ended">Transaksi Berulang Berakhir</string>
@@ -63,7 +63,7 @@
     <string name="label_income">Pemasukan</string>
     <string name="label_expense">Pengeluaran</string>
     <string name="label_transfer">Transfer</string>
-    <string name="label_amount">Jumlah</string>
+    <string name="label_amount">Nominal</string>
     <string name="label_balance">Saldo</string>
     <string name="label_total_balance">Total Saldo</string>
     <string name="label_total_income">Total Pemasukan</string>
@@ -103,7 +103,7 @@
     <string name="label_this_month">bulan ini</string>
     <string name="label_custom_date">Tanggal Kustom</string>
     <string name="label_all">Semua</string>
-    <string name="label_custom">Custom</string>
+    <string name="label_custom">Kustom</string>
     <string name="label_daily">Harian</string>
     <string name="label_weekly">Mingguan</string>
     <string name="label_monthly">Bulanan</string>
@@ -113,8 +113,8 @@
     <string name="label_preview">Pratinjau</string>
     <string name="label_never">Tidak Pernah</string>
     <string name="label_on_date">Pada Tanggal</string>
-    <string name="label_after_occurrences">Setelah Kejadian</string>
-    <string name="label_end_recurring">Akhiri Berulang</string>
+    <string name="label_after_occurrences">Setelah Beberapa Kali</string>
+    <string name="label_end_recurring">Akhiri Transaksi Berulang</string>
     <string name="label_times">Kali</string>
     <string name="label_skip_today">Lewati hari ini</string>
     <string name="label_active">Aktif</string>
@@ -144,8 +144,8 @@
     <string name="label_select_time">Pilih waktu</string>
     <string name="label_select_theme">Pilih tema</string>
     <string name="label_language">Bahasa</string>
-    <string name="label_amount_input_method">Cara Input Jumlah</string>
-    <string name="label_select_amount_input_method">Pilih Cara Input Jumlah</string>
+    <string name="label_amount_input_method">Metode Input Nominal</string>
+    <string name="label_select_amount_input_method">Pilih Metode Input Nominal</string>
     <string name="label_calculator">Kalkulator</string>
     <string name="label_default_keyboard">Keyboard Bawaan</string>
     <string name="label_english">English</string>
@@ -154,10 +154,10 @@
     <string name="label_select_category_hint">Pilih kategori</string>
     <string name="label_select_wallet_hint">Pilih dompet</string>
     <string name="label_select_frequency">Pilih Frekuensi</string>
-    <string name="label_enter_amount">Masukkan jumlah</string>
+    <string name="label_enter_amount">Masukkan nominal</string>
     <string name="label_search_hint">Cari berdasarkan catatan</string>
     <string name="label_type_to_search">Ketik sesuatu untuk mencari berdasarkan catatan</string>
-    <string name="label_invisible_balance">• • • • • • •</string>
+    <string name="placeholder_hidden_balance">• • • • • • •</string>
     <string name="label_use_pin">Gunakan PIN</string>
     <string name="label_allow_notifications">Izinkan Notifikasi</string>
     <string name="label_recurring_transaction_notifications">Transaksi berulang</string>
@@ -168,13 +168,13 @@
     <string name="label_type_header">Jenis</string>
     <string name="label_category_header">Kategori</string>
     <string name="label_wallet_header">Dompet</string>
-    <string name="label_amount_header">Jumlah</string>
+    <string name="label_amount_header">Nominal</string>
     <string name="label_note_header">Catatan</string>
     <string name="label_times_qty">%1$d kali</string>
     <string name="label_no_change">Tidak ada perubahan</string>
     <string name="label_new_growth">Pertumbuhan baru</string>
     <string name="label_new_loss">Kerugian baru</string>
-    <string name="msg_trend_percentage">%d%%</string>
+    <string name="format_trend_percentage">%d%%</string>
 
     <!-- Initial Data -->
     <string name="cat_electricity">Listrik</string>
@@ -216,8 +216,8 @@
     <string name="action_see_all">Lihat Semua</string>
     <string name="action_add_preset">Tambah Preset</string>
     <string name="action_add_budget">Tambah Anggaran</string>
-    <string name="action_add_recurring">Tambah Berulang</string>
-    <string name="action_edit_recurring">Edit Berulang</string>
+    <string name="action_add_recurring">Tambah Transaksi Berulang</string>
+    <string name="action_edit_recurring">Edit Transaksi Berulang</string>
     <string name="action_export">Ekspor</string>
     <string name="action_set_pin">Atur PIN</string>
     <string name="action_reset_pin">Reset PIN</string>
@@ -235,7 +235,7 @@
     <string name="msg_delete_transaction_confirmation">Apakah Anda yakin ingin menghapus transaksi ini?</string>
     <string name="msg_disable_wallet_description">Dompet yang dinonaktifkan tidak akan ditampilkan saat membuat transaksi</string>
     <string name="msg_delete_wallet_confirmation">Apakah Anda yakin ingin menghapus dompet ini? Jika dompet ini dihapus, semua catatan yang terkait dengan dompet ini juga akan dihapus.</string>
-    <string name="msg_qty_transactions">%dx</string>
+    <string name="format_transaction_count">%dx</string>
     <string name="msg_spent">%s terpakai</string>
     <string name="msg_left">Sisa %s</string>
     <string name="msg_preset_description">Simpan transaksi berulang agar input lebih cepat.</string>
@@ -258,7 +258,7 @@
     <string name="msg_budgets_count">%d Anggaran</string>
     <string name="msg_delete_budget_confirmation">Apakah Anda yakin ingin menghapus anggaran ini?</string>
     <string name="msg_recurring_description">Atur transaksi agar berulang secara otomatis.</string>
-    <string name="msg_recurring_count">%d Berulang</string>
+    <string name="msg_recurring_count">%d Transaksi Berulang</string>
     <string name="msg_loading">Memuat…</string>
     <string name="msg_csv_description">Nilai yang dipisahkan koma</string>
     <string name="msg_xlsx_description">Format lembar kerja Excel</string>
@@ -309,9 +309,9 @@
     <string name="msg_biometric_description">Gunakan sidik jari atau wajah untuk membuka kunci</string>
     <string name="msg_biometric_reason">Buka kunci Moneyfikasi</string>
     <string name="msg_delete_recurring_confirmation">Apakah Anda yakin ingin menghapus transaksi berulang ini?</string>
-    <string name="msg_until">" hingga %1$s"</string>
-    <string name="msg_for_times">" selama %1$s kali"</string>
-    <string name="msg_repeats_from">Berulang %1$s mulai %2$s%3$s</string>
+    <string name="msg_recurring_until">" hingga %1$s"</string>
+    <string name="msg_recurring_for_times">" selama %1$s kali"</string>
+    <string name="msg_recurring_repeats_from">Berulang %1$s mulai %2$s%3$s</string>
     <string name="msg_next_run">Berikutnya: %s</string>
     <string name="msg_remaining">Tersisa: %d</string>
     <string name="msg_recurring_transaction_processed">Transaksi %1$s untuk %2$s telah dibuat.</string>
@@ -341,12 +341,12 @@
     <string name="empty_search_results_msg">Kami tidak menemukan transaksi yang cocok dengan pencarian Anda.</string>
 
     <!-- Errors -->
-    <string name="error_amount_greater_than_zero">Masukkan jumlah lebih dari 0</string>
-    <string name="error_minimum_amount">Masukkan jumlah minimal 1</string>
+    <string name="error_amount_greater_than_zero">Masukkan nominal lebih dari 0</string>
+    <string name="error_minimum_amount">Masukkan nominal minimal 1</string>
     <string name="error_name_empty">Masukkan nama</string>
     <string name="error_select_category">Pilih kategori</string>
     <string name="error_select_wallet">Pilih dompet</string>
-    <string name="error_amount_empty">Masukkan jumlah</string>
+    <string name="error_amount_empty">Masukkan nominal</string>
     <string name="error_source_wallet_empty">Pilih dompet sumber</string>
     <string name="error_target_wallet_empty">Pilih dompet tujuan</string>
     <string name="error_select_icon_color">Pilih ikon dan warna</string>

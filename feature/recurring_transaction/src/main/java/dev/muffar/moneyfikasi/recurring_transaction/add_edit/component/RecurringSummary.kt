@@ -36,19 +36,19 @@ fun RecurringSummary(
     val endStr = when (state.endType) {
         RecurringEndType.NEVER -> ""
         RecurringEndType.ON_DATE -> stringResource(
-            R.string.msg_until,
+            R.string.msg_recurring_until,
             state.endDate.formattedDate()
         )
 
         RecurringEndType.AFTER_OCCURRENCES -> if (state.occurrenceCount.isNotEmpty()) {
-            stringResource(R.string.msg_for_times, state.occurrenceCount)
+            stringResource(R.string.msg_recurring_for_times, state.occurrenceCount)
         } else {
             ""
         }
     }
 
     val summary = stringResource(
-        R.string.msg_repeats_from,
+        R.string.msg_recurring_repeats_from,
         freqStr,
         startStr,
         endStr

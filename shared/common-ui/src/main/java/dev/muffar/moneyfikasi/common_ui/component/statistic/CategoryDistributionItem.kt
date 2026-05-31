@@ -93,7 +93,7 @@ fun CategoryDistributionItem(
                         style = MaterialTheme.typography.bodySmall
                     )
                     Text(
-                        text = stringResource(R.string.msg_qty_transactions, quantity),
+                        text = stringResource(R.string.format_transaction_count, quantity),
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         style = MaterialTheme.typography.bodySmall
                     )

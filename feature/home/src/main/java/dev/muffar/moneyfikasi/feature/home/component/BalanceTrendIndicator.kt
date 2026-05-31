@@ -35,7 +35,7 @@ fun BalanceTrendIndicator(
 
     val resultMessage = when (trendResult.type) {
         TrendType.UP, TrendType.DOWN -> stringResource(
-            R.string.msg_trend_percentage,
+            R.string.format_trend_percentage,
             trendResult.percentage.absoluteValue.toInt()
         )
 
