@@ -2,6 +2,7 @@ package dev.muffar.moneyfikasi.transaction.add_edit
 
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.CategoryType
+import dev.muffar.moneyfikasi.domain.model.AmountInputType
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
@@ -32,6 +33,7 @@ data class AddEditTransactionState(
 
     val categoryOptions: List<Category> = emptyList(),
     val walletOptions: List<Wallet> = emptyList(),
+    val amountInputType: AmountInputType = AmountInputType.CALCULATOR,
 ) {
     val isEditMode: Boolean
         get() = id != null

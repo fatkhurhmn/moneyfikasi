@@ -19,7 +19,6 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.sp
@@ -105,6 +104,7 @@ fun CommonTextInput(
     error: ErrorMessage = ErrorMessage(),
     enabled: Boolean = true,
     readOnly: Boolean = false,
+    textStyle: TextStyle = MaterialTheme.typography.bodyMedium.copy(fontSize = 15.sp),
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
@@ -125,10 +125,7 @@ fun CommonTextInput(
             keyboardActions = keyboardActions,
             keyboardOptions = keyboardOptions,
             visualTransformation = visualTransformation,
-            textStyle = MaterialTheme.typography.bodyMedium.copy(
-                color = MaterialTheme.colorScheme.onSurface,
-                fontWeight = FontWeight.Medium
-            ),
+            textStyle = textStyle,
             modifier = Modifier
                 .fillMaxWidth()
                 .onFocusChanged { isFocus = it.isFocused },

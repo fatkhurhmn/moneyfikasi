@@ -32,6 +32,7 @@ fun NavGraphBuilder.settingsNavGraph(
             state = state,
             onAppThemeChanged = { onEvent(SettingsEvent.AppThemeChanged(it)) },
             onAppLanguageChanged = { onEvent(SettingsEvent.AppLanguageChanged(it)) },
+            onAmountInputTypeChanged = { onEvent(SettingsEvent.AmountInputTypeChanged(it)) },
             onNotificationClick = onNotificationClick,
             onBackupRestoreClick = onBackupRestoreClick,
             onExportClick = onExportClick,

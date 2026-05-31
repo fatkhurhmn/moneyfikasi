@@ -144,6 +144,10 @@
     <string name="label_select_time">Select time</string>
     <string name="label_select_theme">Select theme</string>
     <string name="label_language">Language</string>
+    <string name="label_amount_input_method">Amount Input Method</string>
+    <string name="label_select_amount_input_method">Select Amount Input Method</string>
+    <string name="label_calculator">Calculator</string>
+    <string name="label_default_keyboard">Default Keyboard</string>
     <string name="label_english">English</string>
     <string name="label_indonesian">Indonesia</string>
     <string name="label_select_language">Select language</string>
@@ -318,6 +322,7 @@
     <string name="msg_restore_success">Restore success</string>
     <string name="msg_export_success">Export successful</string>
     <string name="msg_image_saved">Image saved</string>
+    <string name="msg_amount_input_method_desc">Choose how you enter transaction amounts.</string>
 
     <!-- Empty States -->
     <string name="empty_categories_title">No Categories Available</string>

@@ -144,6 +144,10 @@
     <string name="label_select_time">Pilih waktu</string>
     <string name="label_select_theme">Pilih tema</string>
     <string name="label_language">Bahasa</string>
+    <string name="label_amount_input_method">Cara Input Jumlah</string>
+    <string name="label_select_amount_input_method">Pilih Cara Input Jumlah</string>
+    <string name="label_calculator">Kalkulator</string>
+    <string name="label_default_keyboard">Keyboard Bawaan</string>
     <string name="label_english">English</string>
     <string name="label_indonesian">Indonesia</string>
     <string name="label_select_language">Pilih Bahasa</string>
@@ -318,6 +322,7 @@
     <string name="msg_restore_success">Pemulihan berhasil</string>
     <string name="msg_export_success">Ekspor berhasil</string>
     <string name="msg_image_saved">Gambar disimpan</string>
+    <string name="msg_amount_input_method_desc">Pilih cara memasukkan nominal transaksi.</string>
 
     <!-- Empty States -->
     <string name="empty_categories_title">Tidak Ada Kategori</string>

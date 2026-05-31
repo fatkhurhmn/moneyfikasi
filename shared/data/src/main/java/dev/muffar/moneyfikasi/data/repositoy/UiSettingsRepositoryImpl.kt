@@ -3,6 +3,7 @@ package dev.muffar.moneyfikasi.data.repositoy
 import dev.muffar.moneyfikasi.data.preferences.UiPreferences
 import dev.muffar.moneyfikasi.domain.model.AppLanguage
 import dev.muffar.moneyfikasi.domain.model.AppTheme
+import dev.muffar.moneyfikasi.domain.model.AmountInputType
 import dev.muffar.moneyfikasi.domain.model.UiSettings
 import dev.muffar.moneyfikasi.domain.repository.UiSettingsRepository
 import kotlinx.coroutines.flow.Flow
@@ -35,5 +36,9 @@ class UiSettingsRepositoryImpl @Inject constructor(
 
     override suspend fun setAppLanguage(language: AppLanguage) {
         uiPreferences.setAppLanguage(language)
+    }
+
+    override suspend fun setAmountInputType(type: AmountInputType) {
+        uiPreferences.setAmountInputType(type)
     }
 }

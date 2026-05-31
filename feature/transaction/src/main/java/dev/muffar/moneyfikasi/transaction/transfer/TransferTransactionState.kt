@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.transaction.transfer
 
+import dev.muffar.moneyfikasi.domain.model.AmountInputType
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.utils.extensions.LongExt.format
@@ -26,6 +27,7 @@ data class TransferTransactionState(
     val hour: Int = time.format("H").toInt(),
     val minute: Int = time.format("mm").toInt(),
     val walletOptions: List<Wallet> = emptyList(),
+    val amountInputType: AmountInputType = AmountInputType.CALCULATOR,
 ) {
     val isEditMode: Boolean
         get() = id != null

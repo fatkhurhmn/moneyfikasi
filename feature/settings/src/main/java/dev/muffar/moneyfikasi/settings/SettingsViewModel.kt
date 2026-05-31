@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.model.AppLanguage
 import dev.muffar.moneyfikasi.domain.model.AppTheme
+import dev.muffar.moneyfikasi.domain.model.AmountInputType
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.UiSettingsUseCases
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,6 +31,7 @@ class SettingsViewModel @Inject constructor(
                     it.copy(
                         appTheme = uiSettings.appTheme,
                         appLanguage = uiSettings.appLanguage,
+                        amountInputType = uiSettings.amountInputType,
                     )
                 }
             }
@@ -40,6 +42,7 @@ class SettingsViewModel @Inject constructor(
         when (event) {
             is SettingsEvent.AppThemeChanged -> onAppThemeChange(event.theme)
             is SettingsEvent.AppLanguageChanged -> onAppLanguageChange(event.language)
+            is SettingsEvent.AmountInputTypeChanged -> onAmountInputTypeChange(event.type)
         }
     }
 
@@ -53,6 +56,12 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             uiSettingsUseCases.setAppLanguage(language)
             categoryUseCases.updateDefaultCategories(language)
+        }
+    }
+
+    private fun onAmountInputTypeChange(type: AmountInputType) {
+        viewModelScope.launch {
+            uiSettingsUseCases.setAmountInputType(type)
         }
     }
 }

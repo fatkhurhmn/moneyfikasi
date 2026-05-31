@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
 import dev.muffar.moneyfikasi.domain.model.AppLanguage
 import dev.muffar.moneyfikasi.domain.model.AppTheme
+import dev.muffar.moneyfikasi.domain.model.AmountInputType
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.settings.component.AboutSection
 import dev.muffar.moneyfikasi.settings.component.AppearanceSection
@@ -25,6 +26,7 @@ fun SettingsScreen(
     state: SettingsState,
     onAppThemeChanged: (AppTheme) -> Unit,
     onAppLanguageChanged: (AppLanguage) -> Unit,
+    onAmountInputTypeChanged: (AmountInputType) -> Unit,
     onNotificationClick: () -> Unit,
     onBackupRestoreClick: () -> Unit,
     onExportClick: () -> Unit,
@@ -55,8 +57,10 @@ fun SettingsScreen(
             AppearanceSection(
                 appTheme = state.appTheme,
                 appLanguage = state.appLanguage,
+                amountInputType = state.amountInputType,
                 onAppThemeChanged = onAppThemeChanged,
-                onAppLanguageChanged = onAppLanguageChanged
+                onAppLanguageChanged = onAppLanguageChanged,
+                onAmountInputTypeChanged = onAmountInputTypeChanged
             )
 
             DataSection(

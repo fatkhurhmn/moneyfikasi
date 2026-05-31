@@ -11,6 +11,7 @@ import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preset.PresetUseCases
+import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.UiSettingsUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
@@ -41,6 +42,7 @@ class AddEditTransactionViewModel @Inject constructor(
     private val categoryUseCases: CategoryUseCases,
     private val walletUseCases: WalletUseCases,
     private val presetUseCases: PresetUseCases,
+    private val uiSettingsUseCases: UiSettingsUseCases,
     private val handle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -53,6 +55,7 @@ class AddEditTransactionViewModel @Inject constructor(
     init {
         initState()
         loadWallets()
+        loadUiSettings()
     }
 
     fun onEvent(event: AddEditTransactionEvent) {
@@ -146,6 +149,14 @@ class AddEditTransactionViewModel @Inject constructor(
             walletUseCases.getAllWallets().collectLatest { wallets ->
                 val activeWallets = wallets.filter { it.isActive }
                 _state.update { it.copy(walletOptions = activeWallets) }
+            }
+        }
+    }
+
+    private fun loadUiSettings() {
+        viewModelScope.launch {
+            uiSettingsUseCases.getUiSettings().collectLatest { settings ->
+                _state.update { it.copy(amountInputType = settings.amountInputType) }
             }
         }
     }

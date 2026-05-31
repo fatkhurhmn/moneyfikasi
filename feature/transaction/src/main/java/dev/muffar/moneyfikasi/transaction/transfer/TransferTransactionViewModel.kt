@@ -7,6 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.model.Wallet
+import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.UiSettingsUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
@@ -33,6 +34,7 @@ import javax.inject.Inject
 class TransferTransactionViewModel @Inject constructor(
     private val transactionUseCases: TransactionUseCases,
     private val walletUseCases: WalletUseCases,
+    private val uiSettingsUseCases: UiSettingsUseCases,
     private val handle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -45,6 +47,7 @@ class TransferTransactionViewModel @Inject constructor(
     init {
         initState()
         loadWallets()
+        loadUiSettings()
     }
 
     fun onEvent(event: TransferTransactionEvent) {
@@ -92,6 +95,14 @@ class TransferTransactionViewModel @Inject constructor(
             walletUseCases.getAllWallets().collectLatest { wallets ->
                 val activeWallets = wallets.filter { it.isActive }
                 _state.update { it.copy(walletOptions = activeWallets) }
+            }
+        }
+    }
+
+    private fun loadUiSettings() {
+        viewModelScope.launch {
+            uiSettingsUseCases.getUiSettings().collectLatest { settings ->
+                _state.update { it.copy(amountInputType = settings.amountInputType) }
             }
         }
     }

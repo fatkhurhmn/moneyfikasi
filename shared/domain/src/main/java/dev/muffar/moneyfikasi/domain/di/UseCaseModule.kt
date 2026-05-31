@@ -50,6 +50,7 @@ import dev.muffar.moneyfikasi.domain.usecase.notification.NotificationUseCases
 import dev.muffar.moneyfikasi.domain.usecase.notification.SetAllowNotification
 import dev.muffar.moneyfikasi.domain.usecase.notification.SetRecurringTransactionNotification
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.GetUiSettings
+import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetAmountInputType
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetAppLanguage
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetAppTheme
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetBalanceVisibility
@@ -166,7 +167,8 @@ object UseCaseModule {
         setQuickTransactionVisibility = SetQuickTransactionVisibility(uiSettingsRepository),
         setBudgetVisibility = SetBudgetVisibility(uiSettingsRepository),
         setAppTheme = SetAppTheme(uiSettingsRepository),
-        setAppLanguage = SetAppLanguage(uiSettingsRepository)
+        setAppLanguage = SetAppLanguage(uiSettingsRepository),
+        setAmountInputType = SetAmountInputType(uiSettingsRepository)
     )
 
     @Provides

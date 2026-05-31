@@ -6,15 +6,18 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.text_input.AmountInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.BasicAmountInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.DateInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.TimeInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.WalletInput
+import dev.muffar.moneyfikasi.domain.model.AmountInputType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.transfer.TransferTransactionState
@@ -36,11 +39,20 @@ fun TransferTransactionForm(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
-        AmountInput(
-            amount = state.amount,
-            error = state.amountError,
-            onAmountChange = onAmountChange
-        )
+        when (state.amountInputType) {
+            AmountInputType.CALCULATOR -> AmountInput(
+                amount = state.amount,
+                error = state.amountError,
+                onAmountChange = onAmountChange
+            )
+
+            AmountInputType.KEYBOARD -> BasicAmountInput(
+                amount = state.amount,
+                error = state.amountError,
+                onAmountChange = onAmountChange,
+                textStyle = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+            )
+        }
         WalletInput(
             wallet = state.sourceWallet,
             error = state.sourceWalletError,

@@ -26,6 +26,7 @@ fun AmountInput(
     amount: String,
     error: ErrorMessage = ErrorMessage(),
     onAmountChange: (String) -> Unit,
+    label: String = stringResource(R.string.label_amount),
     onClear: (() -> Unit)? = null
 ) {
     var showAmountInputSheet by remember { mutableStateOf(false) }
@@ -34,7 +35,7 @@ fun AmountInput(
             modifier = Modifier.fillMaxWidth(),
             value = amount,
             onValueChange = { },
-            label = stringResource(R.string.label_amount),
+            label = label,
             error = error,
             isClickable = true,
             textStyle = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),

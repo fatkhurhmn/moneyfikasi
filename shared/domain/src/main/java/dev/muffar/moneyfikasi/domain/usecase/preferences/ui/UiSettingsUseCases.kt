@@ -7,5 +7,6 @@ data class UiSettingsUseCases(
     val setQuickTransactionVisibility: SetQuickTransactionVisibility,
     val setBudgetVisibility: SetBudgetVisibility,
     val setAppTheme: SetAppTheme,
-    val setAppLanguage: SetAppLanguage
+    val setAppLanguage: SetAppLanguage,
+    val setAmountInputType: SetAmountInputType
 )
