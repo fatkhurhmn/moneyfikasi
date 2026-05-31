@@ -138,7 +138,7 @@ fun LineChart.setupStaticConfig(textColor: Int) {
         spaceBottom = 10f
         this.textColor = textColor
         valueFormatter = object : ValueFormatter() {
-            override fun getFormattedValue(value: Float) = formatAmount(value.toDouble())
+            override fun getFormattedValue(value: Float) = formatAmount(context, value.toDouble())
         }
     }
 

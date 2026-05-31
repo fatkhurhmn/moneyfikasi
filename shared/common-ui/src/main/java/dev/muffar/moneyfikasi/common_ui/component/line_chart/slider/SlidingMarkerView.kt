@@ -7,12 +7,14 @@ import android.graphics.Paint
 import android.graphics.Typeface
 import android.util.TypedValue
 import androidx.core.graphics.ColorUtils
+import androidx.core.os.ConfigurationCompat
 import com.github.mikephil.charting.components.MarkerView
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.utils.MPPointF
 import dev.muffar.moneyfikasi.common_ui.component.line_chart.ChartData
 import dev.muffar.moneyfikasi.resource.R
+import java.text.NumberFormat
 import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -58,8 +60,8 @@ class SlidingMarkerView(
 
         rows = listOf(
             chartData.labels[idx] to ColorUtils.setAlphaComponent(textColor, 160),
-            "${context.getString(R.string.label_income)}   ${formatAmount(chartData.incomeValues[idx])}" to incomeColor,
-            "${context.getString(R.string.label_expense)}  ${formatAmount(chartData.expenseValues[idx])}" to expenseColor,
+            "${context.getString(R.string.label_income)}   ${formatAmount(context, chartData.incomeValues[idx])}" to incomeColor,
+            "${context.getString(R.string.label_expense)}  ${formatAmount(context, chartData.expenseValues[idx])}" to expenseColor,
         )
         super.refreshContent(e, highlight)
     }
@@ -101,20 +103,27 @@ class SlidingMarkerView(
     override fun getOffset(): MPPointF = MPPointF(0f, 0f)
 }
 
-fun formatAmount(value: Double): String {
+fun formatAmount(context: Context, value: Double): String {
+    val locale = ConfigurationCompat.getLocales(context.resources.configuration)[0]
+        ?: Locale.getDefault()
+    val thousandSuffix = context.getString(R.string.format_amount_thousand_suffix)
+    val millionSuffix = context.getString(R.string.format_amount_million_suffix)
+    val billionSuffix = context.getString(R.string.format_amount_billion_suffix)
+
     val a = abs(value)
     val sign = if (value < 0) "-" else ""
     return when {
         a >= 1_000_000_000 -> "$sign${
             String.format(
-                Locale.getDefault(),
-                "%.1fB",
-                a / 1_000_000_000
+                locale,
+                "%.1f%s",
+                a / 1_000_000_000,
+                billionSuffix
             )
         }"
 
-        a >= 1_000_000 -> "$sign${String.format(Locale.getDefault(), "%.1fM", a / 1_000_000)}"
-        a >= 1_000 -> "$sign${String.format(Locale.getDefault(), "%.1fk", a / 1_000)}"
-        else -> "$sign${a.roundToInt()}"
+        a >= 1_000_000 -> "$sign${String.format(locale, "%.1f%s", a / 1_000_000, millionSuffix)}"
+        a >= 1_000 -> "$sign${String.format(locale, "%.1f%s", a / 1_000, thousandSuffix)}"
+        else -> "$sign${NumberFormat.getIntegerInstance(locale).format(a.roundToInt())}"
     }
 }

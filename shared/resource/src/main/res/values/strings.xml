@@ -175,6 +175,9 @@
     <string name="label_new_growth">New growth</string>
     <string name="label_new_loss">New loss</string>
     <string name="format_trend_percentage">%d%%</string>
+    <string name="format_amount_thousand_suffix">K</string>
+    <string name="format_amount_million_suffix">M</string>
+    <string name="format_amount_billion_suffix">B</string>
 
     <!-- Initial Data -->
     <string name="cat_electricity">Electricity</string>

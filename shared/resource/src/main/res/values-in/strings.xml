@@ -175,6 +175,9 @@
     <string name="label_new_growth">Pertumbuhan baru</string>
     <string name="label_new_loss">Kerugian baru</string>
     <string name="format_trend_percentage">%d%%</string>
+    <string name="format_amount_thousand_suffix">rb</string>
+    <string name="format_amount_million_suffix">jt</string>
+    <string name="format_amount_billion_suffix">M</string>
 
     <!-- Initial Data -->
     <string name="cat_electricity">Listrik</string>
