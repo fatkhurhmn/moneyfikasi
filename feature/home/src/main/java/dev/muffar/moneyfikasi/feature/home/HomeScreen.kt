@@ -18,6 +18,7 @@ import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.feature.home.component.BudgetSection
+import dev.muffar.moneyfikasi.feature.home.component.MoneyfikasiLogo
 import dev.muffar.moneyfikasi.feature.home.component.QuickTransactionSection
 import dev.muffar.moneyfikasi.feature.home.component.RecentTransactionsSection
 import dev.muffar.moneyfikasi.feature.home.component.ReportSection
@@ -45,12 +46,13 @@ fun HomeScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
                 .statusBarsPadding()
                 .verticalScroll(rememberScrollState())
                 .padding(bottom = 100.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
+            MoneyfikasiLogo()
+
             ReportSection(
                 state = state,
                 onDateRangeClick = { onShowReportDateSheet(true) },

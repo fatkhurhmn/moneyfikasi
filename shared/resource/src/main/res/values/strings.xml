@@ -88,6 +88,9 @@
     <string name="label_system_default">System Default</string>
     <string name="label_app_lock">App Lock</string>
     <string name="label_biometric">Biometric</string>
+    <string name="greeting_good_morning">Hi, good morning</string>
+    <string name="greeting_good_afternoon">Hi, good afternoon</string>
+    <string name="greeting_good_evening">Hi, good evening</string>
     <string name="label_admin_fee">Admin fee</string>
     <string name="label_from">From</string>
     <string name="label_to">To</string>

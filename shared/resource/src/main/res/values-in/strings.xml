@@ -88,6 +88,9 @@
     <string name="label_system_default">Default Sistem</string>
     <string name="label_app_lock">Kunci Aplikasi</string>
     <string name="label_biometric">Biometrik</string>
+    <string name="greeting_good_morning">Hai, selamat pagi</string>
+    <string name="greeting_good_afternoon">Hai, selamat siang</string>
+    <string name="greeting_good_evening">Hai, selamat malam</string>
     <string name="label_admin_fee">Biaya admin</string>
     <string name="label_from">Dari</string>
     <string name="label_to">Ke</string>
