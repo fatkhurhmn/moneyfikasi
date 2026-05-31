@@ -25,6 +25,7 @@ import dev.muffar.moneyfikasi.feature.home.component.QuickTransactionSection
 import dev.muffar.moneyfikasi.feature.home.component.RecentTransactionsSection
 import dev.muffar.moneyfikasi.feature.home.component.ReportSection
 import dev.muffar.moneyfikasi.feature.home.component.TotalBalance
+import dev.muffar.moneyfikasi.feature.home.component.WalletSection
 import java.util.UUID
 
 @Composable
@@ -72,6 +73,11 @@ fun HomeScreen(
                 state = state,
                 onDateRangeClick = { onShowReportDateSheet(true) },
                 onVisibilityClick = onToggleReportVisibility,
+            )
+
+            WalletSection(
+                wallets = state.wallets.toList(),
+                isBalanceVisible = state.isBalanceVisible
             )
 
             QuickTransactionSection(

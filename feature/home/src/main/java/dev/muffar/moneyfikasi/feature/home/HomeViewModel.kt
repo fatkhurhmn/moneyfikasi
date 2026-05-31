@@ -121,7 +121,7 @@ class HomeViewModel @Inject constructor(
 
     private fun loadRecentTransactions() {
         viewModelScope.launch {
-            transactionUseCases.getRecentTransactions(3)
+            transactionUseCases.getRecentTransactions(5)
                 .collectLatest { transactions ->
                     _state.update { it.copy(recentTransactions = transactions) }
                 }
