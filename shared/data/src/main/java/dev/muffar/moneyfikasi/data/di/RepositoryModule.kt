@@ -49,8 +49,11 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideCategoryRepository(categoryDao: CategoryDao): CategoryRepository {
-        return CategoryRepositoryImpl(categoryDao)
+    fun provideCategoryRepository(
+        @ApplicationContext context: Context,
+        categoryDao: CategoryDao
+    ): CategoryRepository {
+        return CategoryRepositoryImpl(context, categoryDao)
     }
 
     @Provides

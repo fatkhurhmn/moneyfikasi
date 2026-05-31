@@ -31,6 +31,7 @@ import dev.muffar.moneyfikasi.domain.usecase.category.DeleteCategory
 import dev.muffar.moneyfikasi.domain.usecase.category.GetAllCategories
 import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryById
 import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryByType
+import dev.muffar.moneyfikasi.domain.usecase.category.UpdateDefaultCategories
 import dev.muffar.moneyfikasi.domain.usecase.category.UpsertCategory
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.BackupSettingsUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.GetBackupSettings
@@ -106,7 +107,8 @@ object UseCaseModule {
         deleteCategory = DeleteCategory(categoryRepository),
         getAllCategories = GetAllCategories(categoryRepository),
         getCategoryById = GetCategoryById(categoryRepository),
-        getCategoryByType = GetCategoryByType(categoryRepository)
+        getCategoryByType = GetCategoryByType(categoryRepository),
+        updateDefaultCategories = UpdateDefaultCategories(categoryRepository)
     )
 
     @Provides

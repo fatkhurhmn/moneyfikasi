@@ -2,6 +2,7 @@ package dev.muffar.moneyfikasi.domain.repository
 
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.CategoryType
+import dev.muffar.moneyfikasi.domain.model.AppLanguage
 import kotlinx.coroutines.flow.Flow
 import java.util.UUID
 
@@ -15,4 +16,6 @@ interface CategoryRepository {
     suspend fun upsertCategory(category: Category)
 
     suspend fun deleteCategory(category: Category)
+
+    suspend fun updateDefaultCategories(language: AppLanguage)
 }

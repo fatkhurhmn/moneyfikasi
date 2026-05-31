@@ -65,21 +65,21 @@ fun AppearanceSection(
                 onClick = { showLanguagePicker = true }
             )
         }
-    }
 
-    AnimatedVisibility(showThemePicker) {
-        ThemePickerSheet(
-            selectedTheme = appTheme,
-            onThemeSelect = onAppThemeChanged,
-            onDismissRequest = { showThemePicker = false }
-        )
-    }
+        AnimatedVisibility(showThemePicker) {
+            ThemePickerSheet(
+                selectedTheme = appTheme,
+                onThemeSelect = onAppThemeChanged,
+                onDismissRequest = { showThemePicker = false }
+            )
+        }
 
-    AnimatedVisibility(showLanguagePicker) {
-        LanguagePickerSheet(
-            selectedLanguage = appLanguage,
-            onLanguageSelect = onAppLanguageChanged,
-            onDismissRequest = { showLanguagePicker = false }
-        )
+        AnimatedVisibility(showLanguagePicker) {
+            LanguagePickerSheet(
+                selectedLanguage = appLanguage,
+                onLanguageSelect = onAppLanguageChanged,
+                onDismissRequest = { showLanguagePicker = false }
+            )
+        }
     }
 }

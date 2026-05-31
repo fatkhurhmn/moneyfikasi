@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.model.AppLanguage
 import dev.muffar.moneyfikasi.domain.model.AppTheme
+import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.UiSettingsUseCases
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val uiSettingsUseCases: UiSettingsUseCases,
+    private val categoryUseCases: CategoryUseCases,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(SettingsState())
@@ -50,6 +52,7 @@ class SettingsViewModel @Inject constructor(
     private fun onAppLanguageChange(language: AppLanguage) {
         viewModelScope.launch {
             uiSettingsUseCases.setAppLanguage(language)
+            categoryUseCases.updateDefaultCategories(language)
         }
     }
 }
