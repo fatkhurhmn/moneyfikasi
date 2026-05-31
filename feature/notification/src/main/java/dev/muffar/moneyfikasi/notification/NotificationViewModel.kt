@@ -44,9 +44,7 @@ class NotificationViewModel @Inject constructor(
     private fun onAllowNotificationChange(isEnabled: Boolean) {
         viewModelScope.launch {
             notificationUseCases.setAllowNotification(isEnabled)
-            if (!isEnabled) {
-                notificationUseCases.setRecurringTransactionNotification(false)
-            }
+            notificationUseCases.setRecurringTransactionNotification(isEnabled)
         }
     }
 
