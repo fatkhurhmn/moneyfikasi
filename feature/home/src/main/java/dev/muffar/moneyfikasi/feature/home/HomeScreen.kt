@@ -42,7 +42,8 @@ fun HomeScreen(
     onAddPresetClick: () -> Unit,
     onPresetsClick: () -> Unit,
     onSeeAllBudgetsClick: () -> Unit,
-    onAddBudgetClick: () -> Unit
+    onAddBudgetClick: () -> Unit,
+    onAddWalletClick: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -77,7 +78,9 @@ fun HomeScreen(
 
             WalletSection(
                 wallets = state.wallets.toList(),
-                isBalanceVisible = state.isBalanceVisible
+                totalBalance = state.totalBalance,
+                isBalanceVisible = state.isBalanceVisible,
+                onAddWalletClick = onAddWalletClick
             )
 
             QuickTransactionSection(

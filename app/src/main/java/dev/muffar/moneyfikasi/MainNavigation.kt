@@ -76,7 +76,8 @@ fun MainNavigation(
             onSeeAllBudgetsClick = { navController.toBudgetsScreen() },
             navigateToAddPreset = { navController.toAddEditPresetScreen(TransactionType.INCOME) },
             navigateToPresets = { navController.toPresetsScreen() },
-            navigateToAddBudget = { navController.toAddEditBudgetScreen() }
+            navigateToAddBudget = { navController.toAddEditBudgetScreen() },
+            navigateToAddWallet = { navController.toAddEditWalletScreen() }
         )
 
         transactionsNavGraph(
