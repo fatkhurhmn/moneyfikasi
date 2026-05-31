@@ -1,13 +1,12 @@
 package dev.muffar.moneyfikasi.transaction.add_edit
 
+import dev.muffar.moneyfikasi.domain.model.AmountInputType
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.CategoryType
-import dev.muffar.moneyfikasi.domain.model.AmountInputType
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.utils.extensions.LongExt.format
-import dev.muffar.moneyfikasi.utils.extensions.LongExt.formattedDate
 import java.util.UUID
 
 data class AddEditTransactionState(

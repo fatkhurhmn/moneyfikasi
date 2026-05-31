@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.BottomSheetTitle
-import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.PickerOptionItem
+import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.SwitchPickerOptionItem
 import dev.muffar.moneyfikasi.resource.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,24 +54,20 @@ fun DashboardSettingsSheet(
                     .padding(bottom = 4.dp)
             )
 
-            PickerOptionItem(
-                isSelected = isQuickTransactionVisible,
+            SwitchPickerOptionItem(
+                checked = isQuickTransactionVisible,
                 icon = Icons.Rounded.Bolt,
                 title = stringResource(R.string.title_quick_transactions),
                 subtitle = stringResource(R.string.msg_quick_transactions_dashboard_description),
-                onClick = {
-                    onQuickTransactionVisibilityChange(!isQuickTransactionVisible)
-                }
+                onCheckedChange = onQuickTransactionVisibilityChange
             )
 
-            PickerOptionItem(
-                isSelected = isBudgetVisible,
+            SwitchPickerOptionItem(
+                checked = isBudgetVisible,
                 icon = Icons.Rounded.AccountBalanceWallet,
                 title = stringResource(R.string.title_budgets),
                 subtitle = stringResource(R.string.msg_budget_dashboard_description),
-                onClick = {
-                    onBudgetVisibilityChange(!isBudgetVisible)
-                }
+                onCheckedChange = onBudgetVisibilityChange
             )
         }
     }

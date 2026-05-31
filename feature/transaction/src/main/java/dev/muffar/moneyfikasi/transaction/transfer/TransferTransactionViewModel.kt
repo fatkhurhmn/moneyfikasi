@@ -15,7 +15,6 @@ import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.toMilliseconds
 import dev.muffar.moneyfikasi.utils.extensions.LongExt.format
-import dev.muffar.moneyfikasi.utils.extensions.LongExt.formattedDate
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
