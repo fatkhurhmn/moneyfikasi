@@ -41,9 +41,9 @@ fun BudgetItem(
     val progress = if (budget.amount > 0) (spentAmount / budget.amount).toFloat() else 0f
     val financeColors = MoneyfikasiTheme.financeColors
     val color = when (progress) {
-        in 0f..0.75f -> financeColors.info
-        in 0.75f..0.90f -> financeColors.warning
-        else -> financeColors.expenseContainer
+        in 0f..0.7f -> financeColors.info
+        in 0.7f..0.90f -> financeColors.warning
+        else -> MaterialTheme.colorScheme.error
     }
     val remainingAmount = (budget.amount - spentAmount).let {
         if (it < 0) 0.0 else it

@@ -30,7 +30,13 @@ object LocalDateTimeExt {
     }
 
     fun LocalDateTime.startOfYear(): Long {
-        return this.withMonth(1).withDayOfMonth(1).toMilliseconds()
+        return this.withMonth(1)
+            .withDayOfMonth(1)
+            .withHour(0)
+            .withMinute(0)
+            .withSecond(0)
+            .withNano(0)
+            .toMilliseconds()
     }
 
     fun LocalDateTime.endOfYear(): Long {
@@ -44,7 +50,12 @@ object LocalDateTimeExt {
     }
 
     fun LocalDateTime.startOfMonth(): Long {
-        return this.withDayOfMonth(1).toMilliseconds()
+        return this.withDayOfMonth(1)
+            .withHour(0)
+            .withMinute(0)
+            .withSecond(0)
+            .withNano(0)
+            .toMilliseconds()
     }
 
     fun LocalDateTime.endOfMonth(): Long {
@@ -59,7 +70,12 @@ object LocalDateTimeExt {
     }
 
     fun LocalDateTime.startOfWeek(): Long {
-        return this.with(DayOfWeek.MONDAY).toMilliseconds()
+        return this.with(DayOfWeek.MONDAY)
+            .withHour(0)
+            .withMinute(0)
+            .withSecond(0)
+            .withNano(0)
+            .toMilliseconds()
     }
 
     fun LocalDateTime.endOfWeek(): Long {

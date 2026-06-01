@@ -117,14 +117,7 @@ val lightFinanceColors = FinanceColors(
     brandKindaLight = MainColor.PrimaryHover,
     brandDark = MainColor.Primary,
     info = MainColor.Info,
-    warning = MainColor.Warning,
-    chartColors = listOf(
-        MainColor.Primary,
-        MainColor.Success,
-        MainColor.Info,
-        MainColor.Warning,
-        MainColor.Error,
-    )
+    warning = MainColor.Warning
 )
 
 val darkFinanceColors = FinanceColors(
@@ -143,14 +136,7 @@ val darkFinanceColors = FinanceColors(
     brandKindaLight = MainColor.WarningContainer,
     brandDark = MainColor.DarkPrimary,
     info = MainColor.Info,
-    warning = MainColor.Warning,
-    chartColors = listOf(
-        MainColor.DarkPrimary,
-        MainColor.Success,
-        MainColor.Info,
-        MainColor.Warning,
-        MainColor.Error,
-    )
+    warning = MainColor.Warning
 )
 
 object MoneyfikasiTheme {

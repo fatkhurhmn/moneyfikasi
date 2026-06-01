@@ -22,7 +22,6 @@ data class FinanceColors(
     val brandDark: Color,
     val info: Color,
     val warning: Color,
-    val chartColors: List<Color>,
 )
 
 val LocalFinanceColors = staticCompositionLocalOf {
@@ -43,6 +42,5 @@ val LocalFinanceColors = staticCompositionLocalOf {
         brandDark = Color.Unspecified,
         info = Color.Unspecified,
         warning = Color.Unspecified,
-        chartColors = emptyList(),
     )
 }

@@ -52,8 +52,8 @@ object MainColor {
     val SuccessContainer = Color(0xFFF0FAEC)
     val Error = Color(0xFFFF8A7A)
     val ErrorContainer = Color(0xFFFFEEEB)
-    val Warning = Color(0xFFA3E635)
-    val WarningContainer = Color(0xFFECFCCB)
+    val Warning = Color(0xFFFFB020)
+    val WarningContainer = Color(0xFFFFF1C2)
     val Info = Color(0xFF0891B2)
 
     // Basic Colors
