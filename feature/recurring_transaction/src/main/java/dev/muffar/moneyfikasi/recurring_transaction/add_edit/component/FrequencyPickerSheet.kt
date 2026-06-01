@@ -3,7 +3,6 @@ package dev.muffar.moneyfikasi.recurring_transaction.add_edit.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -19,10 +18,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.BottomSheetTitle
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.PickerOptionItem
-import dev.muffar.moneyfikasi.common_ui.component.button.DoubleOutlinedButton
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.utils.extension.labelRes
 import dev.muffar.moneyfikasi.resource.R
@@ -81,19 +78,5 @@ fun FrequencyPickerSheet(
                 )
             }
         }
-
-        CommonHorizontalDivider()
-        DoubleOutlinedButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            leftText = stringResource(R.string.action_cancel),
-            rightText = stringResource(R.string.action_reset),
-            onLeftClick = { hideSheet() },
-            onRightClick = {
-                onFrequencySelect(TimePeriod.MONTHLY)
-                hideSheet()
-            }
-        )
     }
 }

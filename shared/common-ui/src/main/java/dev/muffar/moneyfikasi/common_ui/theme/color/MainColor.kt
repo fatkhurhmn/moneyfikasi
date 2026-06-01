@@ -24,7 +24,7 @@ object MainColor {
     val LightSurface3 = Color(0xFFE1E5E0)
     val LightOutline = Color(0xFFD0D7D0)
     val LightTextPrimary = Color(0xFF111827)
-    val LightTextSecondary = Color(0xFF111827)
+    val LightTextSecondary = Color(0xFF64748B)
 
     // Dark Theme Surfaces
     val DarkBackground = Color(0xFF0B0D10)
@@ -33,7 +33,7 @@ object MainColor {
     val DarkSurface3 = Color(0xFF313A45)
     val DarkOutline = Color(0xFF4C5663)
     val DarkTextPrimary = Color(0xFFF9FAFB)
-    val DarkTextSecondary = Color(0xFFD0D6DE)
+    val DarkTextSecondary = Color(0xFFC2C8D0)
 
     // Light Surface Containers
     val LightSurfaceContainerLowest = Color(0xFFFFFFFF)
