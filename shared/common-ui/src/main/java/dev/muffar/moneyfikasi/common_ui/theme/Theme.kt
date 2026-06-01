@@ -17,7 +17,7 @@ val MoneyfikasiLightColorScheme = lightColorScheme(
     primary = MainColor.Primary,
     onPrimary = MainColor.OnPrimary,
     primaryContainer = MainColor.PrimaryContainerLight,
-    onPrimaryContainer = MainColor.OnPrimary,
+    onPrimaryContainer = MainColor.OnPrimaryContainer,
 
     secondary = MainColor.Success,
     onSecondary = MainColor.White,
@@ -58,10 +58,10 @@ val MoneyfikasiLightColorScheme = lightColorScheme(
 )
 
 val MoneyfikasiDarkColorScheme = darkColorScheme(
-    primary = MainColor.Primary,
-    onPrimary = MainColor.OnPrimary,
+    primary = MainColor.DarkPrimary,
+    onPrimary = MainColor.OnDarkPrimary,
     primaryContainer = MainColor.PrimaryContainerDark,
-    onPrimaryContainer = MainColor.Primary,
+    onPrimaryContainer = MainColor.OnPrimaryContainerDark,
 
     secondary = MainColor.Success,
     onSecondary = MainColor.White,
@@ -96,7 +96,7 @@ val MoneyfikasiDarkColorScheme = darkColorScheme(
 
     inverseSurface = MainColor.LightBackground,
     inverseOnSurface = MainColor.DarkBackground,
-    inversePrimary = MainColor.Primary,
+    inversePrimary = MainColor.DarkPrimary,
 
     scrim = MainColor.Black,
 )
@@ -113,7 +113,7 @@ val lightFinanceColors = FinanceColors(
     onBudgetContainer = MainColor.Warning,
     brand = MainColor.Primary,
     brandContainer = MainColor.PrimaryContainerLight,
-    onBrandContainer = MainColor.OnPrimary,
+    onBrandContainer = MainColor.OnPrimaryContainer,
     brandKindaLight = MainColor.PrimaryHover,
     brandDark = MainColor.Primary,
     info = MainColor.Info,
@@ -137,15 +137,15 @@ val darkFinanceColors = FinanceColors(
     budget = MainColor.Warning,
     budgetContainer = MainColor.DarkSurface1,
     onBudgetContainer = MainColor.Warning,
-    brand = MainColor.Primary,
+    brand = MainColor.DarkPrimary,
     brandContainer = MainColor.PrimaryContainerDark,
-    onBrandContainer = MainColor.Primary,
-    brandKindaLight = MainColor.PrimaryHover,
-    brandDark = MainColor.Primary,
+    onBrandContainer = MainColor.OnPrimaryContainerDark,
+    brandKindaLight = MainColor.WarningContainer,
+    brandDark = MainColor.DarkPrimary,
     info = MainColor.Info,
     warning = MainColor.Warning,
     chartColors = listOf(
-        MainColor.Primary,
+        MainColor.DarkPrimary,
         MainColor.Success,
         MainColor.Info,
         MainColor.Warning,

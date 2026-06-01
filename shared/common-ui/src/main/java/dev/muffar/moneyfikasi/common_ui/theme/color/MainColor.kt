@@ -7,56 +7,58 @@ import androidx.compose.ui.graphics.Color
 object MainColor {
 
     // Brand / Primary
-    val Primary = Color(0xFFC6F00D)
-    val PrimaryHover = Color(0xFFB2DB0C)
-    val PrimaryContainerLight = Color(0xFFEAF8B1)
-    val PrimaryContainerDark = Color(0xFF2A3408)
-    val OnPrimary = Color(0xFF121417)
+    val Primary = Color(0xFFA3E635)
+    val PrimaryHover = Color(0xFF84CC16)
+    val PrimaryContainerLight = Color(0xFFECFCCB)
+    val PrimaryContainerDark = Color(0xFF374151)
+    val OnPrimary = Color(0xFF1A2E05)
+    val OnPrimaryContainer = Color(0xFF1A2E05)
+    val OnPrimaryContainerDark = Color(0xFFF8FAFC)
+    val DarkPrimary = Primary
+    val OnDarkPrimary = OnPrimary
 
     // Light Theme Surfaces
-    val LightBackground = Color(0xFFF7F8FA)
+    val LightBackground = Color(0xFFF7F8F6)
     val LightSurface1 = Color(0xFFFFFFFF)
-    val LightSurface2 = Color(0xFFEFF2F5)
-    val LightSurface3 = Color(0xFFE4E9EE)
-    val LightOutline = Color(0xFFD7DDE4)
-    val LightTextPrimary = Color(0xFF121417)
-    val LightTextSecondary = Color(0xFF4A5568)
+    val LightSurface2 = Color(0xFFEFF2EF)
+    val LightSurface3 = Color(0xFFE1E5E0)
+    val LightOutline = Color(0xFFD0D7D0)
+    val LightTextPrimary = Color(0xFF111827)
+    val LightTextSecondary = Color(0xFF111827)
 
     // Dark Theme Surfaces
-    val DarkBackground = Color(0xFF121417)
-    val DarkSurface1 = Color(0xFF1C1F22)
-    val DarkSurface2 = Color(0xFF25292D)
-    val DarkSurface3 = Color(0xFF2F3439)
-    val DarkOutline = Color(0xFF3B424A)
-    val DarkTextPrimary = Color(0xFFF7F8FA)
-    val DarkTextSecondary = Color(0xFFC9D1DA)
+    val DarkBackground = Color(0xFF0B0D10)
+    val DarkSurface1 = Color(0xFF15191F)
+    val DarkSurface2 = Color(0xFF20262E)
+    val DarkSurface3 = Color(0xFF313A45)
+    val DarkOutline = Color(0xFF4C5663)
+    val DarkTextPrimary = Color(0xFFF9FAFB)
+    val DarkTextSecondary = Color(0xFFD0D6DE)
 
     // Light Surface Containers
     val LightSurfaceContainerLowest = Color(0xFFFFFFFF)
-    val LightSurfaceContainerLow = Color(0xFFF5F7FA)
-    val LightSurfaceContainer = Color(0xFFEFF2F5)
-    val LightSurfaceContainerHigh = Color(0xFFE8ECF0)
+    val LightSurfaceContainerLow = Color(0xFFF7F8F6)
+    val LightSurfaceContainer = Color(0xFFEFF2EF)
+    val LightSurfaceContainerHigh = Color(0xFFE1E5E0)
 
     // Dark Surface Containers
-    val DarkSurfaceContainerLowest = Color(0xFF181B1E)
-    val DarkSurfaceContainerLow = Color(0xFF1E2226)
-    val DarkSurfaceContainer = Color(0xFF25292D)
-    val DarkSurfaceContainerHigh = Color(0xFF2C3136)
+    val DarkSurfaceContainerLowest = Color(0xFF101317)
+    val DarkSurfaceContainerLow = Color(0xFF15191F)
+    val DarkSurfaceContainer = Color(0xFF20262E)
+    val DarkSurfaceContainerHigh = Color(0xFF313A45)
 
     // Semantic Colors
-    val Success = Color(0xFF2DC46D)
-    val SuccessContainer = Color(0xFFE8F8EF)
-    val Error = Color(0xFFEE5040)
-    val ErrorContainer = Color(0xFFFDECEB)
-    val Warning = Color(0xFFF39C12)
-    val WarningContainer = Color(0xFFFEF4E6)
-    val Info = Color(0xFF2563EB)
+    val Success = Color(0xFF7BC96F)
+    val SuccessContainer = Color(0xFFF0FAEC)
+    val Error = Color(0xFFFF8A7A)
+    val ErrorContainer = Color(0xFFFFEEEB)
+    val Warning = Color(0xFFA3E635)
+    val WarningContainer = Color(0xFFECFCCB)
+    val Info = Color(0xFF0891B2)
 
     // Basic Colors
     val White = Color(0xFFFFFFFF)
     val Black = Color(0xFF000000)
 
-    val ExtraLightGray = LightBackground
-
-    val YellowDark = Color(0xFFF9A825)
+    val YellowDark = Warning
 }
