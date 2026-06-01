@@ -19,10 +19,10 @@ val MoneyfikasiLightColorScheme = lightColorScheme(
     primaryContainer = MainColor.PrimaryContainerLight,
     onPrimaryContainer = MainColor.OnPrimaryContainer,
 
-    secondary = MainColor.Success,
-    onSecondary = MainColor.White,
-    secondaryContainer = MainColor.SuccessContainer,
-    onSecondaryContainer = MainColor.Success,
+    secondary = MainColor.SecondaryLight,
+    onSecondary = MainColor.OnSecondaryLight,
+    secondaryContainer = MainColor.SecondaryContainerLight,
+    onSecondaryContainer = MainColor.OnSecondaryContainerLight,
 
     tertiary = MainColor.Warning,
     onTertiary = MainColor.White,
@@ -63,10 +63,10 @@ val MoneyfikasiDarkColorScheme = darkColorScheme(
     primaryContainer = MainColor.PrimaryContainerDark,
     onPrimaryContainer = MainColor.OnPrimaryContainerDark,
 
-    secondary = MainColor.Success,
-    onSecondary = MainColor.White,
-    secondaryContainer = MainColor.SuccessContainer,
-    onSecondaryContainer = MainColor.Success,
+    secondary = MainColor.SecondaryDark,
+    onSecondary = MainColor.OnSecondaryDark,
+    secondaryContainer = MainColor.SecondaryContainerDark,
+    onSecondaryContainer = MainColor.OnSecondaryContainerDark,
 
     tertiary = MainColor.Warning,
     onTertiary = MainColor.White,

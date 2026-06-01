@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
-import dev.muffar.moneyfikasi.common_ui.component.button.DoubleOutlinedButton
+import dev.muffar.moneyfikasi.common_ui.component.button.RowErrorSecondaryButton
 import dev.muffar.moneyfikasi.common_ui.component.button.common.CommonButton
 import dev.muffar.moneyfikasi.resource.R
 
@@ -25,7 +25,7 @@ fun FilterSheetButton(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
-            DoubleOutlinedButton(
+            RowErrorSecondaryButton(
                 modifier = Modifier.fillMaxWidth(),
                 leftText = stringResource(R.string.action_cancel),
                 rightText = stringResource(R.string.action_reset),

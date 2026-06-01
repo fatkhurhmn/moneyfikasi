@@ -19,7 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
-import dev.muffar.moneyfikasi.common_ui.component.button.row.RowNegativePositiveButton
+import dev.muffar.moneyfikasi.common_ui.component.button.RowErrorPrimaryButton
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.LongExt.formattedDate
 import kotlinx.coroutines.launch
@@ -82,7 +82,7 @@ fun DatePickerSheet(
             }
         )
         CommonHorizontalDivider()
-        RowNegativePositiveButton(
+        RowErrorPrimaryButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp),

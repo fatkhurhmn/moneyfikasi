@@ -7,10 +7,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import dev.muffar.moneyfikasi.common_ui.component.button.common.CommonButton
 import dev.muffar.moneyfikasi.common_ui.component.button.common.CommonOutlinedButton
 
 @Composable
-fun DoubleOutlinedButton(
+fun RowErrorSecondaryButton(
     leftText: String,
     rightText: String,
     modifier: Modifier = Modifier,
@@ -25,9 +27,14 @@ fun DoubleOutlinedButton(
             onClick = onLeftClick
         )
         Spacer(modifier = Modifier.width(8.dp))
-        CommonOutlinedButton(
+        CommonButton(
             text = rightText,
             modifier = Modifier.weight(1f),
+            color = MaterialTheme.colorScheme.secondary,
+            style = MaterialTheme.typography.titleMedium.copy(
+                fontSize = 15.sp,
+                color = MaterialTheme.colorScheme.onSecondary
+            ),
             onClick = onRightClick
         )
     }

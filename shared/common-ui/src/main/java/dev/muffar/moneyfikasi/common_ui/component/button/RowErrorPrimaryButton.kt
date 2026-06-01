@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.common_ui.component.button.row
+package dev.muffar.moneyfikasi.common_ui.component.button
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,7 +11,7 @@ import dev.muffar.moneyfikasi.common_ui.component.button.common.CommonButton
 import dev.muffar.moneyfikasi.common_ui.component.button.common.CommonOutlinedButton
 
 @Composable
-fun RowNegativePositiveButton(
+fun RowErrorPrimaryButton(
     negativeText: String,
     positiveText: String,
     modifier: Modifier = Modifier,

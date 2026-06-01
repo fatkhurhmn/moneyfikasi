@@ -17,6 +17,16 @@ object MainColor {
     val DarkPrimary = Primary
     val OnDarkPrimary = OnPrimary
 
+    // Secondary
+    val SecondaryLight = Color(0xFF334155)
+    val OnSecondaryLight = Color(0xFFFFFFFF)
+    val SecondaryContainerLight = Color(0xFFE2E8F0)
+    val OnSecondaryContainerLight = Color(0xFF111827)
+    val SecondaryDark = Color(0xFFE2E8F0)
+    val OnSecondaryDark = Color(0xFF111827)
+    val SecondaryContainerDark = Color(0xFF334155)
+    val OnSecondaryContainerDark = Color(0xFFF8FAFC)
+
     // Light Theme Surfaces
     val LightBackground = Color(0xFFF7F8F6)
     val LightSurface1 = Color(0xFFFFFFFF)

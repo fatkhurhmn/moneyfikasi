@@ -129,7 +129,7 @@ fun BottomBarItem(
     val isSelected = currentRoute == route
 
     val iconColor =
-        if (!isSelected) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.primary
+        if (!isSelected) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.secondary
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,

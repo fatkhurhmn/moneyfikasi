@@ -23,7 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
-import dev.muffar.moneyfikasi.common_ui.component.button.DoubleOutlinedButton
+import dev.muffar.moneyfikasi.common_ui.component.button.RowErrorSecondaryButton
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.utils.extension.labelRes
@@ -99,7 +99,7 @@ fun ChooseDateSheet(
         }
 
         CommonHorizontalDivider()
-        DoubleOutlinedButton(
+        RowErrorSecondaryButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp),

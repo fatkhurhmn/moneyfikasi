@@ -13,7 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.button.common.CommonButton
-import dev.muffar.moneyfikasi.common_ui.component.button.row.RowNegativePositiveButton
+import dev.muffar.moneyfikasi.common_ui.component.button.RowErrorPrimaryButton
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
@@ -38,7 +38,7 @@ fun BottomBarAddEditButton(
                     .fillMaxWidth()
             )
         } else {
-            RowNegativePositiveButton(
+            RowErrorPrimaryButton(
                 negativeText = stringResource(R.string.action_delete),
                 positiveText = stringResource(R.string.action_save),
                 onNegativeClick = onDelete,
