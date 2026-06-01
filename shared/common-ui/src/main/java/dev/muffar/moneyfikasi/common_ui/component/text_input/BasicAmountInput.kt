@@ -35,7 +35,9 @@ fun BasicAmountInput(
             imeAction = imeAction,
             keyboardType = KeyboardType.Number
         ),
-        textStyle = textStyle,
+        textStyle = textStyle.copy(
+            color = MaterialTheme.colorScheme.onSurface
+        ),
         error = error,
         enabled = enabled
     )
