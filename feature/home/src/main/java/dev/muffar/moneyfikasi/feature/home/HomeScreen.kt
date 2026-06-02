@@ -87,7 +87,6 @@ fun HomeScreen(
             if (state.isBudgetVisible) {
                 BudgetSection(
                     budgets = state.budgets,
-                    onBudgetClick = {},
                     onSeeAllBudgetsClick = onSeeAllBudgetsClick,
                     onAddBudgetClick = onAddBudgetClick
                 )

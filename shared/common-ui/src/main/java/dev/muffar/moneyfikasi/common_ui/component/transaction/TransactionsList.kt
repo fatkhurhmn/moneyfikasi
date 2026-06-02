@@ -87,7 +87,7 @@ fun TransactionsList(
                     GroupTransactionHeader(date = transaction.date, balance)
                     CommonHorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp),
-                        color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                        color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.8f)
                     )
                 }
 
@@ -104,7 +104,7 @@ fun TransactionsList(
                 if (!isEndOfDay) {
                     CommonHorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp),
-                        color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                        color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.8f)
                     )
                 }
             }

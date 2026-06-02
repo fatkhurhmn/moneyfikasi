@@ -19,13 +19,11 @@ import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.budget.BudgetItem
 import dev.muffar.moneyfikasi.domain.model.Budget
 import dev.muffar.moneyfikasi.resource.R
-import java.util.UUID
 
 @Composable
 fun BudgetSection(
     modifier: Modifier = Modifier,
     budgets: List<Budget>,
-    onBudgetClick: (UUID) -> Unit,
     onSeeAllBudgetsClick: () -> Unit,
     onAddBudgetClick: () -> Unit
 ) {

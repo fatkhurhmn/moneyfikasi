@@ -31,20 +31,15 @@ fun CalendarHeader(
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         val arrowColor = if (enableButton) {
-            MaterialTheme.colorScheme.onSurfaceVariant
+            MaterialTheme.colorScheme.onSecondaryContainer
         } else {
-            MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+            MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.3f)
         }
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(CircleShape)
-                .border(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.primary,
-                    shape = CircleShape
-                )
-                .background(MaterialTheme.colorScheme.primaryContainer),
+                .background(MaterialTheme.colorScheme.secondaryContainer),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -59,6 +54,7 @@ fun CalendarHeader(
                 text = title,
                 style = MaterialTheme.typography.bodyMedium,
                 fontSize = 15.sp,
+                color = MaterialTheme.colorScheme.onSecondaryContainer,
                 modifier = Modifier.padding(4.dp)
             )
 

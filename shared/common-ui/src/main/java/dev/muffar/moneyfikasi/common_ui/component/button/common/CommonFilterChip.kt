@@ -28,15 +28,15 @@ fun CommonFilterChip(
         },
         leadingIcon = leadingIcon,
         colors = FilterChipDefaults.filterChipColors(
-            selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+            selectedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
             containerColor = Color.Transparent,
             labelColor = MaterialTheme.colorScheme.onSurface,
-            selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            selectedLabelColor = MaterialTheme.colorScheme.onSecondaryContainer,
         ),
         shape = CircleShape,
         border = BorderStroke(
-            width = 1.dp,
-            color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline
+            width = 0.5.dp,
+            color = if (selected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.outline
         )
     )
 }
