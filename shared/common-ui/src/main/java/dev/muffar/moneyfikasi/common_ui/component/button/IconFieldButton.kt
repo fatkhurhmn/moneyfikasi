@@ -28,7 +28,7 @@ fun IconFieldButton(
     onIconClick: () -> Unit,
 ) {
     val containerColor = if (color == 0L) {
-        MaterialTheme.colorScheme.secondaryContainer.copy(0.4f)
+        MaterialTheme.colorScheme.secondaryContainer.copy(0.5f)
     } else {
         Color(color).copy(alpha = 0.2f)
     }

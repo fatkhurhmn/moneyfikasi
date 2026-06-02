@@ -37,12 +37,14 @@ fun NumpadKey(
                     text = label,
                     style = MaterialTheme.typography.titleLarge.copy(
                         fontWeight = FontWeight.Medium
-                    )
+                    ),
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             } else if (icon != null) {
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.size(24.dp)
                 )
             }

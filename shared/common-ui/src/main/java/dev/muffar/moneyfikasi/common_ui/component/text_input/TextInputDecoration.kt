@@ -51,7 +51,7 @@ fun TextInputDecoration(
             )
             .background(
                 color = if (enabled) {
-                    MaterialTheme.colorScheme.secondaryContainer.copy(0.4f)
+                    MaterialTheme.colorScheme.secondaryContainer.copy(0.5f)
                 } else {
                     MaterialTheme.colorScheme.background
                 },

@@ -60,7 +60,7 @@ fun RecurringSummary(
 
     Surface(
         modifier = modifier.fillMaxWidth(),
-        color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.4f),
+        color = MaterialTheme.colorScheme.secondaryContainer.copy(0.5f),
         shape = MaterialTheme.shapes.medium
     ) {
         Column(
