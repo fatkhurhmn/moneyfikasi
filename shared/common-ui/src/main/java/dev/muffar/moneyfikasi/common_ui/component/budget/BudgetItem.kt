@@ -1,6 +1,5 @@
 package dev.muffar.moneyfikasi.common_ui.component.budget
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,7 +35,7 @@ fun BudgetItem(
     budget: Budget,
     spentAmount: Double,
     showCard: Boolean = true,
-    onClick: () -> Unit,
+    onClick: (() -> Unit)? = null,
 ) {
     val progress = if (budget.amount > 0) (spentAmount / budget.amount).toFloat() else 0f
     val financeColors = MoneyfikasiTheme.financeColors
@@ -64,9 +63,7 @@ fun BudgetItem(
         }
     } else {
         BudgetItemContent(
-            modifier = modifier
-                .clickable { onClick() }
-                .padding(vertical = 12.dp, horizontal = 16.dp),
+            modifier = modifier.padding(vertical = 12.dp, horizontal = 16.dp),
             budget = budget,
             spentAmount = spentAmount,
             progress = progress,

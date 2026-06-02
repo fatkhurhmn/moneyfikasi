@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 fun Modifier.dottedBorder(
     color: Color = Color.LightGray,
     strokeWidth: Dp = 1.dp,
-    cornerRadius: Dp = 8.dp,
+    cornerRadius: Dp = 16.dp,
     dashLength: Dp = 4.dp,
     gapLength: Dp = 4.dp
 ) = this.then(

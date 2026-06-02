@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.modifier.dottedBorder
@@ -22,23 +23,19 @@ fun EmptyPresetSection(
 ) {
     Row(
         modifier = Modifier
+            .padding(horizontal = 16.dp)
             .fillMaxWidth()
             .height(100.dp)
-            .padding(horizontal = 16.dp)
-            .dottedBorder(),
+            .clip(MaterialTheme.shapes.medium)
+            .dottedBorder(cornerRadius = 12.dp)
+            .clickable(onClick = onAddPresetClick),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
         Text(
             text = stringResource(R.string.action_add_preset),
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier
-                .clickable(
-                    onClick = onAddPresetClick,
-                    interactionSource = null,
-                    indication = null
-                )
+            color = MaterialTheme.colorScheme.primary
         )
     }
 }
