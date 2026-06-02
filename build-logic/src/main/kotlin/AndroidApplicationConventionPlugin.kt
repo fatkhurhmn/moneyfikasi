@@ -11,15 +11,15 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
         pluginManager.apply("com.android.application")
 
         extensions.configure<ApplicationExtension> {
-            compileSdk = 37
+            compileSdk = AppConfig.COMPILE_SDK
 
             buildFeatures {
                 resValues = true
             }
 
             defaultConfig {
-                minSdk = 26
-                targetSdk = 36
+                minSdk = AppConfig.MIN_SDK
+                targetSdk = AppConfig.TARGET_SDK
                 testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
                 vectorDrawables {
                     useSupportLibrary = true

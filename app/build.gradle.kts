@@ -6,12 +6,12 @@ plugins {
 }
 
 android {
-    namespace = "dev.muffar.moneyfikasi"
+    namespace = AppConfig.APPLICATION_ID
 
     defaultConfig {
-        applicationId = "dev.muffar.moneyfikasi"
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = AppConfig.APPLICATION_ID
+        versionCode = AppConfig.VERSION_CODE
+        versionName = AppConfig.VERSION_NAME
     }
 }
 
