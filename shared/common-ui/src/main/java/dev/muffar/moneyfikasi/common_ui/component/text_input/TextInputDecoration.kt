@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
@@ -44,13 +45,13 @@ fun TextInputDecoration(
                 color = when {
                     error.message != null || error.resId != null -> MaterialTheme.colorScheme.error
                     isFocus -> MaterialTheme.colorScheme.primary
-                    else -> MaterialTheme.colorScheme.outline
+                    else -> if (!enabled) MaterialTheme.colorScheme.outline else Color.Transparent
                 },
                 shape = MaterialTheme.shapes.medium
             )
             .background(
                 color = if (enabled) {
-                    MaterialTheme.colorScheme.surface
+                    MaterialTheme.colorScheme.secondaryContainer.copy(0.4f)
                 } else {
                     MaterialTheme.colorScheme.background
                 },

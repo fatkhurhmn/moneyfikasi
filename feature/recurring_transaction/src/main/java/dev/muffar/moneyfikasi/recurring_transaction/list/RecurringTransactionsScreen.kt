@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
 import dev.muffar.moneyfikasi.common_ui.component.button.common.CommonAddButton
 import dev.muffar.moneyfikasi.common_ui.component.tabs.IncomeExpenseTabs
@@ -64,7 +63,6 @@ fun RecurringTransactionsScreen(
             CommonTopAppBar(
                 title = stringResource(R.string.title_recurring_transaction),
                 onBackClick = onBackClick,
-                titleSize = 20.sp
             )
         },
         floatingActionButton = {

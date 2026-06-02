@@ -1,7 +1,6 @@
 package dev.muffar.moneyfikasi.common_ui.component.button
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,15 +28,9 @@ fun IconFieldButton(
     onIconClick: () -> Unit,
 ) {
     val containerColor = if (color == 0L) {
-        MaterialTheme.colorScheme.surface
+        MaterialTheme.colorScheme.secondaryContainer.copy(0.4f)
     } else {
         Color(color).copy(alpha = 0.2f)
-    }
-
-    val borderColor = if (color == 0L) {
-        MaterialTheme.colorScheme.outline
-    } else {
-        Color.Transparent
     }
 
     val iconColor = if (color == 0L) {
@@ -61,11 +54,6 @@ fun IconFieldButton(
                 .size(56.dp)
                 .clip(MaterialTheme.shapes.medium)
                 .background(containerColor)
-                .border(
-                    width = 1.dp,
-                    color = borderColor,
-                    shape = MaterialTheme.shapes.medium
-                )
                 .clickable { onIconClick() },
             contentAlignment = Alignment.Center
         ) {

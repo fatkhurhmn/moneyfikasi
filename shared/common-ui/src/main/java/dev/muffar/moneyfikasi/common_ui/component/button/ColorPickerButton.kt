@@ -1,7 +1,6 @@
 package dev.muffar.moneyfikasi.common_ui.component.button
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,15 +26,9 @@ fun ColorPickerButton(
     onClick: () -> Unit,
 ) {
     val containerColor = if (color == 0L) {
-        MaterialTheme.colorScheme.surface
+        MaterialTheme.colorScheme.secondaryContainer.copy(0.4f)
     } else {
         Color(color)
-    }
-
-    val borderColor = if (color == 0L) {
-        MaterialTheme.colorScheme.outline
-    } else {
-        Color.Transparent
     }
     Box(
         modifier = modifier
@@ -43,11 +36,6 @@ fun ColorPickerButton(
             .height(56.dp)
             .clip(MaterialTheme.shapes.medium)
             .background(containerColor)
-            .border(
-                width = 1.dp,
-                color = borderColor,
-                shape = MaterialTheme.shapes.medium
-            )
             .clickable { onClick() }
             .padding(4.dp),
         contentAlignment = Alignment.Center
