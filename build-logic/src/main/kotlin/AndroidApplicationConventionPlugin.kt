@@ -2,6 +2,7 @@ import com.android.build.api.dsl.ApplicationExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.plugins.BasePluginExtension
 import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
@@ -9,6 +10,10 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 class AndroidApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         pluginManager.apply("com.android.application")
+
+        extensions.configure<BasePluginExtension> {
+            archivesName.set(AppConfig.ARCHIVE_BASE_NAME)
+        }
 
         extensions.configure<ApplicationExtension> {
             compileSdk = AppConfig.COMPILE_SDK
@@ -27,6 +32,11 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
             }
 
             buildTypes {
+                debug {
+                    applicationIdSuffix = AppConfig.DEBUG_APPLICATION_ID_SUFFIX
+                    versionNameSuffix = AppConfig.DEBUG_VERSION_NAME_SUFFIX
+                }
+
                 release {
                     isMinifyEnabled = false
                     proguardFiles(

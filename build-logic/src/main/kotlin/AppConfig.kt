@@ -1,5 +1,6 @@
 object AppConfig {
     const val APPLICATION_ID = "dev.muffar.moneyfikasi"
+    const val APP_NAME = "moneyfikasi"
 
     const val COMPILE_SDK = 37
     const val MIN_SDK = 26
@@ -11,4 +12,9 @@ object AppConfig {
 
     const val VERSION_CODE = VERSION_MAJOR * 10_000 + VERSION_MINOR * 100 + VERSION_PATCH
     const val VERSION_NAME = "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH"
+
+    const val ARCHIVE_BASE_NAME = "$APP_NAME-v$VERSION_NAME-$VERSION_CODE"
+
+    const val DEBUG_APPLICATION_ID_SUFFIX = ".debug"
+    const val DEBUG_VERSION_NAME_SUFFIX = "-debug"
 }
