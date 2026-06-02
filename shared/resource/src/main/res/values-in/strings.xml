@@ -274,6 +274,8 @@
     <string name="msg_privacy_policy_description">Cara data aplikasi ditangani</string>
     <string name="msg_terms_of_service_description">Ketentuan penggunaan Moneyfikasi</string>
     <string name="msg_open_source_licenses_description">Library dan informasi lisensi</string>
+    <string name="msg_open_source_licenses_notice">Moneyfikasi dibuat dengan library open source. Layar ini merangkum dependensi runtime utama dan jenis lisensinya.</string>
+    <string name="label_license">Lisensi</string>
     <string name="privacy_intro_title">Ringkasan</string>
     <string name="privacy_intro_body">Moneyfikasi adalah aplikasi keuangan pribadi untuk mencatat dompet, pemasukan, pengeluaran, transfer, kategori, anggaran, preset, transaksi berulang, statistik, dan laporan. Aplikasi dirancang untuk menyimpan catatan keuangan di perangkat Anda kecuali Anda memilih untuk mengekspor atau mencadangkannya.</string>
     <string name="privacy_data_stored_title">Data yang Anda Masukkan</string>

@@ -29,6 +29,7 @@ fun AboutScreen(
     onBackClick: () -> Unit,
     onPrivacyPolicyClick: () -> Unit,
     onTermsOfServiceClick: () -> Unit,
+    onOpenSourceLicensesClick: () -> Unit,
 ) {
     val context = LocalContext.current
     val versionName = remember(context) {
@@ -85,8 +86,7 @@ fun AboutScreen(
                         title = stringResource(R.string.title_open_source_licenses),
                         subtitle = stringResource(R.string.msg_open_source_licenses_description),
                         icon = Icons.Rounded.Code,
-                        onClick = null,
-                        trailing = {}
+                        onClick = onOpenSourceLicensesClick,
                     )
                 }
             }

@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import dev.muffar.moneyfikasi.about.main.navigation.aboutNavGraph
 import dev.muffar.moneyfikasi.about.main.navigation.navigateToAbout
+import dev.muffar.moneyfikasi.about.main.navigation.navigateToOpenSourceLicenses
 import dev.muffar.moneyfikasi.about.main.navigation.navigateToPrivacyPolicy
 import dev.muffar.moneyfikasi.about.main.navigation.navigateToTermsOfService
 import dev.muffar.moneyfikasi.backup_restore.navigation.backupRestoreNavGraph
@@ -142,7 +143,8 @@ fun MainNavigation(
         aboutNavGraph(
             onBackClick = { navController.navigateUp() },
             onPrivacyPolicyClick = { navController.navigateToPrivacyPolicy() },
-            onTermsOfServiceClick = { navController.navigateToTermsOfService() }
+            onTermsOfServiceClick = { navController.navigateToTermsOfService() },
+            onOpenSourceLicensesClick = { navController.navigateToOpenSourceLicenses() }
         )
 
         notificationNavGraph(
