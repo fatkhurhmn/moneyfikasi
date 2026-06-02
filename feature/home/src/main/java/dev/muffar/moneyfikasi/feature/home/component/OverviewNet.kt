@@ -16,7 +16,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.model.TrendResult
 import dev.muffar.moneyfikasi.resource.R
@@ -35,11 +34,10 @@ fun OverviewNet(
             .fillMaxWidth()
             .clip(MaterialTheme.shapes.medium)
             .background(
-                brush = Brush.horizontalGradient(
+                brush = Brush.linearGradient(
                     colors = listOf(
-                        MoneyfikasiTheme.financeColors.brandKindaLight,
-                        MoneyfikasiTheme.financeColors.brand,
-                        MoneyfikasiTheme.financeColors.brandDark
+                        MaterialTheme.colorScheme.primaryContainer,
+                        MaterialTheme.colorScheme.secondaryContainer,
                     )
                 )
             )
@@ -53,7 +51,7 @@ fun OverviewNet(
             Text(
                 text = stringResource(R.string.label_net_balance),
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onPrimary,
+                color = MaterialTheme.colorScheme.onSecondaryContainer,
             )
 
             val balanceValue =
@@ -65,7 +63,7 @@ fun OverviewNet(
                 style = MaterialTheme.typography.headlineSmall.copy(
                     fontWeight = FontWeight.Bold
                 ),
-                color = MaterialTheme.colorScheme.onPrimary,
+                color = MaterialTheme.colorScheme.onSecondaryContainer,
             )
             BalanceTrendIndicator(trendResult = trendResult, timePeriod = timePeriod)
         }

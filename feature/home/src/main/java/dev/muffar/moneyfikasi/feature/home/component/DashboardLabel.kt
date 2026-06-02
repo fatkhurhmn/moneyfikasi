@@ -40,7 +40,7 @@ fun DashboardLabel(
         if (moreButton) {
             Text(
                 text = moreText,
-                style = MaterialTheme.typography.labelSmall,
+                style = MaterialTheme.typography.labelMedium,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier

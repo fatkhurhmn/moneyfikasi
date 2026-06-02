@@ -60,7 +60,7 @@ fun BalanceTrendIndicator(
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f),
+                tint = MaterialTheme.colorScheme.onSecondaryContainer,
                 modifier = Modifier.size(14.dp)
             )
         }
@@ -69,7 +69,7 @@ fun BalanceTrendIndicator(
             style = MaterialTheme.typography.labelSmall.copy(
                 fontSize = 10.sp
             ),
-            color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.8f)
+            color = MaterialTheme.colorScheme.onSecondaryContainer
         )
     }
 }

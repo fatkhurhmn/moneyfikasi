@@ -140,7 +140,7 @@ private fun TotalBalanceCard(
         PrimaryCard {
             Column(
                 modifier = Modifier
-                    .background(MaterialTheme.colorScheme.primaryContainer)
+                    .background(MaterialTheme.colorScheme.secondaryContainer)
                     .width(160.dp)
                     .defaultMinSize(minHeight = 110.dp)
                     .padding(horizontal = 16.dp, vertical = 10.dp),
@@ -148,7 +148,7 @@ private fun TotalBalanceCard(
             ) {
                 BoxedIcon(
                     icon = AppIcon.Wallet.name,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer.toArgb().toLong(),
+                    color = MaterialTheme.colorScheme.onSecondaryContainer.toArgb().toLong(),
                     containerSize = 40.dp,
                     iconSize = 24.dp
                 )
@@ -174,13 +174,12 @@ private fun TotalBalanceCard(
                     fontWeight = FontWeight.SemiBold,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
                 )
             }
         }
         VisibilityButton(
             visibility = isBalanceVisible,
-            color = MaterialTheme.colorScheme.onSurface,
             onVisibilityClick = onVisibilityClick,
             modifier = Modifier
                 .align(Alignment.TopEnd)

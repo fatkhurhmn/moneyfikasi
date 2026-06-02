@@ -58,11 +58,11 @@ object MainColor {
     val DarkSurfaceContainerHigh = Color(0xFF313A45)
 
     // Semantic Colors
-    val Success = Color(0xFF7BC96F)
+    val Success = Color(0xFF6BC75C)
     val SuccessContainer = Color(0xFFF0FAEC)
-    val Error = Color(0xFFFF8A7A)
+    val Error = Color(0xFFFA7967)
     val ErrorContainer = Color(0xFFFFEEEB)
-    val Warning = Color(0xFFFFB020)
+    val Warning = Color(0xFFFFCB69)
     val WarningContainer = Color(0xFFFFF1C2)
     val Info = Color(0xFF0891B2)
 

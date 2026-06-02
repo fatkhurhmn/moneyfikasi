@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 fun VisibilityButton(
     modifier: Modifier = Modifier,
     visibility: Boolean,
-    color: Color = MaterialTheme.colorScheme.onPrimary,
+    color: Color = MaterialTheme.colorScheme.onSecondaryContainer,
     onVisibilityClick: () -> Unit
 ) {
     Icon(

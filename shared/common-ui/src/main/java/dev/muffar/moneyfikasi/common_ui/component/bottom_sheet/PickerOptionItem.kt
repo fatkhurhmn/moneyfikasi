@@ -36,7 +36,7 @@ fun PickerOptionItem(
     onClick: () -> Unit,
 ) {
     val background = if (isSelected) {
-        MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.4f)
+        MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
     } else {
         MaterialTheme.colorScheme.surfaceContainer
     }
@@ -115,13 +115,13 @@ fun PickerOptionItem(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(MaterialTheme.shapes.medium)
-                    .background(MaterialTheme.colorScheme.primaryContainer),
+                    .background(MaterialTheme.colorScheme.secondaryContainer),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                    tint = MaterialTheme.colorScheme.onSecondaryContainer,
                     modifier = Modifier.size(24.dp)
                 )
             }
