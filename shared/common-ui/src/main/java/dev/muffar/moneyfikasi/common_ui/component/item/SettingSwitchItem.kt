@@ -23,7 +23,6 @@ fun SettingSwitchItem(
         title = title,
         subtitle = subtitle,
         icon = icon,
-        enabled = enabled,
         onClick = { onEnabledChange(!isEnabled) },
         trailing = {
             Switch(

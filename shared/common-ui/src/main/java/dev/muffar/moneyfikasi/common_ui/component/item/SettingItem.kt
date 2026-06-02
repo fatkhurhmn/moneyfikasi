@@ -48,7 +48,7 @@ fun SettingItem(
                 .size(48.dp)
                 .clip(MaterialTheme.shapes.medium)
                 .background(
-                    if (enabled) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
+                    if (enabled) MaterialTheme.colorScheme.primaryContainer
                     else MaterialTheme.colorScheme.surfaceVariant
                 ),
             contentAlignment = Alignment.Center

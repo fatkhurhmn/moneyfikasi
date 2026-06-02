@@ -16,7 +16,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
@@ -43,7 +42,7 @@ fun TrendGraphToggle(
             Box(
                 modifier = Modifier
                     .clip(CircleShape)
-                    .background(if (isSelected) MoneyfikasiTheme.financeColors.brand else Color.Transparent)
+                    .background(if (isSelected) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent)
                     .clickable { onTypeSelected(type) }
                     .padding(horizontal = 12.dp, vertical = 4.dp),
                 contentAlignment = Alignment.Center
@@ -51,7 +50,7 @@ fun TrendGraphToggle(
                 Text(
                     text = label,
                     style = MaterialTheme.typography.labelSmall,
-                    color = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
+                    color = if (isSelected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }

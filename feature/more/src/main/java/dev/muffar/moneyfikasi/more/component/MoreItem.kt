@@ -41,7 +41,7 @@ fun MoreItem(
                     modifier = Modifier
                         .size(50.dp)
                         .background(
-                            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+                            color = MaterialTheme.colorScheme.primaryContainer,
                             shape = MaterialTheme.shapes.small
                         ),
                     contentAlignment = Alignment.Center
