@@ -3,9 +3,12 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.BasePluginExtension
+import org.gradle.api.provider.Provider
 import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
+import java.io.File
+import java.util.Properties
 
 class AndroidApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
@@ -31,6 +34,28 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 }
             }
 
+            signingConfigs {
+                val localProperties = loadLocalProperties()
+                val releaseStoreFile = signingProperty(AppConfig.RELEASE_STORE_FILE_PROPERTY, localProperties)
+                val releaseStorePassword = signingProperty(AppConfig.RELEASE_STORE_PASSWORD_PROPERTY, localProperties)
+                val releaseKeyAlias = signingProperty(AppConfig.RELEASE_KEY_ALIAS_PROPERTY, localProperties)
+                val releaseKeyPassword = signingProperty(AppConfig.RELEASE_KEY_PASSWORD_PROPERTY, localProperties)
+
+                if (
+                    releaseStoreFile.isPresent &&
+                    releaseStorePassword.isPresent &&
+                    releaseKeyAlias.isPresent &&
+                    releaseKeyPassword.isPresent
+                ) {
+                    create("release") {
+                        storeFile = file(releaseStoreFile.get())
+                        storePassword = releaseStorePassword.get()
+                        keyAlias = releaseKeyAlias.get()
+                        keyPassword = releaseKeyPassword.get()
+                    }
+                }
+            }
+
             buildTypes {
                 debug {
                     applicationIdSuffix = AppConfig.DEBUG_APPLICATION_ID_SUFFIX
@@ -38,6 +63,9 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 }
 
                 release {
+                    signingConfigs.findByName("release")?.let {
+                        signingConfig = it
+                    }
                     isMinifyEnabled = false
                     proguardFiles(
                         getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -66,5 +94,27 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 jvmTarget.set(JvmTarget.JVM_17)
             }
         }
+    }
+
+    private fun Project.signingProperty(name: String, localProperties: Properties): Provider<String> =
+        providers.gradleProperty(name)
+            .orElse(providers.environmentVariable(name))
+            .orElse(providers.provider { localProperties.getProperty(name) })
+            .map(String::trim)
+            .map { value ->
+                if (name == AppConfig.RELEASE_STORE_FILE_PROPERTY) {
+                    File(value).takeIf(File::isAbsolute)?.path ?: rootProject.layout.projectDirectory.file(value).asFile.path
+                } else {
+                    value
+                }
+            }
+
+    private fun Project.loadLocalProperties(): Properties {
+        val properties = Properties()
+        val propertiesFile = rootProject.file("local.properties")
+        if (propertiesFile.isFile) {
+            propertiesFile.inputStream().use(properties::load)
+        }
+        return properties
     }
 }
