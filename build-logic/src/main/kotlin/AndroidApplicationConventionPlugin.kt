@@ -66,7 +66,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                     signingConfigs.findByName("release")?.let {
                         signingConfig = it
                     }
-                    isMinifyEnabled = false
+                    isMinifyEnabled = true
                     proguardFiles(
                         getDefaultProguardFile("proguard-android-optimize.txt"),
                         "proguard-rules.pro"

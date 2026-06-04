@@ -51,12 +51,6 @@ val openSourceLicenses = listOf(
         url = "https://github.com/valentinilk/compose-shimmer"
     ),
     OpenSourceLicense(
-        name = "Apache POI",
-        artifacts = "org.apache.poi:poi, org.apache.poi:poi-ooxml",
-        licenseName = "Apache License 2.0",
-        url = "https://poi.apache.org"
-    ),
-    OpenSourceLicense(
         name = "Capturable",
         artifacts = "dev.shreyaspatil:capturable",
         licenseName = "Apache License 2.0",

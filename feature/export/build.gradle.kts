@@ -27,8 +27,4 @@ dependencies {
     ksp(libs.dagger.hilt.compiler)
 
     implementation(libs.threetenabp)
-
-    // Excel export
-    implementation(libs.poi)
-    implementation(libs.poi.ooxml)
 }
