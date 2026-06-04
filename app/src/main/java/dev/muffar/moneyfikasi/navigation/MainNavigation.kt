@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi
+package dev.muffar.moneyfikasi.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -26,7 +26,6 @@ import dev.muffar.moneyfikasi.feature.home.navigation.homeNavigation
 import dev.muffar.moneyfikasi.more.navigation.moreNavGraph
 import dev.muffar.moneyfikasi.notification.navigation.notificationNavGraph
 import dev.muffar.moneyfikasi.notification.navigation.navigateToNotification
-import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.preset.add_edit.navigation.toAddEditPresetScreen
 import dev.muffar.moneyfikasi.preset.list.navigation.toPresetsScreen
 import dev.muffar.moneyfikasi.preset.presetGraph
@@ -37,6 +36,7 @@ import dev.muffar.moneyfikasi.search.navigation.searchNavigation
 import dev.muffar.moneyfikasi.search.navigation.toSearchScreen
 import dev.muffar.moneyfikasi.settings.navigation.navigateToSettings
 import dev.muffar.moneyfikasi.settings.navigation.settingsNavGraph
+import dev.muffar.moneyfikasi.splash.navigation.splashNavGraph
 import dev.muffar.moneyfikasi.statistic.category_distribution.navigation.toCategoryDistributionScreen
 import dev.muffar.moneyfikasi.statistic.detail.navigation.toStatisticDetailScreen
 import dev.muffar.moneyfikasi.statistic.statisticNavGraph
@@ -57,6 +57,7 @@ fun MainNavigation(
         navController = navController,
         startDestination = startDestination,
     ) {
+        splashNavGraph()
 
         homeNavigation(
             onTransactionClick = { id, isTransfer ->

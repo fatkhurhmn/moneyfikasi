@@ -3,10 +3,13 @@ package dev.muffar.moneyfikasi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.muffar.moneyfikasi.domain.model.EnterPinType
 import dev.muffar.moneyfikasi.domain.model.UiSettings
 import dev.muffar.moneyfikasi.domain.usecase.notification.NotificationUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.security.SecuritySettingsUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.UiSettingsUseCases
+import dev.muffar.moneyfikasi.navigation.Screen
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
@@ -27,16 +30,27 @@ class MainViewModel @Inject constructor(
     private val _uiSettings = MutableStateFlow(UiSettings())
     val uiSettings = _uiSettings.asStateFlow()
 
+    private val _postSplashRoute = MutableStateFlow<String?>(null)
+    val postSplashRoute = _postSplashRoute.asStateFlow()
+
     init {
-        checkAppLock()
+        preparePostSplashRoute()
         getUiSettings()
     }
 
-    private fun checkAppLock() {
+    private fun preparePostSplashRoute() {
         viewModelScope.launch {
             val isEnabled = securitySettingsUseCases.getSecuritySettings()
                 .first().isAppLockEnabled
             _isAppLockEnabled.update { isEnabled }
+            delay(SPLASH_DURATION_MILLIS)
+            _postSplashRoute.update {
+                if (isEnabled) {
+                    Screen.EnterPin.routeWithArg(EnterPinType.ENTER_PIN)
+                } else {
+                    Screen.Home.route
+                }
+            }
         }
     }
 
@@ -56,5 +70,9 @@ class MainViewModel @Inject constructor(
                 notificationUseCases.setRecurringTransactionNotification(isEnabled)
             }
         }
+    }
+
+    private companion object {
+        const val SPLASH_DURATION_MILLIS = 2_000L
     }
 }

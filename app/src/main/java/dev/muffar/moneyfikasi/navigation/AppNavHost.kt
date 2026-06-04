@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi
+package dev.muffar.moneyfikasi.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import dev.muffar.moneyfikasi.navigation.Screen
 
 @Composable
 fun AppNavHost(

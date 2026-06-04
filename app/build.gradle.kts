@@ -40,6 +40,7 @@ dependencies {
     implementation(projects.feature.recurringTransaction)
     implementation(projects.feature.notification)
     implementation(projects.feature.about)
+    implementation(projects.feature.splash)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

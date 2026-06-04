@@ -25,12 +25,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.domain.model.AppLanguage
 import dev.muffar.moneyfikasi.domain.model.AppTheme
-import dev.muffar.moneyfikasi.domain.model.EnterPinType
 import dev.muffar.moneyfikasi.domain.model.UiSettings
 import dev.muffar.moneyfikasi.navigation.Screen
 
@@ -43,21 +43,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val isAppLockEnabled by viewModel.isAppLockEnabled.collectAsStateWithLifecycle()
+            val postSplashRoute by viewModel.postSplashRoute.collectAsStateWithLifecycle()
             val uiSettings by viewModel.uiSettings.collectAsStateWithLifecycle()
 
-            NotificationPermissionHandler(
-                onPermissionResult = viewModel::syncNotificationPermission,
-                onSyncPermission = {
-                    val isEnabled = NotificationManagerCompat.from(this).areNotificationsEnabled()
-                    viewModel.syncNotificationPermission(isEnabled)
-                }
+            AppContent(
+                postSplashRoute = postSplashRoute,
+                uiSettings = uiSettings
             )
 
-            if (isAppLockEnabled != null) {
-                AppContent(
-                    isAppLockEnabled = isAppLockEnabled == true,
-                    uiSettings = uiSettings
+            if (postSplashRoute != null) {
+                NotificationPermissionHandler(
+                    onPermissionResult = viewModel::syncNotificationPermission,
+                    onSyncPermission = {
+                        val isEnabled = NotificationManagerCompat.from(this).areNotificationsEnabled()
+                        viewModel.syncNotificationPermission(isEnabled)
+                    }
                 )
             }
         }
@@ -96,15 +96,9 @@ class MainActivity : AppCompatActivity() {
 
     @Composable
     private fun AppContent(
-        isAppLockEnabled: Boolean,
+        postSplashRoute: String?,
         uiSettings: UiSettings,
     ) {
-        val startDestination = if (isAppLockEnabled) {
-            Screen.EnterPin.routeWithArg(EnterPinType.ENTER_PIN)
-        } else {
-            Screen.Home.route
-        }
-
         val darkTheme = when (uiSettings.appTheme) {
             AppTheme.LIGHT -> false
             AppTheme.DARK -> true
@@ -130,14 +124,28 @@ class MainActivity : AppCompatActivity() {
             AppCompatDelegate.setApplicationLocales(appLocale)
         }
 
+        val navController = rememberNavController()
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+
+        LaunchedEffect(postSplashRoute, navBackStackEntry) {
+            if (postSplashRoute != null && navBackStackEntry?.destination?.route == Screen.Splash.route) {
+                navController.navigate(postSplashRoute) {
+                    popUpTo(Screen.Splash.route) {
+                        inclusive = true
+                    }
+                    launchSingleTop = true
+                }
+            }
+        }
+
         MoneyfikasiTheme(darkTheme = darkTheme) {
             Surface(
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.surface
             ) {
                 MainScreen(
-                    navController = rememberNavController(),
-                    startDestination = startDestination
+                    navController = navController,
+                    startDestination = Screen.Splash.route
                 )
             }
         }

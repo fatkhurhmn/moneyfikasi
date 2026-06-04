@@ -5,6 +5,8 @@ import dev.muffar.moneyfikasi.domain.model.TransactionType
 import java.util.UUID
 
 sealed class Screen(val route: String) {
+    data object Splash : Screen("splash")
+
     data object Home : Screen("home")
 
     data object Search : Screen("search")
