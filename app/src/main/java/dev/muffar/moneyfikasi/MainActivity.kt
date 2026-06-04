@@ -117,6 +117,10 @@ class MainActivity : AppCompatActivity() {
             AppLanguage.SYSTEM -> ""
         }
 
+        LaunchedEffect(uiSettings.appTheme) {
+            AppCompatDelegate.setDefaultNightMode(uiSettings.appTheme.toAppCompatNightMode())
+        }
+
         LaunchedEffect(languageTag) {
             val appLocale: LocaleListCompat = if (languageTag.isNotEmpty()) {
                 LocaleListCompat.forLanguageTags(languageTag)
