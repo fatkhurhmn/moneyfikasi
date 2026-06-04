@@ -53,9 +53,7 @@ class MainViewModel @Inject constructor(
             val notificationSettings = notificationUseCases.getNotificationSettings().first()
             if (notificationSettings.isAllowNotification != isEnabled) {
                 notificationUseCases.setAllowNotification(isEnabled)
-                if (!isEnabled) {
-                    notificationUseCases.setRecurringTransactionNotification(false)
-                }
+                notificationUseCases.setRecurringTransactionNotification(isEnabled)
             }
         }
     }
