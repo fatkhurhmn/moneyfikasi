@@ -16,5 +16,8 @@ build/
 .cxx
 local.properties
 
+**/release/
+*.apk
+*.aab
 *.jks
 *.idsig

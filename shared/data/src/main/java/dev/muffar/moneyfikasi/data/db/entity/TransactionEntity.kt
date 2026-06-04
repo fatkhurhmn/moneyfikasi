@@ -3,6 +3,7 @@ package dev.muffar.moneyfikasi.data.db.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import org.threeten.bp.LocalDateTime
@@ -10,6 +11,10 @@ import java.util.UUID
 
 @Entity(
     tableName = "transactions",
+    indices = [
+        Index(value = ["wallet_id"]),
+        Index(value = ["category_id"])
+    ],
     foreignKeys = [
         ForeignKey(
             entity = WalletEntity::class,

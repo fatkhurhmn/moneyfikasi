@@ -391,6 +391,7 @@ abstract class TransactionDao {
     @Query("SELECT * FROM transactions WHERE id = :id")
     abstract suspend fun getTransactionById(id: UUID): TransactionEntity?
 
+    @Transaction
     @Query("SELECT * FROM transactions WHERE id = :id")
     abstract suspend fun getTransactionWithDetailsById(id: UUID): TransactionWithDetails?
 
