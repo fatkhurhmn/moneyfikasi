@@ -88,10 +88,16 @@ class AddEditCategoryViewModel @Inject constructor(
 
     private fun onIconChange(icon: String) {
         _state.update { it.copy(icon = icon) }
+        if (icon.isNotEmpty() && _state.value.color != 0L) {
+            updateIconAndColor()
+        }
     }
 
     private fun onColorChange(color: Long) {
         _state.update { it.copy(color = color) }
+        if (_state.value.icon.isNotEmpty() && color != 0L) {
+            updateIconAndColor()
+        }
     }
 
     private fun updateIconAndColor() {
