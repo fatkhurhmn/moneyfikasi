@@ -24,9 +24,6 @@ class MainViewModel @Inject constructor(
     private val notificationUseCases: NotificationUseCases,
 ) : ViewModel() {
 
-    private val _isAppLockEnabled = MutableStateFlow<Boolean?>(null)
-    val isAppLockEnabled = _isAppLockEnabled.asStateFlow()
-
     private val _uiSettings = MutableStateFlow(UiSettings())
     val uiSettings = _uiSettings.asStateFlow()
 
@@ -42,7 +39,6 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             val isEnabled = securitySettingsUseCases.getSecuritySettings()
                 .first().isAppLockEnabled
-            _isAppLockEnabled.update { isEnabled }
             delay(SPLASH_DURATION_MILLIS)
             _postSplashRoute.update {
                 if (isEnabled) {
