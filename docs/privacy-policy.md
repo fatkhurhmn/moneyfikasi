@@ -42,7 +42,7 @@ You can add, edit, delete, export, back up, restore, or remove your data using t
 
 ## Contact
 
-For privacy questions, contact the developer at fatkhurhmn@users.noreply.github.com.
+For privacy questions, contact the developer at fatkhurohman.tech@gmail.com.
 
 ## Policy Changes
 
