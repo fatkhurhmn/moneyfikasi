@@ -75,12 +75,11 @@ class ExportViewModel @Inject constructor(
                 }
             }
             _eventFlow.send(UiEvent.ShowMessage(R.string.msg_export_success, SnackbarType.SUCCESS))
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             _eventFlow.send(
                 UiEvent.ShowMessage(
                     R.string.error_export_failed,
-                    SnackbarType.ERROR,
-                    e.message.orEmpty()
+                    SnackbarType.ERROR
                 )
             )
         } finally {

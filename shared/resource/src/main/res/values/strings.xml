@@ -371,9 +371,9 @@
     <string name="error_preset_requires_value">Please provide at least an amount, category, or wallet</string>
     <string name="error_save_recurring_transaction_failed">Failed to save recurring transaction</string>
     <string name="error_delete_recurring_transaction_failed">Failed to delete recurring transaction</string>
-    <string name="error_export_failed">Export failed: %1$s</string>
-    <string name="error_backup_failed">Backup failed: %1$s</string>
-    <string name="error_restore_failed">Restore failed: %1$s</string>
+    <string name="error_export_failed">Export failed</string>
+    <string name="error_backup_failed">Backup failed</string>
+    <string name="error_restore_failed">Restore failed</string>
     <string name="error_delete_transaction_failed">Failed to delete transaction</string>
     <string name="error_save_image_failed">Failed to save image</string>
     <string name="error_pins_do_not_match">PINs do not match. Please try again.</string>

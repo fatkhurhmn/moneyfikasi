@@ -371,9 +371,9 @@
     <string name="error_preset_requires_value">Berikan setidaknya jumlah, kategori, atau dompet</string>
     <string name="error_save_recurring_transaction_failed">Gagal menyimpan transaksi berulang</string>
     <string name="error_delete_recurring_transaction_failed">Gagal menghapus transaksi berulang</string>
-    <string name="error_export_failed">Ekspor gagal: %1$s</string>
-    <string name="error_backup_failed">Pencadangan gagal: %1$s</string>
-    <string name="error_restore_failed">Pemulihan gagal: %1$s</string>
+    <string name="error_export_failed">Ekspor gagal</string>
+    <string name="error_backup_failed">Pencadangan gagal</string>
+    <string name="error_restore_failed">Pemulihan gagal</string>
     <string name="error_delete_transaction_failed">Gagal menghapus transaksi</string>
     <string name="error_save_image_failed">Gagal menyimpan gambar</string>
     <string name="error_pins_do_not_match">PIN tidak cocok. Silakan coba lagi.</string>
