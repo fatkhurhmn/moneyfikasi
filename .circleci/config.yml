@@ -23,16 +23,16 @@ jobs:
             - ~/.android/build-cache
             - ~/.android/cache
       - run:
-          name: Run Build
-          command: ./gradlew build
+          name: Run quality gate
+          command: ./gradlew lint test assembleRelease bundleRelease
       - store_artifacts:
-          path: app/build/reports
+          path: build/reports
           destination: reports
-      - run:
-          name: Run Tests
-          command: ./gradlew lint test
       - store_test_results:
           path: app/build/test-results
       - store_artifacts:
-          path: app/build/outputs/apk/debug/
-          destination: artifact-file
+          path: app/build/outputs/apk/release/
+          destination: release-apk
+      - store_artifacts:
+          path: app/build/outputs/bundle/release/
+          destination: release-bundle
