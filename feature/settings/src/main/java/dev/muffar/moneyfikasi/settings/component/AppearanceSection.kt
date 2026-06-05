@@ -21,9 +21,9 @@ import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.LanguagePickerShe
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.ThemePickerSheet
 import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
 import dev.muffar.moneyfikasi.common_ui.component.item.SettingItem
+import dev.muffar.moneyfikasi.domain.model.AmountInputType
 import dev.muffar.moneyfikasi.domain.model.AppLanguage
 import dev.muffar.moneyfikasi.domain.model.AppTheme
-import dev.muffar.moneyfikasi.domain.model.AmountInputType
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable

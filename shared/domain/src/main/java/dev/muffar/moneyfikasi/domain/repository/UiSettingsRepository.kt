@@ -1,8 +1,8 @@
 package dev.muffar.moneyfikasi.domain.repository
 
+import dev.muffar.moneyfikasi.domain.model.AmountInputType
 import dev.muffar.moneyfikasi.domain.model.AppLanguage
 import dev.muffar.moneyfikasi.domain.model.AppTheme
-import dev.muffar.moneyfikasi.domain.model.AmountInputType
 import dev.muffar.moneyfikasi.domain.model.UiSettings
 import kotlinx.coroutines.flow.Flow
 

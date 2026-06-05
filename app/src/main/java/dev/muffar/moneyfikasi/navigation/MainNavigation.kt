@@ -24,8 +24,8 @@ import dev.muffar.moneyfikasi.feature.applock.enter_pin.navigation.toEnterPinScr
 import dev.muffar.moneyfikasi.feature.applock.main.navigation.toAppLockScreen
 import dev.muffar.moneyfikasi.feature.home.navigation.homeNavigation
 import dev.muffar.moneyfikasi.more.navigation.moreNavGraph
-import dev.muffar.moneyfikasi.notification.navigation.notificationNavGraph
 import dev.muffar.moneyfikasi.notification.navigation.navigateToNotification
+import dev.muffar.moneyfikasi.notification.navigation.notificationNavGraph
 import dev.muffar.moneyfikasi.preset.add_edit.navigation.toAddEditPresetScreen
 import dev.muffar.moneyfikasi.preset.list.navigation.toPresetsScreen
 import dev.muffar.moneyfikasi.preset.presetGraph

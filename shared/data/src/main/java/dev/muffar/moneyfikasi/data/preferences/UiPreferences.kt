@@ -1,9 +1,9 @@
 package dev.muffar.moneyfikasi.data.preferences
 
 import androidx.datastore.core.DataStore
+import dev.muffar.moneyfikasi.domain.model.AmountInputType
 import dev.muffar.moneyfikasi.domain.model.AppLanguage
 import dev.muffar.moneyfikasi.domain.model.AppTheme
-import dev.muffar.moneyfikasi.domain.model.AmountInputType
 import dev.muffar.moneyfikasi.domain.model.UiSettings
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

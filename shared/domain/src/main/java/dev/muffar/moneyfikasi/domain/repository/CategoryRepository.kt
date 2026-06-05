@@ -1,8 +1,8 @@
 package dev.muffar.moneyfikasi.domain.repository
 
+import dev.muffar.moneyfikasi.domain.model.AppLanguage
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.CategoryType
-import dev.muffar.moneyfikasi.domain.model.AppLanguage
 import kotlinx.coroutines.flow.Flow
 import java.util.UUID
 
