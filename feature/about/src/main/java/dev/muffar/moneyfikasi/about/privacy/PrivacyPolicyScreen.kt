@@ -59,6 +59,10 @@ fun PrivacyPolicyScreen(
                 body = stringResource(R.string.privacy_backups_exports_body)
             )
             PolicySection(
+                title = stringResource(R.string.privacy_permissions_title),
+                body = stringResource(R.string.privacy_permissions_body)
+            )
+            PolicySection(
                 title = stringResource(R.string.privacy_notifications_title),
                 body = stringResource(R.string.privacy_notifications_body)
             )
@@ -67,12 +71,20 @@ fun PrivacyPolicyScreen(
                 body = stringResource(R.string.privacy_security_body)
             )
             PolicySection(
+                title = stringResource(R.string.privacy_retention_title),
+                body = stringResource(R.string.privacy_retention_body)
+            )
+            PolicySection(
                 title = stringResource(R.string.privacy_third_party_title),
                 body = stringResource(R.string.privacy_third_party_body)
             )
             PolicySection(
                 title = stringResource(R.string.privacy_user_control_title),
                 body = stringResource(R.string.privacy_user_control_body)
+            )
+            PolicySection(
+                title = stringResource(R.string.privacy_contact_title),
+                body = stringResource(R.string.privacy_contact_body)
             )
             PolicySection(
                 title = stringResource(R.string.privacy_changes_title),
