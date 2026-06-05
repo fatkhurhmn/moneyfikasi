@@ -10,21 +10,20 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: android-orb-v1-
+          keys:
+            - gradle-v1-{{ checksum "gradle/libs.versions.toml" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+            - gradle-v1-
       - run:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew
       - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
-      - save_cache:
-          key: 'android-orb-v1-{{ epoch }}'
-          paths:
-            - ~/.android/build-cache
-            - ~/.android/cache
-      - run:
           name: Run quality gate
           command: ./gradlew lint test assembleRelease bundleRelease
+      - save_cache:
+          key: gradle-v1-{{ checksum "gradle/libs.versions.toml" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+          paths:
+            - ~/.gradle/caches
+            - ~/.gradle/wrapper
       - store_artifacts:
           path: build/reports
           destination: reports
