@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.transaction.transfer
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -9,6 +10,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.ModifierExt.formModifier
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
@@ -47,7 +49,8 @@ fun TransferTransactionScreen(
                 onBackClick = onBackClick
             )
         },
-        bottomBar = { TransferTransactionButton(onTransfer) }
+        bottomBar = { TransferTransactionButton(onTransfer) },
+        contentWindowInsets = WindowInsets(0.dp)
     ) {
         TransferTransactionForm(
             modifier = Modifier.formModifier(it, scrollState),

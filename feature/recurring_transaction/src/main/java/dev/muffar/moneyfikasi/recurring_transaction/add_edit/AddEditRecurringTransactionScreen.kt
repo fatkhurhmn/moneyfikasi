@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.recurring_transaction.add_edit
 
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
@@ -13,6 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.ModifierExt.formModifier
 import dev.muffar.moneyfikasi.common_ui.component.button.bottom_bar.BottomBarAddEditButton
 import dev.muffar.moneyfikasi.common_ui.component.dialog.CommonAlertDialog
@@ -102,7 +104,8 @@ fun AddEditRecurringTransactionScreen(
                 onSave = onSaveClick,
                 onDelete = { showDeleteAlert = true }
             )
-        }
+        },
+        contentWindowInsets = WindowInsets(0.dp)
     ) {innerPadding->
         AddEditRecurringTransactionForm(
             modifier = Modifier.formModifier(innerPadding, scrollState),

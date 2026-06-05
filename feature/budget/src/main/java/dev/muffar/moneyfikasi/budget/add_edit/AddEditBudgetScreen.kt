@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.budget.add_edit
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
@@ -9,6 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.budget.add_edit.component.AddEditBudgetForm
 import dev.muffar.moneyfikasi.common_ui.component.ModifierExt.formModifier
 import dev.muffar.moneyfikasi.common_ui.component.button.bottom_bar.BottomBarAddEditButton
@@ -51,7 +53,8 @@ fun AddEditBudgetScreen(
                 onDelete = { onShowAlert(true) }
             )
         },
-        snackbarHost = { SnackbarMessage(snackbarHostState) }
+        snackbarHost = { SnackbarMessage(snackbarHostState) },
+        contentWindowInsets = WindowInsets(0.dp)
     ) {
         AddEditBudgetForm(
             modifier = Modifier.formModifier(it, scrollState),

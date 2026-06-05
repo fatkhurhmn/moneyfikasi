@@ -1,6 +1,8 @@
 package dev.muffar.moneyfikasi.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -31,7 +33,9 @@ fun AppNavHost(
         enterTransition = {
             val initialRoute = initialState.destination.route
             val targetRoute = targetState.destination.route
-            if (initialRoute in bottomNavRoutes && targetRoute in bottomNavRoutes) {
+            if (initialRoute !in bottomNavRoutes && targetRoute in bottomNavRoutes) {
+                fadeIn(animationSpec = tween(300))
+            } else if (initialRoute in bottomNavRoutes && targetRoute in bottomNavRoutes) {
                 val initialIndex = bottomNavRoutes.indexOf(initialRoute)
                 val targetIndex = bottomNavRoutes.indexOf(targetRoute)
                 if (targetIndex > initialIndex) {
@@ -55,7 +59,9 @@ fun AppNavHost(
         exitTransition = {
             val initialRoute = initialState.destination.route
             val targetRoute = targetState.destination.route
-            if (initialRoute in bottomNavRoutes && targetRoute in bottomNavRoutes) {
+            if (initialRoute !in bottomNavRoutes && targetRoute in bottomNavRoutes) {
+                fadeOut(animationSpec = tween(300))
+            } else if (initialRoute in bottomNavRoutes && targetRoute in bottomNavRoutes) {
                 val initialIndex = bottomNavRoutes.indexOf(initialRoute)
                 val targetIndex = bottomNavRoutes.indexOf(targetRoute)
                 if (targetIndex > initialIndex) {
