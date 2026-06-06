@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.ModifierExt.formModifier
 import dev.muffar.moneyfikasi.common_ui.component.button.bottom_bar.BottomBarSaveButton
@@ -19,6 +20,7 @@ import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
+import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.add_edit.component.AddEditTransactionForm
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -49,7 +51,11 @@ fun AddEditTransactionScreen(
         },
         topBar = {
             CommonTopAppBar(
-                title = state.type.value,
+                title = if (state.type == TransactionType.EXPENSE) {
+                    stringResource(id = R.string.label_expense)
+                } else {
+                    stringResource(id = R.string.label_income)
+                },
                 onBackClick = onBackClick
             )
         },
