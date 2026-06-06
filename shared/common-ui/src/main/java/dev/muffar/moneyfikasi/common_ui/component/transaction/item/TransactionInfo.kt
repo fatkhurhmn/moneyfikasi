@@ -50,10 +50,13 @@ fun TransactionInfo(
             )
 
             Spacer(modifier = Modifier.height(2.dp))
-
             Text(
-                text = date,
-                style = MaterialTheme.typography.bodyMedium,
+                text = if (!showDate && transaction.note?.isNotEmpty() == true) {
+                    "$date • ${transaction.note}"
+                } else {
+                    date
+                },
+                style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
