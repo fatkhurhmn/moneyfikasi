@@ -1,7 +1,7 @@
 <h1 align="center" style="font-size:28px; line-height:1"><b>Moneyfikasi</b></h1>
 
 <div align="center">
-  <img alt="Routine Tracker logo" src="images/logo.png" height="80px">
+  <img alt="Moneyfikasi logo" src="images/logo.png" height="80px">
 </div>
 
 <p>
@@ -10,40 +10,57 @@
 
 ## Screenshots
 
-|                      |                      |                      |                      |
-|----------------------|----------------------|----------------------|----------------------|
-| ![](images/img1.png) | ![](images/img2.png) | ![](images/img3.png) | ![](images/img4.png) |
+                      |                      |                      |                      |
+----------------------|----------------------|----------------------|----------------------|
+ ![](images/1.png)    | ![](images/2.png)    | ![](images/3.png)    | ![](images/4.png)    |
+ ![](images/5.png)    | ![](images/6.png)    | ![](images/7.png)    | ![](images/8.png)    |
 
 ## Key Features
 
-- **Recording Transactions.** Easily record all your financial transactions, both income and
-  expenses.
-- **Financial Report.** Access financial reports according to the time period you want to see a
-  summary of your expenses and income.
-- **Analysis Graph.** View graphs that show your financial trends, helping you understand spending
-  and income patterns.
-- **Multiple Wallet.** Manage finances from multiple wallets.
-- **Customize Category.** Organize your transactions in various customizable categories, such as
-  food, transportation, entertainment, etc.
-- **Backup Restore.** You can backup and restore at anytime to save your record.
+- **Recording Transactions.** Easily record income, expenses, and transfers between wallets.
+- **Financial Reports.** Detailed summaries of your financial activities over custom time periods.
+- **Analysis Graphs.** Visualize your spending and income trends with interactive charts.
+- **Multiple Wallets.** Manage different accounts or cash sources in one place.
+- **Customizable Categories.** Organize transactions with custom names, icons, and colors.
+- **Budgeting.** Set and track budgets for different categories to control your spending.
+- **Recurring Transactions.** Automate regular payments and income tracking.
+- **Backup & Restore.** Securely backup your data locally and restore it whenever needed.
+- **Export Data.** Export your financial records to CSV or XLSX formats.
+- **App Lock.** Protect your data with biometric authentication or a PIN.
 
 ## Tech Stack
 
-- **Programming Language**: Kotlin
-- **User Interface**: Jetpack Compose, Material Design 3
-- **Architecture Pattern**: MVI (Model-View-Intent)
-- **Dependency Injection**: Dagger Hilt
-- **Asynchronous Programming**: Kotlin Coroutines
-- **Local Data Storage**: Room Database, Data Store
-- **IDE**: Android Studio Jellyfish
-- **Dependency Management**: Version Catalog
-- **CI/CD**: CircleCi
+- **Programming Language**: [Kotlin](https://kotlinlang.org/)
+- **User Interface**: [Jetpack Compose](https://developer.android.com/jetpack/compose), Material Design 3
+- **Architecture Pattern**: Multi-module, Clean Architecture, MVI (Model-View-Intent)
+- **Dependency Injection**: [Dagger Hilt](https://dagger.dev/hilt/)
+- **Asynchronous Programming**: Kotlin Coroutines & Flow
+- **Local Data Storage**: [Room Database](https://developer.android.com/training/data-storage/room), DataStore
+- **Charts**: [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart)
+- **IDE**: Android Studio
+- **Dependency Management**: Gradle Version Catalog (libs.versions.toml)
+- **CI/CD**: CircleCI
+
+## Project Structure
+
+The project follows a modularized Clean Architecture pattern to ensure scalability and maintainability:
+
+- **`:app`**: The main entry point of the application.
+- **`:feature`**: Contains various feature-based modules:
+    - `home`, `wallet`, `transaction`, `category`, `budget`, `statistic`, `search`, `export`, `backup_restore`, `applock`, `settings`, `recurring_transaction`, `notification`, `about`, `splash`.
+- **`:shared`**: Contains shared components used across features:
+    - **`:domain`**: Business logic, use cases, and repository interfaces.
+    - **`:data`**: Repository implementations and local data sources (Room/DataStore).
+    - **`:resource`**: Shared resources like strings, drawables, and themes.
+    - **`:common-ui`**: Shared UI components and theme definitions.
+    - **`:navigation`**: Centralized navigation logic.
+    - **`:utils`**: General utility functions and extensions.
 
 ## Getting Started
 
 To get started with Moneyfikasi, follow these steps:
 
-1. Clone this repository to your local machine using
+1. Clone this repository to your local machine:
    `git clone https://github.com/fatkhurhmn/moneyfikasi.git`
 2. Open the project in Android Studio.
 3. Build and run the app on an Android device or emulator.
