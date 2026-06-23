@@ -159,7 +159,7 @@ fun createDataSet(
         highLightColor = color
         highlightLineWidth = 1.5f
         lineWidth = 2.5f
-        mode = LineDataSet.Mode.CUBIC_BEZIER
+        mode = LineDataSet.Mode.HORIZONTAL_BEZIER
         cubicIntensity = 0.2f
 
         setDrawFilled(true)
