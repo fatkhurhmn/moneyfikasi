@@ -277,7 +277,7 @@
     <string name="msg_open_source_licenses_notice">Moneyfikasi is built with open source libraries. This screen summarizes the main runtime dependencies and their license families.</string>
     <string name="label_license">License</string>
     <string name="privacy_intro_title">Overview</string>
-    <string name="privacy_intro_body">Effective date: June 5, 2026. Moneyfikasi is a personal finance app for tracking wallets, income, expenses, transfers, categories, budgets, presets, recurring transactions, statistics, and reports. The app is designed to keep your financial records on your device unless you choose to export or back them up.</string>
+    <string name="privacy_intro_body">Effective date: June 23, 2026. Moneyfikasi is a personal finance app for tracking wallets, income, expenses, transfers, categories, budgets, presets, recurring transactions, statistics, and reports. The app is designed to keep your financial records on your device unless you choose to export or back them up.</string>
     <string name="privacy_data_stored_title">Data You Enter</string>
     <string name="privacy_data_stored_body">The app stores the financial information you create, including wallet names and balances, categories, transaction amounts, notes, dates, budgets, presets, recurring transaction schedules, notification preferences, appearance settings, language settings, and app lock settings.</string>
     <string name="privacy_local_storage_title">Local Storage</string>
