@@ -1,6 +1,6 @@
 # Privacy Policy
 
-Effective date: June 5, 2026
+Effective date: June 23, 2026
 
 Moneyfikasi is a personal finance app for tracking wallets, income, expenses, transfers, categories, budgets, presets, recurring transactions, statistics, and reports. The app is designed to keep your financial records on your device unless you choose to export or back them up.
 
