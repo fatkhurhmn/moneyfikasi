@@ -297,7 +297,7 @@
     <string name="privacy_user_control_title">Your Control</string>
     <string name="privacy_user_control_body">You can add, edit, delete, export, back up, restore, or remove your data using the app features and Android storage controls. Uninstalling the app or clearing app data from Android settings may remove local records stored by the app.</string>
     <string name="privacy_contact_title">Contact</string>
-    <string name="privacy_contact_body">For privacy questions, contact the developer at fatkhurhmn@users.noreply.github.com.</string>
+    <string name="privacy_contact_body">For privacy questions, contact the developer at fatkhurohman.tech@gmail.com.</string>
     <string name="privacy_changes_title">Policy Changes</string>
     <string name="privacy_changes_body">This privacy policy may be updated when Moneyfikasi features change. Review this screen after updates to understand how app data is handled.</string>
     <string name="terms_acceptance_title">Acceptance</string>
