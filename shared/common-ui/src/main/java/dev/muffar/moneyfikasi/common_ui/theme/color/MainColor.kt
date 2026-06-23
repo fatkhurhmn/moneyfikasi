@@ -28,7 +28,7 @@ object MainColor {
     val OnSecondaryContainerDark = Color(0xFFF8FAFC)
 
     // Light Theme Surfaces
-    val LightBackground = Color(0xFFF7F8F6)
+    val LightBackground = Color(0xFFF8F8F8)
     val LightSurface1 = Color(0xFFFFFFFF)
     val LightSurface2 = Color(0xFFEFF2EF)
     val LightSurface3 = Color(0xFFE1E5E0)
@@ -37,9 +37,9 @@ object MainColor {
     val LightTextSecondary = Color(0xFF64748B)
 
     // Dark Theme Surfaces
-    val DarkBackground = Color(0xFF0B0D10)
-    val DarkSurface1 = Color(0xFF15191F)
-    val DarkSurface2 = Color(0xFF20262E)
+    val DarkBackground = Color(0xFF0B0E12)
+    val DarkSurface1 = Color(0xFF18202A)
+    val DarkSurface2 = Color(0xFF222A36)
     val DarkSurface3 = Color(0xFF313A45)
     val DarkOutline = Color(0xFF4C5663)
     val DarkTextPrimary = Color(0xFFF9FAFB)
@@ -60,7 +60,7 @@ object MainColor {
     // Semantic Colors
     val Success = Color(0xFF6BC75C)
     val SuccessContainer = Color(0xFFF0FAEC)
-    val Error = Color(0xFFFA7967)
+    val Error = Color(0xFFF66D59)
     val ErrorContainer = Color(0xFFFFEEEB)
     val Warning = Color(0xFFFFCB69)
     val WarningContainer = Color(0xFFFFF1C2)
