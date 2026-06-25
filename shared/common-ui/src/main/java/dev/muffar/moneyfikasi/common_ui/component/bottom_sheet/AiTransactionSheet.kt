@@ -72,11 +72,11 @@ fun AiTransactionSheet(
 
     val rainbowBrush = Brush.linearGradient(
         colors = listOf(
-            Color(0xFF4285F4), // Blue
-            Color(0xFF9B72CB), // Purple
-            Color(0xFFD96570), // Red/Pink
-            Color(0xFFF4AF5F), // Orange/Yellow
-            Color(0xFF4285F4)  // Blue again for smooth transition
+            Color(0xFF4285F4),
+            Color(0xFF9B72CB),
+            Color(0xFFD96570),
+            Color(0xFFF4AF5F),
+            Color(0xFF4285F4)
         ),
         start = Offset(offset, 0f),
         end = Offset(offset + 1000f, 1000f),
@@ -150,7 +150,7 @@ fun AiTransactionSheet(
                     Text(
                         text = stringResource(R.string.msg_ai_processing),
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onPrimary,
+                        color = MaterialTheme.colorScheme.onSurface,
                         fontWeight = FontWeight.Medium,
                         textAlign = TextAlign.Start,
                         modifier = Modifier
