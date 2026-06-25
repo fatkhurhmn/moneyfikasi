@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.data.mapper
 
+import android.util.Log
 import dev.muffar.moneyfikasi.domain.model.AiError
 import dev.muffar.moneyfikasi.domain.model.AiException
 import java.io.IOException
@@ -8,7 +9,8 @@ import java.net.UnknownHostException
 
 fun Throwable.toAiError(): AiError {
     if (this is AiException) return this.error
-    
+
+    Log.d("AiErrorMapper", "toAiError: ${this.message}")
     val message = this.message ?: ""
     return when {
         this is UnknownHostException -> AiError.NoInternet

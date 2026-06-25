@@ -3,6 +3,7 @@ package dev.muffar.moneyfikasi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.muffar.moneyfikasi.data.mapper.toAiError
 import dev.muffar.moneyfikasi.domain.model.AiError
 import dev.muffar.moneyfikasi.domain.model.AiTransactionResult
 import dev.muffar.moneyfikasi.domain.model.EnterPinType
@@ -59,9 +60,8 @@ class MainViewModel @Inject constructor(
             result.onSuccess {
                 _aiEventFlow.emit(AiEvent.Success(it))
             }.onFailure { e ->
-                val error = e as? AiError ?: AiError.Unknown
-                _aiError.update { error }
-                _aiEventFlow.emit(AiEvent.Error(error))
+                _aiError.update { e.toAiError() }
+                _aiEventFlow.emit(AiEvent.Error(e.toAiError()))
             }
         }
     }
