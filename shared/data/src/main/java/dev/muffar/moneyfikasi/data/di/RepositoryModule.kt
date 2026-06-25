@@ -17,6 +17,7 @@ import dev.muffar.moneyfikasi.data.preferences.BackupPreferences
 import dev.muffar.moneyfikasi.data.preferences.NotificationPreferences
 import dev.muffar.moneyfikasi.data.preferences.SecurityPreferences
 import dev.muffar.moneyfikasi.data.preferences.UiPreferences
+import dev.muffar.moneyfikasi.data.repositoy.AiRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.BackupRestoreRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.BackupSettingsRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.BudgetRepositoryImpl
@@ -29,6 +30,7 @@ import dev.muffar.moneyfikasi.data.repositoy.StatisticRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.TransactionRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.UiSettingsRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.WalletRepositoryImpl
+import dev.muffar.moneyfikasi.domain.repository.AiRepository
 import dev.muffar.moneyfikasi.domain.repository.BackupRestoreRepository
 import dev.muffar.moneyfikasi.domain.repository.BackupSettingsRepository
 import dev.muffar.moneyfikasi.domain.repository.BudgetRepository
@@ -46,6 +48,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
+
+    @Provides
+    @Singleton
+    fun provideAiRepository(): AiRepository {
+        return AiRepositoryImpl()
+    }
 
     @Provides
     @Singleton

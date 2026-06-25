@@ -40,7 +40,8 @@ import dev.muffar.moneyfikasi.resource.R
 @Composable
 fun MainBottomNav(
     navController: NavHostController,
-    onAddTransaction: (TransactionType?) -> Unit
+    onAddTransaction: (TransactionType?) -> Unit,
+    onAddAiTransaction: () -> Unit
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
     Row(
@@ -110,6 +111,7 @@ fun MainBottomNav(
             onAddIncome = { onAddTransaction(TransactionType.INCOME) },
             onAddExpense = { onAddTransaction(TransactionType.EXPENSE) },
             onAddTransfer = { onAddTransaction(null) },
+            onAddAi = { onAddAiTransaction() },
             onDismissRequest = { showBottomSheet = false }
         )
     }

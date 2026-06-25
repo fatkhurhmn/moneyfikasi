@@ -34,7 +34,8 @@ class MainActivity : AppCompatActivity() {
 
             MainScreen(
                 postSplashRoute = postSplashRoute,
-                uiSettings = uiSettings
+                uiSettings = uiSettings,
+                viewModel = viewModel
             )
 
             if (postSplashRoute != null) {

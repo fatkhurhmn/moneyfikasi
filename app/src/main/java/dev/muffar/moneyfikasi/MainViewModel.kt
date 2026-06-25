@@ -3,14 +3,18 @@ package dev.muffar.moneyfikasi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.muffar.moneyfikasi.domain.model.AiTransactionResult
 import dev.muffar.moneyfikasi.domain.model.EnterPinType
 import dev.muffar.moneyfikasi.domain.model.UiSettings
+import dev.muffar.moneyfikasi.domain.usecase.ai.AiUseCases
 import dev.muffar.moneyfikasi.domain.usecase.notification.NotificationUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.security.SecuritySettingsUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.UiSettingsUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
@@ -22,6 +26,7 @@ class MainViewModel @Inject constructor(
     private val securitySettingsUseCases: SecuritySettingsUseCases,
     private val uiSettingsUseCases: UiSettingsUseCases,
     private val notificationUseCases: NotificationUseCases,
+    private val aiUseCases: AiUseCases,
 ) : ViewModel() {
 
     private val _uiSettings = MutableStateFlow(UiSettings())
@@ -30,9 +35,33 @@ class MainViewModel @Inject constructor(
     private val _postSplashRoute = MutableStateFlow<String?>(null)
     val postSplashRoute = _postSplashRoute.asStateFlow()
 
+    private val _isAiProcessing = MutableStateFlow(false)
+    val isAiProcessing = _isAiProcessing.asStateFlow()
+
+    private val _aiEventFlow = MutableSharedFlow<AiEvent>()
+    val aiEventFlow = _aiEventFlow.asSharedFlow()
+
     init {
         preparePostSplashRoute()
         getUiSettings()
+    }
+
+    fun parseAiTransaction(input: String) {
+        viewModelScope.launch {
+            _isAiProcessing.update { true }
+            val result = aiUseCases.parseAiTransaction(input)
+            _isAiProcessing.update { false }
+            if (result != null) {
+                _aiEventFlow.emit(AiEvent.Success(result))
+            } else {
+                _aiEventFlow.emit(AiEvent.Error)
+            }
+        }
+    }
+
+    sealed class AiEvent {
+        data class Success(val result: AiTransactionResult) : AiEvent()
+        data object Error : AiEvent()
     }
 
     private fun preparePostSplashRoute() {

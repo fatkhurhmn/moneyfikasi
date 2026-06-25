@@ -16,13 +16,18 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import dev.muffar.moneyfikasi.common_ui.component.dialog.AiTransactionDialog
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.domain.model.AppLanguage
 import dev.muffar.moneyfikasi.domain.model.AppTheme
@@ -32,11 +37,13 @@ import dev.muffar.moneyfikasi.navigation.MainNavigation
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.transaction.add_edit.navigation.toAddEditTransactionScreen
 import dev.muffar.moneyfikasi.transaction.transfer.navigation.toTransferTransactionScreen
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun MainScreen(
     postSplashRoute: String?,
     uiSettings: UiSettings,
+    viewModel: MainViewModel
 ) {
     val darkTheme = when (uiSettings.appTheme) {
         AppTheme.LIGHT -> false
@@ -65,6 +72,28 @@ fun MainScreen(
 
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
+
+    var showAiDialog by remember { mutableStateOf(false) }
+    val isAiProcessing by viewModel.isAiProcessing.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.aiEventFlow.collectLatest { event ->
+            when (event) {
+                is MainViewModel.AiEvent.Success -> {
+                    showAiDialog = false
+                    navController.toAddEditTransactionScreen(
+                        type = event.result.type,
+                        amount = event.result.amount.toLong().toString(),
+                        note = event.result.note
+                    )
+                }
+
+                is MainViewModel.AiEvent.Error -> {
+                    // Show error message
+                }
+            }
+        }
+    }
 
     LaunchedEffect(postSplashRoute, navBackStackEntry) {
         if (postSplashRoute != null && navBackStackEntry?.destination?.route == Screen.Splash.route) {
@@ -120,7 +149,18 @@ fun MainScreen(
                                 } else {
                                     navController.toTransferTransactionScreen()
                                 }
+                            },
+                            onAddAiTransaction = {
+                                showAiDialog = true
                             }
+                        )
+                    }
+
+                    if (showAiDialog) {
+                        AiTransactionDialog(
+                            onDismissRequest = { showAiDialog = false },
+                            onConfirm = { viewModel.parseAiTransaction(it) },
+                            isProcessing = isAiProcessing
                         )
                     }
                 }

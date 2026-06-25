@@ -155,6 +155,7 @@
     <string name="label_select_wallet_hint">Pilih dompet</string>
     <string name="label_select_frequency">Pilih Frekuensi</string>
     <string name="label_enter_amount">Masukkan nominal</string>
+    <string name="label_ai_transaction">Transaksi AI</string>
     <string name="label_search_hint">Cari berdasarkan catatan</string>
     <string name="label_type_to_search">Ketik sesuatu untuk mencari berdasarkan catatan</string>
     <string name="placeholder_hidden_balance">• • • • • • •</string>
@@ -334,6 +335,12 @@
     <string name="msg_export_success">Ekspor berhasil</string>
     <string name="msg_image_saved">Gambar disimpan</string>
     <string name="msg_amount_input_method_desc">Pilih cara memasukkan nominal transaksi.</string>
+
+    <string name="title_ai_transaction">Transaksi AI</string>
+    <string name="msg_ai_transaction_description">Ketik transaksi Anda dan biarkan AI menanganinya. Contoh: \"Makan siang 50rb dari Dompet Utama\"</string>
+    <string name="action_process">Proses</string>
+    <string name="error_ai_parse_failed">Gagal memproses transaksi. Silakan coba lagi atau gunakan input manual.</string>
+    <string name="msg_ai_processing">Memproses dengan AI…</string>
 
     <!-- Empty States -->
     <string name="empty_categories_title">Tidak Ada Kategori</string>

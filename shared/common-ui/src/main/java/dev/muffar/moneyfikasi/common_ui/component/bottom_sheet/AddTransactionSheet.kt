@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.AutoAwesome
 import androidx.compose.material.icons.rounded.KeyboardDoubleArrowDown
 import androidx.compose.material.icons.rounded.KeyboardDoubleArrowUp
 import androidx.compose.material.icons.rounded.SwapHoriz
@@ -41,6 +42,7 @@ fun AddTransactionSheet(
     onAddExpense: () -> Unit,
     onAddIncome: () -> Unit,
     onAddTransfer: () -> Unit,
+    onAddAi: () -> Unit,
     onDismissRequest: () -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -62,6 +64,16 @@ fun AddTransactionSheet(
     ) {
         BottomSheetTitle(stringResource(R.string.title_create_transaction))
         Spacer(Modifier.height(16.dp))
+        AddTransactionItem(
+            imageVector = Icons.Rounded.AutoAwesome,
+            title = stringResource(id = R.string.label_ai_transaction),
+            color = MaterialTheme.colorScheme.primary,
+            onClick = {
+                hideSheet()
+                onAddAi()
+            }
+        )
+        Spacer(modifier = Modifier.height(8.dp))
         AddTransactionItem(
             imageVector = Icons.Rounded.KeyboardDoubleArrowDown,
             title = stringResource(id = R.string.label_income),

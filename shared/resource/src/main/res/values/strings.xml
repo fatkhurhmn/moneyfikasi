@@ -155,6 +155,7 @@
     <string name="label_select_wallet_hint">Select wallet</string>
     <string name="label_select_frequency">Select Frequency</string>
     <string name="label_enter_amount">Enter amount</string>
+    <string name="label_ai_transaction">AI Transaction</string>
     <string name="label_search_hint">Search by note</string>
     <string name="label_type_to_search">Type something to search by note</string>
     <string name="placeholder_hidden_balance">• • • • • • •</string>
@@ -334,6 +335,12 @@
     <string name="msg_export_success">Export successful</string>
     <string name="msg_image_saved">Image saved</string>
     <string name="msg_amount_input_method_desc">Choose how you enter transaction amounts.</string>
+
+    <string name="title_ai_transaction">AI Transaction</string>
+    <string name="msg_ai_transaction_description">Type your transaction and let AI handle it. Example: \"Lunch 50k from Main Wallet\"</string>
+    <string name="action_process">Process</string>
+    <string name="error_ai_parse_failed">Failed to parse transaction. Please try again or use manual input.</string>
+    <string name="msg_ai_processing">Processing with AI...</string>
 
     <!-- Empty States -->
     <string name="empty_categories_title">No Categories Available</string>

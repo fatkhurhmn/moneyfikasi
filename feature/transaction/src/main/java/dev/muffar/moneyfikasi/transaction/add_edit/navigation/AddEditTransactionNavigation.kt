@@ -35,6 +35,16 @@ fun NavGraphBuilder.addEditTransactionNavigation(
                 type = NavType.StringType
                 nullable = true
                 defaultValue = null
+            },
+            navArgument(Screen.AddEditTransaction.AMOUNT) {
+                type = NavType.StringType
+                nullable = true
+                defaultValue = null
+            },
+            navArgument(Screen.AddEditTransaction.NOTE) {
+                type = NavType.StringType
+                nullable = true
+                defaultValue = null
             }
         )
     ) {
@@ -47,8 +57,17 @@ fun NavGraphBuilder.addEditTransactionNavigation(
             TransactionType.fromString(value)
         }
 
+        val amount = it.arguments?.getString(Screen.AddEditTransaction.AMOUNT)
+        val note = it.arguments?.getString(Screen.AddEditTransaction.NOTE)
+
         LaunchedEffect(Unit) {
             event(AddEditTransactionEvent.TypeChanged(type ?: TransactionType.EXPENSE, true))
+            if (!amount.isNullOrEmpty()) {
+                event(AddEditTransactionEvent.AmountChanged(amount))
+            }
+            if (!note.isNullOrEmpty()) {
+                event(AddEditTransactionEvent.NoteChanged(note))
+            }
         }
 
         AddEditTransactionScreen(
@@ -86,7 +105,9 @@ fun NavGraphBuilder.addEditTransactionNavigation(
 fun NavController.toAddEditTransactionScreen(
     type: TransactionType,
     transactionId: UUID? = null,
-    presetId: UUID? = null
+    presetId: UUID? = null,
+    amount: String? = null,
+    note: String? = null
 ) {
-    navigate(Screen.AddEditTransaction.routeWithArg(type, transactionId, presetId))
+    navigate(Screen.AddEditTransaction.routeWithArg(type, transactionId, presetId, amount, note))
 }

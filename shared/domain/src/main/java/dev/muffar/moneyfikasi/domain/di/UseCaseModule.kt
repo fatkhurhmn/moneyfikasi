@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.muffar.moneyfikasi.domain.repository.AiRepository
 import dev.muffar.moneyfikasi.domain.repository.BackupRestoreRepository
 import dev.muffar.moneyfikasi.domain.repository.BackupSettingsRepository
 import dev.muffar.moneyfikasi.domain.repository.BudgetRepository
@@ -16,6 +17,8 @@ import dev.muffar.moneyfikasi.domain.repository.StatisticRepository
 import dev.muffar.moneyfikasi.domain.repository.TransactionRepository
 import dev.muffar.moneyfikasi.domain.repository.UiSettingsRepository
 import dev.muffar.moneyfikasi.domain.repository.WalletRepository
+import dev.muffar.moneyfikasi.domain.usecase.ai.AiUseCases
+import dev.muffar.moneyfikasi.domain.usecase.ai.ParseAiTransaction
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupData
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupRestoreUseCases
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.DeleteBackup
@@ -101,6 +104,13 @@ import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 @Module
 @InstallIn(SingletonComponent::class)
 object UseCaseModule {
+
+    @Provides
+    fun provideAiUseCases(
+        aiRepository: AiRepository,
+    ): AiUseCases = AiUseCases(
+        parseAiTransaction = ParseAiTransaction(aiRepository)
+    )
 
     @Provides
     fun provideCategoryUseCases(
