@@ -156,6 +156,7 @@
     <string name="label_select_frequency">Select Frequency</string>
     <string name="label_enter_amount">Enter amount</string>
     <string name="label_ai_transaction">AI Transaction</string>
+    <string name="label_ai_prompt">Enter prompt</string>
     <string name="label_search_hint">Search by note</string>
     <string name="label_type_to_search">Type something to search by note</string>
     <string name="placeholder_hidden_balance">• • • • • • •</string>
