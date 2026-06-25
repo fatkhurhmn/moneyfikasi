@@ -6,7 +6,7 @@ import dev.muffar.moneyfikasi.domain.repository.AiRepository
 class ParseAiTransaction(
     private val aiRepository: AiRepository
 ) {
-    suspend operator fun invoke(input: String): AiTransactionResult? {
+    suspend operator fun invoke(input: String): Result<AiTransactionResult> {
         return aiRepository.parseTransaction(input)
     }
 }

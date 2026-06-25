@@ -49,8 +49,8 @@ sealed class Screen(val route: String) {
         ): String {
             val transactionId = id?.toString() ?: ""
             val pId = presetId?.toString() ?: ""
-            val amt = amount ?: ""
-            val nt = note ?: ""
+            val amt = android.net.Uri.encode(amount ?: "")
+            val nt = android.net.Uri.encode(note ?: "")
             return "add_edit_transaction/$type?$TRANSACTION_ID=$transactionId&$PRESET_ID=$pId&$AMOUNT=$amt&$NOTE=$nt"
         }
     }

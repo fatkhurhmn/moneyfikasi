@@ -52,7 +52,8 @@ import kotlinx.coroutines.launch
 fun AiTransactionSheet(
     onDismissRequest: () -> Unit,
     onConfirm: (String) -> Unit,
-    isProcessing: Boolean = false
+    isProcessing: Boolean = false,
+    error: String? = null
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
@@ -158,6 +159,16 @@ fun AiTransactionSheet(
                             .padding(16.dp)
                     )
                 }
+            }
+            if (!error.isNullOrBlank()) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = error,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Start
+                )
             }
             Spacer(modifier = Modifier.height(24.dp))
             CommonButton(

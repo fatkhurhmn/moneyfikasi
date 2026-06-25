@@ -3,6 +3,8 @@ package dev.muffar.moneyfikasi.data.repositoy
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.RequestOptions
 import dev.muffar.moneyfikasi.data.BuildConfig
+import dev.muffar.moneyfikasi.data.mapper.toAiError
+import dev.muffar.moneyfikasi.domain.model.AiError
 import dev.muffar.moneyfikasi.domain.model.AiTransactionResult
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.repository.AiRepository
@@ -15,9 +17,12 @@ class AiRepositoryImpl : AiRepository {
         requestOptions = RequestOptions(apiVersion = "v1")
     )
 
-    private val json = Json { ignoreUnknownKeys = true }
+    private val json = Json { 
+        ignoreUnknownKeys = true 
+        isLenient = true
+    }
 
-    override suspend fun parseTransaction(input: String): AiTransactionResult? {
+    override suspend fun parseTransaction(input: String): Result<AiTransactionResult> {
         val prompt = """
             You are a personal finance assistant. Extract transaction details from the following text and return it in JSON format.
             The JSON should have these keys: "amount" (number), "note" (string), "type" (string, either "EXPENSE" or "INCOME").
@@ -27,21 +32,45 @@ class AiRepositoryImpl : AiRepository {
 
         return try {
             val response = model.generateContent(prompt)
-            val jsonString =
-                response.text?.replace("```json", "")?.replace("```", "")?.trim() ?: return null
-            val result = json.decodeFromString<AiTransactionResultJson>(jsonString)
-            AiTransactionResult(
-                amount = result.amount,
-                note = result.note,
-                type = try {
-                    TransactionType.valueOf(result.type.uppercase())
-                } catch (e: Exception) {
-                    TransactionType.EXPENSE
-                }
+            val jsonString = response.text?.cleanJson() 
+                ?: throw AiError.EmptyResponse
+            
+            val result = try {
+                json.decodeFromString<AiTransactionResultJson>(jsonString)
+            } catch (e: Exception) {
+                throw AiError.InvalidJson
+            }
+
+            Result.success(
+                AiTransactionResult(
+                    amount = result.amount,
+                    note = result.note,
+                    type = result.type.toTransactionType()
+                )
             )
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             e.printStackTrace()
-            null
+            Result.failure(e.toAiError())
+        }
+    }
+
+    private fun String.cleanJson(): String {
+        val start = this.indexOf("{")
+        val end = this.lastIndexOf("}")
+        return if (start != -1 && end != -1 && end > start) {
+            this.substring(start, end + 1)
+        } else {
+            this.replace("```json", "")
+                .replace("```", "")
+                .trim()
+        }
+    }
+
+    private fun String.toTransactionType(): TransactionType {
+        return try {
+            TransactionType.valueOf(this.uppercase())
+        } catch (e: Exception) {
+            TransactionType.EXPENSE
         }
     }
 }

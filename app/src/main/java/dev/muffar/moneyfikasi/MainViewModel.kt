@@ -3,6 +3,7 @@ package dev.muffar.moneyfikasi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.muffar.moneyfikasi.domain.model.AiError
 import dev.muffar.moneyfikasi.domain.model.AiTransactionResult
 import dev.muffar.moneyfikasi.domain.model.EnterPinType
 import dev.muffar.moneyfikasi.domain.model.UiSettings
@@ -38,6 +39,9 @@ class MainViewModel @Inject constructor(
     private val _isAiProcessing = MutableStateFlow(false)
     val isAiProcessing = _isAiProcessing.asStateFlow()
 
+    private val _aiError = MutableStateFlow<AiError?>(null)
+    val aiError = _aiError.asStateFlow()
+
     private val _aiEventFlow = MutableSharedFlow<AiEvent>()
     val aiEventFlow = _aiEventFlow.asSharedFlow()
 
@@ -48,20 +52,27 @@ class MainViewModel @Inject constructor(
 
     fun parseAiTransaction(input: String) {
         viewModelScope.launch {
+            _aiError.update { null }
             _isAiProcessing.update { true }
             val result = aiUseCases.parseAiTransaction(input)
             _isAiProcessing.update { false }
-            if (result != null) {
-                _aiEventFlow.emit(AiEvent.Success(result))
-            } else {
-                _aiEventFlow.emit(AiEvent.Error)
+            result.onSuccess {
+                _aiEventFlow.emit(AiEvent.Success(it))
+            }.onFailure { e ->
+                val error = e as? AiError ?: AiError.Unknown
+                _aiError.update { error }
+                _aiEventFlow.emit(AiEvent.Error(error))
             }
         }
     }
 
+    fun clearAiError() {
+        _aiError.update { null }
+    }
+
     sealed class AiEvent {
         data class Success(val result: AiTransactionResult) : AiEvent()
-        data object Error : AiEvent()
+        data class Error(val error: AiError) : AiEvent()
     }
 
     private fun preparePostSplashRoute() {

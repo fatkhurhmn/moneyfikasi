@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,12 +24,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.AiTransactionSheet
+import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
+import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
+import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
+import dev.muffar.moneyfikasi.common_ui.utils.toMessageRes
 import dev.muffar.moneyfikasi.domain.model.AppLanguage
 import dev.muffar.moneyfikasi.domain.model.AppTheme
 import dev.muffar.moneyfikasi.domain.model.UiSettings
@@ -37,6 +43,7 @@ import dev.muffar.moneyfikasi.navigation.MainNavigation
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.transaction.add_edit.navigation.toAddEditTransactionScreen
 import dev.muffar.moneyfikasi.transaction.transfer.navigation.toTransferTransactionScreen
+import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -75,21 +82,24 @@ fun MainScreen(
 
     var showAiDialog by remember { mutableStateOf(false) }
     val isAiProcessing by viewModel.isAiProcessing.collectAsState()
+    val aiError by viewModel.aiError.collectAsState()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(Unit) {
         viewModel.aiEventFlow.collectLatest { event ->
             when (event) {
                 is MainViewModel.AiEvent.Success -> {
                     showAiDialog = false
+                    viewModel.clearAiError()
                     navController.toAddEditTransactionScreen(
                         type = event.result.type,
-                        amount = event.result.amount.toLong().toString(),
+                        amount = event.result.amount.formatThousand(),
                         note = event.result.note
                     )
                 }
 
                 is MainViewModel.AiEvent.Error -> {
-                    // Show error message
+                    // Handled in sheet
                 }
             }
         }
@@ -123,7 +133,8 @@ fun MainScreen(
         ) {
             Scaffold(
                 containerColor = MaterialTheme.colorScheme.surface,
-                contentWindowInsets = WindowInsets(0.dp)
+                contentWindowInsets = WindowInsets(0.dp),
+                snackbarHost = { SnackbarMessage(state = snackbarHostState) }
             ) {
                 Box(
                     modifier = Modifier
@@ -158,9 +169,13 @@ fun MainScreen(
 
                     if (showAiDialog) {
                         AiTransactionSheet(
-                            onDismissRequest = { showAiDialog = false },
+                            onDismissRequest = {
+                                showAiDialog = false
+                                viewModel.clearAiError()
+                            },
                             onConfirm = { viewModel.parseAiTransaction(it) },
-                            isProcessing = isAiProcessing
+                            isProcessing = isAiProcessing,
+                            error = aiError?.toMessageRes()?.let { stringResource(it) }
                         )
                     }
                 }
