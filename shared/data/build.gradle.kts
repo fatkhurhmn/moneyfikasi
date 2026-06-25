@@ -17,12 +17,14 @@ android {
         }
     }
     val geminiApiKey = localProperties.getProperty("GEMINI_API_KEY") ?: ""
+    val groqApiKey = localProperties.getProperty("GROQ_API_KEY") ?: ""
 
     defaultConfig {
         ksp {
             arg("room.schemaLocation", "$projectDir/schemas")
         }
         buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
+        buildConfigField("String", "GROQ_API_KEY", "\"$groqApiKey\"")
     }
 
     buildFeatures {
@@ -57,4 +59,8 @@ dependencies {
 
     implementation(libs.androidx.paging.runtime)
     implementation(libs.google.generative.ai)
+
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.kotlinx.serialization)
+    implementation(libs.okhttp.logging)
 }

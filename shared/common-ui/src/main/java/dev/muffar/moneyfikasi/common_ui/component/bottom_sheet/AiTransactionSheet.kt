@@ -170,7 +170,15 @@ fun AiTransactionSheet(
                     textAlign = TextAlign.Start
                 )
             }
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "Powered by Groq (Llama 3.3)",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+            Spacer(modifier = Modifier.height(16.dp))
             CommonButton(
                 text = stringResource(R.string.action_process),
                 onClick = { onConfirm(text) },

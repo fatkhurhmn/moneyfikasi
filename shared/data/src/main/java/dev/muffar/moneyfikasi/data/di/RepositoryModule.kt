@@ -18,6 +18,7 @@ import dev.muffar.moneyfikasi.data.preferences.BackupPreferences
 import dev.muffar.moneyfikasi.data.preferences.NotificationPreferences
 import dev.muffar.moneyfikasi.data.preferences.SecurityPreferences
 import dev.muffar.moneyfikasi.data.preferences.UiPreferences
+import dev.muffar.moneyfikasi.data.remote.groq.GroqApiService
 import dev.muffar.moneyfikasi.data.repositoy.AiRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.BackupRestoreRepositoryImpl
 import dev.muffar.moneyfikasi.data.repositoy.BackupSettingsRepositoryImpl
@@ -53,9 +54,10 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideAiRepository(
-        model: GenerativeModel
+        model: GenerativeModel,
+        groqApiService: GroqApiService
     ): AiRepository {
-        return AiRepositoryImpl(model)
+        return AiRepositoryImpl(model, groqApiService)
     }
 
     @Provides

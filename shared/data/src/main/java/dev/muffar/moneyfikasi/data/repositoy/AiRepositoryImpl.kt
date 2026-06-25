@@ -1,7 +1,11 @@
 package dev.muffar.moneyfikasi.data.repositoy
 
 import com.google.ai.client.generativeai.GenerativeModel
+import dev.muffar.moneyfikasi.data.BuildConfig
 import dev.muffar.moneyfikasi.data.mapper.toAiError
+import dev.muffar.moneyfikasi.data.remote.groq.GroqApiService
+import dev.muffar.moneyfikasi.data.remote.groq.GroqChatRequest
+import dev.muffar.moneyfikasi.data.remote.groq.GroqMessage
 import dev.muffar.moneyfikasi.domain.model.AiError
 import dev.muffar.moneyfikasi.domain.model.AiException
 import dev.muffar.moneyfikasi.domain.model.AiTransactionResult
@@ -12,6 +16,7 @@ import javax.inject.Inject
 
 class AiRepositoryImpl @Inject constructor(
     private val model: GenerativeModel,
+    private val groqApi: GroqApiService,
 ) : AiRepository {
 
     private val json = Json {
@@ -28,8 +33,20 @@ class AiRepositoryImpl @Inject constructor(
         """.trimIndent()
 
         return try {
-            val response = model.generateContent(prompt)
-            val jsonString = response.text?.cleanJson()
+            val response = groqApi.getChatCompletion(
+                apiKey = "Bearer ${BuildConfig.GROQ_API_KEY}",
+                request = GroqChatRequest(
+                    model = "llama-3.3-70b-versatile",
+                    messages = listOf(
+                        GroqMessage(
+                            role = "user",
+                            content = prompt
+                        )
+                    )
+                )
+            )
+
+            val jsonString = response.choices.firstOrNull()?.message?.content?.cleanJson()
                 ?: throw AiException(AiError.EmptyResponse)
 
             val result = try {
@@ -47,7 +64,29 @@ class AiRepositoryImpl @Inject constructor(
             )
         } catch (e: Throwable) {
             e.printStackTrace()
-            Result.failure(AiException(e.toAiError(), e))
+            // Fallback to Gemini if Groq fails or API key is missing
+            try {
+                val response = model.generateContent(prompt)
+                val jsonString = response.text?.cleanJson()
+                    ?: throw AiException(AiError.EmptyResponse)
+
+                val result = try {
+                    json.decodeFromString<AiTransactionResultJson>(jsonString)
+                } catch (e: Exception) {
+                    throw AiException(AiError.InvalidJson, e)
+                }
+
+                Result.success(
+                    AiTransactionResult(
+                        amount = result.amount,
+                        note = result.note,
+                        type = result.type.toTransactionType()
+                    )
+                )
+            } catch (e2: Throwable) {
+                e2.printStackTrace()
+                Result.failure(AiException(e2.toAiError(), e2))
+            }
         }
     }
 
