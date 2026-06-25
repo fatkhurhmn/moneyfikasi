@@ -394,15 +394,15 @@
     <string name="error_incorrect_pin">Incorrect PIN. Please try again.</string>
     <string name="error_incorrect_current_pin">Incorrect current PIN. Please try again.</string>
 
-    <!-- AI Errors -->
-    <string name="error_ai_no_internet">No internet connection. Please check your network.</string>
-    <string name="error_ai_timeout">The request timed out. Please try again.</string>
-    <string name="error_ai_invalid_api_key">AI configuration error. Please contact support.</string>
-    <string name="error_ai_permission_denied">Permission denied to access AI services.</string>
-    <string name="error_ai_model_not_found">AI model not found. Please try again later.</string>
-    <string name="error_ai_rate_limited">API limit reached. Please try again in a moment.</string>
-    <string name="error_ai_server_error">AI server is having trouble. Try again later.</string>
-    <string name="error_ai_empty_response">AI returned an empty response. Please try a different prompt.</string>
-    <string name="error_ai_invalid_json">Failed to process AI response. Please try again.</string>
-    <string name="error_ai_unknown">An unknown error occurred while processing with AI.</string>
+    <!-- AI Error -->
+    <string name="ai_error_no_internet">No internet connection.</string>
+    <string name="ai_error_timeout">Request timed out. Try again.</string>
+    <string name="ai_error_invalid_api_key">AI setup is invalid.</string>
+    <string name="ai_error_permission_denied">AI access is denied.</string>
+    <string name="ai_error_model_not_found">AI model is unavailable.</string>
+    <string name="ai_error_rate_limited">Too many requests. Try again later.</string>
+    <string name="ai_error_server_error">AI service is unavailable.</string>
+    <string name="ai_error_empty_response">AI did not return a result.</string>
+    <string name="ai_error_invalid_json">Could not read the AI result.</string>
+    <string name="ai_error_unknown">Something went wrong with AI.</string>
 </resources>

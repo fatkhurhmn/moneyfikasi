@@ -31,10 +31,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.AiTransactionSheet
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
-import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
-import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
-import dev.muffar.moneyfikasi.common_ui.utils.toMessageRes
 import dev.muffar.moneyfikasi.domain.model.AppLanguage
 import dev.muffar.moneyfikasi.domain.model.AppTheme
 import dev.muffar.moneyfikasi.domain.model.UiSettings
@@ -173,9 +170,13 @@ fun MainScreen(
                                 showAiDialog = false
                                 viewModel.clearAiError()
                             },
-                            onConfirm = { viewModel.parseAiTransaction(it) },
+                            onConfirm = { prompt ->
+                                viewModel.parseAiTransaction(prompt)
+                            },
                             isProcessing = isAiProcessing,
-                            error = aiError?.toMessageRes()?.let { stringResource(it) }
+                            error = aiError?.toMessageRes()?.let { res ->
+                                stringResource(res)
+                            }
                         )
                     }
                 }

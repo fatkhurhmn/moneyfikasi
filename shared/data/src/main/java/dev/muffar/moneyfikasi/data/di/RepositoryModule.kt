@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.data.di
 
 import android.content.Context
+import com.google.ai.client.generativeai.GenerativeModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -51,8 +52,10 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideAiRepository(): AiRepository {
-        return AiRepositoryImpl()
+    fun provideAiRepository(
+        model: GenerativeModel
+    ): AiRepository {
+        return AiRepositoryImpl(model)
     }
 
     @Provides

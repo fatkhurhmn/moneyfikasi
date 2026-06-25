@@ -394,15 +394,15 @@
     <string name="error_incorrect_pin">PIN salah. Silakan coba lagi.</string>
     <string name="error_incorrect_current_pin">PIN saat ini salah. Silakan coba lagi.</string>
 
-    <!-- AI Errors -->
-    <string name="error_ai_no_internet">Tidak ada koneksi internet. Silakan periksa jaringan Anda.</string>
-    <string name="error_ai_timeout">Permintaan melebihi waktu tunggu. Silakan coba lagi.</string>
-    <string name="error_ai_invalid_api_key">Kesalahan konfigurasi AI. Silakan hubungi dukungan.</string>
-    <string name="error_ai_permission_denied">Izin ditolak untuk mengakses layanan AI.</string>
-    <string name="error_ai_model_not_found">Model AI tidak ditemukan. Silakan coba lagi nanti.</string>
-    <string name="error_ai_rate_limited">Batas API tercapai. Silakan coba lagi dalam beberapa saat.</string>
-    <string name="error_ai_server_error">Server AI sedang mengalami gangguan. Coba lagi nanti.</string>
-    <string name="error_ai_empty_response">AI mengembalikan respons kosong. Silakan coba prompt yang berbeda.</string>
-    <string name="error_ai_invalid_json">Gagal memproses respons AI. Silakan coba lagi.</string>
-    <string name="error_ai_unknown">Terjadi kesalahan yang tidak diketahui saat memproses dengan AI.</string>
+    <!-- AI Error -->
+    <string name="ai_error_no_internet">Tidak ada koneksi internet.</string>
+    <string name="ai_error_timeout">Permintaan terlalu lama. Coba lagi.</string>
+    <string name="ai_error_invalid_api_key">Pengaturan AI tidak valid.</string>
+    <string name="ai_error_permission_denied">Akses AI ditolak.</string>
+    <string name="ai_error_model_not_found">Model AI tidak tersedia.</string>
+    <string name="ai_error_rate_limited">Terlalu banyak permintaan. Coba lagi nanti.</string>
+    <string name="ai_error_server_error">Layanan AI sedang tidak tersedia.</string>
+    <string name="ai_error_empty_response">AI tidak memberikan hasil.</string>
+    <string name="ai_error_invalid_json">Hasil AI tidak dapat dibaca.</string>
+    <string name="ai_error_unknown">Terjadi masalah pada AI.</string>
 </resources>

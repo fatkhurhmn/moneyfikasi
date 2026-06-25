@@ -1,24 +1,21 @@
 package dev.muffar.moneyfikasi.data.repositoy
 
 import com.google.ai.client.generativeai.GenerativeModel
-import com.google.ai.client.generativeai.type.RequestOptions
-import dev.muffar.moneyfikasi.data.BuildConfig
 import dev.muffar.moneyfikasi.data.mapper.toAiError
 import dev.muffar.moneyfikasi.domain.model.AiError
+import dev.muffar.moneyfikasi.domain.model.AiException
 import dev.muffar.moneyfikasi.domain.model.AiTransactionResult
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.repository.AiRepository
 import kotlinx.serialization.json.Json
+import javax.inject.Inject
 
-class AiRepositoryImpl : AiRepository {
-    private val model = GenerativeModel(
-        modelName = "gemini-2.5-flash",
-        apiKey = BuildConfig.GEMINI_API_KEY,
-        requestOptions = RequestOptions(apiVersion = "v1")
-    )
+class AiRepositoryImpl @Inject constructor(
+    private val model: GenerativeModel,
+) : AiRepository {
 
-    private val json = Json { 
-        ignoreUnknownKeys = true 
+    private val json = Json {
+        ignoreUnknownKeys = true
         isLenient = true
     }
 
@@ -32,13 +29,13 @@ class AiRepositoryImpl : AiRepository {
 
         return try {
             val response = model.generateContent(prompt)
-            val jsonString = response.text?.cleanJson() 
-                ?: throw AiError.EmptyResponse
-            
+            val jsonString = response.text?.cleanJson()
+                ?: throw AiException(AiError.EmptyResponse)
+
             val result = try {
                 json.decodeFromString<AiTransactionResultJson>(jsonString)
             } catch (e: Exception) {
-                throw AiError.InvalidJson
+                throw AiException(AiError.InvalidJson, e)
             }
 
             Result.success(
@@ -50,7 +47,7 @@ class AiRepositoryImpl : AiRepository {
             )
         } catch (e: Throwable) {
             e.printStackTrace()
-            Result.failure(e.toAiError())
+            Result.failure(AiException(e.toAiError(), e))
         }
     }
 
