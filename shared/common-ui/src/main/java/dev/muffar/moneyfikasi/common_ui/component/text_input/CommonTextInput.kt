@@ -15,6 +15,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalFocusManager
@@ -43,6 +45,7 @@ fun CommonTextInput(
     onClick: () -> Unit = {},
     onClear: (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
+    focusRequester: FocusRequester = remember { FocusRequester() },
 ) {
     val isKeyboardVisible by keyboardAsState()
     val focusManager = LocalFocusManager.current
@@ -77,6 +80,7 @@ fun CommonTextInput(
             cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
             modifier = Modifier
                 .fillMaxWidth()
+                .focusRequester(focusRequester)
                 .onFocusChanged { isFocus = it.isFocused }
                 .clickable(
                     enabled = isClickable,

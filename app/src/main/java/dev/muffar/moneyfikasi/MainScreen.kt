@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.os.LocaleListCompat
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import dev.muffar.moneyfikasi.common_ui.component.dialog.AiTransactionDialog
+import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.AiTransactionSheet
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.domain.model.AppLanguage
 import dev.muffar.moneyfikasi.domain.model.AppTheme
@@ -157,7 +157,7 @@ fun MainScreen(
                     }
 
                     if (showAiDialog) {
-                        AiTransactionDialog(
+                        AiTransactionSheet(
                             onDismissRequest = { showAiDialog = false },
                             onConfirm = { viewModel.parseAiTransaction(it) },
                             isProcessing = isAiProcessing
