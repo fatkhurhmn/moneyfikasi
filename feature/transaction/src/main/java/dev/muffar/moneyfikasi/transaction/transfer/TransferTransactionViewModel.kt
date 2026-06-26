@@ -63,24 +63,48 @@ class TransferTransactionViewModel @Inject constructor(
     }
 
     private fun initState() {
-        handle.get<String>(Screen.TransferTransaction.TRANSACTION_ID)?.let { id ->
-            if (id.isEmpty()) return
-            val transactionId = UUID.fromString(id)
+        val transactionIdStr = handle.get<String>(Screen.TransferTransaction.TRANSACTION_ID)
+        val amount = handle.get<String>(Screen.TransferTransaction.AMOUNT)
+        val note = handle.get<String>(Screen.TransferTransaction.NOTE)
+        val fromWalletName = handle.get<String>(Screen.TransferTransaction.FROM_WALLET)
+        val toWalletName = handle.get<String>(Screen.TransferTransaction.TO_WALLET)
+
+        if (!transactionIdStr.isNullOrEmpty()) {
+            val transactionId = UUID.fromString(transactionIdStr)
             viewModelScope.launch {
                 transactionUseCases.getTransferDetail(transactionId)?.let { detail ->
                     _state.update { state ->
                         val date = detail.date.toMilliseconds()
-                        with(detail) {
-                            state.copy(
-                                id = referenceId,
-                                amount = amount.formatThousand(),
-                                sourceWallet = sourceWallet,
-                                targetWallet = targetWallet,
-                                fee = fee.formatThousand(),
-                                note = note ?: "",
-                                date = date,
-                                hour = date.format("H").toInt(),
-                                minute = date.format("mm").toInt()
+                        state.copy(
+                            id = detail.referenceId,
+                            amount = detail.amount.formatThousand(),
+                            sourceWallet = detail.sourceWallet,
+                            targetWallet = detail.targetWallet,
+                            fee = detail.fee.formatThousand(),
+                            note = detail.note ?: "",
+                            date = date,
+                            hour = date.format("H").toInt(),
+                            minute = date.format("mm").toInt()
+                        )
+                    }
+                }
+            }
+        } else {
+            _state.update {
+                it.copy(
+                    amount = amount ?: "0",
+                    note = note ?: ""
+                )
+            }
+            if (!fromWalletName.isNullOrEmpty() || !toWalletName.isNullOrEmpty()) {
+                viewModelScope.launch {
+                    walletUseCases.getAllWallets().collectLatest { wallets ->
+                        val fromWallet = wallets.find { it.name.equals(fromWalletName, true) }
+                        val toWallet = wallets.find { it.name.equals(toWalletName, true) }
+                        _state.update {
+                            it.copy(
+                                sourceWallet = fromWallet ?: it.sourceWallet,
+                                targetWallet = toWallet ?: it.targetWallet
                             )
                         }
                     }

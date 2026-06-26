@@ -62,11 +62,25 @@ sealed class Screen(val route: String) {
     }
 
     data object TransferTransaction :
-        Screen("transfer_transaction?transaction_id={transaction_id}") {
+        Screen("transfer_transaction?transaction_id={transaction_id}&amount={amount}&note={note}&from_wallet={from_wallet}&to_wallet={to_wallet}") {
         const val TRANSACTION_ID = "transaction_id"
-        fun routeWithArg(id: UUID? = null): String {
+        const val AMOUNT = "amount"
+        const val NOTE = "note"
+        const val FROM_WALLET = "from_wallet"
+        const val TO_WALLET = "to_wallet"
+        fun routeWithArg(
+            id: UUID? = null,
+            amount: String? = null,
+            note: String? = null,
+            fromWallet: String? = null,
+            toWallet: String? = null
+        ): String {
             val transactionId = id?.toString() ?: ""
-            return "transfer_transaction?$TRANSACTION_ID=$transactionId"
+            val amt = android.net.Uri.encode(amount ?: "")
+            val nt = android.net.Uri.encode(note ?: "")
+            val fWlt = android.net.Uri.encode(fromWallet ?: "")
+            val tWlt = android.net.Uri.encode(toWallet ?: "")
+            return "transfer_transaction?$TRANSACTION_ID=$transactionId&$AMOUNT=$amt&$NOTE=$nt&$FROM_WALLET=$fWlt&$TO_WALLET=$tWlt"
         }
     }
 

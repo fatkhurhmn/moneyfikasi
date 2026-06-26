@@ -341,7 +341,7 @@
     <string name="msg_ai_transaction_description">Type your transaction and let AI handle it. Example: \"Lunch 50k from Main Wallet\"</string>
     <string name="action_process">Process</string>
     <string name="error_ai_parse_failed">Failed to parse transaction. Please try again or use manual input.</string>
-    <string name="msg_ai_processing">Processing with AI...</string>
+    <string name="msg_ai_processing">Processing with AI…</string>
 
     <!-- Empty States -->
     <string name="empty_categories_title">No Categories Available</string>

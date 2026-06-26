@@ -34,6 +34,7 @@ import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.domain.model.AppLanguage
 import dev.muffar.moneyfikasi.domain.model.AppTheme
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.UiSettings
 import dev.muffar.moneyfikasi.navigation.MainBottomNav
 import dev.muffar.moneyfikasi.navigation.MainNavigation
@@ -88,13 +89,22 @@ fun MainScreen(
                 is MainViewModel.AiEvent.Success -> {
                     showAiDialog = false
                     viewModel.clearAiError()
-                    navController.toAddEditTransactionScreen(
-                        type = event.result.type,
-                        amount = event.result.amount.formatThousand(),
-                        note = event.result.note,
-                        category = event.result.category,
-                        wallet = event.result.wallet
-                    )
+                    if (event.result.type == TransactionType.TRANSFER_OUT) {
+                        navController.toTransferTransactionScreen(
+                            amount = event.result.amount.formatThousand(),
+                            note = event.result.note,
+                            fromWallet = event.result.fromWallet,
+                            toWallet = event.result.toWallet
+                        )
+                    } else {
+                        navController.toAddEditTransactionScreen(
+                            type = event.result.type,
+                            amount = event.result.amount.formatThousand(),
+                            note = event.result.note,
+                            category = event.result.category,
+                            wallet = event.result.wallet
+                        )
+                    }
                 }
 
                 is MainViewModel.AiEvent.Error -> {

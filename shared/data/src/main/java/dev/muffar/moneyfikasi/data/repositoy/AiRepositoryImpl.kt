@@ -13,6 +13,7 @@ import dev.muffar.moneyfikasi.domain.repository.AiRepository
 import dev.muffar.moneyfikasi.domain.repository.CategoryRepository
 import dev.muffar.moneyfikasi.domain.repository.WalletRepository
 import kotlinx.coroutines.flow.first
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
@@ -28,34 +29,42 @@ class AiRepositoryImpl @Inject constructor(
     }
 
     override suspend fun parseTransaction(input: String): Result<AiTransactionResult> {
-        val categories = try {
+        val categories = runCatching {
             categoryRepository.getAllCategories(false)
                 .first()
                 .filter { it.isActive }
                 .map { it.name }
-        } catch (e: Exception) {
-            emptyList()
-        }
-        val wallets = try {
+        }.getOrDefault(emptyList())
+
+        val wallets = runCatching {
             walletRepository.getAllWallets()
                 .first()
                 .filter { it.isActive }
                 .map { it.name }
-        } catch (e: Exception) {
-            emptyList()
-        }
+        }.getOrDefault(emptyList())
 
         val prompt = """
-            Parse this transaction.
-            Categories: ${categories.joinToString(",")}
-            Wallets: ${wallets.joinToString(",")}
+                 Parse transaction text to JSON.
+
+                Categories: $${categories.joinToString("|")}
+                Wallets: $${wallets.joinToString("|")}
             
-            Return only:
-            {"amount":0,"note":"","type":"EXPENSE|INCOME","category":null,"wallet":null}
+                Return only one valid JSON.
             
-            category/wallet must exactly match the lists or be null.
+                Schema:
+                - EXPENSE/INCOME: {"amount":0,"note":"","type":"EXPENSE|INCOME","category":null,"wallet":null}
+                - TRANSFER: {"amount":0,"note":"","type":"TRANSFER","from_wallet":null,"to_wallet":null}
             
-            Text: $input
+                Rules:
+                - Match wallet/category from lists even with typo, abbreviation, or different case.
+                - Output wallet/category using the exact name from the lists.
+                - Use null if unclear.
+                - If text contains two wallets, treat it as TRANSFER.
+                - For pattern "amount A ke B", use A as from_wallet and B as to_wallet.
+                - If TRANSFER, do not return category or wallet.
+                - Return JSON only.
+            
+                Text: $$input
             """.trimIndent()
 
         return try {
@@ -87,7 +96,9 @@ class AiRepositoryImpl @Inject constructor(
                     note = result.note,
                     type = result.type.toTransactionType(),
                     category = result.category,
-                    wallet = result.wallet
+                    wallet = result.wallet,
+                    fromWallet = result.fromWallet,
+                    toWallet = result.toWallet
                 )
             )
         } catch (e: Throwable) {
@@ -108,10 +119,10 @@ class AiRepositoryImpl @Inject constructor(
     }
 
     private fun String.toTransactionType(): TransactionType {
-        return try {
-            TransactionType.valueOf(this.uppercase())
-        } catch (e: Exception) {
-            TransactionType.EXPENSE
+        return when (this.uppercase()) {
+            "INCOME" -> TransactionType.INCOME
+            "TRANSFER" -> TransactionType.TRANSFER_OUT
+            else -> TransactionType.EXPENSE
         }
     }
 }
@@ -122,5 +133,7 @@ private data class AiTransactionResultJson(
     val note: String,
     val type: String,
     val category: String? = null,
-    val wallet: String? = null
+    val wallet: String? = null,
+    @SerialName("from_wallet") val fromWallet: String? = null,
+    @SerialName("to_wallet") val toWallet: String? = null
 )

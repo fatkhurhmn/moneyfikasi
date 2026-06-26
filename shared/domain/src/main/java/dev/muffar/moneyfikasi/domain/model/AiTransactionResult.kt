@@ -5,5 +5,7 @@ data class AiTransactionResult(
     val note: String,
     val type: TransactionType,
     val category: String? = null,
-    val wallet: String? = null
+    val wallet: String? = null,
+    val fromWallet: String? = null,
+    val toWallet: String? = null
 )

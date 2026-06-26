@@ -50,6 +50,12 @@ fun NavGraphBuilder.transferTransactionNavigation(
     }
 }
 
-fun NavController.toTransferTransactionScreen(id: UUID? = null) {
-    navigate(Screen.TransferTransaction.routeWithArg(id))
+fun NavController.toTransferTransactionScreen(
+    id: UUID? = null,
+    amount: String? = null,
+    note: String? = null,
+    fromWallet: String? = null,
+    toWallet: String? = null
+) {
+    navigate(Screen.TransferTransaction.routeWithArg(id, amount, note, fromWallet, toWallet))
 }
