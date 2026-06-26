@@ -7,4 +7,10 @@ object DoubleExt {
         val decimalFormatter = DecimalFormat("#,###")
         return decimalFormatter.format(this)
     }
+
+    fun String.toNormalizedDouble(): Double {
+        return this
+            .replace(",", ".")
+            .toDoubleOrNull() ?: 0.0
+    }
 }

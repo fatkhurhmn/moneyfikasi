@@ -7,5 +7,6 @@ data class AiTransactionResult(
     val category: String? = null,
     val wallet: String? = null,
     val fromWallet: String? = null,
-    val toWallet: String? = null
+    val toWallet: String? = null,
+    val fee: Double? = null
 )

@@ -55,7 +55,8 @@ fun NavController.toTransferTransactionScreen(
     amount: String? = null,
     note: String? = null,
     fromWallet: String? = null,
-    toWallet: String? = null
+    toWallet: String? = null,
+    fee: String? = null
 ) {
-    navigate(Screen.TransferTransaction.routeWithArg(id, amount, note, fromWallet, toWallet))
+    navigate(Screen.TransferTransaction.routeWithArg(id, amount, note, fromWallet, toWallet, fee))
 }

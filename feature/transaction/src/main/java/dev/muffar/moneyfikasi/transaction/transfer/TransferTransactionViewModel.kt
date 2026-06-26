@@ -68,6 +68,7 @@ class TransferTransactionViewModel @Inject constructor(
         val note = handle.get<String>(Screen.TransferTransaction.NOTE)
         val fromWalletName = handle.get<String>(Screen.TransferTransaction.FROM_WALLET)
         val toWalletName = handle.get<String>(Screen.TransferTransaction.TO_WALLET)
+        val fee = handle.get<String>(Screen.TransferTransaction.FEE)
 
         if (!transactionIdStr.isNullOrEmpty()) {
             val transactionId = UUID.fromString(transactionIdStr)
@@ -93,7 +94,8 @@ class TransferTransactionViewModel @Inject constructor(
             _state.update {
                 it.copy(
                     amount = amount ?: "0",
-                    note = note ?: ""
+                    note = note ?: "",
+                    fee = fee ?: "0"
                 )
             }
             if (!fromWalletName.isNullOrEmpty() || !toWalletName.isNullOrEmpty()) {

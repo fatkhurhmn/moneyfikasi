@@ -12,6 +12,8 @@ import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.repository.AiRepository
 import dev.muffar.moneyfikasi.domain.repository.CategoryRepository
 import dev.muffar.moneyfikasi.domain.repository.WalletRepository
+import dev.muffar.moneyfikasi.utils.extensions.StringExt.cleanJson
+import dev.muffar.moneyfikasi.utils.extensions.StringExt.normalizeAmountText
 import kotlinx.coroutines.flow.first
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.json.Json
@@ -53,7 +55,7 @@ class AiRepositoryImpl @Inject constructor(
             
                 Schema:
                 - EXPENSE/INCOME: {"amount":0,"note":"","type":"EXPENSE|INCOME","category":null,"wallet":null}
-                - TRANSFER: {"amount":0,"note":"","type":"TRANSFER","from_wallet":null,"to_wallet":null}
+                - TRANSFER: {"amount":0,"note":"","fee":0,"type":"TRANSFER","from_wallet":null,"to_wallet":null}
             
                 Rules:
                 - Match wallet/category from lists even with typo, abbreviation, or different case.
@@ -61,10 +63,11 @@ class AiRepositoryImpl @Inject constructor(
                 - Use null if unclear.
                 - If text contains two wallets, treat it as TRANSFER.
                 - For pattern "amount A ke B", use A as from_wallet and B as to_wallet.
+                - If TRANSFER, search for admin fee or transaction fee and put it in "fee" field.
                 - If TRANSFER, do not return category or wallet.
                 - Return JSON only.
             
-                Text: $$input
+                Text: $${input.normalizeAmountText()}
             """.trimIndent()
 
         return try {
@@ -98,23 +101,12 @@ class AiRepositoryImpl @Inject constructor(
                     category = result.category,
                     wallet = result.wallet,
                     fromWallet = result.fromWallet,
-                    toWallet = result.toWallet
+                    toWallet = result.toWallet,
+                    fee = result.fee
                 )
             )
         } catch (e: Throwable) {
             Result.failure(AiException(e.toAiError(), e))
-        }
-    }
-
-    private fun String.cleanJson(): String {
-        val start = this.indexOf("{")
-        val end = this.lastIndexOf("}")
-        return if (start != -1 && end != -1 && end > start) {
-            this.substring(start, end + 1)
-        } else {
-            this.replace("```json", "")
-                .replace("```", "")
-                .trim()
         }
     }
 
@@ -132,6 +124,7 @@ private data class AiTransactionResultJson(
     val amount: Double,
     val note: String,
     val type: String,
+    val fee: Double? = null,
     val category: String? = null,
     val wallet: String? = null,
     @SerialName("from_wallet") val fromWallet: String? = null,
