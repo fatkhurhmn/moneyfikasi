@@ -1,6 +1,5 @@
 package dev.muffar.moneyfikasi.data.repositoy
 
-import com.google.ai.client.generativeai.GenerativeModel
 import dev.muffar.moneyfikasi.data.BuildConfig
 import dev.muffar.moneyfikasi.data.mapper.toAiError
 import dev.muffar.moneyfikasi.data.remote.groq.GroqApiService
@@ -15,7 +14,6 @@ import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 class AiRepositoryImpl @Inject constructor(
-    private val model: GenerativeModel,
     private val groqApi: GroqApiService,
 ) : AiRepository {
 
@@ -64,29 +62,7 @@ class AiRepositoryImpl @Inject constructor(
             )
         } catch (e: Throwable) {
             e.printStackTrace()
-            // Fallback to Gemini if Groq fails or API key is missing
-            try {
-                val response = model.generateContent(prompt)
-                val jsonString = response.text?.cleanJson()
-                    ?: throw AiException(AiError.EmptyResponse)
-
-                val result = try {
-                    json.decodeFromString<AiTransactionResultJson>(jsonString)
-                } catch (e: Exception) {
-                    throw AiException(AiError.InvalidJson, e)
-                }
-
-                Result.success(
-                    AiTransactionResult(
-                        amount = result.amount,
-                        note = result.note,
-                        type = result.type.toTransactionType()
-                    )
-                )
-            } catch (e2: Throwable) {
-                e2.printStackTrace()
-                Result.failure(AiException(e2.toAiError(), e2))
-            }
+            Result.failure(AiException(e.toAiError(), e))
         }
     }
 

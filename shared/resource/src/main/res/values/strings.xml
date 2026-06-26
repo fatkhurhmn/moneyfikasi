@@ -404,5 +404,6 @@
     <string name="ai_error_server_error">AI service is unavailable.</string>
     <string name="ai_error_empty_response">AI did not return a result.</string>
     <string name="ai_error_invalid_json">Could not read the AI result.</string>
+    <string name="ai_error_invalid_request">The request is invalid. Check your input.</string>
     <string name="ai_error_unknown">Something went wrong with AI.</string>
 </resources>

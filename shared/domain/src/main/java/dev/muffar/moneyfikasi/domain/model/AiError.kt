@@ -12,6 +12,7 @@ sealed interface AiError {
     data object ServerError : AiError
     data object EmptyResponse : AiError
     data object InvalidJson : AiError
+    data object InvalidRequest : AiError
     data object Unknown : AiError
 
     fun toMessageRes(): Int = when (this) {
@@ -24,6 +25,7 @@ sealed interface AiError {
         ServerError -> R.string.ai_error_server_error
         EmptyResponse -> R.string.ai_error_empty_response
         InvalidJson -> R.string.ai_error_invalid_json
+        InvalidRequest -> R.string.ai_error_invalid_request
         Unknown -> R.string.ai_error_unknown
     }
 }

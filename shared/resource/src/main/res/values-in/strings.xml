@@ -404,5 +404,6 @@
     <string name="ai_error_server_error">Layanan AI sedang tidak tersedia.</string>
     <string name="ai_error_empty_response">AI tidak memberikan hasil.</string>
     <string name="ai_error_invalid_json">Hasil AI tidak dapat dibaca.</string>
+    <string name="ai_error_invalid_request">Permintaan tidak valid. Periksa input Anda.</string>
     <string name="ai_error_unknown">Terjadi masalah pada AI.</string>
 </resources>

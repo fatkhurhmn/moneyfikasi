@@ -23,3 +23,15 @@ data class GroqChatResponse(
 data class GroqChoice(
     val message: GroqMessage
 )
+
+@Serializable
+data class GroqErrorResponse(
+    val error: GroqError
+)
+
+@Serializable
+data class GroqError(
+    val message: String,
+    val type: String,
+    val code: String? = null
+)
