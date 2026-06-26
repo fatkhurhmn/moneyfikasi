@@ -107,7 +107,9 @@ fun NavController.toAddEditTransactionScreen(
     transactionId: UUID? = null,
     presetId: UUID? = null,
     amount: String? = null,
-    note: String? = null
+    note: String? = null,
+    category: String? = null,
+    wallet: String? = null
 ) {
-    navigate(Screen.AddEditTransaction.routeWithArg(type, transactionId, presetId, amount, note))
+    navigate(Screen.AddEditTransaction.routeWithArg(type, transactionId, presetId, amount, note, category, wallet))
 }

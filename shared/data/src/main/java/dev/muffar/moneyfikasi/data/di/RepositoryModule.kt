@@ -53,9 +53,11 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideAiRepository(
-        groqApiService: GroqApiService
+        groqApiService: GroqApiService,
+        categoryRepository: CategoryRepository,
+        walletRepository: WalletRepository
     ): AiRepository {
-        return AiRepositoryImpl(groqApiService)
+        return AiRepositoryImpl(groqApiService, categoryRepository, walletRepository)
     }
 
     @Provides

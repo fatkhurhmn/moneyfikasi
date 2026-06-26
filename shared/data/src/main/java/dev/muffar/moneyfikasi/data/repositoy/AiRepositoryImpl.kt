@@ -10,11 +10,16 @@ import dev.muffar.moneyfikasi.domain.model.AiException
 import dev.muffar.moneyfikasi.domain.model.AiTransactionResult
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.repository.AiRepository
+import dev.muffar.moneyfikasi.domain.repository.CategoryRepository
+import dev.muffar.moneyfikasi.domain.repository.WalletRepository
+import kotlinx.coroutines.flow.first
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 class AiRepositoryImpl @Inject constructor(
     private val groqApi: GroqApiService,
+    private val categoryRepository: CategoryRepository,
+    private val walletRepository: WalletRepository
 ) : AiRepository {
 
     private val json = Json {
@@ -23,12 +28,35 @@ class AiRepositoryImpl @Inject constructor(
     }
 
     override suspend fun parseTransaction(input: String): Result<AiTransactionResult> {
+        val categories = try {
+            categoryRepository.getAllCategories(false)
+                .first()
+                .filter { it.isActive }
+                .map { it.name }
+        } catch (e: Exception) {
+            emptyList()
+        }
+        val wallets = try {
+            walletRepository.getAllWallets()
+                .first()
+                .filter { it.isActive }
+                .map { it.name }
+        } catch (e: Exception) {
+            emptyList()
+        }
+
         val prompt = """
-            You are a personal finance assistant. Extract transaction details from the following text and return it in JSON format.
-            The JSON should have these keys: "amount" (number), "note" (string), "type" (string, either "EXPENSE" or "INCOME").
-            Text: "$input"
-            JSON:
-        """.trimIndent()
+            Parse this transaction.
+            Categories: ${categories.joinToString(",")}
+            Wallets: ${wallets.joinToString(",")}
+            
+            Return only:
+            {"amount":0,"note":"","type":"EXPENSE|INCOME","category":null,"wallet":null}
+            
+            category/wallet must exactly match the lists or be null.
+            
+            Text: $input
+            """.trimIndent()
 
         return try {
             val response = groqApi.getChatCompletion(
@@ -57,11 +85,12 @@ class AiRepositoryImpl @Inject constructor(
                 AiTransactionResult(
                     amount = result.amount,
                     note = result.note,
-                    type = result.type.toTransactionType()
+                    type = result.type.toTransactionType(),
+                    category = result.category,
+                    wallet = result.wallet
                 )
             )
         } catch (e: Throwable) {
-            e.printStackTrace()
             Result.failure(AiException(e.toAiError(), e))
         }
     }
@@ -91,5 +120,7 @@ class AiRepositoryImpl @Inject constructor(
 private data class AiTransactionResultJson(
     val amount: Double,
     val note: String,
-    val type: String
+    val type: String,
+    val category: String? = null,
+    val wallet: String? = null
 )

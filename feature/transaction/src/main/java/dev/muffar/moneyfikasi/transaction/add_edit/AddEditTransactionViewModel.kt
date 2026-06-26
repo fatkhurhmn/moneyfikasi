@@ -71,8 +71,14 @@ class AddEditTransactionViewModel @Inject constructor(
     }
 
     private fun initState() {
+        val typeStr = handle.get<String>(Screen.AddEditTransaction.TYPE)
         val transactionIdStr = handle.get<String>(Screen.AddEditTransaction.TRANSACTION_ID)
         val presetIdStr = handle.get<String>(Screen.AddEditTransaction.PRESET_ID)
+
+        if (!typeStr.isNullOrEmpty()) {
+            val type = TransactionType.valueOf(typeStr)
+            _state.update { it.copy(type = type) }
+        }
 
         if (!transactionIdStr.isNullOrEmpty()) {
             val transactionId = UUID.fromString(transactionIdStr)
@@ -80,7 +86,45 @@ class AddEditTransactionViewModel @Inject constructor(
         } else if (!presetIdStr.isNullOrEmpty()) {
             val presetId = UUID.fromString(presetIdStr)
             populatePreset(presetId)
+        } else {
+            populateFromArgs()
         }
+    }
+
+    private fun populateFromArgs() {
+        val amount = handle.get<String>(Screen.AddEditTransaction.AMOUNT)
+        val note = handle.get<String>(Screen.AddEditTransaction.NOTE)
+        val categoryName = handle.get<String>(Screen.AddEditTransaction.CATEGORY)
+        val walletName = handle.get<String>(Screen.AddEditTransaction.WALLET)
+
+        _state.update {
+            it.copy(
+                amount = amount ?: "0",
+                note = note ?: ""
+            )
+        }
+
+        if (!categoryName.isNullOrEmpty()) {
+            viewModelScope.launch {
+                categoryUseCases.getCategoryByType(state.value.categoryType).collectLatest { categories ->
+                    categories.find { it.name.equals(categoryName, true) }?.let { category ->
+                        _state.update { it.copy(category = category) }
+                    }
+                }
+            }
+        }
+
+        if (!walletName.isNullOrEmpty()) {
+            viewModelScope.launch {
+                walletUseCases.getAllWallets().collectLatest { wallets ->
+                    wallets.find { it.name.equals(walletName, true) }?.let { wallet ->
+                        _state.update { it.copy(wallet = wallet) }
+                    }
+                }
+            }
+        }
+
+        loadCategories()
     }
 
     private fun populateTransaction(transactionId: UUID) {

@@ -34,24 +34,30 @@ sealed class Screen(val route: String) {
 
     data object Transactions : Screen("transactions")
     data object AddEditTransaction :
-        Screen("add_edit_transaction/{type}?transaction_id={transaction_id}&preset_id={preset_id}&amount={amount}&note={note}") {
+        Screen("add_edit_transaction/{type}?transaction_id={transaction_id}&preset_id={preset_id}&amount={amount}&note={note}&category={category}&wallet={wallet}") {
         const val TYPE = "type"
         const val TRANSACTION_ID = "transaction_id"
         const val PRESET_ID = "preset_id"
         const val AMOUNT = "amount"
         const val NOTE = "note"
+        const val CATEGORY = "category"
+        const val WALLET = "wallet"
         fun routeWithArg(
             type: TransactionType,
             id: UUID? = null,
             presetId: UUID? = null,
             amount: String? = null,
-            note: String? = null
+            note: String? = null,
+            category: String? = null,
+            wallet: String? = null
         ): String {
             val transactionId = id?.toString() ?: ""
             val pId = presetId?.toString() ?: ""
             val amt = android.net.Uri.encode(amount ?: "")
             val nt = android.net.Uri.encode(note ?: "")
-            return "add_edit_transaction/$type?$TRANSACTION_ID=$transactionId&$PRESET_ID=$pId&$AMOUNT=$amt&$NOTE=$nt"
+            val cat = android.net.Uri.encode(category ?: "")
+            val wlt = android.net.Uri.encode(wallet ?: "")
+            return "add_edit_transaction/$type?$TRANSACTION_ID=$transactionId&$PRESET_ID=$pId&$AMOUNT=$amt&$NOTE=$nt&$CATEGORY=$cat&$WALLET=$wlt"
         }
     }
 

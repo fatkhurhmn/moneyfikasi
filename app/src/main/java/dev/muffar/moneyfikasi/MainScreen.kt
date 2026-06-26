@@ -91,7 +91,9 @@ fun MainScreen(
                     navController.toAddEditTransactionScreen(
                         type = event.result.type,
                         amount = event.result.amount.formatThousand(),
-                        note = event.result.note
+                        note = event.result.note,
+                        category = event.result.category,
+                        wallet = event.result.wallet
                     )
                 }
 
