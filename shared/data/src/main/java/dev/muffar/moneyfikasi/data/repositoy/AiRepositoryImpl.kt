@@ -48,8 +48,8 @@ class AiRepositoryImpl @Inject constructor(
         val prompt = """
                  Parse transaction text to JSON.
 
-                Categories: $${categories.joinToString("|")}
-                Wallets: $${wallets.joinToString("|")}
+                Categories: ${categories.joinToString("|")}
+                Wallets: ${wallets.joinToString("|")}
             
                 Return only one valid JSON.
             
@@ -67,7 +67,7 @@ class AiRepositoryImpl @Inject constructor(
                 - If TRANSFER, do not return category or wallet.
                 - Return JSON only.
             
-                Text: $${input.normalizeAmountText()}
+                Text: ${input.normalizeAmountText()}
             """.trimIndent()
 
         return try {

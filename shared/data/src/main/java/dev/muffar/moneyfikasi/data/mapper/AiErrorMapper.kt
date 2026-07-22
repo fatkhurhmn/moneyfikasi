@@ -1,9 +1,7 @@
 package dev.muffar.moneyfikasi.data.mapper
 
-import dev.muffar.moneyfikasi.data.remote.groq.GroqErrorResponse
 import dev.muffar.moneyfikasi.domain.model.AiError
 import dev.muffar.moneyfikasi.domain.model.AiException
-import kotlinx.serialization.json.Json
 import retrofit2.HttpException
 import java.io.IOException
 import java.net.ConnectException
@@ -15,25 +13,6 @@ fun Throwable.toAiError(): AiError {
 
     return when (this) {
         is HttpException -> {
-            val errorResponse = response()?.errorBody()?.string()?.let {
-                try {
-                    Json { ignoreUnknownKeys = true }.decodeFromString<GroqErrorResponse>(it)
-                } catch (e: Exception) {
-                    null
-                }
-            }
-
-            if (errorResponse != null) {
-                val error = when (errorResponse.error.type) {
-                    "authentication_error" -> AiError.InvalidApiKey
-                    "permission_error" -> AiError.PermissionDenied
-                    "rate_limit_error" -> AiError.RateLimited
-                    "invalid_request_error" -> AiError.InvalidRequest
-                    else -> null
-                }
-                if (error != null) return error
-            }
-
             when (code()) {
                 400 -> AiError.InvalidRequest
                 401 -> AiError.InvalidApiKey
