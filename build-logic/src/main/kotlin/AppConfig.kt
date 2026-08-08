@@ -7,10 +7,10 @@ object AppConfig {
     const val TARGET_SDK = 36
 
     private const val VERSION_MAJOR = 1
-    private const val VERSION_MINOR = 0
+    private const val VERSION_MINOR = 1
     private const val VERSION_PATCH = 0
 
-    const val VERSION_CODE = 7
+    const val VERSION_CODE = 8
     const val VERSION_NAME = "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH"
 
     const val ARCHIVE_BASE_NAME = "$APP_NAME-v$VERSION_NAME-$VERSION_CODE"

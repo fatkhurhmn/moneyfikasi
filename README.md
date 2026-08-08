@@ -18,6 +18,7 @@
 ## Key Features
 
 - **Recording Transactions.** Easily record income, expenses, and transfers between wallets.
+- **AI Smart Input.** Quickly add transactions by typing natural language sentences, powered by AI.
 - **Financial Reports.** Detailed summaries of your financial activities over custom time periods.
 - **Analysis Graphs.** Visualize your spending and income trends with interactive charts.
 - **Multiple Wallets.** Manage different accounts or cash sources in one place.
@@ -31,11 +32,14 @@
 ## Tech Stack
 
 - **Programming Language**: [Kotlin](https://kotlinlang.org/)
-- **User Interface**: [Jetpack Compose](https://developer.android.com/jetpack/compose), Material Design 3
+- **User Interface**: [Jetpack Compose](https://developer.android.com/jackpack/compose), Material Design 3
 - **Architecture Pattern**: Multi-module, Clean Architecture, MVI (Model-View-Intent)
 - **Dependency Injection**: [Dagger Hilt](https://dagger.dev/hilt/)
+- **Networking**: [Retrofit](https://square.github.io/retrofit/) & [OkHttp](https://square.github.io/okhttp/)
+- **AI Integration**: [Groq AI](https://groq.com/) & [Google Generative AI](https://ai.google.dev/)
 - **Asynchronous Programming**: Kotlin Coroutines & Flow
 - **Local Data Storage**: [Room Database](https://developer.android.com/training/data-storage/room), DataStore
+- **Pagination**: [Android Paging](https://developer.android.com/topic/libraries/architecture/paging/v3-paged-data)
 - **Charts**: [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart)
 - **IDE**: Android Studio
 - **Dependency Management**: Gradle Version Catalog (libs.versions.toml)
@@ -47,10 +51,10 @@ The project follows a modularized Clean Architecture pattern to ensure scalabili
 
 - **`:app`**: The main entry point of the application.
 - **`:feature`**: Contains various feature-based modules:
-    - `home`, `wallet`, `transaction`, `category`, `budget`, `statistic`, `search`, `export`, `backup_restore`, `applock`, `settings`, `recurring_transaction`, `notification`, `about`, `splash`.
+    - `home`, `wallet`, `transaction`, `category`, `budget`, `statistic`, `search`, `export`, `backupRestore`, `applock`, `settings`, `recurringTransaction`, `notification`, `about`, `splash`, `more`, `preset`.
 - **`:shared`**: Contains shared components used across features:
     - **`:domain`**: Business logic, use cases, and repository interfaces.
-    - **`:data`**: Repository implementations and local data sources (Room/DataStore).
+    - **`:data`**: Repository implementations and local data sources (Room/DataStore/Remote).
     - **`:resource`**: Shared resources like strings, drawables, and themes.
     - **`:common-ui`**: Shared UI components and theme definitions.
     - **`:navigation`**: Centralized navigation logic.
