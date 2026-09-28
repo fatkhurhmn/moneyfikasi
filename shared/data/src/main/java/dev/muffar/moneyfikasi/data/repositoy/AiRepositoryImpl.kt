@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.data.repositoy
 
+import android.util.Log
 import dev.muffar.moneyfikasi.data.BuildConfig
 import dev.muffar.moneyfikasi.data.mapper.toAiError
 import dev.muffar.moneyfikasi.data.remote.groq.GroqApiService
@@ -17,6 +18,7 @@ import dev.muffar.moneyfikasi.utils.extensions.StringExt.normalizeAmountText
 import kotlinx.coroutines.flow.first
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.json.Json
+import retrofit2.HttpException
 import javax.inject.Inject
 
 class AiRepositoryImpl @Inject constructor(
@@ -74,7 +76,7 @@ class AiRepositoryImpl @Inject constructor(
             val response = groqApi.getChatCompletion(
                 apiKey = "Bearer ${BuildConfig.GROQ_API_KEY}",
                 request = GroqChatRequest(
-                    model = "llama-3.3-70b-versatile",
+                    model = "openai/gpt-oss-120b",
                     messages = listOf(
                         GroqMessage(
                             role = "user",
