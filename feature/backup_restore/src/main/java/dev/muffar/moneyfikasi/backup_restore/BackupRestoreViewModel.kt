@@ -37,6 +37,9 @@ import javax.inject.Inject
 class BackupRestoreViewModel @Inject constructor(
     private val backupRestoreUseCases: BackupRestoreUseCases,
     private val backupSettingsUseCases: BackupSettingsUseCases,
+    private val driveBackupUseCases: dev.muffar.moneyfikasi.domain.usecase.drive.DriveBackupUseCases,
+    private val driveBackupRepository: dev.muffar.moneyfikasi.domain.repository.DriveBackupRepository,
+    private val driveAuthHelper: dev.muffar.moneyfikasi.data.remote.drive.DriveAuthHelper,
     @param:ApplicationContext private val context: Context,
 ) : ViewModel() {
 
@@ -54,6 +57,11 @@ class BackupRestoreViewModel @Inject constructor(
                 isDeletePreviousBackup = settings.isDeletePreviousBackup
             )
         }.launchIn(viewModelScope)
+        refreshDriveStatus()
+    }
+
+    fun getDriveSignInIntent(): android.content.Intent {
+        return driveAuthHelper.getSignInIntent()
     }
 
     fun onEvent(event: BackupRestoreEvent) {
@@ -64,6 +72,104 @@ class BackupRestoreViewModel @Inject constructor(
             is BackupRestoreEvent.AutoBackupUriChanged -> setAutoBackupUri(event.uri)
             is BackupRestoreEvent.AutoBackupPeriodChanged -> setAutoBackupPeriod(event.period)
             is BackupRestoreEvent.DeletePreviousBackupChanged -> setDeletePreviousBackup(event.isEnabled)
+            is BackupRestoreEvent.DriveSignInResult -> refreshDriveStatus(loadList = true)
+            is BackupRestoreEvent.DriveSignInHandled -> onDriveSignInHandled(event.success)
+            is BackupRestoreEvent.DriveSignOut -> driveSignOut()
+            is BackupRestoreEvent.DriveLoadBackups -> loadDriveBackups()
+            is BackupRestoreEvent.DriveBackupNow -> backupToDrive()
+            is BackupRestoreEvent.DriveRestore -> restoreFromDrive(event.fileId)
+            is BackupRestoreEvent.DriveDelete -> deleteDriveBackup(event.fileId)
+        }
+    }
+
+    private fun refreshDriveStatus(loadList: Boolean = true) {
+        viewModelScope.launch {
+            val signedIn = try {
+                driveBackupRepository.isSignedIn()
+            } catch (_: Exception) {
+                false
+            }
+            val email = driveAuthHelper.getSignedInAccount()?.email.orEmpty()
+            _state.value = _state.value.copy(
+                isDriveSignedIn = signedIn,
+                driveAccountEmail = email
+            )
+            if (signedIn && loadList) loadDriveBackups()
+        }
+    }
+
+    private fun onDriveSignInHandled(success: Boolean) {
+        viewModelScope.launch {
+            if (success) {
+                refreshDriveStatus(loadList = true)
+                _eventFlow.emit(UiEvent.ShowMessage(R.string.msg_backup_success, SnackbarType.SUCCESS))
+            } else {
+                _eventFlow.emit(UiEvent.ShowMessage(R.string.error_backup_failed, SnackbarType.ERROR))
+            }
+        }
+    }
+
+    private fun driveSignOut() {
+        viewModelScope.launch {
+            driveBackupRepository.signOut()
+            _state.value = _state.value.copy(
+                isDriveSignedIn = false,
+                driveAccountEmail = "",
+                driveBackups = emptyList()
+            )
+        }
+    }
+
+    private fun loadDriveBackups() {
+        viewModelScope.launch {
+            _state.value = _state.value.copy(isDriveLoading = true)
+            driveBackupUseCases.getDriveBackups()
+                .onSuccess { files ->
+                    _state.value = _state.value.copy(driveBackups = files, isDriveLoading = false)
+                }
+                .onFailure {
+                    _state.value = _state.value.copy(isDriveLoading = false)
+                    _eventFlow.emit(UiEvent.ShowMessage(R.string.error_backup_failed, SnackbarType.ERROR))
+                }
+        }
+    }
+
+    private fun backupToDrive() {
+        viewModelScope.launch {
+            _state.value = _state.value.copy(isDriveLoading = true)
+            driveBackupUseCases.backupToDrive()
+                .onSuccess {
+                    loadDriveBackups()
+                    _eventFlow.emit(UiEvent.ShowMessage(R.string.msg_backup_success, SnackbarType.SUCCESS))
+                }
+                .onFailure {
+                    _state.value = _state.value.copy(isDriveLoading = false)
+                    _eventFlow.emit(UiEvent.ShowMessage(R.string.error_backup_failed, SnackbarType.ERROR))
+                }
+        }
+    }
+
+    private fun restoreFromDrive(fileId: String) {
+        viewModelScope.launch {
+            _state.value = _state.value.copy(isLoading = true)
+            driveBackupUseCases.restoreFromDrive(fileId)
+                .onSuccess {
+                    _eventFlow.emit(UiEvent.ShowMessage(R.string.msg_restore_success, SnackbarType.SUCCESS))
+                }
+                .onFailure {
+                    _eventFlow.emit(UiEvent.ShowMessage(R.string.error_restore_failed, SnackbarType.ERROR))
+                }
+            _state.value = _state.value.copy(isLoading = false)
+        }
+    }
+
+    private fun deleteDriveBackup(fileId: String) {
+        viewModelScope.launch {
+            driveBackupUseCases.deleteDriveBackup(fileId)
+                .onSuccess { loadDriveBackups() }
+                .onFailure {
+                    _eventFlow.emit(UiEvent.ShowMessage(R.string.error_backup_failed, SnackbarType.ERROR))
+                }
         }
     }
 

@@ -31,4 +31,8 @@ dependencies {
     ksp(libs.androidx.hilt.compiler)
 
     implementation(libs.threetenabp)
+
+    implementation(libs.play.services.auth)
+    implementation(libs.google.api.client.android)
+    implementation(libs.google.api.services.drive)
 }

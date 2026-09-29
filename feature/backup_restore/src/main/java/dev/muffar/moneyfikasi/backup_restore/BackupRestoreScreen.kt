@@ -19,10 +19,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import dev.muffar.moneyfikasi.backup_restore.component.AutoBackupSection
 import dev.muffar.moneyfikasi.backup_restore.component.BackupRestoreButton
 import dev.muffar.moneyfikasi.backup_restore.component.BackupRestoreText
 import dev.muffar.moneyfikasi.backup_restore.component.DeletePreviousBackupSwitch
+import dev.muffar.moneyfikasi.backup_restore.component.DriveBackupSection
 import dev.muffar.moneyfikasi.backup_restore.component.LatestBackupInfo
 import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
 import dev.muffar.moneyfikasi.common_ui.component.dialog.LoadingDialog
@@ -45,10 +48,23 @@ fun BackupRestoreScreen(
     onAutoBackupFolderSelected: (Uri) -> Unit,
     onAutoBackupPeriodSelected: (TimePeriod) -> Unit,
     onDeletePreviousBackupChange: (Boolean) -> Unit,
+    getDriveSignInIntent: () -> android.content.Intent,
+    onDriveSignInResult: (Boolean) -> Unit,
+    onDriveSignOut: () -> Unit,
+    onDriveBackup: () -> Unit,
+    onDriveRefresh: () -> Unit,
+    onDriveRestore: (String) -> Unit,
+    onDriveDelete: (String) -> Unit,
     onBackClick: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
+
+    val driveSignInLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        onDriveSignInResult(it.resultCode == android.app.Activity.RESULT_OK)
+    }
 
     Scaffold(
         topBar = {
@@ -99,6 +115,16 @@ fun BackupRestoreScreen(
             LatestBackupInfo(
                 fileName = state.latestBackup.name,
                 date = state.latestBackup.date,
+            )
+
+            DriveBackupSection(
+                state = state,
+                onSignInClick = { driveSignInLauncher.launch(getDriveSignInIntent()) },
+                onSignOutClick = onDriveSignOut,
+                onBackupClick = onDriveBackup,
+                onRefreshClick = onDriveRefresh,
+                onRestoreClick = onDriveRestore,
+                onDeleteClick = onDriveDelete
             )
         }
     }

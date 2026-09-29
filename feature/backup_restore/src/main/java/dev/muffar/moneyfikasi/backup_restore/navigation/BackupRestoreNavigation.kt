@@ -27,6 +27,13 @@ fun NavGraphBuilder.backupRestoreNavGraph(
             onAutoBackupFolderSelected = { event(BackupRestoreEvent.AutoBackupUriChanged(it)) },
             onAutoBackupPeriodSelected = { event(BackupRestoreEvent.AutoBackupPeriodChanged(it)) },
             onDeletePreviousBackupChange = { event(BackupRestoreEvent.DeletePreviousBackupChanged(it)) },
+            getDriveSignInIntent = viewModel::getDriveSignInIntent,
+            onDriveSignInResult = { event(BackupRestoreEvent.DriveSignInHandled(it)) },
+            onDriveSignOut = { event(BackupRestoreEvent.DriveSignOut) },
+            onDriveBackup = { event(BackupRestoreEvent.DriveBackupNow) },
+            onDriveRefresh = { event(BackupRestoreEvent.DriveLoadBackups) },
+            onDriveRestore = { event(BackupRestoreEvent.DriveRestore(it)) },
+            onDriveDelete = { event(BackupRestoreEvent.DriveDelete(it)) },
             onBackClick = navigateBack,
         )
     }
