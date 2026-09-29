@@ -159,10 +159,6 @@ sealed class Screen(val route: String) {
 
     data object About : Screen("about")
 
-    data object PrivacyPolicy : Screen("privacy_policy")
-
-    data object TermsOfService : Screen("terms_of_service")
-
     data object OpenSourceLicenses : Screen("open_source_licenses")
 
     data object AppLock : Screen("app_lock")

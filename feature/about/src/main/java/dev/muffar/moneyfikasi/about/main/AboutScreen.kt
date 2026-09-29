@@ -1,7 +1,9 @@
 package dev.muffar.moneyfikasi.about.main
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import androidx.core.net.toUri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -27,8 +29,6 @@ import dev.muffar.moneyfikasi.resource.R
 fun AboutScreen(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
-    onPrivacyPolicyClick: () -> Unit,
-    onTermsOfServiceClick: () -> Unit,
     onOpenSourceLicensesClick: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -72,14 +72,14 @@ fun AboutScreen(
                         title = stringResource(R.string.title_privacy_policy),
                         subtitle = stringResource(R.string.msg_privacy_policy_description),
                         icon = Icons.AutoMirrored.Rounded.Article,
-                        onClick = onPrivacyPolicyClick,
+                        onClick = { context.openWebPage(PRIVACY_POLICY_URL) },
                     )
                     CommonHorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
                     SettingItem(
                         title = stringResource(R.string.title_terms_of_service),
                         subtitle = stringResource(R.string.msg_terms_of_service_description),
                         icon = Icons.Rounded.Description,
-                        onClick = onTermsOfServiceClick,
+                        onClick = { context.openWebPage(TERMS_OF_SERVICE_URL) },
                     )
                     CommonHorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
                     SettingItem(
@@ -96,4 +96,14 @@ fun AboutScreen(
 
 private fun versionNameOf(versionName: String?): String {
     return versionName?.takeIf { it.isNotBlank() } ?: "-"
+}
+
+private const val PRIVACY_POLICY_URL = "https://www.fatkhurohman.my.id/moneyfikasi/privacy-policy"
+private const val TERMS_OF_SERVICE_URL = "https://www.fatkhurohman.my.id/moneyfikasi/terms"
+
+private fun android.content.Context.openWebPage(url: String) {
+    try {
+        startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
+    } catch (_: Exception) {
+    }
 }
