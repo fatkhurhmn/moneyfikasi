@@ -3,6 +3,7 @@ package dev.muffar.moneyfikasi.backup_restore
 import dev.muffar.moneyfikasi.domain.model.AutoBackup
 import dev.muffar.moneyfikasi.domain.model.DriveBackupFile
 import dev.muffar.moneyfikasi.domain.model.LatestBackup
+import dev.muffar.moneyfikasi.domain.model.TimePeriod
 
 data class BackupRestoreState(
     val latestBackup: LatestBackup = LatestBackup(),
@@ -14,5 +15,5 @@ data class BackupRestoreState(
     val driveBackup: DriveBackupFile? = null,
     val isDriveLoading: Boolean = false,
     val isDriveAutoBackupEnabled: Boolean = false,
-    val driveAutoBackupPeriod: String = dev.muffar.moneyfikasi.domain.model.TimePeriod.DAILY.name,
+    val driveAutoBackupPeriod: String = TimePeriod.DAILY.name,
 )
