@@ -77,8 +77,7 @@ class BackupRestoreViewModel @Inject constructor(
             is BackupRestoreEvent.DriveSignOut -> driveSignOut()
             is BackupRestoreEvent.DriveLoadBackups -> loadDriveBackups()
             is BackupRestoreEvent.DriveBackupNow -> backupToDrive()
-            is BackupRestoreEvent.DriveRestore -> restoreFromDrive(event.fileId)
-            is BackupRestoreEvent.DriveDelete -> deleteDriveBackup(event.fileId)
+            is BackupRestoreEvent.DriveRestore -> restoreFromDrive()
         }
     }
 
@@ -115,7 +114,7 @@ class BackupRestoreViewModel @Inject constructor(
             _state.value = _state.value.copy(
                 isDriveSignedIn = false,
                 driveAccountEmail = "",
-                driveBackups = emptyList()
+                driveBackup = null
             )
         }
     }
@@ -125,7 +124,10 @@ class BackupRestoreViewModel @Inject constructor(
             _state.value = _state.value.copy(isDriveLoading = true)
             driveBackupUseCases.getDriveBackups()
                 .onSuccess { files ->
-                    _state.value = _state.value.copy(driveBackups = files, isDriveLoading = false)
+                    _state.value = _state.value.copy(
+                        driveBackup = files.maxByOrNull { it.modifiedTime },
+                        isDriveLoading = false
+                    )
                 }
                 .onFailure {
                     _state.value = _state.value.copy(isDriveLoading = false)
@@ -138,8 +140,8 @@ class BackupRestoreViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = _state.value.copy(isDriveLoading = true)
             driveBackupUseCases.backupToDrive()
-                .onSuccess {
-                    loadDriveBackups()
+                .onSuccess { file ->
+                    _state.value = _state.value.copy(driveBackup = file, isDriveLoading = false)
                     _eventFlow.emit(UiEvent.ShowMessage(R.string.msg_backup_success, SnackbarType.SUCCESS))
                 }
                 .onFailure {
@@ -149,7 +151,8 @@ class BackupRestoreViewModel @Inject constructor(
         }
     }
 
-    private fun restoreFromDrive(fileId: String) {
+    private fun restoreFromDrive() {
+        val fileId = _state.value.driveBackup?.id ?: return
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
             driveBackupUseCases.restoreFromDrive(fileId)
@@ -160,16 +163,6 @@ class BackupRestoreViewModel @Inject constructor(
                     _eventFlow.emit(UiEvent.ShowMessage(R.string.error_restore_failed, SnackbarType.ERROR))
                 }
             _state.value = _state.value.copy(isLoading = false)
-        }
-    }
-
-    private fun deleteDriveBackup(fileId: String) {
-        viewModelScope.launch {
-            driveBackupUseCases.deleteDriveBackup(fileId)
-                .onSuccess { loadDriveBackups() }
-                .onFailure {
-                    _eventFlow.emit(UiEvent.ShowMessage(R.string.error_backup_failed, SnackbarType.ERROR))
-                }
         }
     }
 

@@ -11,6 +11,6 @@ data class BackupRestoreState(
     val isLoading: Boolean = false,
     val isDriveSignedIn: Boolean = false,
     val driveAccountEmail: String = "",
-    val driveBackups: List<DriveBackupFile> = emptyList(),
+    val driveBackup: DriveBackupFile? = null,
     val isDriveLoading: Boolean = false,
 )

@@ -268,7 +268,14 @@
     <string name="msg_csv_description">Nilai yang dipisahkan koma</string>
     <string name="msg_xlsx_description">Format lembar kerja Excel</string>
     <string name="msg_dark_mode_description">Beralih antara tema gelap dan terang</string>
-    <string name="msg_backup_restore_description">Kelola cadangan lokal dan pulihkan data</string>
+    <string name="msg_backup_restore_description">Kelola cadangan lokal dan Google Drive</string>
+    <string name="title_section_local">Lokal</string>
+    <string name="title_section_online">Google Drive</string>
+    <string name="msg_online_backup_description">Satu cadangan online di folder aplikasi Google Drive. Mencadangkan lagi akan menimpanya.</string>
+    <string name="msg_local_backup_description">Cadangkan data ke folder di perangkat ini atau pulihkan dari cadangan sebelumnya.</string>
+    <string name="msg_no_online_backup_yet">Belum ada cadangan online</string>
+    <string name="action_connect_drive">Hubungkan Google Drive</string>
+    <string name="action_disconnect">Putuskan</string>
     <string name="msg_export_data_description">Ekspor transaksi sebagai CSV atau XLSX</string>
     <string name="msg_notification_description">Atur notifikasi aplikasi Anda</string>
     <string name="msg_app_lock_description">Amankan aplikasi Anda dengan kode PIN</string>

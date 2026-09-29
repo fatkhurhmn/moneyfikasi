@@ -4,19 +4,25 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.backup_restore.BackupRestoreState
 import dev.muffar.moneyfikasi.common_ui.component.button.common.CommonButton
 import dev.muffar.moneyfikasi.common_ui.component.button.common.CommonOutlinedButton
+import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
 import dev.muffar.moneyfikasi.common_ui.component.dialog.CommonAlertDialog
 import dev.muffar.moneyfikasi.resource.R
 
@@ -44,22 +50,31 @@ fun BackupRestoreButton(
             }
         }
 
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        CommonButton(
-            text = stringResource(R.string.action_backup),
-            onClick = { dirBackupLauncher.launch(null) },
-            modifier = Modifier.weight(1f),
-            enabled = !state.isLoading
-        )
-        CommonOutlinedButton(
-            text = stringResource(R.string.action_restore),
-            onClick = { dirRestoreLauncher.launch(arrayOf("application/zip")) },
-            modifier = Modifier.weight(1f),
-            enabled = !state.isLoading
-        )
+    PrimaryCard {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
+        ) {
+            LocalBackupText()
+            Spacer(modifier = Modifier.height(16.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                CommonButton(
+                    text = stringResource(R.string.action_backup),
+                    onClick = { dirBackupLauncher.launch(null) },
+                    modifier = Modifier.weight(1f),
+                    enabled = !state.isLoading
+                )
+                CommonOutlinedButton(
+                    text = stringResource(R.string.action_restore),
+                    onClick = { dirRestoreLauncher.launch(arrayOf("application/zip")) },
+                    modifier = Modifier.weight(1f),
+                    enabled = !state.isLoading
+                )
+            }
+        }
     }
 
     if (showRestoreDialog) {

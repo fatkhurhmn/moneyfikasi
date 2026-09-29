@@ -268,7 +268,14 @@
     <string name="msg_csv_description">Comma separated values</string>
     <string name="msg_xlsx_description">Excel spreadsheet format</string>
     <string name="msg_dark_mode_description">Toggle between dark and light theme</string>
-    <string name="msg_backup_restore_description">Manage local backups and restore data</string>
+    <string name="msg_backup_restore_description">Manage local and Google Drive backups</string>
+    <string name="title_section_local">Local</string>
+    <string name="title_section_online">Google Drive</string>
+    <string name="msg_online_backup_description">Single online backup in your Google Drive app folder. Backing up again overwrites it.</string>
+    <string name="msg_local_backup_description">Back up your data to a folder on this device or restore from a previous backup.</string>
+    <string name="msg_no_online_backup_yet">No online backup yet</string>
+    <string name="action_connect_drive">Connect Google Drive</string>
+    <string name="action_disconnect">Disconnect</string>
     <string name="msg_export_data_description">Export transactions as CSV or XLSX</string>
     <string name="msg_notification_description">Manage your app notifications</string>
     <string name="msg_app_lock_description">Secure your app with a PIN code</string>
