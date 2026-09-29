@@ -18,6 +18,7 @@ android {
     }
     val geminiApiKey = localProperties.getProperty("GEMINI_API_KEY") ?: ""
     val groqApiKey = localProperties.getProperty("GROQ_API_KEY") ?: ""
+    val driveWebClientId = localProperties.getProperty("DRIVE_WEB_CLIENT_ID") ?: ""
 
     defaultConfig {
         ksp {
@@ -25,6 +26,7 @@ android {
         }
         buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
         buildConfigField("String", "GROQ_API_KEY", "\"$groqApiKey\"")
+        buildConfigField("String", "DRIVE_WEB_CLIENT_ID", "\"$driveWebClientId\"")
     }
 
     buildFeatures {
@@ -63,4 +65,11 @@ dependencies {
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.kotlinx.serialization)
     implementation(libs.okhttp.logging)
+
+    implementation(libs.play.services.auth)
+    implementation(libs.google.api.client.android)
+    implementation(libs.google.api.services.drive)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
 }

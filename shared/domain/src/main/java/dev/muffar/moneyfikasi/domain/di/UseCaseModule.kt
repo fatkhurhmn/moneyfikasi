@@ -7,6 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import dev.muffar.moneyfikasi.domain.repository.AiRepository
 import dev.muffar.moneyfikasi.domain.repository.BackupRestoreRepository
 import dev.muffar.moneyfikasi.domain.repository.BackupSettingsRepository
+import dev.muffar.moneyfikasi.domain.repository.DriveBackupRepository
 import dev.muffar.moneyfikasi.domain.repository.BudgetRepository
 import dev.muffar.moneyfikasi.domain.repository.CategoryRepository
 import dev.muffar.moneyfikasi.domain.repository.NotificationSettingsRepository
@@ -24,6 +25,11 @@ import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupRestoreUseCase
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.DeleteBackup
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.DeleteLatestBackup
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.RestoreData
+import dev.muffar.moneyfikasi.domain.usecase.drive.BackupToDrive
+import dev.muffar.moneyfikasi.domain.usecase.drive.DeleteDriveBackup
+import dev.muffar.moneyfikasi.domain.usecase.drive.DriveBackupUseCases
+import dev.muffar.moneyfikasi.domain.usecase.drive.GetDriveBackups
+import dev.muffar.moneyfikasi.domain.usecase.drive.RestoreFromDrive
 import dev.muffar.moneyfikasi.domain.usecase.budget.BudgetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.budget.DeleteBudget
 import dev.muffar.moneyfikasi.domain.usecase.budget.GetAllBudgets
@@ -165,6 +171,16 @@ object UseCaseModule {
         restoreData = RestoreData(backupRestoreRepository),
         deleteBackup = DeleteBackup(backupRestoreRepository),
         deleteLatestBackup = DeleteLatestBackup(backupRestoreRepository, backupSettingsRepository)
+    )
+
+    @Provides
+    fun provideDriveBackupUseCases(
+        driveBackupRepository: DriveBackupRepository,
+    ): DriveBackupUseCases = DriveBackupUseCases(
+        backupToDrive = BackupToDrive(driveBackupRepository),
+        restoreFromDrive = RestoreFromDrive(driveBackupRepository),
+        getDriveBackups = GetDriveBackups(driveBackupRepository),
+        deleteDriveBackup = DeleteDriveBackup(driveBackupRepository)
     )
 
     @Provides
