@@ -6,5 +6,7 @@ import kotlinx.serialization.Serializable
 data class BackupSettings(
     val latestBackup: LatestBackup = LatestBackup(),
     val autoBackup: AutoBackup = AutoBackup(),
-    val isDeletePreviousBackup: Boolean = true
+    val isDeletePreviousBackup: Boolean = true,
+    val isDriveAutoBackupEnabled: Boolean = false,
+    val driveAutoBackupPeriod: String = TimePeriod.DAILY.name
 )

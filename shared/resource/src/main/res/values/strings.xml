@@ -249,7 +249,7 @@
     <string name="msg_keep_your_data_safe_description">Back up your important data securely or restore from a previous backup.</string>
     <string name="msg_latest_backup">Latest backup</string>
     <string name="msg_no_backup_yet">No backup yet</string>
-    <string name="msg_automatic_backup">Automatic Backup</string>
+    <string name="msg_automatic_backup">Auto Backup</string>
     <string name="msg_auto_backup_description">Scheduled data backup to your selected folder</string>
     <string name="msg_select_backup_folder">Select Backup Folder</string>
     <string name="msg_delete_previous_backup">Delete Previous Backup</string>
@@ -276,6 +276,8 @@
     <string name="msg_no_online_backup_yet">No online backup yet</string>
     <string name="action_connect_drive">Connect Google Drive</string>
     <string name="action_disconnect">Disconnect</string>
+    <string name="msg_drive_auto_backup">Auto backup to Google Drive</string>
+    <string name="msg_drive_auto_backup_description">Scheduled backup to your Google Drive app folder</string>
     <string name="msg_export_data_description">Export transactions as CSV or XLSX</string>
     <string name="msg_notification_description">Manage your app notifications</string>
     <string name="msg_app_lock_description">Secure your app with a PIN code</string>

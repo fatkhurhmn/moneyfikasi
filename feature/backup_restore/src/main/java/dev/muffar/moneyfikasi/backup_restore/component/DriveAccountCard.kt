@@ -47,7 +47,7 @@ fun DriveAccountCard(
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             CommonOutlinedButton(
                 text = stringResource(R.string.action_disconnect),
                 onClick = onSignOutClick,

@@ -52,6 +52,8 @@ fun BackupRestoreScreen(
     onDriveBackup: () -> Unit,
     onDriveRefresh: () -> Unit,
     onDriveRestore: () -> Unit,
+    onDriveAutoBackupChange: (Boolean) -> Unit,
+    onDriveAutoBackupPeriodSelected: (TimePeriod) -> Unit,
     onBackClick: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -120,7 +122,9 @@ fun BackupRestoreScreen(
                 onSignInClick = { driveSignInLauncher.launch(getDriveSignInIntent()) },
                 onSignOutClick = onDriveSignOut,
                 onBackupClick = onDriveBackup,
-                onRestoreClick = onDriveRestore
+                onRestoreClick = onDriveRestore,
+                onAutoBackupChange = onDriveAutoBackupChange,
+                onAutoBackupPeriodSelected = onDriveAutoBackupPeriodSelected
             )
         }
     }

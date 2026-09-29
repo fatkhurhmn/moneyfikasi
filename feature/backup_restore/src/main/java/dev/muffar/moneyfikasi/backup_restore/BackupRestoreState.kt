@@ -13,4 +13,6 @@ data class BackupRestoreState(
     val driveAccountEmail: String = "",
     val driveBackup: DriveBackupFile? = null,
     val isDriveLoading: Boolean = false,
+    val isDriveAutoBackupEnabled: Boolean = false,
+    val driveAutoBackupPeriod: String = dev.muffar.moneyfikasi.domain.model.TimePeriod.DAILY.name,
 )

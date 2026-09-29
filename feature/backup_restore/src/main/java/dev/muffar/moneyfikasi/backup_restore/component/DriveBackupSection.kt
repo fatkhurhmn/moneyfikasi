@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.backup_restore.BackupRestoreState
+import dev.muffar.moneyfikasi.domain.model.TimePeriod
 
 @Composable
 fun DriveBackupSection(
@@ -14,6 +15,8 @@ fun DriveBackupSection(
     onSignOutClick: () -> Unit,
     onBackupClick: () -> Unit,
     onRestoreClick: () -> Unit,
+    onAutoBackupChange: (Boolean) -> Unit,
+    onAutoBackupPeriodSelected: (TimePeriod) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val isBusy = state.isDriveLoading || state.isLoading
@@ -32,6 +35,12 @@ fun DriveBackupSection(
         )
 
         if (state.isDriveSignedIn) {
+            DriveAutoBackupCard(
+                isEnabled = state.isDriveAutoBackupEnabled,
+                period = TimePeriod.valueOf(state.driveAutoBackupPeriod),
+                onEnabledChange = onAutoBackupChange,
+                onPeriodSelected = onAutoBackupPeriodSelected
+            )
             DriveLatestBackupCard(
                 modifiedTime = state.driveBackup?.modifiedTime
             )

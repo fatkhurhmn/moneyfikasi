@@ -276,6 +276,8 @@
     <string name="msg_no_online_backup_yet">Belum ada cadangan online</string>
     <string name="action_connect_drive">Hubungkan Google Drive</string>
     <string name="action_disconnect">Putuskan</string>
+    <string name="msg_drive_auto_backup">Cadangan otomatis ke Google Drive</string>
+    <string name="msg_drive_auto_backup_description">Cadangan terjadwal ke folder aplikasi Google Drive</string>
     <string name="msg_export_data_description">Ekspor transaksi sebagai CSV atau XLSX</string>
     <string name="msg_notification_description">Atur notifikasi aplikasi Anda</string>
     <string name="msg_app_lock_description">Amankan aplikasi Anda dengan kode PIN</string>

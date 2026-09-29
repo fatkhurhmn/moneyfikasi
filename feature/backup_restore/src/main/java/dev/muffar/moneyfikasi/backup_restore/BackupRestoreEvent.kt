@@ -16,4 +16,6 @@ sealed class BackupRestoreEvent {
     data object DriveLoadBackups : BackupRestoreEvent()
     data object DriveBackupNow : BackupRestoreEvent()
     data object DriveRestore : BackupRestoreEvent()
+    data class DriveAutoBackupChanged(val isEnabled: Boolean) : BackupRestoreEvent()
+    data class DriveAutoBackupPeriodChanged(val period: TimePeriod) : BackupRestoreEvent()
 }
