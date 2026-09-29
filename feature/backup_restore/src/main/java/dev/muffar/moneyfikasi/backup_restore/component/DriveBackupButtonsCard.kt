@@ -36,7 +36,7 @@ fun DriveBackupButtonsCard(
     PrimaryCard(modifier = modifier) {
         Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) {
             DriveBackupText()
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             if (!isSignedIn) {
                 CommonButton(
                     text = stringResource(R.string.action_connect_drive),

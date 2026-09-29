@@ -101,7 +101,6 @@ class BackupRestoreViewModel @Inject constructor(
         viewModelScope.launch {
             if (success) {
                 refreshDriveStatus(loadList = true)
-                _eventFlow.emit(UiEvent.ShowMessage(R.string.msg_backup_success, SnackbarType.SUCCESS))
             } else {
                 _eventFlow.emit(UiEvent.ShowMessage(R.string.error_backup_failed, SnackbarType.ERROR))
             }
