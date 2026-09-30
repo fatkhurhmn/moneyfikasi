@@ -25,7 +25,7 @@
 - **Customizable Categories.** Organize transactions with custom names, icons, and colors.
 - **Budgeting.** Set and track budgets for different categories to control your spending.
 - **Recurring Transactions.** Automate regular payments and income tracking.
-- **Backup & Restore.** Securely backup your data locally and restore it whenever needed.
+- **Backup & Restore & Cloud Sync.** Securely backup and restore data locally or via Google Drive, with automated scheduled backups.
 - **Export Data.** Export your financial records to CSV or XLSX formats.
 - **App Lock.** Protect your data with biometric authentication or a PIN.
 
