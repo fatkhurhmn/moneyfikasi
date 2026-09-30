@@ -56,7 +56,7 @@ fun AmountInputSheet(
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             negativeText = stringResource(R.string.action_cancel),
             positiveText = stringResource(R.string.action_ok),
-            positiveEnabled = calcState.error == null,
+            positiveEnabled = calcState.error == null && calcState.input.isNotBlank(),
             onNegativeClick = {
                 hideSheet()
                 onDismissRequest()

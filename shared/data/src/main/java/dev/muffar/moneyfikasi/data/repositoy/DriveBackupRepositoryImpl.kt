@@ -85,7 +85,15 @@ class DriveBackupRepositoryImpl @Inject constructor(
                             zipOut.closeEntry()
                         }
                     }
-                    Result.success(dataSource.upload(tmpFile, fileName))
+                    val uploaded = dataSource.upload(tmpFile, fileName)
+                    // Single online backup: remove older files, keep only the latest upload.
+                    try {
+                        dataSource.listBackups()
+                            .filter { it.id != uploaded.id }
+                            .forEach { runCatching { dataSource.delete(it.id) } }
+                    } catch (_: Exception) {
+                    }
+                    Result.success(uploaded)
                 } finally {
                     tmpFile.delete()
                 }

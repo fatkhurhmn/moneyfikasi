@@ -37,4 +37,12 @@ class BackupSettingsRepositoryImpl @Inject constructor(
     override suspend fun setDeletePreviousBackup(isEnabled: Boolean) {
         backupPreferences.setDeletePreviousBackup(isEnabled)
     }
+
+    override suspend fun setDriveAutoBackupEnabled(isEnabled: Boolean) {
+        backupPreferences.setDriveAutoBackupEnabled(isEnabled)
+    }
+
+    override suspend fun setDriveAutoBackupPeriod(period: TimePeriod) {
+        backupPreferences.setDriveAutoBackupPeriod(period)
+    }
 }

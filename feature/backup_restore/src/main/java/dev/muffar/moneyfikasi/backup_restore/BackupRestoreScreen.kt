@@ -1,11 +1,11 @@
 package dev.muffar.moneyfikasi.backup_restore
 
 import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -14,20 +14,18 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import dev.muffar.moneyfikasi.backup_restore.component.AutoBackupSection
 import dev.muffar.moneyfikasi.backup_restore.component.BackupRestoreButton
 import dev.muffar.moneyfikasi.backup_restore.component.BackupRestoreText
 import dev.muffar.moneyfikasi.backup_restore.component.DeletePreviousBackupSwitch
 import dev.muffar.moneyfikasi.backup_restore.component.DriveBackupSection
+import dev.muffar.moneyfikasi.backup_restore.component.DriveSectionLabel
 import dev.muffar.moneyfikasi.backup_restore.component.LatestBackupInfo
-import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
+import dev.muffar.moneyfikasi.backup_restore.component.LocalSectionLabel
 import dev.muffar.moneyfikasi.common_ui.component.dialog.LoadingDialog
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
@@ -53,8 +51,9 @@ fun BackupRestoreScreen(
     onDriveSignOut: () -> Unit,
     onDriveBackup: () -> Unit,
     onDriveRefresh: () -> Unit,
-    onDriveRestore: (String) -> Unit,
-    onDriveDelete: (String) -> Unit,
+    onDriveRestore: () -> Unit,
+    onDriveAutoBackupChange: (Boolean) -> Unit,
+    onDriveAutoBackupPeriodSelected: (TimePeriod) -> Unit,
     onBackClick: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -83,20 +82,15 @@ fun BackupRestoreScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
-            PrimaryCard {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
-                ) {
-                    BackupRestoreText()
-                    Spacer(modifier = Modifier.height(16.dp))
-                    BackupRestoreButton(
-                        state = state,
-                        onBackupClick = onBackupClick,
-                        onRestoreClick = onRestoreClick
-                    )
-                }
-            }
+            BackupRestoreText()
+
+            LocalSectionLabel()
+
+            BackupRestoreButton(
+                state = state,
+                onBackupClick = onBackupClick,
+                onRestoreClick = onRestoreClick
+            )
 
             DeletePreviousBackupSwitch(
                 isEnabled = state.isDeletePreviousBackup,
@@ -117,14 +111,20 @@ fun BackupRestoreScreen(
                 date = state.latestBackup.date,
             )
 
+            DriveSectionLabel(
+                isSignedIn = state.isDriveSignedIn,
+                isLoading = state.isDriveLoading,
+                onRefreshClick = onDriveRefresh
+            )
+
             DriveBackupSection(
                 state = state,
                 onSignInClick = { driveSignInLauncher.launch(getDriveSignInIntent()) },
                 onSignOutClick = onDriveSignOut,
                 onBackupClick = onDriveBackup,
-                onRefreshClick = onDriveRefresh,
                 onRestoreClick = onDriveRestore,
-                onDeleteClick = onDriveDelete
+                onAutoBackupChange = onDriveAutoBackupChange,
+                onAutoBackupPeriodSelected = onDriveAutoBackupPeriodSelected
             )
         }
     }

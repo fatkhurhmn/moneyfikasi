@@ -43,4 +43,16 @@ class BackupPreferences @Inject constructor(
             it.copy(isDeletePreviousBackup = isEnabled)
         }
     }
+
+    suspend fun setDriveAutoBackupEnabled(isEnabled: Boolean) {
+        dataStore.updateData {
+            it.copy(isDriveAutoBackupEnabled = isEnabled)
+        }
+    }
+
+    suspend fun setDriveAutoBackupPeriod(period: TimePeriod) {
+        dataStore.updateData {
+            it.copy(driveAutoBackupPeriod = period.name)
+        }
+    }
 }

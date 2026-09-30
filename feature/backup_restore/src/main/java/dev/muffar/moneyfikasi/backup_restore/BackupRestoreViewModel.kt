@@ -16,6 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
 import dev.muffar.moneyfikasi.data.worker.BackupWorker
+import dev.muffar.moneyfikasi.data.worker.DriveBackupWorker
 import dev.muffar.moneyfikasi.domain.model.LatestBackup
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupRestoreUseCases
@@ -54,13 +55,15 @@ class BackupRestoreViewModel @Inject constructor(
             _state.value = _state.value.copy(
                 latestBackup = settings.latestBackup,
                 autoBackup = settings.autoBackup,
-                isDeletePreviousBackup = settings.isDeletePreviousBackup
+                isDeletePreviousBackup = settings.isDeletePreviousBackup,
+                isDriveAutoBackupEnabled = settings.isDriveAutoBackupEnabled,
+                driveAutoBackupPeriod = settings.driveAutoBackupPeriod
             )
         }.launchIn(viewModelScope)
         refreshDriveStatus()
     }
 
-    fun getDriveSignInIntent(): android.content.Intent {
+    fun getDriveSignInIntent(): Intent {
         return driveAuthHelper.getSignInIntent()
     }
 
@@ -77,8 +80,9 @@ class BackupRestoreViewModel @Inject constructor(
             is BackupRestoreEvent.DriveSignOut -> driveSignOut()
             is BackupRestoreEvent.DriveLoadBackups -> loadDriveBackups()
             is BackupRestoreEvent.DriveBackupNow -> backupToDrive()
-            is BackupRestoreEvent.DriveRestore -> restoreFromDrive(event.fileId)
-            is BackupRestoreEvent.DriveDelete -> deleteDriveBackup(event.fileId)
+            is BackupRestoreEvent.DriveRestore -> restoreFromDrive()
+            is BackupRestoreEvent.DriveAutoBackupChanged -> setDriveAutoBackupEnabled(event.isEnabled)
+            is BackupRestoreEvent.DriveAutoBackupPeriodChanged -> setDriveAutoBackupPeriod(event.period)
         }
     }
 
@@ -102,9 +106,13 @@ class BackupRestoreViewModel @Inject constructor(
         viewModelScope.launch {
             if (success) {
                 refreshDriveStatus(loadList = true)
-                _eventFlow.emit(UiEvent.ShowMessage(R.string.msg_backup_success, SnackbarType.SUCCESS))
             } else {
-                _eventFlow.emit(UiEvent.ShowMessage(R.string.error_backup_failed, SnackbarType.ERROR))
+                _eventFlow.emit(
+                    UiEvent.ShowMessage(
+                        R.string.error_backup_failed,
+                        SnackbarType.ERROR
+                    )
+                )
             }
         }
     }
@@ -112,11 +120,26 @@ class BackupRestoreViewModel @Inject constructor(
     private fun driveSignOut() {
         viewModelScope.launch {
             driveBackupRepository.signOut()
+            backupSettingsUseCases.setDriveAutoBackupEnabled(false)
+            cancelDriveBackup()
             _state.value = _state.value.copy(
                 isDriveSignedIn = false,
                 driveAccountEmail = "",
-                driveBackups = emptyList()
+                driveBackup = null,
+                isDriveAutoBackupEnabled = false
             )
+        }
+    }
+
+    private fun setDriveAutoBackupEnabled(isEnabled: Boolean) {
+        viewModelScope.launch {
+            if (isEnabled && !driveBackupRepository.isSignedIn()) return@launch
+            backupSettingsUseCases.setDriveAutoBackupEnabled(isEnabled)
+            if (isEnabled) {
+                scheduleDriveBackup()
+            } else {
+                cancelDriveBackup()
+            }
         }
     }
 
@@ -125,11 +148,19 @@ class BackupRestoreViewModel @Inject constructor(
             _state.value = _state.value.copy(isDriveLoading = true)
             driveBackupUseCases.getDriveBackups()
                 .onSuccess { files ->
-                    _state.value = _state.value.copy(driveBackups = files, isDriveLoading = false)
+                    _state.value = _state.value.copy(
+                        driveBackup = files.maxByOrNull { it.modifiedTime },
+                        isDriveLoading = false
+                    )
                 }
                 .onFailure {
                     _state.value = _state.value.copy(isDriveLoading = false)
-                    _eventFlow.emit(UiEvent.ShowMessage(R.string.error_backup_failed, SnackbarType.ERROR))
+                    _eventFlow.emit(
+                        UiEvent.ShowMessage(
+                            R.string.error_backup_failed,
+                            SnackbarType.ERROR
+                        )
+                    )
                 }
         }
     }
@@ -138,38 +169,49 @@ class BackupRestoreViewModel @Inject constructor(
         viewModelScope.launch {
             _state.value = _state.value.copy(isDriveLoading = true)
             driveBackupUseCases.backupToDrive()
-                .onSuccess {
-                    loadDriveBackups()
-                    _eventFlow.emit(UiEvent.ShowMessage(R.string.msg_backup_success, SnackbarType.SUCCESS))
+                .onSuccess { file ->
+                    _state.value = _state.value.copy(driveBackup = file, isDriveLoading = false)
+                    _eventFlow.emit(
+                        UiEvent.ShowMessage(
+                            R.string.msg_backup_success,
+                            SnackbarType.SUCCESS
+                        )
+                    )
                 }
                 .onFailure {
                     _state.value = _state.value.copy(isDriveLoading = false)
-                    _eventFlow.emit(UiEvent.ShowMessage(R.string.error_backup_failed, SnackbarType.ERROR))
+                    _eventFlow.emit(
+                        UiEvent.ShowMessage(
+                            R.string.error_backup_failed,
+                            SnackbarType.ERROR
+                        )
+                    )
                 }
         }
     }
 
-    private fun restoreFromDrive(fileId: String) {
+    private fun restoreFromDrive() {
+        val fileId = _state.value.driveBackup?.id ?: return
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true)
             driveBackupUseCases.restoreFromDrive(fileId)
                 .onSuccess {
-                    _eventFlow.emit(UiEvent.ShowMessage(R.string.msg_restore_success, SnackbarType.SUCCESS))
+                    _eventFlow.emit(
+                        UiEvent.ShowMessage(
+                            R.string.msg_restore_success,
+                            SnackbarType.SUCCESS
+                        )
+                    )
                 }
                 .onFailure {
-                    _eventFlow.emit(UiEvent.ShowMessage(R.string.error_restore_failed, SnackbarType.ERROR))
+                    _eventFlow.emit(
+                        UiEvent.ShowMessage(
+                            R.string.error_restore_failed,
+                            SnackbarType.ERROR
+                        )
+                    )
                 }
             _state.value = _state.value.copy(isLoading = false)
-        }
-    }
-
-    private fun deleteDriveBackup(fileId: String) {
-        viewModelScope.launch {
-            driveBackupUseCases.deleteDriveBackup(fileId)
-                .onSuccess { loadDriveBackups() }
-                .onFailure {
-                    _eventFlow.emit(UiEvent.ShowMessage(R.string.error_backup_failed, SnackbarType.ERROR))
-                }
         }
     }
 
@@ -268,6 +310,15 @@ class BackupRestoreViewModel @Inject constructor(
         }
     }
 
+    private fun setDriveAutoBackupPeriod(period: TimePeriod) {
+        viewModelScope.launch {
+            backupSettingsUseCases.setDriveAutoBackupPeriod(period)
+            if (_state.value.isDriveAutoBackupEnabled) {
+                scheduleDriveBackup(period = period)
+            }
+        }
+    }
+
     private fun setDeletePreviousBackup(isEnabled: Boolean) {
         viewModelScope.launch {
             backupSettingsUseCases.setDeletePreviousBackup(isEnabled)
@@ -315,6 +366,45 @@ class BackupRestoreViewModel @Inject constructor(
         WorkManager.getInstance(context).cancelUniqueWork(AUTO_BACKUP_WORK_NAME)
     }
 
+    private fun scheduleDriveBackup(
+        period: TimePeriod = TimePeriod.valueOf(_state.value.driveAutoBackupPeriod)
+    ) {
+        if (!_state.value.isDriveSignedIn) return
+
+        val (interval, timeUnit) = when (period) {
+            TimePeriod.DAILY -> 1L to TimeUnit.DAYS
+            TimePeriod.WEEKLY -> 7L to TimeUnit.DAYS
+            TimePeriod.MONTHLY -> 30L to TimeUnit.DAYS
+            else -> 1L to TimeUnit.DAYS
+        }
+
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .setRequiresCharging(requiresCharging = false)
+            .setRequiresBatteryNotLow(requiresBatteryNotLow = false)
+            .build()
+
+        val currentTime = LocalDateTime.now()
+        val nextMidnight = currentTime.plusDays(1).with(LocalTime.MIDNIGHT)
+        val initialDelay = Duration.between(currentTime, nextMidnight).toMillis()
+
+        val backupRequest = PeriodicWorkRequestBuilder<DriveBackupWorker>(interval, timeUnit)
+            .setConstraints(constraints)
+            .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
+            .addTag("DRIVE_BACKUP_TAG")
+            .build()
+
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+            DRIVE_AUTO_BACKUP_WORK_NAME,
+            ExistingPeriodicWorkPolicy.REPLACE,
+            backupRequest
+        )
+    }
+
+    private fun cancelDriveBackup() {
+        WorkManager.getInstance(context).cancelUniqueWork(DRIVE_AUTO_BACKUP_WORK_NAME)
+    }
+
     sealed class UiEvent {
         data class ShowMessage(
             val messageResId: Int,
@@ -325,5 +415,6 @@ class BackupRestoreViewModel @Inject constructor(
 
     companion object {
         const val AUTO_BACKUP_WORK_NAME = "auto_backup_work"
+        const val DRIVE_AUTO_BACKUP_WORK_NAME = "drive_auto_backup_work"
     }
 }

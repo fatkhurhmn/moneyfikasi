@@ -32,8 +32,9 @@ fun NavGraphBuilder.backupRestoreNavGraph(
             onDriveSignOut = { event(BackupRestoreEvent.DriveSignOut) },
             onDriveBackup = { event(BackupRestoreEvent.DriveBackupNow) },
             onDriveRefresh = { event(BackupRestoreEvent.DriveLoadBackups) },
-            onDriveRestore = { event(BackupRestoreEvent.DriveRestore(it)) },
-            onDriveDelete = { event(BackupRestoreEvent.DriveDelete(it)) },
+            onDriveRestore = { event(BackupRestoreEvent.DriveRestore) },
+            onDriveAutoBackupChange = { event(BackupRestoreEvent.DriveAutoBackupChanged(it)) },
+            onDriveAutoBackupPeriodSelected = { event(BackupRestoreEvent.DriveAutoBackupPeriodChanged(it)) },
             onBackClick = navigateBack,
         )
     }
