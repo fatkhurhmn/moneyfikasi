@@ -9,6 +9,8 @@ build/
 captures/
 local.properties
 app/release/
+play-account.json
+app/play-account.json
 
 *.apk
 *.aab
