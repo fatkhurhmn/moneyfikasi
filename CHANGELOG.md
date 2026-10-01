@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1 - 2026-10-01
+- Fix transfer admin fee showing empty instead of 0 for new transfers
+- Automate Play Store releases with Gradle Play Publisher and CircleCI deploy job
+
 ## 1.2.0 - 2026-09-30
 - Google Drive online backup and restore (single backup slot)
 - Google Drive auto backup with its own schedule and period

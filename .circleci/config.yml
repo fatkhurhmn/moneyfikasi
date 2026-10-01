@@ -65,6 +65,9 @@ jobs:
               echo "Provide PLAY_JSON_BASE64 or ANDROID_PUBLISHER_CREDENTIALS" && exit 1
             fi
       - run:
+          name: Sync release notes
+          command: ./scripts/sync-release-notes.sh
+      - run:
           name: Publish bundle to Play
           # Default track is "internal" (see app/build.gradle.kts play {}).
           # Override with PLAY_TRACK env var, e.g. PLAY_TRACK=production,

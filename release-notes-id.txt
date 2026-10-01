@@ -1,0 +1,6 @@
+Versi 1.2.1
+- Penambahan fitur backup & restore via Google Drive
+- Penambahan fitur auto-backup Google Drive
+- Desain ulang tampilan menu Backup & Restore
+- Kebijakan Privasi & Ketentuan kini terbuka di browser
+- Memperbaiki masalah tombol konfirmasi pada input nominal serta peningkatan stabilitas

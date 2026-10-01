@@ -1,0 +1,6 @@
+Version 1.2.1
+- Added backup & restore via Google Drive
+- Added automatic Google Drive backup
+- Redesigned the Backup & Restore menu
+- Privacy Policy & Terms of Service now open in the browser
+- Fixed the confirmation button issue when entering amounts and improved overall stability
