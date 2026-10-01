@@ -5,6 +5,7 @@ orbs:
 
 jobs:
   build:
+    resource_class: large
     docker:
       - image: cimg/android:2023.08
     steps:
@@ -16,6 +17,10 @@ jobs:
       - run:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew
+      - run:
+          name: Tune Gradle memory for CI
+          command: |
+            printf '\norg.gradle.jvmargs=-Xmx3g -Dfile.encoding=UTF-8\nkotlin.daemon.jvmargs=-Xmx2g\norg.gradle.workers.max=2\n' >> gradle.properties
       - run:
           name: Run quality gate
           command: ./gradlew lint test assembleRelease bundleRelease
@@ -37,6 +42,7 @@ jobs:
           destination: release-bundle
 
   deploy:
+    resource_class: large
     docker:
       - image: cimg/android:2023.08
     steps:
@@ -48,6 +54,10 @@ jobs:
       - run:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew
+      - run:
+          name: Tune Gradle memory for CI
+          command: |
+            printf '\norg.gradle.jvmargs=-Xmx3g -Dfile.encoding=UTF-8\nkotlin.daemon.jvmargs=-Xmx2g\norg.gradle.workers.max=2\n' >> gradle.properties
       - run:
           name: Decode signing & Play secrets
           command: |
@@ -85,10 +95,12 @@ workflows:
             tags:
               ignore: /^v.*/
       - deploy:
-          requires:
-            - build
           filters:
             branches:
               ignore: /.*/
             tags:
               only: /^v.*/
+          # Note: tanpa `requires: [build]` karena job build di-filter
+          # keluar saat push tag — CircleCI akan memblokir deploy selamanya
+          # jika requires menunjuk job yang tidak jalan.
+          # publishReleaseBundle tetap compile + build AAB dari source.
