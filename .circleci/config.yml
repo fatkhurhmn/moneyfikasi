@@ -5,7 +5,7 @@ orbs:
 
 jobs:
   build:
-    resource_class: large
+    resource_class: xlarge
     docker:
       - image: cimg/android:2023.08
     steps:
@@ -20,7 +20,7 @@ jobs:
       - run:
           name: Tune Gradle memory for CI
           command: |
-            printf '\norg.gradle.jvmargs=-Xmx6g -Dfile.encoding=UTF-8\nkotlin.compiler.execution.strategy=in-process\norg.gradle.workers.max=2\n' >> gradle.properties
+            printf '\norg.gradle.jvmargs=-Xmx8g -Dfile.encoding=UTF-8\nkotlin.compiler.execution.strategy=in-process\norg.gradle.workers.max=2\n' >> gradle.properties
       - run:
           name: Run quality gate
           command: ./gradlew lint test assembleRelease bundleRelease
@@ -42,7 +42,7 @@ jobs:
           destination: release-bundle
 
   deploy:
-    resource_class: large
+    resource_class: xlarge
     docker:
       - image: cimg/android:2023.08
     steps:
@@ -57,7 +57,7 @@ jobs:
       - run:
           name: Tune Gradle memory for CI
           command: |
-            printf '\norg.gradle.jvmargs=-Xmx6g -Dfile.encoding=UTF-8\nkotlin.compiler.execution.strategy=in-process\norg.gradle.workers.max=2\n' >> gradle.properties
+            printf '\norg.gradle.jvmargs=-Xmx8g -Dfile.encoding=UTF-8\nkotlin.compiler.execution.strategy=in-process\norg.gradle.workers.max=2\n' >> gradle.properties
       - run:
           name: Decode signing & Play secrets
           command: |
