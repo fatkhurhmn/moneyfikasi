@@ -61,6 +61,7 @@ jobs:
       - run:
           name: Decode signing & Play secrets
           command: |
+            echo "Secrets check (lengths only, values hidden): KEYSTORE_BASE64=${#KEYSTORE_BASE64}, PLAY_JSON_BASE64=${#PLAY_JSON_BASE64}, ANDROID_PUBLISHER_CREDENTIALS=${#ANDROID_PUBLISHER_CREDENTIALS}"
             if [ -z "$KEYSTORE_BASE64" ]; then
               echo "Missing KEYSTORE_BASE64 env var" && exit 1
             fi
