@@ -308,6 +308,14 @@
     <string name="msg_amount_input_method_desc">Pilih cara memasukkan nominal transaksi.</string>
     <string name="label_calendar">Kalender</string>
     <string name="msg_calendar_description">Lihat total pengeluaran harian dalam kalender. Ketuk tanggal untuk melihat transaksinya.</string>
+    <string name="label_transactions_on_date">Transaksi %1$s</string>
+    <string name="weekday_monday">Sen</string>
+    <string name="weekday_tuesday">Sel</string>
+    <string name="weekday_wednesday">Rab</string>
+    <string name="weekday_thursday">Kam</string>
+    <string name="weekday_friday">Jum</string>
+    <string name="weekday_saturday">Sab</string>
+    <string name="weekday_sunday">Min</string>
     <string name="label_budget_period">Periode Anggaran</string>
     <string name="label_budget_cutoff">Tanggal Awal</string>
     <string name="label_select_budget_cutoff">Pilih Tanggal Awal</string>

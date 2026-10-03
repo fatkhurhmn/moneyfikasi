@@ -308,6 +308,14 @@
     <string name="msg_amount_input_method_desc">Choose how you enter transaction amounts.</string>
     <string name="label_calendar">Calendar</string>
     <string name="msg_calendar_description">View daily expense totals in a calendar. Tap a date to see its transactions.</string>
+    <string name="label_transactions_on_date">Transactions on %1$s</string>
+    <string name="weekday_monday">Mon</string>
+    <string name="weekday_tuesday">Tue</string>
+    <string name="weekday_wednesday">Wed</string>
+    <string name="weekday_thursday">Thu</string>
+    <string name="weekday_friday">Fri</string>
+    <string name="weekday_saturday">Sat</string>
+    <string name="weekday_sunday">Sun</string>
     <string name="label_budget_period">Budget Period</string>
     <string name="label_budget_cutoff">Start Date</string>
     <string name="label_select_budget_cutoff">Select Start Date</string>

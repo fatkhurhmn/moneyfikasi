@@ -17,12 +17,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
+import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 
 @Composable
@@ -64,7 +67,6 @@ fun CalendarDayCell(
             verticalArrangement = Arrangement.spacedBy(4.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
-            // Day number in circle if today/selected
             Box(
                 modifier = Modifier
                     .clip(MaterialTheme.shapes.small)
@@ -120,27 +122,35 @@ fun CalendarDayCell(
 }
 
 @Composable
-fun WeekdayHeader(modifier: Modifier = Modifier) {
-    val weekdays = listOf("Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min")
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .clip(MaterialTheme.shapes.medium)
-            .background(MaterialTheme.colorScheme.surfaceContainer)
-            .padding(vertical = 6.dp, horizontal = 4.dp),
-        horizontalArrangement = Arrangement.SpaceAround
-    ) {
-        weekdays.forEach { day ->
-            Text(
-                text = day,
-                style = MaterialTheme.typography.labelSmall.copy(
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold
-                ),
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.weight(1f),
-                textAlign = TextAlign.Center
-            )
+fun WeekdayHeader() {
+    val weekdays = listOf(
+        stringResource(R.string.weekday_monday),
+        stringResource(R.string.weekday_tuesday),
+        stringResource(R.string.weekday_wednesday),
+        stringResource(R.string.weekday_thursday),
+        stringResource(R.string.weekday_friday),
+        stringResource(R.string.weekday_saturday),
+        stringResource(R.string.weekday_sunday)
+    )
+    PrimaryCard(modifier = Modifier.padding(horizontal = 12.dp)) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(MaterialTheme.shapes.medium)
+                .padding(vertical = 8.dp, horizontal = 4.dp),
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            weekdays.forEach { day ->
+                Text(
+                    text = day,
+                    style = MaterialTheme.typography.labelSmall.copy(
+                        fontSize = 12.sp,
+                    ),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.weight(1f),
+                    textAlign = TextAlign.Center
+                )
+            }
         }
     }
 }

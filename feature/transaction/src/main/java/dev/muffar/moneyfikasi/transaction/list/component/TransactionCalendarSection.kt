@@ -45,15 +45,9 @@ fun TransactionCalendarSection(
             onPreviousClick = onPreviousMonth,
             onNextClick = onNextMonth
         )
-        PrimaryCard(
-            modifier = Modifier.padding(horizontal = 12.dp)
-        ) {
-            WeekdayHeader(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 4.dp, vertical = 2.dp)
-            )
-        }
+
+        WeekdayHeader()
+
         PrimaryCard(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
         ) {
@@ -68,7 +62,7 @@ fun TransactionCalendarSection(
         if (selectedDay != null) {
             val dateTitle = calendarMonth.withDayOfMonth(selectedDay).format("dd MMMM yyyy")
             Text(
-                text = "Transaksi $dateTitle",
+                text = stringResource(R.string.label_transactions_on_date, dateTitle),
                 style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
@@ -109,7 +103,8 @@ private fun TransactionCalendarGrid(
     val firstDow = firstDay.dayOfWeek.value
     val offset = firstDow - 1
     val today = LocalDateTime.now()
-    val isCurrentMonthToday = today.year == calendarMonth.year && today.monthValue == calendarMonth.monthValue
+    val isCurrentMonthToday =
+        today.year == calendarMonth.year && today.monthValue == calendarMonth.monthValue
 
     val cells = mutableListOf<Int?>()
     repeat(offset) { cells.add(null) }
@@ -130,7 +125,9 @@ private fun TransactionCalendarGrid(
             ) {
                 row.forEach { day ->
                     if (day == null) {
-                        Box(modifier = Modifier.weight(1f).padding(4.dp)) {}
+                        Box(modifier = Modifier
+                            .weight(1f)
+                            .padding(4.dp)) {}
                     } else {
                         val balance = dailyBalances[day]
                         val isToday = isCurrentMonthToday && today.dayOfMonth == day
