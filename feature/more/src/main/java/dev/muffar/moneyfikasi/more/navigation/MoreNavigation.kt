@@ -15,7 +15,6 @@ fun NavGraphBuilder.moreNavGraph(
     navigateToPreset: () -> Unit,
     navigateToBudgets: () -> Unit,
     navigateToRecurringTransactions: () -> Unit,
-    navigateToCalendar: () -> Unit,
     navigateToSettings: () -> Unit,
 ) {
     composable(route = Screen.More.route) {
@@ -30,7 +29,6 @@ fun NavGraphBuilder.moreNavGraph(
             onBudgetsClick = navigateToBudgets,
             onPresetsClick = navigateToPreset,
             onRecurringTransactionsClick = navigateToRecurringTransactions,
-            onCalendarClick = navigateToCalendar,
             onSettingsClick = navigateToSettings
         )
     }

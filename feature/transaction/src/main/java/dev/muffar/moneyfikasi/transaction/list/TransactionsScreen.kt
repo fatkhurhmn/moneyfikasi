@@ -25,14 +25,15 @@ import dev.muffar.moneyfikasi.common_ui.component.calendar.CalendarDayCell
 import dev.muffar.moneyfikasi.common_ui.component.calendar.WeekdayHeader
 import dev.muffar.moneyfikasi.common_ui.component.calendar_header.CalendarHeader
 import dev.muffar.moneyfikasi.common_ui.component.calendar_header.DateRangeSwitcher
+import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
 import dev.muffar.moneyfikasi.common_ui.component.transaction.TransactionsList
+import dev.muffar.moneyfikasi.common_ui.component.transaction.item.TransactionItem
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TransactionFilter
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsFilterSheet
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsLoading
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsTopBar
-import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.format
 import kotlinx.coroutines.flow.Flow
 import org.threeten.bp.LocalDateTime
@@ -76,34 +77,36 @@ fun TransactionsScreen(
             modifier = Modifier.padding(it)
         ) {
             if (state.isCalendarMode) {
-                // Calendar header
-                val title = state.calendarMonth.format("MMMM yyyy").replaceFirstChar { c -> c.uppercase() }
+                // Calendar header - bigger & proper
+                val title =
+                    state.calendarMonth.format("MMMM yyyy").replaceFirstChar { c -> c.uppercase() }
                 CalendarHeader(
                     title = title,
                     onPreviousClick = onCalendarPreviousMonth,
                     onNextClick = onCalendarNextMonth
                 )
-                if (state.calendarMonthlyTotal > 0) {
-                    Text(
-                        text = "Total pengeluaran: -${state.calendarMonthlyTotal.formatThousand()}",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.error,
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+                // Weekday header - separate container
+                dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard(
+                    modifier = Modifier.padding(horizontal = 12.dp)
+                ) {
+                    WeekdayHeader(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 4.dp, vertical = 2.dp)
                     )
                 }
-                WeekdayHeader(modifier = Modifier.padding(horizontal = 8.dp))
-                TransactionCalendarGrid(
-                    calendarMonth = state.calendarMonth,
-                    dailyExpenses = state.calendarDailyExpenses,
-                    selectedDay = state.calendarSelectedDay,
-                    onDaySelected = onCalendarDaySelected
-                )
-                Text(
-                    text = "Tap tanggal untuk lihat transaksi hari itu • Merah = lebih besar dari kemarin",
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-                )
+                // Calendar grid - separate container
+                PrimaryCard(
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                ) {
+                    TransactionCalendarGrid(
+                        calendarMonth = state.calendarMonth,
+                        dailyBalances = state.calendarDailyBalances,
+                        selectedDay = state.calendarSelectedDay,
+                        onDaySelected = onCalendarDaySelected,
+                        modifier = Modifier.padding(8.dp)
+                    )
+                }
                 if (state.calendarSelectedDay != null) {
                     val day = state.calendarSelectedDay
                     val dateTitle = state.calendarMonth.withDayOfMonth(day).format("dd MMMM yyyy")
@@ -125,7 +128,7 @@ fun TransactionsScreen(
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             state.calendarSelectedDayTransactions.forEach { tx ->
-                                dev.muffar.moneyfikasi.common_ui.component.transaction.item.TransactionItem(
+                                TransactionItem(
                                     transaction = tx,
                                     onClick = { onTransactionItemClick(tx.id, tx.isTransfer) }
                                 )
@@ -193,16 +196,18 @@ fun TransactionsScreen(
 @Composable
 private fun TransactionCalendarGrid(
     calendarMonth: LocalDateTime,
-    dailyExpenses: Map<Int, Double>,
+    dailyBalances: Map<Int, Double>,
     selectedDay: Int?,
-    onDaySelected: (Int) -> Unit
+    onDaySelected: (Int) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val daysInMonth = calendarMonth.toLocalDate().lengthOfMonth()
     val firstDay = calendarMonth.withDayOfMonth(1)
     val firstDow = firstDay.dayOfWeek.value
     val offset = firstDow - 1
     val today = LocalDateTime.now()
-    val isCurrentMonthToday = today.year == calendarMonth.year && today.monthValue == calendarMonth.monthValue
+    val isCurrentMonthToday =
+        today.year == calendarMonth.year && today.monthValue == calendarMonth.monthValue
 
     val cells = mutableListOf<Int?>()
     repeat(offset) { cells.add(null) }
@@ -211,7 +216,7 @@ private fun TransactionCalendarGrid(
 
     val rows = cells.chunked(7)
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 4.dp),
         verticalArrangement = Arrangement.spacedBy(2.dp)
@@ -223,19 +228,19 @@ private fun TransactionCalendarGrid(
             ) {
                 row.forEach { day ->
                     if (day == null) {
-                        Box(modifier = Modifier.weight(1f).padding(4.dp)) {}
+                        Box(modifier = Modifier
+                            .weight(1f)
+                            .padding(4.dp)) {}
                     } else {
-                        val expense = dailyExpenses[day]
-                        val prevExpense = if (day > 1) dailyExpenses[day - 1] else null
+                        val balance = dailyBalances[day]
                         val isToday = isCurrentMonthToday && today.dayOfMonth == day
                         Box(modifier = Modifier.weight(1f)) {
                             CalendarDayCell(
                                 day = day,
-                                expense = expense,
+                                balance = balance,
                                 isToday = isToday,
                                 isSelected = selectedDay == day,
                                 isCurrentMonth = true,
-                                previousDayExpense = prevExpense,
                                 onClick = { onDaySelected(day) }
                             )
                         }

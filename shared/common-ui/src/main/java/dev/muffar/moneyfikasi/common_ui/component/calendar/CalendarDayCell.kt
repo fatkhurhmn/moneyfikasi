@@ -6,7 +6,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -17,31 +18,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
-import org.threeten.bp.LocalDateTime
 
 @Composable
 fun CalendarDayCell(
     day: Int,
-    expense: Double?,
+    balance: Double?,
     isToday: Boolean,
     isSelected: Boolean,
     isCurrentMonth: Boolean,
-    previousDayExpense: Double?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val hasExpense = expense != null && expense > 0
-    val isHigherThanPrev = if (hasExpense && previousDayExpense != null) expense > previousDayExpense else false
-    val isLowerThanPrev = if (hasExpense && previousDayExpense != null) expense < previousDayExpense else false
+    val hasBalance = balance != null
 
     val background = when {
         isSelected -> MaterialTheme.colorScheme.primaryContainer
         isToday -> MaterialTheme.colorScheme.secondaryContainer
-        else -> MaterialTheme.colorScheme.surface
+        else -> MaterialTheme.colorScheme.surfaceContainerLowest
     }
     val borderColor = when {
         isSelected -> MaterialTheme.colorScheme.primary
@@ -49,43 +48,68 @@ fun CalendarDayCell(
         else -> Color.Transparent
     }
 
+    val isEmpty = !hasBalance || balance == 0.0
     Box(
         modifier = modifier
-            .aspectRatio(0.85f)
-            .clip(MaterialTheme.shapes.small)
+            .height(68.dp)
+            .clip(MaterialTheme.shapes.large)
             .background(background)
-            .border(1.dp, borderColor, MaterialTheme.shapes.small)
+            .border(1.5.dp, borderColor, MaterialTheme.shapes.large)
             .clickable(enabled = isCurrentMonth) { onClick() }
-            .padding(4.dp),
-        contentAlignment = Alignment.TopCenter
+            .padding(vertical = 8.dp, horizontal = 4.dp),
+        contentAlignment = Alignment.Center
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(2.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(
-                text = day.toString(),
-                style = MaterialTheme.typography.labelMedium.copy(fontSize = 13.sp, fontWeight = if (isToday) FontWeight.Bold else FontWeight.Medium),
-                color = if (isToday) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
-            )
-            if (hasExpense && expense != null) {
+            // Day number in circle if today/selected
+            Box(
+                modifier = Modifier
+                    .clip(MaterialTheme.shapes.small)
+                    .background(
+                        when {
+                            isSelected -> MaterialTheme.colorScheme.primary
+                            isToday -> MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
+                            else -> Color.Transparent
+                        }
+                    )
+                    .padding(horizontal = 8.dp, vertical = 2.dp),
+                contentAlignment = Alignment.Center
+            ) {
                 Text(
-                    text = expense.formatThousand(),
-                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
+                    text = day.toString(),
+                    style = MaterialTheme.typography.titleSmall.copy(
+                        fontSize = 15.sp,
+                        fontWeight = if (isToday || isSelected) FontWeight.Bold else FontWeight.SemiBold
+                    ),
                     color = when {
-                        isHigherThanPrev -> MaterialTheme.colorScheme.error
-                        isLowerThanPrev -> Color(0xFF2E7D32)
+                        isSelected -> MaterialTheme.colorScheme.onPrimary
+                        isToday -> MaterialTheme.colorScheme.primary
+                        else -> MaterialTheme.colorScheme.onSurface
+                    }
+                )
+            }
+            if (hasBalance && balance != null && !isEmpty) {
+                val isNegative = balance < 0
+                val isPositive = balance > 0
+                Text(
+                    text = if (balance == 0.0) "0" else balance.formatThousand(),
+                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp, fontWeight = FontWeight.Bold),
+                    color = when {
+                        isNegative -> MoneyfikasiTheme.financeColors.expense
+                        isPositive -> MoneyfikasiTheme.financeColors.income
                         else -> MaterialTheme.colorScheme.onSurfaceVariant
                     },
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
-            } else if (isCurrentMonth) {
+            } else {
                 Text(
-                    text = "-",
-                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f)
+                    text = "—",
+                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.35f)
                 )
             }
         }
@@ -95,17 +119,21 @@ fun CalendarDayCell(
 @Composable
 fun WeekdayHeader(modifier: Modifier = Modifier) {
     val weekdays = listOf("Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min")
-    androidx.compose.foundation.layout.Row(
-        modifier = modifier.fillMaxWidth(),
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(MaterialTheme.shapes.medium)
+            .background(MaterialTheme.colorScheme.surfaceContainer)
+            .padding(vertical = 6.dp, horizontal = 4.dp),
         horizontalArrangement = Arrangement.SpaceAround
     ) {
         weekdays.forEach { day ->
             Text(
                 text = day,
-                style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
+                style = MaterialTheme.typography.labelSmall.copy(fontSize = 12.sp, fontWeight = FontWeight.Bold),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.weight(1f).padding(vertical = 4.dp),
-                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                modifier = Modifier.weight(1f),
+                textAlign = TextAlign.Center
             )
         }
     }

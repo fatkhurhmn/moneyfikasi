@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.CalendarMonth
 import androidx.compose.material.icons.rounded.DataUsage
 import androidx.compose.material.icons.rounded.PostAdd
 import androidx.compose.material.icons.rounded.Repeat
@@ -30,7 +29,6 @@ fun MoreScreen(
     onBudgetsClick: () -> Unit,
     onPresetsClick: () -> Unit,
     onRecurringTransactionsClick: () -> Unit,
-    onCalendarClick: () -> Unit,
     onSettingsClick: () -> Unit,
 ) {
 
@@ -102,16 +100,6 @@ fun MoreScreen(
                     status = stringResource(R.string.msg_budgets_count, state.budgetsCount),
                     icon = Icons.Rounded.DataUsage,
                     onClick = onBudgetsClick
-                )
-            }
-            item {
-                MoreItem(
-                    label = stringResource(R.string.title_calendar),
-                    title = stringResource(R.string.label_calendar),
-                    description = stringResource(R.string.msg_calendar_description),
-                    status = "",
-                    icon = Icons.Rounded.CalendarMonth,
-                    onClick = onCalendarClick
                 )
             }
         }

@@ -10,6 +10,7 @@ import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.utils.extension.toDateRange
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfDay
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfMonth
@@ -234,11 +235,16 @@ class TransactionsViewModel @Inject constructor(
             val end = month.endOfMonth()
             transactionUseCases.getAllTransactions(start, end, filter.categories, filter.wallets)
                 .collectLatest { transactions ->
-                    val expensesByDay = transactions.filter { it.isExpense }
-                        .groupBy { it.date.dayOfMonth }
-                        .mapValues { entry -> entry.value.sumOf { it.amount } }
-                    val total = expensesByDay.values.sum()
-                    _state.update { it.copy(calendarDailyExpenses = expensesByDay, calendarMonthlyTotal = total) }
+                    val balancesByDay = transactions.groupBy { it.date.dayOfMonth }
+                        .mapValues { entry ->
+                            entry.value.sumOf { tx ->
+                                when (tx.type) {
+                                    TransactionType.INCOME, TransactionType.TRANSFER_IN -> tx.amount
+                                    TransactionType.EXPENSE, TransactionType.TRANSFER_OUT -> -tx.amount
+                                }
+                            }
+                        }
+                    _state.update { it.copy(calendarDailyBalances = balancesByDay) }
                     _state.value.calendarSelectedDay?.let { loadCalendarDayTransactions(it) }
                 }
         }

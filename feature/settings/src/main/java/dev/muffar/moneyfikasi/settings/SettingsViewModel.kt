@@ -32,7 +32,6 @@ class SettingsViewModel @Inject constructor(
                         appTheme = uiSettings.appTheme,
                         appLanguage = uiSettings.appLanguage,
                         amountInputType = uiSettings.amountInputType,
-                        budgetCutoffDay = uiSettings.budgetCutoffDay,
                     )
                 }
             }
@@ -44,7 +43,6 @@ class SettingsViewModel @Inject constructor(
             is SettingsEvent.AppThemeChanged -> onAppThemeChange(event.theme)
             is SettingsEvent.AppLanguageChanged -> onAppLanguageChange(event.language)
             is SettingsEvent.AmountInputTypeChanged -> onAmountInputTypeChange(event.type)
-            is SettingsEvent.BudgetCutoffDayChanged -> onBudgetCutoffDayChange(event.day)
         }
     }
 
@@ -64,12 +62,6 @@ class SettingsViewModel @Inject constructor(
     private fun onAmountInputTypeChange(type: AmountInputType) {
         viewModelScope.launch {
             uiSettingsUseCases.setAmountInputType(type)
-        }
-    }
-
-    private fun onBudgetCutoffDayChange(day: Int) {
-        viewModelScope.launch {
-            uiSettingsUseCases.setBudgetCutoffDay(day)
         }
     }
 }
