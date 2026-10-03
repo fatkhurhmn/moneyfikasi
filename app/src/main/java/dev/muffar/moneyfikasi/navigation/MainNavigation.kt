@@ -32,6 +32,8 @@ import dev.muffar.moneyfikasi.recurring_transaction.navigation.toAddEditRecurrin
 import dev.muffar.moneyfikasi.recurring_transaction.navigation.toRecurringTransactionsScreen
 import dev.muffar.moneyfikasi.search.navigation.searchNavigation
 import dev.muffar.moneyfikasi.search.navigation.toSearchScreen
+import dev.muffar.moneyfikasi.calendar.navigation.calendarNavGraph
+import dev.muffar.moneyfikasi.calendar.navigation.navigateToCalendar
 import dev.muffar.moneyfikasi.settings.navigation.navigateToSettings
 import dev.muffar.moneyfikasi.settings.navigation.settingsNavGraph
 import dev.muffar.moneyfikasi.splash.navigation.splashNavGraph
@@ -127,7 +129,13 @@ fun MainNavigation(
             navigateToPreset = { navController.toPresetsScreen() },
             navigateToBudgets = { navController.toBudgetsScreen() },
             navigateToRecurringTransactions = { navController.toRecurringTransactionsScreen() },
+            navigateToCalendar = { navController.navigateToCalendar() },
             navigateToSettings = { navController.navigateToSettings() },
+        )
+
+        calendarNavGraph(
+            onTransactionClick = { id: java.util.UUID, isTransfer: Boolean -> navController.toTransactionDetail(id, isTransfer) },
+            onBackClick = { navController.navigateUp() }
         )
 
         settingsNavGraph(

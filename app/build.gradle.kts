@@ -64,6 +64,7 @@ dependencies {
     implementation(projects.feature.notification)
     implementation(projects.feature.about)
     implementation(projects.feature.splash)
+    implementation(projects.feature.calendar)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

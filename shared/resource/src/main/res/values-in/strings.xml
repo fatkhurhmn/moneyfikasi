@@ -17,6 +17,7 @@
     <string name="title_recurring_transaction">Transaksi Berulang</string>
     <string name="title_transaction">Transaksi</string>
     <string name="title_transactions">Transaksi</string>
+    <string name="title_calendar">Kalender</string>
     <string name="title_wallets">Dompet</string>
     <string name="title_categories">Kategori</string>
     <string name="title_backup_restore">Cadangkan &amp; Pulihkan</string>
@@ -305,6 +306,8 @@
     <string name="msg_export_success">Ekspor berhasil</string>
     <string name="msg_image_saved">Gambar disimpan</string>
     <string name="msg_amount_input_method_desc">Pilih cara memasukkan nominal transaksi.</string>
+    <string name="label_calendar">Kalender</string>
+    <string name="msg_calendar_description">Lihat total pengeluaran harian dalam kalender. Ketuk tanggal untuk melihat transaksinya.</string>
     <string name="label_budget_period">Periode Anggaran</string>
     <string name="label_budget_cutoff">Tanggal Awal</string>
     <string name="label_select_budget_cutoff">Pilih Tanggal Awal</string>

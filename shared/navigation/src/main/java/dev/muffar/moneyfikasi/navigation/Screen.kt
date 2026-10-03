@@ -161,6 +161,8 @@ sealed class Screen(val route: String) {
 
     data object OpenSourceLicenses : Screen("open_source_licenses")
 
+    data object Calendar : Screen("calendar")
+
     data object AppLock : Screen("app_lock")
 
     data object EnterPin : Screen("enter_pin/{type}") {
