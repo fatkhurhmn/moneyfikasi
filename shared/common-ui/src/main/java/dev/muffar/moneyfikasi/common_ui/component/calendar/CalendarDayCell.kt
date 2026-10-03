@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
+import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatCompact
 
 @Composable
 fun CalendarDayCell(
@@ -47,7 +47,6 @@ fun CalendarDayCell(
     }
     val borderColor = when {
         isSelected -> MaterialTheme.colorScheme.primary
-        isToday -> MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
         else -> Color.Transparent
     }
 
@@ -57,7 +56,7 @@ fun CalendarDayCell(
             .height(68.dp)
             .clip(MaterialTheme.shapes.large)
             .background(background)
-            .border(1.5.dp, borderColor, MaterialTheme.shapes.large)
+            .border(1.dp, borderColor, MaterialTheme.shapes.large)
             .clickable(enabled = isCurrentMonth) { onClick() }
             .padding(vertical = 8.dp, horizontal = 4.dp),
         contentAlignment = Alignment.Center
@@ -70,13 +69,6 @@ fun CalendarDayCell(
             Box(
                 modifier = Modifier
                     .clip(MaterialTheme.shapes.small)
-                    .background(
-                        when {
-                            isSelected -> MaterialTheme.colorScheme.primary
-                            isToday -> MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
-                            else -> Color.Transparent
-                        }
-                    )
                     .padding(horizontal = 8.dp, vertical = 2.dp),
                 contentAlignment = Alignment.Center
             ) {
@@ -88,7 +80,7 @@ fun CalendarDayCell(
                     ),
                     color = when {
                         isSelected -> MaterialTheme.colorScheme.onPrimary
-                        isToday -> MaterialTheme.colorScheme.primary
+                        isToday -> MaterialTheme.colorScheme.onSecondaryContainer
                         else -> MaterialTheme.colorScheme.onSurface
                     }
                 )
@@ -96,24 +88,26 @@ fun CalendarDayCell(
             if (hasBalance && !isEmpty) {
                 val isNegative = balance < 0
                 val isPositive = balance > 0
+                val backgroundColor = when {
+                    isNegative -> MoneyfikasiTheme.financeColors.expense
+                    isPositive -> MoneyfikasiTheme.financeColors.income
+                    else -> Color.Transparent
+                }
                 Text(
-                    text = balance.formatThousand(),
-                    style = MaterialTheme.typography.labelSmall.copy(
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.Bold
-                    ),
-                    color = when {
-                        isNegative -> MoneyfikasiTheme.financeColors.expense
-                        isPositive -> MoneyfikasiTheme.financeColors.income
-                        else -> MaterialTheme.colorScheme.onSurfaceVariant
-                    },
+                    modifier = Modifier
+                        .clip(MaterialTheme.shapes.extraSmall)
+                        .background(backgroundColor)
+                        .padding(horizontal = 2.dp),
+                    text = balance.formatCompact(),
+                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 13.sp),
+                    color = MaterialTheme.colorScheme.onError,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
             } else {
                 Text(
                     text = "—",
-                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp),
+                    style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.35f)
                 )
             }
