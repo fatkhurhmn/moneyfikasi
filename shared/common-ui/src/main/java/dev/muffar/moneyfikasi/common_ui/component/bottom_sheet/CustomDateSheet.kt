@@ -30,9 +30,12 @@ import dev.muffar.moneyfikasi.common_ui.component.button.RowErrorPrimaryButton
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfDay
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfMonth
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.startOfDay
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.startOfMonth
 import dev.muffar.moneyfikasi.utils.extensions.LongExt.formattedDate
+import dev.muffar.moneyfikasi.utils.extensions.LongExt.toLocalDateTime
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDateTime
 
@@ -140,8 +143,8 @@ fun CustomDateSheet(
                     onDateChange(
                         DateRange(
                             timePeriod = TimePeriod.CUSTOM,
-                            start = selectedStartDate,
-                            end = selectedEndDate
+                            start = selectedStartDate.toLocalDateTime().startOfDay(),
+                            end = selectedEndDate.toLocalDateTime().endOfDay()
                         )
                     )
                 }
