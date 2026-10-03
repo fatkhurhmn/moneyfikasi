@@ -95,6 +95,35 @@ object LocalDateTimeExt {
         return this.withHour(0).withMinute(0).withSecond(0).withNano(0).toMilliseconds()
     }
 
+    fun LocalDateTime.startOfBudgetPeriod(cutoffDay: Int): Long {
+        val day = cutoffDay.coerceIn(1, 31)
+        return if (this.dayOfMonth >= day) {
+            val clampedDay = day.coerceAtMost(this.toLocalDate().lengthOfMonth())
+            this.withDayOfMonth(clampedDay)
+                .withHour(0).withMinute(0).withSecond(0).withNano(0)
+                .toMilliseconds()
+        } else {
+            val prev = this.minusMonths(1)
+            val clampedDay = day.coerceAtMost(prev.toLocalDate().lengthOfMonth())
+            prev.withDayOfMonth(clampedDay)
+                .withHour(0).withMinute(0).withSecond(0).withNano(0)
+                .toMilliseconds()
+        }
+    }
+
+    fun LocalDateTime.endOfBudgetPeriod(cutoffDay: Int): Long {
+        val day = cutoffDay.coerceIn(1, 31)
+        val startMillis = this.startOfBudgetPeriod(day)
+        val startDate = LocalDateTime.ofInstant(
+            org.threeten.bp.Instant.ofEpochMilli(startMillis),
+            ZoneId.systemDefault()
+        )
+        val nextStart = startDate.plusMonths(1)
+        return nextStart.minusDays(1)
+            .withHour(23).withMinute(59).withSecond(59).withNano(999999999)
+            .toMilliseconds()
+    }
+
     fun LocalDateTime.toMilliseconds(): Long {
         return atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
     }

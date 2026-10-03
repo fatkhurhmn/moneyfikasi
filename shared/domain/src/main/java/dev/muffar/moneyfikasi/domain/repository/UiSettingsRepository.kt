@@ -15,4 +15,5 @@ interface UiSettingsRepository {
     suspend fun setAppTheme(theme: AppTheme)
     suspend fun setAppLanguage(language: AppLanguage)
     suspend fun setAmountInputType(type: AmountInputType)
+    suspend fun setBudgetCutoffDay(day: Int)
 }

@@ -17,12 +17,20 @@ fun AddEditBudgetForm(
     state: AddEditBudgetState,
     onAmountChange: (String) -> Unit,
     onCategorySelect: (Category) -> Unit,
-    onAddNewCategoryClick: () -> Unit
+    onAddNewCategoryClick: () -> Unit,
+    onSettingsClick: () -> Unit = {}
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        BudgetPeriodInfoCard(
+            periodStart = state.periodStart,
+            periodEnd = state.periodEnd,
+            cutoffDay = state.budgetCutoffDay,
+            onSettingsClick = onSettingsClick
+        )
+
         BasicAmountInput(
             amount = state.amount,
             error = state.amountError,

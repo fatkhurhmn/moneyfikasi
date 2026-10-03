@@ -36,6 +36,7 @@ fun NavGraphBuilder.addEditBudgetNavigation(
             onAmountChange = { viewModel.onEvent(AddEditBudgetEvent.AmountChanged(it)) },
             onCategorySelect = { viewModel.onEvent(AddEditBudgetEvent.CategoryChanged(it)) },
             onAddNewCategoryClick = navigateToAddCategory,
+            onCutoffDayChange = viewModel::setBudgetCutoffDay,
             onShowAlert = { viewModel.onEvent(AddEditBudgetEvent.ShowDeleteAlert(it)) },
             onSubmit = { viewModel.onEvent(AddEditBudgetEvent.SaveBudget) },
             onDelete = { viewModel.onEvent(AddEditBudgetEvent.DeleteBudget) },

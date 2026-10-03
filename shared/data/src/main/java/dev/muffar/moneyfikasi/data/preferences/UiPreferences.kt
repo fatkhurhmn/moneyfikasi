@@ -54,4 +54,11 @@ class UiPreferences @Inject constructor(
             it.copy(amountInputType = type)
         }
     }
+
+    suspend fun setBudgetCutoffDay(day: Int) {
+        val clamped = day.coerceIn(1, 31)
+        dataStore.updateData {
+            it.copy(budgetCutoffDay = clamped)
+        }
+    }
 }

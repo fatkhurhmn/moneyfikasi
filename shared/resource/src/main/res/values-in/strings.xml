@@ -305,6 +305,11 @@
     <string name="msg_export_success">Ekspor berhasil</string>
     <string name="msg_image_saved">Gambar disimpan</string>
     <string name="msg_amount_input_method_desc">Pilih cara memasukkan nominal transaksi.</string>
+    <string name="label_budget_period">Periode Anggaran</string>
+    <string name="label_budget_cutoff">Tanggal Awal</string>
+    <string name="label_select_budget_cutoff">Pilih Tanggal Awal</string>
+    <string name="msg_budget_cutoff_desc">Atur tanggal awal periode keuangan bulanan. Anggaran akan di-reset setiap bulan pada tanggal ini.</string>
+    <string name="msg_budget_cutoff_preview">Periode: %1$s - %2$s</string>
 
     <string name="title_ai_transaction">Transaksi AI</string>
     <string name="msg_ai_transaction_description">Ketik transaksi Anda dan biarkan AI menanganinya. Contoh: \"Makan siang 50rb dari Dompet Utama\"</string>

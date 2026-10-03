@@ -10,6 +10,9 @@ import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.settings.SettingsEvent
 import dev.muffar.moneyfikasi.settings.SettingsScreen
 import dev.muffar.moneyfikasi.settings.SettingsViewModel
+import androidx.compose.runtime.getValue
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 fun NavController.navigateToSettings() {
     navigate(Screen.Settings.route)

@@ -65,6 +65,7 @@ import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetAmountInputType
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetAppLanguage
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetAppTheme
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetBalanceVisibility
+import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetBudgetCutoffDay
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetBudgetVisibility
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetQuickTransactionVisibility
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetReportVisibility
@@ -196,7 +197,8 @@ object UseCaseModule {
         setBudgetVisibility = SetBudgetVisibility(uiSettingsRepository),
         setAppTheme = SetAppTheme(uiSettingsRepository),
         setAppLanguage = SetAppLanguage(uiSettingsRepository),
-        setAmountInputType = SetAmountInputType(uiSettingsRepository)
+        setAmountInputType = SetAmountInputType(uiSettingsRepository),
+        setBudgetCutoffDay = SetBudgetCutoffDay(uiSettingsRepository)
     )
 
     @Provides
