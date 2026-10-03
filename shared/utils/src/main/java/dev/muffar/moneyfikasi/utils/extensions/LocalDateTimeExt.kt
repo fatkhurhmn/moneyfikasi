@@ -97,15 +97,15 @@ object LocalDateTimeExt {
 
     fun LocalDateTime.startOfBudgetPeriod(cutoffDay: Int): Long {
         val day = cutoffDay.coerceIn(1, 31)
-        return if (this.dayOfMonth >= day) {
-            val clampedDay = day.coerceAtMost(this.toLocalDate().lengthOfMonth())
-            this.withDayOfMonth(clampedDay)
+        val clampedCurrent = day.coerceAtMost(this.toLocalDate().lengthOfMonth())
+        return if (this.dayOfMonth >= clampedCurrent) {
+            this.withDayOfMonth(clampedCurrent)
                 .withHour(0).withMinute(0).withSecond(0).withNano(0)
                 .toMilliseconds()
         } else {
             val prev = this.minusMonths(1)
-            val clampedDay = day.coerceAtMost(prev.toLocalDate().lengthOfMonth())
-            prev.withDayOfMonth(clampedDay)
+            val clampedPrev = day.coerceAtMost(prev.toLocalDate().lengthOfMonth())
+            prev.withDayOfMonth(clampedPrev)
                 .withHour(0).withMinute(0).withSecond(0).withNano(0)
                 .toMilliseconds()
         }
