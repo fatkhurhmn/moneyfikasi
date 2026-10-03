@@ -19,7 +19,10 @@ import dev.muffar.moneyfikasi.data.worker.BackupWorker
 import dev.muffar.moneyfikasi.data.worker.DriveBackupWorker
 import dev.muffar.moneyfikasi.domain.model.LatestBackup
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
+import dev.muffar.moneyfikasi.data.remote.drive.DriveAuthHelper
+import dev.muffar.moneyfikasi.domain.repository.DriveBackupRepository
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupRestoreUseCases
+import dev.muffar.moneyfikasi.domain.usecase.drive.DriveBackupUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.BackupSettingsUseCases
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.delay
@@ -38,9 +41,9 @@ import javax.inject.Inject
 class BackupRestoreViewModel @Inject constructor(
     private val backupRestoreUseCases: BackupRestoreUseCases,
     private val backupSettingsUseCases: BackupSettingsUseCases,
-    private val driveBackupUseCases: dev.muffar.moneyfikasi.domain.usecase.drive.DriveBackupUseCases,
-    private val driveBackupRepository: dev.muffar.moneyfikasi.domain.repository.DriveBackupRepository,
-    private val driveAuthHelper: dev.muffar.moneyfikasi.data.remote.drive.DriveAuthHelper,
+    private val driveBackupUseCases: DriveBackupUseCases,
+    private val driveBackupRepository: DriveBackupRepository,
+    private val driveAuthHelper: DriveAuthHelper,
     @param:ApplicationContext private val context: Context,
 ) : ViewModel() {
 

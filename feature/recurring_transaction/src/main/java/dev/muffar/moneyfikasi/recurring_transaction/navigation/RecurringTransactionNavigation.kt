@@ -10,6 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
+import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.recurring_transaction.add_edit.AddEditRecurringTransactionEvent
@@ -31,7 +32,7 @@ fun NavController.toAddEditRecurringTransactionScreen(type: TransactionType, id:
 fun NavGraphBuilder.recurringTransactionNavGraph(
     navigateToAddRecurringTransaction: (TransactionType) -> Unit,
     navigateToEditRecurringTransaction: (TransactionType, UUID) -> Unit,
-    navigateToAddCategory: (dev.muffar.moneyfikasi.domain.model.CategoryType) -> Unit,
+    navigateToAddCategory: (CategoryType) -> Unit,
     navigateToAddWallet: () -> Unit,
     navigateBack: () -> Unit
 ) {

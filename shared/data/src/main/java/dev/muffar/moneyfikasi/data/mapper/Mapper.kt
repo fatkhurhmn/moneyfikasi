@@ -15,6 +15,7 @@ import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.CategoryStatistic
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.Preset
+import dev.muffar.moneyfikasi.domain.model.RecurringTransaction
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.model.TransactionTrendItem
 import dev.muffar.moneyfikasi.domain.model.Wallet
@@ -142,8 +143,8 @@ fun Preset.toEntity(): PresetEntity {
 
 // --- Recurring Transaction Mappers ---
 
-fun RecurringTransactionWithDetails.toDomain(): dev.muffar.moneyfikasi.domain.model.RecurringTransaction {
-    return dev.muffar.moneyfikasi.domain.model.RecurringTransaction(
+fun RecurringTransactionWithDetails.toDomain(): RecurringTransaction {
+    return RecurringTransaction(
         id = this.recurringTransaction.id,
         name = this.recurringTransaction.name,
         amount = this.recurringTransaction.amount,
@@ -162,7 +163,7 @@ fun RecurringTransactionWithDetails.toDomain(): dev.muffar.moneyfikasi.domain.mo
     )
 }
 
-fun dev.muffar.moneyfikasi.domain.model.RecurringTransaction.toEntity(): RecurringTransactionEntity {
+fun RecurringTransaction.toEntity(): RecurringTransactionEntity {
     return RecurringTransactionEntity(
         id = this.id,
         name = this.name,

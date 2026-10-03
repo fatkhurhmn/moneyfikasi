@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -91,12 +91,15 @@ fun CalendarDayCell(
                     }
                 )
             }
-            if (hasBalance && balance != null && !isEmpty) {
+            if (hasBalance && !isEmpty) {
                 val isNegative = balance < 0
                 val isPositive = balance > 0
                 Text(
-                    text = if (balance == 0.0) "0" else balance.formatThousand(),
-                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.sp, fontWeight = FontWeight.Bold),
+                    text = balance.formatThousand(),
+                    style = MaterialTheme.typography.labelSmall.copy(
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold
+                    ),
                     color = when {
                         isNegative -> MoneyfikasiTheme.financeColors.expense
                         isPositive -> MoneyfikasiTheme.financeColors.income
@@ -130,7 +133,10 @@ fun WeekdayHeader(modifier: Modifier = Modifier) {
         weekdays.forEach { day ->
             Text(
                 text = day,
-                style = MaterialTheme.typography.labelSmall.copy(fontSize = 12.sp, fontWeight = FontWeight.Bold),
+                style = MaterialTheme.typography.labelSmall.copy(
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold
+                ),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.weight(1f),
                 textAlign = TextAlign.Center
