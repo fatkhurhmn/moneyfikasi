@@ -3,6 +3,8 @@ package dev.muffar.moneyfikasi.transaction.list.component
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ViewList
+import androidx.compose.material.icons.rounded.CalendarMonth
 import androidx.compose.material.icons.rounded.CalendarToday
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.runtime.Composable
@@ -17,8 +19,10 @@ import dev.muffar.moneyfikasi.resource.R
 @Composable
 fun TransactionsTopBar(
     showFilterBadge: Boolean,
+    isCalendarMode: Boolean = false,
     onSearchClick: () -> Unit,
     onChooseDateClick: () -> Unit,
+    onCalendarToggle: () -> Unit = {},
     onFilterClick: () -> Unit,
 ) {
     CommonTopAppBar(
@@ -26,6 +30,11 @@ fun TransactionsTopBar(
         showBackButton = false,
         titleSize = 20.sp,
         action = {
+            TopBarButton(
+                imageVector = if (isCalendarMode) Icons.AutoMirrored.Rounded.ViewList else Icons.Rounded.CalendarMonth,
+                onClick = onCalendarToggle
+            )
+            Spacer(modifier = Modifier.width(8.dp))
             TopBarButton(
                 imageVector = Icons.Rounded.Search,
                 onClick = onSearchClick

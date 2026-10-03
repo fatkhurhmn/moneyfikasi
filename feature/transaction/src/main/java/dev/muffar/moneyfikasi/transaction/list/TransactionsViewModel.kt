@@ -9,10 +9,14 @@ import dev.muffar.moneyfikasi.domain.model.TransactionFilter
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
+import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.utils.extension.toDateRange
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfDay
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfMonth
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.startOfDay
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.startOfMonth
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -35,6 +39,8 @@ class TransactionsViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(TransactionsState())
     val state = _state.asStateFlow()
+    private var calendarJob: Job? = null
+    private var calendarDayJob: Job? = null
 
     init {
         observeTransactions()
@@ -51,6 +57,10 @@ class TransactionsViewModel @Inject constructor(
             is TransactionsEvent.ShowCustomDateSheet -> onShowCustomDateSheet(event.show)
             is TransactionsEvent.ResetFilter -> onResetFilter()
             is TransactionsEvent.FilterChanged -> onFilterChange(event.filter)
+            is TransactionsEvent.ToggleCalendarMode -> onToggleCalendarMode()
+            is TransactionsEvent.CalendarPreviousMonth -> onCalendarPreviousMonth()
+            is TransactionsEvent.CalendarNextMonth -> onCalendarNextMonth()
+            is TransactionsEvent.CalendarDaySelected -> onCalendarDaySelected(event.day)
         }
     }
 
@@ -152,6 +162,7 @@ class TransactionsViewModel @Inject constructor(
                 isFilterApplied = false
             )
         }
+        if (_state.value.isCalendarMode) loadCalendarDailyExpenses()
     }
 
     private fun onFilterChange(filter: TransactionFilter) {
@@ -162,6 +173,74 @@ class TransactionsViewModel @Inject constructor(
                 filter = filter,
                 isFilterApplied = isFilterApplied
             )
+        }
+        if (_state.value.isCalendarMode) loadCalendarDailyExpenses()
+    }
+
+    private fun onToggleCalendarMode() {
+        val newMode = !_state.value.isCalendarMode
+        if (!newMode) {
+            calendarJob?.cancel()
+            calendarDayJob?.cancel()
+        }
+        _state.update { it.copy(isCalendarMode = newMode, calendarSelectedDay = null, calendarSelectedDayTransactions = emptyList()) }
+        if (newMode) loadCalendarDailyExpenses()
+    }
+
+    private fun onCalendarPreviousMonth() {
+        _state.update { it.copy(calendarMonth = it.calendarMonth.minusMonths(1).withDayOfMonth(1), calendarSelectedDay = null, calendarSelectedDayTransactions = emptyList()) }
+        loadCalendarDailyExpenses()
+    }
+
+    private fun onCalendarNextMonth() {
+        _state.update { it.copy(calendarMonth = it.calendarMonth.plusMonths(1).withDayOfMonth(1), calendarSelectedDay = null, calendarSelectedDayTransactions = emptyList()) }
+        loadCalendarDailyExpenses()
+    }
+
+    private fun onCalendarDaySelected(day: Int) {
+        val month = _state.value.calendarMonth
+        val daysInMonth = month.toLocalDate().lengthOfMonth()
+        if (day !in 1..daysInMonth) return
+        val isSame = _state.value.calendarSelectedDay == day
+        if (isSame) {
+            _state.update { it.copy(calendarSelectedDay = null, calendarSelectedDayTransactions = emptyList()) }
+            return
+        }
+        _state.update { it.copy(calendarSelectedDay = day) }
+        loadCalendarDayTransactions(day)
+    }
+
+    private fun loadCalendarDayTransactions(day: Int) {
+        calendarDayJob?.cancel()
+        calendarDayJob = viewModelScope.launch {
+            val month = _state.value.calendarMonth
+            val filter = _state.value.filter
+            val date = month.withDayOfMonth(day)
+            val start = date.startOfDay()
+            val end = date.endOfDay()
+            transactionUseCases.getAllTransactions(start, end, filter.categories, filter.wallets)
+                .collectLatest { transactions ->
+                    _state.update { it.copy(calendarSelectedDayTransactions = transactions) }
+                }
+        }
+    }
+
+    private fun loadCalendarDailyExpenses() {
+        calendarJob?.cancel()
+        calendarJob = viewModelScope.launch {
+            val month = _state.value.calendarMonth
+            val filter = _state.value.filter
+            val start = month.startOfMonth()
+            val end = month.endOfMonth()
+            transactionUseCases.getAllTransactions(start, end, filter.categories, filter.wallets)
+                .collectLatest { transactions ->
+                    val expensesByDay = transactions.filter { it.isExpense }
+                        .groupBy { it.date.dayOfMonth }
+                        .mapValues { entry -> entry.value.sumOf { it.amount } }
+                    val total = expensesByDay.values.sum()
+                    _state.update { it.copy(calendarDailyExpenses = expensesByDay, calendarMonthlyTotal = total) }
+                    _state.value.calendarSelectedDay?.let { loadCalendarDayTransactions(it) }
+                }
         }
     }
 }
