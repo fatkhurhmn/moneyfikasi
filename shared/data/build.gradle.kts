@@ -16,8 +16,13 @@ android {
             localPropertiesFile.inputStream().use { load(it) }
         }
     }
-    val groqApiKey = localProperties.getProperty("GROQ_API_KEY") ?: ""
-    val driveWebClientId = localProperties.getProperty("DRIVE_WEB_CLIENT_ID") ?: ""
+    fun prop(name: String): String =
+        providers.gradleProperty(name)
+            .orElse(providers.environmentVariable(name))
+            .orElse(providers.provider { localProperties.getProperty(name) })
+            .getOrElse("")
+    val groqApiKey = prop("GROQ_API_KEY")
+    val driveWebClientId = prop("DRIVE_WEB_CLIENT_ID")
 
     defaultConfig {
         ksp {
