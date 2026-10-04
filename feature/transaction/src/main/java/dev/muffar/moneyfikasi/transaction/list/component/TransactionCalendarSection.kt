@@ -4,21 +4,19 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.calendar.CalendarDayCell
 import dev.muffar.moneyfikasi.common_ui.component.calendar.WeekdayHeader
 import dev.muffar.moneyfikasi.common_ui.component.calendar_header.CalendarHeader
 import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
-import dev.muffar.moneyfikasi.common_ui.component.transaction.item.TransactionItem
+import dev.muffar.moneyfikasi.common_ui.component.transaction.TransactionDayGroupCard
 import dev.muffar.moneyfikasi.domain.model.Transaction
-import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.format
 import org.threeten.bp.LocalDateTime
 import java.util.UUID
@@ -59,33 +57,17 @@ fun TransactionCalendarSection(
             )
         }
         if (selectedDay != null) {
-            val dateTitle = calendarMonth.withDayOfMonth(selectedDay).format("dd MMMM yyyy")
-            Text(
-                text = stringResource(R.string.label_transactions_on_date, dateTitle),
-                style = MaterialTheme.typography.titleSmall,
+            val date = calendarMonth.withDayOfMonth(selectedDay)
+            val balance = dailyBalances[selectedDay] ?: 0.0
+            TransactionDayGroupCard(
+                date = date,
+                balance = balance,
+                transactions = selectedDayTransactions,
+                onTransactionClick = onTransactionClick,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
-            if (selectedDayTransactions.isEmpty()) {
-                Text(
-                    text = stringResource(R.string.empty_transactions_msg),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
-            } else {
-                Column(
-                    modifier = Modifier.padding(horizontal = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    selectedDayTransactions.forEach { tx ->
-                        TransactionItem(
-                            transaction = tx,
-                            onClick = { onTransactionClick(tx.id, tx.isTransfer) }
-                        )
-                    }
-                }
-            }
         }
+        Spacer(modifier = Modifier.height(100.dp))
     }
 }
 

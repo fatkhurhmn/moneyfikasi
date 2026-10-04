@@ -4,6 +4,8 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -53,8 +55,12 @@ fun TransactionsScreen(
         },
         contentWindowInsets = WindowInsets(0.dp),
     ) {
+        val calendarScrollState = rememberScrollState()
         Column(
-            modifier = Modifier.padding(it)
+            modifier = Modifier
+                .padding(it)
+                .then(if (state.isCalendarMode) Modifier.verticalScroll(calendarScrollState) else Modifier)
+                .then(if (state.isCalendarMode) Modifier.padding(bottom = 16.dp) else Modifier)
         ) {
             if (state.isCalendarMode) {
                 TransactionCalendarSection(
