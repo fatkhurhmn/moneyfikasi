@@ -31,6 +31,11 @@ class DriveAuthHelper @Inject constructor(
 
     fun getSignedInAccountEmail(): String = cachedAccount?.name.orEmpty()
 
+    @androidx.annotation.VisibleForTesting
+    fun setAccountForTesting(account: Account?) {
+        cachedAccount = account
+    }
+
     suspend fun signInWithCredentialManager(activityContext: android.app.Activity? = null): Boolean = withContext(Dispatchers.IO) {
         try {
             val webClientId = BuildConfig.DRIVE_WEB_CLIENT_ID
