@@ -11,7 +11,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -30,8 +33,10 @@ import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.resource.R
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun BackupRestoreScreen(
@@ -55,6 +60,16 @@ fun BackupRestoreScreen(
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
+    val scrollState = rememberScrollState()
+    var userClickedConnect by remember { mutableStateOf(false) }
+
+    LaunchedEffect(state.isDriveSignedIn, state.isDriveLoading) {
+        if (userClickedConnect && state.isDriveSignedIn && !state.isDriveLoading) {
+            delay(100L.milliseconds)
+            scrollState.animateScrollTo(scrollState.maxValue)
+            userClickedConnect = false
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -70,7 +85,7 @@ fun BackupRestoreScreen(
             modifier = modifier
                 .padding(it)
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(scrollState)
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
             BackupRestoreText()
@@ -110,7 +125,10 @@ fun BackupRestoreScreen(
 
             DriveBackupSection(
                 state = state,
-                onSignInClick = onRequestDriveSignIn,
+                onSignInClick = {
+                    userClickedConnect = true
+                    onRequestDriveSignIn()
+                },
                 onSignOutClick = onDriveSignOut,
                 onBackupClick = onDriveBackup,
                 onRestoreClick = onDriveRestore,
