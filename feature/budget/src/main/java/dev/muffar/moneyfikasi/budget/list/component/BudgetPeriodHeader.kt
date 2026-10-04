@@ -37,9 +37,9 @@ fun BudgetPeriodHeader(
         ""
     }
     val subtitle = if (cutoffDay == 1) {
-        stringResource(R.string.label_monthly) + " • 1 - Akhir bulan"
+        stringResource(R.string.msg_budget_period_reset_monthly)
     } else {
-        "Reset setiap tanggal $cutoffDay"
+        stringResource(R.string.msg_budget_period_reset_custom, cutoffDay)
     }
 
     Row(

@@ -37,9 +37,9 @@ fun BudgetPeriodInfoCard(
         ""
     }
     val subtitle = if (cutoffDay == 1) {
-        "Periode bulanan • Reset tgl 1"
+        stringResource(R.string.msg_budget_period_info_monthly)
     } else {
-        "Periode $cutoffDay - ${cutoffDay - 1} • Tap untuk ubah"
+        stringResource(R.string.msg_budget_period_info_custom, cutoffDay, cutoffDay - 1)
     }
 
     Column(

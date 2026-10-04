@@ -322,6 +322,10 @@
     <string name="label_select_budget_cutoff">Select Start Date</string>
     <string name="msg_budget_cutoff_desc">Set the start date for your monthly budget period. Budget will reset every month on this date.</string>
     <string name="msg_budget_cutoff_preview">Period: %1$s - %2$s</string>
+    <string name="msg_budget_period_reset_monthly">Monthly • 1 - End of month</string>
+    <string name="msg_budget_period_reset_custom">Reset every %1$d</string>
+    <string name="msg_budget_period_info_monthly">Monthly period • Reset on 1st</string>
+    <string name="msg_budget_period_info_custom">Period %1$d - %2$d • Tap to change</string>
 
     <string name="title_ai_transaction">AI Transaction</string>
     <string name="msg_ai_transaction_description">Type your transaction and let AI handle it. Example: \"Lunch 50k from Main Wallet\"</string>

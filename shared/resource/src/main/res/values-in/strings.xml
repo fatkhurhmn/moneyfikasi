@@ -322,6 +322,10 @@
     <string name="label_select_budget_cutoff">Pilih Tanggal Awal</string>
     <string name="msg_budget_cutoff_desc">Atur tanggal awal periode keuangan bulanan. Anggaran akan di-reset setiap bulan pada tanggal ini.</string>
     <string name="msg_budget_cutoff_preview">Periode: %1$s - %2$s</string>
+    <string name="msg_budget_period_reset_monthly">Bulanan • 1 - Akhir bulan</string>
+    <string name="msg_budget_period_reset_custom">Reset setiap tanggal %1$d</string>
+    <string name="msg_budget_period_info_monthly">Periode bulanan • Reset tgl 1</string>
+    <string name="msg_budget_period_info_custom">Periode %1$d - %2$d • Tap untuk ubah</string>
 
     <string name="title_ai_transaction">Transaksi AI</string>
     <string name="msg_ai_transaction_description">Ketik transaksi Anda dan biarkan AI menanganinya. Contoh: \"Makan siang 50rb dari Dompet Utama\"</string>
