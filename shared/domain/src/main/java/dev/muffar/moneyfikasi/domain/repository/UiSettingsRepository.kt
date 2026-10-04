@@ -16,4 +16,5 @@ interface UiSettingsRepository {
     suspend fun setAppLanguage(language: AppLanguage)
     suspend fun setAmountInputType(type: AmountInputType)
     suspend fun setBudgetCutoffDay(day: Int)
+    suspend fun setTransactionCalendarMode(isCalendarMode: Boolean)
 }

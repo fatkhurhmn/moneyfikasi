@@ -61,4 +61,10 @@ class UiPreferences @Inject constructor(
             it.copy(budgetCutoffDay = clamped)
         }
     }
+
+    suspend fun setTransactionCalendarMode(isCalendarMode: Boolean) {
+        dataStore.updateData {
+            it.copy(isTransactionCalendarMode = isCalendarMode)
+        }
+    }
 }

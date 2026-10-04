@@ -6,11 +6,11 @@ import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TransactionFilter
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
+import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.UiSettingsUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
-import dev.muffar.moneyfikasi.domain.model.TimePeriod
-import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.utils.extension.toDateRange
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfDay
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfMonth
@@ -36,6 +36,7 @@ class TransactionsViewModel @Inject constructor(
     private val transactionUseCases: TransactionUseCases,
     private val categoryUseCases: CategoryUseCases,
     private val walletUseCases: WalletUseCases,
+    private val uiSettingsUseCases: UiSettingsUseCases,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(TransactionsState())
@@ -47,6 +48,30 @@ class TransactionsViewModel @Inject constructor(
         observeTransactions()
         loadCategories()
         loadWallets()
+        observeCalendarMode()
+    }
+
+    private fun observeCalendarMode() {
+        viewModelScope.launch {
+            uiSettingsUseCases.getUiSettings().collectLatest { settings ->
+                val persisted = settings.isTransactionCalendarMode
+                if (persisted != _state.value.isCalendarMode) {
+                    _state.update {
+                        it.copy(
+                            isCalendarMode = persisted,
+                            calendarSelectedDay = null,
+                            calendarSelectedDayTransactions = emptyList()
+                        )
+                    }
+                    if (persisted) loadCalendarDailyExpenses() else {
+                        calendarJob?.cancel()
+                        calendarDayJob?.cancel()
+                    }
+                } else if (persisted && _state.value.calendarDailyBalances.isEmpty()) {
+                    loadCalendarDailyExpenses()
+                }
+            }
+        }
     }
 
     fun onEvent(event: TransactionsEvent) {
@@ -180,21 +205,30 @@ class TransactionsViewModel @Inject constructor(
 
     private fun onToggleCalendarMode() {
         val newMode = !_state.value.isCalendarMode
-        if (!newMode) {
-            calendarJob?.cancel()
-            calendarDayJob?.cancel()
+        viewModelScope.launch {
+            uiSettingsUseCases.setTransactionCalendarMode(newMode)
         }
-        _state.update { it.copy(isCalendarMode = newMode, calendarSelectedDay = null, calendarSelectedDayTransactions = emptyList()) }
-        if (newMode) loadCalendarDailyExpenses()
     }
 
     private fun onCalendarPreviousMonth() {
-        _state.update { it.copy(calendarMonth = it.calendarMonth.minusMonths(1).withDayOfMonth(1), calendarSelectedDay = null, calendarSelectedDayTransactions = emptyList()) }
+        _state.update {
+            it.copy(
+                calendarMonth = it.calendarMonth.minusMonths(1).withDayOfMonth(1),
+                calendarSelectedDay = null,
+                calendarSelectedDayTransactions = emptyList()
+            )
+        }
         loadCalendarDailyExpenses()
     }
 
     private fun onCalendarNextMonth() {
-        _state.update { it.copy(calendarMonth = it.calendarMonth.plusMonths(1).withDayOfMonth(1), calendarSelectedDay = null, calendarSelectedDayTransactions = emptyList()) }
+        _state.update {
+            it.copy(
+                calendarMonth = it.calendarMonth.plusMonths(1).withDayOfMonth(1),
+                calendarSelectedDay = null,
+                calendarSelectedDayTransactions = emptyList()
+            )
+        }
         loadCalendarDailyExpenses()
     }
 
@@ -204,7 +238,12 @@ class TransactionsViewModel @Inject constructor(
         if (day !in 1..daysInMonth) return
         val isSame = _state.value.calendarSelectedDay == day
         if (isSame) {
-            _state.update { it.copy(calendarSelectedDay = null, calendarSelectedDayTransactions = emptyList()) }
+            _state.update {
+                it.copy(
+                    calendarSelectedDay = null,
+                    calendarSelectedDayTransactions = emptyList()
+                )
+            }
             return
         }
         _state.update { it.copy(calendarSelectedDay = day) }

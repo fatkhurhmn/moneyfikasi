@@ -9,5 +9,6 @@ data class UiSettingsUseCases(
     val setAppTheme: SetAppTheme,
     val setAppLanguage: SetAppLanguage,
     val setAmountInputType: SetAmountInputType,
-    val setBudgetCutoffDay: SetBudgetCutoffDay
+    val setBudgetCutoffDay: SetBudgetCutoffDay,
+    val setTransactionCalendarMode: SetTransactionCalendarMode
 )

@@ -13,5 +13,6 @@ data class UiSettings(
     val appTheme: AppTheme = AppTheme.SYSTEM,
     val appLanguage: AppLanguage = AppLanguage.SYSTEM,
     val amountInputType: AmountInputType = AmountInputType.CALCULATOR,
-    val budgetCutoffDay: Int = 1
+    val budgetCutoffDay: Int = 1,
+    val isTransactionCalendarMode: Boolean = false
 )
