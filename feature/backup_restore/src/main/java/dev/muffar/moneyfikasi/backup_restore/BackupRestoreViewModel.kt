@@ -66,8 +66,21 @@ class BackupRestoreViewModel @Inject constructor(
         refreshDriveStatus()
     }
 
-    fun getDriveSignInIntent(): Intent {
-        return driveAuthHelper.getSignInIntent()
+    fun requestDriveSignIn(activity: android.app.Activity? = null) {
+        viewModelScope.launch {
+            val success = try {
+                driveAuthHelper.signInWithCredentialManager(activity)
+            } catch (_: Exception) { false }
+            if (success) {
+                refreshDriveStatus(loadList = true)
+            } else {
+                if (!driveAuthHelper.isSignedIn()) {
+                    _eventFlow.emit(UiEvent.ShowMessage(R.string.error_backup_failed, SnackbarType.ERROR))
+                } else {
+                    refreshDriveStatus(loadList = true)
+                }
+            }
+        }
     }
 
     fun onEvent(event: BackupRestoreEvent) {
@@ -96,7 +109,7 @@ class BackupRestoreViewModel @Inject constructor(
             } catch (_: Exception) {
                 false
             }
-            val email = driveAuthHelper.getSignedInAccount()?.email.orEmpty()
+            val email = driveAuthHelper.getSignedInAccountEmail()
             _state.value = _state.value.copy(
                 isDriveSignedIn = signedIn,
                 driveAccountEmail = email

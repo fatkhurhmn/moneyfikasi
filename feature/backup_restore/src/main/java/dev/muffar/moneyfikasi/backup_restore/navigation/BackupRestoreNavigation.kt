@@ -17,6 +17,8 @@ fun NavGraphBuilder.backupRestoreNavGraph(
         val viewModel = hiltViewModel<BackupRestoreViewModel>()
         val state by viewModel.state
         val event = viewModel::onEvent
+        val context = androidx.compose.ui.platform.LocalContext.current
+        val activity = context as? android.app.Activity
 
         BackupRestoreScreen(
             state = state,
@@ -27,8 +29,7 @@ fun NavGraphBuilder.backupRestoreNavGraph(
             onAutoBackupFolderSelected = { event(BackupRestoreEvent.AutoBackupUriChanged(it)) },
             onAutoBackupPeriodSelected = { event(BackupRestoreEvent.AutoBackupPeriodChanged(it)) },
             onDeletePreviousBackupChange = { event(BackupRestoreEvent.DeletePreviousBackupChanged(it)) },
-            getDriveSignInIntent = viewModel::getDriveSignInIntent,
-            onDriveSignInResult = { event(BackupRestoreEvent.DriveSignInHandled(it)) },
+            onRequestDriveSignIn = { if (activity != null) viewModel.requestDriveSignIn(activity) else viewModel.requestDriveSignIn() },
             onDriveSignOut = { event(BackupRestoreEvent.DriveSignOut) },
             onDriveBackup = { event(BackupRestoreEvent.DriveBackupNow) },
             onDriveRefresh = { event(BackupRestoreEvent.DriveLoadBackups) },

@@ -16,7 +16,6 @@ android {
             localPropertiesFile.inputStream().use { load(it) }
         }
     }
-    val geminiApiKey = localProperties.getProperty("GEMINI_API_KEY") ?: ""
     val groqApiKey = localProperties.getProperty("GROQ_API_KEY") ?: ""
     val driveWebClientId = localProperties.getProperty("DRIVE_WEB_CLIENT_ID") ?: ""
 
@@ -24,7 +23,6 @@ android {
         ksp {
             arg("room.schemaLocation", "$projectDir/schemas")
         }
-        buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
         buildConfigField("String", "GROQ_API_KEY", "\"$groqApiKey\"")
         buildConfigField("String", "DRIVE_WEB_CLIENT_ID", "\"$driveWebClientId\"")
     }

@@ -18,9 +18,8 @@ class DriveBackupDataSource @Inject constructor(
     private val authHelper: DriveAuthHelper
 ) {
     private fun requireDrive(): Drive {
-        val account = authHelper.getSignedInAccount()
+        val credential = authHelper.getDriveCredential()
             ?: throw IllegalStateException("Not signed in to Google Drive")
-        val credential = authHelper.getCredential(account)
         return Drive.Builder(
             NetHttpTransport(),
             GsonFactory.getDefaultInstance(),

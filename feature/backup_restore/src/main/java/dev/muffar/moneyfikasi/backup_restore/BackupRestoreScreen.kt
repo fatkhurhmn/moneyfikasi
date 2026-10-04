@@ -1,8 +1,6 @@
 package dev.muffar.moneyfikasi.backup_restore
 
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -46,8 +44,7 @@ fun BackupRestoreScreen(
     onAutoBackupFolderSelected: (Uri) -> Unit,
     onAutoBackupPeriodSelected: (TimePeriod) -> Unit,
     onDeletePreviousBackupChange: (Boolean) -> Unit,
-    getDriveSignInIntent: () -> android.content.Intent,
-    onDriveSignInResult: (Boolean) -> Unit,
+    onRequestDriveSignIn: () -> Unit,
     onDriveSignOut: () -> Unit,
     onDriveBackup: () -> Unit,
     onDriveRefresh: () -> Unit,
@@ -58,12 +55,6 @@ fun BackupRestoreScreen(
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
-
-    val driveSignInLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {
-        onDriveSignInResult(it.resultCode == android.app.Activity.RESULT_OK)
-    }
 
     Scaffold(
         topBar = {
@@ -119,7 +110,7 @@ fun BackupRestoreScreen(
 
             DriveBackupSection(
                 state = state,
-                onSignInClick = { driveSignInLauncher.launch(getDriveSignInIntent()) },
+                onSignInClick = onRequestDriveSignIn,
                 onSignOutClick = onDriveSignOut,
                 onBackupClick = onDriveBackup,
                 onRestoreClick = onDriveRestore,
