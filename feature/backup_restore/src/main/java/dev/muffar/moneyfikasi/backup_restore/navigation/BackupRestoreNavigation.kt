@@ -1,5 +1,9 @@
 package dev.muffar.moneyfikasi.backup_restore.navigation
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -9,6 +13,7 @@ import dev.muffar.moneyfikasi.backup_restore.BackupRestoreEvent
 import dev.muffar.moneyfikasi.backup_restore.BackupRestoreScreen
 import dev.muffar.moneyfikasi.backup_restore.BackupRestoreViewModel
 import dev.muffar.moneyfikasi.navigation.Screen
+import kotlinx.coroutines.flow.collectLatest
 
 fun NavGraphBuilder.backupRestoreNavGraph(
     navigateBack: () -> Unit,
@@ -19,6 +24,26 @@ fun NavGraphBuilder.backupRestoreNavGraph(
         val event = viewModel::onEvent
         val context = androidx.compose.ui.platform.LocalContext.current
         val activity = context as? android.app.Activity
+
+        val authLauncher = rememberLauncherForActivityResult(
+            ActivityResultContracts.StartIntentSenderForResult()
+        ) { result ->
+            val granted = result.resultCode == android.app.Activity.RESULT_OK
+            viewModel.onDriveAuthorizationResult(granted)
+        }
+
+        LaunchedEffect(viewModel.eventFlow) {
+            viewModel.eventFlow.collectLatest { uiEvent ->
+                if (uiEvent is BackupRestoreViewModel.UiEvent.RequestDriveAuthorization) {
+                    try {
+                        val req = IntentSenderRequest.Builder(uiEvent.pendingIntent.intentSender).build()
+                        authLauncher.launch(req)
+                    } catch (_: Exception) {
+                        viewModel.onDriveAuthorizationResult(false)
+                    }
+                }
+            }
+        }
 
         BackupRestoreScreen(
             state = state,

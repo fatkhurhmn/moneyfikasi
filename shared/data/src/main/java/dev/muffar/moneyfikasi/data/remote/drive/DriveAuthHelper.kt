@@ -3,6 +3,7 @@ package dev.muffar.moneyfikasi.data.remote.drive
 import android.accounts.Account
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import androidx.annotation.VisibleForTesting
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
@@ -71,7 +72,7 @@ class DriveAuthHelper @Inject constructor(
         saveAccountEmail(email)
     }
 
-    suspend fun signInWithCredentialManager(activityContext: Activity? = null): Boolean =
+    suspend fun signInWithCredentialManager(activityContext: Activity? = null): SignInResult =
         withContext(Dispatchers.IO) {
             try {
                 val webClientId = BuildConfig.DRIVE_WEB_CLIENT_ID
@@ -89,40 +90,36 @@ class DriveAuthHelper @Inject constructor(
                 val credential = GoogleIdTokenCredential.createFrom(result.credential.data)
                 cachedAccount = Account(credential.id, "com.google")
                 saveAccountEmail(credential.id)
-                requestDriveAuthorization(activityContext)
+                val authResult = getDriveAuthorizationResult()
+                if (authResult.hasResolution()) {
+                    SignInResult.NeedsAuthorization(authResult.pendingIntent)
+                } else if (authResult.grantedScopes.isNotEmpty()) {
+                    SignInResult.Success
+                } else {
+                    // No resolution but also not granted -> need consent
+                    SignInResult.NeedsAuthorization(authResult.pendingIntent)
+                }
             } catch (e: GetCredentialException) {
-                false
-            } catch (_: Exception) {
-                false
+                Log.e("DriveAuthHelper", "Error getting credential", e)
+                SignInResult.Failure(e.message)
+            } catch (e: Exception) {
+                Log.e("DriveAuthHelper", "Error signing in to Drive", e)
+                SignInResult.Failure(e.message)
             }
         }
 
-    private suspend fun requestDriveAuthorization(activityContext: Activity? = null): Boolean =
+    suspend fun getDriveAuthorizationResult(): com.google.android.gms.auth.api.identity.AuthorizationResult =
         withContext(Dispatchers.IO) {
-            try {
-                val requestedScopes = listOf(Scope(DriveScopes.DRIVE_APPDATA))
-                val authRequest = AuthorizationRequest.builder()
-                    .setRequestedScopes(requestedScopes)
-                    .build()
-                val result = authorizationClient.authorize(authRequest).await()
-                if (result.hasResolution()) {
-                    val pendingIntent = result.pendingIntent
-                    if (pendingIntent != null && activityContext != null) {
-                        try {
-                            activityContext.startIntentSenderForResult(
-                                pendingIntent.intentSender,
-                                1001, null, 0, 0, 0, null
-                            )
-                        } catch (_: Exception) {
-                        }
-                        return@withContext false
-                    }
-                    return@withContext false
-                }
-                result.grantedScopes.isNotEmpty()
-            } catch (_: Exception) {
-                false
-            }
+            val requestedScopes = listOf(Scope(DriveScopes.DRIVE_APPDATA))
+            val authRequest = AuthorizationRequest.builder()
+                .setRequestedScopes(requestedScopes)
+                .build()
+            authorizationClient.authorize(authRequest).await()
+        }
+
+    suspend fun handleAuthorizationResult(granted: Boolean): Boolean =
+        withContext(Dispatchers.IO) {
+            granted
         }
 
     suspend fun signOut() = withContext(Dispatchers.IO) {
@@ -151,5 +148,11 @@ class DriveAuthHelper @Inject constructor(
             runBlocking { backupPreferences.setDriveAccountEmail(email) }
         } catch (_: Exception) {
         }
+    }
+
+    sealed class SignInResult {
+        data object Success : SignInResult()
+        data class NeedsAuthorization(val pendingIntent: android.app.PendingIntent?) : SignInResult()
+        data class Failure(val message: String? = null) : SignInResult()
     }
 }

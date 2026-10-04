@@ -3,6 +3,7 @@ package dev.muffar.moneyfikasi.backup_restore
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -68,17 +69,37 @@ class BackupRestoreViewModel @Inject constructor(
 
     fun requestDriveSignIn(activity: android.app.Activity? = null) {
         viewModelScope.launch {
-            val success = try {
+            when (val result = try {
                 driveAuthHelper.signInWithCredentialManager(activity)
-            } catch (_: Exception) { false }
-            if (success) {
+            } catch (e: Exception) {
+                Log.e("BackupRestoreViewModel", "Error signing in to Drive", e)
+                DriveAuthHelper.SignInResult.Failure(e.message) }) {
+                is DriveAuthHelper.SignInResult.Success -> refreshDriveStatus(loadList = true)
+                is DriveAuthHelper.SignInResult.NeedsAuthorization -> {
+                    val pi = result.pendingIntent
+                    if (pi != null) {
+                        _eventFlow.emit(UiEvent.RequestDriveAuthorization(pi))
+                    } else {
+                        _eventFlow.emit(UiEvent.ShowMessage(R.string.error_backup_failed, SnackbarType.ERROR))
+                    }
+                }
+                is DriveAuthHelper.SignInResult.Failure -> {
+                    if (!driveAuthHelper.isSignedIn()) {
+                        _eventFlow.emit(UiEvent.ShowMessage(R.string.error_backup_failed, SnackbarType.ERROR))
+                    } else {
+                        refreshDriveStatus(loadList = true)
+                    }
+                }
+            }
+        }
+    }
+
+    fun onDriveAuthorizationResult(granted: Boolean) {
+        viewModelScope.launch {
+            if (granted) {
                 refreshDriveStatus(loadList = true)
             } else {
-                if (!driveAuthHelper.isSignedIn()) {
-                    _eventFlow.emit(UiEvent.ShowMessage(R.string.error_backup_failed, SnackbarType.ERROR))
-                } else {
-                    refreshDriveStatus(loadList = true)
-                }
+                _eventFlow.emit(UiEvent.ShowMessage(R.string.error_backup_failed, SnackbarType.ERROR))
             }
         }
     }
@@ -427,6 +448,7 @@ class BackupRestoreViewModel @Inject constructor(
             val type: SnackbarType,
             val formatArg: String? = null
         ) : UiEvent()
+        data class RequestDriveAuthorization(val pendingIntent: android.app.PendingIntent) : UiEvent()
     }
 
     companion object {

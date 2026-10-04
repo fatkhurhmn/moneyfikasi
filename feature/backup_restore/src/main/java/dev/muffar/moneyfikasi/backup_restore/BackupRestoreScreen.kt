@@ -151,6 +151,7 @@ fun BackupRestoreScreen(
                     } ?: context.applicationContext.getString(it.messageResId)
                     snackbarHostState.showMessage(message, it.type)
                 }
+                is BackupRestoreViewModel.UiEvent.RequestDriveAuthorization -> Unit // handled in navigation
             }
         }
     }

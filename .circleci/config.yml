@@ -20,9 +20,10 @@ jobs:
       - run:
           name: Inject API secrets (if set)
           command: |
-            if [ -n "${GROQ_API_KEY:-}" ]; then echo "GROQ_API_KEY=$GROQ_API_KEY" >> local.properties; echo "Injected GROQ_API_KEY (${#GROQ_API_KEY} chars)"; else echo "GROQ_API_KEY not set — BuildConfig will be empty (AI will fail)"; fi
-            if [ -n "${DRIVE_WEB_CLIENT_ID:-}" ]; then echo "DRIVE_WEB_CLIENT_ID=$DRIVE_WEB_CLIENT_ID" >> local.properties; echo "Injected DRIVE_WEB_CLIENT_ID"; else echo "DRIVE_WEB_CLIENT_ID not set — Drive backup will fail"; fi
-            if [ -n "${KEYSTORE_BASE64:-}" ]; then echo "$KEYSTORE_BASE64" | base64 -d > /tmp/moneyfikasi-release.jks; echo "MONEYFIKASI_RELEASE_STORE_FILE=/tmp/moneyfikasi-release.jks" >> local.properties; echo "MONEYFIKASI_RELEASE_STORE_PASSWORD=$MONEYFIKASI_RELEASE_STORE_PASSWORD" >> local.properties; echo "MONEYFIKASI_RELEASE_KEY_ALIAS=$MONEYFIKASI_RELEASE_KEY_ALIAS" >> local.properties; echo "MONEYFIKASI_RELEASE_KEY_PASSWORD=$MONEYFIKASI_RELEASE_KEY_PASSWORD" >> local.properties; echo "Injected signing keystore"; fi
+            set +x
+            if [ -n "${GROQ_API_KEY:-}" ]; then printf '%s=%s\n' "GROQ_API_KEY" "$GROQ_API_KEY" >> local.properties; echo "Injected GROQ_API_KEY (${#GROQ_API_KEY} chars)"; else echo "GROQ_API_KEY not set — BuildConfig will be empty (AI will fail)"; fi
+            if [ -n "${DRIVE_WEB_CLIENT_ID:-}" ]; then printf '%s=%s\n' "DRIVE_WEB_CLIENT_ID" "$DRIVE_WEB_CLIENT_ID" >> local.properties; echo "Injected DRIVE_WEB_CLIENT_ID (present)"; else echo "DRIVE_WEB_CLIENT_ID not set — Drive backup will fail"; fi
+            if [ -n "${KEYSTORE_BASE64:-}" ]; then echo "$KEYSTORE_BASE64" | base64 -d > /tmp/moneyfikasi-release.jks; printf '%s=%s\n' "MONEYFIKASI_RELEASE_STORE_FILE" "/tmp/moneyfikasi-release.jks" >> local.properties; printf '%s=%s\n' "MONEYFIKASI_RELEASE_STORE_PASSWORD" "$MONEYFIKASI_RELEASE_STORE_PASSWORD" >> local.properties; printf '%s=%s\n' "MONEYFIKASI_RELEASE_KEY_ALIAS" "$MONEYFIKASI_RELEASE_KEY_ALIAS" >> local.properties; printf '%s=%s\n' "MONEYFIKASI_RELEASE_KEY_PASSWORD" "$MONEYFIKASI_RELEASE_KEY_PASSWORD" >> local.properties; echo "Injected signing keystore"; fi
       - run:
           name: Tune Gradle memory for CI
           command: |
@@ -67,8 +68,9 @@ jobs:
       - run:
           name: Inject API secrets
           command: |
-            if [ -n "${GROQ_API_KEY:-}" ]; then echo "GROQ_API_KEY=$GROQ_API_KEY" >> local.properties; echo "Injected GROQ_API_KEY (${#GROQ_API_KEY} chars)"; else echo "WARN: GROQ_API_KEY not set — AI will be empty in this build"; fi
-            if [ -n "${DRIVE_WEB_CLIENT_ID:-}" ]; then echo "DRIVE_WEB_CLIENT_ID=$DRIVE_WEB_CLIENT_ID" >> local.properties; echo "Injected DRIVE_WEB_CLIENT_ID"; else echo "WARN: DRIVE_WEB_CLIENT_ID not set — Drive will be empty"; fi
+            set +x
+            if [ -n "${GROQ_API_KEY:-}" ]; then printf '%s=%s\n' "GROQ_API_KEY" "$GROQ_API_KEY" >> local.properties; echo "Injected GROQ_API_KEY (${#GROQ_API_KEY} chars)"; else echo "WARN: GROQ_API_KEY not set — AI will be empty in this build"; fi
+            if [ -n "${DRIVE_WEB_CLIENT_ID:-}" ]; then printf '%s=%s\n' "DRIVE_WEB_CLIENT_ID" "$DRIVE_WEB_CLIENT_ID" >> local.properties; echo "Injected DRIVE_WEB_CLIENT_ID (present)"; else echo "WARN: DRIVE_WEB_CLIENT_ID not set — Drive will be empty"; fi
       - run:
           name: Decode signing & Play secrets
           command: |
