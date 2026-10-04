@@ -22,6 +22,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -79,7 +80,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             val isEnabled = securitySettingsUseCases.getSecuritySettings()
                 .first().isAppLockEnabled
-            delay(SPLASH_DURATION_MILLIS)
+            delay(SPLASH_DURATION_MILLIS.milliseconds)
             _postSplashRoute.update {
                 if (isEnabled) {
                     Screen.EnterPin.routeWithArg(EnterPinType.ENTER_PIN)
@@ -109,6 +110,6 @@ class MainViewModel @Inject constructor(
     }
 
     private companion object {
-        const val SPLASH_DURATION_MILLIS = 2_000L
+        const val SPLASH_DURATION_MILLIS = 1000L
     }
 }
