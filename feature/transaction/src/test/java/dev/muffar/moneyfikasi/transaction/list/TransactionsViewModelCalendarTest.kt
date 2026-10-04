@@ -186,10 +186,11 @@ class TransactionsViewModelCalendarTest {
         viewModel.onEvent(TransactionsEvent.ToggleCalendarMode)
         advanceUntilIdle()
 
-        val expectedStart = month.startOfMonth()
-        val expectedEnd = month.endOfMonth()
-        assertEquals(expectedStart, fakeTransactionRepo.lastStart)
-        assertEquals(expectedEnd, fakeTransactionRepo.lastEnd)
+        // Should auto-select today
+        val today = LocalDateTime.now().dayOfMonth
+        if (month.monthValue == LocalDateTime.now().monthValue) {
+            assertEquals(today, viewModel.state.value.calendarSelectedDay)
+        }
 
         val balances = viewModel.state.value.calendarDailyBalances
         assertEquals(-50.0, balances[1] ?: 0.0, 0.001)

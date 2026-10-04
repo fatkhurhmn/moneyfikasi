@@ -56,19 +56,31 @@ class TransactionsViewModel @Inject constructor(
             uiSettingsUseCases.getUiSettings().collectLatest { settings ->
                 val persisted = settings.isTransactionCalendarMode
                 if (persisted != _state.value.isCalendarMode) {
+                    val now = LocalDateTime.now()
+                    val targetMonth = if (persisted) now.withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0) else _state.value.calendarMonth
+                    val autoDay = if (persisted && targetMonth.year == now.year && targetMonth.monthValue == now.monthValue) now.dayOfMonth else null
                     _state.update {
                         it.copy(
                             isCalendarMode = persisted,
-                            calendarSelectedDay = null,
+                            calendarMonth = targetMonth,
+                            calendarSelectedDay = autoDay,
                             calendarSelectedDayTransactions = emptyList()
                         )
                     }
-                    if (persisted) loadCalendarDailyExpenses() else {
+                    if (persisted) {
+                        loadCalendarDailyExpenses()
+                        autoDay?.let { loadCalendarDayTransactions(it) }
+                    } else {
                         calendarJob?.cancel()
                         calendarDayJob?.cancel()
                     }
                 } else if (persisted && _state.value.calendarDailyBalances.isEmpty()) {
                     loadCalendarDailyExpenses()
+                    val now = LocalDateTime.now()
+                    if (_state.value.calendarSelectedDay == null && _state.value.calendarMonth.year == now.year && _state.value.calendarMonth.monthValue == now.monthValue) {
+                        _state.update { it.copy(calendarSelectedDay = now.dayOfMonth) }
+                        loadCalendarDayTransactions(now.dayOfMonth)
+                    }
                 }
             }
         }
@@ -211,25 +223,33 @@ class TransactionsViewModel @Inject constructor(
     }
 
     private fun onCalendarPreviousMonth() {
+        val newMonth = _state.value.calendarMonth.minusMonths(1).withDayOfMonth(1)
+        val now = LocalDateTime.now()
+        val autoDay = if (newMonth.year == now.year && newMonth.monthValue == now.monthValue) now.dayOfMonth else null
         _state.update {
             it.copy(
-                calendarMonth = it.calendarMonth.minusMonths(1).withDayOfMonth(1),
-                calendarSelectedDay = null,
+                calendarMonth = newMonth,
+                calendarSelectedDay = autoDay,
                 calendarSelectedDayTransactions = emptyList()
             )
         }
         loadCalendarDailyExpenses()
+        autoDay?.let { loadCalendarDayTransactions(it) }
     }
 
     private fun onCalendarNextMonth() {
+        val newMonth = _state.value.calendarMonth.plusMonths(1).withDayOfMonth(1)
+        val now = LocalDateTime.now()
+        val autoDay = if (newMonth.year == now.year && newMonth.monthValue == now.monthValue) now.dayOfMonth else null
         _state.update {
             it.copy(
-                calendarMonth = it.calendarMonth.plusMonths(1).withDayOfMonth(1),
-                calendarSelectedDay = null,
+                calendarMonth = newMonth,
+                calendarSelectedDay = autoDay,
                 calendarSelectedDayTransactions = emptyList()
             )
         }
         loadCalendarDailyExpenses()
+        autoDay?.let { loadCalendarDayTransactions(it) }
     }
 
     private fun onCalendarDaySelected(day: Int) {
