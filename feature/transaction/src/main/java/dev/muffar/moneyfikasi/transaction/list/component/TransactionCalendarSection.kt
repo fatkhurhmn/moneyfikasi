@@ -56,7 +56,6 @@ fun TransactionCalendarSection(
                 dailyBalances = dailyBalances,
                 selectedDay = selectedDay,
                 onDaySelected = onDaySelected,
-                modifier = Modifier.padding(8.dp)
             )
         }
         if (selectedDay != null) {
@@ -113,21 +112,21 @@ private fun TransactionCalendarGrid(
 
     val rows = cells.chunked(7)
     Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 4.dp),
-        verticalArrangement = Arrangement.spacedBy(2.dp)
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(1.dp)
     ) {
         rows.forEach { row ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(2.dp)
+                horizontalArrangement = Arrangement.spacedBy(1.dp)
             ) {
                 row.forEach { day ->
                     if (day == null) {
-                        Box(modifier = Modifier
-                            .weight(1f)
-                            .padding(4.dp)) {}
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(4.dp)
+                        ) {}
                     } else {
                         val balance = dailyBalances[day]
                         val isToday = isCurrentMonthToday && today.dayOfMonth == day

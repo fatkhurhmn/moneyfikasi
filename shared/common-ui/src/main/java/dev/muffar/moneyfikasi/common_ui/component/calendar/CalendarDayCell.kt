@@ -43,7 +43,7 @@ fun CalendarDayCell(
     val background = when {
         isSelected -> MaterialTheme.colorScheme.primaryContainer
         isToday -> MaterialTheme.colorScheme.secondaryContainer
-        else -> MaterialTheme.colorScheme.surfaceContainerLowest
+        else -> Color.Transparent
     }
     val borderColor = when {
         isSelected -> MaterialTheme.colorScheme.primary
@@ -54,11 +54,11 @@ fun CalendarDayCell(
     Box(
         modifier = modifier
             .height(68.dp)
-            .clip(MaterialTheme.shapes.large)
+            .clip(MaterialTheme.shapes.medium)
             .background(background)
-            .border(1.dp, borderColor, MaterialTheme.shapes.large)
+            .border(1.dp, borderColor, MaterialTheme.shapes.medium)
             .clickable(enabled = isCurrentMonth) { onClick() }
-            .padding(vertical = 8.dp, horizontal = 4.dp),
+            .padding(2.dp),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -68,8 +68,7 @@ fun CalendarDayCell(
         ) {
             Box(
                 modifier = Modifier
-                    .clip(MaterialTheme.shapes.small)
-                    .padding(horizontal = 8.dp, vertical = 2.dp),
+                    .clip(MaterialTheme.shapes.medium),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -78,11 +77,7 @@ fun CalendarDayCell(
                         fontSize = 15.sp,
                         fontWeight = if (isToday || isSelected) FontWeight.Bold else FontWeight.SemiBold
                     ),
-                    color = when {
-                        isSelected -> MaterialTheme.colorScheme.onPrimary
-                        isToday -> MaterialTheme.colorScheme.onSecondaryContainer
-                        else -> MaterialTheme.colorScheme.onSurface
-                    }
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
             if (hasBalance && !isEmpty) {
@@ -99,7 +94,7 @@ fun CalendarDayCell(
                         .background(backgroundColor)
                         .padding(horizontal = 2.dp),
                     text = balance.formatCompact(),
-                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 13.sp),
+                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
                     color = MaterialTheme.colorScheme.onError,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
