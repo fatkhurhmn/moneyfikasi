@@ -78,7 +78,7 @@ class BackupRestoreViewModelDriveTest {
 
     @Test
     fun `requestDriveSignIn with empty webClientId still attempts and handles gracefully`() = runTest {
-        coEvery { mockDriveAuthHelper.signInWithCredentialManager(any()) } returns false
+        coEvery { mockDriveAuthHelper.signInWithCredentialManager(any()) } returns DriveAuthHelper.SignInResult.Failure()
         every { mockDriveAuthHelper.isSignedIn() } returns false
 
         viewModel.requestDriveSignIn(null)
@@ -91,7 +91,7 @@ class BackupRestoreViewModelDriveTest {
 
     @Test
     fun `requestDriveSignIn success refreshes status`() = runTest {
-        coEvery { mockDriveAuthHelper.signInWithCredentialManager(any()) } returns true
+        coEvery { mockDriveAuthHelper.signInWithCredentialManager(any()) } returns DriveAuthHelper.SignInResult.Success
         every { mockDriveAuthHelper.isSignedIn() } returns true
         every { mockDriveAuthHelper.getSignedInAccountEmail() } returns "user@test.com"
         coEvery { mockDriveBackupRepo.isSignedIn() } returns true
