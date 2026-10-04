@@ -29,8 +29,11 @@ jobs:
           command: |
             printf '\norg.gradle.jvmargs=-Xmx5g -Dfile.encoding=UTF-8\nkotlin.compiler.execution.strategy=in-process\norg.gradle.workers.max=2\nandroid.enableR8.fullMode=false\n' >> gradle.properties
       - run:
-          name: Run quality gate
-          command: ./gradlew test bundleRelease
+          name: Run tests
+          command: ./gradlew test --no-daemon -Dorg.gradle.workers.max=1
+      - run:
+          name: Build bundle
+          command: ./gradlew bundleRelease --no-daemon -Dorg.gradle.workers.max=1
       - save_cache:
           key: gradle-v1-{{ checksum "gradle/libs.versions.toml" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
           paths:
