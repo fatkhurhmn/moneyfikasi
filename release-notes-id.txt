@@ -1,6 +1,6 @@
-Versi 1.2.1
-- Penambahan fitur backup & restore via Google Drive
-- Penambahan fitur auto-backup Google Drive
-- Desain ulang tampilan menu Backup & Restore
-- Kebijakan Privasi & Ketentuan kini terbuka di browser
-- Memperbaiki masalah tombol konfirmasi pada input nominal serta peningkatan stabilitas
+Versi 1.3.0
+- Tampilan kalender di Transaksi untuk melihat ringkasan harian
+- Periode anggaran bisa diatur sesuai tanggal tertentu
+- Perbaikan filter tanggal custom
+- Peningkatan stabilitas sinkronisasi Google Drive
+- Perbaikan tampilan dan lokalisasi
