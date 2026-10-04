@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.2 - 2026-10-04
+- Fix Drive authorization consent handling for fresh installs
+
 ## 1.3.1 - 2026-10-04
 - Fix CI build OOM and include GROQ_API_KEY / DRIVE_WEB_CLIENT_ID in release bundles
 
