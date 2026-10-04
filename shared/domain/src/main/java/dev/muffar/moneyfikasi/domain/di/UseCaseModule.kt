@@ -52,6 +52,7 @@ import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetAutoBackupEna
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetAutoBackupPeriod
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetAutoBackupUri
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetDeletePreviousBackup
+import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetDriveAccountEmail
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetDriveAutoBackupEnabled
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetDriveAutoBackupPeriod
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetLatestBackup
@@ -224,6 +225,7 @@ object UseCaseModule {
         setDeletePreviousBackup = SetDeletePreviousBackup(backupSettingsRepository),
         setDriveAutoBackupEnabled = SetDriveAutoBackupEnabled(backupSettingsRepository),
         setDriveAutoBackupPeriod = SetDriveAutoBackupPeriod(backupSettingsRepository),
+        setDriveAccountEmail = SetDriveAccountEmail(backupSettingsRepository),
     )
 
     @Provides

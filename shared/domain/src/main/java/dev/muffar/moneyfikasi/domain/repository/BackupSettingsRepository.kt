@@ -16,4 +16,5 @@ interface BackupSettingsRepository {
     suspend fun setDeletePreviousBackup(isEnabled: Boolean)
     suspend fun setDriveAutoBackupEnabled(isEnabled: Boolean)
     suspend fun setDriveAutoBackupPeriod(period: TimePeriod)
+    suspend fun setDriveAccountEmail(email: String)
 }

@@ -4,20 +4,24 @@ import android.accounts.Account
 import android.content.Context
 import androidx.credentials.CredentialManager
 import com.google.android.gms.auth.api.identity.AuthorizationClient
+import dev.muffar.moneyfikasi.data.preferences.BackupPreferences
+import dev.muffar.moneyfikasi.domain.model.BackupSettings
+import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import java.lang.reflect.Field
 
 class DriveAuthHelperTest {
 
     private lateinit var mockContext: Context
     private lateinit var mockCredentialManager: CredentialManager
     private lateinit var mockAuthClient: AuthorizationClient
+    private lateinit var mockBackupPreferences: BackupPreferences
     private lateinit var helper: DriveAuthHelper
 
     @Before
@@ -25,7 +29,9 @@ class DriveAuthHelperTest {
         mockContext = mockk(relaxed = true)
         mockCredentialManager = mockk(relaxed = true)
         mockAuthClient = mockk(relaxed = true)
-        helper = DriveAuthHelper(mockContext, mockCredentialManager, mockAuthClient)
+        mockBackupPreferences = mockk(relaxed = true)
+        every { mockBackupPreferences.backupSettings } returns flowOf(BackupSettings())
+        helper = DriveAuthHelper(mockContext, mockCredentialManager, mockAuthClient, mockBackupPreferences)
     }
 
     @Test
@@ -62,7 +68,13 @@ class DriveAuthHelperTest {
         assertTrue(helper.isSignedIn())
     }
 
-    private fun setCachedAccount(account: Account) {
-        helper.setAccountForTesting(account)
+    @Test
+    fun `restores account from DataStore on process restart when cachedAccount is null`() = runTest {
+        val testPrefs = mockk<BackupPreferences>(relaxed = true)
+        every { testPrefs.backupSettings } returns flowOf(BackupSettings(driveAccountEmail = "restored@test.com"))
+
+        val newHelper = DriveAuthHelper(mockContext, mockCredentialManager, mockAuthClient, testPrefs)
+
+        assertTrue(newHelper.isSignedIn())
     }
 }
