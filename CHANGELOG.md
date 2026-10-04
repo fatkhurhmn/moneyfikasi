@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.1 - 2026-10-04
+- Fix CI build OOM and include GROQ_API_KEY / DRIVE_WEB_CLIENT_ID in release bundles
+
 ## 1.3.0 - 2026-10-04
 - Fix custom date filter to include full end day
 - Custom budget period by payday date
