@@ -1,4 +1,4 @@
-Version 1.3.1
+Version 1.3.2
 - Calendar view in Transactions to see daily summaries
 - Custom budget period by specific date
 - Fix for custom date filter
