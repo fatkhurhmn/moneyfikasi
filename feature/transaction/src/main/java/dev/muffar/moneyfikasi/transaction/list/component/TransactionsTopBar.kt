@@ -31,23 +31,25 @@ fun TransactionsTopBar(
         titleSize = 20.sp,
         action = {
             TopBarButton(
-                imageVector = if (isCalendarMode) Icons.AutoMirrored.Rounded.ViewList else Icons.Rounded.CalendarMonth,
-                onClick = onCalendarToggle
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            TopBarButton(
                 imageVector = Icons.Rounded.Search,
                 onClick = onSearchClick
             )
+            if (!isCalendarMode) {
+                Spacer(modifier = Modifier.width(8.dp))
+                TopBarButton(
+                    imageVector = Icons.Rounded.CalendarToday,
+                    onClick = onChooseDateClick
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                FilterIcon(
+                    isFilterApplied = showFilterBadge,
+                    onClick = onFilterClick,
+                )
+            }
             Spacer(modifier = Modifier.width(8.dp))
             TopBarButton(
-                imageVector = Icons.Rounded.CalendarToday,
-                onClick = onChooseDateClick
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            FilterIcon(
-                isFilterApplied = showFilterBadge,
-                onClick = onFilterClick,
+                imageVector = if (isCalendarMode) Icons.AutoMirrored.Rounded.ViewList else Icons.Rounded.CalendarMonth,
+                onClick = onCalendarToggle
             )
         }
     )

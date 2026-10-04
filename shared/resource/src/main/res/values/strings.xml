@@ -109,6 +109,7 @@
     <string name="label_weekly">Weekly</string>
     <string name="label_monthly">Monthly</string>
     <string name="label_yearly">Yearly</string>
+    <string name="label_list">List</string>
     <string name="label_frequency">Frequency</string>
     <string name="label_schedule">Schedule</string>
     <string name="label_preview">Preview</string>

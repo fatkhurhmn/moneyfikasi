@@ -109,6 +109,7 @@
     <string name="label_weekly">Mingguan</string>
     <string name="label_monthly">Bulanan</string>
     <string name="label_yearly">Tahunan</string>
+    <string name="label_list">Daftar</string>
     <string name="label_frequency">Frekuensi</string>
     <string name="label_schedule">Jadwal</string>
     <string name="label_preview">Pratinjau</string>
