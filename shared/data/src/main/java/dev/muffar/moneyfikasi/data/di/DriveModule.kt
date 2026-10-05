@@ -1,8 +1,9 @@
 package dev.muffar.moneyfikasi.data.di
 
 import android.content.Context
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import androidx.credentials.CredentialManager
+import com.google.android.gms.auth.api.identity.AuthorizationClient
+import com.google.android.gms.auth.api.identity.Identity
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,11 +22,15 @@ object DriveModule {
 
     @Provides
     @Singleton
-    fun provideGoogleSignInClient(
+    fun provideCredentialManager(
         @ApplicationContext context: Context
-    ): GoogleSignInClient {
-        return GoogleSignIn.getClient(context, DriveAuthHelper.buildSignInOptions())
-    }
+    ): CredentialManager = CredentialManager.create(context)
+
+    @Provides
+    @Singleton
+    fun provideAuthorizationClient(
+        @ApplicationContext context: Context
+    ): AuthorizationClient = Identity.getAuthorizationClient(context)
 
     @Provides
     @Singleton

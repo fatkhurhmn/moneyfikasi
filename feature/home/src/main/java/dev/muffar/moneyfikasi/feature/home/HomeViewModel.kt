@@ -13,10 +13,12 @@ import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.UiSettingsUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preset.PresetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfBudgetPeriod
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfDay
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfMonth
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfWeek
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfYear
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.startOfBudgetPeriod
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.startOfDay
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.startOfMonth
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.startOfWeek
@@ -141,47 +143,52 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun loadBudgets() {
-        val startOfMonth = LocalDateTime.now().startOfMonth()
-
-        val endOfMonth = LocalDateTime.now().endOfMonth()
-
         viewModelScope.launch {
-            budgetUseCases.getAllBudgets().collectLatest { budgets ->
-                _state.update { it.copy(budgets = budgets) }
-                budgets.forEach { budget ->
-                    launch {
-                        transactionUseCases.getExpenseSum(
-                            startDateRange = startOfMonth,
-                            endDateRange = endOfMonth,
-                            categories = setOf(budget.category),
-                            wallets = emptySet()
-                        ).collectLatest { spent ->
-                            _state.update { state ->
-                                val updatedBudgets = state.budgets.map {
-                                    if (it.id == budget.id) it.copy(spentAmount = spent) else it
+            combine(
+                budgetUseCases.getAllBudgets(),
+                uiSettingsUseCases.getUiSettings().map { it.budgetCutoffDay }.distinctUntilChanged()
+            ) { budgets, cutoffDay -> Pair(budgets, cutoffDay) }
+                .collectLatest { (budgets, cutoffDay) ->
+                    val start = LocalDateTime.now().startOfBudgetPeriod(cutoffDay)
+                    val end = LocalDateTime.now().endOfBudgetPeriod(cutoffDay)
+                    _state.update { it.copy(budgets = budgets) }
+                    budgets.forEach { budget ->
+                        launch {
+                            transactionUseCases.getExpenseSum(
+                                startDateRange = start,
+                                endDateRange = end,
+                                categories = setOf(budget.category),
+                                wallets = emptySet()
+                            ).collectLatest { spent ->
+                                _state.update { state ->
+                                    val updatedBudgets = state.budgets.map {
+                                        if (it.id == budget.id) it.copy(spentAmount = spent) else it
+                                    }
+                                        .sortedByDescending { if (it.amount > 0) it.spentAmount / it.amount else 0.0 }
+                                    state.copy(budgets = updatedBudgets)
                                 }
-                                    .sortedByDescending { if (it.amount > 0) it.spentAmount / it.amount else 0.0 }
-                                state.copy(budgets = updatedBudgets)
                             }
                         }
                     }
                 }
-            }
         }
     }
 
     private fun observeBudgets() {
         viewModelScope.launch {
-            state
-                .map { Pair(it.wallets, it.budgets) }
-                .collectLatest { (wallets, budgets) ->
+            combine(
+                state.map { it.wallets }.distinctUntilChanged(),
+                state.map { it.budgets }.distinctUntilChanged(),
+                uiSettingsUseCases.getUiSettings().map { it.budgetCutoffDay }.distinctUntilChanged()
+            ) { wallets, budgets, cutoffDay -> Triple(wallets, budgets, cutoffDay) }
+                .collectLatest { (wallets, budgets, cutoffDay) ->
+                    val start = LocalDateTime.now().startOfBudgetPeriod(cutoffDay)
+                    val end = LocalDateTime.now().endOfBudgetPeriod(cutoffDay)
                     budgets.forEach { budget ->
                         launch {
-                            val startOfMonth = LocalDateTime.now().startOfMonth()
-                            val endOfMonth = LocalDateTime.now().endOfMonth()
                             transactionUseCases.getExpenseSum(
-                                startDateRange = startOfMonth,
-                                endDateRange = endOfMonth,
+                                startDateRange = start,
+                                endDateRange = end,
                                 categories = setOf(budget.category),
                                 wallets = wallets.toSet()
                             ).collectLatest { spent ->
@@ -309,7 +316,8 @@ class HomeViewModel @Inject constructor(
                         isBalanceVisible = settings.isBalanceVisible,
                         isReportVisible = settings.isReportVisible,
                         isQuickTransactionVisible = settings.isQuickTransactionVisible,
-                        isBudgetVisible = settings.isBudgetVisible
+                        isBudgetVisible = settings.isBudgetVisible,
+                        budgetCutoffDay = settings.budgetCutoffDay
                     )
                 }
             }.launchIn(viewModelScope)

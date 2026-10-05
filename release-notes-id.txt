@@ -1,0 +1,5 @@
+Versi 1.3.3
+- Tampilan kalender di Transaksi untuk melihat ringkasan harian
+- Periode anggaran bisa diatur sesuai tanggal tertentu
+- Perbaikan filter tanggal custom
+- Peningkatan stabilitas sinkronisasi Google Drive

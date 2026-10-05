@@ -1,29 +1,21 @@
 package dev.muffar.moneyfikasi.common_ui.component.transaction
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemKey
-import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
-import dev.muffar.moneyfikasi.common_ui.component.GroupTransactionHeader
-import dev.muffar.moneyfikasi.common_ui.component.transaction.item.TransactionItem
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.formattedDate
 import kotlinx.coroutines.flow.Flow
@@ -58,58 +50,30 @@ fun TransactionsList(
         ) { index ->
             val transaction = transactions[index] ?: return@items
             val prevTransaction = if (index > 0) transactions[index - 1] else null
-            val nextTransaction =
-                if (index < transactions.itemCount - 1) transactions[index + 1] else null
 
             val isNewDay = prevTransaction == null ||
                     transaction.date.formattedDate() != prevTransaction.date.formattedDate()
 
-            val isEndOfDay = nextTransaction == null ||
-                    transaction.date.formattedDate() != nextTransaction.date.formattedDate()
-
-            Column(
-                modifier = Modifier
-                    .clip(
-                        RoundedCornerShape(
-                            topStart = if (isNewDay) 16.dp else 0.dp,
-                            topEnd = if (isNewDay) 16.dp else 0.dp,
-                            bottomStart = if (isEndOfDay) 16.dp else 0.dp,
-                            bottomEnd = if (isEndOfDay) 16.dp else 0.dp
-                        )
-                    )
-                    .background(MaterialTheme.colorScheme.surface)
-            ) {
-                if (isNewDay) {
-                    val dailyBalanceFlow = remember(transaction.date.toLocalDate()) {
-                        onGetDailyBalance(transaction.date)
-                    }
-                    val balance by dailyBalanceFlow.collectAsState(initial = 0.0)
-                    GroupTransactionHeader(date = transaction.date, balance)
-                    CommonHorizontalDivider(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.8f)
-                    )
+            // Only render one card per day group (when isNewDay), collect day's transactions
+            if (isNewDay) {
+                val dayTransactions = mutableListOf<Transaction>()
+                var i = index
+                while (i < transactions.itemCount) {
+                    val tx = transactions[i] ?: break
+                    if (tx.date.formattedDate() != transaction.date.formattedDate()) break
+                    dayTransactions.add(tx)
+                    i++
                 }
-
-                TransactionItem(
-                    transaction = transaction,
-                    onClick = { id ->
-                        onItemClick(
-                            id,
-                            transaction.isTransfer || transaction.category.isFeeTransfer
-                        )
-                    }
+                val dailyBalanceFlow = remember(transaction.date.toLocalDate()) {
+                    onGetDailyBalance(transaction.date)
+                }
+                val balance by dailyBalanceFlow.collectAsState(initial = 0.0)
+                TransactionDayGroupCard(
+                    date = transaction.date,
+                    balance = balance,
+                    transactions = dayTransactions,
+                    onTransactionClick = onItemClick
                 )
-
-                if (!isEndOfDay) {
-                    CommonHorizontalDivider(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.8f)
-                    )
-                }
-            }
-
-            if (isEndOfDay) {
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }

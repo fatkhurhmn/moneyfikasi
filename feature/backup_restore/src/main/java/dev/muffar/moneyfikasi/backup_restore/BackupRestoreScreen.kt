@@ -1,8 +1,6 @@
 package dev.muffar.moneyfikasi.backup_restore
 
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,7 +11,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -32,8 +33,10 @@ import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.resource.R
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun BackupRestoreScreen(
@@ -46,8 +49,7 @@ fun BackupRestoreScreen(
     onAutoBackupFolderSelected: (Uri) -> Unit,
     onAutoBackupPeriodSelected: (TimePeriod) -> Unit,
     onDeletePreviousBackupChange: (Boolean) -> Unit,
-    getDriveSignInIntent: () -> android.content.Intent,
-    onDriveSignInResult: (Boolean) -> Unit,
+    onRequestDriveSignIn: () -> Unit,
     onDriveSignOut: () -> Unit,
     onDriveBackup: () -> Unit,
     onDriveRefresh: () -> Unit,
@@ -58,11 +60,15 @@ fun BackupRestoreScreen(
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
+    val scrollState = rememberScrollState()
+    var userClickedConnect by remember { mutableStateOf(false) }
 
-    val driveSignInLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {
-        onDriveSignInResult(it.resultCode == android.app.Activity.RESULT_OK)
+    LaunchedEffect(state.isDriveSignedIn, state.isDriveLoading) {
+        if (userClickedConnect && state.isDriveSignedIn && !state.isDriveLoading) {
+            delay(100L.milliseconds)
+            scrollState.animateScrollTo(scrollState.maxValue)
+            userClickedConnect = false
+        }
     }
 
     Scaffold(
@@ -79,7 +85,7 @@ fun BackupRestoreScreen(
             modifier = modifier
                 .padding(it)
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(scrollState)
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
             BackupRestoreText()
@@ -119,7 +125,10 @@ fun BackupRestoreScreen(
 
             DriveBackupSection(
                 state = state,
-                onSignInClick = { driveSignInLauncher.launch(getDriveSignInIntent()) },
+                onSignInClick = {
+                    userClickedConnect = true
+                    onRequestDriveSignIn()
+                },
                 onSignOutClick = onDriveSignOut,
                 onBackupClick = onDriveBackup,
                 onRestoreClick = onDriveRestore,
@@ -142,6 +151,7 @@ fun BackupRestoreScreen(
                     } ?: context.applicationContext.getString(it.messageResId)
                     snackbarHostState.showMessage(message, it.type)
                 }
+                is BackupRestoreViewModel.UiEvent.RequestDriveAuthorization -> Unit // handled in navigation
             }
         }
     }

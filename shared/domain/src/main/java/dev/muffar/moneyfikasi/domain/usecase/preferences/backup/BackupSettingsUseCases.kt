@@ -8,5 +8,6 @@ data class BackupSettingsUseCases(
     val setAutoBackupPeriod: SetAutoBackupPeriod,
     val setDeletePreviousBackup: SetDeletePreviousBackup,
     val setDriveAutoBackupEnabled: SetDriveAutoBackupEnabled,
-    val setDriveAutoBackupPeriod: SetDriveAutoBackupPeriod
+    val setDriveAutoBackupPeriod: SetDriveAutoBackupPeriod,
+    val setDriveAccountEmail: SetDriveAccountEmail
 )

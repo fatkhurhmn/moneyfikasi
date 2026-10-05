@@ -1,18 +1,23 @@
 package dev.muffar.moneyfikasi.budget.add_edit
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.budget.add_edit.component.AddEditBudgetForm
 import dev.muffar.moneyfikasi.common_ui.component.ModifierExt.formModifier
+import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.BudgetCutoffPickerSheet
 import dev.muffar.moneyfikasi.common_ui.component.button.bottom_bar.BottomBarAddEditButton
 import dev.muffar.moneyfikasi.common_ui.component.dialog.CommonAlertDialog
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
@@ -30,6 +35,7 @@ fun AddEditBudgetScreen(
     onAmountChange: (String) -> Unit,
     onCategorySelect: (Category) -> Unit,
     onAddNewCategoryClick: () -> Unit,
+    onCutoffDayChange: (Int) -> Unit,
     onShowAlert: (Boolean) -> Unit,
     onSubmit: () -> Unit,
     onDelete: () -> Unit,
@@ -38,6 +44,7 @@ fun AddEditBudgetScreen(
     val scrollState = rememberScrollState()
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
+    var showPicker by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -61,8 +68,17 @@ fun AddEditBudgetScreen(
             state = state,
             onAmountChange = onAmountChange,
             onCategorySelect = onCategorySelect,
-            onAddNewCategoryClick = onAddNewCategoryClick
+            onAddNewCategoryClick = onAddNewCategoryClick,
+            onSettingsClick = { showPicker = true }
         )
+
+        AnimatedVisibility(showPicker) {
+            BudgetCutoffPickerSheet(
+                selectedDay = state.budgetCutoffDay,
+                onDaySelect = onCutoffDayChange,
+                onDismissRequest = { showPicker = false }
+            )
+        }
     }
 
     if (state.showAlert) {

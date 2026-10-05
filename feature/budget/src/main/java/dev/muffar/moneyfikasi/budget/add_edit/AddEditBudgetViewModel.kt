@@ -10,18 +10,24 @@ import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.usecase.budget.BudgetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
+import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.UiSettingsUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.constants.ValidationConst
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.endOfBudgetPeriod
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.startOfBudgetPeriod
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.threeten.bp.LocalDateTime
 import java.util.UUID
 import javax.inject.Inject
 
@@ -29,6 +35,7 @@ import javax.inject.Inject
 class AddEditBudgetViewModel @Inject constructor(
     private val budgetUseCases: BudgetUseCases,
     private val categoryUseCases: CategoryUseCases,
+    private val uiSettingsUseCases: UiSettingsUseCases,
     private val handle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -42,6 +49,7 @@ class AddEditBudgetViewModel @Inject constructor(
         initState()
         loadCategories()
         loadBudgets()
+        observeBudgetPeriod()
     }
 
     fun onEvent(event: AddEditBudgetEvent) {
@@ -86,6 +94,24 @@ class AddEditBudgetViewModel @Inject constructor(
                 .collectLatest { categories ->
                     _state.update { it.copy(categoryOptions = categories) }
                 }
+        }
+    }
+
+    private fun observeBudgetPeriod() {
+        viewModelScope.launch {
+            uiSettingsUseCases.getUiSettings().map { it.budgetCutoffDay }
+                .distinctUntilChanged()
+                .collectLatest { cutoffDay ->
+                    val start = LocalDateTime.now().startOfBudgetPeriod(cutoffDay)
+                    val end = LocalDateTime.now().endOfBudgetPeriod(cutoffDay)
+                    _state.update { it.copy(budgetCutoffDay = cutoffDay, periodStart = start, periodEnd = end) }
+                }
+        }
+    }
+
+    fun setBudgetCutoffDay(day: Int) {
+        viewModelScope.launch {
+            uiSettingsUseCases.setBudgetCutoffDay(day)
         }
     }
 

@@ -1,7 +1,9 @@
 [versions]
 agp = "9.2.1"
 capturable = "3.0.1"
+coreTesting = "2.2.0"
 kotlin = "2.3.21"
+kotlinxCoroutinesTest = "1.8.1"
 ksp = "2.3.7"
 coreKtx = "1.18.0"
 junit = "4.13.2"
@@ -10,6 +12,7 @@ espressoCore = "3.7.0"
 lifecycleRuntimeKtx = "2.10.0"
 activityCompose = "1.13.0"
 composeBom = "2026.05.01"
+mockk = "1.13.12"
 navigation = "2.9.8"
 room = "2.8.4"
 dagger-hilt = "2.59.2"
@@ -21,6 +24,7 @@ mp-android-chart = "v3.1.0"
 documentfile = "1.1.0"
 datastore = "1.2.1"
 kotlinx-serialization = "1.11.0"
+threetenbp = "1.6.8"
 work-manager = "2.11.1"
 appcompat = "1.7.1"
 biometric = "1.4.0-alpha05"
@@ -33,9 +37,11 @@ googleApiClientAndroid = "2.7.2"
 googleApiServicesDrive = "v3-rev20241027-2.0.0"
 credentials = "1.6.0"
 googleId = "1.1.1"
+playPublisher = "4.1.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 
@@ -55,6 +61,7 @@ androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 material-icon = { group = "androidx.compose.material", name = "material-icons-extended" }
 compose-shimmer = { group = "com.valentinilk.shimmer", name = "compose-shimmer", version.ref = "compose-shimmer" }
 
@@ -68,6 +75,7 @@ dagger-hilt-android = { group = "com.google.dagger", name = "hilt-android", vers
 dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "dagger-hilt" }
 
 # Room
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
@@ -101,9 +109,11 @@ google-api-services-drive = { group = "com.google.apis", name = "google-api-serv
 androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "credentials" }
 androidx-credentials-play-services-auth = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "credentials" }
 googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleId" }
+threetenbp = { module = "org.threeten:threetenbp", version.ref = "threetenbp" }
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
+playPublisher = { id = "com.github.triplet.play", version.ref = "playPublisher" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 daggerHilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger-hilt" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

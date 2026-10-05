@@ -8,6 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.model.Category
 import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
+import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
@@ -37,7 +38,7 @@ class StatisticDetailViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     private var category: Category? = null
-    private var wallets: Set<dev.muffar.moneyfikasi.domain.model.Wallet> = emptySet()
+    private var wallets: Set<Wallet> = emptySet()
 
     init {
         initState()

@@ -1,0 +1,145 @@
+package dev.muffar.moneyfikasi.common_ui.component.calendar
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
+import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
+import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatCompact
+
+@Composable
+fun CalendarDayCell(
+    day: Int,
+    balance: Double?,
+    isToday: Boolean,
+    isSelected: Boolean,
+    isCurrentMonth: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val hasBalance = balance != null
+
+    val background = when {
+        isSelected -> MaterialTheme.colorScheme.primaryContainer
+        isToday -> MaterialTheme.colorScheme.secondaryContainer
+        else -> Color.Transparent
+    }
+    val borderColor = when {
+        isSelected -> MaterialTheme.colorScheme.primary
+        else -> Color.Transparent
+    }
+
+    val isEmpty = !hasBalance || balance == 0.0
+    Box(
+        modifier = modifier
+            .height(68.dp)
+            .clip(MaterialTheme.shapes.medium)
+            .background(background)
+            .border(1.dp, borderColor, MaterialTheme.shapes.medium)
+            .clickable(enabled = isCurrentMonth) { onClick() }
+            .padding(2.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Box(
+                modifier = Modifier
+                    .clip(MaterialTheme.shapes.medium),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = day.toString(),
+                    style = MaterialTheme.typography.titleSmall.copy(
+                        fontSize = 15.sp,
+                        fontWeight = if (isToday || isSelected) FontWeight.Bold else FontWeight.SemiBold
+                    ),
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+            if (hasBalance && !isEmpty) {
+                val isNegative = balance < 0
+                val isPositive = balance > 0
+                val backgroundColor = when {
+                    isNegative -> MoneyfikasiTheme.financeColors.expense
+                    isPositive -> MoneyfikasiTheme.financeColors.income
+                    else -> Color.Transparent
+                }
+                Text(
+                    modifier = Modifier
+                        .clip(MaterialTheme.shapes.extraSmall)
+                        .background(backgroundColor)
+                        .padding(horizontal = 2.dp),
+                    text = balance.formatCompact(),
+                    style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
+                    color = MaterialTheme.colorScheme.onError,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            } else {
+                Text(
+                    text = "—",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.35f)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun WeekdayHeader() {
+    val weekdays = listOf(
+        stringResource(R.string.weekday_monday),
+        stringResource(R.string.weekday_tuesday),
+        stringResource(R.string.weekday_wednesday),
+        stringResource(R.string.weekday_thursday),
+        stringResource(R.string.weekday_friday),
+        stringResource(R.string.weekday_saturday),
+        stringResource(R.string.weekday_sunday)
+    )
+    PrimaryCard(modifier = Modifier.padding(horizontal = 12.dp)) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(MaterialTheme.shapes.medium)
+                .padding(vertical = 8.dp, horizontal = 4.dp),
+            horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            weekdays.forEach { day ->
+                Text(
+                    text = day,
+                    style = MaterialTheme.typography.labelSmall.copy(
+                        fontSize = 12.sp,
+                    ),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.weight(1f),
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+    }
+}

@@ -3,6 +3,7 @@ package dev.muffar.moneyfikasi.backup_restore
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -19,7 +20,10 @@ import dev.muffar.moneyfikasi.data.worker.BackupWorker
 import dev.muffar.moneyfikasi.data.worker.DriveBackupWorker
 import dev.muffar.moneyfikasi.domain.model.LatestBackup
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
+import dev.muffar.moneyfikasi.data.remote.drive.DriveAuthHelper
+import dev.muffar.moneyfikasi.domain.repository.DriveBackupRepository
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupRestoreUseCases
+import dev.muffar.moneyfikasi.domain.usecase.drive.DriveBackupUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.BackupSettingsUseCases
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.delay
@@ -38,9 +42,9 @@ import javax.inject.Inject
 class BackupRestoreViewModel @Inject constructor(
     private val backupRestoreUseCases: BackupRestoreUseCases,
     private val backupSettingsUseCases: BackupSettingsUseCases,
-    private val driveBackupUseCases: dev.muffar.moneyfikasi.domain.usecase.drive.DriveBackupUseCases,
-    private val driveBackupRepository: dev.muffar.moneyfikasi.domain.repository.DriveBackupRepository,
-    private val driveAuthHelper: dev.muffar.moneyfikasi.data.remote.drive.DriveAuthHelper,
+    private val driveBackupUseCases: DriveBackupUseCases,
+    private val driveBackupRepository: DriveBackupRepository,
+    private val driveAuthHelper: DriveAuthHelper,
     @param:ApplicationContext private val context: Context,
 ) : ViewModel() {
 
@@ -63,8 +67,41 @@ class BackupRestoreViewModel @Inject constructor(
         refreshDriveStatus()
     }
 
-    fun getDriveSignInIntent(): Intent {
-        return driveAuthHelper.getSignInIntent()
+    fun requestDriveSignIn(activity: android.app.Activity? = null) {
+        viewModelScope.launch {
+            when (val result = try {
+                driveAuthHelper.signInWithCredentialManager(activity)
+            } catch (e: Exception) {
+                Log.e("BackupRestoreViewModel", "Error signing in to Drive", e)
+                DriveAuthHelper.SignInResult.Failure(e.message) }) {
+                is DriveAuthHelper.SignInResult.Success -> refreshDriveStatus(loadList = true)
+                is DriveAuthHelper.SignInResult.NeedsAuthorization -> {
+                    val pi = result.pendingIntent
+                    if (pi != null) {
+                        _eventFlow.emit(UiEvent.RequestDriveAuthorization(pi))
+                    } else {
+                        _eventFlow.emit(UiEvent.ShowMessage(R.string.error_backup_failed, SnackbarType.ERROR))
+                    }
+                }
+                is DriveAuthHelper.SignInResult.Failure -> {
+                    if (!driveAuthHelper.isSignedIn()) {
+                        _eventFlow.emit(UiEvent.ShowMessage(R.string.error_backup_failed, SnackbarType.ERROR))
+                    } else {
+                        refreshDriveStatus(loadList = true)
+                    }
+                }
+            }
+        }
+    }
+
+    fun onDriveAuthorizationResult(granted: Boolean) {
+        viewModelScope.launch {
+            if (granted) {
+                refreshDriveStatus(loadList = true)
+            } else {
+                _eventFlow.emit(UiEvent.ShowMessage(R.string.error_backup_failed, SnackbarType.ERROR))
+            }
+        }
     }
 
     fun onEvent(event: BackupRestoreEvent) {
@@ -93,7 +130,7 @@ class BackupRestoreViewModel @Inject constructor(
             } catch (_: Exception) {
                 false
             }
-            val email = driveAuthHelper.getSignedInAccount()?.email.orEmpty()
+            val email = driveAuthHelper.getSignedInAccountEmail()
             _state.value = _state.value.copy(
                 isDriveSignedIn = signedIn,
                 driveAccountEmail = email
@@ -411,6 +448,7 @@ class BackupRestoreViewModel @Inject constructor(
             val type: SnackbarType,
             val formatArg: String? = null
         ) : UiEvent()
+        data class RequestDriveAuthorization(val pendingIntent: android.app.PendingIntent) : UiEvent()
     }
 
     companion object {

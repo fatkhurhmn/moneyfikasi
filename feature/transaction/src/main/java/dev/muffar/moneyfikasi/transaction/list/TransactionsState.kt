@@ -23,4 +23,9 @@ data class TransactionsState(
     val showFilterSheet: Boolean = false,
     val showChooseDateSheet: Boolean = false,
     val showCustomDateSheet: Boolean = false,
+    val isCalendarMode: Boolean = false,
+    val calendarMonth: LocalDateTime = LocalDateTime.now().withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0),
+    val calendarDailyBalances: Map<Int, Double> = emptyMap(),
+    val calendarSelectedDay: Int? = null,
+    val calendarSelectedDayTransactions: List<Transaction> = emptyList(),
 )

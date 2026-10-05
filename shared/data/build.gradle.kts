@@ -16,15 +16,18 @@ android {
             localPropertiesFile.inputStream().use { load(it) }
         }
     }
-    val geminiApiKey = localProperties.getProperty("GEMINI_API_KEY") ?: ""
-    val groqApiKey = localProperties.getProperty("GROQ_API_KEY") ?: ""
-    val driveWebClientId = localProperties.getProperty("DRIVE_WEB_CLIENT_ID") ?: ""
+    fun prop(name: String): String =
+        providers.gradleProperty(name)
+            .orElse(providers.environmentVariable(name))
+            .orElse(providers.provider { localProperties.getProperty(name) })
+            .getOrElse("")
+    val groqApiKey = prop("GROQ_API_KEY")
+    val driveWebClientId = prop("DRIVE_WEB_CLIENT_ID")
 
     defaultConfig {
         ksp {
             arg("room.schemaLocation", "$projectDir/schemas")
         }
-        buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
         buildConfigField("String", "GROQ_API_KEY", "\"$groqApiKey\"")
         buildConfigField("String", "DRIVE_WEB_CLIENT_ID", "\"$driveWebClientId\"")
     }
@@ -72,4 +75,10 @@ dependencies {
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
+
+    testImplementation(libs.junit)
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
+    testImplementation("io.mockk:mockk:1.13.12")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("org.threeten:threetenbp:1.6.8")
 }

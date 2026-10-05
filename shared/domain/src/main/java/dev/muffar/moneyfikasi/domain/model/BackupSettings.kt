@@ -8,5 +8,6 @@ data class BackupSettings(
     val autoBackup: AutoBackup = AutoBackup(),
     val isDeletePreviousBackup: Boolean = true,
     val isDriveAutoBackupEnabled: Boolean = false,
-    val driveAutoBackupPeriod: String = TimePeriod.DAILY.name
+    val driveAutoBackupPeriod: String = TimePeriod.DAILY.name,
+    val driveAccountEmail: String = ""
 )

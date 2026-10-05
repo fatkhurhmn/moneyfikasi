@@ -93,9 +93,9 @@ class TransferTransactionViewModel @Inject constructor(
         } else {
             _state.update {
                 it.copy(
-                    amount = amount ?: "0",
+                    amount = amount?.ifEmpty { "0" } ?: "0",
                     note = note ?: "",
-                    fee = fee ?: "0"
+                    fee = fee?.ifEmpty { "0" } ?: "0"
                 )
             }
             if (!fromWalletName.isNullOrEmpty() || !toWalletName.isNullOrEmpty()) {

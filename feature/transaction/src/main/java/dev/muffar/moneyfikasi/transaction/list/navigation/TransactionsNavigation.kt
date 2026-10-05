@@ -31,7 +31,11 @@ fun NavGraphBuilder.transactionsNavigation(
             onSearchClick = onNavigateToSearch,
             onResetFilter = { event(TransactionsEvent.ResetFilter) },
             onFilterChanged = { event(TransactionsEvent.FilterChanged(it)) },
-            onGetDailyBalance = viewModel::getDailyBalance
+            onGetDailyBalance = viewModel::getDailyBalance,
+            onCalendarToggle = { event(TransactionsEvent.ToggleCalendarMode) },
+            onCalendarPreviousMonth = { event(TransactionsEvent.CalendarPreviousMonth) },
+            onCalendarNextMonth = { event(TransactionsEvent.CalendarNextMonth) },
+            onCalendarDaySelected = { event(TransactionsEvent.CalendarDaySelected(it)) }
         )
     }
 }

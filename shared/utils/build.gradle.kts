@@ -12,4 +12,7 @@ dependencies {
     implementation(libs.threetenabp)
 
     implementation(projects.shared.resource)
+
+    testImplementation(libs.junit)
+    testImplementation("org.threeten:threetenbp:1.6.8")
 }

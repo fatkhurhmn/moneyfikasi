@@ -4,24 +4,20 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.paging.LoadState
-import androidx.paging.compose.collectAsLazyPagingItems
-import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.ChooseDateSheet
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.CustomDateSheet
-import dev.muffar.moneyfikasi.common_ui.component.calendar_header.DateRangeSwitcher
-import dev.muffar.moneyfikasi.common_ui.component.transaction.TransactionsList
 import dev.muffar.moneyfikasi.domain.model.DateRange
 import dev.muffar.moneyfikasi.domain.model.TransactionFilter
-import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.transaction.list.component.TransactionCalendarSection
+import dev.muffar.moneyfikasi.transaction.list.component.TransactionListSection
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsFilterSheet
-import dev.muffar.moneyfikasi.transaction.list.component.TransactionsLoading
 import dev.muffar.moneyfikasi.transaction.list.component.TransactionsTopBar
 import kotlinx.coroutines.flow.Flow
 import org.threeten.bp.LocalDateTime
@@ -41,43 +37,50 @@ fun TransactionsScreen(
     onResetFilter: () -> Unit,
     onFilterChanged: (TransactionFilter) -> Unit,
     onGetDailyBalance: (LocalDateTime) -> Flow<Double>,
+    onCalendarToggle: () -> Unit = {},
+    onCalendarPreviousMonth: () -> Unit = {},
+    onCalendarNextMonth: () -> Unit = {},
+    onCalendarDaySelected: (Int) -> Unit = {},
 ) {
-    val transactions = state.transactions.collectAsLazyPagingItems()
-
     Scaffold(
         topBar = {
             TransactionsTopBar(
                 onChooseDateClick = { onShowChooseDateSheet(true) },
                 onSearchClick = onSearchClick,
                 showFilterBadge = state.isFilterApplied,
+                isCalendarMode = state.isCalendarMode,
+                onCalendarToggle = onCalendarToggle,
                 onFilterClick = { onShowFilterSheet(true) }
             )
         },
         contentWindowInsets = WindowInsets(0.dp),
     ) {
+        val calendarScrollState = rememberScrollState()
         Column(
-            modifier = Modifier.padding(it)
+            modifier = Modifier
+                .padding(it)
+                .then(if (state.isCalendarMode) Modifier.verticalScroll(calendarScrollState) else Modifier)
+                .then(if (state.isCalendarMode) Modifier.padding(bottom = 16.dp) else Modifier)
         ) {
-            DateRangeSwitcher(
-                timeReference = state.timeReference,
-                dateRange = state.dateRange,
-                onTimeReferenceChange = onTimeReferenceChange,
-            )
-
-            if (transactions.loadState.refresh is LoadState.Loading) {
-                TransactionsLoading()
-            } else if (transactions.itemCount == 0) {
-                EmptyDataList(
-                    title = stringResource(id = R.string.empty_transactions_title),
-                    description = stringResource(id = R.string.empty_transactions_msg),
-                    bottomPadding = true
+            if (state.isCalendarMode) {
+                TransactionCalendarSection(
+                    calendarMonth = state.calendarMonth,
+                    dailyBalances = state.calendarDailyBalances,
+                    selectedDay = state.calendarSelectedDay,
+                    selectedDayTransactions = state.calendarSelectedDayTransactions,
+                    onPreviousMonth = onCalendarPreviousMonth,
+                    onNextMonth = onCalendarNextMonth,
+                    onDaySelected = onCalendarDaySelected,
+                    onTransactionClick = onTransactionItemClick
                 )
             } else {
-                TransactionsList(
-                    transactions = transactions,
-                    onItemClick = onTransactionItemClick,
-                    onGetDailyBalance = onGetDailyBalance,
-                    extraBottomSpace = true
+                TransactionListSection(
+                    timeReference = state.timeReference,
+                    dateRange = state.dateRange,
+                    transactions = state.transactions,
+                    onTimeReferenceChange = onTimeReferenceChange,
+                    onTransactionClick = onTransactionItemClick,
+                    onGetDailyBalance = onGetDailyBalance
                 )
             }
         }

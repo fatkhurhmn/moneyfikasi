@@ -3,6 +3,7 @@ plugins {
     id("moneyfikasi.android.compose")
     alias(libs.plugins.ksp)
     alias(libs.plugins.daggerHilt)
+    alias(libs.plugins.playPublisher)
 }
 
 android {
@@ -13,6 +14,28 @@ android {
         versionCode = AppConfig.VERSION_CODE
         versionName = AppConfig.VERSION_NAME
     }
+}
+
+play {
+    // Auth priority (handled by GPP):
+    // 1. ANDROID_PUBLISHER_CREDENTIALS env var (JSON content) — used in CI
+    // 2. serviceAccountCredentials file below — local dev (gitignored)
+    val localCredentials = file("play-account.json")
+    if (localCredentials.exists()) {
+        serviceAccountCredentials.set(localCredentials)
+    }
+    // Override per-run without editing code, e.g.:
+    // ./gradlew publishReleaseBundle -PPLAY_TRACK=production
+    // ./gradlew promoteArtifact -PPLAY_FROM_TRACK=internal -PPLAY_PROMOTE_TRACK=production
+    track.set(
+        providers.gradleProperty("PLAY_TRACK")
+            .orElse(providers.environmentVariable("PLAY_TRACK"))
+            .orElse("internal")
+    )
+    releaseStatus.set(
+        com.github.triplet.gradle.androidpublisher.ReleaseStatus.COMPLETED
+    )
+    defaultToAppBundles.set(true)
 }
 
 dependencies {

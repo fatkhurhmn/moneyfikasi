@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.navigation
 
 import dev.muffar.moneyfikasi.domain.model.CategoryType
+import dev.muffar.moneyfikasi.domain.model.EnterPinType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import java.util.UUID
 
@@ -165,7 +166,7 @@ sealed class Screen(val route: String) {
 
     data object EnterPin : Screen("enter_pin/{type}") {
         const val TYPE = "type"
-        fun routeWithArg(type: dev.muffar.moneyfikasi.domain.model.EnterPinType): String {
+        fun routeWithArg(type: EnterPinType): String {
             return "enter_pin/$type"
         }
     }

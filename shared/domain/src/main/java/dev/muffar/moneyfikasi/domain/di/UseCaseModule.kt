@@ -52,6 +52,7 @@ import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetAutoBackupEna
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetAutoBackupPeriod
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetAutoBackupUri
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetDeletePreviousBackup
+import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetDriveAccountEmail
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetDriveAutoBackupEnabled
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetDriveAutoBackupPeriod
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.SetLatestBackup
@@ -65,9 +66,11 @@ import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetAmountInputType
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetAppLanguage
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetAppTheme
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetBalanceVisibility
+import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetBudgetCutoffDay
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetBudgetVisibility
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetQuickTransactionVisibility
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetReportVisibility
+import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.SetTransactionCalendarMode
 import dev.muffar.moneyfikasi.domain.usecase.preferences.ui.UiSettingsUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preset.DeletePreset
 import dev.muffar.moneyfikasi.domain.usecase.preset.GetAllPresets
@@ -196,7 +199,9 @@ object UseCaseModule {
         setBudgetVisibility = SetBudgetVisibility(uiSettingsRepository),
         setAppTheme = SetAppTheme(uiSettingsRepository),
         setAppLanguage = SetAppLanguage(uiSettingsRepository),
-        setAmountInputType = SetAmountInputType(uiSettingsRepository)
+        setAmountInputType = SetAmountInputType(uiSettingsRepository),
+        setBudgetCutoffDay = SetBudgetCutoffDay(uiSettingsRepository),
+        setTransactionCalendarMode = SetTransactionCalendarMode(uiSettingsRepository)
     )
 
     @Provides
@@ -220,6 +225,7 @@ object UseCaseModule {
         setDeletePreviousBackup = SetDeletePreviousBackup(backupSettingsRepository),
         setDriveAutoBackupEnabled = SetDriveAutoBackupEnabled(backupSettingsRepository),
         setDriveAutoBackupPeriod = SetDriveAutoBackupPeriod(backupSettingsRepository),
+        setDriveAccountEmail = SetDriveAccountEmail(backupSettingsRepository),
     )
 
     @Provides

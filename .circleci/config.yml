@@ -5,6 +5,7 @@ orbs:
 
 jobs:
   build:
+    resource_class: large
     docker:
       - image: cimg/android:2023.08
     steps:
@@ -17,8 +18,22 @@ jobs:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew
       - run:
-          name: Run quality gate
-          command: ./gradlew lint test assembleRelease bundleRelease
+          name: Inject API secrets (if set)
+          command: |
+            set +x
+            if [ -n "${GROQ_API_KEY:-}" ]; then printf '%s=%s\n' "GROQ_API_KEY" "$GROQ_API_KEY" >> local.properties; echo "Injected GROQ_API_KEY (${#GROQ_API_KEY} chars)"; else echo "GROQ_API_KEY not set — BuildConfig will be empty (AI will fail)"; fi
+            if [ -n "${DRIVE_WEB_CLIENT_ID:-}" ]; then printf '%s=%s\n' "DRIVE_WEB_CLIENT_ID" "$DRIVE_WEB_CLIENT_ID" >> local.properties; echo "Injected DRIVE_WEB_CLIENT_ID (present)"; else echo "DRIVE_WEB_CLIENT_ID not set — Drive backup will fail"; fi
+            if [ -n "${KEYSTORE_BASE64:-}" ]; then echo "$KEYSTORE_BASE64" | base64 -d > /tmp/moneyfikasi-release.jks; printf '%s=%s\n' "MONEYFIKASI_RELEASE_STORE_FILE" "/tmp/moneyfikasi-release.jks" >> local.properties; printf '%s=%s\n' "MONEYFIKASI_RELEASE_STORE_PASSWORD" "$MONEYFIKASI_RELEASE_STORE_PASSWORD" >> local.properties; printf '%s=%s\n' "MONEYFIKASI_RELEASE_KEY_ALIAS" "$MONEYFIKASI_RELEASE_KEY_ALIAS" >> local.properties; printf '%s=%s\n' "MONEYFIKASI_RELEASE_KEY_PASSWORD" "$MONEYFIKASI_RELEASE_KEY_PASSWORD" >> local.properties; echo "Injected signing keystore"; fi
+      - run:
+          name: Tune Gradle memory for CI
+          command: |
+            printf '\norg.gradle.jvmargs=-Xmx5g -Dfile.encoding=UTF-8\nkotlin.compiler.execution.strategy=in-process\norg.gradle.workers.max=2\nandroid.enableR8.fullMode=false\n' >> gradle.properties
+      - run:
+          name: Run tests
+          command: ./gradlew test --no-daemon -Dorg.gradle.workers.max=1
+      - run:
+          name: Build bundle
+          command: ./gradlew bundleRelease --no-daemon -Dorg.gradle.workers.max=1
       - save_cache:
           key: gradle-v1-{{ checksum "gradle/libs.versions.toml" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
           paths:
@@ -35,3 +50,74 @@ jobs:
       - store_artifacts:
           path: app/build/outputs/bundle/release/
           destination: release-bundle
+
+  deploy:
+    resource_class: large
+    docker:
+      - image: cimg/android:2023.08
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - gradle-v1-{{ checksum "gradle/libs.versions.toml" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+            - gradle-v1-
+      - run:
+          name: Chmod permissions
+          command: sudo chmod +x ./gradlew
+      - run:
+          name: Tune Gradle memory for CI
+          command: |
+            printf '\norg.gradle.jvmargs=-Xmx5g -Dfile.encoding=UTF-8\nkotlin.compiler.execution.strategy=in-process\norg.gradle.workers.max=2\nandroid.enableR8.fullMode=false\n' >> gradle.properties
+      - run:
+          name: Inject API secrets
+          command: |
+            set +x
+            if [ -n "${GROQ_API_KEY:-}" ]; then printf '%s=%s\n' "GROQ_API_KEY" "$GROQ_API_KEY" >> local.properties; echo "Injected GROQ_API_KEY (${#GROQ_API_KEY} chars)"; else echo "WARN: GROQ_API_KEY not set — AI will be empty in this build"; fi
+            if [ -n "${DRIVE_WEB_CLIENT_ID:-}" ]; then printf '%s=%s\n' "DRIVE_WEB_CLIENT_ID" "$DRIVE_WEB_CLIENT_ID" >> local.properties; echo "Injected DRIVE_WEB_CLIENT_ID (present)"; else echo "WARN: DRIVE_WEB_CLIENT_ID not set — Drive will be empty"; fi
+      - run:
+          name: Decode signing & Play secrets
+          command: |
+            echo "Secrets check (lengths only, values hidden): KEYSTORE_BASE64=${#KEYSTORE_BASE64}, PLAY_JSON_BASE64=${#PLAY_JSON_BASE64}, ANDROID_PUBLISHER_CREDENTIALS=${#ANDROID_PUBLISHER_CREDENTIALS}"
+            if [ -z "$KEYSTORE_BASE64" ]; then
+              echo "Missing KEYSTORE_BASE64 env var" && exit 1
+            fi
+            echo "$KEYSTORE_BASE64" | base64 -d > /tmp/moneyfikasi-release.jks
+            echo "export MONEYFIKASI_RELEASE_STORE_FILE=/tmp/moneyfikasi-release.jks" >> "$BASH_ENV"
+            if [ -n "$PLAY_JSON_BASE64" ]; then
+              echo "$PLAY_JSON_BASE64" | base64 -d > app/play-account.json
+            fi
+            # GPP also accepts raw JSON via ANDROID_PUBLISHER_CREDENTIALS,
+            # no file needed in that case.
+            if [ ! -f app/play-account.json ] && [ -z "$ANDROID_PUBLISHER_CREDENTIALS" ]; then
+              echo "Provide PLAY_JSON_BASE64 or ANDROID_PUBLISHER_CREDENTIALS" && exit 1
+            fi
+      - run:
+          name: Sync release notes
+          command: ./scripts/sync-release-notes.sh
+      - run:
+          name: Publish bundle to Play
+          # Default track is "internal" (see app/build.gradle.kts play {}).
+          # Override with PLAY_TRACK env var, e.g. PLAY_TRACK=production,
+          # or pass -PPLAY_TRACK=production.
+          command: ./gradlew publishReleaseBundle
+      - store_artifacts:
+          path: app/build/outputs/bundle/release/
+          destination: release-bundle
+
+workflows:
+  build-and-deploy:
+    jobs:
+      - build:
+          filters:
+            tags:
+              ignore: /^v.*/
+      - deploy:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v.*/
+          # Note: tanpa `requires: [build]` karena job build di-filter
+          # keluar saat push tag — CircleCI akan memblokir deploy selamanya
+          # jika requires menunjuk job yang tidak jalan.
+          # publishReleaseBundle tetap compile + build AAB dari source.

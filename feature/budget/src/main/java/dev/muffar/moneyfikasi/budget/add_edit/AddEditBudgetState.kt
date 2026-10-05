@@ -14,7 +14,10 @@ data class AddEditBudgetState(
     val categoryError: ErrorMessage = ErrorMessage(),
     val categoryOptions: List<Category> = emptyList(),
     val showAlert: Boolean = false,
-    val budgets: List<Budget> = emptyList()
+    val budgets: List<Budget> = emptyList(),
+    val budgetCutoffDay: Int = 1,
+    val periodStart: Long = 0L,
+    val periodEnd: Long = 0L
 ) {
     val budget: Budget
         get() = Budget(

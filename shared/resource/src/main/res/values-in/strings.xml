@@ -17,6 +17,7 @@
     <string name="title_recurring_transaction">Transaksi Berulang</string>
     <string name="title_transaction">Transaksi</string>
     <string name="title_transactions">Transaksi</string>
+    <string name="title_calendar">Kalender</string>
     <string name="title_wallets">Dompet</string>
     <string name="title_categories">Kategori</string>
     <string name="title_backup_restore">Cadangkan &amp; Pulihkan</string>
@@ -108,6 +109,7 @@
     <string name="label_weekly">Mingguan</string>
     <string name="label_monthly">Bulanan</string>
     <string name="label_yearly">Tahunan</string>
+    <string name="label_list">Daftar</string>
     <string name="label_frequency">Frekuensi</string>
     <string name="label_schedule">Jadwal</string>
     <string name="label_preview">Pratinjau</string>
@@ -305,6 +307,25 @@
     <string name="msg_export_success">Ekspor berhasil</string>
     <string name="msg_image_saved">Gambar disimpan</string>
     <string name="msg_amount_input_method_desc">Pilih cara memasukkan nominal transaksi.</string>
+    <string name="label_calendar">Kalender</string>
+    <string name="msg_calendar_description">Lihat total pengeluaran harian dalam kalender. Ketuk tanggal untuk melihat transaksinya.</string>
+    <string name="label_transactions_on_date">Transaksi %1$s</string>
+    <string name="weekday_monday">Sen</string>
+    <string name="weekday_tuesday">Sel</string>
+    <string name="weekday_wednesday">Rab</string>
+    <string name="weekday_thursday">Kam</string>
+    <string name="weekday_friday">Jum</string>
+    <string name="weekday_saturday">Sab</string>
+    <string name="weekday_sunday">Min</string>
+    <string name="label_budget_period">Periode Anggaran</string>
+    <string name="label_budget_cutoff">Tanggal Awal</string>
+    <string name="label_select_budget_cutoff">Pilih Tanggal Awal</string>
+    <string name="msg_budget_cutoff_desc">Atur tanggal awal periode keuangan bulanan. Anggaran akan di-reset setiap bulan pada tanggal ini.</string>
+    <string name="msg_budget_cutoff_preview">Periode: %1$s - %2$s</string>
+    <string name="msg_budget_period_reset_monthly">Bulanan • 1 - Akhir bulan</string>
+    <string name="msg_budget_period_reset_custom">Reset setiap tanggal %1$d</string>
+    <string name="msg_budget_period_info_monthly">Periode bulanan • Reset tgl 1</string>
+    <string name="msg_budget_period_info_custom">Periode %1$d - %2$d • Tap untuk ubah</string>
 
     <string name="title_ai_transaction">Transaksi AI</string>
     <string name="msg_ai_transaction_description">Ketik transaksi Anda dan biarkan AI menanganinya. Contoh: \"Makan siang 50rb dari Dompet Utama\"</string>

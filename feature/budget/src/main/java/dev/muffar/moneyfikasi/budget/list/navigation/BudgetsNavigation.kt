@@ -25,6 +25,7 @@ fun NavGraphBuilder.budgetsNavigation(
             state = state,
             onBudgetClick = navigateToEditBudget,
             onAddBudgetClick = navigateToAddBudget,
+            onCutoffDayChange = viewModel::setBudgetCutoffDay,
             onBackClick = navigateBack
         )
     }

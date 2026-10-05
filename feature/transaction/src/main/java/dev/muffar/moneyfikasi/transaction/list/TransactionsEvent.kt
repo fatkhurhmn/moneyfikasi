@@ -12,4 +12,8 @@ sealed class TransactionsEvent {
     data class TimeReferenceChanged(val timeReference: LocalDateTime) : TransactionsEvent()
     data object ResetFilter : TransactionsEvent()
     data class FilterChanged(val filter: TransactionFilter) : TransactionsEvent()
+    data object ToggleCalendarMode : TransactionsEvent()
+    data object CalendarPreviousMonth : TransactionsEvent()
+    data object CalendarNextMonth : TransactionsEvent()
+    data class CalendarDaySelected(val day: Int) : TransactionsEvent()
 }

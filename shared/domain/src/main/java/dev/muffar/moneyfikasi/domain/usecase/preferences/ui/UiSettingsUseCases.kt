@@ -8,5 +8,7 @@ data class UiSettingsUseCases(
     val setBudgetVisibility: SetBudgetVisibility,
     val setAppTheme: SetAppTheme,
     val setAppLanguage: SetAppLanguage,
-    val setAmountInputType: SetAmountInputType
+    val setAmountInputType: SetAmountInputType,
+    val setBudgetCutoffDay: SetBudgetCutoffDay,
+    val setTransactionCalendarMode: SetTransactionCalendarMode
 )

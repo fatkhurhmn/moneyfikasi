@@ -17,7 +17,6 @@ fun EnterPinTopAppBar(
             EnterPinType.SET_PIN -> stringResource(R.string.action_set_pin)
             EnterPinType.RESET_PIN -> stringResource(R.string.action_reset_pin)
             EnterPinType.DISABLE_PIN -> stringResource(R.string.action_disable_app_lock)
-            else -> stringResource(R.string.label_app_lock)
         },
         onBackClick = onBackClick
     )

@@ -45,4 +45,8 @@ class BackupSettingsRepositoryImpl @Inject constructor(
     override suspend fun setDriveAutoBackupPeriod(period: TimePeriod) {
         backupPreferences.setDriveAutoBackupPeriod(period)
     }
+
+    override suspend fun setDriveAccountEmail(email: String) {
+        backupPreferences.setDriveAccountEmail(email)
+    }
 }

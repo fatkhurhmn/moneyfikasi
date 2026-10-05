@@ -55,4 +55,10 @@ class BackupPreferences @Inject constructor(
             it.copy(driveAutoBackupPeriod = period.name)
         }
     }
+
+    suspend fun setDriveAccountEmail(email: String) {
+        dataStore.updateData {
+            it.copy(driveAccountEmail = email)
+        }
+    }
 }

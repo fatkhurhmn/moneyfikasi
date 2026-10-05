@@ -1,0 +1,117 @@
+name: CI
+
+# build  -> tiap push branch / PR (quality gate, tanpa publish)
+# deploy -> hanya saat push tag v* (upload AAB ke Play)
+on:
+  push:
+    branches: ["**"]
+    tags: ["v*"]
+  pull_request:
+
+jobs:
+  build:
+    if: "!startsWith(github.ref, 'refs/tags/')"
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Inject API secrets (if set)
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          DRIVE_WEB_CLIENT_ID: ${{ secrets.DRIVE_WEB_CLIENT_ID }}
+        run: |
+          if [ -n "${GROQ_API_KEY:-}" ]; then printf '%s=%s\n' "GROQ_API_KEY" "$GROQ_API_KEY" >> local.properties; echo "Injected GROQ_API_KEY (${#GROQ_API_KEY} chars)"; else echo "GROQ_API_KEY not set — BuildConfig will be empty (AI will fail)"; fi
+          if [ -n "${DRIVE_WEB_CLIENT_ID:-}" ]; then printf '%s=%s\n' "DRIVE_WEB_CLIENT_ID" "$DRIVE_WEB_CLIENT_ID" >> local.properties; echo "Injected DRIVE_WEB_CLIENT_ID (present)"; else echo "DRIVE_WEB_CLIENT_ID not set — Drive backup will fail"; fi
+
+      - name: Run quality gate
+        run: ./gradlew lint test assembleRelease bundleRelease
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: app/build/test-results
+
+      - name: Upload release bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-bundle
+          path: app/build/outputs/bundle/release/
+
+  deploy:
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Decode signing & Play secrets
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          MONEYFIKASI_RELEASE_STORE_PASSWORD: ${{ secrets.MONEYFIKASI_RELEASE_STORE_PASSWORD }}
+          MONEYFIKASI_RELEASE_KEY_ALIAS: ${{ secrets.MONEYFIKASI_RELEASE_KEY_ALIAS }}
+          MONEYFIKASI_RELEASE_KEY_PASSWORD: ${{ secrets.MONEYFIKASI_RELEASE_KEY_PASSWORD }}
+          PLAY_JSON_BASE64: ${{ secrets.PLAY_JSON_BASE64 }}
+          ANDROID_PUBLISHER_CREDENTIALS: ${{ secrets.ANDROID_PUBLISHER_CREDENTIALS }}
+        run: |
+          echo "Secrets check (lengths only, values hidden): KEYSTORE_BASE64=${#KEYSTORE_BASE64}, PLAY_JSON_BASE64=${#PLAY_JSON_BASE64}, ANDROID_PUBLISHER_CREDENTIALS=${#ANDROID_PUBLISHER_CREDENTIALS}"
+          if [ -z "${KEYSTORE_BASE64:-}" ]; then
+            echo "Missing KEYSTORE_BASE64 secret" && exit 1
+          fi
+          echo "$KEYSTORE_BASE64" | base64 -d > /tmp/moneyfikasi-release.jks
+          printf '%s=%s\n' "MONEYFIKASI_RELEASE_STORE_FILE" "/tmp/moneyfikasi-release.jks" >> local.properties
+          printf '%s=%s\n' "MONEYFIKASI_RELEASE_STORE_PASSWORD" "$MONEYFIKASI_RELEASE_STORE_PASSWORD" >> local.properties
+          printf '%s=%s\n' "MONEYFIKASI_RELEASE_KEY_ALIAS" "$MONEYFIKASI_RELEASE_KEY_ALIAS" >> local.properties
+          printf '%s=%s\n' "MONEYFIKASI_RELEASE_KEY_PASSWORD" "$MONEYFIKASI_RELEASE_KEY_PASSWORD" >> local.properties
+          if [ -n "${PLAY_JSON_BASE64:-}" ]; then
+            echo "$PLAY_JSON_BASE64" | base64 -d > app/play-account.json
+          fi
+          # GPP also accepts raw JSON via ANDROID_PUBLISHER_CREDENTIALS,
+          # no file needed in that case.
+          if [ ! -f app/play-account.json ] && [ -z "${ANDROID_PUBLISHER_CREDENTIALS:-}" ]; then
+            echo "Provide PLAY_JSON_BASE64 or ANDROID_PUBLISHER_CREDENTIALS" && exit 1
+          fi
+
+      - name: Inject API secrets
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          DRIVE_WEB_CLIENT_ID: ${{ secrets.DRIVE_WEB_CLIENT_ID }}
+        run: |
+          if [ -n "${GROQ_API_KEY:-}" ]; then printf '%s=%s\n' "GROQ_API_KEY" "$GROQ_API_KEY" >> local.properties; echo "Injected GROQ_API_KEY (${#GROQ_API_KEY} chars)"; else echo "WARN: GROQ_API_KEY not set — AI will be empty in this build"; fi
+          if [ -n "${DRIVE_WEB_CLIENT_ID:-}" ]; then printf '%s=%s\n' "DRIVE_WEB_CLIENT_ID" "$DRIVE_WEB_CLIENT_ID" >> local.properties; echo "Injected DRIVE_WEB_CLIENT_ID (present)"; else echo "WARN: DRIVE_WEB_CLIENT_ID not set — Drive will be empty"; fi
+
+      - name: Sync release notes
+        run: chmod +x scripts/sync-release-notes.sh && ./scripts/sync-release-notes.sh
+
+      - name: Publish bundle to Play
+        # Default track is "internal" (see app/build.gradle.kts play {}).
+        # Override per-run: gh workflow run ... or edit play {} / -PPLAY_TRACK=production
+        run: ./gradlew publishReleaseBundle
+
+      - name: Upload release bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-bundle
+          path: app/build/outputs/bundle/release/

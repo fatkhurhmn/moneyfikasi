@@ -19,6 +19,7 @@ data class HomeState(
     val isReportVisible: Boolean = true,
     val isQuickTransactionVisible: Boolean = true,
     val isBudgetVisible: Boolean = true,
+    val budgetCutoffDay: Int = 1,
     val isLoading: Boolean = false,
     val dateRange: DateRange = DateRange(),
     val categories: Set<Category> = emptySet(),

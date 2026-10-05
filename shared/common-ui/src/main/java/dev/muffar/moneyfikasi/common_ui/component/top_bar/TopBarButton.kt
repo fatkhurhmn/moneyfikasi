@@ -24,12 +24,12 @@ fun TopBarButton(
         modifier = Modifier
             .clip(MaterialTheme.shapes.small)
             .background(MaterialTheme.colorScheme.surface)
-            .size(40.dp)
+            .size(30.dp)
     ) {
         Icon(
             imageVector = imageVector,
             contentDescription = null,
-            modifier = Modifier.size(24.dp),
+            modifier = Modifier.size(22.dp),
             tint = color
         )
     }

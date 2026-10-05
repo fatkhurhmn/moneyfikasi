@@ -17,6 +17,7 @@
     <string name="title_recurring_transaction">Recurring Transaction</string>
     <string name="title_transaction">Transaction</string>
     <string name="title_transactions">Transactions</string>
+    <string name="title_calendar">Calendar</string>
     <string name="title_wallets">Wallets</string>
     <string name="title_categories">Categories</string>
     <string name="title_backup_restore">Backup &amp; Restore</string>
@@ -108,6 +109,7 @@
     <string name="label_weekly">Weekly</string>
     <string name="label_monthly">Monthly</string>
     <string name="label_yearly">Yearly</string>
+    <string name="label_list">List</string>
     <string name="label_frequency">Frequency</string>
     <string name="label_schedule">Schedule</string>
     <string name="label_preview">Preview</string>
@@ -305,6 +307,25 @@
     <string name="msg_export_success">Export successful</string>
     <string name="msg_image_saved">Image saved</string>
     <string name="msg_amount_input_method_desc">Choose how you enter transaction amounts.</string>
+    <string name="label_calendar">Calendar</string>
+    <string name="msg_calendar_description">View daily expense totals in a calendar. Tap a date to see its transactions.</string>
+    <string name="label_transactions_on_date">Transactions on %1$s</string>
+    <string name="weekday_monday">Mon</string>
+    <string name="weekday_tuesday">Tue</string>
+    <string name="weekday_wednesday">Wed</string>
+    <string name="weekday_thursday">Thu</string>
+    <string name="weekday_friday">Fri</string>
+    <string name="weekday_saturday">Sat</string>
+    <string name="weekday_sunday">Sun</string>
+    <string name="label_budget_period">Budget Period</string>
+    <string name="label_budget_cutoff">Start Date</string>
+    <string name="label_select_budget_cutoff">Select Start Date</string>
+    <string name="msg_budget_cutoff_desc">Set the start date for your monthly budget period. Budget will reset every month on this date.</string>
+    <string name="msg_budget_cutoff_preview">Period: %1$s - %2$s</string>
+    <string name="msg_budget_period_reset_monthly">Monthly • 1 - End of month</string>
+    <string name="msg_budget_period_reset_custom">Reset every %1$d</string>
+    <string name="msg_budget_period_info_monthly">Monthly period • Reset on 1st</string>
+    <string name="msg_budget_period_info_custom">Period %1$d - %2$d • Tap to change</string>
 
     <string name="title_ai_transaction">AI Transaction</string>
     <string name="msg_ai_transaction_description">Type your transaction and let AI handle it. Example: \"Lunch 50k from Main Wallet\"</string>

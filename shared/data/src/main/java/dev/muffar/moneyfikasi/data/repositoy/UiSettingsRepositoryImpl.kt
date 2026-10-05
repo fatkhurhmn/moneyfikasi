@@ -41,4 +41,12 @@ class UiSettingsRepositoryImpl @Inject constructor(
     override suspend fun setAmountInputType(type: AmountInputType) {
         uiPreferences.setAmountInputType(type)
     }
+
+    override suspend fun setBudgetCutoffDay(day: Int) {
+        uiPreferences.setBudgetCutoffDay(day)
+    }
+
+    override suspend fun setTransactionCalendarMode(isCalendarMode: Boolean) {
+        uiPreferences.setTransactionCalendarMode(isCalendarMode)
+    }
 }
