@@ -8,9 +8,9 @@ object AppConfig {
 
     private const val VERSION_MAJOR = 1
     private const val VERSION_MINOR = 3
-    private const val VERSION_PATCH = 2
+    private const val VERSION_PATCH = 3
 
-    const val VERSION_CODE = 12
+    const val VERSION_CODE = 13
     const val VERSION_NAME = "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH"
 
     const val ARCHIVE_BASE_NAME = "$APP_NAME-v$VERSION_NAME-$VERSION_CODE"

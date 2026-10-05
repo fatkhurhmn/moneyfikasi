@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.3 - 2026-10-05
+- Migrate CI/CD from CircleCI to GitHub Actions
+
 ## 1.3.2 - 2026-10-04
 - Fix Drive authorization consent handling for fresh installs
 
