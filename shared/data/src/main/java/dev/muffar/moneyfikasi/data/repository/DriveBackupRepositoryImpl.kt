@@ -22,7 +22,7 @@ import javax.inject.Inject
 import kotlin.system.exitProcess
 
 class DriveBackupRepositoryImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
+    @param:ApplicationContext private val context: Context,
     private val db: MoneyfikasiDatabase,
     private val authHelper: DriveAuthHelper,
     private val dataSource: DriveBackupDataSource

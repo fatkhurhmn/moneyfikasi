@@ -1,6 +1,5 @@
 package dev.muffar.moneyfikasi.data.repository
 
-import android.util.Log
 import dev.muffar.moneyfikasi.data.BuildConfig
 import dev.muffar.moneyfikasi.data.mapper.toAiError
 import dev.muffar.moneyfikasi.data.remote.groq.GroqApiService
@@ -18,7 +17,6 @@ import dev.muffar.moneyfikasi.utils.extensions.StringExt.normalizeAmountText
 import kotlinx.coroutines.flow.first
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.json.Json
-import retrofit2.HttpException
 import javax.inject.Inject
 
 class AiRepositoryImpl @Inject constructor(
