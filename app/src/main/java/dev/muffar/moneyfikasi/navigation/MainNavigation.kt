@@ -17,9 +17,9 @@ import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.export.navigation.exportNavGraph
 import dev.muffar.moneyfikasi.export.navigation.toExportScreen
-import dev.muffar.moneyfikasi.feature.applock.appLockNavGraph
-import dev.muffar.moneyfikasi.feature.applock.enter_pin.navigation.toEnterPinScreen
-import dev.muffar.moneyfikasi.feature.applock.main.navigation.toAppLockScreen
+import dev.muffar.moneyfikasi.applock.appLockNavGraph
+import dev.muffar.moneyfikasi.applock.enter_pin.navigation.toEnterPinScreen
+import dev.muffar.moneyfikasi.applock.main.navigation.toAppLockScreen
 import dev.muffar.moneyfikasi.feature.home.navigation.homeNavigation
 import dev.muffar.moneyfikasi.more.navigation.moreNavGraph
 import dev.muffar.moneyfikasi.notification.navigation.navigateToNotification

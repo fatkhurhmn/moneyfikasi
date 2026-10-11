@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "dev.muffar.moneyfikasi.feature.applock"
+    namespace = "dev.muffar.moneyfikasi.applock"
 }
 
 dependencies {
