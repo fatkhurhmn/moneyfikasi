@@ -52,7 +52,7 @@ class CategoryRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateDefaultCategories(language: AppLanguage) {
-        val targetCategories = InitDataSource.getCategories(context.localized(language))
+        val targetCategories = InitDataSource.getSystemCategories(context.localized(language))
         val defaultCategories = supportedDefaultCategories()
         val defaultNamesByKey = defaultCategories
             .groupBy { it.defaultKey }
@@ -80,7 +80,7 @@ class CategoryRepositoryImpl @Inject constructor(
             AppLanguage.ENGLISH,
             AppLanguage.INDONESIAN,
         ).flatMap { language ->
-            InitDataSource.getCategories(context.localized(language))
+            InitDataSource.getSystemCategories(context.localized(language))
         }
     }
 

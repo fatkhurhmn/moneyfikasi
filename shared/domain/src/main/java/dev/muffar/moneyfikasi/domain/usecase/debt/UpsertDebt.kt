@@ -56,6 +56,9 @@ class UpsertDebt(
         }
     }
 
+    // Fallback names stay in English: domain has no Context access, and fresh installs
+    // are prepopulated with localized names via InitDataSource. Rows created here with
+    // English names are renamed on the next language change by UpdateDefaultCategories.
     private suspend fun ensureDebtCategories() {
         if (categoryRepository.getCategoryById(UUIDConst.DebtCategoryId) == null) {
             categoryRepository.upsertCategory(

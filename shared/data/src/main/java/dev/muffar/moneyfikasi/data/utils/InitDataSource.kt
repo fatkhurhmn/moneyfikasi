@@ -163,6 +163,13 @@ object InitDataSource {
         isActive = false
     )
 
+    fun getSystemCategories(context: Context): List<CategoryEntity> {
+        return getCategories(context) + listOf(
+            getDebtCategory(context),
+            getReceivableCategory(context)
+        )
+    }
+
     fun getWallets(context: Context): List<WalletEntity> {
         return arrayListOf(
             WalletEntity(
