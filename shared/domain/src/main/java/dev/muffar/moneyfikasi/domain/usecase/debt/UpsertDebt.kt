@@ -12,6 +12,7 @@ import dev.muffar.moneyfikasi.domain.repository.TransactionRepository
 import dev.muffar.moneyfikasi.utils.constants.UUIDConst
 import org.threeten.bp.Instant
 import org.threeten.bp.ZoneId
+import java.util.UUID
 
 class UpsertDebt(
     private val debtRepository: DebtRepository,
@@ -27,9 +28,9 @@ class UpsertDebt(
             .toLocalDateTime()
         val transactionType = debt.type.toTransactionType()
         val categoryId = if (debt.type == DebtType.DEBT) {
-            UUIDConst.ReceivableCategoryId
-        } else {
             UUIDConst.DebtCategoryId
+        } else {
+            UUIDConst.ReceivableCategoryId
         }
 
         if (existingTransactionId == null) {
@@ -60,27 +61,46 @@ class UpsertDebt(
     // are prepopulated with localized names via InitDataSource. Rows created here with
     // English names are renamed on the next language change by UpdateDefaultCategories.
     private suspend fun ensureDebtCategories() {
-        if (categoryRepository.getCategoryById(UUIDConst.DebtCategoryId) == null) {
+        ensureDebtCategory(
+            id = UUIDConst.DebtCategoryId,
+            fallbackName = "Debt",
+            type = CategoryType.INCOME,
+            color = Colors.Green10.color
+        )
+        ensureDebtCategory(
+            id = UUIDConst.ReceivableCategoryId,
+            fallbackName = "Receivable",
+            type = CategoryType.EXPENSE,
+            color = Colors.Red20.color
+        )
+    }
+
+    private suspend fun ensureDebtCategory(
+        id: UUID,
+        fallbackName: String,
+        type: CategoryType,
+        color: Long
+    ) {
+        val existing = categoryRepository.getCategoryById(id)
+        if (existing == null) {
             categoryRepository.upsertCategory(
                 Category(
-                    id = UUIDConst.DebtCategoryId,
-                    name = "Debt",
+                    id = id,
+                    name = fallbackName,
                     icon = AppIcon.Receipt.name,
-                    color = Colors.Red20.color,
-                    type = CategoryType.EXPENSE,
+                    color = color,
+                    type = type,
                     isActive = false
                 )
             )
-        }
-        if (categoryRepository.getCategoryById(UUIDConst.ReceivableCategoryId) == null) {
+        } else if (existing.type != type || existing.color != color || existing.icon != AppIcon.Receipt.name) {
+            // Heal rows written with the old swapped type/color: keep the user-visible
+            // name untouched so manual renames and rename-on-locale keep working.
             categoryRepository.upsertCategory(
-                Category(
-                    id = UUIDConst.ReceivableCategoryId,
-                    name = "Receivable",
+                existing.copy(
                     icon = AppIcon.Receipt.name,
-                    color = Colors.Green10.color,
-                    type = CategoryType.INCOME,
-                    isActive = false
+                    color = color,
+                    type = type
                 )
             )
         }

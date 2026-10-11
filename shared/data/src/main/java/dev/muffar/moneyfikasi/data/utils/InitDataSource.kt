@@ -149,8 +149,8 @@ object InitDataSource {
         id = UUIDConst.DebtCategoryId,
         name = context.getString(R.string.cat_debt),
         icon = AppIcon.Receipt.name,
-        color = Colors.Red20.color,
-        type = CategoryType.EXPENSE,
+        color = Colors.Green10.color,
+        type = CategoryType.INCOME,
         isActive = false
     )
 
@@ -158,8 +158,8 @@ object InitDataSource {
         id = UUIDConst.ReceivableCategoryId,
         name = context.getString(R.string.cat_receivable),
         icon = AppIcon.Receipt.name,
-        color = Colors.Green10.color,
-        type = CategoryType.INCOME,
+        color = Colors.Red20.color,
+        type = CategoryType.EXPENSE,
         isActive = false
     )
 

@@ -2,6 +2,7 @@ package dev.muffar.moneyfikasi.data.utils
 
 import android.content.Context
 import dev.muffar.moneyfikasi.domain.model.CategoryType
+import dev.muffar.moneyfikasi.domain.model.Colors
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.constants.UUIDConst
 import io.mockk.every
@@ -32,7 +33,8 @@ class InitDataSourceSystemCategoriesTest {
             .first { it.id == UUIDConst.DebtCategoryId }
 
         assertEquals("Hutang", debt.name)
-        assertEquals(CategoryType.EXPENSE, debt.type)
+        assertEquals(CategoryType.INCOME, debt.type)
+        assertEquals(Colors.Green10.color, debt.color)
         assertFalse(debt.isActive)
     }
 
@@ -42,7 +44,8 @@ class InitDataSourceSystemCategoriesTest {
             .first { it.id == UUIDConst.ReceivableCategoryId }
 
         assertEquals("Piutang", receivable.name)
-        assertEquals(CategoryType.INCOME, receivable.type)
+        assertEquals(CategoryType.EXPENSE, receivable.type)
+        assertEquals(Colors.Red20.color, receivable.color)
         assertFalse(receivable.isActive)
     }
 
