@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class BackupRestoreViewModel @Inject constructor(
@@ -61,12 +62,23 @@ class BackupRestoreViewModel @Inject constructor(
                     if (pi != null) {
                         _eventFlow.emit(UiEvent.RequestDriveAuthorization(pi))
                     } else {
-                        _eventFlow.emit(UiEvent.ShowMessage(R.string.error_backup_failed, SnackbarType.ERROR))
+                        _eventFlow.emit(
+                            UiEvent.ShowMessage(
+                                R.string.error_backup_failed,
+                                SnackbarType.ERROR
+                            )
+                        )
                     }
                 }
+
                 is DriveSignInResult.Failure -> {
                     if (!driveBackupUseCases.isDriveSignedIn()) {
-                        _eventFlow.emit(UiEvent.ShowMessage(R.string.error_backup_failed, SnackbarType.ERROR))
+                        _eventFlow.emit(
+                            UiEvent.ShowMessage(
+                                R.string.error_backup_failed,
+                                SnackbarType.ERROR
+                            )
+                        )
                     } else {
                         refreshDriveStatus(loadList = true)
                     }
@@ -80,7 +92,12 @@ class BackupRestoreViewModel @Inject constructor(
             if (granted) {
                 refreshDriveStatus(loadList = true)
             } else {
-                _eventFlow.emit(UiEvent.ShowMessage(R.string.error_backup_failed, SnackbarType.ERROR))
+                _eventFlow.emit(
+                    UiEvent.ShowMessage(
+                        R.string.error_backup_failed,
+                        SnackbarType.ERROR
+                    )
+                )
             }
         }
     }
@@ -171,7 +188,7 @@ class BackupRestoreViewModel @Inject constructor(
                 .onSuccess { files ->
                     _state.update {
                         it.copy(
-                            driveBackup = files.maxByOrNull { it.modifiedTime },
+                            driveBackup = files.maxByOrNull { bc -> bc.modifiedTime },
                             isDriveLoading = false
                         )
                     }
@@ -242,7 +259,7 @@ class BackupRestoreViewModel @Inject constructor(
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             val previousBackup = _state.value.latestBackup
-            delay(200)
+            delay(200.milliseconds)
             backupRestoreUseCases.backupData(uri)
                 .onSuccess { fileName ->
                     if (_state.value.isDeletePreviousBackup && previousBackup.name.isNotEmpty() && previousBackup.folder.isNotEmpty()) {
@@ -276,7 +293,7 @@ class BackupRestoreViewModel @Inject constructor(
     private fun restoreData(uri: Uri) {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            delay(200)
+            delay(200.milliseconds)
             backupRestoreUseCases.restoreData(uri)
                 .onSuccess {
                     _eventFlow.emit(
@@ -364,6 +381,8 @@ class BackupRestoreViewModel @Inject constructor(
             val type: SnackbarType,
             val formatArg: String? = null
         ) : UiEvent()
-        data class RequestDriveAuthorization(val pendingIntent: android.app.PendingIntent) : UiEvent()
+
+        data class RequestDriveAuthorization(val pendingIntent: android.app.PendingIntent) :
+            UiEvent()
     }
 }

@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.data.repository
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -29,7 +30,7 @@ class DriveBackupRepositoryImpl @Inject constructor(
     private val dataSource: DriveBackupDataSource
 ) : DriveBackupRepository {
 
-    override suspend fun signIn(activity: android.app.Activity?): DriveSignInResult =
+    override suspend fun signIn(activity: Activity?): DriveSignInResult =
         when (val result = authHelper.signInWithCredentialManager(activity)) {
             is DriveAuthHelper.SignInResult.Success ->
                 DriveSignInResult.Success

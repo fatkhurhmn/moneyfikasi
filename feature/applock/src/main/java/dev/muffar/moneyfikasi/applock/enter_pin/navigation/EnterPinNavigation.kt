@@ -8,10 +8,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import dev.muffar.moneyfikasi.domain.model.EnterPinType
 import dev.muffar.moneyfikasi.applock.enter_pin.EnterPinEvent
 import dev.muffar.moneyfikasi.applock.enter_pin.EnterPinScreen
 import dev.muffar.moneyfikasi.applock.enter_pin.EnterPinViewModel
+import dev.muffar.moneyfikasi.domain.model.EnterPinType
 import dev.muffar.moneyfikasi.navigation.Screen
 
 fun NavGraphBuilder.enterPinNavigation(

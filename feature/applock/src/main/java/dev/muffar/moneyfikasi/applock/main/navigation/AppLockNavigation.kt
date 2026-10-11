@@ -6,10 +6,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import dev.muffar.moneyfikasi.domain.model.EnterPinType
 import dev.muffar.moneyfikasi.applock.main.AppLockEvent
 import dev.muffar.moneyfikasi.applock.main.AppLockScreen
 import dev.muffar.moneyfikasi.applock.main.AppLockViewModel
+import dev.muffar.moneyfikasi.domain.model.EnterPinType
 import dev.muffar.moneyfikasi.navigation.Screen
 
 fun NavGraphBuilder.appLockNavigation(
