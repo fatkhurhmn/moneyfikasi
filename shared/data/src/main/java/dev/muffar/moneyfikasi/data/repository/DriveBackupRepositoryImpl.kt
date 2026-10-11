@@ -7,6 +7,7 @@ import dev.muffar.moneyfikasi.data.db.MoneyfikasiDatabase
 import dev.muffar.moneyfikasi.data.remote.drive.DriveAuthHelper
 import dev.muffar.moneyfikasi.data.remote.drive.DriveBackupDataSource
 import dev.muffar.moneyfikasi.domain.model.DriveBackupFile
+import dev.muffar.moneyfikasi.domain.model.DriveSignInResult
 import dev.muffar.moneyfikasi.domain.repository.DriveBackupRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -27,6 +28,19 @@ class DriveBackupRepositoryImpl @Inject constructor(
     private val authHelper: DriveAuthHelper,
     private val dataSource: DriveBackupDataSource
 ) : DriveBackupRepository {
+
+    override suspend fun signIn(activity: android.app.Activity?): DriveSignInResult =
+        when (val result = authHelper.signInWithCredentialManager(activity)) {
+            is DriveAuthHelper.SignInResult.Success ->
+                DriveSignInResult.Success
+            is DriveAuthHelper.SignInResult.NeedsAuthorization ->
+                DriveSignInResult.NeedsAuthorization(result.pendingIntent)
+            is DriveAuthHelper.SignInResult.Failure ->
+                DriveSignInResult.Failure(result.message)
+        }
+
+    override fun getSignedInAccountEmail(): String =
+        authHelper.getSignedInAccountEmail()
 
     override suspend fun isSignedIn(): Boolean =
         withContext(Dispatchers.IO) { authHelper.isSignedIn() }

@@ -22,14 +22,23 @@ import dev.muffar.moneyfikasi.domain.usecase.ai.AiUseCases
 import dev.muffar.moneyfikasi.domain.usecase.ai.ParseAiTransaction
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupData
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupRestoreUseCases
+import dev.muffar.moneyfikasi.domain.usecase.backup_restore.CancelAutoBackup
+import dev.muffar.moneyfikasi.domain.usecase.backup_restore.CancelDriveAutoBackup
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.DeleteBackup
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.DeleteLatestBackup
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.RestoreData
+import dev.muffar.moneyfikasi.domain.usecase.backup_restore.ScheduleAutoBackup
+import dev.muffar.moneyfikasi.domain.usecase.backup_restore.ScheduleDriveAutoBackup
+import dev.muffar.moneyfikasi.domain.usecase.backup_restore.TakePersistableUriPermission
 import dev.muffar.moneyfikasi.domain.usecase.drive.BackupToDrive
 import dev.muffar.moneyfikasi.domain.usecase.drive.DeleteDriveBackup
 import dev.muffar.moneyfikasi.domain.usecase.drive.DriveBackupUseCases
+import dev.muffar.moneyfikasi.domain.usecase.drive.DriveSignOut
+import dev.muffar.moneyfikasi.domain.usecase.drive.GetDriveAccountEmail
 import dev.muffar.moneyfikasi.domain.usecase.drive.GetDriveBackups
+import dev.muffar.moneyfikasi.domain.usecase.drive.IsDriveSignedIn
 import dev.muffar.moneyfikasi.domain.usecase.drive.RestoreFromDrive
+import dev.muffar.moneyfikasi.domain.usecase.drive.SignInToDrive
 import dev.muffar.moneyfikasi.domain.usecase.budget.BudgetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.budget.DeleteBudget
 import dev.muffar.moneyfikasi.domain.usecase.budget.GetAllBudgets
@@ -175,7 +184,12 @@ object UseCaseModule {
         backupData = BackupData(backupRestoreRepository),
         restoreData = RestoreData(backupRestoreRepository),
         deleteBackup = DeleteBackup(backupRestoreRepository),
-        deleteLatestBackup = DeleteLatestBackup(backupRestoreRepository, backupSettingsRepository)
+        deleteLatestBackup = DeleteLatestBackup(backupRestoreRepository, backupSettingsRepository),
+        takePersistableUriPermission = TakePersistableUriPermission(backupRestoreRepository),
+        scheduleAutoBackup = ScheduleAutoBackup(backupRestoreRepository),
+        cancelAutoBackup = CancelAutoBackup(backupRestoreRepository),
+        scheduleDriveAutoBackup = ScheduleDriveAutoBackup(backupRestoreRepository),
+        cancelDriveAutoBackup = CancelDriveAutoBackup(backupRestoreRepository)
     )
 
     @Provides
@@ -185,7 +199,11 @@ object UseCaseModule {
         backupToDrive = BackupToDrive(driveBackupRepository),
         restoreFromDrive = RestoreFromDrive(driveBackupRepository),
         getDriveBackups = GetDriveBackups(driveBackupRepository),
-        deleteDriveBackup = DeleteDriveBackup(driveBackupRepository)
+        deleteDriveBackup = DeleteDriveBackup(driveBackupRepository),
+        signInToDrive = SignInToDrive(driveBackupRepository),
+        isDriveSignedIn = IsDriveSignedIn(driveBackupRepository),
+        driveSignOut = DriveSignOut(driveBackupRepository),
+        getDriveAccountEmail = GetDriveAccountEmail(driveBackupRepository)
     )
 
     @Provides

@@ -1,9 +1,12 @@
 package dev.muffar.moneyfikasi.domain.repository
 
 import dev.muffar.moneyfikasi.domain.model.DriveBackupFile
+import dev.muffar.moneyfikasi.domain.model.DriveSignInResult
 import java.io.File
 
 interface DriveBackupRepository {
+    suspend fun signIn(activity: android.app.Activity? = null): DriveSignInResult
+    fun getSignedInAccountEmail(): String
     suspend fun isSignedIn(): Boolean
     suspend fun signOut()
     suspend fun getDriveBackups(): Result<List<DriveBackupFile>>
