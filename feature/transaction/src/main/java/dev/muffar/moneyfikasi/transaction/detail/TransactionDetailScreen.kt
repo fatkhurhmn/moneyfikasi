@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.dialog.CommonAlertDialog
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
+import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailCard
@@ -42,6 +43,7 @@ fun TransactionDetailScreen(
     state: TransactionDetailState,
     eventFlow: SharedFlow<TransactionDetailViewModel.UiEvent>,
     onEditClick: (TransactionType?, UUID) -> Unit,
+    onDebtEditClick: (DebtType, UUID) -> Unit,
     onDelete: () -> Unit,
     onShowAlert: (Boolean) -> Unit,
     onBackClick: () -> Unit,
@@ -57,7 +59,10 @@ fun TransactionDetailScreen(
         topBar = {
             TransactionDetailTopBar(
                 onEditClick = {
-                    if (state.transactionId != null) {
+                    val linkedDebt = state.linkedDebt
+                    if (linkedDebt != null) {
+                        onDebtEditClick(linkedDebt.type, linkedDebt.id)
+                    } else if (state.transactionId != null) {
                         onEditClick(state.transaction?.type, state.transactionId)
                     }
                 },

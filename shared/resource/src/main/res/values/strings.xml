@@ -67,6 +67,8 @@
     <string name="label_category">Category</string>
     <string name="label_income">Income</string>
     <string name="label_expense">Expense</string>
+    <string name="label_hutang">Debt</string>
+    <string name="label_piutang">Receivable</string>
     <string name="label_transfer">Transfer</string>
     <string name="label_amount">Amount</string>
     <string name="label_balance">Balance</string>
@@ -208,6 +210,7 @@
     <string name="cat_transfer">Transfer</string>
     <string name="cat_admin_fee">Admin Fee</string>
     <string name="cat_debt">Debt</string>
+    <string name="cat_receivable">Receivable</string>
     <string name="msg_fee_for_transfer">Fee for transfer</string>
     <string name="wallet_main">Main</string>
 

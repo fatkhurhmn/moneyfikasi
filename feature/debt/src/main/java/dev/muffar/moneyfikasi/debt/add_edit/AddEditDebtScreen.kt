@@ -18,6 +18,7 @@ import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
 import dev.muffar.moneyfikasi.debt.add_edit.component.AddEditDebtForm
+import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.flow.SharedFlow
@@ -27,6 +28,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun AddEditDebtScreen(
     state: AddEditDebtState,
     eventFlow: SharedFlow<AddEditDebtViewModel.UiEvent>,
+    onTypeChange: (DebtType) -> Unit,
     onNameChange: (String) -> Unit,
     onTotalAmountChange: (String) -> Unit,
     onPaidAmountChange: (String) -> Unit,
@@ -63,6 +65,7 @@ fun AddEditDebtScreen(
         AddEditDebtForm(
             modifier = Modifier.formModifier(it, scrollState),
             state = state,
+            onTypeChange = onTypeChange,
             onNameChange = onNameChange,
             onTotalAmountChange = onTotalAmountChange,
             onPaidAmountChange = onPaidAmountChange,

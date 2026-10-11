@@ -6,6 +6,7 @@ import java.util.UUID
 data class Debt(
     val id: UUID = UUID.randomUUID(),
     val name: String = "",
+    val type: DebtType = DebtType.DEBT,
     val totalAmount: Double = 0.0,
     val paidAmount: Double = 0.0,
     val dueDate: Long? = null,

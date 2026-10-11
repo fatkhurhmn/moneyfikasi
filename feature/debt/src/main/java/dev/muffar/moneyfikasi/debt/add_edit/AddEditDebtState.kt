@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.debt.add_edit
 
 import dev.muffar.moneyfikasi.domain.model.Debt
+import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
@@ -10,6 +11,7 @@ data class AddEditDebtState(
     val id: UUID? = null,
     val name: String = "",
     val nameError: ErrorMessage = ErrorMessage(),
+    val type: DebtType = DebtType.DEBT,
     val totalAmount: String = "0",
     val totalAmountError: ErrorMessage = ErrorMessage(),
     val paidAmount: String = "0",
@@ -27,6 +29,7 @@ data class AddEditDebtState(
         get() = Debt(
             id = id ?: UUID.randomUUID(),
             name = name.trim(),
+            type = type,
             totalAmount = totalAmount.clearThousandFormat().toDoubleOrNull() ?: 0.0,
             paidAmount = paidAmount.clearThousandFormat().toDoubleOrNull() ?: 0.0,
             dueDate = dueDate,

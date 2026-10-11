@@ -8,4 +8,5 @@ object UUIDConst {
     val TransferOutCategoryId: UUID = UUID.fromString("150bbc61-7a8c-4a9a-ab06-da7e4f6d4aa5")
     val TransferFeeCategoryId: UUID = UUID.fromString("abf1e9b7-c898-4717-9d82-f06dd6c476e1")
     val DebtCategoryId: UUID = UUID.fromString("c4d3b2a1-5e6f-4a7b-8c9d-0e1f2a3b4c5d")
+    val ReceivableCategoryId: UUID = UUID.fromString("2af51c09-f575-4716-b453-e6861d6c5c8f")
 }

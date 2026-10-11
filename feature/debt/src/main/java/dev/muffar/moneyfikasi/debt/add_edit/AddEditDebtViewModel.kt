@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
+import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.debt.DebtUseCases
@@ -45,6 +46,7 @@ class AddEditDebtViewModel @Inject constructor(
 
     fun onEvent(event: AddEditDebtEvent) {
         when (event) {
+            is AddEditDebtEvent.TypeChanged -> onTypeChange(event.type)
             is AddEditDebtEvent.NameChanged -> onNameChange(event.name)
             is AddEditDebtEvent.TotalAmountChanged -> onTotalAmountChange(event.amount)
             is AddEditDebtEvent.PaidAmountChanged -> onPaidAmountChange(event.amount)
@@ -58,6 +60,11 @@ class AddEditDebtViewModel @Inject constructor(
     }
 
     private fun initState() {
+        handle.get<String>(Screen.AddEditDebt.TYPE)?.let { typeStr ->
+            if (typeStr.isNotEmpty()) {
+                _state.update { it.copy(type = DebtType.fromString(typeStr)) }
+            }
+        }
         handle.get<String>(Screen.AddEditDebt.DEBT_ID)?.let { debtId ->
             if (debtId.isNotEmpty()) {
                 viewModelScope.launch {
@@ -66,6 +73,7 @@ class AddEditDebtViewModel @Inject constructor(
                             it.copy(
                                 id = debt.id,
                                 name = debt.name,
+                                type = debt.type,
                                 totalAmount = debt.totalAmount.formatThousand(),
                                 paidAmount = debt.paidAmount.formatThousand(),
                                 dueDate = debt.dueDate,
@@ -101,6 +109,10 @@ class AddEditDebtViewModel @Inject constructor(
                 it.copy(wallet = wallet ?: Wallet(id = UUIDConst.empty, name = "Unknown"))
             }
         }
+    }
+
+    private fun onTypeChange(type: DebtType) {
+        _state.update { it.copy(type = type) }
     }
 
     private fun onNameChange(name: String) {

@@ -3,6 +3,7 @@ package dev.muffar.moneyfikasi.debt.list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.domain.usecase.debt.DebtUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,6 +28,12 @@ class DebtsViewModel @Inject constructor(
         loadWallets()
     }
 
+    fun onEvent(event: DebtsEvent) {
+        when (event) {
+            is DebtsEvent.FilterChanged -> onFilterChange(event.type)
+        }
+    }
+
     private fun loadDebts() {
         viewModelScope.launch {
             debtUseCases.getAllDebts().collectLatest { debts ->
@@ -41,5 +48,9 @@ class DebtsViewModel @Inject constructor(
                 _state.update { it.copy(wallets = wallets) }
             }
         }
+    }
+
+    private fun onFilterChange(type: DebtType?) {
+        _state.update { it.copy(selectedType = type) }
     }
 }

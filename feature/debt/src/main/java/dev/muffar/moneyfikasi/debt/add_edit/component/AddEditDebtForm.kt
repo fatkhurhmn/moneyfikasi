@@ -13,7 +13,11 @@ import dev.muffar.moneyfikasi.common_ui.component.text_input.BasicAmountInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.DateInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.WalletInput
+import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.debt.add_edit.AddEditDebtState
+import dev.muffar.moneyfikasi.debt.component.DebtTab
+import dev.muffar.moneyfikasi.debt.component.DebtTypeTabHeader
+import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
 
@@ -21,6 +25,7 @@ import dev.muffar.moneyfikasi.resource.R
 fun AddEditDebtForm(
     modifier: Modifier = Modifier,
     state: AddEditDebtState,
+    onTypeChange: (DebtType) -> Unit,
     onNameChange: (String) -> Unit,
     onTotalAmountChange: (String) -> Unit,
     onPaidAmountChange: (String) -> Unit,
@@ -33,6 +38,18 @@ fun AddEditDebtForm(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        val financeColors = MoneyfikasiTheme.financeColors
+        DebtTypeTabHeader(
+            tabs = listOf(
+                DebtTab(R.string.label_hutang, financeColors.income),
+                DebtTab(R.string.label_piutang, financeColors.expense)
+            ),
+            selectedTab = if (state.type == DebtType.DEBT) 0 else 1,
+            onTabSelected = {
+                onTypeChange(if (it == 0) DebtType.DEBT else DebtType.RECEIVABLE)
+            }
+        )
+
         CommonTextInput(
             value = state.name,
             onValueChange = onNameChange,

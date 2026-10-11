@@ -10,6 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
+import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.transaction.detail.TransactionDetailEvent
@@ -19,6 +20,7 @@ import java.util.UUID
 
 fun NavGraphBuilder.transactionDetailNavigation(
     onNavigateToEditTransaction: (TransactionType?, UUID) -> Unit,
+    onNavigateToEditDebt: (DebtType, UUID) -> Unit,
     onNavigateBack: () -> Unit,
 ) {
     composable(
@@ -51,6 +53,7 @@ fun NavGraphBuilder.transactionDetailNavigation(
             onDelete = { event(TransactionDetailEvent.DeleteTransaction) },
             onShowAlert = { event(TransactionDetailEvent.ShowDeleteAlert(it)) },
             onEditClick = onNavigateToEditTransaction,
+            onDebtEditClick = onNavigateToEditDebt,
             onBackClick = onNavigateBack,
             onSaveClick = { event(TransactionDetailEvent.SaveToGallery(it)) },
         )

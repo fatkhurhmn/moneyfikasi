@@ -8,6 +8,7 @@ fun DebtEntity.toDomain(): Debt {
     return Debt(
         id = this.id,
         name = this.name,
+        type = this.type,
         totalAmount = this.totalAmount,
         paidAmount = this.paidAmount,
         dueDate = this.dueDate,
@@ -23,6 +24,7 @@ fun Debt.toEntity(): DebtEntity {
     return DebtEntity(
         id = this.id,
         name = this.name,
+        type = this.type,
         totalAmount = this.totalAmount,
         paidAmount = this.paidAmount,
         dueDate = this.dueDate,

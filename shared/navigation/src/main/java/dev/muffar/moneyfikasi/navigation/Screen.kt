@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.navigation
 
 import dev.muffar.moneyfikasi.domain.model.CategoryType
+import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.domain.model.EnterPinType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import java.util.UUID
@@ -144,11 +145,12 @@ sealed class Screen(val route: String) {
     }
 
     data object Debts : Screen("debts")
-    data object AddEditDebt : Screen("add_edit_debt?debt_id={debt_id}") {
+    data object AddEditDebt : Screen("add_edit_debt/{type}?debt_id={debt_id}") {
+        const val TYPE = "type"
         const val DEBT_ID = "debt_id"
-        fun routeWithArg(id: UUID? = null): String {
+        fun routeWithArg(type: DebtType, id: UUID? = null): String {
             val debtId = id?.toString() ?: ""
-            return "add_edit_debt?$DEBT_ID=$debtId"
+            return "add_edit_debt/$type?$DEBT_ID=$debtId"
         }
     }
 

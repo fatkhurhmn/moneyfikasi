@@ -154,6 +154,15 @@ object InitDataSource {
         isActive = false
     )
 
+    fun getReceivableCategory(context: Context) = CategoryEntity(
+        id = UUIDConst.ReceivableCategoryId,
+        name = context.getString(R.string.cat_receivable),
+        icon = AppIcon.Receipt.name,
+        color = Colors.Green10.color,
+        type = CategoryType.INCOME,
+        isActive = false
+    )
+
     fun getWallets(context: Context): List<WalletEntity> {
         return arrayListOf(
             WalletEntity(

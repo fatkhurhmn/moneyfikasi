@@ -7,6 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
+import dev.muffar.moneyfikasi.domain.usecase.debt.DebtUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.resource.R
@@ -22,6 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TransactionDetailViewModel @Inject constructor(
     private val transactionUseCases: TransactionUseCases,
+    private val debtUseCases: DebtUseCases,
     private val handle: SavedStateHandle,
     private val application: Application
 ) : AndroidViewModel(application) {
@@ -68,10 +70,12 @@ class TransactionDetailViewModel @Inject constructor(
                         return@let
                     }
 
+                    val linkedDebt = debtUseCases.getDebtByTransactionId(transactionId)
                     _state.update { state ->
                         state.copy(
                             transactionId = transactionId,
                             transaction = it,
+                            linkedDebt = linkedDebt,
                         )
                     }
                 }

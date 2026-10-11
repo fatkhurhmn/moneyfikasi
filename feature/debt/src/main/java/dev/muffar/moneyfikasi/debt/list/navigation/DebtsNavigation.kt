@@ -6,14 +6,16 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import dev.muffar.moneyfikasi.debt.list.DebtsEvent
 import dev.muffar.moneyfikasi.debt.list.DebtsScreen
 import dev.muffar.moneyfikasi.debt.list.DebtsViewModel
+import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.navigation.Screen
 import java.util.UUID
 
 fun NavGraphBuilder.debtsNavigation(
-    navigateToAddDebt: () -> Unit,
-    navigateToEditDebt: (UUID) -> Unit,
+    navigateToAddDebt: (DebtType) -> Unit,
+    navigateToEditDebt: (DebtType, UUID) -> Unit,
     navigateBack: () -> Unit,
 ) {
     composable(route = Screen.Debts.route) {
@@ -22,8 +24,13 @@ fun NavGraphBuilder.debtsNavigation(
 
         DebtsScreen(
             state = state,
-            onDebtClick = navigateToEditDebt,
+            onDebtClick = { id ->
+                state.debts.find { it.id == id }?.let {
+                    navigateToEditDebt(it.type, it.id)
+                }
+            },
             onAddDebtClick = navigateToAddDebt,
+            onFilterChange = { viewModel.onEvent(DebtsEvent.FilterChanged(it)) },
             onBackClick = navigateBack
         )
     }

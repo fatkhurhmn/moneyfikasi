@@ -3,6 +3,7 @@ package dev.muffar.moneyfikasi.data.db.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import dev.muffar.moneyfikasi.domain.model.DebtType
 import java.util.UUID
 
 @Entity(tableName = "debts")
@@ -13,6 +14,9 @@ data class DebtEntity(
 
     @ColumnInfo(name = "name")
     val name: String,
+
+    @ColumnInfo(name = "type", defaultValue = "DEBT")
+    val type: DebtType = DebtType.DEBT,
 
     @ColumnInfo(name = "total_amount")
     val totalAmount: Double,

@@ -95,6 +95,9 @@ fun MainNavigation(
                     navController.toTransferTransactionScreen(id)
                 }
             },
+            onNavigateToEditDebt = { type, id ->
+                navController.toAddEditDebtScreen(type, id)
+            },
             onNavigateToAddWallet = { navController.toAddEditWalletScreen() },
             onNavigateToAddCategory = { navController.toAddEditCategoryScreen(it) },
             onNavigateToSearch = { navController.toSearchScreen() },
@@ -200,8 +203,8 @@ fun MainNavigation(
         )
 
         debtsNavGraph(
-            navigateToAddDebt = { navController.toAddEditDebtScreen() },
-            navigateToEditDebt = { navController.toAddEditDebtScreen(it) },
+            navigateToAddDebt = { navController.toAddEditDebtScreen(it) },
+            navigateToEditDebt = { type, id -> navController.toAddEditDebtScreen(type, id) },
             navigateBack = { navController.navigateUp() },
             onNavigateToAddWallet = { navController.toAddEditWalletScreen() }
         )

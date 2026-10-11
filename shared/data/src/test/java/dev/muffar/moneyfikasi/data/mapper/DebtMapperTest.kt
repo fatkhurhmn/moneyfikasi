@@ -5,6 +5,7 @@ import dev.muffar.moneyfikasi.data.db.entity.TransactionEntity
 import dev.muffar.moneyfikasi.data.db.entity.TransactionWithDetails
 import dev.muffar.moneyfikasi.data.db.entity.WalletEntity
 import dev.muffar.moneyfikasi.domain.model.Debt
+import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.utils.constants.UUIDConst
 import org.junit.Assert.assertEquals
@@ -50,6 +51,48 @@ class DebtMapperTest {
 
         assertEquals(UUIDConst.empty, domain.walletId)
         assertNull(domain.transactionId)
+    }
+
+    @Test
+    fun `toDomain maps debt type`() {
+        val entity = DebtEntity(
+            name = "Lent money",
+            type = DebtType.RECEIVABLE,
+            totalAmount = 1000.0,
+            createdAt = 1L,
+            updatedAt = 2L
+        )
+
+        val domain = entity.toDomain()
+
+        assertEquals(DebtType.RECEIVABLE, domain.type)
+    }
+
+    @Test
+    fun `toDomain defaults legacy debt to DEBT`() {
+        val entity = DebtEntity(
+            name = "Legacy debt",
+            totalAmount = 500.0,
+            createdAt = 1L,
+            updatedAt = 2L
+        )
+
+        val domain = entity.toDomain()
+
+        assertEquals(DebtType.DEBT, domain.type)
+    }
+
+    @Test
+    fun `toEntity round-trips debt type`() {
+        val debt = Debt(
+            name = "Lent money",
+            type = DebtType.RECEIVABLE,
+            totalAmount = 1000.0
+        )
+
+        val entity = debt.toEntity()
+
+        assertEquals(DebtType.RECEIVABLE, entity.type)
     }
 
     @Test
