@@ -13,6 +13,9 @@ import dev.muffar.moneyfikasi.backup_restore.navigation.toBackupRestoreScreen
 import dev.muffar.moneyfikasi.budget.add_edit.navigation.toAddEditBudgetScreen
 import dev.muffar.moneyfikasi.budget.budgetsNavGraph
 import dev.muffar.moneyfikasi.budget.list.navigation.toBudgetsScreen
+import dev.muffar.moneyfikasi.debt.add_edit.navigation.toAddEditDebtScreen
+import dev.muffar.moneyfikasi.debt.debtsNavGraph
+import dev.muffar.moneyfikasi.debt.list.navigation.toDebtsScreen
 import dev.muffar.moneyfikasi.category.add_edit.navigation.toAddEditCategoryScreen
 import dev.muffar.moneyfikasi.category.categoriesNavGraph
 import dev.muffar.moneyfikasi.category.list.navigation.toCategoriesScreen
@@ -126,6 +129,7 @@ fun MainNavigation(
             navigateToCategories = { navController.toCategoriesScreen() },
             navigateToPreset = { navController.toPresetsScreen() },
             navigateToBudgets = { navController.toBudgetsScreen() },
+            navigateToDebts = { navController.toDebtsScreen() },
             navigateToRecurringTransactions = { navController.toRecurringTransactionsScreen() },
             navigateToSettings = { navController.navigateToSettings() },
         )
@@ -192,6 +196,12 @@ fun MainNavigation(
             navigateToAddBudget = { navController.toAddEditBudgetScreen() },
             navigateToEditBudget = { navController.toAddEditBudgetScreen(it) },
             navigateToAddCategory = { navController.toAddEditCategoryScreen(CategoryType.EXPENSE) },
+            navigateBack = { navController.navigateUp() }
+        )
+
+        debtsNavGraph(
+            navigateToAddDebt = { navController.toAddEditDebtScreen() },
+            navigateToEditDebt = { navController.toAddEditDebtScreen(it) },
             navigateBack = { navController.navigateUp() }
         )
 

@@ -47,6 +47,9 @@
     <string name="title_delete_wallet">Hapus Dompet</string>
     <string name="title_delete_preset">Hapus Preset</string>
     <string name="title_delete_budget">Hapus Anggaran</string>
+    <string name="title_debts">Hutang</string>
+    <string name="title_debt">Hutang</string>
+    <string name="title_delete_debt">Hapus Hutang</string>
     <string name="title_delete_recurring">Hapus Transaksi Berulang</string>
     <string name="title_restore_confirmation">Pulihkan Data</string>
     <string name="title_recurring_transaction_processed">Transaksi Berulang Diproses</string>
@@ -59,6 +62,7 @@
     <string name="label_transaction_presets">Preset Transaksi</string>
     <string name="label_financial_goals">Tujuan Keuangan</string>
     <string name="label_scheduled_transactions">Transaksi Terjadwal</string>
+    <string name="label_track_debts">Catat Hutang</string>
     <string name="label_wallet">Dompet</string>
     <string name="label_category">Kategori</string>
     <string name="label_income">Pemasukan</string>
@@ -73,6 +77,8 @@
     <string name="label_net_balance">Saldo Bersih</string>
     <string name="label_note">Catatan</string>
     <string name="label_note_optional">Catatan (opsional)</string>
+    <string name="label_paid_amount">Sudah Dibayar</string>
+    <string name="label_due_date">Jatuh Tempo</string>
     <string name="label_description_optional">Deskripsi (opsional)</string>
     <string name="label_date">Tanggal</string>
     <string name="label_time">Waktu</string>
@@ -264,6 +270,9 @@
     <string name="msg_financial_goals_description">Atur dan pantau batas anggaran bulanan.</string>
     <string name="msg_budgets_count">%d Anggaran</string>
     <string name="msg_delete_budget_confirmation">Apakah Anda yakin ingin menghapus anggaran ini?</string>
+    <string name="msg_debt_description">Catat uang yang Anda pinjam atau dipinjam orang lain.</string>
+    <string name="msg_debts_count">%d Hutang</string>
+    <string name="msg_delete_debt_confirmation">Apakah Anda yakin ingin menghapus hutang ini?</string>
     <string name="msg_recurring_description">Atur transaksi agar berulang secara otomatis.</string>
     <string name="msg_recurring_count">%d Transaksi Berulang</string>
     <string name="msg_loading">Memuat…</string>
@@ -344,6 +353,8 @@
     <string name="empty_presets_msg">Buat satu untuk menambahkan transaksi dengan cepat.</string>
     <string name="empty_budgets_title">Belum Ada Anggaran</string>
     <string name="empty_budgets_msg">Buat satu untuk melacak pengeluaran Anda.</string>
+    <string name="empty_debts_title">Belum Ada Hutang</string>
+    <string name="empty_debts_msg">Catat satu untuk melacak uang yang dipinjam atau dipinjamkan.</string>
     <string name="empty_recurring_title">Belum Ada Transaksi Berulang</string>
     <string name="empty_recurring_msg">Buat satu untuk mengotomatiskan transaksi berulang Anda.</string>
     <string name="empty_search_results_title">Tidak ada hasil ditemukan</string>
@@ -366,6 +377,9 @@
     <string name="error_number_too_large">Angka terlalu besar</string>
     <string name="error_save_budget_failed">Gagal menyimpan anggaran. Setiap kategori hanya dapat memiliki satu anggaran.</string>
     <string name="error_delete_budget_failed">Gagal menghapus anggaran</string>
+    <string name="error_paid_exceeds_total">Jumlah dibayar tidak boleh melebihi total</string>
+    <string name="error_save_debt_failed">Gagal menyimpan hutang</string>
+    <string name="error_delete_debt_failed">Gagal menghapus hutang</string>
     <string name="error_save_category_failed">Gagal menyimpan kategori</string>
     <string name="error_delete_category_failed">Gagal menghapus kategori</string>
     <string name="error_save_wallet_failed">Gagal menyimpan dompet</string>

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.AccountBalance
 import androidx.compose.material.icons.rounded.DataUsage
 import androidx.compose.material.icons.rounded.PostAdd
 import androidx.compose.material.icons.rounded.Repeat
@@ -27,6 +28,7 @@ fun MoreScreen(
     onWalletsClick: () -> Unit,
     onCategoriesClick: () -> Unit,
     onBudgetsClick: () -> Unit,
+    onDebtsClick: () -> Unit,
     onPresetsClick: () -> Unit,
     onRecurringTransactionsClick: () -> Unit,
     onSettingsClick: () -> Unit,
@@ -100,6 +102,16 @@ fun MoreScreen(
                     status = stringResource(R.string.msg_budgets_count, state.budgetsCount),
                     icon = Icons.Rounded.DataUsage,
                     onClick = onBudgetsClick
+                )
+            }
+            item {
+                MoreItem(
+                    label = stringResource(R.string.title_debts),
+                    title = stringResource(R.string.label_track_debts),
+                    description = stringResource(R.string.msg_debt_description),
+                    status = stringResource(R.string.msg_debts_count, state.debtsCount),
+                    icon = Icons.Rounded.AccountBalance,
+                    onClick = onDebtsClick
                 )
             }
         }

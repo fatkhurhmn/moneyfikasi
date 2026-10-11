@@ -5,6 +5,7 @@ data class MoreState(
     val activeWalletsCount: Int = 0,
     val categoriesCount: Int = 0,
     val budgetsCount: Int = 0,
+    val debtsCount: Int = 0,
     val presetsCount: Int = 0,
     val recurringTransactionsCount: Int = 0,
 )

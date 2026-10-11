@@ -1,0 +1,172 @@
+package dev.muffar.moneyfikasi.debt.add_edit
+
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
+import dev.muffar.moneyfikasi.domain.model.ErrorMessage
+import dev.muffar.moneyfikasi.domain.usecase.debt.DebtUseCases
+import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.utils.constants.ValidationConst
+import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
+import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import java.util.UUID
+import javax.inject.Inject
+
+@HiltViewModel
+class AddEditDebtViewModel @Inject constructor(
+    private val debtUseCases: DebtUseCases,
+    private val handle: SavedStateHandle,
+) : ViewModel() {
+
+    private val _state = MutableStateFlow(AddEditDebtState())
+    val state = _state.asStateFlow()
+
+    private val _eventFlow = MutableSharedFlow<UiEvent>()
+    val eventFlow = _eventFlow.asSharedFlow()
+
+    init {
+        initState()
+    }
+
+    fun onEvent(event: AddEditDebtEvent) {
+        when (event) {
+            is AddEditDebtEvent.NameChanged -> onNameChange(event.name)
+            is AddEditDebtEvent.TotalAmountChanged -> onTotalAmountChange(event.amount)
+            is AddEditDebtEvent.PaidAmountChanged -> onPaidAmountChange(event.amount)
+            is AddEditDebtEvent.DueDateChanged -> onDueDateChange(event.dueDate)
+            is AddEditDebtEvent.NoteChanged -> onNoteChange(event.note)
+            is AddEditDebtEvent.SaveDebt -> onSaveDebt()
+            is AddEditDebtEvent.DeleteDebt -> onDeleteDebt()
+            is AddEditDebtEvent.ShowDeleteAlert -> onShowDeleteAlert(event.show)
+        }
+    }
+
+    private fun initState() {
+        handle.get<String>(Screen.AddEditDebt.DEBT_ID)?.let { debtId ->
+            if (debtId.isNotEmpty()) {
+                viewModelScope.launch {
+                    debtUseCases.getDebtById(UUID.fromString(debtId))?.let { debt ->
+                        _state.update {
+                            it.copy(
+                                id = debt.id,
+                                name = debt.name,
+                                totalAmount = debt.totalAmount.formatThousand(),
+                                paidAmount = debt.paidAmount.formatThousand(),
+                                dueDate = debt.dueDate,
+                                note = debt.note,
+                                createdAt = debt.createdAt
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun onNameChange(name: String) {
+        if (name.length > ValidationConst.MAX_NAME_LENGTH) return
+        _state.update { it.copy(name = name) }
+        updateNameError()
+    }
+
+    private fun updateNameError() {
+        val name = _state.value.name
+        val error = if (name.isEmpty()) R.string.error_name_empty else null
+        _state.update { it.copy(nameError = ErrorMessage(resId = error)) }
+    }
+
+    private fun onTotalAmountChange(amount: String) {
+        if (amount.length > ValidationConst.MAX_AMOUNT_LENGTH) return
+        _state.update { it.copy(totalAmount = amount) }
+        updateTotalAmountError()
+        updatePaidAmountError()
+    }
+
+    private fun updateTotalAmountError() {
+        val amount = _state.value.totalAmount.clearThousandFormat().toDoubleOrNull() ?: 0.0
+        val error = if (amount <= 0) R.string.error_amount_greater_than_zero else null
+        _state.update { it.copy(totalAmountError = ErrorMessage(resId = error)) }
+    }
+
+    private fun onPaidAmountChange(amount: String) {
+        if (amount.length > ValidationConst.MAX_AMOUNT_LENGTH) return
+        _state.update { it.copy(paidAmount = amount) }
+        updatePaidAmountError()
+    }
+
+    private fun updatePaidAmountError() {
+        val total = _state.value.totalAmount.clearThousandFormat().toDoubleOrNull() ?: 0.0
+        val paid = _state.value.paidAmount.clearThousandFormat().toDoubleOrNull() ?: 0.0
+        val error = if (paid > total) R.string.error_paid_exceeds_total else null
+        _state.update { it.copy(paidAmountError = ErrorMessage(resId = error)) }
+    }
+
+    private fun onDueDateChange(dueDate: Long?) {
+        _state.update { it.copy(dueDate = dueDate) }
+    }
+
+    private fun onNoteChange(note: String) {
+        if (note.length > ValidationConst.MAX_NOTE_LENGTH) return
+        _state.update { it.copy(note = note) }
+    }
+
+    private fun onShowDeleteAlert(show: Boolean) {
+        _state.update { it.copy(showAlert = show) }
+    }
+
+    private fun onSaveDebt() {
+        if (!isFormValid()) return
+        val state = _state.value
+        viewModelScope.launch {
+            try {
+                debtUseCases.upsertDebt(state.debt)
+                _eventFlow.emit(UiEvent.SaveDebt)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _eventFlow.emit(
+                    UiEvent.ShowMessage(
+                        R.string.error_save_debt_failed,
+                        SnackbarType.ERROR
+                    )
+                )
+            }
+        }
+    }
+
+    private fun onDeleteDebt() {
+        val state = _state.value
+        if (state.id == null) return
+        viewModelScope.launch {
+            try {
+                debtUseCases.deleteDebt(state.debt)
+                _eventFlow.emit(UiEvent.DeleteDebt)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _eventFlow.emit(UiEvent.ShowMessage(R.string.error_delete_debt_failed, SnackbarType.ERROR))
+            }
+        }
+    }
+
+    private fun isFormValid(): Boolean {
+        updateNameError()
+        updateTotalAmountError()
+        updatePaidAmountError()
+        val state = _state.value
+        return state.nameError.isNull && state.totalAmountError.isNull && state.paidAmountError.isNull
+    }
+
+    sealed class UiEvent {
+        data class ShowMessage(val messageResId: Int, val type: SnackbarType) : UiEvent()
+        data object SaveDebt : UiEvent()
+        data object DeleteDebt : UiEvent()
+    }
+}

@@ -9,6 +9,7 @@ import dev.muffar.moneyfikasi.domain.repository.BackupRestoreRepository
 import dev.muffar.moneyfikasi.domain.repository.BackupSettingsRepository
 import dev.muffar.moneyfikasi.domain.repository.BudgetRepository
 import dev.muffar.moneyfikasi.domain.repository.CategoryRepository
+import dev.muffar.moneyfikasi.domain.repository.DebtRepository
 import dev.muffar.moneyfikasi.domain.repository.DriveBackupRepository
 import dev.muffar.moneyfikasi.domain.repository.NotificationSettingsRepository
 import dev.muffar.moneyfikasi.domain.repository.PresetRepository
@@ -37,6 +38,11 @@ import dev.muffar.moneyfikasi.domain.usecase.budget.GetBudgetById
 import dev.muffar.moneyfikasi.domain.usecase.budget.UpsertBudget
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.category.DeleteCategory
+import dev.muffar.moneyfikasi.domain.usecase.debt.DebtUseCases
+import dev.muffar.moneyfikasi.domain.usecase.debt.DeleteDebt
+import dev.muffar.moneyfikasi.domain.usecase.debt.GetAllDebts
+import dev.muffar.moneyfikasi.domain.usecase.debt.GetDebtById
+import dev.muffar.moneyfikasi.domain.usecase.debt.UpsertDebt
 import dev.muffar.moneyfikasi.domain.usecase.category.GetAllCategories
 import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryById
 import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryByType
@@ -274,6 +280,16 @@ object UseCaseModule {
         getBudgetById = GetBudgetById(budgetRepository),
         upsertBudget = UpsertBudget(budgetRepository),
         deleteBudget = DeleteBudget(budgetRepository)
+    )
+
+    @Provides
+    fun provideDebtUseCases(
+        debtRepository: DebtRepository,
+    ): DebtUseCases = DebtUseCases(
+        getAllDebts = GetAllDebts(debtRepository),
+        getDebtById = GetDebtById(debtRepository),
+        upsertDebt = UpsertDebt(debtRepository),
+        deleteDebt = DeleteDebt(debtRepository)
     )
 
     @Provides
