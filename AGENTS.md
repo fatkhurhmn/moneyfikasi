@@ -27,6 +27,12 @@ Android multi-module app (Kotlin, Compose M3, Hilt, Room). JDK 17 required (CI: 
 - Verify-first: inspect existing files and trace a comparable implementation before writing code; never assume a class/API/pattern exists. State uncertainty instead of guessing.
 - Smallest coherent diff: follow existing patterns, don't introduce new libraries/modules/patterns, don't touch unrelated files, never disable tests/lint to make things pass.
 - After changes: review the full diff (imports, packages, DI wiring), run the narrowest relevant build/test, then broader checks when practical.
+- Validation tiers (choose by scope, don't run the full gate for small changes):
+  - Fast (single-module, no API/DI/nav change): `./gradlew :<mod>:assembleDebug`, plus `:testDebugUnitTest` only if the module has tests (`feature:transaction`, `feature:backup_restore`, `shared:{utils,data}` — others have none, state that instead of claiming coverage).
+  - Targeted (feature/shared change, use case, DI, navigation, Room): add `:testDebugUnitTest` + `:lintDebug` for the module and `:app:assembleDebug` (only task compiling all NavGraphs + the full Hilt graph). For Room also check `git status` for new schema JSON.
+  - Full (before PR to `develop`/release): CI gate `./gradlew lint test assembleRelease bundleRelease` + smoke test; mandatory whenever adding serialization/reflection (release R8 with template-only ProGuard).
+- After code changes always run `git diff --check` plus the tier above; no emulator-dependent checks (instrumented tests are template-only and never run in CI).
+- On failure, triage before fixing: AI-caused (your diff) vs environment (local JDK defaults to 21, project requires 17; missing secrets stub AI/Drive silently) vs pre-existing (verify via `git stash` + rerun when in doubt).
 - Report actual commands executed with real results — including checks not run or failed. Never claim success without a completed run.
 
 ## Commands
