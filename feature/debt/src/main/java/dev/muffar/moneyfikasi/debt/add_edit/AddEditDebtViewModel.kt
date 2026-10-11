@@ -6,9 +6,12 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
+import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.debt.DebtUseCases
+import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.utils.constants.UUIDConst
 import dev.muffar.moneyfikasi.utils.constants.ValidationConst
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
@@ -16,6 +19,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -24,6 +28,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AddEditDebtViewModel @Inject constructor(
     private val debtUseCases: DebtUseCases,
+    private val walletUseCases: WalletUseCases,
     private val handle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -35,6 +40,7 @@ class AddEditDebtViewModel @Inject constructor(
 
     init {
         initState()
+        loadWallets()
     }
 
     fun onEvent(event: AddEditDebtEvent) {
@@ -44,6 +50,7 @@ class AddEditDebtViewModel @Inject constructor(
             is AddEditDebtEvent.PaidAmountChanged -> onPaidAmountChange(event.amount)
             is AddEditDebtEvent.DueDateChanged -> onDueDateChange(event.dueDate)
             is AddEditDebtEvent.NoteChanged -> onNoteChange(event.note)
+            is AddEditDebtEvent.WalletSelected -> onWalletSelect(event.wallet)
             is AddEditDebtEvent.SaveDebt -> onSaveDebt()
             is AddEditDebtEvent.DeleteDebt -> onDeleteDebt()
             is AddEditDebtEvent.ShowDeleteAlert -> onShowDeleteAlert(event.show)
@@ -63,11 +70,35 @@ class AddEditDebtViewModel @Inject constructor(
                                 paidAmount = debt.paidAmount.formatThousand(),
                                 dueDate = debt.dueDate,
                                 note = debt.note,
+                                transactionId = debt.transactionId,
                                 createdAt = debt.createdAt
                             )
                         }
+                        loadWallet(debt.walletId)
                     }
                 }
+            }
+        }
+    }
+
+    private fun loadWallets() {
+        viewModelScope.launch {
+            walletUseCases.getAllWallets().collectLatest { wallets ->
+                val activeWallets = wallets.filter { it.isActive }
+                _state.update { it.copy(walletOptions = activeWallets) }
+            }
+        }
+    }
+
+    private fun loadWallet(walletId: UUID) {
+        viewModelScope.launch {
+            val wallet = if (walletId == UUIDConst.empty) {
+                null
+            } else {
+                walletUseCases.getWalletById(walletId)
+            }
+            _state.update {
+                it.copy(wallet = wallet ?: Wallet(id = UUIDConst.empty, name = "Unknown"))
             }
         }
     }
@@ -119,6 +150,17 @@ class AddEditDebtViewModel @Inject constructor(
         _state.update { it.copy(note = note) }
     }
 
+    private fun onWalletSelect(wallet: Wallet) {
+        _state.update { it.copy(wallet = wallet) }
+        updateWalletError()
+    }
+
+    private fun updateWalletError() {
+        val wallet = _state.value.wallet
+        val error = if (wallet.isNotSet) R.string.error_select_wallet else null
+        _state.update { it.copy(walletError = ErrorMessage(resId = error)) }
+    }
+
     private fun onShowDeleteAlert(show: Boolean) {
         _state.update { it.copy(showAlert = show) }
     }
@@ -160,8 +202,9 @@ class AddEditDebtViewModel @Inject constructor(
         updateNameError()
         updateTotalAmountError()
         updatePaidAmountError()
+        updateWalletError()
         val state = _state.value
-        return state.nameError.isNull && state.totalAmountError.isNull && state.paidAmountError.isNull
+        return state.nameError.isNull && state.totalAmountError.isNull && state.paidAmountError.isNull && state.walletError.isNull
     }
 
     sealed class UiEvent {

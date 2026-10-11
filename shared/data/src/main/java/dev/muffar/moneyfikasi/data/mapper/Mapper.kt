@@ -19,6 +19,7 @@ import dev.muffar.moneyfikasi.domain.model.RecurringTransaction
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.domain.model.TransactionTrendItem
 import dev.muffar.moneyfikasi.domain.model.Wallet
+import dev.muffar.moneyfikasi.utils.constants.UUIDConst
 import dev.muffar.moneyfikasi.utils.extensions.LongExt.toLocalDateTime
 
 // --- Wallet Mappers ---
@@ -95,7 +96,7 @@ fun TransactionWithDetails.toDomain(): Transaction {
         date = this.transaction.date,
         note = this.transaction.note,
         type = this.transaction.type,
-        wallet = this.wallet.toDomain(),
+        wallet = this.wallet?.toDomain() ?: Wallet(id = UUIDConst.empty, name = "Unknown"),
         category = this.category?.toDomain() ?: Category(
             name = "Unauthorized",
             icon = AppIcon.Widgets.name,

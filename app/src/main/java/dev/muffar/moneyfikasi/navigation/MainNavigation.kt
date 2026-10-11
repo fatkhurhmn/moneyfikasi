@@ -202,7 +202,8 @@ fun MainNavigation(
         debtsNavGraph(
             navigateToAddDebt = { navController.toAddEditDebtScreen() },
             navigateToEditDebt = { navController.toAddEditDebtScreen(it) },
-            navigateBack = { navController.navigateUp() }
+            navigateBack = { navController.navigateUp() },
+            onNavigateToAddWallet = { navController.toAddEditWalletScreen() }
         )
 
         backupRestoreNavGraph(

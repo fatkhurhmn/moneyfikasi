@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.domain.model
 
+import dev.muffar.moneyfikasi.utils.constants.UUIDConst
 import java.util.UUID
 
 data class Debt(
@@ -9,6 +10,8 @@ data class Debt(
     val paidAmount: Double = 0.0,
     val dueDate: Long? = null,
     val note: String = "",
+    val walletId: UUID = UUIDConst.empty,
+    val transactionId: UUID? = null,
     val createdAt: Long = System.currentTimeMillis(),
     val updatedAt: Long = System.currentTimeMillis(),
 ) {

@@ -10,6 +10,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.EmptyDataList
 import dev.muffar.moneyfikasi.domain.model.Debt
+import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
 import java.util.UUID
 
@@ -17,6 +18,7 @@ import java.util.UUID
 fun DebtsContent(
     modifier: Modifier = Modifier,
     debts: List<Debt>,
+    wallets: List<Wallet>,
     onClick: (UUID) -> Unit
 ) {
     if (debts.isNotEmpty()) {
@@ -31,8 +33,10 @@ fun DebtsContent(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(debts, key = { it.id }) { debt ->
+                val walletName = wallets.find { it.id == debt.walletId }?.name ?: "Unknown"
                 DebtItem(
                     debt = debt,
+                    walletName = walletName,
                     onClick = { onClick(debt.id) }
                 )
             }

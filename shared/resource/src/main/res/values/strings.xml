@@ -207,6 +207,7 @@
     <string name="cat_salary">Salary</string>
     <string name="cat_transfer">Transfer</string>
     <string name="cat_admin_fee">Admin Fee</string>
+    <string name="cat_debt">Debt</string>
     <string name="msg_fee_for_transfer">Fee for transfer</string>
     <string name="wallet_main">Main</string>
 

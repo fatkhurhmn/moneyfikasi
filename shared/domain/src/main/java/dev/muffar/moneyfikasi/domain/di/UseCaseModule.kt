@@ -153,9 +153,11 @@ object UseCaseModule {
     @Provides
     fun provideWalletUseCases(
         walletRepository: WalletRepository,
+        debtRepository: DebtRepository,
+        transactionRepository: TransactionRepository,
     ): WalletUseCases = WalletUseCases(
         upsertWallet = UpsertWallet(walletRepository),
-        deleteWallet = DeleteWallet(walletRepository),
+        deleteWallet = DeleteWallet(walletRepository, debtRepository, transactionRepository),
         getAllWallets = GetAllWallets(walletRepository),
         getWalletById = GetWalletById(walletRepository),
     )
@@ -285,11 +287,13 @@ object UseCaseModule {
     @Provides
     fun provideDebtUseCases(
         debtRepository: DebtRepository,
+        transactionRepository: TransactionRepository,
+        categoryRepository: CategoryRepository,
     ): DebtUseCases = DebtUseCases(
         getAllDebts = GetAllDebts(debtRepository),
         getDebtById = GetDebtById(debtRepository),
-        upsertDebt = UpsertDebt(debtRepository),
-        deleteDebt = DeleteDebt(debtRepository)
+        upsertDebt = UpsertDebt(debtRepository, transactionRepository, categoryRepository),
+        deleteDebt = DeleteDebt(debtRepository, transactionRepository)
     )
 
     @Provides

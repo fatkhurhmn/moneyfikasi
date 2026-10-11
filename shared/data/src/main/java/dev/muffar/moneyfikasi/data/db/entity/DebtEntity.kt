@@ -26,6 +26,12 @@ data class DebtEntity(
     @ColumnInfo(name = "note")
     val note: String = "",
 
+    @ColumnInfo(name = "wallet_id")
+    val walletId: UUID? = null,
+
+    @ColumnInfo(name = "transaction_id")
+    val transactionId: UUID? = null,
+
     @ColumnInfo(name = "created_at")
     val createdAt: Long,
 

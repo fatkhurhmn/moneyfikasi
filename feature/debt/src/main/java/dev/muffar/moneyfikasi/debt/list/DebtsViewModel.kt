@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.usecase.debt.DebtUseCases
+import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DebtsViewModel @Inject constructor(
-    private val debtUseCases: DebtUseCases
+    private val debtUseCases: DebtUseCases,
+    private val walletUseCases: WalletUseCases
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(DebtsState())
@@ -22,12 +24,21 @@ class DebtsViewModel @Inject constructor(
 
     init {
         loadDebts()
+        loadWallets()
     }
 
     private fun loadDebts() {
         viewModelScope.launch {
             debtUseCases.getAllDebts().collectLatest { debts ->
                 _state.update { it.copy(debts = debts) }
+            }
+        }
+    }
+
+    private fun loadWallets() {
+        viewModelScope.launch {
+            walletUseCases.getAllWallets().collectLatest { wallets ->
+                _state.update { it.copy(wallets = wallets) }
             }
         }
     }

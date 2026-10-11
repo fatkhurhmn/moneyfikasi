@@ -9,6 +9,7 @@ fun NavGraphBuilder.debtsNavGraph(
     navigateToAddDebt: () -> Unit,
     navigateToEditDebt: (UUID) -> Unit,
     navigateBack: () -> Unit,
+    onNavigateToAddWallet: () -> Unit,
 ) {
     debtsNavigation(
         navigateToAddDebt = navigateToAddDebt,
@@ -17,5 +18,6 @@ fun NavGraphBuilder.debtsNavGraph(
     )
     addEditDebtNavigation(
         navigateBack = navigateBack,
+        onNavigateToAddWallet = onNavigateToAddWallet,
     )
 }

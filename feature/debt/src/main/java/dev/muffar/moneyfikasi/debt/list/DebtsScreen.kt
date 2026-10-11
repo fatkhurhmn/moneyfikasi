@@ -33,6 +33,7 @@ fun DebtsScreen(
         DebtsContent(
             modifier = modifier.padding(paddingValues),
             debts = state.debts,
+            wallets = state.wallets,
             onClick = onDebtClick
         )
     }

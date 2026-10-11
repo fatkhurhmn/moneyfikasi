@@ -24,6 +24,10 @@ class DebtRepositoryImpl @Inject constructor(
         return debtDao.getDebtById(id)?.toDomain()
     }
 
+    override suspend fun getDebtsByWalletId(walletId: UUID): List<Debt> {
+        return debtDao.getDebtsByWalletId(walletId).map { it.toDomain() }
+    }
+
     override suspend fun upsertDebt(debt: Debt) {
         debtDao.upsertDebt(debt.toEntity())
     }

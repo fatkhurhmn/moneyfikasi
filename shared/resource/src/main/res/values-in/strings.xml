@@ -207,6 +207,7 @@
     <string name="cat_salary">Gaji</string>
     <string name="cat_transfer">Transfer</string>
     <string name="cat_admin_fee">Biaya Admin</string>
+    <string name="cat_debt">Hutang</string>
     <string name="msg_fee_for_transfer">Biaya untuk transfer</string>
     <string name="wallet_main">Utama</string>
 

@@ -2,6 +2,7 @@ package dev.muffar.moneyfikasi.debt.add_edit
 
 import dev.muffar.moneyfikasi.domain.model.Debt
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
+import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
 import java.util.UUID
 
@@ -15,6 +16,10 @@ data class AddEditDebtState(
     val paidAmountError: ErrorMessage = ErrorMessage(),
     val dueDate: Long? = null,
     val note: String = "",
+    val wallet: Wallet = Wallet(),
+    val walletError: ErrorMessage = ErrorMessage(),
+    val walletOptions: List<Wallet> = emptyList(),
+    val transactionId: UUID? = null,
     val showAlert: Boolean = false,
     val createdAt: Long = System.currentTimeMillis()
 ) {
@@ -26,6 +31,8 @@ data class AddEditDebtState(
             paidAmount = paidAmount.clearThousandFormat().toDoubleOrNull() ?: 0.0,
             dueDate = dueDate,
             note = note.trim(),
+            walletId = wallet.id,
+            transactionId = transactionId,
             createdAt = createdAt,
             updatedAt = System.currentTimeMillis()
         )

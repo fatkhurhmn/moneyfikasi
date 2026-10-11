@@ -17,12 +17,6 @@ import java.util.UUID
     ],
     foreignKeys = [
         ForeignKey(
-            entity = WalletEntity::class,
-            parentColumns = ["id"],
-            childColumns = ["wallet_id"],
-            onDelete = ForeignKey.CASCADE
-        ),
-        ForeignKey(
             entity = CategoryEntity::class,
             parentColumns = ["id"],
             childColumns = ["category_id"],

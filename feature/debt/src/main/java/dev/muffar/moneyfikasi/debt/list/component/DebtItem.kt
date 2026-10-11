@@ -27,6 +27,7 @@ import dev.muffar.moneyfikasi.utils.extensions.LongExt.formattedDate
 fun DebtItem(
     modifier: Modifier = Modifier,
     debt: Debt,
+    walletName: String,
     onClick: (() -> Unit)? = null,
 ) {
     val progress = if (debt.totalAmount > 0) (debt.paidAmount / debt.totalAmount).toFloat() else 0f
@@ -89,6 +90,11 @@ fun DebtItem(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
+            Text(
+                text = "${stringResource(R.string.label_wallet)}: $walletName",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         }
     }
 }

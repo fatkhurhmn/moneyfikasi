@@ -23,7 +23,7 @@ import dev.muffar.moneyfikasi.data.db.entity.WalletEntity
 import dev.muffar.moneyfikasi.data.utils.PrepopulateDbCallback
 
 @Database(
-    version = 2,
+    version = 3,
     entities = [
         CategoryEntity::class,
         TransactionEntity::class,
@@ -34,7 +34,8 @@ import dev.muffar.moneyfikasi.data.utils.PrepopulateDbCallback
         DebtEntity::class,
     ],
     autoMigrations = [
-        AutoMigration(from = 1, to = 2)
+        AutoMigration(from = 1, to = 2),
+        AutoMigration(from = 2, to = 3)
     ],
     exportSchema = true
 )

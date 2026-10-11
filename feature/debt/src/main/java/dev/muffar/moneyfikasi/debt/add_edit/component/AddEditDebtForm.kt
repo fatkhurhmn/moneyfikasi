@@ -12,7 +12,9 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.text_input.BasicAmountInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.CommonTextInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.DateInput
+import dev.muffar.moneyfikasi.common_ui.component.text_input.WalletInput
 import dev.muffar.moneyfikasi.debt.add_edit.AddEditDebtState
+import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
 
 @Composable
@@ -23,7 +25,9 @@ fun AddEditDebtForm(
     onTotalAmountChange: (String) -> Unit,
     onPaidAmountChange: (String) -> Unit,
     onDueDateChange: (Long?) -> Unit,
-    onNoteChange: (String) -> Unit
+    onNoteChange: (String) -> Unit,
+    onWalletSelect: (Wallet) -> Unit,
+    onAddNewWalletClick: () -> Unit
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -47,6 +51,14 @@ fun AddEditDebtForm(
             error = state.paidAmountError,
             label = stringResource(R.string.label_paid_amount),
             onAmountChange = onPaidAmountChange,
+        )
+
+        WalletInput(
+            wallet = state.wallet,
+            error = state.walletError,
+            walletOptions = state.walletOptions,
+            onWalletSelect = onWalletSelect,
+            onAddNewWalletClick = onAddNewWalletClick
         )
 
         DateInput(

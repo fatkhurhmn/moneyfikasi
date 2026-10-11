@@ -16,6 +16,7 @@ import java.util.UUID
 
 fun NavGraphBuilder.addEditDebtNavigation(
     navigateBack: () -> Unit,
+    onNavigateToAddWallet: () -> Unit,
 ) {
     composable(
         route = Screen.AddEditDebt.route,
@@ -37,6 +38,8 @@ fun NavGraphBuilder.addEditDebtNavigation(
             onPaidAmountChange = { viewModel.onEvent(AddEditDebtEvent.PaidAmountChanged(it)) },
             onDueDateChange = { viewModel.onEvent(AddEditDebtEvent.DueDateChanged(it)) },
             onNoteChange = { viewModel.onEvent(AddEditDebtEvent.NoteChanged(it)) },
+            onWalletSelect = { viewModel.onEvent(AddEditDebtEvent.WalletSelected(it)) },
+            onAddNewWalletClick = onNavigateToAddWallet,
             onShowAlert = { viewModel.onEvent(AddEditDebtEvent.ShowDeleteAlert(it)) },
             onSubmit = { viewModel.onEvent(AddEditDebtEvent.SaveDebt) },
             onDelete = { viewModel.onEvent(AddEditDebtEvent.DeleteDebt) },

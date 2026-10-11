@@ -10,7 +10,7 @@ data class TransactionWithDetails(
         parentColumn = "wallet_id",
         entityColumn = "id"
     )
-    val wallet: WalletEntity,
+    val wallet: WalletEntity?,
 
     @Relation(
         parentColumn = "category_id",
