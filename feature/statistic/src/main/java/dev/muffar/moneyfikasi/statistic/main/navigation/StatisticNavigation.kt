@@ -1,6 +1,6 @@
 package dev.muffar.moneyfikasi.statistic.main.navigation
 
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -18,7 +18,7 @@ fun NavGraphBuilder.statisticNavigation(
 ) {
     composable(Screen.Statistic.route) {
         val viewModel = hiltViewModel<StatisticViewModel>()
-        val state by viewModel.state.collectAsState()
+        val state by viewModel.state.collectAsStateWithLifecycle()
         val event = viewModel::onEvent
 
         StatisticScreen(
