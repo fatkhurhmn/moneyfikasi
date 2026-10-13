@@ -281,7 +281,7 @@
     <string name="msg_delete_budget_confirmation">Apakah Anda yakin ingin menghapus anggaran ini?</string>
     <string name="msg_debt_description">Catat uang yang Anda pinjam atau dipinjam orang lain.</string>
     <string name="msg_debts_count">%d Hutang</string>
-    <string name="msg_delete_debt_confirmation">Apakah Anda yakin ingin menghapus hutang ini?</string>
+    <string name="msg_delete_debt_confirmation">Apakah Anda yakin ingin menghapus hutang ini? Semua riwayat terkait juga akan dihapus.</string>
     <string name="msg_payment_success">Pembayaran tercatat</string>
     <string name="msg_debt_updated">Hutang diperbarui</string>
     <string name="msg_recurring_description">Atur transaksi agar berulang secara otomatis.</string>

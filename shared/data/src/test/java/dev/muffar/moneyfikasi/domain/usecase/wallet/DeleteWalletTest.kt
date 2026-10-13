@@ -1,6 +1,8 @@
 package dev.muffar.moneyfikasi.domain.usecase.wallet
 
 import dev.muffar.moneyfikasi.domain.model.Debt
+import dev.muffar.moneyfikasi.domain.model.Transaction
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.repository.DebtRepository
 import dev.muffar.moneyfikasi.domain.repository.TransactionRepository
@@ -9,9 +11,11 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.coVerifyOrder
 import io.mockk.mockk
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
+import org.threeten.bp.LocalDateTime
 import java.util.UUID
 
 class DeleteWalletTest {
@@ -81,5 +85,39 @@ class DeleteWalletTest {
         coVerify(exactly = 0) { transactionRepository.deleteTransaction(any()) }
         coVerify(exactly = 0) { debtRepository.deleteDebt(any()) }
         coVerify { walletRepository.deleteWallet(wallet) }
+    }
+
+    @Test
+    fun `deletes history of each debt before wallet`() = runTest {
+        val principalId = UUID.randomUUID()
+        val paymentId = UUID.randomUUID()
+        val debt = Debt(
+            name = "Car loan",
+            totalAmount = 1000.0,
+            walletId = walletId,
+            transactionId = principalId
+        )
+        coEvery { debtRepository.getDebtsByWalletId(walletId) } returns listOf(debt)
+        coEvery { transactionRepository.getTransactionsByDebtId(debt.id) } returns flowOf(
+            listOf(
+                Transaction(
+                    id = paymentId,
+                    category = mockk(relaxed = true),
+                    wallet = wallet,
+                    type = TransactionType.EXPENSE,
+                    amount = 100.0,
+                    date = LocalDateTime.of(2026, 1, 2, 10, 0)
+                )
+            )
+        )
+
+        deleteWallet(wallet)
+
+        coVerifyOrder {
+            transactionRepository.deleteTransaction(principalId)
+            transactionRepository.deleteTransaction(paymentId)
+            debtRepository.deleteDebt(debt)
+            walletRepository.deleteWallet(wallet)
+        }
     }
 }

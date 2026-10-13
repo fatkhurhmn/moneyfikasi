@@ -281,7 +281,7 @@
     <string name="msg_delete_budget_confirmation">Are you sure you want to delete this budget?</string>
     <string name="msg_debt_description">Record money you owe or that others owe you.</string>
     <string name="msg_debts_count">%d Debts</string>
-    <string name="msg_delete_debt_confirmation">Are you sure you want to delete this debt?</string>
+    <string name="msg_delete_debt_confirmation">Are you sure you want to delete this debt? All related history will also be deleted.</string>
     <string name="msg_payment_success">Payment recorded</string>
     <string name="msg_debt_updated">Debt updated</string>
     <string name="msg_recurring_description">Set up transactions to repeat automatically.</string>

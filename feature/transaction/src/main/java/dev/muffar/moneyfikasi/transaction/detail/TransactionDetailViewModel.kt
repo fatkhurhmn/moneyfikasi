@@ -209,20 +209,25 @@ class TransactionDetailViewModel @Inject constructor(
     }
 
     private fun onDeleteTransaction() {
-        state.value.transactionId?.let {
-            viewModelScope.launch {
-                try {
-                    transactionUseCases.deleteTransaction(it)
-                    _eventFlow.emit(UiEvent.DeleteTransaction)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    _eventFlow.emit(
-                        UiEvent.ShowMessage(
-                            R.string.error_delete_transaction_failed,
-                            SnackbarType.ERROR
-                        )
-                    )
+        val linkedDebt = state.value.linkedDebt
+        val transactionId = state.value.transactionId
+        if (linkedDebt == null && transactionId == null) return
+        viewModelScope.launch {
+            try {
+                if (linkedDebt != null) {
+                    debtUseCases.deleteDebt(linkedDebt)
+                } else {
+                    transactionUseCases.deleteTransaction(transactionId!!)
                 }
+                _eventFlow.emit(UiEvent.DeleteTransaction)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _eventFlow.emit(
+                    UiEvent.ShowMessage(
+                        R.string.error_delete_transaction_failed,
+                        SnackbarType.ERROR
+                    )
+                )
             }
         }
     }

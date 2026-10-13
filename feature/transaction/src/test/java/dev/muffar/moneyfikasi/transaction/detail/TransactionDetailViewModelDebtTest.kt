@@ -38,6 +38,7 @@ import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.UpdateTransaction
 import dev.muffar.moneyfikasi.domain.usecase.transaction.UpdateTransfer
 import dev.muffar.moneyfikasi.navigation.Screen
+import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -110,7 +111,7 @@ class TransactionDetailViewModelDebtTest {
             transactionId = transactionId
         )
 
-        val viewModel = createViewModel(transactionId, isTransfer = false)
+        val (viewModel, _, _) = createViewModel(transactionId, isTransfer = false)
         viewModel.onEvent(TransactionDetailEvent.InitData)
         advanceUntilIdle()
 
@@ -139,7 +140,7 @@ class TransactionDetailViewModelDebtTest {
             transactionId = transactionId
         )
 
-        val viewModel = createViewModel(transactionId, isTransfer = false)
+        val (viewModel, _, _) = createViewModel(transactionId, isTransfer = false)
         viewModel.onEvent(TransactionDetailEvent.InitData)
         advanceUntilIdle()
 
@@ -159,7 +160,7 @@ class TransactionDetailViewModelDebtTest {
             note = "Snack"
         )
 
-        val viewModel = createViewModel(transactionId, isTransfer = false)
+        val (viewModel, _, _) = createViewModel(transactionId, isTransfer = false)
         viewModel.onEvent(TransactionDetailEvent.InitData)
         advanceUntilIdle()
 
@@ -180,7 +181,7 @@ class TransactionDetailViewModelDebtTest {
             note = null
         )
 
-        val viewModel = createViewModel(transactionId, isTransfer = true)
+        val (viewModel, _, _) = createViewModel(transactionId, isTransfer = true)
         viewModel.onEvent(TransactionDetailEvent.InitData)
         advanceUntilIdle()
 
@@ -208,7 +209,7 @@ class TransactionDetailViewModelDebtTest {
             transactionId = transactionId
         )
 
-        val viewModel = createViewModel(transactionId, isTransfer = false)
+        val (viewModel, _, _) = createViewModel(transactionId, isTransfer = false)
         viewModel.onEvent(TransactionDetailEvent.InitData)
         advanceUntilIdle()
 
@@ -230,7 +231,7 @@ class TransactionDetailViewModelDebtTest {
             note = null
         )
 
-        val viewModel = createViewModel(transactionId, isTransfer = true)
+        val (viewModel, _, _) = createViewModel(transactionId, isTransfer = true)
         viewModel.onEvent(TransactionDetailEvent.InitData)
         advanceUntilIdle()
 
@@ -252,14 +253,75 @@ class TransactionDetailViewModelDebtTest {
             note = "Snack"
         )
 
-        val viewModel = createViewModel(transactionId, isTransfer = false)
+        val (viewModel, _, _) = createViewModel(transactionId, isTransfer = false)
         viewModel.onEvent(TransactionDetailEvent.InitData)
         advanceUntilIdle()
 
         assertFalse(viewModel.state.value.canShowPlus)
     }
 
-    private fun createViewModel(transactionId: UUID, isTransfer: Boolean): TransactionDetailViewModel {
+    @Test
+    fun `delete with linked debt removes whole debt instead of single transaction`() = runTest {
+        val transactionId = UUID.randomUUID()
+        fakeTransactionRepo.transactions[transactionId] = Transaction(
+            id = transactionId,
+            category = testCategory,
+            wallet = testWallet,
+            type = TransactionType.INCOME,
+            amount = 1000.0,
+            date = LocalDateTime.of(2026, 1, 1, 10, 0),
+            note = "Borrowed money"
+        )
+        val debt = Debt(
+            name = "Borrowed money",
+            type = DebtType.DEBT,
+            totalAmount = 1000.0,
+            walletId = testWallet.id,
+            transactionId = transactionId
+        )
+        fakeDebtRepo.debtsByTransaction[transactionId] = debt
+
+        val (viewModel, transactionUseCases, debtUseCases) =
+            createViewModel(transactionId, isTransfer = false)
+        viewModel.onEvent(TransactionDetailEvent.InitData)
+        advanceUntilIdle()
+
+        viewModel.onEvent(TransactionDetailEvent.DeleteTransaction)
+        advanceUntilIdle()
+
+        coVerify { debtUseCases.deleteDebt(debt) }
+        coVerify(exactly = 0) { transactionUseCases.deleteTransaction(any()) }
+    }
+
+    @Test
+    fun `delete plain transaction still deletes single transaction`() = runTest {
+        val transactionId = UUID.randomUUID()
+        fakeTransactionRepo.transactions[transactionId] = Transaction(
+            id = transactionId,
+            category = testCategory,
+            wallet = testWallet,
+            type = TransactionType.EXPENSE,
+            amount = 100.0,
+            date = LocalDateTime.of(2026, 1, 3, 10, 0),
+            note = "Snack"
+        )
+
+        val (viewModel, transactionUseCases, debtUseCases) =
+            createViewModel(transactionId, isTransfer = false)
+        viewModel.onEvent(TransactionDetailEvent.InitData)
+        advanceUntilIdle()
+
+        viewModel.onEvent(TransactionDetailEvent.DeleteTransaction)
+        advanceUntilIdle()
+
+        coVerify { transactionUseCases.deleteTransaction(transactionId) }
+        coVerify(exactly = 0) { debtUseCases.deleteDebt(any()) }
+    }
+
+    private fun createViewModel(
+        transactionId: UUID,
+        isTransfer: Boolean
+    ): Triple<TransactionDetailViewModel, TransactionUseCases, DebtUseCases> {
         val transactionUseCases = TransactionUseCases(
             addTransaction = mockk(relaxed = true),
             updateTransaction = mockk(relaxed = true),
@@ -294,11 +356,15 @@ class TransactionDetailViewModelDebtTest {
                 Screen.TransactionDetail.IS_TRANSFER to isTransfer
             )
         )
-        return TransactionDetailViewModel(
-            transactionUseCases = transactionUseCases,
-            debtUseCases = debtUseCases,
-            handle = handle,
-            application = mockk<Application>(relaxed = true)
+        return Triple(
+            TransactionDetailViewModel(
+                transactionUseCases = transactionUseCases,
+                debtUseCases = debtUseCases,
+                handle = handle,
+                application = mockk<Application>(relaxed = true)
+            ),
+            transactionUseCases,
+            debtUseCases
         )
     }
 
