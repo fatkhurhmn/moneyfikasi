@@ -19,7 +19,8 @@ fun DebtsContent(
     modifier: Modifier = Modifier,
     debts: List<Debt>,
     wallets: List<Wallet>,
-    onClick: (UUID) -> Unit
+    onClick: (UUID) -> Unit,
+    onPayClick: (UUID) -> Unit
 ) {
     if (debts.isNotEmpty()) {
         LazyColumn(
@@ -37,7 +38,8 @@ fun DebtsContent(
                 DebtItem(
                     debt = debt,
                     walletName = walletName,
-                    onClick = { onClick(debt.id) }
+                    onClick = { onClick(debt.id) },
+                    onPayClick = { onPayClick(debt.id) }
                 )
             }
         }

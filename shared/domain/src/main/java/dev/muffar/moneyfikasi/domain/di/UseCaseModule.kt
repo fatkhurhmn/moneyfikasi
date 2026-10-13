@@ -43,6 +43,9 @@ import dev.muffar.moneyfikasi.domain.usecase.debt.DeleteDebt
 import dev.muffar.moneyfikasi.domain.usecase.debt.GetAllDebts
 import dev.muffar.moneyfikasi.domain.usecase.debt.GetDebtById
 import dev.muffar.moneyfikasi.domain.usecase.debt.GetDebtByTransactionId
+import dev.muffar.moneyfikasi.domain.usecase.debt.GetDebtHistory
+import dev.muffar.moneyfikasi.domain.usecase.debt.IncreaseDebtAmount
+import dev.muffar.moneyfikasi.domain.usecase.debt.RecordDebtPayment
 import dev.muffar.moneyfikasi.domain.usecase.debt.UpsertDebt
 import dev.muffar.moneyfikasi.domain.usecase.category.GetAllCategories
 import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryById
@@ -295,7 +298,10 @@ object UseCaseModule {
         getDebtById = GetDebtById(debtRepository),
         getDebtByTransactionId = GetDebtByTransactionId(debtRepository),
         upsertDebt = UpsertDebt(debtRepository, transactionRepository, categoryRepository),
-        deleteDebt = DeleteDebt(debtRepository, transactionRepository)
+        deleteDebt = DeleteDebt(debtRepository, transactionRepository),
+        recordDebtPayment = RecordDebtPayment(debtRepository, transactionRepository),
+        increaseDebtAmount = IncreaseDebtAmount(debtRepository, transactionRepository),
+        getDebtHistory = GetDebtHistory(transactionRepository, debtRepository)
     )
 
     @Provides

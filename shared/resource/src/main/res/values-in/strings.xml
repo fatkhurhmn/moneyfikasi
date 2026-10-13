@@ -80,6 +80,11 @@
     <string name="label_note">Catatan</string>
     <string name="label_note_optional">Catatan (opsional)</string>
     <string name="label_paid_amount">Sudah Dibayar</string>
+    <string name="label_pay_debt">Bayar Hutang</string>
+    <string name="label_collect_debt">Tagih Piutang</string>
+    <string name="label_add_debt">Tambah Hutang</string>
+    <string name="label_add_receivable">Tambah Piutang</string>
+    <string name="label_history">Riwayat</string>
     <string name="label_due_date">Jatuh Tempo</string>
     <string name="label_description_optional">Deskripsi (opsional)</string>
     <string name="label_date">Tanggal</string>
@@ -277,6 +282,8 @@
     <string name="msg_debt_description">Catat uang yang Anda pinjam atau dipinjam orang lain.</string>
     <string name="msg_debts_count">%d Hutang</string>
     <string name="msg_delete_debt_confirmation">Apakah Anda yakin ingin menghapus hutang ini?</string>
+    <string name="msg_payment_success">Pembayaran tercatat</string>
+    <string name="msg_debt_updated">Hutang diperbarui</string>
     <string name="msg_recurring_description">Atur transaksi agar berulang secara otomatis.</string>
     <string name="msg_recurring_count">%d Transaksi Berulang</string>
     <string name="msg_loading">Memuat…</string>
@@ -384,6 +391,7 @@
     <string name="error_paid_exceeds_total">Jumlah dibayar tidak boleh melebihi total</string>
     <string name="error_save_debt_failed">Gagal menyimpan hutang</string>
     <string name="error_delete_debt_failed">Gagal menghapus hutang</string>
+    <string name="error_record_payment_failed">Gagal mencatat pembayaran</string>
     <string name="error_save_category_failed">Gagal menyimpan kategori</string>
     <string name="error_delete_category_failed">Gagal menghapus kategori</string>
     <string name="error_save_wallet_failed">Gagal menyimpan dompet</string>

@@ -38,7 +38,7 @@ class UpsertDebtTypeTest {
         )
         coEvery { debtRepository.getDebtById(any()) } returns null
         coEvery {
-            transactionRepository.addIncomeOrExpense(any(), any(), any(), any(), any(), any())
+            transactionRepository.addIncomeOrExpense(any(), any(), any(), any(), any(), any(), any())
         } returns UUID.randomUUID()
         coEvery { categoryRepository.getCategoryById(UUIDConst.DebtCategoryId) } returns Category(
             id = UUIDConst.DebtCategoryId,
@@ -76,7 +76,8 @@ class UpsertDebtTypeTest {
                 date = any(),
                 note = "Borrowed money",
                 walletId = walletId,
-                categoryId = UUIDConst.DebtCategoryId
+                categoryId = UUIDConst.DebtCategoryId,
+                debtId = debt.id
             )
         }
     }
@@ -99,7 +100,8 @@ class UpsertDebtTypeTest {
                 date = any(),
                 note = "Lent money",
                 walletId = walletId,
-                categoryId = UUIDConst.ReceivableCategoryId
+                categoryId = UUIDConst.ReceivableCategoryId,
+                debtId = debt.id
             )
         }
     }
@@ -128,7 +130,8 @@ class UpsertDebtTypeTest {
                 date = any(),
                 note = "Lent money",
                 walletId = walletId,
-                categoryId = UUIDConst.DebtCategoryId
+                categoryId = UUIDConst.DebtCategoryId,
+                debtId = debtId
             )
         }
         coVerify { debtRepository.upsertDebt(match { it.transactionId == transactionId }) }

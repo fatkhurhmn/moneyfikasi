@@ -118,6 +118,11 @@ class TransactionRepositoryImpl(
             .map { list -> list.map { it.toDomain() } }
     }
 
+    override fun getTransactionsByDebtId(debtId: UUID): Flow<List<Transaction>> {
+        return transactionDao.getTransactionsByDebtId(debtId)
+            .map { list -> list.map { it.toDomain() } }
+    }
+
     override suspend fun getTransactionById(id: UUID): Transaction? {
         return transactionDao.getTransactionWithDetailsById(id)?.toDomain()
     }
@@ -133,7 +138,8 @@ class TransactionRepositoryImpl(
         note: String?,
         walletId: UUID,
         categoryId: UUID?,
-        recurringTransactionId: UUID?
+        recurringTransactionId: UUID?,
+        debtId: UUID?
     ): UUID {
         val id = UUID.randomUUID()
         val entity = TransactionEntity(
@@ -145,7 +151,8 @@ class TransactionRepositoryImpl(
             date = date,
             note = note,
             transactionReference = null,
-            recurringTransactionId = recurringTransactionId
+            recurringTransactionId = recurringTransactionId,
+            debtId = debtId
         )
 
         transactionDao.insertIncomeOrExpense(entity)
@@ -159,7 +166,8 @@ class TransactionRepositoryImpl(
         date: LocalDateTime,
         note: String?,
         walletId: UUID,
-        categoryId: UUID?
+        categoryId: UUID?,
+        debtId: UUID?
     ) {
         val entity = TransactionEntity(
             id = id,
@@ -169,7 +177,8 @@ class TransactionRepositoryImpl(
             amount = amount,
             date = date,
             note = note,
-            transactionReference = null
+            transactionReference = null,
+            debtId = debtId
         )
         transactionDao.updateIncomeOrExpense(entity)
     }

@@ -1,4 +1,4 @@
-package dev.muffar.moneyfikasi.debt.component
+package dev.muffar.moneyfikasi.common_ui.component.tabs
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background

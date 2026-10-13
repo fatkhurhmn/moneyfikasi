@@ -9,13 +9,11 @@ import androidx.navigation.compose.composable
 import dev.muffar.moneyfikasi.debt.list.DebtsEvent
 import dev.muffar.moneyfikasi.debt.list.DebtsScreen
 import dev.muffar.moneyfikasi.debt.list.DebtsViewModel
-import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.navigation.Screen
-import java.util.UUID
 
 fun NavGraphBuilder.debtsNavigation(
-    navigateToAddDebt: (DebtType) -> Unit,
-    navigateToEditDebt: (DebtType, UUID) -> Unit,
+    navigateToAddDebt: (dev.muffar.moneyfikasi.domain.model.DebtType) -> Unit,
+    navigateToEditDebt: (dev.muffar.moneyfikasi.domain.model.DebtType, java.util.UUID) -> Unit,
     navigateBack: () -> Unit,
 ) {
     composable(route = Screen.Debts.route) {
@@ -24,12 +22,18 @@ fun NavGraphBuilder.debtsNavigation(
 
         DebtsScreen(
             state = state,
+            eventFlow = viewModel.eventFlow,
             onDebtClick = { id ->
                 state.debts.find { it.id == id }?.let {
                     navigateToEditDebt(it.type, it.id)
                 }
             },
+            onDebtPayClick = { viewModel.onEvent(DebtsEvent.PaymentOpened(it)) },
             onAddDebtClick = navigateToAddDebt,
+            onShowAddSheet = { viewModel.onEvent(DebtsEvent.ShowAddSheetChanged(it)) },
+            onPaymentAmountChange = { viewModel.onEvent(DebtsEvent.PaymentAmountChanged(it)) },
+            onPaymentDismiss = { viewModel.onEvent(DebtsEvent.PaymentDismissed) },
+            onPaymentConfirm = { viewModel.onEvent(DebtsEvent.PaymentConfirmed) },
             onFilterChange = { viewModel.onEvent(DebtsEvent.FilterChanged(it)) },
             onBackClick = navigateBack
         )

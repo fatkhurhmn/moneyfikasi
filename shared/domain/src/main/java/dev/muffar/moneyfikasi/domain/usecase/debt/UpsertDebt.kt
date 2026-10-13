@@ -40,7 +40,8 @@ class UpsertDebt(
                 date = date,
                 note = debt.name,
                 walletId = debt.walletId,
-                categoryId = categoryId
+                categoryId = categoryId,
+                debtId = debt.id
             )
             debtRepository.upsertDebt(debt.copy(transactionId = transactionId))
         } else {
@@ -51,7 +52,8 @@ class UpsertDebt(
                 date = date,
                 note = debt.name,
                 walletId = debt.walletId,
-                categoryId = categoryId
+                categoryId = categoryId,
+                debtId = debt.id
             )
             debtRepository.upsertDebt(debt.copy(transactionId = existingTransactionId))
         }

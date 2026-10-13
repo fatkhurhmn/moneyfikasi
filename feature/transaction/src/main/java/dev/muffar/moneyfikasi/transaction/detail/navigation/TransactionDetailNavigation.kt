@@ -56,6 +56,11 @@ fun NavGraphBuilder.transactionDetailNavigation(
             onDebtEditClick = onNavigateToEditDebt,
             onBackClick = onNavigateBack,
             onSaveClick = { event(TransactionDetailEvent.SaveToGallery(it)) },
+            onPlusClick = { event(TransactionDetailEvent.ShowPlusSheet(true)) },
+            onPlusTabSelected = { event(TransactionDetailEvent.PlusTabSelected(it)) },
+            onPlusAmountChange = { event(TransactionDetailEvent.PlusAmountChanged(it)) },
+            onPlusConfirm = { event(TransactionDetailEvent.PlusConfirmed) },
+            onPlusDismiss = { event(TransactionDetailEvent.PlusDismissed) },
         )
     }
 }

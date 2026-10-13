@@ -4,6 +4,8 @@ import android.graphics.Bitmap
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -26,6 +28,8 @@ import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.transaction.detail.component.DebtHistorySection
+import dev.muffar.moneyfikasi.transaction.detail.component.DebtPlusSheet
 import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailCard
 import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailSaveButton
 import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailTopBar
@@ -47,17 +51,25 @@ fun TransactionDetailScreen(
     onDelete: () -> Unit,
     onShowAlert: (Boolean) -> Unit,
     onBackClick: () -> Unit,
-    onSaveClick: (Bitmap) -> Unit
+    onSaveClick: (Bitmap) -> Unit,
+    onPlusClick: () -> Unit,
+    onPlusTabSelected: (Int) -> Unit,
+    onPlusAmountChange: (String) -> Unit,
+    onPlusConfirm: () -> Unit,
+    onPlusDismiss: () -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val captureController = rememberCaptureController()
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+    val scrollState = rememberScrollState()
 
     Scaffold(
         snackbarHost = { SnackbarMessage(snackbarHostState) },
         topBar = {
             TransactionDetailTopBar(
+                showPlus = state.canShowPlus,
+                onPlusClick = onPlusClick,
                 onEditClick = {
                     val linkedDebt = state.linkedDebt
                     if (linkedDebt != null) {
@@ -80,27 +92,38 @@ fun TransactionDetailScreen(
             }
         }
     ) {
-        Card(
+        Column(
             modifier = Modifier
-                .padding(horizontal = 16.dp, vertical = 24.dp)
                 .padding(it)
-                .capturable(captureController),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface
-            ),
+                .verticalScroll(scrollState)
         ) {
-            Column(
+            Card(
                 modifier = Modifier
-                    .padding(24.dp)
-                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 24.dp)
+                    .capturable(captureController),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                ),
             ) {
-                if (state.isTransfer) {
-                    if (state.transferDetail == null) return@Card
-                    TransferDetailCard(state.transferDetail)
-                } else {
-                    if (state.transaction == null) return@Card
-                    TransactionDetailCard(state.transaction)
+                Column(
+                    modifier = Modifier
+                        .padding(24.dp)
+                        .fillMaxWidth()
+                ) {
+                    if (state.isTransfer) {
+                        if (state.transferDetail == null) return@Card
+                        TransferDetailCard(state.transferDetail)
+                    } else {
+                        if (state.transaction == null) return@Card
+                        TransactionDetailCard(state.transaction)
+                    }
                 }
+            }
+            if (state.linkedDebt != null) {
+                DebtHistorySection(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    history = state.history
+                )
             }
         }
     }
@@ -117,6 +140,24 @@ fun TransactionDetailScreen(
                 onShowAlert(false)
             }
         )
+    }
+
+    state.linkedDebt?.let { debt ->
+        if (state.showPlusSheet) {
+            DebtPlusSheet(
+                debtType = debt.type,
+                debtName = debt.name,
+                remainingAmount = debt.remainingAmount,
+                selectedTab = state.plusTab,
+                amount = state.plusAmount,
+                error = state.plusAmountError,
+                isPaymentTab = state.isPlusPaymentTab,
+                onTabSelected = onPlusTabSelected,
+                onAmountChange = onPlusAmountChange,
+                onConfirm = onPlusConfirm,
+                onDismissRequest = onPlusDismiss
+            )
+        }
     }
 
     LaunchedEffect(eventFlow) {

@@ -326,6 +326,9 @@ class TransactionsViewModelCalendarTest {
         override fun getTransactionsByWallet(walletId: UUID): Flow<List<Transaction>> =
             flowOf(emptyList())
 
+        override fun getTransactionsByDebtId(debtId: UUID): Flow<List<Transaction>> =
+            flowOf(emptyList())
+
         override suspend fun getTransactionById(id: UUID): Transaction? = null
         override suspend fun getTransactionCountByRecurringId(recurringId: UUID): Int = 0
         override suspend fun addIncomeOrExpense(
@@ -335,7 +338,8 @@ class TransactionsViewModelCalendarTest {
             note: String?,
             walletId: UUID,
             categoryId: UUID?,
-            recurringTransactionId: UUID?
+            recurringTransactionId: UUID?,
+            debtId: UUID?
         ): UUID = UUID.randomUUID()
 
         override suspend fun updateIncomeOrExpense(
@@ -345,7 +349,8 @@ class TransactionsViewModelCalendarTest {
             date: LocalDateTime,
             note: String?,
             walletId: UUID,
-            categoryId: UUID?
+            categoryId: UUID?,
+            debtId: UUID?
         ) {
         }
 

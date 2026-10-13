@@ -13,7 +13,8 @@ import java.util.UUID
     tableName = "transactions",
     indices = [
         Index(value = ["wallet_id"]),
-        Index(value = ["category_id"])
+        Index(value = ["category_id"]),
+        Index(value = ["debt_id"])
     ],
     foreignKeys = [
         ForeignKey(
@@ -51,5 +52,8 @@ data class TransactionEntity(
     val transactionReference: UUID? = null,
 
     @ColumnInfo(name = "recurring_transaction_id")
-    val recurringTransactionId: UUID? = null
+    val recurringTransactionId: UUID? = null,
+
+    @ColumnInfo(name = "debt_id")
+    val debtId: UUID? = null
 )

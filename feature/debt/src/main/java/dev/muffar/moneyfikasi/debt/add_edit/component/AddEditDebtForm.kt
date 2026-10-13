@@ -15,8 +15,8 @@ import dev.muffar.moneyfikasi.common_ui.component.text_input.DateInput
 import dev.muffar.moneyfikasi.common_ui.component.text_input.WalletInput
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.debt.add_edit.AddEditDebtState
-import dev.muffar.moneyfikasi.debt.component.DebtTab
-import dev.muffar.moneyfikasi.debt.component.DebtTypeTabHeader
+import dev.muffar.moneyfikasi.common_ui.component.tabs.DebtTab
+import dev.muffar.moneyfikasi.common_ui.component.tabs.DebtTypeTabHeader
 import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R

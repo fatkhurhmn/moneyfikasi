@@ -50,7 +50,9 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -186,6 +188,77 @@ class TransactionDetailViewModelDebtTest {
         assertEquals(200.0, viewModel.state.value.transferDetail?.amount ?: 0.0, 0.001)
     }
 
+    @Test
+    fun `debt linked detail shows plus action and opens sheet`() = runTest {
+        val transactionId = UUID.randomUUID()
+        fakeTransactionRepo.transactions[transactionId] = Transaction(
+            id = transactionId,
+            category = testCategory,
+            wallet = testWallet,
+            type = TransactionType.INCOME,
+            amount = 1000.0,
+            date = LocalDateTime.of(2026, 1, 1, 10, 0),
+            note = "Borrowed money"
+        )
+        fakeDebtRepo.debtsByTransaction[transactionId] = Debt(
+            name = "Borrowed money",
+            type = DebtType.DEBT,
+            totalAmount = 1000.0,
+            walletId = testWallet.id,
+            transactionId = transactionId
+        )
+
+        val viewModel = createViewModel(transactionId, isTransfer = false)
+        viewModel.onEvent(TransactionDetailEvent.InitData)
+        advanceUntilIdle()
+
+        assertTrue(viewModel.state.value.canShowPlus)
+        viewModel.onEvent(TransactionDetailEvent.ShowPlusSheet(true))
+        assertTrue(viewModel.state.value.showPlusSheet)
+    }
+
+    @Test
+    fun `transfer detail hides plus action`() = runTest {
+        val transactionId = UUID.randomUUID()
+        fakeTransactionRepo.transferDetail = TransferDetail(
+            referenceId = UUID.randomUUID(),
+            sourceWallet = testWallet,
+            targetWallet = testWallet,
+            amount = 200.0,
+            fee = 0.0,
+            date = LocalDateTime.of(2026, 1, 4, 10, 0),
+            note = null
+        )
+
+        val viewModel = createViewModel(transactionId, isTransfer = true)
+        viewModel.onEvent(TransactionDetailEvent.InitData)
+        advanceUntilIdle()
+
+        assertFalse(viewModel.state.value.canShowPlus)
+        viewModel.onEvent(TransactionDetailEvent.ShowPlusSheet(true))
+        assertFalse(viewModel.state.value.showPlusSheet)
+    }
+
+    @Test
+    fun `plain transaction hides plus action`() = runTest {
+        val transactionId = UUID.randomUUID()
+        fakeTransactionRepo.transactions[transactionId] = Transaction(
+            id = transactionId,
+            category = testCategory,
+            wallet = testWallet,
+            type = TransactionType.EXPENSE,
+            amount = 100.0,
+            date = LocalDateTime.of(2026, 1, 3, 10, 0),
+            note = "Snack"
+        )
+
+        val viewModel = createViewModel(transactionId, isTransfer = false)
+        viewModel.onEvent(TransactionDetailEvent.InitData)
+        advanceUntilIdle()
+
+        assertFalse(viewModel.state.value.canShowPlus)
+    }
+
     private fun createViewModel(transactionId: UUID, isTransfer: Boolean): TransactionDetailViewModel {
         val transactionUseCases = TransactionUseCases(
             addTransaction = mockk(relaxed = true),
@@ -210,7 +283,10 @@ class TransactionDetailViewModelDebtTest {
             getDebtById = mockk(relaxed = true),
             getDebtByTransactionId = GetDebtByTransactionId(fakeDebtRepo),
             upsertDebt = mockk(relaxed = true),
-            deleteDebt = mockk(relaxed = true)
+            deleteDebt = mockk(relaxed = true),
+            recordDebtPayment = mockk(relaxed = true),
+            increaseDebtAmount = mockk(relaxed = true),
+            getDebtHistory = mockk(relaxed = true)
         )
         val handle = SavedStateHandle(
             mapOf(
@@ -277,6 +353,9 @@ class TransactionDetailViewModelDebtTest {
         override fun getTransactionsByWallet(walletId: UUID): Flow<List<Transaction>> =
             flowOf(emptyList())
 
+        override fun getTransactionsByDebtId(debtId: UUID): Flow<List<Transaction>> =
+            flowOf(emptyList())
+
         override suspend fun getTransactionById(id: UUID): Transaction? = transactions[id]
 
         override suspend fun getTransactionCountByRecurringId(recurringId: UUID): Int = 0
@@ -288,7 +367,8 @@ class TransactionDetailViewModelDebtTest {
             note: String?,
             walletId: UUID,
             categoryId: UUID?,
-            recurringTransactionId: UUID?
+            recurringTransactionId: UUID?,
+            debtId: UUID?
         ): UUID = UUID.randomUUID()
 
         override suspend fun updateIncomeOrExpense(
@@ -298,7 +378,8 @@ class TransactionDetailViewModelDebtTest {
             date: LocalDateTime,
             note: String?,
             walletId: UUID,
-            categoryId: UUID?
+            categoryId: UUID?,
+            debtId: UUID?
         ) {
         }
 

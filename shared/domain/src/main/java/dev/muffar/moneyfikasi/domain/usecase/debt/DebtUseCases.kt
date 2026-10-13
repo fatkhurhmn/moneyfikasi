@@ -5,5 +5,8 @@ data class DebtUseCases(
     val getDebtById: GetDebtById,
     val getDebtByTransactionId: GetDebtByTransactionId,
     val upsertDebt: UpsertDebt,
-    val deleteDebt: DeleteDebt
+    val deleteDebt: DeleteDebt,
+    val recordDebtPayment: RecordDebtPayment,
+    val increaseDebtAmount: IncreaseDebtAmount,
+    val getDebtHistory: GetDebtHistory
 )

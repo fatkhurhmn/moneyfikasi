@@ -3,6 +3,7 @@ package dev.muffar.moneyfikasi.transaction.detail.component
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.MaterialTheme
@@ -18,12 +19,21 @@ import dev.muffar.moneyfikasi.resource.R
 fun TransactionDetailTopBar(
     onBackClick: () -> Unit,
     onDeleteClick: (Boolean) -> Unit,
-    onEditClick: () -> Unit
+    onEditClick: () -> Unit,
+    showPlus: Boolean = false,
+    onPlusClick: () -> Unit = {}
 ) {
     CommonTopAppBar(
         title = stringResource(R.string.title_transaction),
         onBackClick = onBackClick,
         action = {
+            if (showPlus) {
+                TopBarButton(
+                    imageVector = Icons.Rounded.Add,
+                    onClick = onPlusClick
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+            }
             TopBarButton(
                 imageVector = Icons.Rounded.Delete,
                 color = MaterialTheme.colorScheme.error,
