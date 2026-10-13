@@ -81,6 +81,7 @@
     <string name="label_note_optional">Note (optional)</string>
     <string name="label_paid_amount">Paid Amount</string>
     <string name="label_paid">Paid</string>
+    <string name="label_debt_date">Debt Date</string>
     <string name="label_pay_debt">Pay Debt</string>
     <string name="label_collect_debt">Collect Payment</string>
     <string name="label_add_debt">Add Debt</string>
@@ -287,6 +288,9 @@
     <string name="msg_payment_success">Payment recorded</string>
     <string name="msg_debt_updated">Debt updated</string>
     <string name="msg_history_count">%d records</string>
+    <string name="msg_due_in">In %d days</string>
+    <string name="msg_due_today">Due today</string>
+    <string name="msg_overdue">%d days overdue</string>
     <string name="msg_recurring_description">Set up transactions to repeat automatically.</string>
     <string name="msg_recurring_count">%d Recurring Transactions</string>
     <string name="msg_loading">Loading…</string>

@@ -81,6 +81,7 @@
     <string name="label_note_optional">Catatan (opsional)</string>
     <string name="label_paid_amount">Sudah Dibayar</string>
     <string name="label_paid">Terbayar</string>
+    <string name="label_debt_date">Tanggal Hutang</string>
     <string name="label_pay_debt">Bayar Hutang</string>
     <string name="label_collect_debt">Tagih Piutang</string>
     <string name="label_add_debt">Tambah Hutang</string>
@@ -287,6 +288,9 @@
     <string name="msg_payment_success">Pembayaran tercatat</string>
     <string name="msg_debt_updated">Hutang diperbarui</string>
     <string name="msg_history_count">%d catatan</string>
+    <string name="msg_due_in">%d hari lagi</string>
+    <string name="msg_due_today">Jatuh tempo hari ini</string>
+    <string name="msg_overdue">Terlambat %d hari</string>
     <string name="msg_recurring_description">Atur transaksi agar berulang secara otomatis.</string>
     <string name="msg_recurring_count">%d Transaksi Berulang</string>
     <string name="msg_loading">Memuat…</string>

@@ -48,7 +48,7 @@ fun NavGraphBuilder.addEditDebtNavigation(
             onTypeChange = { viewModel.onEvent(AddEditDebtEvent.TypeChanged(it)) },
             onNameChange = { viewModel.onEvent(AddEditDebtEvent.NameChanged(it)) },
             onTotalAmountChange = { viewModel.onEvent(AddEditDebtEvent.TotalAmountChanged(it)) },
-            onPaidAmountChange = { viewModel.onEvent(AddEditDebtEvent.PaidAmountChanged(it)) },
+            onDebtDateChange = { viewModel.onEvent(AddEditDebtEvent.DebtDateChanged(it)) },
             onDueDateChange = { viewModel.onEvent(AddEditDebtEvent.DueDateChanged(it)) },
             onNoteChange = { viewModel.onEvent(AddEditDebtEvent.NoteChanged(it)) },
             onWalletSelect = { viewModel.onEvent(AddEditDebtEvent.WalletSelected(it)) },

@@ -22,7 +22,6 @@ import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import dev.muffar.moneyfikasi.utils.extensions.LongExt.formattedDate
-import dev.muffar.moneyfikasi.utils.extensions.LongExt.formattedTime
 
 @Composable
 fun DebtDetailCard(
@@ -73,13 +72,15 @@ fun DebtDetailCard(
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         RowDetailBody(
-            label = stringResource(R.string.label_date),
+            label = stringResource(R.string.label_debt_date),
             value = debt.createdAt.formattedDate()
         )
-        RowDetailBody(
-            label = stringResource(R.string.label_time),
-            value = debt.createdAt.formattedTime()
-        )
+        debt.dueDate?.let { dueDate ->
+            RowDetailBody(
+                label = stringResource(R.string.label_due_date),
+                value = dueDate.formattedDate()
+            )
+        }
         RowDetailBody(
             label = stringResource(counterpartyLabelRes),
             value = debt.name
@@ -90,12 +91,6 @@ fun DebtDetailCard(
             value = wallet.name,
             color = wallet.color
         )
-        debt.dueDate?.let { dueDate ->
-            RowDetailBody(
-                label = stringResource(R.string.label_due_date),
-                value = dueDate.formattedDate()
-            )
-        }
     }
     TransactionDetailDivider()
     LinearProgressIndicator(

@@ -50,6 +50,7 @@ class AddEditDebtViewModel @Inject constructor(
             is AddEditDebtEvent.NameChanged -> onNameChange(event.name)
             is AddEditDebtEvent.TotalAmountChanged -> onTotalAmountChange(event.amount)
             is AddEditDebtEvent.PaidAmountChanged -> onPaidAmountChange(event.amount)
+            is AddEditDebtEvent.DebtDateChanged -> onDebtDateChange(event.date)
             is AddEditDebtEvent.DueDateChanged -> onDueDateChange(event.dueDate)
             is AddEditDebtEvent.NoteChanged -> onNoteChange(event.note)
             is AddEditDebtEvent.WalletSelected -> onWalletSelect(event.wallet)
@@ -155,6 +156,10 @@ class AddEditDebtViewModel @Inject constructor(
 
     private fun onDueDateChange(dueDate: Long?) {
         _state.update { it.copy(dueDate = dueDate) }
+    }
+
+    private fun onDebtDateChange(date: Long) {
+        _state.update { it.copy(createdAt = date) }
     }
 
     private fun onNoteChange(note: String) {

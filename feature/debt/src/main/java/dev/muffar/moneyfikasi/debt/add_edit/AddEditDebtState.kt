@@ -4,7 +4,9 @@ import dev.muffar.moneyfikasi.domain.model.Debt
 import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.model.Wallet
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.toMilliseconds
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
+import org.threeten.bp.LocalDateTime
 import java.util.UUID
 
 data class AddEditDebtState(
@@ -16,7 +18,7 @@ data class AddEditDebtState(
     val totalAmountError: ErrorMessage = ErrorMessage(),
     val paidAmount: String = "0",
     val paidAmountError: ErrorMessage = ErrorMessage(),
-    val dueDate: Long? = null,
+    val dueDate: Long? = LocalDateTime.now().plusMonths(1).toMilliseconds(),
     val note: String = "",
     val wallet: Wallet = Wallet(),
     val walletError: ErrorMessage = ErrorMessage(),

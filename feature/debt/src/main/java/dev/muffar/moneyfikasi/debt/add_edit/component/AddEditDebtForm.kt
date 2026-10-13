@@ -28,7 +28,7 @@ fun AddEditDebtForm(
     onTypeChange: (DebtType) -> Unit,
     onNameChange: (String) -> Unit,
     onTotalAmountChange: (String) -> Unit,
-    onPaidAmountChange: (String) -> Unit,
+    onDebtDateChange: (Long) -> Unit,
     onDueDateChange: (Long?) -> Unit,
     onNoteChange: (String) -> Unit,
     onWalletSelect: (Wallet) -> Unit,
@@ -63,19 +63,18 @@ fun AddEditDebtForm(
             onAmountChange = onTotalAmountChange,
         )
 
-        BasicAmountInput(
-            amount = state.paidAmount,
-            error = state.paidAmountError,
-            label = stringResource(R.string.label_paid_amount),
-            onAmountChange = onPaidAmountChange,
-        )
-
         WalletInput(
             wallet = state.wallet,
             error = state.walletError,
             walletOptions = state.walletOptions,
             onWalletSelect = onWalletSelect,
             onAddNewWalletClick = onAddNewWalletClick
+        )
+
+        DateInput(
+            date = state.createdAt,
+            label = stringResource(R.string.label_debt_date),
+            onDateSelect = onDebtDateChange
         )
 
         DateInput(
