@@ -21,10 +21,11 @@ fun TransactionDetailTopBar(
     onDeleteClick: (Boolean) -> Unit,
     onEditClick: () -> Unit,
     showPlus: Boolean = false,
-    onPlusClick: () -> Unit = {}
+    onPlusClick: () -> Unit = {},
+    titleRes: Int = R.string.title_transaction
 ) {
     CommonTopAppBar(
-        title = stringResource(R.string.title_transaction),
+        title = stringResource(titleRes),
         onBackClick = onBackClick,
         action = {
             if (showPlus) {

@@ -39,6 +39,7 @@ fun NavGraphBuilder.transactionsNavGraph(
     transactionDetailNavigation(
         onNavigateToEditTransaction = onNavigateToEditTransaction,
         onNavigateToEditDebt = onNavigateToEditDebt,
+        onNavigateToTransactionDetail = { onNavigateToTransactionDetail(it, false) },
         onNavigateBack = onNavigateBack,
     )
 }

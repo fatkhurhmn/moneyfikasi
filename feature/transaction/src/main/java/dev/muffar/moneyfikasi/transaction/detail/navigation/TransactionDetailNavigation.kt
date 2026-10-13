@@ -21,6 +21,7 @@ import java.util.UUID
 fun NavGraphBuilder.transactionDetailNavigation(
     onNavigateToEditTransaction: (TransactionType?, UUID) -> Unit,
     onNavigateToEditDebt: (DebtType, UUID) -> Unit,
+    onNavigateToTransactionDetail: (UUID) -> Unit,
     onNavigateBack: () -> Unit,
 ) {
     composable(
@@ -61,6 +62,7 @@ fun NavGraphBuilder.transactionDetailNavigation(
             onPlusAmountChange = { event(TransactionDetailEvent.PlusAmountChanged(it)) },
             onPlusConfirm = { event(TransactionDetailEvent.PlusConfirmed) },
             onPlusDismiss = { event(TransactionDetailEvent.PlusDismissed) },
+            onHistoryClick = onNavigateToTransactionDetail,
         )
     }
 }

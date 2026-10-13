@@ -80,6 +80,7 @@
     <string name="label_note">Catatan</string>
     <string name="label_note_optional">Catatan (opsional)</string>
     <string name="label_paid_amount">Sudah Dibayar</string>
+    <string name="label_paid">Terbayar</string>
     <string name="label_pay_debt">Bayar Hutang</string>
     <string name="label_collect_debt">Tagih Piutang</string>
     <string name="label_add_debt">Tambah Hutang</string>
@@ -259,6 +260,7 @@
     <string name="msg_delete_wallet_confirmation">Apakah Anda yakin ingin menghapus dompet ini? Jika dompet ini dihapus, semua catatan yang terkait dengan dompet ini juga akan dihapus.</string>
     <string name="format_transaction_count">%dx</string>
     <string name="msg_spent">%s terpakai</string>
+    <string name="msg_paid">%s terbayar</string>
     <string name="msg_left">Sisa %s</string>
     <string name="msg_preset_description">Simpan transaksi berulang agar input lebih cepat.</string>
     <string name="msg_presets_count">%d Preset</string>
@@ -284,6 +286,7 @@
     <string name="msg_delete_debt_confirmation">Apakah Anda yakin ingin menghapus hutang ini? Semua riwayat terkait juga akan dihapus.</string>
     <string name="msg_payment_success">Pembayaran tercatat</string>
     <string name="msg_debt_updated">Hutang diperbarui</string>
+    <string name="msg_history_count">%d catatan</string>
     <string name="msg_recurring_description">Atur transaksi agar berulang secara otomatis.</string>
     <string name="msg_recurring_count">%d Transaksi Berulang</string>
     <string name="msg_loading">Memuat…</string>

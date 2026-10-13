@@ -82,7 +82,7 @@ fun DebtItem(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = stringResource(R.string.msg_spent, debt.paidAmount.formatThousand()),
+                    text = stringResource(R.string.msg_paid, debt.paidAmount.formatThousand()),
                     style = MaterialTheme.typography.bodySmall
                 )
                 Text(
