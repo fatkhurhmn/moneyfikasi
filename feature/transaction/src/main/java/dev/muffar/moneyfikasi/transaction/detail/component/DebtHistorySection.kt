@@ -29,6 +29,8 @@ fun DebtHistorySection(
     history: List<Transaction>,
     onHistoryClick: (UUID) -> Unit
 ) {
+    if (history.isEmpty()) return
+
     Column(modifier = modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -53,26 +55,17 @@ fun DebtHistorySection(
                 .clip(RoundedCornerShape(16.dp))
                 .background(MaterialTheme.colorScheme.surface)
         ) {
-            if (history.isEmpty()) {
-                Text(
-                    text = stringResource(R.string.label_no_data),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
+            history.forEachIndexed { index, transaction ->
+                TransactionItem(
+                    transaction = transaction,
+                    showDate = true,
+                    onClick = onHistoryClick
                 )
-            } else {
-                history.forEachIndexed { index, transaction ->
-                    TransactionItem(
-                        transaction = transaction,
-                        showDate = true,
-                        onClick = onHistoryClick
+                if (index < history.lastIndex) {
+                    CommonHorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.8f)
                     )
-                    if (index < history.lastIndex) {
-                        CommonHorizontalDivider(
-                            modifier = Modifier.padding(horizontal = 16.dp),
-                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.8f)
-                        )
-                    }
                 }
             }
         }

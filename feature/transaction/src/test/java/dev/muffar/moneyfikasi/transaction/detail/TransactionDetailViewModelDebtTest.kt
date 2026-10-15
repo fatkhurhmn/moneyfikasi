@@ -190,7 +190,7 @@ class TransactionDetailViewModelDebtTest {
     }
 
     @Test
-    fun `debt linked detail shows plus action and opens sheet`() = runTest {
+    fun `debt linked detail shows plus action`() = runTest {
         val transactionId = UUID.randomUUID()
         fakeTransactionRepo.transactions[transactionId] = Transaction(
             id = transactionId,
@@ -214,8 +214,6 @@ class TransactionDetailViewModelDebtTest {
         advanceUntilIdle()
 
         assertTrue(viewModel.state.value.canShowPlus)
-        viewModel.onEvent(TransactionDetailEvent.ShowPlusSheet(true))
-        assertTrue(viewModel.state.value.showPlusSheet)
     }
 
     @Test
@@ -236,8 +234,6 @@ class TransactionDetailViewModelDebtTest {
         advanceUntilIdle()
 
         assertFalse(viewModel.state.value.canShowPlus)
-        viewModel.onEvent(TransactionDetailEvent.ShowPlusSheet(true))
-        assertFalse(viewModel.state.value.showPlusSheet)
     }
 
     @Test

@@ -7,13 +7,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
-import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.usecase.debt.DebtUseCases
 import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.resource.R
-import dev.muffar.moneyfikasi.utils.constants.ValidationConst
-import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -44,11 +41,6 @@ class TransactionDetailViewModel @Inject constructor(
             is TransactionDetailEvent.DeleteTransaction -> onDeleteTransaction()
             is TransactionDetailEvent.InitData -> onInitData()
             is TransactionDetailEvent.SaveToGallery -> onSaveToGallery(event.bitmap)
-            is TransactionDetailEvent.ShowPlusSheet -> onShowPlusSheet(event.show)
-            is TransactionDetailEvent.PlusTabSelected -> onPlusTabSelect(event.index)
-            is TransactionDetailEvent.PlusAmountChanged -> onPlusAmountChange(event.amount)
-            is TransactionDetailEvent.PlusConfirmed -> onPlusConfirm()
-            is TransactionDetailEvent.PlusDismissed -> onPlusDismiss()
         }
     }
 
@@ -87,7 +79,7 @@ class TransactionDetailViewModel @Inject constructor(
                             linkedDebt = linkedDebt,
                         )
                     }
-                    linkedDebt?.let { loadHistory(it.id) }
+                    linkedDebt?.let { loadHistory(it.id, it.transactionId) }
                 }
             }
         }
@@ -97,113 +89,12 @@ class TransactionDetailViewModel @Inject constructor(
         _state.update { it.copy(showAlert = showAlert) }
     }
 
-    private fun loadHistory(debtId: java.util.UUID) {
+    private fun loadHistory(debtId: UUID, principalId: UUID?) {
         viewModelScope.launch {
             debtUseCases.getDebtHistory(debtId).collectLatest { history ->
-                _state.update { it.copy(history = history) }
-            }
-        }
-    }
-
-    private fun onShowPlusSheet(show: Boolean) {
-        if (!state.value.canShowPlus && show) return
-        _state.update {
-            it.copy(
-                showPlusSheet = show,
-                plusTab = 0,
-                plusAmount = "",
-                plusAmountError = ErrorMessage()
-            )
-        }
-    }
-
-    private fun onPlusTabSelect(index: Int) {
-        _state.update {
-            it.copy(
-                plusTab = index,
-                plusAmount = "",
-                plusAmountError = ErrorMessage()
-            )
-        }
-    }
-
-    private fun onPlusDismiss() {
-        _state.update {
-            it.copy(
-                showPlusSheet = false,
-                plusAmount = "",
-                plusAmountError = ErrorMessage()
-            )
-        }
-    }
-
-    private fun onPlusAmountChange(amount: String) {
-        if (amount.length > ValidationConst.MAX_AMOUNT_LENGTH) return
-        _state.update { it.copy(plusAmount = amount) }
-        updatePlusAmountError()
-    }
-
-    private fun updatePlusAmountError() {
-        val state = _state.value
-        val debt = state.linkedDebt
-        val amount = state.plusAmount.clearThousandFormat().toDoubleOrNull() ?: 0.0
-        val error = when {
-            amount <= 0 -> R.string.error_amount_greater_than_zero
-            state.isPlusPaymentTab && debt != null &&
-                debt.paidAmount + amount > debt.totalAmount ->
-                R.string.error_paid_exceeds_total
-            else -> null
-        }
-        _state.update { it.copy(plusAmountError = ErrorMessage(resId = error)) }
-    }
-
-    private fun onPlusConfirm() {
-        updatePlusAmountError()
-        val state = _state.value
-        val debt = state.linkedDebt ?: return
-        if (!state.plusAmountError.isNull) return
-        val amount = state.plusAmount.clearThousandFormat().toDoubleOrNull() ?: return
-        val isPayment = state.isPlusPaymentTab
-
-        viewModelScope.launch {
-            _state.update { it.copy(isRecording = true) }
-            try {
-                if (isPayment) {
-                    debtUseCases.recordDebtPayment(debt.id, amount)
-                } else {
-                    debtUseCases.increaseDebtAmount(debt.id, amount)
-                }
-                debtUseCases.getDebtById(debt.id)?.let { refreshed ->
-                    _state.update { it.copy(linkedDebt = refreshed) }
-                }
                 _state.update {
-                    it.copy(
-                        showPlusSheet = false,
-                        plusAmount = "",
-                        plusAmountError = ErrorMessage(),
-                        isRecording = false
-                    )
+                    it.copy(history = history.filter { it.id != principalId })
                 }
-                _eventFlow.emit(
-                    UiEvent.ShowMessage(
-                        if (isPayment) {
-                            R.string.msg_payment_success
-                        } else {
-                            R.string.msg_debt_updated
-                        },
-                        SnackbarType.SUCCESS
-                    )
-                )
-            } catch (e: Exception) {
-                e.printStackTrace()
-                _state.update { it.copy(isRecording = false) }
-                val messageResId = when (e.message) {
-                    "Paid amount cannot exceed total amount" -> R.string.error_paid_exceeds_total
-                    "Amount must be greater than 0" -> R.string.error_amount_greater_than_zero
-                    "Debt not found" -> R.string.error_save_debt_failed
-                    else -> R.string.error_save_debt_failed
-                }
-                _eventFlow.emit(UiEvent.ShowMessage(messageResId, SnackbarType.ERROR))
             }
         }
     }

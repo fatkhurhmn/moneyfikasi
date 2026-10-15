@@ -22,6 +22,7 @@ fun NavGraphBuilder.transactionDetailNavigation(
     onNavigateToEditTransaction: (TransactionType?, UUID) -> Unit,
     onNavigateToEditDebt: (DebtType, UUID) -> Unit,
     onNavigateToTransactionDetail: (UUID) -> Unit,
+    onNavigateToDebtPlus: (UUID, Int) -> Unit,
     onNavigateBack: () -> Unit,
 ) {
     composable(
@@ -57,11 +58,9 @@ fun NavGraphBuilder.transactionDetailNavigation(
             onDebtEditClick = onNavigateToEditDebt,
             onBackClick = onNavigateBack,
             onSaveClick = { event(TransactionDetailEvent.SaveToGallery(it)) },
-            onPlusClick = { event(TransactionDetailEvent.ShowPlusSheet(true)) },
-            onPlusTabSelected = { event(TransactionDetailEvent.PlusTabSelected(it)) },
-            onPlusAmountChange = { event(TransactionDetailEvent.PlusAmountChanged(it)) },
-            onPlusConfirm = { event(TransactionDetailEvent.PlusConfirmed) },
-            onPlusDismiss = { event(TransactionDetailEvent.PlusDismissed) },
+            onPlusClick = {
+                state.linkedDebt?.let { onNavigateToDebtPlus(it.id, 0) }
+            },
             onHistoryClick = onNavigateToTransactionDetail,
         )
     }

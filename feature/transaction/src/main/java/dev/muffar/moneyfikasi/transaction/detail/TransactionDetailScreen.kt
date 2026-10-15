@@ -32,7 +32,6 @@ import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.detail.component.DebtDetailCard
 import dev.muffar.moneyfikasi.transaction.detail.component.DebtHistorySection
-import dev.muffar.moneyfikasi.transaction.detail.component.DebtPlusSheet
 import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailCard
 import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailSaveButton
 import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailTopBar
@@ -56,10 +55,6 @@ fun TransactionDetailScreen(
     onBackClick: () -> Unit,
     onSaveClick: (Bitmap) -> Unit,
     onPlusClick: () -> Unit,
-    onPlusTabSelected: (Int) -> Unit,
-    onPlusAmountChange: (String) -> Unit,
-    onPlusConfirm: () -> Unit,
-    onPlusDismiss: () -> Unit,
     onHistoryClick: (UUID) -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -169,24 +164,6 @@ fun TransactionDetailScreen(
                 onShowAlert(false)
             }
         )
-    }
-
-    state.linkedDebt?.let { debt ->
-        if (state.showPlusSheet) {
-            DebtPlusSheet(
-                debtType = debt.type,
-                debtName = debt.name,
-                remainingAmount = debt.remainingAmount,
-                selectedTab = state.plusTab,
-                amount = state.plusAmount,
-                error = state.plusAmountError,
-                isPaymentTab = state.isPlusPaymentTab,
-                onTabSelected = onPlusTabSelected,
-                onAmountChange = onPlusAmountChange,
-                onConfirm = onPlusConfirm,
-                onDismissRequest = onPlusDismiss
-            )
-        }
     }
 
     LaunchedEffect(eventFlow) {

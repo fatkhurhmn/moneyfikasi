@@ -154,6 +154,14 @@ sealed class Screen(val route: String) {
         }
     }
 
+    data object DebtPlus : Screen("debt_plus?debt_id={debt_id}&tab={tab}") {
+        const val DEBT_ID = "debt_id"
+        const val TAB = "tab"
+        fun routeWithArg(debtId: UUID, tab: Int = 0): String {
+            return "debt_plus?$DEBT_ID=$debtId&$TAB=$tab"
+        }
+    }
+
     data object RecurringTransactions : Screen("recurring_transactions")
     data object AddEditRecurringTransaction :
         Screen("add_edit_recurring_transaction/{type}?recurring_transaction_id={recurring_transaction_id}") {

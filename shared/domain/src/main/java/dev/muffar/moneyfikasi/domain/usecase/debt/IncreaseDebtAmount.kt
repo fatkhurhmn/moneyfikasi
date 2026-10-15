@@ -11,7 +11,12 @@ class IncreaseDebtAmount(
     private val debtRepository: DebtRepository,
     private val transactionRepository: TransactionRepository
 ) {
-    suspend operator fun invoke(debtId: UUID, amount: Double) {
+    suspend operator fun invoke(
+        debtId: UUID,
+        amount: Double,
+        walletId: UUID? = null,
+        date: LocalDateTime = LocalDateTime.now()
+    ) {
         require(amount > 0) { "Amount must be greater than 0" }
         val debt = debtRepository.getDebtById(debtId)
             ?: throw IllegalArgumentException("Debt not found")
@@ -26,9 +31,9 @@ class IncreaseDebtAmount(
         transactionRepository.addIncomeOrExpense(
             amount = amount,
             type = debt.type.toTransactionType(),
-            date = LocalDateTime.now(),
+            date = date,
             note = debt.name,
-            walletId = debt.walletId,
+            walletId = walletId ?: debt.walletId,
             categoryId = categoryId,
             debtId = debt.id
         )
