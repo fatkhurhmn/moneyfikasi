@@ -3,9 +3,10 @@ package dev.muffar.moneyfikasi.debt.add_edit.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SelectableDates
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -20,7 +21,10 @@ import dev.muffar.moneyfikasi.common_ui.component.tabs.DebtTypeTabHeader
 import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
+import org.threeten.bp.Instant
+import org.threeten.bp.ZoneId
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditDebtForm(
     modifier: Modifier = Modifier,
@@ -78,16 +82,28 @@ fun AddEditDebtForm(
         )
 
         DateInput(
-            date = state.dueDate ?: System.currentTimeMillis(),
+            date = state.dueDate,
             label = stringResource(R.string.label_due_date),
+            error = state.dueDateError,
+            selectableDates = remember(state.createdAt) {
+                val minDate = Instant.ofEpochMilli(state.createdAt)
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate()
+                object : SelectableDates {
+                    override fun isSelectableDate(utcTimeMillis: Long): Boolean {
+                        val selected = Instant.ofEpochMilli(utcTimeMillis)
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate()
+                        return !selected.isBefore(minDate)
+                    }
+
+                    override fun isSelectableYear(year: Int): Boolean {
+                        return year >= minDate.year
+                    }
+                }
+            },
             onDateSelect = onDueDateChange
         )
-
-        if (state.dueDate != null) {
-            TextButton(onClick = { onDueDateChange(null) }) {
-                Text(text = stringResource(R.string.action_clear))
-            }
-        }
 
         CommonTextInput(
             value = state.note,

@@ -392,6 +392,7 @@
     <string name="error_category_has_budget">Kategori ini sudah memiliki anggaran</string>
     <string name="error_select_date_range">Pilih tanggal mulai &amp; tanggal akhir</string>
     <string name="error_end_date_invalid">Tanggal akhir tidak valid</string>
+    <string name="error_due_date_required">Pilih tanggal jatuh tempo</string>
     <string name="error_number_too_large">Angka terlalu besar</string>
     <string name="error_save_budget_failed">Gagal menyimpan anggaran. Setiap kategori hanya dapat memiliki satu anggaran.</string>
     <string name="error_delete_budget_failed">Gagal menghapus anggaran</string>

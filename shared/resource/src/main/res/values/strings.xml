@@ -392,6 +392,7 @@
     <string name="error_category_has_budget">This category already has a budget</string>
     <string name="error_select_date_range">Please select start date &amp; end date</string>
     <string name="error_end_date_invalid">End date invalid</string>
+    <string name="error_due_date_required">Select a due date</string>
     <string name="error_number_too_large">Number too large</string>
     <string name="error_save_budget_failed">Failed to save budget. Each category can only have one budget.</string>
     <string name="error_delete_budget_failed">Failed to delete budget</string>

@@ -19,6 +19,7 @@ data class AddEditDebtState(
     val paidAmount: String = "0",
     val paidAmountError: ErrorMessage = ErrorMessage(),
     val dueDate: Long? = LocalDateTime.now().plusMonths(1).toMilliseconds(),
+    val dueDateError: ErrorMessage = ErrorMessage(),
     val note: String = "",
     val wallet: Wallet = Wallet(),
     val walletError: ErrorMessage = ErrorMessage(),

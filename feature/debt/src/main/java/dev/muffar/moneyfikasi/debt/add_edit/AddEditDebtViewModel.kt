@@ -16,6 +16,8 @@ import dev.muffar.moneyfikasi.utils.constants.UUIDConst
 import dev.muffar.moneyfikasi.utils.constants.ValidationConst
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
+import org.threeten.bp.Instant
+import org.threeten.bp.ZoneId
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -156,10 +158,36 @@ class AddEditDebtViewModel @Inject constructor(
 
     private fun onDueDateChange(dueDate: Long?) {
         _state.update { it.copy(dueDate = dueDate) }
+        updateDueDateError()
     }
 
     private fun onDebtDateChange(date: Long) {
-        _state.update { it.copy(createdAt = date) }
+        _state.update {
+            val dueDate = it.dueDate
+            it.copy(
+                createdAt = date,
+                dueDate = if (dueDate != null && isBeforeDay(dueDate, date)) null else dueDate
+            )
+        }
+        updateDueDateError()
+    }
+
+    private fun updateDueDateError() {
+        val state = _state.value
+        val dueDate = state.dueDate
+        val error = when {
+            dueDate == null -> R.string.error_due_date_required
+            isBeforeDay(dueDate, state.createdAt) -> R.string.error_end_date_invalid
+            else -> null
+        }
+        _state.update { it.copy(dueDateError = ErrorMessage(resId = error)) }
+    }
+
+    private fun isBeforeDay(first: Long, second: Long): Boolean {
+        val zone = ZoneId.systemDefault()
+        val firstDate = Instant.ofEpochMilli(first).atZone(zone).toLocalDate()
+        val secondDate = Instant.ofEpochMilli(second).atZone(zone).toLocalDate()
+        return firstDate.isBefore(secondDate)
     }
 
     private fun onNoteChange(note: String) {
@@ -220,8 +248,9 @@ class AddEditDebtViewModel @Inject constructor(
         updateTotalAmountError()
         updatePaidAmountError()
         updateWalletError()
+        updateDueDateError()
         val state = _state.value
-        return state.nameError.isNull && state.totalAmountError.isNull && state.paidAmountError.isNull && state.walletError.isNull
+        return state.nameError.isNull && state.totalAmountError.isNull && state.paidAmountError.isNull && state.walletError.isNull && state.dueDateError.isNull
     }
 
     sealed class UiEvent {
