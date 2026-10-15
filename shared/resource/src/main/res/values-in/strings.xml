@@ -288,9 +288,6 @@
     <string name="msg_payment_success">Pembayaran tercatat</string>
     <string name="msg_debt_updated">Hutang diperbarui</string>
     <string name="msg_history_count">%d catatan</string>
-    <string name="msg_due_in">%d hari lagi</string>
-    <string name="msg_due_today">Jatuh tempo hari ini</string>
-    <string name="msg_overdue">Terlambat %d hari</string>
     <string name="msg_recurring_description">Atur transaksi agar berulang secara otomatis.</string>
     <string name="msg_recurring_count">%d Transaksi Berulang</string>
     <string name="msg_loading">Memuat…</string>

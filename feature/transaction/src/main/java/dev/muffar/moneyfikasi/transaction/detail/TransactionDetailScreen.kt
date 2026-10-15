@@ -31,7 +31,6 @@ import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.detail.component.DebtDetailCard
-import dev.muffar.moneyfikasi.transaction.detail.component.DebtDueDateSection
 import dev.muffar.moneyfikasi.transaction.detail.component.DebtHistorySection
 import dev.muffar.moneyfikasi.transaction.detail.component.DebtPlusSheet
 import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailCard
@@ -136,14 +135,6 @@ fun TransactionDetailScreen(
                 }
             }
             if (linkedDebt != null) {
-                linkedDebt.dueDate?.let { dueDate ->
-                    DebtDueDateSection(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        dueDate = dueDate,
-                        remainingAmount = linkedDebt.remainingAmount
-                    )
-                    Spacer(Modifier.height(16.dp))
-                }
                 DebtHistorySection(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     history = state.history,

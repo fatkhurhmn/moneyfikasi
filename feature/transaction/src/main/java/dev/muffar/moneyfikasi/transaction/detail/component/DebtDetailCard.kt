@@ -72,6 +72,10 @@ fun DebtDetailCard(
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         RowDetailBody(
+            label = stringResource(counterpartyLabelRes),
+            value = debt.name
+        )
+        RowDetailBody(
             label = stringResource(R.string.label_debt_date),
             value = debt.createdAt.formattedDate()
         )
@@ -81,10 +85,6 @@ fun DebtDetailCard(
                 value = dueDate.formattedDate()
             )
         }
-        RowDetailBody(
-            label = stringResource(counterpartyLabelRes),
-            value = debt.name
-        )
         RowDetailBodyWithIcon(
             label = stringResource(R.string.label_wallet),
             icon = wallet.icon,
