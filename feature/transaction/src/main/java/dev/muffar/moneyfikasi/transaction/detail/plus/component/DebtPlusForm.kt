@@ -3,8 +3,6 @@ package dev.muffar.moneyfikasi.transaction.detail.plus.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -19,7 +17,6 @@ import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.detail.plus.DebtPlusState
-import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 
 @Composable
 fun DebtPlusForm(
@@ -54,14 +51,6 @@ fun DebtPlusForm(
             selectedTab = state.tab,
             onTabSelected = onTabSelected
         )
-
-        if (state.isPaymentTab) {
-            Text(
-                text = "${debt.name} • ${stringResource(R.string.msg_left, debt.remainingAmount.formatThousand())}",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
 
         BasicAmountInput(
             amount = state.amount,
