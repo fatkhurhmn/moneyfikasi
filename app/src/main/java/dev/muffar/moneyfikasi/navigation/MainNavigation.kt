@@ -211,6 +211,7 @@ fun MainNavigation(
             navigateToAddDebt = { navController.toAddEditDebtScreen(it) },
             navigateToEditDebt = { type, id -> navController.toAddEditDebtScreen(type, id) },
             navigateToDebtList = { navController.toDebtsScreen(it) },
+            navigateToTransactionDetail = { navController.toTransactionDetail(it, false) },
             navigateBack = { navController.navigateUp() },
             onNavigateToAddWallet = { navController.toAddEditWalletScreen() }
         )

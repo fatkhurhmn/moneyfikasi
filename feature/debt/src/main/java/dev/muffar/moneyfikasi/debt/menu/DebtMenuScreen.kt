@@ -62,7 +62,7 @@ fun DebtMenuScreen(
             DebtMenuCard(
                 icon = AppIcon.ReceiptLong.name,
                 iconColor = financeColors.expense.toArgb().toLong(),
-                title = stringResource(R.string.label_give_loan),
+                title = stringResource(R.string.label_piutang),
                 subtitle = stringResource(R.string.label_to_others),
                 count = state.unpaidReceivables.size,
                 remainingAmount = state.unpaidReceivableRemaining,

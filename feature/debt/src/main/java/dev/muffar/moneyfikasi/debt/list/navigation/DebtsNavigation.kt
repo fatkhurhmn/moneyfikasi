@@ -18,6 +18,7 @@ import java.util.UUID
 fun NavGraphBuilder.debtsNavigation(
     navigateToAddDebt: (DebtType) -> Unit,
     navigateToEditDebt: (DebtType, UUID) -> Unit,
+    navigateToTransactionDetail: (UUID) -> Unit,
     navigateBack: () -> Unit,
 ) {
     composable(
@@ -31,17 +32,17 @@ fun NavGraphBuilder.debtsNavigation(
 
         DebtsScreen(
             state = state,
-            eventFlow = viewModel.eventFlow,
             onDebtClick = { id ->
                 state.debts.find { it.id == id }?.let {
-                    navigateToEditDebt(it.type, it.id)
+                    val transactionId = it.transactionId
+                    if (transactionId != null) {
+                        navigateToTransactionDetail(transactionId)
+                    } else {
+                        navigateToEditDebt(it.type, it.id)
+                    }
                 }
             },
-            onDebtPayClick = { viewModel.onEvent(DebtsEvent.PaymentOpened(it)) },
             onAddDebtClick = navigateToAddDebt,
-            onPaymentAmountChange = { viewModel.onEvent(DebtsEvent.PaymentAmountChanged(it)) },
-            onPaymentDismiss = { viewModel.onEvent(DebtsEvent.PaymentDismissed) },
-            onPaymentConfirm = { viewModel.onEvent(DebtsEvent.PaymentConfirmed) },
             onStatusFilterChange = { viewModel.onEvent(DebtsEvent.StatusFilterChanged(it)) },
             onBackClick = navigateBack
         )

@@ -74,7 +74,6 @@
     <string name="label_sum">Jumlah</string>
     <string name="label_me">Saya</string>
     <string name="label_to_others">Kepada Orang Lain</string>
-    <string name="label_give_loan">Beri Pinjaman</string>
     <string name="msg_transaction_count">%d transaksi</string>
     <string name="label_transfer">Transfer</string>
     <string name="label_amount">Nominal</string>

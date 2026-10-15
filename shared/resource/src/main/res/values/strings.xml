@@ -74,7 +74,6 @@
     <string name="label_sum">Amount</string>
     <string name="label_me">Me</string>
     <string name="label_to_others">To Others</string>
-    <string name="label_give_loan">Lending</string>
     <string name="msg_transaction_count">%d transactions</string>
     <string name="label_transfer">Transfer</string>
     <string name="label_amount">Amount</string>

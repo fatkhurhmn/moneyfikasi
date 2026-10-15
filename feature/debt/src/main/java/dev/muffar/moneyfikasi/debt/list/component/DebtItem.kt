@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,7 +19,6 @@ import androidx.compose.ui.unit.sp
 import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.domain.model.Debt
-import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import dev.muffar.moneyfikasi.utils.extensions.LongExt.formattedDate
@@ -29,19 +27,12 @@ import dev.muffar.moneyfikasi.utils.extensions.LongExt.formattedDate
 fun DebtItem(
     modifier: Modifier = Modifier,
     debt: Debt,
-    walletName: String,
     onClick: (() -> Unit)? = null,
-    onPayClick: (() -> Unit)? = null,
 ) {
     val progress = if (debt.totalAmount > 0) (debt.paidAmount / debt.totalAmount).toFloat() else 0f
     val financeColors = MoneyfikasiTheme.financeColors
     val color = if (debt.remainingAmount <= 0) financeColors.income else financeColors.info
     val dueDate = debt.dueDate
-    val payLabelRes = if (debt.type == DebtType.DEBT) {
-        R.string.label_pay_debt
-    } else {
-        R.string.label_collect_debt
-    }
 
     PrimaryCard(
         onClick = onClick,
@@ -97,21 +88,6 @@ fun DebtItem(
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-            }
-            Text(
-                text = "${stringResource(R.string.label_wallet)}: $walletName",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            if (onPayClick != null && debt.remainingAmount > 0) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    TextButton(onClick = onPayClick) {
-                        Text(text = stringResource(payLabelRes))
-                    }
-                }
             }
         }
     }
