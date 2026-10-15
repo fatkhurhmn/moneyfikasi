@@ -144,7 +144,13 @@ sealed class Screen(val route: String) {
         }
     }
 
-    data object Debts : Screen("debts")
+    data object Debts : Screen("debts/{type}") {
+        const val TYPE = "type"
+        fun routeWithArg(type: DebtType): String {
+            return "debts/$type"
+        }
+    }
+    data object DebtMenu : Screen("debt_menu")
     data object AddEditDebt : Screen("add_edit_debt/{type}?debt_id={debt_id}") {
         const val TYPE = "type"
         const val DEBT_ID = "debt_id"

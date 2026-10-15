@@ -5,18 +5,27 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import dev.muffar.moneyfikasi.debt.list.DebtsEvent
 import dev.muffar.moneyfikasi.debt.list.DebtsScreen
 import dev.muffar.moneyfikasi.debt.list.DebtsViewModel
+import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.navigation.Screen
+import java.util.UUID
 
 fun NavGraphBuilder.debtsNavigation(
-    navigateToAddDebt: (dev.muffar.moneyfikasi.domain.model.DebtType) -> Unit,
-    navigateToEditDebt: (dev.muffar.moneyfikasi.domain.model.DebtType, java.util.UUID) -> Unit,
+    navigateToAddDebt: (DebtType) -> Unit,
+    navigateToEditDebt: (DebtType, UUID) -> Unit,
     navigateBack: () -> Unit,
 ) {
-    composable(route = Screen.Debts.route) {
+    composable(
+        route = Screen.Debts.route,
+        arguments = listOf(
+            navArgument(Screen.Debts.TYPE) { type = NavType.StringType }
+        )
+    ) {
         val viewModel = hiltViewModel<DebtsViewModel>()
         val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -30,16 +39,15 @@ fun NavGraphBuilder.debtsNavigation(
             },
             onDebtPayClick = { viewModel.onEvent(DebtsEvent.PaymentOpened(it)) },
             onAddDebtClick = navigateToAddDebt,
-            onShowAddSheet = { viewModel.onEvent(DebtsEvent.ShowAddSheetChanged(it)) },
             onPaymentAmountChange = { viewModel.onEvent(DebtsEvent.PaymentAmountChanged(it)) },
             onPaymentDismiss = { viewModel.onEvent(DebtsEvent.PaymentDismissed) },
             onPaymentConfirm = { viewModel.onEvent(DebtsEvent.PaymentConfirmed) },
-            onFilterChange = { viewModel.onEvent(DebtsEvent.FilterChanged(it)) },
+            onStatusFilterChange = { viewModel.onEvent(DebtsEvent.StatusFilterChanged(it)) },
             onBackClick = navigateBack
         )
     }
 }
 
-fun NavController.toDebtsScreen() {
-    this.navigate(Screen.Debts.route)
+fun NavController.toDebtsScreen(type: DebtType) {
+    this.navigate(Screen.Debts.routeWithArg(type))
 }

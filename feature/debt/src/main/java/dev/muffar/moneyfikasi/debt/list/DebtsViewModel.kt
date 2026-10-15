@@ -1,5 +1,6 @@
 package dev.muffar.moneyfikasi.debt.list
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -8,6 +9,7 @@ import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.usecase.debt.DebtUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
+import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.constants.ValidationConst
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
@@ -25,7 +27,8 @@ import javax.inject.Inject
 @HiltViewModel
 class DebtsViewModel @Inject constructor(
     private val debtUseCases: DebtUseCases,
-    private val walletUseCases: WalletUseCases
+    private val walletUseCases: WalletUseCases,
+    private val handle: SavedStateHandle
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(DebtsState())
@@ -35,18 +38,26 @@ class DebtsViewModel @Inject constructor(
     val eventFlow = _eventFlow.asSharedFlow()
 
     init {
+        initType()
         loadDebts()
         loadWallets()
     }
 
     fun onEvent(event: DebtsEvent) {
         when (event) {
-            is DebtsEvent.FilterChanged -> onFilterChange(event.type)
-            is DebtsEvent.ShowAddSheetChanged -> onShowAddSheetChange(event.show)
+            is DebtsEvent.StatusFilterChanged -> onStatusFilterChange(event.filter)
             is DebtsEvent.PaymentOpened -> onPaymentOpen(event.debtId)
             is DebtsEvent.PaymentDismissed -> onPaymentDismiss()
             is DebtsEvent.PaymentAmountChanged -> onPaymentAmountChange(event.amount)
             is DebtsEvent.PaymentConfirmed -> onPaymentConfirm()
+        }
+    }
+
+    private fun initType() {
+        handle.get<String>(Screen.Debts.TYPE)?.let { typeStr ->
+            if (typeStr.isNotEmpty()) {
+                _state.update { it.copy(selectedType = DebtType.fromString(typeStr)) }
+            }
         }
     }
 
@@ -66,12 +77,8 @@ class DebtsViewModel @Inject constructor(
         }
     }
 
-    private fun onFilterChange(type: DebtType?) {
-        _state.update { it.copy(selectedType = type) }
-    }
-
-    private fun onShowAddSheetChange(show: Boolean) {
-        _state.update { it.copy(showAddSheet = show) }
+    private fun onStatusFilterChange(filter: DebtStatusFilter) {
+        _state.update { it.copy(statusFilter = filter) }
     }
 
     private fun onPaymentOpen(debtId: UUID) {

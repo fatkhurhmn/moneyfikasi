@@ -2,7 +2,6 @@ package dev.muffar.moneyfikasi.debt.list
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -20,7 +19,6 @@ import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.common_ui.component.dialog.DebtPaymentDialog
 import dev.muffar.moneyfikasi.common_ui.component.tabs.DebtTab
 import dev.muffar.moneyfikasi.common_ui.component.tabs.DebtTypeTabHeader
-import dev.muffar.moneyfikasi.debt.list.component.AddDebtSheet
 import dev.muffar.moneyfikasi.debt.list.component.DebtsContent
 import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.resource.R
@@ -36,37 +34,39 @@ fun DebtsScreen(
     onDebtClick: (UUID) -> Unit,
     onDebtPayClick: (UUID) -> Unit,
     onAddDebtClick: (DebtType) -> Unit,
-    onShowAddSheet: (Boolean) -> Unit,
     onPaymentAmountChange: (String) -> Unit,
     onPaymentDismiss: () -> Unit,
     onPaymentConfirm: () -> Unit,
-    onFilterChange: (DebtType?) -> Unit,
+    onStatusFilterChange: (DebtStatusFilter) -> Unit,
     onBackClick: () -> Unit,
 ) {
     val financeColors = MoneyfikasiTheme.financeColors
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
     val tabs = listOf(
-        DebtTab(R.string.label_all, MaterialTheme.colorScheme.primary),
-        DebtTab(R.string.label_hutang, financeColors.income),
-        DebtTab(R.string.label_piutang, financeColors.expense)
+        DebtTab(R.string.label_unpaid, financeColors.expense),
+        DebtTab(R.string.label_paid_off, financeColors.income)
     )
-    val selectedTab = when (state.selectedType) {
-        DebtType.DEBT -> 1
-        DebtType.RECEIVABLE -> 2
-        null -> 0
+    val selectedTab = when (state.statusFilter) {
+        DebtStatusFilter.UNPAID -> 0
+        DebtStatusFilter.PAID -> 1
+    }
+    val titleRes = if (state.selectedType == DebtType.RECEIVABLE) {
+        R.string.label_piutang
+    } else {
+        R.string.label_hutang
     }
 
     Scaffold(
         topBar = {
             CommonTopAppBar(
-                title = stringResource(R.string.title_debts),
+                title = stringResource(titleRes),
                 onBackClick = onBackClick
             )
         },
         floatingActionButton = {
             CommonAddButton(
-                onClick = { onShowAddSheet(true) }
+                onClick = { onAddDebtClick(state.selectedType ?: DebtType.DEBT) }
             )
         },
         snackbarHost = { SnackbarMessage(snackbarHostState) }
@@ -77,11 +77,10 @@ fun DebtsScreen(
                 tabs = tabs,
                 selectedTab = selectedTab,
                 onTabSelected = {
-                    onFilterChange(
+                    onStatusFilterChange(
                         when (it) {
-                            1 -> DebtType.DEBT
-                            2 -> DebtType.RECEIVABLE
-                            else -> null
+                            1 -> DebtStatusFilter.PAID
+                            else -> DebtStatusFilter.UNPAID
                         }
                     )
                 }
@@ -94,13 +93,6 @@ fun DebtsScreen(
                 onPayClick = onDebtPayClick
             )
         }
-    }
-
-    if (state.showAddSheet) {
-        AddDebtSheet(
-            onAddDebt = onAddDebtClick,
-            onDismissRequest = { onShowAddSheet(false) }
-        )
     }
 
     state.paymentDebt?.let { debt ->
