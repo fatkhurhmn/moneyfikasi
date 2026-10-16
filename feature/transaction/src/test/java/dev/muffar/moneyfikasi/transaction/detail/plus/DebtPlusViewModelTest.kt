@@ -233,6 +233,23 @@ class DebtPlusViewModelTest {
     }
 
     @Test
+    fun `tab switch keeps amount error hidden when none shown`() = runTest {
+        val debtId = UUID.randomUUID()
+        fakeDebtRepo.debts[debtId] = Debt(
+            id = debtId,
+            type = DebtType.DEBT,
+            totalAmount = 1000.0,
+            walletId = walletA.id
+        )
+
+        val viewModel = createViewModel(debtId, tab = 0)
+        advanceUntilIdle()
+
+        viewModel.onEvent(DebtPlusEvent.TabSelected(1))
+        assertTrue(viewModel.state.value.amountError.isNull)
+    }
+
+    @Test
     fun `missing debt emits NavigateBack`() = runTest {
         val viewModel = createViewModel(UUID.randomUUID(), tab = 0)
         val events = mutableListOf<DebtPlusViewModel.UiEvent>()

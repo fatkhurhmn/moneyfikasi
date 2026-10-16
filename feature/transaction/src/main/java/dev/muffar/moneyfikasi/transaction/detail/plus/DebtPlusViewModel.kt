@@ -134,8 +134,11 @@ class DebtPlusViewModel @Inject constructor(
     }
 
     private fun onTabSelect(index: Int) {
+        val hadError = !_state.value.amountError.isNull
         _state.update { it.copy(tab = index) }
-        updateAmountError()
+        if (hadError) {
+            updateAmountError()
+        }
     }
 
     private fun onAmountChange(amount: String) {
