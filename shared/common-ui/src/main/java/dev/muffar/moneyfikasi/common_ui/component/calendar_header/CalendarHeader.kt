@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -27,7 +28,7 @@ fun CalendarHeader(
     onNextClick: () -> Unit = {},
 ) {
     Box(
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 0.dp, bottom = 4.dp)
     ) {
         val arrowColor = if (enableButton) {
             MaterialTheme.colorScheme.onSecondaryContainer
@@ -38,13 +39,15 @@ fun CalendarHeader(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.secondaryContainer),
+                .background(MaterialTheme.colorScheme.secondaryContainer)
+                .padding(4.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(
                 onClick = onPreviousClick,
-                enabled = enableButton
+                enabled = enableButton,
+                modifier = Modifier.size(36.dp)
             ) {
                 ArrowLeft(color = arrowColor)
             }
@@ -54,12 +57,12 @@ fun CalendarHeader(
                 style = MaterialTheme.typography.bodyMedium,
                 fontSize = 15.sp,
                 color = MaterialTheme.colorScheme.onSecondaryContainer,
-                modifier = Modifier.padding(4.dp)
             )
 
             IconButton(
                 onClick = onNextClick,
-                enabled = enableButton
+                enabled = enableButton,
+                modifier = Modifier.size(36.dp)
             ) {
                 ArrowRight(color = arrowColor)
             }
