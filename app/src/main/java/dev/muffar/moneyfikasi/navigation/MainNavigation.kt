@@ -100,8 +100,8 @@ fun MainNavigation(
             onNavigateToEditDebt = { type, id ->
                 navController.toAddEditDebtScreen(type, id)
             },
-            onNavigateToDebtPlus = { debtId, tab ->
-                navController.toDebtPlusScreen(debtId, tab)
+            onNavigateToDebtPlus = { debtId, tab, historyId ->
+                navController.toDebtPlusScreen(debtId, tab, historyId)
             },
             onNavigateToAddWallet = { navController.toAddEditWalletScreen() },
             onNavigateToAddCategory = { navController.toAddEditCategoryScreen(it) },

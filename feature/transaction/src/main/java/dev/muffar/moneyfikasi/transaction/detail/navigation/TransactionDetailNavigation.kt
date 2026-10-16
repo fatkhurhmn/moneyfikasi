@@ -1,6 +1,10 @@
 package dev.muffar.moneyfikasi.transaction.detail.navigation
 
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -22,7 +26,7 @@ fun NavGraphBuilder.transactionDetailNavigation(
     onNavigateToEditTransaction: (TransactionType?, UUID) -> Unit,
     onNavigateToEditDebt: (DebtType, UUID) -> Unit,
     onNavigateToTransactionDetail: (UUID) -> Unit,
-    onNavigateToDebtPlus: (UUID, Int) -> Unit,
+    onNavigateToDebtPlus: (UUID, Int, UUID?) -> Unit,
     onNavigateBack: () -> Unit,
 ) {
     composable(
@@ -44,6 +48,17 @@ fun NavGraphBuilder.transactionDetailNavigation(
         val state by viewModel.state.collectAsStateWithLifecycle()
         val event = viewModel::onEvent
         val eventFlow = viewModel.eventFlow
+        val lifecycleOwner = LocalLifecycleOwner.current
+
+        DisposableEffect(lifecycleOwner) {
+            val observer = LifecycleEventObserver { _, lifecycleEvent ->
+                if (lifecycleEvent == Lifecycle.Event.ON_RESUME) {
+                    event(TransactionDetailEvent.Refresh)
+                }
+            }
+            lifecycleOwner.lifecycle.addObserver(observer)
+            onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+        }
 
         LaunchedEffect(Unit) {
             event(TransactionDetailEvent.InitData)
@@ -59,9 +74,12 @@ fun NavGraphBuilder.transactionDetailNavigation(
             onBackClick = onNavigateBack,
             onSaveClick = { event(TransactionDetailEvent.SaveToGallery(it)) },
             onPlusClick = {
-                state.linkedDebt?.let { onNavigateToDebtPlus(it.id, 0) }
+                state.linkedDebt?.let { onNavigateToDebtPlus(it.id, 0, null) }
             },
             onHistoryClick = onNavigateToTransactionDetail,
+            onHistoryEditClick = { debtId, historyId ->
+                onNavigateToDebtPlus(debtId, 0, historyId)
+            },
         )
     }
 }

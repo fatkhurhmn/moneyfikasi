@@ -2,18 +2,25 @@ package dev.muffar.moneyfikasi.transaction.detail.plus
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.SavedStateHandle
+import dev.muffar.moneyfikasi.domain.model.Category
+import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.Debt
 import dev.muffar.moneyfikasi.domain.model.DebtType
+import dev.muffar.moneyfikasi.domain.model.Transaction
+import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.repository.DebtRepository
 import dev.muffar.moneyfikasi.domain.repository.WalletRepository
 import dev.muffar.moneyfikasi.domain.usecase.debt.DebtUseCases
 import dev.muffar.moneyfikasi.domain.usecase.debt.GetDebtById
+import dev.muffar.moneyfikasi.domain.usecase.transaction.GetTransactionById
+import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.GetAllWallets
 import dev.muffar.moneyfikasi.domain.usecase.wallet.GetWalletById
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.resource.R
+import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -34,6 +41,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.threeten.bp.LocalDateTime
 import java.util.UUID
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -46,6 +54,11 @@ class DebtPlusViewModelTest {
 
     private val walletA = Wallet(id = UUID.randomUUID(), name = "Main")
     private val walletB = Wallet(id = UUID.randomUUID(), name = "Cash")
+    private val testCategory = Category(
+        id = UUID.randomUUID(),
+        name = "Debt",
+        type = CategoryType.INCOME
+    )
 
     private lateinit var fakeDebtRepo: FakeDebtRepository
     private lateinit var fakeWalletRepo: FakeWalletRepository
@@ -61,10 +74,13 @@ class DebtPlusViewModelTest {
             getAllDebts = mockk(relaxed = true),
             getDebtById = GetDebtById(fakeDebtRepo),
             getDebtByTransactionId = mockk(relaxed = true),
+            getDebtByHistoryTransactionId = mockk(relaxed = true),
             upsertDebt = mockk(relaxed = true),
             deleteDebt = mockk(relaxed = true),
             recordDebtPayment = mockk(relaxed = true),
             increaseDebtAmount = mockk(relaxed = true),
+            updateDebtHistory = mockk(relaxed = true),
+            deleteDebtHistory = mockk(relaxed = true),
             getDebtHistory = mockk(relaxed = true)
         )
         walletUseCases = WalletUseCases(
@@ -224,19 +240,155 @@ class DebtPlusViewModelTest {
         assertTrue(events.contains(DebtPlusViewModel.UiEvent.NavigateBack))
     }
 
-    private fun createViewModel(debtId: UUID, tab: Int): DebtPlusViewModel {
+    @Test
+    fun `edit mode prefills row and locks payment tab`() = runTest {
+        val debtId = UUID.randomUUID()
+        val rowId = UUID.randomUUID()
+        fakeDebtRepo.debts[debtId] = Debt(
+            id = debtId,
+            type = DebtType.DEBT,
+            totalAmount = 1000.0,
+            paidAmount = 200.0,
+            walletId = walletA.id
+        )
+        val row = Transaction(
+            id = rowId,
+            category = testCategory,
+            wallet = walletA,
+            type = TransactionType.EXPENSE,
+            amount = 200.0,
+            date = LocalDateTime.of(2026, 1, 5, 10, 0)
+        )
+        val getTransactionById = mockk<GetTransactionById>()
+        coEvery { getTransactionById(rowId) } returns row
+        val txUseCases = defaultTransactionUseCases().copy(getTransactionById = getTransactionById)
+
+        val viewModel = createViewModel(debtId, tab = 0, historyId = rowId, transactionUseCases = txUseCases)
+        advanceUntilIdle()
+
+        assertEquals("200", viewModel.state.value.amount)
+        assertEquals(walletA.id, viewModel.state.value.wallet.id)
+        assertTrue(viewModel.state.value.isPaymentTab)
+
+        viewModel.onEvent(DebtPlusEvent.TabSelected(0))
+        assertTrue(viewModel.state.value.isPaymentTab)
+    }
+
+    @Test
+    fun `edit mode save dispatches updateDebtHistory`() = runTest {
+        val debtId = UUID.randomUUID()
+        val rowId = UUID.randomUUID()
+        fakeDebtRepo.debts[debtId] = Debt(
+            id = debtId,
+            name = "Borrowed money",
+            type = DebtType.DEBT,
+            totalAmount = 1000.0,
+            paidAmount = 200.0,
+            walletId = walletA.id
+        )
+        val row = Transaction(
+            id = rowId,
+            category = testCategory,
+            wallet = walletA,
+            type = TransactionType.EXPENSE,
+            amount = 200.0,
+            date = LocalDateTime.of(2026, 1, 5, 10, 0)
+        )
+        val getTransactionById = mockk<GetTransactionById>()
+        coEvery { getTransactionById(rowId) } returns row
+        val txUseCases = defaultTransactionUseCases().copy(getTransactionById = getTransactionById)
+
+        val viewModel = createViewModel(debtId, tab = 0, historyId = rowId, transactionUseCases = txUseCases)
+        advanceUntilIdle()
+
+        viewModel.onEvent(DebtPlusEvent.AmountChanged("300"))
+        viewModel.onEvent(DebtPlusEvent.SavePlus)
+        advanceUntilIdle()
+
+        coVerify {
+            debtUseCases.updateDebtHistory(
+                debtId = debtId,
+                transactionId = rowId,
+                amount = 300.0,
+                date = any(),
+                walletId = walletA.id,
+                note = "Borrowed money"
+            )
+        }
+        coVerify(exactly = 0) { debtUseCases.recordDebtPayment(any(), any(), any(), any()) }
+    }
+
+    @Test
+    fun `edit mode delete dispatches deleteDebtHistory`() = runTest {
+        val debtId = UUID.randomUUID()
+        val rowId = UUID.randomUUID()
+        fakeDebtRepo.debts[debtId] = Debt(
+            id = debtId,
+            type = DebtType.DEBT,
+            totalAmount = 1000.0,
+            paidAmount = 200.0,
+            walletId = walletA.id
+        )
+        val row = Transaction(
+            id = rowId,
+            category = testCategory,
+            wallet = walletA,
+            type = TransactionType.EXPENSE,
+            amount = 200.0,
+            date = LocalDateTime.of(2026, 1, 5, 10, 0)
+        )
+        val getTransactionById = mockk<GetTransactionById>()
+        coEvery { getTransactionById(rowId) } returns row
+        val txUseCases = defaultTransactionUseCases().copy(getTransactionById = getTransactionById)
+
+        val viewModel = createViewModel(debtId, tab = 0, historyId = rowId, transactionUseCases = txUseCases)
+        advanceUntilIdle()
+
+        viewModel.onEvent(DebtPlusEvent.DeleteHistory)
+        advanceUntilIdle()
+
+        coVerify { debtUseCases.deleteDebtHistory(debtId, rowId) }
+    }
+
+    private fun createViewModel(
+        debtId: UUID,
+        tab: Int,
+        historyId: UUID? = null,
+        transactionUseCases: TransactionUseCases = defaultTransactionUseCases()
+    ): DebtPlusViewModel {
         val handle = SavedStateHandle(
             mapOf(
                 Screen.DebtPlus.DEBT_ID to debtId.toString(),
-                Screen.DebtPlus.TAB to tab
+                Screen.DebtPlus.TAB to tab,
+                Screen.DebtPlus.HISTORY_ID to (historyId?.toString() ?: "")
             )
         )
         return DebtPlusViewModel(
             debtUseCases = debtUseCases,
+            transactionUseCases = transactionUseCases,
             walletUseCases = walletUseCases,
             handle = handle
         )
     }
+
+    private fun defaultTransactionUseCases(): TransactionUseCases = TransactionUseCases(
+        addTransaction = mockk(relaxed = true),
+        updateTransaction = mockk(relaxed = true),
+        deleteTransaction = mockk(relaxed = true),
+        getTransactionById = mockk(relaxed = true),
+        getAllTransactions = mockk(relaxed = true),
+        getTransactions = mockk(relaxed = true),
+        addTransfer = mockk(relaxed = true),
+        updateTransfer = mockk(relaxed = true),
+        getTransferDetail = mockk(relaxed = true),
+        saveTransactionImage = mockk(relaxed = true),
+        getIncomeSum = mockk(relaxed = true),
+        getExpenseSum = mockk(relaxed = true),
+        getNetBalance = mockk(relaxed = true),
+        getRecentTransactions = mockk(relaxed = true),
+        getAllTransactionsPaged = mockk(relaxed = true),
+        getTransactionsPaged = mockk(relaxed = true)
+    )
 
     class FakeDebtRepository : DebtRepository {
         val debts = mutableMapOf<UUID, Debt>()
@@ -247,6 +399,8 @@ class DebtPlusViewModelTest {
 
         override suspend fun getDebtByTransactionId(transactionId: UUID): Debt? =
             debts.values.find { it.transactionId == transactionId }
+
+        override suspend fun getDebtByHistoryTransactionId(transactionId: UUID): Debt? = null
 
         override suspend fun getDebtsByWalletId(walletId: UUID): List<Debt> =
             debts.values.filter { it.walletId == walletId }

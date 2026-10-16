@@ -160,11 +160,12 @@ sealed class Screen(val route: String) {
         }
     }
 
-    data object DebtPlus : Screen("debt_plus?debt_id={debt_id}&tab={tab}") {
+    data object DebtPlus : Screen("debt_plus?debt_id={debt_id}&tab={tab}&history_id={history_id}") {
         const val DEBT_ID = "debt_id"
         const val TAB = "tab"
-        fun routeWithArg(debtId: UUID, tab: Int = 0): String {
-            return "debt_plus?$DEBT_ID=$debtId&$TAB=$tab"
+        const val HISTORY_ID = "history_id"
+        fun routeWithArg(debtId: UUID, tab: Int = 0, historyId: UUID? = null): String {
+            return "debt_plus?$DEBT_ID=$debtId&$TAB=$tab&$HISTORY_ID=${historyId?.toString() ?: ""}"
         }
     }
 

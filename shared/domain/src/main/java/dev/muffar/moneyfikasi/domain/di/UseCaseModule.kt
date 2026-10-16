@@ -38,20 +38,23 @@ import dev.muffar.moneyfikasi.domain.usecase.budget.GetBudgetById
 import dev.muffar.moneyfikasi.domain.usecase.budget.UpsertBudget
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
 import dev.muffar.moneyfikasi.domain.usecase.category.DeleteCategory
-import dev.muffar.moneyfikasi.domain.usecase.debt.DebtUseCases
-import dev.muffar.moneyfikasi.domain.usecase.debt.DeleteDebt
-import dev.muffar.moneyfikasi.domain.usecase.debt.GetAllDebts
-import dev.muffar.moneyfikasi.domain.usecase.debt.GetDebtById
-import dev.muffar.moneyfikasi.domain.usecase.debt.GetDebtByTransactionId
-import dev.muffar.moneyfikasi.domain.usecase.debt.GetDebtHistory
-import dev.muffar.moneyfikasi.domain.usecase.debt.IncreaseDebtAmount
-import dev.muffar.moneyfikasi.domain.usecase.debt.RecordDebtPayment
-import dev.muffar.moneyfikasi.domain.usecase.debt.UpsertDebt
 import dev.muffar.moneyfikasi.domain.usecase.category.GetAllCategories
 import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryById
 import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryByType
 import dev.muffar.moneyfikasi.domain.usecase.category.UpdateDefaultCategories
 import dev.muffar.moneyfikasi.domain.usecase.category.UpsertCategory
+import dev.muffar.moneyfikasi.domain.usecase.debt.DebtUseCases
+import dev.muffar.moneyfikasi.domain.usecase.debt.DeleteDebt
+import dev.muffar.moneyfikasi.domain.usecase.debt.DeleteDebtHistory
+import dev.muffar.moneyfikasi.domain.usecase.debt.GetAllDebts
+import dev.muffar.moneyfikasi.domain.usecase.debt.GetDebtByHistoryTransactionId
+import dev.muffar.moneyfikasi.domain.usecase.debt.GetDebtById
+import dev.muffar.moneyfikasi.domain.usecase.debt.GetDebtByTransactionId
+import dev.muffar.moneyfikasi.domain.usecase.debt.GetDebtHistory
+import dev.muffar.moneyfikasi.domain.usecase.debt.IncreaseDebtAmount
+import dev.muffar.moneyfikasi.domain.usecase.debt.RecordDebtPayment
+import dev.muffar.moneyfikasi.domain.usecase.debt.UpdateDebtHistory
+import dev.muffar.moneyfikasi.domain.usecase.debt.UpsertDebt
 import dev.muffar.moneyfikasi.domain.usecase.drive.BackupToDrive
 import dev.muffar.moneyfikasi.domain.usecase.drive.DeleteDriveBackup
 import dev.muffar.moneyfikasi.domain.usecase.drive.DriveBackupUseCases
@@ -240,7 +243,9 @@ object UseCaseModule {
     ): NotificationUseCases = NotificationUseCases(
         getNotificationSettings = GetNotificationSettings(notificationSettingsRepository),
         setAllowNotification = SetAllowNotification(notificationSettingsRepository),
-        setRecurringTransactionNotification = SetRecurringTransactionNotification(notificationSettingsRepository)
+        setRecurringTransactionNotification = SetRecurringTransactionNotification(
+            notificationSettingsRepository
+        )
     )
 
     @Provides
@@ -297,10 +302,13 @@ object UseCaseModule {
         getAllDebts = GetAllDebts(debtRepository),
         getDebtById = GetDebtById(debtRepository),
         getDebtByTransactionId = GetDebtByTransactionId(debtRepository),
+        getDebtByHistoryTransactionId = GetDebtByHistoryTransactionId(debtRepository),
         upsertDebt = UpsertDebt(debtRepository, transactionRepository, categoryRepository),
         deleteDebt = DeleteDebt(debtRepository, transactionRepository),
         recordDebtPayment = RecordDebtPayment(debtRepository, transactionRepository),
         increaseDebtAmount = IncreaseDebtAmount(debtRepository, transactionRepository),
+        updateDebtHistory = UpdateDebtHistory(debtRepository, transactionRepository),
+        deleteDebtHistory = DeleteDebtHistory(debtRepository, transactionRepository),
         getDebtHistory = GetDebtHistory(transactionRepository, debtRepository)
     )
 
@@ -318,8 +326,11 @@ object UseCaseModule {
             transactionRepository
         ),
         getTransactionCountByRecurringId = GetTransactionCountByRecurringId(transactionRepository),
-        checkActiveRecurringTransactions = CheckActiveRecurringTransactions(recurringTransactionRepository)
+        checkActiveRecurringTransactions = CheckActiveRecurringTransactions(
+            recurringTransactionRepository
+        )
     )
+
 
     @Provides
     fun provideStatisticUseCases(

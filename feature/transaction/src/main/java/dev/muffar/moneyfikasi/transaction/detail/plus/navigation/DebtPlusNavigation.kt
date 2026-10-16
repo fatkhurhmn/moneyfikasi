@@ -29,6 +29,11 @@ fun NavGraphBuilder.debtPlusNavigation(
             navArgument(Screen.DebtPlus.TAB) {
                 type = NavType.IntType
                 defaultValue = 0
+            },
+            navArgument(Screen.DebtPlus.HISTORY_ID) {
+                type = NavType.StringType
+                nullable = true
+                defaultValue = null
             }
         )
     ) {
@@ -44,11 +49,13 @@ fun NavGraphBuilder.debtPlusNavigation(
             onAddNewWalletClick = onNavigateToAddWallet,
             onDateSelect = { viewModel.onEvent(DebtPlusEvent.DateSelected(it)) },
             onSubmit = { viewModel.onEvent(DebtPlusEvent.SavePlus) },
+            onShowDeleteAlert = { viewModel.onEvent(DebtPlusEvent.ShowDeleteAlert(it)) },
+            onDelete = { viewModel.onEvent(DebtPlusEvent.DeleteHistory) },
             onBackClick = navigateBack
         )
     }
 }
 
-fun NavController.toDebtPlusScreen(debtId: UUID, tab: Int = 0) {
-    this.navigate(Screen.DebtPlus.routeWithArg(debtId, tab))
+fun NavController.toDebtPlusScreen(debtId: UUID, tab: Int = 0, historyId: UUID? = null) {
+    this.navigate(Screen.DebtPlus.routeWithArg(debtId, tab, historyId))
 }

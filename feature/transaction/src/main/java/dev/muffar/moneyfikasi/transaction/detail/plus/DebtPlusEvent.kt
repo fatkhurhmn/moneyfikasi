@@ -8,4 +8,6 @@ sealed class DebtPlusEvent {
     data class WalletSelected(val wallet: Wallet) : DebtPlusEvent()
     data class DateSelected(val date: Long) : DebtPlusEvent()
     data object SavePlus : DebtPlusEvent()
+    data class ShowDeleteAlert(val show: Boolean) : DebtPlusEvent()
+    data object DeleteHistory : DebtPlusEvent()
 }

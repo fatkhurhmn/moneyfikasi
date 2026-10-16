@@ -9,6 +9,7 @@ import java.util.UUID
 data class DebtPlusState(
     val debtId: UUID? = null,
     val debt: Debt? = null,
+    val editingHistoryId: UUID? = null,
     val tab: Int = 0,
     val amount: String = "",
     val amountError: ErrorMessage = ErrorMessage(),
@@ -16,7 +17,8 @@ data class DebtPlusState(
     val walletError: ErrorMessage = ErrorMessage(),
     val walletOptions: List<Wallet> = emptyList(),
     val date: Long = System.currentTimeMillis(),
-    val isRecording: Boolean = false
+    val isRecording: Boolean = false,
+    val showDeleteAlert: Boolean = false
 ) {
     val isPaymentTab: Boolean
         get() {

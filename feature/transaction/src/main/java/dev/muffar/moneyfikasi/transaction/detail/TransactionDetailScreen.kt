@@ -32,6 +32,7 @@ import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.detail.component.DebtDetailCard
 import dev.muffar.moneyfikasi.transaction.detail.component.DebtHistorySection
+import dev.muffar.moneyfikasi.transaction.detail.component.SubDebtDetailCard
 import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailCard
 import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailSaveButton
 import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailTopBar
@@ -55,7 +56,8 @@ fun TransactionDetailScreen(
     onBackClick: () -> Unit,
     onSaveClick: (Bitmap) -> Unit,
     onPlusClick: () -> Unit,
-    onHistoryClick: (UUID) -> Unit
+    onHistoryClick: (UUID) -> Unit,
+    onHistoryEditClick: (UUID, UUID) -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val captureController = rememberCaptureController()
@@ -76,8 +78,10 @@ fun TransactionDetailScreen(
                 showPlus = state.canShowPlus,
                 onPlusClick = onPlusClick,
                 onEditClick = {
-                    if (linkedDebt != null) {
+                    if (linkedDebt != null && !state.isDebtHistory) {
                         onDebtEditClick(linkedDebt.type, linkedDebt.id)
+                    } else if (linkedDebt != null && state.transactionId != null) {
+                        onHistoryEditClick(linkedDebt.id, state.transactionId)
                     } else if (state.transactionId != null) {
                         onEditClick(state.transaction?.type, state.transactionId)
                     }
@@ -117,11 +121,18 @@ fun TransactionDetailScreen(
                     if (state.isTransfer) {
                         if (state.transferDetail == null) return@Card
                         TransferDetailCard(state.transferDetail)
+                    } else if (linkedDebt != null && state.isDebtHistory) {
+                        if (state.transaction == null) return@Card
+                        SubDebtDetailCard(
+                            transaction = state.transaction,
+                            debtType = linkedDebt.type,
+                            parentName = linkedDebt.name
+                        )
                     } else if (linkedDebt != null) {
                         if (state.transaction == null) return@Card
                         DebtDetailCard(
                             debt = linkedDebt,
-                            wallet = state.transaction.wallet
+                            wallet = state.debtWallet ?: state.transaction.wallet
                         )
                     } else {
                         if (state.transaction == null) return@Card
@@ -129,7 +140,7 @@ fun TransactionDetailScreen(
                     }
                 }
             }
-            if (linkedDebt != null) {
+            if (linkedDebt != null && !state.isDebtHistory) {
                 DebtHistorySection(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     history = state.history,
@@ -141,21 +152,23 @@ fun TransactionDetailScreen(
     }
 
     if (state.showAlert) {
+        val deleteTitleRes = if (linkedDebt != null && !state.isDebtHistory) {
+            R.string.title_delete_debt
+        } else if (linkedDebt != null) {
+            R.string.title_delete_history
+        } else {
+            R.string.title_delete_transaction
+        }
+        val deleteMessageRes = if (linkedDebt != null && !state.isDebtHistory) {
+            R.string.msg_delete_debt_confirmation
+        } else if (linkedDebt != null) {
+            R.string.msg_delete_history_confirmation
+        } else {
+            R.string.msg_delete_transaction_confirmation
+        }
         CommonAlertDialog(
-            title = stringResource(
-                if (linkedDebt != null) {
-                    R.string.title_delete_debt
-                } else {
-                    R.string.title_delete_transaction
-                }
-            ),
-            message = stringResource(
-                if (linkedDebt != null) {
-                    R.string.msg_delete_debt_confirmation
-                } else {
-                    R.string.msg_delete_transaction_confirmation
-                }
-            ),
+            title = stringResource(deleteTitleRes),
+            message = stringResource(deleteMessageRes),
             positiveText = stringResource(R.string.action_delete),
             negativeText = stringResource(R.string.action_cancel),
             onDismiss = { onShowAlert(false) },

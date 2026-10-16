@@ -22,6 +22,9 @@ interface DebtDao {
     @Query("SELECT * FROM debts WHERE transaction_id = :transactionId LIMIT 1")
     suspend fun getDebtByTransactionId(transactionId: UUID): DebtEntity?
 
+    @Query("SELECT * FROM debts WHERE id = (SELECT debt_id FROM transactions WHERE id = :transactionId)")
+    suspend fun getDebtByHistoryTransactionId(transactionId: UUID): DebtEntity?
+
     @Upsert
     suspend fun upsertDebt(debt: DebtEntity)
 

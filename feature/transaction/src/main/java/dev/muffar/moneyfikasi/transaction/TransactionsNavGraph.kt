@@ -15,7 +15,7 @@ fun NavGraphBuilder.transactionsNavGraph(
     onNavigateToTransactionDetail: (UUID, Boolean) -> Unit,
     onNavigateToEditTransaction: (TransactionType?, UUID) -> Unit,
     onNavigateToEditDebt: (DebtType, UUID) -> Unit,
-    onNavigateToDebtPlus: (UUID, Int) -> Unit,
+    onNavigateToDebtPlus: (UUID, Int, UUID?) -> Unit,
     onNavigateToAddWallet: () -> Unit,
     onNavigateToAddCategory: (CategoryType) -> Unit,
     onNavigateToSearch: () -> Unit,

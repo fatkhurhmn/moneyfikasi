@@ -5,14 +5,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
+import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.domain.model.ErrorMessage
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.domain.usecase.debt.DebtUseCases
+import dev.muffar.moneyfikasi.domain.usecase.transaction.TransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
 import dev.muffar.moneyfikasi.navigation.Screen
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.constants.UUIDConst
 import dev.muffar.moneyfikasi.utils.constants.ValidationConst
+import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
+import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.toMilliseconds
 import dev.muffar.moneyfikasi.utils.extensions.LongExt.toLocalDateTime
 import dev.muffar.moneyfikasi.utils.extensions.StringExt.clearThousandFormat
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -28,6 +32,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DebtPlusViewModel @Inject constructor(
     private val debtUseCases: DebtUseCases,
+    private val transactionUseCases: TransactionUseCases,
     private val walletUseCases: WalletUseCases,
     private val handle: SavedStateHandle
 ) : ViewModel() {
@@ -50,6 +55,8 @@ class DebtPlusViewModel @Inject constructor(
             is DebtPlusEvent.WalletSelected -> onWalletSelect(event.wallet)
             is DebtPlusEvent.DateSelected -> onDateSelect(event.date)
             is DebtPlusEvent.SavePlus -> onSavePlus()
+            is DebtPlusEvent.ShowDeleteAlert -> onShowDeleteAlert(event.show)
+            is DebtPlusEvent.DeleteHistory -> onDeleteHistory()
         }
     }
 
@@ -58,11 +65,14 @@ class DebtPlusViewModel @Inject constructor(
             ?.takeIf { it.isNotEmpty() }
             ?.let { UUID.fromString(it) }
         val tab = handle.get<Int>(Screen.DebtPlus.TAB) ?: 0
+        val historyId = handle.get<String>(Screen.DebtPlus.HISTORY_ID)
+            ?.takeIf { it.isNotEmpty() }
+            ?.let { UUID.fromString(it) }
         if (debtId == null) {
             viewModelScope.launch { _eventFlow.emit(UiEvent.NavigateBack) }
             return
         }
-        _state.update { it.copy(debtId = debtId, tab = tab) }
+        _state.update { it.copy(debtId = debtId, tab = tab, editingHistoryId = historyId) }
         viewModelScope.launch {
             val debt = debtUseCases.getDebtById(debtId)
             if (debt == null) {
@@ -70,7 +80,37 @@ class DebtPlusViewModel @Inject constructor(
                 return@launch
             }
             _state.update { it.copy(debt = debt) }
-            loadWallet(debt.walletId)
+            if (historyId != null) {
+                _state.update { it.copy(editingHistoryId = historyId) }
+                loadHistoryRow(historyId)
+            } else {
+                loadWallet(debt.walletId)
+            }
+        }
+    }
+
+    private fun loadHistoryRow(historyId: UUID) {
+        viewModelScope.launch {
+            val debt = _state.value.debt
+            val row = transactionUseCases.getTransactionById(historyId)
+            if (debt == null || row == null) {
+                _eventFlow.emit(UiEvent.NavigateBack)
+                return@launch
+            }
+            val isPayment = row.type != debt.type.toTransactionType()
+            val tab = if (debt.type == DebtType.DEBT) {
+                if (isPayment) 1 else 0
+            } else {
+                if (isPayment) 0 else 1
+            }
+            _state.update {
+                it.copy(
+                    tab = tab,
+                    amount = row.amount.formatThousand(),
+                    date = row.date.toMilliseconds(),
+                    wallet = row.wallet
+                )
+            }
         }
     }
 
@@ -96,6 +136,7 @@ class DebtPlusViewModel @Inject constructor(
     }
 
     private fun onTabSelect(index: Int) {
+        if (_state.value.editingHistoryId != null) return
         _state.update {
             it.copy(
                 tab = index,
@@ -148,11 +189,21 @@ class DebtPlusViewModel @Inject constructor(
         if (!state.amountError.isNull || !state.walletError.isNull) return
         val amount = state.amount.clearThousandFormat().toDoubleOrNull() ?: return
         val isPayment = state.isPaymentTab
+        val historyId = state.editingHistoryId
 
         viewModelScope.launch {
             _state.update { it.copy(isRecording = true) }
             try {
-                if (isPayment) {
+                if (historyId != null) {
+                    debtUseCases.updateDebtHistory(
+                        debtId = debt.id,
+                        transactionId = historyId,
+                        amount = amount,
+                        date = state.date.toLocalDateTime(),
+                        walletId = state.wallet.id,
+                        note = debt.name
+                    )
+                } else if (isPayment) {
                     debtUseCases.recordDebtPayment(
                         debtId = debt.id,
                         amount = amount,
@@ -184,8 +235,36 @@ class DebtPlusViewModel @Inject constructor(
                 _state.update { it.copy(isRecording = false) }
                 val messageResId = when (e.message) {
                     "Paid amount cannot exceed total amount" -> R.string.error_paid_exceeds_total
+                    "Total cannot be less than paid amount" -> R.string.error_total_below_paid
                     "Amount must be greater than 0" -> R.string.error_amount_greater_than_zero
-                    "Debt not found" -> R.string.error_save_debt_failed
+                    "Debt not found", "Transaction not found" -> R.string.error_save_debt_failed
+                    else -> R.string.error_save_debt_failed
+                }
+                _eventFlow.emit(UiEvent.ShowMessage(messageResId, SnackbarType.ERROR))
+            }
+        }
+    }
+
+    private fun onShowDeleteAlert(show: Boolean) {
+        _state.update { it.copy(showDeleteAlert = show) }
+    }
+
+    private fun onDeleteHistory() {
+        val state = _state.value
+        val debt = state.debt ?: return
+        val historyId = state.editingHistoryId ?: return
+
+        viewModelScope.launch {
+            _state.update { it.copy(isRecording = true) }
+            try {
+                debtUseCases.deleteDebtHistory(debt.id, historyId)
+                _state.update { it.copy(isRecording = false) }
+                _eventFlow.emit(UiEvent.DeleteDebtHistory)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _state.update { it.copy(isRecording = false) }
+                val messageResId = when (e.message) {
+                    "Total cannot be less than paid amount" -> R.string.error_total_below_paid
                     else -> R.string.error_save_debt_failed
                 }
                 _eventFlow.emit(UiEvent.ShowMessage(messageResId, SnackbarType.ERROR))
@@ -196,6 +275,7 @@ class DebtPlusViewModel @Inject constructor(
     sealed class UiEvent {
         data class ShowMessage(val messageResId: Int, val type: SnackbarType) : UiEvent()
         data object SaveDebtPlus : UiEvent()
+        data object DeleteDebtHistory : UiEvent()
         data object NavigateBack : UiEvent()
     }
 }

@@ -18,6 +18,7 @@ import dev.muffar.moneyfikasi.domain.usecase.debt.DebtUseCases
 import dev.muffar.moneyfikasi.domain.usecase.debt.DeleteDebt
 import dev.muffar.moneyfikasi.domain.usecase.debt.GetAllDebts
 import dev.muffar.moneyfikasi.domain.usecase.debt.GetDebtById
+import dev.muffar.moneyfikasi.domain.usecase.debt.GetDebtByHistoryTransactionId
 import dev.muffar.moneyfikasi.domain.usecase.debt.GetDebtByTransactionId
 import dev.muffar.moneyfikasi.domain.usecase.debt.UpsertDebt
 import dev.muffar.moneyfikasi.domain.usecase.transaction.AddTransaction
@@ -314,6 +315,144 @@ class TransactionDetailViewModelDebtTest {
         coVerify(exactly = 0) { debtUseCases.deleteDebt(any()) }
     }
 
+    @Test
+    fun `history transaction resolves parent debt without plus action`() = runTest {
+        val principalId = UUID.randomUUID()
+        val historyId = UUID.randomUUID()
+        fakeTransactionRepo.transactions[historyId] = Transaction(
+            id = historyId,
+            category = testCategory,
+            wallet = testWallet,
+            type = TransactionType.EXPENSE,
+            amount = 200.0,
+            date = LocalDateTime.of(2026, 1, 5, 10, 0),
+            note = "Borrowed money"
+        )
+        val parent = Debt(
+            name = "Borrowed money",
+            type = DebtType.DEBT,
+            totalAmount = 1000.0,
+            paidAmount = 200.0,
+            walletId = testWallet.id,
+            transactionId = principalId
+        )
+        fakeDebtRepo.debtsByHistoryTransaction[historyId] = parent
+
+        val (viewModel, _, _) = createViewModel(historyId, isTransfer = false)
+        viewModel.onEvent(TransactionDetailEvent.InitData)
+        advanceUntilIdle()
+
+        assertEquals(parent, viewModel.state.value.linkedDebt)
+        assertTrue(viewModel.state.value.isDebtHistory)
+        assertFalse(viewModel.state.value.canShowPlus)
+        assertEquals(historyId, viewModel.state.value.transaction?.id)
+    }
+
+    @Test
+    fun `principal transaction is not marked as history`() = runTest {
+        val transactionId = UUID.randomUUID()
+        fakeTransactionRepo.transactions[transactionId] = Transaction(
+            id = transactionId,
+            category = testCategory,
+            wallet = testWallet,
+            type = TransactionType.INCOME,
+            amount = 1000.0,
+            date = LocalDateTime.of(2026, 1, 1, 10, 0),
+            note = "Borrowed money"
+        )
+        fakeDebtRepo.debtsByTransaction[transactionId] = Debt(
+            name = "Borrowed money",
+            type = DebtType.DEBT,
+            totalAmount = 1000.0,
+            walletId = testWallet.id,
+            transactionId = transactionId
+        )
+
+        val (viewModel, _, _) = createViewModel(transactionId, isTransfer = false)
+        viewModel.onEvent(TransactionDetailEvent.InitData)
+        advanceUntilIdle()
+
+        assertFalse(viewModel.state.value.isDebtHistory)
+        assertTrue(viewModel.state.value.canShowPlus)
+    }
+
+    @Test
+    fun `delete history row adjusts parent instead of deleting debt`() = runTest {
+        val principalId = UUID.randomUUID()
+        val historyId = UUID.randomUUID()
+        fakeTransactionRepo.transactions[historyId] = Transaction(
+            id = historyId,
+            category = testCategory,
+            wallet = testWallet,
+            type = TransactionType.EXPENSE,
+            amount = 200.0,
+            date = LocalDateTime.of(2026, 1, 5, 10, 0),
+            note = "Borrowed money"
+        )
+        val parent = Debt(
+            id = UUID.randomUUID(),
+            name = "Borrowed money",
+            type = DebtType.DEBT,
+            totalAmount = 1000.0,
+            paidAmount = 200.0,
+            walletId = testWallet.id,
+            transactionId = principalId
+        )
+        fakeDebtRepo.debtsByHistoryTransaction[historyId] = parent
+
+        val (viewModel, transactionUseCases, debtUseCases) =
+            createViewModel(historyId, isTransfer = false)
+        viewModel.onEvent(TransactionDetailEvent.InitData)
+        advanceUntilIdle()
+
+        viewModel.onEvent(TransactionDetailEvent.DeleteTransaction)
+        advanceUntilIdle()
+
+        coVerify { debtUseCases.deleteDebtHistory(parent.id, historyId) }
+        coVerify(exactly = 0) { debtUseCases.deleteDebt(any()) }
+        coVerify(exactly = 0) { transactionUseCases.deleteTransaction(any()) }
+    }
+
+    @Test
+    fun `refresh reloads linked debt after edit`() = runTest {
+        val transactionId = UUID.randomUUID()
+        fakeTransactionRepo.transactions[transactionId] = Transaction(
+            id = transactionId,
+            category = testCategory,
+            wallet = testWallet,
+            type = TransactionType.INCOME,
+            amount = 1000.0,
+            date = LocalDateTime.of(2026, 1, 1, 10, 0),
+            note = "Borrowed money"
+        )
+        fakeDebtRepo.debtsByTransaction[transactionId] = Debt(
+            name = "Borrowed money",
+            type = DebtType.DEBT,
+            totalAmount = 1000.0,
+            walletId = testWallet.id,
+            transactionId = transactionId
+        )
+
+        val (viewModel, _, _) = createViewModel(transactionId, isTransfer = false)
+        viewModel.onEvent(TransactionDetailEvent.InitData)
+        advanceUntilIdle()
+        assertEquals(1000.0, viewModel.state.value.linkedDebt?.totalAmount ?: 0.0, 0.001)
+
+        fakeDebtRepo.debtsByTransaction[transactionId] = Debt(
+            name = "Borrowed money",
+            type = DebtType.DEBT,
+            totalAmount = 1500.0,
+            paidAmount = 200.0,
+            walletId = testWallet.id,
+            transactionId = transactionId
+        )
+        viewModel.onEvent(TransactionDetailEvent.Refresh)
+        advanceUntilIdle()
+
+        assertEquals(1500.0, viewModel.state.value.linkedDebt?.totalAmount ?: 0.0, 0.001)
+        assertEquals(200.0, viewModel.state.value.linkedDebt?.paidAmount ?: 0.0, 0.001)
+    }
+
     private fun createViewModel(
         transactionId: UUID,
         isTransfer: Boolean
@@ -340,10 +479,13 @@ class TransactionDetailViewModelDebtTest {
             getAllDebts = mockk(relaxed = true),
             getDebtById = mockk(relaxed = true),
             getDebtByTransactionId = GetDebtByTransactionId(fakeDebtRepo),
+            getDebtByHistoryTransactionId = GetDebtByHistoryTransactionId(fakeDebtRepo),
             upsertDebt = mockk(relaxed = true),
             deleteDebt = mockk(relaxed = true),
             recordDebtPayment = mockk(relaxed = true),
             increaseDebtAmount = mockk(relaxed = true),
+            updateDebtHistory = mockk(relaxed = true),
+            deleteDebtHistory = mockk(relaxed = true),
             getDebtHistory = mockk(relaxed = true)
         )
         val handle = SavedStateHandle(
@@ -356,6 +498,7 @@ class TransactionDetailViewModelDebtTest {
             TransactionDetailViewModel(
                 transactionUseCases = transactionUseCases,
                 debtUseCases = debtUseCases,
+                walletUseCases = mockk(relaxed = true),
                 handle = handle,
                 application = mockk<Application>(relaxed = true)
             ),
@@ -474,6 +617,7 @@ class TransactionDetailViewModelDebtTest {
 
     class FakeDebtRepository : DebtRepository {
         val debtsByTransaction = mutableMapOf<UUID, Debt>()
+        val debtsByHistoryTransaction = mutableMapOf<UUID, Debt>()
 
         override fun getAllDebts(): Flow<List<Debt>> = flowOf(emptyList())
 
@@ -481,6 +625,9 @@ class TransactionDetailViewModelDebtTest {
 
         override suspend fun getDebtByTransactionId(transactionId: UUID): Debt? =
             debtsByTransaction[transactionId]
+
+        override suspend fun getDebtByHistoryTransactionId(transactionId: UUID): Debt? =
+            debtsByHistoryTransaction[transactionId]
 
         override suspend fun getDebtsByWalletId(walletId: UUID): List<Debt> = emptyList()
 

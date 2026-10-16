@@ -50,6 +50,7 @@
     <string name="title_debts">Hutang</string>
     <string name="title_debt">Hutang</string>
     <string name="title_delete_debt">Hapus Hutang</string>
+    <string name="title_delete_history">Hapus Riwayat</string>
     <string name="title_delete_recurring">Hapus Transaksi Berulang</string>
     <string name="title_restore_confirmation">Pulihkan Data</string>
     <string name="title_recurring_transaction_processed">Transaksi Berulang Diproses</string>
@@ -291,6 +292,7 @@
     <string name="msg_debt_description">Catat uang yang Anda pinjam atau dipinjam orang lain.</string>
     <string name="msg_debts_count">%d Hutang</string>
     <string name="msg_delete_debt_confirmation">Apakah Anda yakin ingin menghapus hutang ini? Semua riwayat terkait juga akan dihapus.</string>
+    <string name="msg_delete_history_confirmation">Apakah Anda yakin ingin menghapus riwayat ini? Saldo hutang akan disesuaikan.</string>
     <string name="msg_payment_success">Pembayaran tercatat</string>
     <string name="msg_debt_updated">Hutang diperbarui</string>
     <string name="msg_history_count">%d catatan</string>
@@ -396,6 +398,7 @@
     <string name="error_select_date_range">Pilih tanggal mulai &amp; tanggal akhir</string>
     <string name="error_end_date_invalid">Tanggal akhir tidak valid</string>
     <string name="error_due_date_required">Pilih tanggal jatuh tempo</string>
+    <string name="error_total_below_paid">Total tidak boleh kurang dari terbayar</string>
     <string name="error_number_too_large">Angka terlalu besar</string>
     <string name="error_save_budget_failed">Gagal menyimpan anggaran. Setiap kategori hanya dapat memiliki satu anggaran.</string>
     <string name="error_delete_budget_failed">Gagal menghapus anggaran</string>
