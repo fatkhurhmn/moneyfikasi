@@ -73,6 +73,16 @@ fun MoreScreen(
             }
             item {
                 MoreItem(
+                    label = stringResource(R.string.title_debts),
+                    title = stringResource(R.string.label_track_debts),
+                    description = stringResource(R.string.msg_debt_description),
+                    status = stringResource(R.string.msg_debts_count, state.debtsCount),
+                    icon = Icons.Rounded.AccountBalance,
+                    onClick = onDebtsClick
+                )
+            }
+            item {
+                MoreItem(
                     label = stringResource(R.string.title_presets),
                     title = stringResource(R.string.label_transaction_presets),
                     description = stringResource(R.string.msg_preset_description),
@@ -102,16 +112,6 @@ fun MoreScreen(
                     status = stringResource(R.string.msg_budgets_count, state.budgetsCount),
                     icon = Icons.Rounded.DataUsage,
                     onClick = onBudgetsClick
-                )
-            }
-            item {
-                MoreItem(
-                    label = stringResource(R.string.title_debts),
-                    title = stringResource(R.string.label_track_debts),
-                    description = stringResource(R.string.msg_debt_description),
-                    status = stringResource(R.string.msg_debts_count, state.debtsCount),
-                    icon = Icons.Rounded.AccountBalance,
-                    onClick = onDebtsClick
                 )
             }
         }

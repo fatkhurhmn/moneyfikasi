@@ -22,6 +22,9 @@ import dev.muffar.moneyfikasi.domain.model.Debt
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
 import dev.muffar.moneyfikasi.utils.extensions.LongExt.formattedDate
+import org.threeten.bp.Instant
+import org.threeten.bp.LocalDate
+import org.threeten.bp.ZoneId
 
 @Composable
 fun DebtItem(
@@ -33,6 +36,9 @@ fun DebtItem(
     val financeColors = MoneyfikasiTheme.financeColors
     val color = if (debt.remainingAmount <= 0) financeColors.income else financeColors.info
     val dueDate = debt.dueDate
+    val isOverdue = dueDate != null && debt.remainingAmount > 0 &&
+        Instant.ofEpochMilli(dueDate).atZone(ZoneId.systemDefault()).toLocalDate()
+            .isBefore(LocalDate.now())
 
     PrimaryCard(
         onClick = onClick,
@@ -86,7 +92,11 @@ fun DebtItem(
                 Text(
                     text = "${stringResource(R.string.label_due_date)}: ${dueDate.formattedDate()}",
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = if (isOverdue) {
+                        MaterialTheme.colorScheme.error
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                    }
                 )
             }
         }
