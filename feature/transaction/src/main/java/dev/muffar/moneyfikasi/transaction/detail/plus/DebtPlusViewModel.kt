@@ -55,8 +55,6 @@ class DebtPlusViewModel @Inject constructor(
             is DebtPlusEvent.WalletSelected -> onWalletSelect(event.wallet)
             is DebtPlusEvent.DateSelected -> onDateSelect(event.date)
             is DebtPlusEvent.SavePlus -> onSavePlus()
-            is DebtPlusEvent.ShowDeleteAlert -> onShowDeleteAlert(event.show)
-            is DebtPlusEvent.DeleteHistory -> onDeleteHistory()
         }
     }
 
@@ -136,14 +134,8 @@ class DebtPlusViewModel @Inject constructor(
     }
 
     private fun onTabSelect(index: Int) {
-        if (_state.value.editingHistoryId != null) return
-        _state.update {
-            it.copy(
-                tab = index,
-                amount = "",
-                amountError = ErrorMessage()
-            )
-        }
+        _state.update { it.copy(tab = index) }
+        updateAmountError()
     }
 
     private fun onAmountChange(amount: String) {
@@ -193,7 +185,8 @@ class DebtPlusViewModel @Inject constructor(
                         amount = amount,
                         date = state.date.toLocalDateTime(),
                         walletId = state.wallet.id,
-                        note = debt.name
+                        note = debt.name,
+                        isPayment = isPayment
                     )
                 } else if (isPayment) {
                     debtUseCases.recordDebtPayment(
@@ -236,37 +229,9 @@ class DebtPlusViewModel @Inject constructor(
         }
     }
 
-    private fun onShowDeleteAlert(show: Boolean) {
-        _state.update { it.copy(showDeleteAlert = show) }
-    }
-
-    private fun onDeleteHistory() {
-        val state = _state.value
-        val debt = state.debt ?: return
-        val historyId = state.editingHistoryId ?: return
-
-        viewModelScope.launch {
-            _state.update { it.copy(isRecording = true) }
-            try {
-                debtUseCases.deleteDebtHistory(debt.id, historyId)
-                _state.update { it.copy(isRecording = false) }
-                _eventFlow.emit(UiEvent.DeleteDebtHistory)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                _state.update { it.copy(isRecording = false) }
-                val messageResId = when (e.message) {
-                    "Total cannot be less than paid amount" -> R.string.error_total_below_paid
-                    else -> R.string.error_save_debt_failed
-                }
-                _eventFlow.emit(UiEvent.ShowMessage(messageResId, SnackbarType.ERROR))
-            }
-        }
-    }
-
     sealed class UiEvent {
         data class ShowMessage(val messageResId: Int, val type: SnackbarType) : UiEvent()
         data object SaveDebtPlus : UiEvent()
-        data object DeleteDebtHistory : UiEvent()
         data object NavigateBack : UiEvent()
     }
 }

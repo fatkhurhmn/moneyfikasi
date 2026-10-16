@@ -57,8 +57,6 @@ class AddEditDebtViewModel @Inject constructor(
             is AddEditDebtEvent.NoteChanged -> onNoteChange(event.note)
             is AddEditDebtEvent.WalletSelected -> onWalletSelect(event.wallet)
             is AddEditDebtEvent.SaveDebt -> onSaveDebt()
-            is AddEditDebtEvent.DeleteDebt -> onDeleteDebt()
-            is AddEditDebtEvent.ShowDeleteAlert -> onShowDeleteAlert(event.show)
         }
     }
 
@@ -203,10 +201,6 @@ class AddEditDebtViewModel @Inject constructor(
         _state.update { it.copy(walletError = ErrorMessage(resId = error)) }
     }
 
-    private fun onShowDeleteAlert(show: Boolean) {
-        _state.update { it.copy(showAlert = show) }
-    }
-
     private fun onSaveDebt() {
         if (!isFormValid()) return
         val state = _state.value
@@ -226,20 +220,6 @@ class AddEditDebtViewModel @Inject constructor(
         }
     }
 
-    private fun onDeleteDebt() {
-        val state = _state.value
-        if (state.id == null) return
-        viewModelScope.launch {
-            try {
-                debtUseCases.deleteDebt(state.debt)
-                _eventFlow.emit(UiEvent.DeleteDebt)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                _eventFlow.emit(UiEvent.ShowMessage(R.string.error_delete_debt_failed, SnackbarType.ERROR))
-            }
-        }
-    }
-
     private fun isFormValid(): Boolean {
         updateNameError()
         updateTotalAmountError()
@@ -253,6 +233,5 @@ class AddEditDebtViewModel @Inject constructor(
     sealed class UiEvent {
         data class ShowMessage(val messageResId: Int, val type: SnackbarType) : UiEvent()
         data object SaveDebt : UiEvent()
-        data object DeleteDebt : UiEvent()
     }
 }

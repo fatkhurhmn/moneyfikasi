@@ -49,8 +49,6 @@ fun NavGraphBuilder.debtPlusNavigation(
             onAddNewWalletClick = onNavigateToAddWallet,
             onDateSelect = { viewModel.onEvent(DebtPlusEvent.DateSelected(it)) },
             onSubmit = { viewModel.onEvent(DebtPlusEvent.SavePlus) },
-            onShowDeleteAlert = { viewModel.onEvent(DebtPlusEvent.ShowDeleteAlert(it)) },
-            onDelete = { viewModel.onEvent(DebtPlusEvent.DeleteHistory) },
             onBackClick = navigateBack
         )
     }

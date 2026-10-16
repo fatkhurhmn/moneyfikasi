@@ -25,7 +25,6 @@ data class AddEditDebtState(
     val walletError: ErrorMessage = ErrorMessage(),
     val walletOptions: List<Wallet> = emptyList(),
     val transactionId: UUID? = null,
-    val showAlert: Boolean = false,
     val createdAt: Long = System.currentTimeMillis()
 ) {
     val debt: Debt

@@ -22,7 +22,6 @@ import dev.muffar.moneyfikasi.transaction.detail.plus.DebtPlusState
 fun DebtPlusForm(
     modifier: Modifier = Modifier,
     state: DebtPlusState,
-    showTabs: Boolean = true,
     onTabSelected: (Int) -> Unit,
     onAmountChange: (String) -> Unit,
     onWalletSelect: (Wallet) -> Unit,
@@ -47,13 +46,11 @@ fun DebtPlusForm(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        if (showTabs) {
-            DebtTypeTabHeader(
-                tabs = tabs,
-                selectedTab = state.tab,
-                onTabSelected = onTabSelected
-            )
-        }
+        DebtTypeTabHeader(
+            tabs = tabs,
+            selectedTab = state.tab,
+            onTabSelected = onTabSelected
+        )
 
         BasicAmountInput(
             amount = state.amount,

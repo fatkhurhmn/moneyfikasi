@@ -53,9 +53,7 @@ fun NavGraphBuilder.addEditDebtNavigation(
             onNoteChange = { viewModel.onEvent(AddEditDebtEvent.NoteChanged(it)) },
             onWalletSelect = { viewModel.onEvent(AddEditDebtEvent.WalletSelected(it)) },
             onAddNewWalletClick = onNavigateToAddWallet,
-            onShowAlert = { viewModel.onEvent(AddEditDebtEvent.ShowDeleteAlert(it)) },
             onSubmit = { viewModel.onEvent(AddEditDebtEvent.SaveDebt) },
-            onDelete = { viewModel.onEvent(AddEditDebtEvent.DeleteDebt) },
             onBackClick = navigateBack
         )
     }

@@ -12,8 +12,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.ModifierExt.formModifier
-import dev.muffar.moneyfikasi.common_ui.component.button.bottom_bar.BottomBarAddEditButton
-import dev.muffar.moneyfikasi.common_ui.component.dialog.CommonAlertDialog
+import dev.muffar.moneyfikasi.common_ui.component.button.bottom_bar.BottomBarSaveButton
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
@@ -36,9 +35,7 @@ fun AddEditDebtScreen(
     onNoteChange: (String) -> Unit,
     onWalletSelect: (Wallet) -> Unit,
     onAddNewWalletClick: () -> Unit,
-    onShowAlert: (Boolean) -> Unit,
     onSubmit: () -> Unit,
-    onDelete: () -> Unit,
     onBackClick: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -53,11 +50,7 @@ fun AddEditDebtScreen(
             )
         },
         bottomBar = {
-            BottomBarAddEditButton(
-                isEdit = state.id != null,
-                onSave = onSubmit,
-                onDelete = { onShowAlert(true) }
-            )
+            BottomBarSaveButton(onSubmit)
         },
         snackbarHost = { SnackbarMessage(snackbarHostState) },
         contentWindowInsets = WindowInsets(0.dp)
@@ -76,25 +69,10 @@ fun AddEditDebtScreen(
         )
     }
 
-    if (state.showAlert) {
-        CommonAlertDialog(
-            title = stringResource(R.string.title_delete_debt),
-            message = stringResource(R.string.msg_delete_debt_confirmation),
-            positiveText = stringResource(R.string.action_delete),
-            negativeText = stringResource(R.string.action_cancel),
-            onDismiss = { onShowAlert(false) },
-            onConfirm = {
-                onDelete()
-                onShowAlert(false)
-            }
-        )
-    }
-
     LaunchedEffect(eventFlow) {
         eventFlow.collectLatest {
             when (it) {
                 is AddEditDebtViewModel.UiEvent.SaveDebt -> onBackClick()
-                is AddEditDebtViewModel.UiEvent.DeleteDebt -> onBackClick()
                 is AddEditDebtViewModel.UiEvent.ShowMessage -> {
                     snackbarHostState.showMessage(
                         context.applicationContext.getString(it.messageResId),

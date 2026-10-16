@@ -17,8 +17,7 @@ data class DebtPlusState(
     val walletError: ErrorMessage = ErrorMessage(),
     val walletOptions: List<Wallet> = emptyList(),
     val date: Long = System.currentTimeMillis(),
-    val isRecording: Boolean = false,
-    val showDeleteAlert: Boolean = false
+    val isRecording: Boolean = false
 ) {
     val isPaymentTab: Boolean
         get() {

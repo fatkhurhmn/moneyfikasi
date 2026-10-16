@@ -13,6 +13,4 @@ sealed class AddEditDebtEvent {
     data class NoteChanged(val note: String) : AddEditDebtEvent()
     data class WalletSelected(val wallet: Wallet) : AddEditDebtEvent()
     data object SaveDebt : AddEditDebtEvent()
-    data object DeleteDebt : AddEditDebtEvent()
-    data class ShowDeleteAlert(val show: Boolean) : AddEditDebtEvent()
 }

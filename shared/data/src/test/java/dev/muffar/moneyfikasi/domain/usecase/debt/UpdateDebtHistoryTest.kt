@@ -122,6 +122,41 @@ class UpdateDebtHistoryTest {
     }
 
     @Test
+    fun `payment row converted to increase reverses paid and raises total`() = runTest {
+        val debtId = UUID.randomUUID()
+        val rowId = UUID.randomUUID()
+        coEvery { debtRepository.getDebtById(debtId) } returns Debt(
+            id = debtId,
+            type = DebtType.DEBT,
+            totalAmount = 1000.0,
+            paidAmount = 200.0,
+            walletId = wallet.id
+        )
+        coEvery { transactionRepository.getTransactionById(rowId) } returns
+            row(rowId, TransactionType.EXPENSE, 200.0)
+
+        updateDebtHistory(debtId, rowId, 200.0, date, wallet.id, null, isPayment = false)
+
+        coVerify {
+            debtRepository.upsertDebt(
+                match { it.paidAmount == 0.0 && it.totalAmount == 1200.0 }
+            )
+        }
+        coVerify {
+            transactionRepository.updateIncomeOrExpense(
+                id = rowId,
+                amount = 200.0,
+                type = TransactionType.INCOME,
+                date = date,
+                note = null,
+                walletId = wallet.id,
+                categoryId = category.id,
+                debtId = debtId
+            )
+        }
+    }
+
+    @Test
     fun `increase edit below paid is rejected`() = runTest {
         val debtId = UUID.randomUUID()
         val rowId = UUID.randomUUID()

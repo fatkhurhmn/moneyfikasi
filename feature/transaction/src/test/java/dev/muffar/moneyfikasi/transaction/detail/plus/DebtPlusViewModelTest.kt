@@ -245,7 +245,7 @@ class DebtPlusViewModelTest {
     }
 
     @Test
-    fun `edit mode prefills row and locks payment tab`() = runTest {
+    fun `edit mode prefills row and allows tab switch`() = runTest {
         val debtId = UUID.randomUUID()
         val rowId = UUID.randomUUID()
         fakeDebtRepo.debts[debtId] = Debt(
@@ -275,7 +275,8 @@ class DebtPlusViewModelTest {
         assertTrue(viewModel.state.value.isPaymentTab)
 
         viewModel.onEvent(DebtPlusEvent.TabSelected(0))
-        assertTrue(viewModel.state.value.isPaymentTab)
+        assertTrue(!viewModel.state.value.isPaymentTab)
+        assertEquals("200", viewModel.state.value.amount)
     }
 
     @Test
@@ -316,42 +317,11 @@ class DebtPlusViewModelTest {
                 amount = 300.0,
                 date = any(),
                 walletId = walletA.id,
-                note = "Borrowed money"
+                note = "Borrowed money",
+                isPayment = true
             )
         }
         coVerify(exactly = 0) { debtUseCases.recordDebtPayment(any(), any(), any(), any()) }
-    }
-
-    @Test
-    fun `edit mode delete dispatches deleteDebtHistory`() = runTest {
-        val debtId = UUID.randomUUID()
-        val rowId = UUID.randomUUID()
-        fakeDebtRepo.debts[debtId] = Debt(
-            id = debtId,
-            type = DebtType.DEBT,
-            totalAmount = 1000.0,
-            paidAmount = 200.0,
-            walletId = walletA.id
-        )
-        val row = Transaction(
-            id = rowId,
-            category = testCategory,
-            wallet = walletA,
-            type = TransactionType.EXPENSE,
-            amount = 200.0,
-            date = LocalDateTime.of(2026, 1, 5, 10, 0)
-        )
-        val getTransactionById = mockk<GetTransactionById>()
-        coEvery { getTransactionById(rowId) } returns row
-        val txUseCases = defaultTransactionUseCases().copy(getTransactionById = getTransactionById)
-
-        val viewModel = createViewModel(debtId, tab = 0, historyId = rowId, transactionUseCases = txUseCases)
-        advanceUntilIdle()
-
-        viewModel.onEvent(DebtPlusEvent.DeleteHistory)
-        advanceUntilIdle()
-
-        coVerify { debtUseCases.deleteDebtHistory(debtId, rowId) }
     }
 
     private fun createViewModel(
