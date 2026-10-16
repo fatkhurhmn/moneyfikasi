@@ -13,6 +13,7 @@ import dev.muffar.moneyfikasi.navigation.Screen
 
 fun NavGraphBuilder.debtMenuNavigation(
     navigateToDebtList: (DebtType) -> Unit,
+    navigateToAddDebt: (DebtType) -> Unit,
     navigateBack: () -> Unit,
 ) {
     composable(route = Screen.DebtMenu.route) {
@@ -22,6 +23,7 @@ fun NavGraphBuilder.debtMenuNavigation(
         DebtMenuScreen(
             state = state,
             onDebtClick = navigateToDebtList,
+            onAddDebtClick = navigateToAddDebt,
             onBackClick = navigateBack
         )
     }

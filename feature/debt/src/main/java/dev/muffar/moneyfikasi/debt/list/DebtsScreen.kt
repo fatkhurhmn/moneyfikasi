@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.component.button.common.CommonAddButton
 import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
 import dev.muffar.moneyfikasi.common_ui.theme.MoneyfikasiTheme
 import dev.muffar.moneyfikasi.common_ui.component.tabs.DebtTab
@@ -22,7 +21,6 @@ fun DebtsScreen(
     modifier: Modifier = Modifier,
     state: DebtsState,
     onDebtClick: (UUID) -> Unit,
-    onAddDebtClick: (DebtType) -> Unit,
     onStatusFilterChange: (DebtStatusFilter) -> Unit,
     onBackClick: () -> Unit,
 ) {
@@ -46,11 +44,6 @@ fun DebtsScreen(
             CommonTopAppBar(
                 title = stringResource(titleRes),
                 onBackClick = onBackClick
-            )
-        },
-        floatingActionButton = {
-            CommonAddButton(
-                onClick = { onAddDebtClick(state.selectedType ?: DebtType.DEBT) }
             )
         }
     ) { paddingValues ->

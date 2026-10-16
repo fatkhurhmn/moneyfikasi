@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 data class DebtTab(
-    @StringRes val labelResId: Int,
+    @param:StringRes val labelResId: Int,
     val color: Color
 )
 

@@ -16,7 +16,6 @@ import dev.muffar.moneyfikasi.navigation.Screen
 import java.util.UUID
 
 fun NavGraphBuilder.debtsNavigation(
-    navigateToAddDebt: (DebtType) -> Unit,
     navigateToEditDebt: (DebtType, UUID) -> Unit,
     navigateToTransactionDetail: (UUID) -> Unit,
     navigateBack: () -> Unit,
@@ -42,7 +41,6 @@ fun NavGraphBuilder.debtsNavigation(
                     }
                 }
             },
-            onAddDebtClick = navigateToAddDebt,
             onStatusFilterChange = { viewModel.onEvent(DebtsEvent.StatusFilterChanged(it)) },
             onBackClick = navigateBack
         )

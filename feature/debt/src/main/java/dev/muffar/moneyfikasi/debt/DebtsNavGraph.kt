@@ -17,10 +17,10 @@ fun NavGraphBuilder.debtsNavGraph(
 ) {
     debtMenuNavigation(
         navigateToDebtList = navigateToDebtList,
+        navigateToAddDebt = navigateToAddDebt,
         navigateBack = navigateBack,
     )
     debtsNavigation(
-        navigateToAddDebt = navigateToAddDebt,
         navigateToEditDebt = navigateToEditDebt,
         navigateToTransactionDetail = navigateToTransactionDetail,
         navigateBack = navigateBack,
