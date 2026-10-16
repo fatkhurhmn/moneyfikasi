@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.ModifierExt
 import dev.muffar.moneyfikasi.more.component.MoreItem
 import dev.muffar.moneyfikasi.more.component.MoreTopBar
 import dev.muffar.moneyfikasi.resource.R
@@ -48,7 +49,7 @@ fun MoreScreen(
                 start = 16.dp,
                 end = 16.dp,
                 top = 8.dp,
-                bottom = 100.dp
+                bottom = ModifierExt.bottomNavClearance
             )
         ) {
             item {

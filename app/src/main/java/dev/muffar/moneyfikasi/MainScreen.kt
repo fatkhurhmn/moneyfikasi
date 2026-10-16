@@ -39,6 +39,8 @@ import dev.muffar.moneyfikasi.domain.model.UiSettings
 import dev.muffar.moneyfikasi.navigation.MainBottomNav
 import dev.muffar.moneyfikasi.navigation.MainNavigation
 import dev.muffar.moneyfikasi.navigation.Screen
+import dev.muffar.moneyfikasi.debt.add_edit.navigation.toAddEditDebtScreen
+import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.transaction.add_edit.navigation.toAddEditTransactionScreen
 import dev.muffar.moneyfikasi.transaction.transfer.navigation.toTransferTransactionScreen
 import dev.muffar.moneyfikasi.utils.extensions.DoubleExt.formatThousand
@@ -173,6 +175,9 @@ fun MainScreen(
                             },
                             onAddAiTransaction = {
                                 showAiDialog = true
+                            },
+                            onAddDebt = {
+                                navController.toAddEditDebtScreen(DebtType.DEBT)
                             }
                         )
                     }

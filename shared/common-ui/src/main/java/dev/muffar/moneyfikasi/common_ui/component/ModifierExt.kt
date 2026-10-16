@@ -10,6 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 object ModifierExt {
+    /** Bottom clearance for the 4 bottom-nav screens (bar + floating buttons). */
+    val bottomNavClearance = 100.dp
+
     fun Modifier.formModifier(
         paddingValues: PaddingValues,
         scrollState: ScrollState

@@ -68,6 +68,7 @@
     <string name="label_category">Category</string>
     <string name="label_income">Income</string>
     <string name="label_expense">Expense</string>
+    <string name="label_income_expense">Income / Expense</string>
     <string name="label_hutang">Debt</string>
     <string name="label_piutang">Receivable</string>
     <string name="label_unpaid">Unpaid</string>

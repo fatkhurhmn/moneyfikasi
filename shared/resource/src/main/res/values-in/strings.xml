@@ -68,6 +68,7 @@
     <string name="label_category">Kategori</string>
     <string name="label_income">Pemasukan</string>
     <string name="label_expense">Pengeluaran</string>
+    <string name="label_income_expense">Pemasukan / Pengeluaran</string>
     <string name="label_hutang">Hutang</string>
     <string name="label_piutang">Piutang</string>
     <string name="label_unpaid">Belum Lunas</string>
