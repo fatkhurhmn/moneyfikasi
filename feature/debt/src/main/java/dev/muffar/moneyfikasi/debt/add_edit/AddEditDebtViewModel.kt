@@ -150,10 +150,7 @@ class AddEditDebtViewModel @Inject constructor(
     }
 
     private fun updatePaidAmountError() {
-        val total = _state.value.totalAmount.clearThousandFormat().toDoubleOrNull() ?: 0.0
-        val paid = _state.value.paidAmount.clearThousandFormat().toDoubleOrNull() ?: 0.0
-        val error = if (paid > total) R.string.error_paid_exceeds_total else null
-        _state.update { it.copy(paidAmountError = ErrorMessage(resId = error)) }
+        _state.update { it.copy(paidAmountError = ErrorMessage()) }
     }
 
     private fun onDueDateChange(dueDate: Long?) {

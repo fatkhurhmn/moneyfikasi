@@ -31,7 +31,6 @@ class UpdateDebtHistory(
         } else {
             val newPaidAmount = debt.paidAmount + delta
             require(newPaidAmount >= 0) { "Amount must be greater than 0" }
-            require(newPaidAmount <= debt.totalAmount) { "Paid amount cannot exceed total amount" }
             debtRepository.upsertDebt(debt.copy(paidAmount = newPaidAmount))
         }
 

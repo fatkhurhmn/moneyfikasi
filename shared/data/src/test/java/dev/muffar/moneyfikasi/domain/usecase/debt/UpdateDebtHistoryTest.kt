@@ -103,7 +103,7 @@ class UpdateDebtHistoryTest {
     }
 
     @Test
-    fun `payment edit exceeding total is rejected`() = runTest {
+    fun `payment edit beyond total is allowed`() = runTest {
         val debtId = UUID.randomUUID()
         val rowId = UUID.randomUUID()
         coEvery { debtRepository.getDebtById(debtId) } returns Debt(
@@ -116,15 +116,9 @@ class UpdateDebtHistoryTest {
         coEvery { transactionRepository.getTransactionById(rowId) } returns
             row(rowId, TransactionType.EXPENSE, 100.0)
 
-        var error: Throwable? = null
-        try {
-            updateDebtHistory(debtId, rowId, 300.0, date, wallet.id, null)
-        } catch (e: IllegalArgumentException) {
-            error = e
-        }
+        updateDebtHistory(debtId, rowId, 300.0, date, wallet.id, null)
 
-        assertEquals("Paid amount cannot exceed total amount", error?.message)
-        coVerify(exactly = 0) { debtRepository.upsertDebt(any()) }
+        coVerify { debtRepository.upsertDebt(match { it.paidAmount == 1100.0 }) }
     }
 
     @Test

@@ -149,7 +149,7 @@ class DebtPlusViewModelTest {
     }
 
     @Test
-    fun `overpayment sets error and blocks save`() = runTest {
+    fun `overpayment is allowed and dispatches`() = runTest {
         val debtId = UUID.randomUUID()
         fakeDebtRepo.debts[debtId] = Debt(
             id = debtId,
@@ -163,14 +163,18 @@ class DebtPlusViewModelTest {
         advanceUntilIdle()
 
         viewModel.onEvent(DebtPlusEvent.AmountChanged("200"))
-        assertEquals(
-            R.string.error_paid_exceeds_total,
-            viewModel.state.value.amountError.resId
-        )
+        assertTrue(viewModel.state.value.amountError.isNull)
 
         viewModel.onEvent(DebtPlusEvent.SavePlus)
         advanceUntilIdle()
-        coVerify(exactly = 0) { debtUseCases.recordDebtPayment(any(), any(), any(), any()) }
+        coVerify {
+            debtUseCases.recordDebtPayment(
+                debtId = debtId,
+                amount = 200.0,
+                walletId = walletA.id,
+                date = any()
+            )
+        }
     }
 
     @Test

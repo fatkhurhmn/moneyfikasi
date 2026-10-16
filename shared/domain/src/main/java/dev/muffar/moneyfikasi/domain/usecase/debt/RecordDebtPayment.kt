@@ -22,7 +22,6 @@ class RecordDebtPayment(
         val debt = debtRepository.getDebtById(debtId)
             ?: throw IllegalArgumentException("Debt not found")
         val newPaidAmount = debt.paidAmount + amount
-        require(newPaidAmount <= debt.totalAmount) { "Paid amount cannot exceed total amount" }
 
         val paymentType = when (debt.type) {
             DebtType.DEBT -> TransactionType.EXPENSE

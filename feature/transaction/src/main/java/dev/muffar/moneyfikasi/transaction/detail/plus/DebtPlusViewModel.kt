@@ -162,16 +162,8 @@ class DebtPlusViewModel @Inject constructor(
     }
 
     private fun updateAmountError() {
-        val state = _state.value
-        val debt = state.debt
-        val amount = state.amount.clearThousandFormat().toDoubleOrNull() ?: 0.0
-        val error = when {
-            amount <= 0 -> R.string.error_amount_greater_than_zero
-            state.isPaymentTab && debt != null &&
-                debt.paidAmount + amount > debt.totalAmount ->
-                R.string.error_paid_exceeds_total
-            else -> null
-        }
+        val amount = _state.value.amount.clearThousandFormat().toDoubleOrNull() ?: 0.0
+        val error = if (amount <= 0) R.string.error_amount_greater_than_zero else null
         _state.update { it.copy(amountError = ErrorMessage(resId = error)) }
     }
 
@@ -234,7 +226,6 @@ class DebtPlusViewModel @Inject constructor(
                 e.printStackTrace()
                 _state.update { it.copy(isRecording = false) }
                 val messageResId = when (e.message) {
-                    "Paid amount cannot exceed total amount" -> R.string.error_paid_exceeds_total
                     "Total cannot be less than paid amount" -> R.string.error_total_below_paid
                     "Amount must be greater than 0" -> R.string.error_amount_greater_than_zero
                     "Debt not found", "Transaction not found" -> R.string.error_save_debt_failed

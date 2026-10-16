@@ -25,6 +25,7 @@ import dev.muffar.moneyfikasi.utils.extensions.LongExt.formattedDate
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDate
 import org.threeten.bp.ZoneId
+import kotlin.math.max
 
 @Composable
 fun DebtItem(
@@ -83,7 +84,7 @@ fun DebtItem(
                     style = MaterialTheme.typography.bodySmall
                 )
                 Text(
-                    text = stringResource(R.string.msg_left, debt.remainingAmount.formatThousand()),
+                    text = stringResource(R.string.msg_left, max(0.0, debt.remainingAmount).formatThousand()),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

@@ -94,7 +94,7 @@ class RecordDebtPaymentTest {
     }
 
     @Test
-    fun `payment exceeding remaining is rejected without side effects`() = runTest {
+    fun `payment beyond total is allowed`() = runTest {
         val debtId = UUID.randomUUID()
         val debt = Debt(
             id = debtId,
@@ -106,16 +106,20 @@ class RecordDebtPaymentTest {
         )
         coEvery { debtRepository.getDebtById(debtId) } returns debt
 
-        var error: Throwable? = null
-        try {
-            recordDebtPayment(debtId, 200.0)
-        } catch (e: IllegalArgumentException) {
-            error = e
-        }
+        recordDebtPayment(debtId, 200.0)
 
-        assertEquals("Paid amount cannot exceed total amount", error?.message)
-        coVerify(exactly = 0) { transactionRepository.addIncomeOrExpense(any(), any(), any(), any(), any(), any(), any()) }
-        coVerify(exactly = 0) { debtRepository.upsertDebt(any()) }
+        coVerify {
+            transactionRepository.addIncomeOrExpense(
+                amount = 200.0,
+                type = TransactionType.EXPENSE,
+                date = any(),
+                note = "Borrowed money",
+                walletId = walletId,
+                categoryId = UUIDConst.DebtCategoryId,
+                debtId = debtId
+            )
+        }
+        coVerify { debtRepository.upsertDebt(match { it.paidAmount == 1100.0 }) }
     }
 
     @Test
