@@ -166,6 +166,7 @@ class DebtPlusViewModel @Inject constructor(
     }
 
     private fun onSavePlus() {
+        if (_state.value.isRecording) return
         updateAmountError()
         updateWalletError()
         val state = _state.value

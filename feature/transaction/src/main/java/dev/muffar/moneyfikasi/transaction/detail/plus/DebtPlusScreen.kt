@@ -1,14 +1,7 @@
 package dev.muffar.moneyfikasi.transaction.detail.plus
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -18,13 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.ModifierExt.formModifier
-import dev.muffar.moneyfikasi.common_ui.component.button.common.CommonButton
+import dev.muffar.moneyfikasi.common_ui.component.button.bottom_bar.BottomBarSaveButton
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
 import dev.muffar.moneyfikasi.common_ui.component.top_bar.CommonTopAppBar
-import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.domain.model.Wallet
 import dev.muffar.moneyfikasi.resource.R
 import dev.muffar.moneyfikasi.transaction.detail.plus.component.DebtPlusForm
@@ -46,15 +37,6 @@ fun DebtPlusScreen(
     val scrollState = rememberScrollState()
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
-    val confirmRes = if (state.isPaymentTab) {
-        if (state.debt?.type == DebtType.DEBT) {
-            R.string.label_pay_debt
-        } else {
-            R.string.label_collect_debt
-        }
-    } else {
-        R.string.action_save
-    }
 
     Scaffold(
         topBar = {
@@ -64,22 +46,7 @@ fun DebtPlusScreen(
             )
         },
         bottomBar = {
-            Column(
-                modifier = Modifier
-                    .background(MaterialTheme.colorScheme.surface)
-                    .imePadding()
-                    .navigationBarsPadding()
-            ) {
-                CommonHorizontalDivider()
-                CommonButton(
-                    text = stringResource(confirmRes),
-                    enabled = !state.isRecording,
-                    onClick = onSubmit,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
-                )
-            }
+            BottomBarSaveButton(onSubmit)
         },
         snackbarHost = { SnackbarMessage(snackbarHostState) },
         contentWindowInsets = WindowInsets(0.dp)
