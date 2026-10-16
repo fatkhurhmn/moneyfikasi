@@ -1,8 +1,12 @@
 package dev.muffar.moneyfikasi.transaction.detail.plus
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -18,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.ModifierExt.formModifier
 import dev.muffar.moneyfikasi.common_ui.component.button.common.CommonButton
 import dev.muffar.moneyfikasi.common_ui.component.dialog.CommonAlertDialog
@@ -78,14 +83,22 @@ fun DebtPlusScreen(
             )
         },
         bottomBar = {
-            CommonButton(
-                text = stringResource(confirmRes),
-                enabled = !state.isRecording,
-                onClick = onSubmit,
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 12.dp)
-            )
+                    .background(MaterialTheme.colorScheme.surface)
+                    .imePadding()
+                    .navigationBarsPadding()
+            ) {
+                CommonHorizontalDivider()
+                CommonButton(
+                    text = stringResource(confirmRes),
+                    enabled = !state.isRecording,
+                    onClick = onSubmit,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                )
+            }
         },
         snackbarHost = { SnackbarMessage(snackbarHostState) },
         contentWindowInsets = WindowInsets(0.dp)
