@@ -67,7 +67,7 @@ fun MainBottomNav(
                 .height(56.dp)
                 .shadow(1.dp, CircleShape)
                 .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.surface)
+                .background(MaterialTheme.colorScheme.secondaryContainer)
                 .padding(horizontal = 8.dp),
             horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically,
@@ -170,7 +170,7 @@ fun BottomBarItem(
     val isSelected = currentRoute == route
 
     val containerColor = if (isSelected) {
-        MaterialTheme.colorScheme.secondaryContainer
+        MaterialTheme.colorScheme.surface.copy(0.5f)
     } else {
         Color.Transparent
     }
