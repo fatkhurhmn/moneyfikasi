@@ -28,7 +28,7 @@ fun CalendarHeader(
     onNextClick: () -> Unit = {},
 ) {
     Box(
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 0.dp, bottom = 4.dp)
+        modifier = Modifier.padding(start = 12.dp, end = 12.dp, top = 0.dp, bottom = 4.dp)
     ) {
         val arrowColor = if (enableButton) {
             MaterialTheme.colorScheme.onSecondaryContainer

@@ -58,13 +58,13 @@ fun MainBottomNav(
         modifier = Modifier
             .fillMaxWidth()
             .windowInsetsPadding(BottomAppBarDefaults.windowInsets)
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(horizontal = 16.dp, vertical = 4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Row(
             modifier = Modifier
                 .weight(1f)
-                .height(64.dp)
+                .height(56.dp)
                 .shadow(1.dp, CircleShape)
                 .clip(CircleShape)
                 .background(MaterialTheme.colorScheme.surface)
@@ -112,7 +112,7 @@ fun MainBottomNav(
         Spacer(modifier = Modifier.width(12.dp))
 
         Box(
-            modifier = Modifier.height(64.dp),
+            modifier = Modifier.height(56.dp),
             contentAlignment = Alignment.Center
         ) {
 

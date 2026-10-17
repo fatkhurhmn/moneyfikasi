@@ -40,7 +40,7 @@ fun CommonTopAppBar(
         modifier = modifier
             .background(containerColor)
             .fillMaxWidth()
-            .padding(vertical = 8.dp, horizontal = 16.dp)
+            .padding(vertical = 4.dp, horizontal = 16.dp)
             .statusBarsPadding(),
         verticalAlignment = Alignment.CenterVertically,
     ) {

@@ -43,7 +43,7 @@ fun TransactionsList(
     ) {
         item {
             header()
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(4.dp))
         }
         items(
             count = transactions.itemCount,

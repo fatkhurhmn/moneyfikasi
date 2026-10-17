@@ -121,7 +121,7 @@ fun WeekdayHeader() {
         stringResource(R.string.weekday_saturday),
         stringResource(R.string.weekday_sunday)
     )
-    PrimaryCard(modifier = Modifier.padding(horizontal = 12.dp)) {
+    PrimaryCard(modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
