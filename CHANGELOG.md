@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.0 - 2026-10-17
+- Add debt and receivable tracking feature with payments, history, and wallet association
+- Update bottom navigation and recent transactions UI
+- UI polish and improvements
+
 ## 1.3.3 - 2026-10-05
 - Migrate CI/CD from CircleCI to GitHub Actions
 
