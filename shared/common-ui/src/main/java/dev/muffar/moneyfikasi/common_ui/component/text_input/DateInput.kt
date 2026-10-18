@@ -25,7 +25,7 @@ import dev.muffar.moneyfikasi.utils.extensions.LongExt.formattedDate
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DateInput(
-    date: Long,
+    date: Long?,
     modifier: Modifier = Modifier,
     label: String = stringResource(R.string.label_date),
     error: ErrorMessage = ErrorMessage(),
@@ -38,7 +38,7 @@ fun DateInput(
     ) {
         var showDatePicker by remember { mutableStateOf(false) }
         CommonTextInput(
-            value = date.formattedDate(),
+            value = date?.formattedDate() ?: "",
             onValueChange = {},
             label = label,
             error = error,
@@ -55,7 +55,7 @@ fun DateInput(
 
         AnimatedVisibility(showDatePicker) {
             DatePickerSheet(
-                date = date,
+                date = date ?: System.currentTimeMillis(),
                 selectableDates = selectableDates,
                 initialDisplayedMonthMillis = initialDisplayedMonthMillis,
                 onDismissRequest = { showDatePicker = false },

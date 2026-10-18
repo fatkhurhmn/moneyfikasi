@@ -3,6 +3,8 @@ package dev.muffar.moneyfikasi.backup_restore.component
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Update
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -12,8 +14,6 @@ import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
 import dev.muffar.moneyfikasi.common_ui.component.item.SettingSwitchItem
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.resource.R
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Update
 
 @Composable
 fun DriveAutoBackupCard(

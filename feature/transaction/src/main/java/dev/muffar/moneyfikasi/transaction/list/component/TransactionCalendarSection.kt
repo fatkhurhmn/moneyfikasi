@@ -47,7 +47,7 @@ fun TransactionCalendarSection(
         WeekdayHeader()
 
         PrimaryCard(
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
         ) {
             TransactionCalendarGrid(
                 calendarMonth = calendarMonth,

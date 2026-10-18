@@ -2,9 +2,11 @@ package dev.muffar.moneyfikasi.transaction
 
 import androidx.navigation.NavGraphBuilder
 import dev.muffar.moneyfikasi.domain.model.CategoryType
+import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.transaction.add_edit.navigation.addEditTransactionNavigation
 import dev.muffar.moneyfikasi.transaction.detail.navigation.transactionDetailNavigation
+import dev.muffar.moneyfikasi.transaction.detail.plus.navigation.debtPlusNavigation
 import dev.muffar.moneyfikasi.transaction.list.navigation.transactionsNavigation
 import dev.muffar.moneyfikasi.transaction.transfer.navigation.transferTransactionNavigation
 import java.util.UUID
@@ -12,6 +14,8 @@ import java.util.UUID
 fun NavGraphBuilder.transactionsNavGraph(
     onNavigateToTransactionDetail: (UUID, Boolean) -> Unit,
     onNavigateToEditTransaction: (TransactionType?, UUID) -> Unit,
+    onNavigateToEditDebt: (DebtType, UUID) -> Unit,
+    onNavigateToDebtPlus: (UUID, Int, UUID?) -> Unit,
     onNavigateToAddWallet: () -> Unit,
     onNavigateToAddCategory: (CategoryType) -> Unit,
     onNavigateToSearch: () -> Unit,
@@ -36,6 +40,14 @@ fun NavGraphBuilder.transactionsNavGraph(
 
     transactionDetailNavigation(
         onNavigateToEditTransaction = onNavigateToEditTransaction,
+        onNavigateToEditDebt = onNavigateToEditDebt,
+        onNavigateToTransactionDetail = { onNavigateToTransactionDetail(it, false) },
+        onNavigateToDebtPlus = onNavigateToDebtPlus,
         onNavigateBack = onNavigateBack,
+    )
+
+    debtPlusNavigation(
+        navigateBack = onNavigateBack,
+        onNavigateToAddWallet = onNavigateToAddWallet,
     )
 }

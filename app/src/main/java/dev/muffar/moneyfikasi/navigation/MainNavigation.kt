@@ -5,11 +5,18 @@ import androidx.navigation.NavHostController
 import dev.muffar.moneyfikasi.about.main.navigation.aboutNavGraph
 import dev.muffar.moneyfikasi.about.main.navigation.navigateToAbout
 import dev.muffar.moneyfikasi.about.main.navigation.navigateToOpenSourceLicenses
+import dev.muffar.moneyfikasi.applock.appLockNavGraph
+import dev.muffar.moneyfikasi.applock.enter_pin.navigation.toEnterPinScreen
+import dev.muffar.moneyfikasi.applock.main.navigation.toAppLockScreen
 import dev.muffar.moneyfikasi.backup_restore.navigation.backupRestoreNavGraph
 import dev.muffar.moneyfikasi.backup_restore.navigation.toBackupRestoreScreen
 import dev.muffar.moneyfikasi.budget.add_edit.navigation.toAddEditBudgetScreen
 import dev.muffar.moneyfikasi.budget.budgetsNavGraph
 import dev.muffar.moneyfikasi.budget.list.navigation.toBudgetsScreen
+import dev.muffar.moneyfikasi.debt.add_edit.navigation.toAddEditDebtScreen
+import dev.muffar.moneyfikasi.debt.debtsNavGraph
+import dev.muffar.moneyfikasi.debt.list.navigation.toDebtsScreen
+import dev.muffar.moneyfikasi.debt.menu.navigation.toDebtMenuScreen
 import dev.muffar.moneyfikasi.category.add_edit.navigation.toAddEditCategoryScreen
 import dev.muffar.moneyfikasi.category.categoriesNavGraph
 import dev.muffar.moneyfikasi.category.list.navigation.toCategoriesScreen
@@ -17,9 +24,6 @@ import dev.muffar.moneyfikasi.domain.model.CategoryType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.export.navigation.exportNavGraph
 import dev.muffar.moneyfikasi.export.navigation.toExportScreen
-import dev.muffar.moneyfikasi.feature.applock.appLockNavGraph
-import dev.muffar.moneyfikasi.feature.applock.enter_pin.navigation.toEnterPinScreen
-import dev.muffar.moneyfikasi.feature.applock.main.navigation.toAppLockScreen
 import dev.muffar.moneyfikasi.feature.home.navigation.homeNavigation
 import dev.muffar.moneyfikasi.more.navigation.moreNavGraph
 import dev.muffar.moneyfikasi.notification.navigation.navigateToNotification
@@ -40,6 +44,7 @@ import dev.muffar.moneyfikasi.statistic.detail.navigation.toStatisticDetailScree
 import dev.muffar.moneyfikasi.statistic.statisticNavGraph
 import dev.muffar.moneyfikasi.transaction.add_edit.navigation.toAddEditTransactionScreen
 import dev.muffar.moneyfikasi.transaction.detail.navigation.toTransactionDetail
+import dev.muffar.moneyfikasi.transaction.detail.plus.navigation.toDebtPlusScreen
 import dev.muffar.moneyfikasi.transaction.transactionsNavGraph
 import dev.muffar.moneyfikasi.transaction.transfer.navigation.toTransferTransactionScreen
 import dev.muffar.moneyfikasi.wallet.add_edit.navigation.toAddEditWalletScreen
@@ -92,6 +97,12 @@ fun MainNavigation(
                     navController.toTransferTransactionScreen(id)
                 }
             },
+            onNavigateToEditDebt = { type, id ->
+                navController.toAddEditDebtScreen(type, id)
+            },
+            onNavigateToDebtPlus = { debtId, tab, historyId ->
+                navController.toDebtPlusScreen(debtId, tab, historyId)
+            },
             onNavigateToAddWallet = { navController.toAddEditWalletScreen() },
             onNavigateToAddCategory = { navController.toAddEditCategoryScreen(it) },
             onNavigateToSearch = { navController.toSearchScreen() },
@@ -126,6 +137,7 @@ fun MainNavigation(
             navigateToCategories = { navController.toCategoriesScreen() },
             navigateToPreset = { navController.toPresetsScreen() },
             navigateToBudgets = { navController.toBudgetsScreen() },
+            navigateToDebts = { navController.toDebtMenuScreen() },
             navigateToRecurringTransactions = { navController.toRecurringTransactionsScreen() },
             navigateToSettings = { navController.navigateToSettings() },
         )
@@ -193,6 +205,15 @@ fun MainNavigation(
             navigateToEditBudget = { navController.toAddEditBudgetScreen(it) },
             navigateToAddCategory = { navController.toAddEditCategoryScreen(CategoryType.EXPENSE) },
             navigateBack = { navController.navigateUp() }
+        )
+
+        debtsNavGraph(
+            navigateToAddDebt = { navController.toAddEditDebtScreen(it) },
+            navigateToEditDebt = { type, id -> navController.toAddEditDebtScreen(type, id) },
+            navigateToDebtList = { navController.toDebtsScreen(it) },
+            navigateToTransactionDetail = { navController.toTransactionDetail(it, false) },
+            navigateBack = { navController.navigateUp() },
+            onNavigateToAddWallet = { navController.toAddEditWalletScreen() }
         )
 
         backupRestoreNavGraph(

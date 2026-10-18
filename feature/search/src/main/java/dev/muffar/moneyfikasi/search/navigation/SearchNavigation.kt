@@ -1,6 +1,6 @@
 package dev.muffar.moneyfikasi.search.navigation
 
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -18,7 +18,7 @@ fun NavGraphBuilder.searchNavigation(
 ) {
     composable(Screen.Search.route) {
         val viewModel = hiltViewModel<SearchViewModel>()
-        val state by viewModel.state.collectAsState()
+        val state by viewModel.state.collectAsStateWithLifecycle()
         val event = viewModel::onEvent
 
         SearchScreen(

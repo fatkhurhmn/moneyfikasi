@@ -7,9 +7,10 @@ import dagger.hilt.components.SingletonComponent
 import dev.muffar.moneyfikasi.domain.repository.AiRepository
 import dev.muffar.moneyfikasi.domain.repository.BackupRestoreRepository
 import dev.muffar.moneyfikasi.domain.repository.BackupSettingsRepository
-import dev.muffar.moneyfikasi.domain.repository.DriveBackupRepository
 import dev.muffar.moneyfikasi.domain.repository.BudgetRepository
 import dev.muffar.moneyfikasi.domain.repository.CategoryRepository
+import dev.muffar.moneyfikasi.domain.repository.DebtRepository
+import dev.muffar.moneyfikasi.domain.repository.DriveBackupRepository
 import dev.muffar.moneyfikasi.domain.repository.NotificationSettingsRepository
 import dev.muffar.moneyfikasi.domain.repository.PresetRepository
 import dev.muffar.moneyfikasi.domain.repository.RecurringTransactionRepository
@@ -22,14 +23,14 @@ import dev.muffar.moneyfikasi.domain.usecase.ai.AiUseCases
 import dev.muffar.moneyfikasi.domain.usecase.ai.ParseAiTransaction
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupData
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupRestoreUseCases
+import dev.muffar.moneyfikasi.domain.usecase.backup_restore.CancelAutoBackup
+import dev.muffar.moneyfikasi.domain.usecase.backup_restore.CancelDriveAutoBackup
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.DeleteBackup
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.DeleteLatestBackup
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.RestoreData
-import dev.muffar.moneyfikasi.domain.usecase.drive.BackupToDrive
-import dev.muffar.moneyfikasi.domain.usecase.drive.DeleteDriveBackup
-import dev.muffar.moneyfikasi.domain.usecase.drive.DriveBackupUseCases
-import dev.muffar.moneyfikasi.domain.usecase.drive.GetDriveBackups
-import dev.muffar.moneyfikasi.domain.usecase.drive.RestoreFromDrive
+import dev.muffar.moneyfikasi.domain.usecase.backup_restore.ScheduleAutoBackup
+import dev.muffar.moneyfikasi.domain.usecase.backup_restore.ScheduleDriveAutoBackup
+import dev.muffar.moneyfikasi.domain.usecase.backup_restore.TakePersistableUriPermission
 import dev.muffar.moneyfikasi.domain.usecase.budget.BudgetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.budget.DeleteBudget
 import dev.muffar.moneyfikasi.domain.usecase.budget.GetAllBudgets
@@ -42,6 +43,27 @@ import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryById
 import dev.muffar.moneyfikasi.domain.usecase.category.GetCategoryByType
 import dev.muffar.moneyfikasi.domain.usecase.category.UpdateDefaultCategories
 import dev.muffar.moneyfikasi.domain.usecase.category.UpsertCategory
+import dev.muffar.moneyfikasi.domain.usecase.debt.DebtUseCases
+import dev.muffar.moneyfikasi.domain.usecase.debt.DeleteDebt
+import dev.muffar.moneyfikasi.domain.usecase.debt.DeleteDebtHistory
+import dev.muffar.moneyfikasi.domain.usecase.debt.GetAllDebts
+import dev.muffar.moneyfikasi.domain.usecase.debt.GetDebtByHistoryTransactionId
+import dev.muffar.moneyfikasi.domain.usecase.debt.GetDebtById
+import dev.muffar.moneyfikasi.domain.usecase.debt.GetDebtByTransactionId
+import dev.muffar.moneyfikasi.domain.usecase.debt.GetDebtHistory
+import dev.muffar.moneyfikasi.domain.usecase.debt.IncreaseDebtAmount
+import dev.muffar.moneyfikasi.domain.usecase.debt.RecordDebtPayment
+import dev.muffar.moneyfikasi.domain.usecase.debt.UpdateDebtHistory
+import dev.muffar.moneyfikasi.domain.usecase.debt.UpsertDebt
+import dev.muffar.moneyfikasi.domain.usecase.drive.BackupToDrive
+import dev.muffar.moneyfikasi.domain.usecase.drive.DeleteDriveBackup
+import dev.muffar.moneyfikasi.domain.usecase.drive.DriveBackupUseCases
+import dev.muffar.moneyfikasi.domain.usecase.drive.DriveSignOut
+import dev.muffar.moneyfikasi.domain.usecase.drive.GetDriveAccountEmail
+import dev.muffar.moneyfikasi.domain.usecase.drive.GetDriveBackups
+import dev.muffar.moneyfikasi.domain.usecase.drive.IsDriveSignedIn
+import dev.muffar.moneyfikasi.domain.usecase.drive.RestoreFromDrive
+import dev.muffar.moneyfikasi.domain.usecase.drive.SignInToDrive
 import dev.muffar.moneyfikasi.domain.usecase.notification.GetNotificationSettings
 import dev.muffar.moneyfikasi.domain.usecase.notification.NotificationUseCases
 import dev.muffar.moneyfikasi.domain.usecase.notification.SetAllowNotification
@@ -138,9 +160,11 @@ object UseCaseModule {
     @Provides
     fun provideWalletUseCases(
         walletRepository: WalletRepository,
+        debtRepository: DebtRepository,
+        transactionRepository: TransactionRepository,
     ): WalletUseCases = WalletUseCases(
         upsertWallet = UpsertWallet(walletRepository),
-        deleteWallet = DeleteWallet(walletRepository),
+        deleteWallet = DeleteWallet(walletRepository, debtRepository, transactionRepository),
         getAllWallets = GetAllWallets(walletRepository),
         getWalletById = GetWalletById(walletRepository),
     )
@@ -175,7 +199,12 @@ object UseCaseModule {
         backupData = BackupData(backupRestoreRepository),
         restoreData = RestoreData(backupRestoreRepository),
         deleteBackup = DeleteBackup(backupRestoreRepository),
-        deleteLatestBackup = DeleteLatestBackup(backupRestoreRepository, backupSettingsRepository)
+        deleteLatestBackup = DeleteLatestBackup(backupRestoreRepository, backupSettingsRepository),
+        takePersistableUriPermission = TakePersistableUriPermission(backupRestoreRepository),
+        scheduleAutoBackup = ScheduleAutoBackup(backupRestoreRepository),
+        cancelAutoBackup = CancelAutoBackup(backupRestoreRepository),
+        scheduleDriveAutoBackup = ScheduleDriveAutoBackup(backupRestoreRepository),
+        cancelDriveAutoBackup = CancelDriveAutoBackup(backupRestoreRepository)
     )
 
     @Provides
@@ -185,7 +214,11 @@ object UseCaseModule {
         backupToDrive = BackupToDrive(driveBackupRepository),
         restoreFromDrive = RestoreFromDrive(driveBackupRepository),
         getDriveBackups = GetDriveBackups(driveBackupRepository),
-        deleteDriveBackup = DeleteDriveBackup(driveBackupRepository)
+        deleteDriveBackup = DeleteDriveBackup(driveBackupRepository),
+        signInToDrive = SignInToDrive(driveBackupRepository),
+        isDriveSignedIn = IsDriveSignedIn(driveBackupRepository),
+        driveSignOut = DriveSignOut(driveBackupRepository),
+        getDriveAccountEmail = GetDriveAccountEmail(driveBackupRepository)
     )
 
     @Provides
@@ -210,7 +243,9 @@ object UseCaseModule {
     ): NotificationUseCases = NotificationUseCases(
         getNotificationSettings = GetNotificationSettings(notificationSettingsRepository),
         setAllowNotification = SetAllowNotification(notificationSettingsRepository),
-        setRecurringTransactionNotification = SetRecurringTransactionNotification(notificationSettingsRepository)
+        setRecurringTransactionNotification = SetRecurringTransactionNotification(
+            notificationSettingsRepository
+        )
     )
 
     @Provides
@@ -259,6 +294,25 @@ object UseCaseModule {
     )
 
     @Provides
+    fun provideDebtUseCases(
+        debtRepository: DebtRepository,
+        transactionRepository: TransactionRepository,
+        categoryRepository: CategoryRepository,
+    ): DebtUseCases = DebtUseCases(
+        getAllDebts = GetAllDebts(debtRepository),
+        getDebtById = GetDebtById(debtRepository),
+        getDebtByTransactionId = GetDebtByTransactionId(debtRepository),
+        getDebtByHistoryTransactionId = GetDebtByHistoryTransactionId(debtRepository),
+        upsertDebt = UpsertDebt(debtRepository, transactionRepository, categoryRepository),
+        deleteDebt = DeleteDebt(debtRepository, transactionRepository),
+        recordDebtPayment = RecordDebtPayment(debtRepository, transactionRepository),
+        increaseDebtAmount = IncreaseDebtAmount(debtRepository, transactionRepository),
+        updateDebtHistory = UpdateDebtHistory(debtRepository, transactionRepository),
+        deleteDebtHistory = DeleteDebtHistory(debtRepository, transactionRepository),
+        getDebtHistory = GetDebtHistory(transactionRepository, debtRepository)
+    )
+
+    @Provides
     fun provideRecurringTransactionUseCases(
         recurringTransactionRepository: RecurringTransactionRepository,
         transactionRepository: TransactionRepository
@@ -272,8 +326,11 @@ object UseCaseModule {
             transactionRepository
         ),
         getTransactionCountByRecurringId = GetTransactionCountByRecurringId(transactionRepository),
-        checkActiveRecurringTransactions = CheckActiveRecurringTransactions(recurringTransactionRepository)
+        checkActiveRecurringTransactions = CheckActiveRecurringTransactions(
+            recurringTransactionRepository
+        )
     )
+
 
     @Provides
     fun provideStatisticUseCases(

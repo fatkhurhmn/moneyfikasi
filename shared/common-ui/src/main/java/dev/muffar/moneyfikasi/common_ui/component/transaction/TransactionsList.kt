@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemKey
+import dev.muffar.moneyfikasi.common_ui.component.ModifierExt
 import dev.muffar.moneyfikasi.domain.model.Transaction
 import dev.muffar.moneyfikasi.utils.extensions.LocalDateTimeExt.formattedDate
 import kotlinx.coroutines.flow.Flow
@@ -34,7 +35,7 @@ fun TransactionsList(
     LazyColumn(
         modifier = modifier,
         contentPadding = PaddingValues(
-            bottom = if (extraBottomSpace) 100.dp else 16.dp,
+            bottom = if (extraBottomSpace) ModifierExt.bottomNavClearance else 16.dp,
             top = 8.dp,
             start = 16.dp,
             end = 16.dp
@@ -42,7 +43,7 @@ fun TransactionsList(
     ) {
         item {
             header()
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(4.dp))
         }
         items(
             count = transactions.itemCount,

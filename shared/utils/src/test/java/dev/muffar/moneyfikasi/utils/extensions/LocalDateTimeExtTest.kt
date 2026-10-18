@@ -10,7 +10,6 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZoneId
 
 class LocalDateTimeExtTest {
 

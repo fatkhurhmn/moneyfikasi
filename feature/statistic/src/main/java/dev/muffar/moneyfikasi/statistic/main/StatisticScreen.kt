@@ -15,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.ModifierExt
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.ChooseDateSheet
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.CustomDateSheet
 import dev.muffar.moneyfikasi.common_ui.component.calendar_header.DateRangeSwitcher
@@ -51,9 +52,7 @@ fun StatisticScreen(
     ) {
         val scrollState = rememberScrollState()
         Column(
-            modifier
-                .padding(it)
-                .padding(bottom = 80.dp)
+            modifier.padding(it)
         ) {
             DateRangeSwitcher(
                 timeReference = state.timeReference,
@@ -63,7 +62,7 @@ fun StatisticScreen(
             Column(
                 modifier = Modifier
                     .verticalScroll(scrollState, enabled = !isChartSliding)
-                    .padding(bottom = 20.dp)
+                    .padding(bottom = ModifierExt.bottomNavClearance)
             ) {
                 StatisticSummarySection(
                     income = state.incomeSum,

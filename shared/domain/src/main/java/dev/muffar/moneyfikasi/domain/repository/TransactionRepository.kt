@@ -52,6 +52,8 @@ interface TransactionRepository {
 
     fun getTransactionsByWallet(walletId: UUID): Flow<List<Transaction>>
 
+    fun getTransactionsByDebtId(debtId: UUID): Flow<List<Transaction>>
+
     suspend fun getTransactionById(id: UUID): Transaction?
 
     suspend fun getTransactionCountByRecurringId(recurringId: UUID): Int
@@ -63,7 +65,8 @@ interface TransactionRepository {
         note: String?,
         walletId: UUID,
         categoryId: UUID?,
-        recurringTransactionId: UUID? = null
+        recurringTransactionId: UUID? = null,
+        debtId: UUID? = null
     ): UUID
 
     suspend fun updateIncomeOrExpense(
@@ -73,7 +76,8 @@ interface TransactionRepository {
         date: LocalDateTime,
         note: String?,
         walletId: UUID,
-        categoryId: UUID?
+        categoryId: UUID?,
+        debtId: UUID? = null
     )
 
     suspend fun transferFunds(

@@ -2,6 +2,7 @@ package dev.muffar.moneyfikasi.data.db
 
 import androidx.room.TypeConverter
 import dev.muffar.moneyfikasi.domain.model.CategoryType
+import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.domain.model.RecurringEndType
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
 import dev.muffar.moneyfikasi.domain.model.TransactionType
@@ -72,5 +73,15 @@ class Converters {
     @TypeConverter
     fun toRecurringEndType(value: String): RecurringEndType {
         return RecurringEndType.valueOf(value)
+    }
+
+    @TypeConverter
+    fun fromDebtType(type: DebtType): String {
+        return type.name
+    }
+
+    @TypeConverter
+    fun toDebtType(value: String): DebtType {
+        return DebtType.fromString(value)
     }
 }

@@ -145,6 +145,31 @@ object InitDataSource {
         isTransferCategory = true
     )
 
+    fun getDebtCategory(context: Context) = CategoryEntity(
+        id = UUIDConst.DebtCategoryId,
+        name = context.getString(R.string.cat_debt),
+        icon = AppIcon.Receipt.name,
+        color = Colors.Green10.color,
+        type = CategoryType.INCOME,
+        isActive = false
+    )
+
+    fun getReceivableCategory(context: Context) = CategoryEntity(
+        id = UUIDConst.ReceivableCategoryId,
+        name = context.getString(R.string.cat_receivable),
+        icon = AppIcon.Receipt.name,
+        color = Colors.Red20.color,
+        type = CategoryType.EXPENSE,
+        isActive = false
+    )
+
+    fun getSystemCategories(context: Context): List<CategoryEntity> {
+        return getCategories(context) + listOf(
+            getDebtCategory(context),
+            getReceivableCategory(context)
+        )
+    }
+
     fun getWallets(context: Context): List<WalletEntity> {
         return arrayListOf(
             WalletEntity(

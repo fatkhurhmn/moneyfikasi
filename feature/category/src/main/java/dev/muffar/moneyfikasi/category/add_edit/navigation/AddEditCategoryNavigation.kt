@@ -1,7 +1,7 @@
 package dev.muffar.moneyfikasi.category.add_edit.navigation
 
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -19,7 +19,7 @@ fun NavGraphBuilder.addEditCategoryNavigation(
 ) {
     composable(route = Screen.AddEditCategory.route) {
         val viewModel = hiltViewModel<AddEditCategoryViewModel>()
-        val state by viewModel.state.collectAsState()
+        val state by viewModel.state.collectAsStateWithLifecycle()
         val event = viewModel::onEvent
 
         val type = it.arguments?.getString(Screen.AddEditCategory.TYPE)?.let { value ->

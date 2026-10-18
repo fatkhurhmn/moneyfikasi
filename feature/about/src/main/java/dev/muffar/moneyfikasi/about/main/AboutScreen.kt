@@ -3,7 +3,6 @@ package dev.muffar.moneyfikasi.about.main
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
-import androidx.core.net.toUri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -19,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import dev.muffar.moneyfikasi.common_ui.component.CommonHorizontalDivider
 import dev.muffar.moneyfikasi.common_ui.component.container.PrimaryCard
 import dev.muffar.moneyfikasi.common_ui.component.item.SettingItem

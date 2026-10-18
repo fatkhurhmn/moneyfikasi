@@ -57,6 +57,7 @@ dependencies {
     implementation(projects.feature.preset)
     implementation(projects.feature.backupRestore)
     implementation(projects.feature.budget)
+    implementation(projects.feature.debt)
     implementation(projects.feature.export)
     implementation(projects.feature.applock)
     implementation(projects.feature.settings)

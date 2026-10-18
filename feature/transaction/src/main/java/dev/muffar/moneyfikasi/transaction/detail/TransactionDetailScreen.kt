@@ -2,8 +2,12 @@ package dev.muffar.moneyfikasi.transaction.detail
 
 import android.graphics.Bitmap
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -23,8 +27,12 @@ import androidx.compose.ui.unit.dp
 import dev.muffar.moneyfikasi.common_ui.component.dialog.CommonAlertDialog
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarMessage
 import dev.muffar.moneyfikasi.common_ui.component.message.showMessage
+import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import dev.muffar.moneyfikasi.resource.R
+import dev.muffar.moneyfikasi.transaction.detail.component.DebtDetailCard
+import dev.muffar.moneyfikasi.transaction.detail.component.DebtHistorySection
+import dev.muffar.moneyfikasi.transaction.detail.component.SubDebtDetailCard
 import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailCard
 import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailSaveButton
 import dev.muffar.moneyfikasi.transaction.detail.component.TransactionDetailTopBar
@@ -42,22 +50,39 @@ fun TransactionDetailScreen(
     state: TransactionDetailState,
     eventFlow: SharedFlow<TransactionDetailViewModel.UiEvent>,
     onEditClick: (TransactionType?, UUID) -> Unit,
+    onDebtEditClick: (DebtType, UUID) -> Unit,
     onDelete: () -> Unit,
     onShowAlert: (Boolean) -> Unit,
     onBackClick: () -> Unit,
-    onSaveClick: (Bitmap) -> Unit
+    onSaveClick: (Bitmap) -> Unit,
+    onPlusClick: () -> Unit,
+    onHistoryClick: (UUID) -> Unit,
+    onHistoryEditClick: (UUID, UUID) -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val captureController = rememberCaptureController()
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+    val scrollState = rememberScrollState()
+    val linkedDebt = state.linkedDebt
 
     Scaffold(
         snackbarHost = { SnackbarMessage(snackbarHostState) },
         topBar = {
             TransactionDetailTopBar(
+                titleRes = if (linkedDebt != null) {
+                    R.string.title_debt
+                } else {
+                    R.string.title_transaction
+                },
+                showPlus = state.canShowPlus,
+                onPlusClick = onPlusClick,
                 onEditClick = {
-                    if (state.transactionId != null) {
+                    if (linkedDebt != null && !state.isDebtHistory) {
+                        onDebtEditClick(linkedDebt.type, linkedDebt.id)
+                    } else if (linkedDebt != null && state.transactionId != null) {
+                        onHistoryEditClick(linkedDebt.id, state.transactionId)
+                    } else if (state.transactionId != null) {
                         onEditClick(state.transaction?.type, state.transactionId)
                     }
                 },
@@ -75,35 +100,75 @@ fun TransactionDetailScreen(
             }
         }
     ) {
-        Card(
+        Column(
             modifier = Modifier
-                .padding(horizontal = 16.dp, vertical = 24.dp)
                 .padding(it)
-                .capturable(captureController),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface
-            ),
+                .verticalScroll(scrollState)
         ) {
-            Column(
+            Card(
                 modifier = Modifier
-                    .padding(24.dp)
-                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 24.dp)
+                    .capturable(captureController),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                ),
             ) {
-                if (state.isTransfer) {
-                    if (state.transferDetail == null) return@Card
-                    TransferDetailCard(state.transferDetail)
-                } else {
-                    if (state.transaction == null) return@Card
-                    TransactionDetailCard(state.transaction)
+                Column(
+                    modifier = Modifier
+                        .padding(24.dp)
+                        .fillMaxWidth()
+                ) {
+                    if (state.isTransfer) {
+                        if (state.transferDetail == null) return@Card
+                        TransferDetailCard(state.transferDetail)
+                    } else if (linkedDebt != null && state.isDebtHistory) {
+                        if (state.transaction == null) return@Card
+                        SubDebtDetailCard(
+                            transaction = state.transaction,
+                            debtType = linkedDebt.type,
+                            parentName = linkedDebt.name
+                        )
+                    } else if (linkedDebt != null) {
+                        if (state.transaction == null) return@Card
+                        DebtDetailCard(
+                            debt = linkedDebt,
+                            wallet = state.debtWallet ?: state.transaction.wallet
+                        )
+                    } else {
+                        if (state.transaction == null) return@Card
+                        TransactionDetailCard(state.transaction)
+                    }
                 }
+            }
+            if (linkedDebt != null && !state.isDebtHistory) {
+                DebtHistorySection(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    history = state.history,
+                    onHistoryClick = onHistoryClick
+                )
+                Spacer(Modifier.height(16.dp))
             }
         }
     }
 
     if (state.showAlert) {
+        val deleteTitleRes = if (linkedDebt != null && !state.isDebtHistory) {
+            R.string.title_delete_debt
+        } else if (linkedDebt != null) {
+            R.string.title_delete_history
+        } else {
+            R.string.title_delete_transaction
+        }
+        val deleteMessageRes = if (linkedDebt != null && !state.isDebtHistory) {
+            R.string.msg_delete_debt_confirmation
+        } else if (linkedDebt != null) {
+            R.string.msg_delete_history_confirmation
+        } else {
+            R.string.msg_delete_transaction_confirmation
+        }
         CommonAlertDialog(
-            title = stringResource(R.string.title_delete_transaction),
-            message = stringResource(R.string.msg_delete_transaction_confirmation),
+            title = stringResource(deleteTitleRes),
+            message = stringResource(deleteMessageRes),
             positiveText = stringResource(R.string.action_delete),
             negativeText = stringResource(R.string.action_cancel),
             onDismiss = { onShowAlert(false) },

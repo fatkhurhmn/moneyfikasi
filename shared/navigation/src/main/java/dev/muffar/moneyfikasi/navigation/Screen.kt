@@ -1,6 +1,7 @@
 package dev.muffar.moneyfikasi.navigation
 
 import dev.muffar.moneyfikasi.domain.model.CategoryType
+import dev.muffar.moneyfikasi.domain.model.DebtType
 import dev.muffar.moneyfikasi.domain.model.EnterPinType
 import dev.muffar.moneyfikasi.domain.model.TransactionType
 import java.util.UUID
@@ -140,6 +141,31 @@ sealed class Screen(val route: String) {
         fun routeWithArg(id: UUID? = null): String {
             val budgetId = id?.toString() ?: ""
             return "add_edit_budget?$BUDGET_ID=$budgetId"
+        }
+    }
+
+    data object Debts : Screen("debts/{type}") {
+        const val TYPE = "type"
+        fun routeWithArg(type: DebtType): String {
+            return "debts/$type"
+        }
+    }
+    data object DebtMenu : Screen("debt_menu")
+    data object AddEditDebt : Screen("add_edit_debt/{type}?debt_id={debt_id}") {
+        const val TYPE = "type"
+        const val DEBT_ID = "debt_id"
+        fun routeWithArg(type: DebtType, id: UUID? = null): String {
+            val debtId = id?.toString() ?: ""
+            return "add_edit_debt/$type?$DEBT_ID=$debtId"
+        }
+    }
+
+    data object DebtPlus : Screen("debt_plus?debt_id={debt_id}&tab={tab}&history_id={history_id}") {
+        const val DEBT_ID = "debt_id"
+        const val TAB = "tab"
+        const val HISTORY_ID = "history_id"
+        fun routeWithArg(debtId: UUID, tab: Int = 0, historyId: UUID? = null): String {
+            return "debt_plus?$DEBT_ID=$debtId&$TAB=$tab&$HISTORY_ID=${historyId?.toString() ?: ""}"
         }
     }
 

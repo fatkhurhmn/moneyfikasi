@@ -12,7 +12,7 @@ import dagger.hilt.components.SingletonComponent
 import dev.muffar.moneyfikasi.data.db.MoneyfikasiDatabase
 import dev.muffar.moneyfikasi.data.remote.drive.DriveAuthHelper
 import dev.muffar.moneyfikasi.data.remote.drive.DriveBackupDataSource
-import dev.muffar.moneyfikasi.data.repositoy.DriveBackupRepositoryImpl
+import dev.muffar.moneyfikasi.data.repository.DriveBackupRepositoryImpl
 import dev.muffar.moneyfikasi.domain.repository.DriveBackupRepository
 import javax.inject.Singleton
 

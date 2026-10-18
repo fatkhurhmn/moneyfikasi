@@ -9,6 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import dev.muffar.moneyfikasi.data.db.MoneyfikasiDatabase
 import dev.muffar.moneyfikasi.data.db.dao.BudgetDao
 import dev.muffar.moneyfikasi.data.db.dao.CategoryDao
+import dev.muffar.moneyfikasi.data.db.dao.DebtDao
 import dev.muffar.moneyfikasi.data.db.dao.PresetDao
 import dev.muffar.moneyfikasi.data.db.dao.RecurringTransactionDao
 import dev.muffar.moneyfikasi.data.db.dao.TransactionDao
@@ -18,24 +19,26 @@ import dev.muffar.moneyfikasi.data.preferences.NotificationPreferences
 import dev.muffar.moneyfikasi.data.preferences.SecurityPreferences
 import dev.muffar.moneyfikasi.data.preferences.UiPreferences
 import dev.muffar.moneyfikasi.data.remote.groq.GroqApiService
-import dev.muffar.moneyfikasi.data.repositoy.AiRepositoryImpl
-import dev.muffar.moneyfikasi.data.repositoy.BackupRestoreRepositoryImpl
-import dev.muffar.moneyfikasi.data.repositoy.BackupSettingsRepositoryImpl
-import dev.muffar.moneyfikasi.data.repositoy.BudgetRepositoryImpl
-import dev.muffar.moneyfikasi.data.repositoy.CategoryRepositoryImpl
-import dev.muffar.moneyfikasi.data.repositoy.NotificationSettingsRepositoryImpl
-import dev.muffar.moneyfikasi.data.repositoy.PresetRepositoryImpl
-import dev.muffar.moneyfikasi.data.repositoy.RecurringTransactionRepositoryImpl
-import dev.muffar.moneyfikasi.data.repositoy.SecuritySettingsRepositoryImpl
-import dev.muffar.moneyfikasi.data.repositoy.StatisticRepositoryImpl
-import dev.muffar.moneyfikasi.data.repositoy.TransactionRepositoryImpl
-import dev.muffar.moneyfikasi.data.repositoy.UiSettingsRepositoryImpl
-import dev.muffar.moneyfikasi.data.repositoy.WalletRepositoryImpl
+import dev.muffar.moneyfikasi.data.repository.AiRepositoryImpl
+import dev.muffar.moneyfikasi.data.repository.BackupRestoreRepositoryImpl
+import dev.muffar.moneyfikasi.data.repository.BackupSettingsRepositoryImpl
+import dev.muffar.moneyfikasi.data.repository.BudgetRepositoryImpl
+import dev.muffar.moneyfikasi.data.repository.CategoryRepositoryImpl
+import dev.muffar.moneyfikasi.data.repository.DebtRepositoryImpl
+import dev.muffar.moneyfikasi.data.repository.NotificationSettingsRepositoryImpl
+import dev.muffar.moneyfikasi.data.repository.PresetRepositoryImpl
+import dev.muffar.moneyfikasi.data.repository.RecurringTransactionRepositoryImpl
+import dev.muffar.moneyfikasi.data.repository.SecuritySettingsRepositoryImpl
+import dev.muffar.moneyfikasi.data.repository.StatisticRepositoryImpl
+import dev.muffar.moneyfikasi.data.repository.TransactionRepositoryImpl
+import dev.muffar.moneyfikasi.data.repository.UiSettingsRepositoryImpl
+import dev.muffar.moneyfikasi.data.repository.WalletRepositoryImpl
 import dev.muffar.moneyfikasi.domain.repository.AiRepository
 import dev.muffar.moneyfikasi.domain.repository.BackupRestoreRepository
 import dev.muffar.moneyfikasi.domain.repository.BackupSettingsRepository
 import dev.muffar.moneyfikasi.domain.repository.BudgetRepository
 import dev.muffar.moneyfikasi.domain.repository.CategoryRepository
+import dev.muffar.moneyfikasi.domain.repository.DebtRepository
 import dev.muffar.moneyfikasi.domain.repository.NotificationSettingsRepository
 import dev.muffar.moneyfikasi.domain.repository.PresetRepository
 import dev.muffar.moneyfikasi.domain.repository.RecurringTransactionRepository
@@ -135,6 +138,12 @@ object RepositoryModule {
     @Singleton
     fun provideBudgetRepository(budgetDao: BudgetDao): BudgetRepository {
         return BudgetRepositoryImpl(budgetDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDebtRepository(debtDao: DebtDao): DebtRepository {
+        return DebtRepositoryImpl(debtDao)
     }
 
     @Provides

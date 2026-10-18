@@ -6,5 +6,6 @@ sealed class TransactionDetailEvent {
     data class ShowDeleteAlert(val showAlert: Boolean) : TransactionDetailEvent()
     data object DeleteTransaction : TransactionDetailEvent()
     data object InitData : TransactionDetailEvent()
+    data object Refresh : TransactionDetailEvent()
     data class SaveToGallery(val bitmap: Bitmap) : TransactionDetailEvent()
 }

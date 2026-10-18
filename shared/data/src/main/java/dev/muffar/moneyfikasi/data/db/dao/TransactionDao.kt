@@ -388,6 +388,10 @@ abstract class TransactionDao {
     @Query("SELECT * FROM transactions WHERE wallet_id = :walletId ORDER BY date DESC")
     abstract fun getTransactionsByWallet(walletId: UUID): Flow<List<TransactionWithDetails>>
 
+    @Transaction
+    @Query("SELECT * FROM transactions WHERE debt_id = :debtId ORDER BY date DESC")
+    abstract fun getTransactionsByDebtId(debtId: UUID): Flow<List<TransactionWithDetails>>
+
     @Query("SELECT * FROM transactions WHERE id = :id")
     abstract suspend fun getTransactionById(id: UUID): TransactionEntity?
 
@@ -439,8 +443,8 @@ abstract class TransactionDao {
         }
         updateWalletBalance(oldEntity.walletId, revertAmount)
 
-        // 2. Update Row
-        updateTransactionRaw(newEntity)
+        // 2. Update Row (debt link is append-only: keep explicit value, else preserve stored one)
+        updateTransactionRaw(newEntity.copy(debtId = newEntity.debtId ?: oldEntity.debtId))
 
         // 3. Apply New Balance
         val applyAmount = if (newEntity.type == TransactionType.INCOME) {

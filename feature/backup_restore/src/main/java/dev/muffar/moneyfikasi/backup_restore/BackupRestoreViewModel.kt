@@ -1,91 +1,84 @@
 package dev.muffar.moneyfikasi.backup_restore
 
-import android.content.Context
-import android.content.Intent
+import android.app.Activity
 import android.net.Uri
-import android.util.Log
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.work.Constraints
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.NetworkType
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.muffar.moneyfikasi.common_ui.component.message.SnackbarType
-import dev.muffar.moneyfikasi.data.worker.BackupWorker
-import dev.muffar.moneyfikasi.data.worker.DriveBackupWorker
+import dev.muffar.moneyfikasi.domain.model.DriveSignInResult
 import dev.muffar.moneyfikasi.domain.model.LatestBackup
 import dev.muffar.moneyfikasi.domain.model.TimePeriod
-import dev.muffar.moneyfikasi.data.remote.drive.DriveAuthHelper
-import dev.muffar.moneyfikasi.domain.repository.DriveBackupRepository
 import dev.muffar.moneyfikasi.domain.usecase.backup_restore.BackupRestoreUseCases
 import dev.muffar.moneyfikasi.domain.usecase.drive.DriveBackupUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preferences.backup.BackupSettingsUseCases
 import dev.muffar.moneyfikasi.resource.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.threeten.bp.Duration
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.LocalTime
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class BackupRestoreViewModel @Inject constructor(
     private val backupRestoreUseCases: BackupRestoreUseCases,
     private val backupSettingsUseCases: BackupSettingsUseCases,
     private val driveBackupUseCases: DriveBackupUseCases,
-    private val driveBackupRepository: DriveBackupRepository,
-    private val driveAuthHelper: DriveAuthHelper,
-    @param:ApplicationContext private val context: Context,
 ) : ViewModel() {
 
-    private val _state = mutableStateOf(BackupRestoreState())
-    val state: State<BackupRestoreState> = _state
+    private val _state = MutableStateFlow(BackupRestoreState())
+    val state = _state.asStateFlow()
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
     init {
         backupSettingsUseCases.getBackupSettings().onEach { settings ->
-            _state.value = _state.value.copy(
-                latestBackup = settings.latestBackup,
-                autoBackup = settings.autoBackup,
-                isDeletePreviousBackup = settings.isDeletePreviousBackup,
-                isDriveAutoBackupEnabled = settings.isDriveAutoBackupEnabled,
-                driveAutoBackupPeriod = settings.driveAutoBackupPeriod
-            )
+            _state.update {
+                it.copy(
+                    latestBackup = settings.latestBackup,
+                    autoBackup = settings.autoBackup,
+                    isDeletePreviousBackup = settings.isDeletePreviousBackup,
+                    isDriveAutoBackupEnabled = settings.isDriveAutoBackupEnabled,
+                    driveAutoBackupPeriod = settings.driveAutoBackupPeriod
+                )
+            }
         }.launchIn(viewModelScope)
         refreshDriveStatus()
     }
 
-    fun requestDriveSignIn(activity: android.app.Activity? = null) {
+    fun requestDriveSignIn(activity: Activity? = null) {
         viewModelScope.launch {
-            when (val result = try {
-                driveAuthHelper.signInWithCredentialManager(activity)
-            } catch (e: Exception) {
-                Log.e("BackupRestoreViewModel", "Error signing in to Drive", e)
-                DriveAuthHelper.SignInResult.Failure(e.message) }) {
-                is DriveAuthHelper.SignInResult.Success -> refreshDriveStatus(loadList = true)
-                is DriveAuthHelper.SignInResult.NeedsAuthorization -> {
+            when (val result = driveBackupUseCases.signInToDrive(activity)) {
+                is DriveSignInResult.Success -> refreshDriveStatus(loadList = true)
+                is DriveSignInResult.NeedsAuthorization -> {
                     val pi = result.pendingIntent
                     if (pi != null) {
                         _eventFlow.emit(UiEvent.RequestDriveAuthorization(pi))
                     } else {
-                        _eventFlow.emit(UiEvent.ShowMessage(R.string.error_backup_failed, SnackbarType.ERROR))
+                        _eventFlow.emit(
+                            UiEvent.ShowMessage(
+                                R.string.error_backup_failed,
+                                SnackbarType.ERROR
+                            )
+                        )
                     }
                 }
-                is DriveAuthHelper.SignInResult.Failure -> {
-                    if (!driveAuthHelper.isSignedIn()) {
-                        _eventFlow.emit(UiEvent.ShowMessage(R.string.error_backup_failed, SnackbarType.ERROR))
+
+                is DriveSignInResult.Failure -> {
+                    if (!driveBackupUseCases.isDriveSignedIn()) {
+                        _eventFlow.emit(
+                            UiEvent.ShowMessage(
+                                R.string.error_backup_failed,
+                                SnackbarType.ERROR
+                            )
+                        )
                     } else {
                         refreshDriveStatus(loadList = true)
                     }
@@ -99,7 +92,12 @@ class BackupRestoreViewModel @Inject constructor(
             if (granted) {
                 refreshDriveStatus(loadList = true)
             } else {
-                _eventFlow.emit(UiEvent.ShowMessage(R.string.error_backup_failed, SnackbarType.ERROR))
+                _eventFlow.emit(
+                    UiEvent.ShowMessage(
+                        R.string.error_backup_failed,
+                        SnackbarType.ERROR
+                    )
+                )
             }
         }
     }
@@ -125,16 +123,14 @@ class BackupRestoreViewModel @Inject constructor(
 
     private fun refreshDriveStatus(loadList: Boolean = true) {
         viewModelScope.launch {
-            val signedIn = try {
-                driveBackupRepository.isSignedIn()
-            } catch (_: Exception) {
-                false
+            val signedIn = driveBackupUseCases.isDriveSignedIn()
+            val email = driveBackupUseCases.getDriveAccountEmail()
+            _state.update {
+                it.copy(
+                    isDriveSignedIn = signedIn,
+                    driveAccountEmail = email
+                )
             }
-            val email = driveAuthHelper.getSignedInAccountEmail()
-            _state.value = _state.value.copy(
-                isDriveSignedIn = signedIn,
-                driveAccountEmail = email
-            )
             if (signedIn && loadList) loadDriveBackups()
         }
     }
@@ -156,42 +152,49 @@ class BackupRestoreViewModel @Inject constructor(
 
     private fun driveSignOut() {
         viewModelScope.launch {
-            driveBackupRepository.signOut()
+            driveBackupUseCases.driveSignOut()
             backupSettingsUseCases.setDriveAutoBackupEnabled(false)
-            cancelDriveBackup()
-            _state.value = _state.value.copy(
-                isDriveSignedIn = false,
-                driveAccountEmail = "",
-                driveBackup = null,
-                isDriveAutoBackupEnabled = false
-            )
+            backupRestoreUseCases.cancelDriveAutoBackup()
+            _state.update {
+                it.copy(
+                    isDriveSignedIn = false,
+                    driveAccountEmail = "",
+                    driveBackup = null,
+                    isDriveAutoBackupEnabled = false
+                )
+            }
         }
     }
 
     private fun setDriveAutoBackupEnabled(isEnabled: Boolean) {
         viewModelScope.launch {
-            if (isEnabled && !driveBackupRepository.isSignedIn()) return@launch
+            if (isEnabled && !driveBackupUseCases.isDriveSignedIn()) return@launch
             backupSettingsUseCases.setDriveAutoBackupEnabled(isEnabled)
             if (isEnabled) {
-                scheduleDriveBackup()
+                backupRestoreUseCases.scheduleDriveAutoBackup(
+                    isSignedIn = _state.value.isDriveSignedIn,
+                    period = TimePeriod.valueOf(_state.value.driveAutoBackupPeriod)
+                )
             } else {
-                cancelDriveBackup()
+                backupRestoreUseCases.cancelDriveAutoBackup()
             }
         }
     }
 
     private fun loadDriveBackups() {
         viewModelScope.launch {
-            _state.value = _state.value.copy(isDriveLoading = true)
+            _state.update { it.copy(isDriveLoading = true) }
             driveBackupUseCases.getDriveBackups()
                 .onSuccess { files ->
-                    _state.value = _state.value.copy(
-                        driveBackup = files.maxByOrNull { it.modifiedTime },
-                        isDriveLoading = false
-                    )
+                    _state.update {
+                        it.copy(
+                            driveBackup = files.maxByOrNull { bc -> bc.modifiedTime },
+                            isDriveLoading = false
+                        )
+                    }
                 }
                 .onFailure {
-                    _state.value = _state.value.copy(isDriveLoading = false)
+                    _state.update { it.copy(isDriveLoading = false) }
                     _eventFlow.emit(
                         UiEvent.ShowMessage(
                             R.string.error_backup_failed,
@@ -204,10 +207,10 @@ class BackupRestoreViewModel @Inject constructor(
 
     private fun backupToDrive() {
         viewModelScope.launch {
-            _state.value = _state.value.copy(isDriveLoading = true)
+            _state.update { it.copy(isDriveLoading = true) }
             driveBackupUseCases.backupToDrive()
                 .onSuccess { file ->
-                    _state.value = _state.value.copy(driveBackup = file, isDriveLoading = false)
+                    _state.update { it.copy(driveBackup = file, isDriveLoading = false) }
                     _eventFlow.emit(
                         UiEvent.ShowMessage(
                             R.string.msg_backup_success,
@@ -216,7 +219,7 @@ class BackupRestoreViewModel @Inject constructor(
                     )
                 }
                 .onFailure {
-                    _state.value = _state.value.copy(isDriveLoading = false)
+                    _state.update { it.copy(isDriveLoading = false) }
                     _eventFlow.emit(
                         UiEvent.ShowMessage(
                             R.string.error_backup_failed,
@@ -230,7 +233,7 @@ class BackupRestoreViewModel @Inject constructor(
     private fun restoreFromDrive() {
         val fileId = _state.value.driveBackup?.id ?: return
         viewModelScope.launch {
-            _state.value = _state.value.copy(isLoading = true)
+            _state.update { it.copy(isLoading = true) }
             driveBackupUseCases.restoreFromDrive(fileId)
                 .onSuccess {
                     _eventFlow.emit(
@@ -248,15 +251,15 @@ class BackupRestoreViewModel @Inject constructor(
                         )
                     )
                 }
-            _state.value = _state.value.copy(isLoading = false)
+            _state.update { it.copy(isLoading = false) }
         }
     }
 
     private fun backupData(uri: Uri) {
         viewModelScope.launch {
-            _state.value = _state.value.copy(isLoading = true)
+            _state.update { it.copy(isLoading = true) }
             val previousBackup = _state.value.latestBackup
-            delay(200)
+            delay(200.milliseconds)
             backupRestoreUseCases.backupData(uri)
                 .onSuccess { fileName ->
                     if (_state.value.isDeletePreviousBackup && previousBackup.name.isNotEmpty() && previousBackup.folder.isNotEmpty()) {
@@ -283,14 +286,14 @@ class BackupRestoreViewModel @Inject constructor(
                         )
                     )
                 }
-            _state.value = _state.value.copy(isLoading = false)
+            _state.update { it.copy(isLoading = false) }
         }
     }
 
     private fun restoreData(uri: Uri) {
         viewModelScope.launch {
-            _state.value = _state.value.copy(isLoading = true)
-            delay(200)
+            _state.update { it.copy(isLoading = true) }
+            delay(200.milliseconds)
             backupRestoreUseCases.restoreData(uri)
                 .onSuccess {
                     _eventFlow.emit(
@@ -308,7 +311,7 @@ class BackupRestoreViewModel @Inject constructor(
                         )
                     )
                 }
-            _state.value = _state.value.copy(isLoading = false)
+            _state.update { it.copy(isLoading = false) }
         }
     }
 
@@ -316,24 +319,27 @@ class BackupRestoreViewModel @Inject constructor(
         viewModelScope.launch {
             backupSettingsUseCases.setAutoBackupEnabled(isEnabled)
             if (isEnabled) {
-                scheduleBackup(isEnabled = true)
+                backupRestoreUseCases.scheduleAutoBackup(
+                    isEnabled = true,
+                    uri = _state.value.autoBackup.uri,
+                    period = TimePeriod.valueOf(_state.value.autoBackup.period)
+                )
             } else {
-                cancelBackup()
+                backupRestoreUseCases.cancelAutoBackup()
             }
         }
     }
 
     private fun setAutoBackupUri(uri: Uri) {
         viewModelScope.launch {
-            if (uri.scheme == "content") {
-                context.contentResolver.takePersistableUriPermission(
-                    uri,
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                )
-            }
+            backupRestoreUseCases.takePersistableUriPermission(uri)
             backupSettingsUseCases.setAutoBackupUri(uri.toString())
             if (_state.value.autoBackup.isEnabled) {
-                scheduleBackup(uri = uri.toString())
+                backupRestoreUseCases.scheduleAutoBackup(
+                    isEnabled = true,
+                    uri = uri.toString(),
+                    period = TimePeriod.valueOf(_state.value.autoBackup.period)
+                )
             }
         }
     }
@@ -342,7 +348,11 @@ class BackupRestoreViewModel @Inject constructor(
         viewModelScope.launch {
             backupSettingsUseCases.setAutoBackupPeriod(period)
             if (_state.value.autoBackup.isEnabled) {
-                scheduleBackup(period = period)
+                backupRestoreUseCases.scheduleAutoBackup(
+                    isEnabled = true,
+                    uri = _state.value.autoBackup.uri,
+                    period = period
+                )
             }
         }
     }
@@ -351,7 +361,10 @@ class BackupRestoreViewModel @Inject constructor(
         viewModelScope.launch {
             backupSettingsUseCases.setDriveAutoBackupPeriod(period)
             if (_state.value.isDriveAutoBackupEnabled) {
-                scheduleDriveBackup(period = period)
+                backupRestoreUseCases.scheduleDriveAutoBackup(
+                    isSignedIn = _state.value.isDriveSignedIn,
+                    period = period
+                )
             }
         }
     }
@@ -362,97 +375,14 @@ class BackupRestoreViewModel @Inject constructor(
         }
     }
 
-    private fun scheduleBackup(
-        isEnabled: Boolean = _state.value.autoBackup.isEnabled,
-        uri: String = _state.value.autoBackup.uri,
-        period: TimePeriod = TimePeriod.valueOf(_state.value.autoBackup.period)
-    ) {
-        if (!isEnabled || uri.isEmpty()) return
-
-        val (interval, timeUnit) = when (period) {
-            TimePeriod.DAILY -> 1L to TimeUnit.DAYS
-            TimePeriod.WEEKLY -> 7L to TimeUnit.DAYS
-            TimePeriod.MONTHLY -> 30L to TimeUnit.DAYS
-            else -> 1L to TimeUnit.DAYS
-        }
-
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
-            .setRequiresCharging(requiresCharging = false)
-            .setRequiresBatteryNotLow(requiresBatteryNotLow = false)
-            .build()
-
-        val currentTime = LocalDateTime.now()
-        val nextMidnight = currentTime.plusDays(1).with(LocalTime.MIDNIGHT)
-        val initialDelay = Duration.between(currentTime, nextMidnight).toMillis()
-
-        val backupRequest = PeriodicWorkRequestBuilder<BackupWorker>(interval, timeUnit)
-            .setConstraints(constraints)
-            .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
-            .addTag("BACKUP_TAG")
-            .build()
-
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-            AUTO_BACKUP_WORK_NAME,
-            ExistingPeriodicWorkPolicy.REPLACE,
-            backupRequest
-        )
-    }
-
-    private fun cancelBackup() {
-        WorkManager.getInstance(context).cancelUniqueWork(AUTO_BACKUP_WORK_NAME)
-    }
-
-    private fun scheduleDriveBackup(
-        period: TimePeriod = TimePeriod.valueOf(_state.value.driveAutoBackupPeriod)
-    ) {
-        if (!_state.value.isDriveSignedIn) return
-
-        val (interval, timeUnit) = when (period) {
-            TimePeriod.DAILY -> 1L to TimeUnit.DAYS
-            TimePeriod.WEEKLY -> 7L to TimeUnit.DAYS
-            TimePeriod.MONTHLY -> 30L to TimeUnit.DAYS
-            else -> 1L to TimeUnit.DAYS
-        }
-
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .setRequiresCharging(requiresCharging = false)
-            .setRequiresBatteryNotLow(requiresBatteryNotLow = false)
-            .build()
-
-        val currentTime = LocalDateTime.now()
-        val nextMidnight = currentTime.plusDays(1).with(LocalTime.MIDNIGHT)
-        val initialDelay = Duration.between(currentTime, nextMidnight).toMillis()
-
-        val backupRequest = PeriodicWorkRequestBuilder<DriveBackupWorker>(interval, timeUnit)
-            .setConstraints(constraints)
-            .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
-            .addTag("DRIVE_BACKUP_TAG")
-            .build()
-
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-            DRIVE_AUTO_BACKUP_WORK_NAME,
-            ExistingPeriodicWorkPolicy.REPLACE,
-            backupRequest
-        )
-    }
-
-    private fun cancelDriveBackup() {
-        WorkManager.getInstance(context).cancelUniqueWork(DRIVE_AUTO_BACKUP_WORK_NAME)
-    }
-
     sealed class UiEvent {
         data class ShowMessage(
             val messageResId: Int,
             val type: SnackbarType,
             val formatArg: String? = null
         ) : UiEvent()
-        data class RequestDriveAuthorization(val pendingIntent: android.app.PendingIntent) : UiEvent()
-    }
 
-    companion object {
-        const val AUTO_BACKUP_WORK_NAME = "auto_backup_work"
-        const val DRIVE_AUTO_BACKUP_WORK_NAME = "drive_auto_backup_work"
+        data class RequestDriveAuthorization(val pendingIntent: android.app.PendingIntent) :
+            UiEvent()
     }
 }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.AccountBalance
 import androidx.compose.material.icons.rounded.DataUsage
 import androidx.compose.material.icons.rounded.PostAdd
 import androidx.compose.material.icons.rounded.Repeat
@@ -16,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.ModifierExt
 import dev.muffar.moneyfikasi.more.component.MoreItem
 import dev.muffar.moneyfikasi.more.component.MoreTopBar
 import dev.muffar.moneyfikasi.resource.R
@@ -27,6 +29,7 @@ fun MoreScreen(
     onWalletsClick: () -> Unit,
     onCategoriesClick: () -> Unit,
     onBudgetsClick: () -> Unit,
+    onDebtsClick: () -> Unit,
     onPresetsClick: () -> Unit,
     onRecurringTransactionsClick: () -> Unit,
     onSettingsClick: () -> Unit,
@@ -46,7 +49,7 @@ fun MoreScreen(
                 start = 16.dp,
                 end = 16.dp,
                 top = 8.dp,
-                bottom = 100.dp
+                bottom = ModifierExt.bottomNavClearance
             )
         ) {
             item {
@@ -67,6 +70,16 @@ fun MoreScreen(
                     status = stringResource(R.string.msg_categories_count, state.categoriesCount),
                     icon = Icons.Rounded.Widgets,
                     onClick = onCategoriesClick
+                )
+            }
+            item {
+                MoreItem(
+                    label = stringResource(R.string.title_debts),
+                    title = stringResource(R.string.label_track_debts),
+                    description = stringResource(R.string.msg_debt_description),
+                    status = stringResource(R.string.msg_debts_count, state.debtsCount),
+                    icon = Icons.Rounded.AccountBalance,
+                    onClick = onDebtsClick
                 )
             }
             item {

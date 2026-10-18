@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.muffar.moneyfikasi.domain.usecase.budget.BudgetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.category.CategoryUseCases
+import dev.muffar.moneyfikasi.domain.usecase.debt.DebtUseCases
 import dev.muffar.moneyfikasi.domain.usecase.preset.PresetUseCases
 import dev.muffar.moneyfikasi.domain.usecase.recurring_transaction.RecurringTransactionUseCases
 import dev.muffar.moneyfikasi.domain.usecase.wallet.WalletUseCases
@@ -21,6 +22,7 @@ class MoreViewModel @Inject constructor(
     private val walletUseCases: WalletUseCases,
     private val categoryUseCases: CategoryUseCases,
     private val budgetUseCases: BudgetUseCases,
+    private val debtUseCases: DebtUseCases,
     private val presetUseCases: PresetUseCases,
     private val recurringTransactionUseCases: RecurringTransactionUseCases,
 ) : ViewModel() {
@@ -49,6 +51,8 @@ class MoreViewModel @Inject constructor(
                     presetsCount = presets.size,
                     recurringTransactionsCount = recurringTransactions.size
                 )
+            }.combine(debtUseCases.getAllDebts()) { state, debts ->
+                state.copy(debtsCount = debts.size)
             }.collectLatest { newState ->
                 _state.update { newState }
             }

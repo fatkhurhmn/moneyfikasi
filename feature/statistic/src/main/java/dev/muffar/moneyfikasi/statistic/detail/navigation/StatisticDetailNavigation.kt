@@ -1,6 +1,6 @@
 package dev.muffar.moneyfikasi.statistic.detail.navigation
 
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -17,7 +17,7 @@ fun NavGraphBuilder.statisticDetailNavigation(
 ) {
     composable(Screen.StatisticDetail.route) {
         val viewModel = hiltViewModel<StatisticDetailViewModel>()
-        val state by viewModel.state.collectAsState()
+        val state by viewModel.state.collectAsStateWithLifecycle()
 
         StatisticDetailScreen(
             categoryName = it.arguments?.getString(Screen.StatisticDetail.CATEGORY_NAME) ?: "",

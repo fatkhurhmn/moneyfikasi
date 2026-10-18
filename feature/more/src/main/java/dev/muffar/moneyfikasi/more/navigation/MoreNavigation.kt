@@ -14,6 +14,7 @@ fun NavGraphBuilder.moreNavGraph(
     navigateToCategories: () -> Unit,
     navigateToPreset: () -> Unit,
     navigateToBudgets: () -> Unit,
+    navigateToDebts: () -> Unit,
     navigateToRecurringTransactions: () -> Unit,
     navigateToSettings: () -> Unit,
 ) {
@@ -27,6 +28,7 @@ fun NavGraphBuilder.moreNavGraph(
             onWalletsClick = navigateToWallets,
             onCategoriesClick = navigateToCategories,
             onBudgetsClick = navigateToBudgets,
+            onDebtsClick = navigateToDebts,
             onPresetsClick = navigateToPreset,
             onRecurringTransactionsClick = navigateToRecurringTransactions,
             onSettingsClick = navigateToSettings

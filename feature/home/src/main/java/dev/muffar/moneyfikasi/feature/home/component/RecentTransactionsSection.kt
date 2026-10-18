@@ -40,7 +40,10 @@ fun RecentTransactionsSection(
         Spacer(modifier = Modifier.height(8.dp))
 
         Column(
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .clip(shape = RoundedCornerShape(16.dp))
+                .background(MaterialTheme.colorScheme.surface)
         ) {
             visibleTransactions.forEachIndexed { index, transaction ->
 
@@ -81,7 +84,7 @@ fun RecentTransactionsSection(
                 if (index < visibleTransactions.lastIndex) {
                     CommonHorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp),
-                        color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                        color = MaterialTheme.colorScheme.outlineVariant
                     )
                 }
             }

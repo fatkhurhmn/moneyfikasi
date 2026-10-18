@@ -13,6 +13,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dev.muffar.moneyfikasi.common_ui.component.ModifierExt
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.ChooseDateSheet
 import dev.muffar.moneyfikasi.common_ui.component.bottom_sheet.CustomDateSheet
 import dev.muffar.moneyfikasi.domain.model.DateRange
@@ -54,7 +55,7 @@ fun HomeScreen(
                 .fillMaxSize()
                 .statusBarsPadding()
                 .verticalScroll(rememberScrollState())
-                .padding(bottom = 100.dp),
+                .padding(bottom = ModifierExt.  bottomNavClearance),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             MoneyfikasiLogo(

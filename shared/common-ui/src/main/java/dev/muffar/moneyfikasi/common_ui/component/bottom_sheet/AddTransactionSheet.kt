@@ -12,10 +12,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AutoAwesome
-import androidx.compose.material.icons.rounded.KeyboardDoubleArrowDown
-import androidx.compose.material.icons.rounded.KeyboardDoubleArrowUp
+import androidx.compose.material.icons.rounded.ReceiptLong
 import androidx.compose.material.icons.rounded.SwapHoriz
+import androidx.compose.material.icons.rounded.SwapVert
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -39,10 +38,9 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddTransactionSheet(
-    onAddExpense: () -> Unit,
-    onAddIncome: () -> Unit,
+    onAddIncomeExpense: () -> Unit,
     onAddTransfer: () -> Unit,
-    onAddAi: () -> Unit,
+    onAddDebt: () -> Unit,
     onDismissRequest: () -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -65,32 +63,12 @@ fun AddTransactionSheet(
         BottomSheetTitle(stringResource(R.string.title_create_transaction))
         Spacer(Modifier.height(16.dp))
         AddTransactionItem(
-            imageVector = Icons.Rounded.AutoAwesome,
-            title = stringResource(id = R.string.label_ai_transaction),
+            imageVector = Icons.Rounded.SwapVert,
+            title = stringResource(id = R.string.label_income_expense),
             color = MaterialTheme.colorScheme.primary,
             onClick = {
                 hideSheet()
-                onAddAi()
-            }
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        AddTransactionItem(
-            imageVector = Icons.Rounded.KeyboardDoubleArrowDown,
-            title = stringResource(id = R.string.label_income),
-            color = MoneyfikasiTheme.financeColors.income,
-            onClick = {
-                hideSheet()
-                onAddIncome()
-            }
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-        AddTransactionItem(
-            imageVector = Icons.Rounded.KeyboardDoubleArrowUp,
-            title = stringResource(id = R.string.label_expense),
-            color = MoneyfikasiTheme.financeColors.expense,
-            onClick = {
-                hideSheet()
-                onAddExpense()
+                onAddIncomeExpense()
             }
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -101,6 +79,16 @@ fun AddTransactionSheet(
             onClick = {
                 hideSheet()
                 onAddTransfer()
+            }
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        AddTransactionItem(
+            imageVector = Icons.Rounded.ReceiptLong,
+            title = stringResource(id = R.string.label_track_debts),
+            color = MaterialTheme.colorScheme.tertiary,
+            onClick = {
+                hideSheet()
+                onAddDebt()
             }
         )
         Spacer(Modifier.height(16.dp))
